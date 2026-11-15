@@ -19,13 +19,30 @@ window.MathsDiaporama = {
     zoomLevel: 1.15 // taille de police en rem pour Notability
   },
 
+  // Navigateurs sans ::details-content : les détails repliés de la feuille sont ouverts le temps de l'impression
+  bindPrintDetails() {
+    if (this._printDetailsBound) return;
+    this._printDetailsBound = true;
+    let closedForPrint = [];
+    window.addEventListener('beforeprint', () => {
+      closedForPrint = [...document.querySelectorAll('.diapo-mm-detail:not([open])')];
+      closedForPrint.forEach(detail => { detail.open = true; });
+    });
+    window.addEventListener('afterprint', () => {
+      closedForPrint.forEach(detail => { detail.open = false; });
+      closedForPrint = [];
+    });
+  },
+
   /**
    * Ouvre la fenêtre modale de configuration du diaporama
    */
   openModal(preselectedChapterId = null) {
+    this.bindPrintDetails();
     const modal = document.getElementById('diaporama-modal');
     if (!modal) return;
 
+    this.bindControls();
     modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
     document.body.classList.add('modal-open');
@@ -36,7 +53,7 @@ window.MathsDiaporama = {
     if (selectorContainer) {
       const currentLevel = (window.MathsApp && window.MathsApp.currentLevel) || '3eme';
       const allChapters = window.MATHS_CHAPTERS || [];
-      const chapters = allChapters.filter(c => (c.level || '3eme') === currentLevel);
+      const chapters = allChapters.filter(c => window.MathsChapterLevels.has(c, currentLevel));
       const defaultId = (preselectedChapterId && chapters.some(c => c.id === preselectedChapterId))
         ? preselectedChapterId
         : ((window.MathsApp && window.MathsApp.currentChapterId && chapters.some(c => c.id === window.MathsApp.currentChapterId))
@@ -50,8 +67,8 @@ window.MathsDiaporama = {
       `).join('');
     }
 
-    // Afficher l'écran de configuration
-    this.showScreen('config');
+    // Afficher l'écran de configuration (à l'ouverture, le focus relève de la gestion commune des modales)
+    this.showScreen('config', false);
   },
 
   selectAllChapters(select = true) {
@@ -61,6 +78,7 @@ window.MathsDiaporama = {
 
   closeModal() {
     this.stop();
+    this.setFullscreen(false);
     const modal = document.getElementById('diaporama-modal');
     if (modal) modal.style.display = 'none';
     const box = document.querySelector('.diapo-box');
@@ -70,7 +88,7 @@ window.MathsDiaporama = {
     document.body.classList.remove('diapo-modal-open');
   },
 
-  showScreen(name) {
+  showScreen(name, moveFocus = true) {
     document.querySelectorAll('.diapo-screen').forEach(s => s.style.display = 'none');
     const target = document.getElementById(`diapo-screen-${name}`);
     if (target) target.style.display = 'flex';
@@ -83,14 +101,146 @@ window.MathsDiaporama = {
         box.classList.remove('diapo-recap-active');
       }
     }
+
+    // Le bouton qui avait le focus vient d'être masqué : le reporter sur le titre du nouvel écran
+    const heading = moveFocus && target && target.querySelector('h2, h3');
+    if (heading) {
+      heading.setAttribute('tabindex', '-1');
+      heading.focus({ preventScroll: true });
+    }
+  },
+
+  /**
+   * Raccourcis du déroulé et suivi du plein écran, branchés une seule fois.
+   * Phase de capture : Échap ne doit pas atteindre la fermeture commune des modales (app.js).
+   */
+  bindControls() {
+    if (this.controlsBound) return;
+    this.controlsBound = true;
+    document.addEventListener('keydown', e => this.handleRunKey(e), true);
+    const sync = () => this.syncFullscreen();
+    document.addEventListener('fullscreenchange', sync);
+    document.addEventListener('webkitfullscreenchange', sync);
+    window.addEventListener('resize', () => this.fitStage());
+    this.addFullscreenButtons();
+  },
+
+  /**
+   * Clavier et télécommande de présentation (qui envoie → ou Page suivante), pendant le déroulé seulement
+   */
+  handleRunKey(e) {
+    if (!this.state.isRunning || e.ctrlKey || e.altKey || e.metaKey) return;
+
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      e.stopPropagation();
+      const modal = document.getElementById('diaporama-modal');
+      if (modal && modal.classList.contains('diapo-fullscreen')) this.setFullscreen(false);
+      else if (confirm('Quitter le rituel en cours ?')) this.closeModal();
+      return;
+    }
+
+    // Espace et Entrée gardent leur effet natif sur un bouton atteint au clavier
+    if ((e.key === ' ' || e.key === 'Enter') && e.target.closest && e.target.closest('button')) return;
+
+    const action = {
+      ArrowRight: 'next', PageDown: 'next', ' ': 'next', Enter: 'next',
+      ArrowLeft: 'prev', PageUp: 'prev',
+      p: 'togglePause', P: 'togglePause',
+      f: 'toggleFullscreen', F: 'toggleFullscreen'
+    }[e.key];
+    if (!action) return;
+    e.preventDefault();
+    e.stopPropagation();
+    if (!e.repeat) this[action]();
+  },
+
+  addFullscreenButtons() {
+    [['.diapo-bottom-controls', 'btn-secondary'], ['.diapo-mm-topbar-actions', 'diapo-mm-action-btn']].forEach(([selector, cls]) => {
+      const parent = document.querySelector(selector);
+      if (!parent) return;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = `${cls} diapo-fullscreen-btn`;
+      btn.title = 'Plein écran (touche F pendant le rituel)';
+      btn.setAttribute('data-click', 'MathsDiaporama.toggleFullscreen');
+      parent.insertBefore(btn, parent.querySelector('.modal-close-btn'));
+    });
+    this.updateFullscreenButtons();
+  },
+
+  updateFullscreenButtons() {
+    const modal = document.getElementById('diaporama-modal');
+    const on = !!modal && modal.classList.contains('diapo-fullscreen');
+    document.querySelectorAll('.diapo-fullscreen-btn').forEach(btn => {
+      btn.textContent = on ? '⛶ Quitter le plein écran' : '⛶ Plein écran';
+    });
+  },
+
+  nativeFullscreenElement() {
+    return document.fullscreenElement || document.webkitFullscreenElement || null;
+  },
+
+  /**
+   * Plein écran réel quand le navigateur l'accorde ; sans l'API (iPhone) ou en cas de refus,
+   * la classe diapo-fullscreen suffit à étendre la modale à toute la fenêtre.
+   * La page entière passe en plein écran, pas la modale : le badge de fin de rituel et les
+   * messages, placés hors de la modale, resteraient sinon invisibles.
+   */
+  setFullscreen(on) {
+    const modal = document.getElementById('diaporama-modal');
+    if (!modal) return;
+    modal.classList.toggle('diapo-fullscreen', on);
+    this.updateFullscreenButtons();
+    this.fitStage();
+    const root = document.documentElement;
+    const active = this.nativeFullscreenElement();
+    if (on && !active) {
+      const request = root.requestFullscreen || root.webkitRequestFullscreen;
+      if (request) Promise.resolve(request.call(root)).catch(() => {});
+    } else if (!on && active) {
+      const exit = document.exitFullscreen || document.webkitExitFullscreen;
+      if (exit) Promise.resolve(exit.call(document)).catch(() => {});
+    }
+  },
+
+  toggleFullscreen() {
+    const modal = document.getElementById('diaporama-modal');
+    this.setFullscreen(!(modal && modal.classList.contains('diapo-fullscreen')));
+  },
+
+  // Sortie décidée par le navigateur (Échap en plein écran) : la modale reprend sa taille
+  syncFullscreen() {
+    const modal = document.getElementById('diaporama-modal');
+    if (modal) modal.classList.toggle('diapo-fullscreen', !!this.nativeFullscreenElement());
+    this.updateFullscreenButtons();
+    this.fitStage();
+  },
+
+  /**
+   * Agrandi, un énoncé long doit encore tenir à l'écran : une télécommande ne fait pas défiler.
+   * --diapo-fit est le facteur de réduction lu par la feuille de style.
+   */
+  fitStage() {
+    const stage = document.querySelector('.diapo-main-stage');
+    const modal = document.getElementById('diaporama-modal');
+    if (!stage || !modal) return;
+    stage.style.removeProperty('--diapo-fit');
+    if (!modal.classList.contains('diapo-fullscreen')) return;
+    for (let fit = 0.9; fit >= 0.5 && stage.scrollHeight > stage.clientHeight; fit -= 0.1) {
+      stage.style.setProperty('--diapo-fit', fit.toFixed(1));
+    }
   },
 
   /**
    * Démarre une session de diaporama
    */
-  start() {
+  start(enterFullscreen = true) {
+    // Dans le gestionnaire du clic « Lancer » : le plein écran exige un geste de l'utilisateur
+    if (enterFullscreen) this.setFullscreen(true);
+
     const currentLevel = (window.MathsApp && window.MathsApp.currentLevel) || '3eme';
-    const validLevelChapters = (window.MATHS_CHAPTERS || []).filter(c => (c.level || '3eme') === currentLevel).map(c => c.id);
+    const validLevelChapters = (window.MATHS_CHAPTERS || []).filter(c => window.MathsChapterLevels.has(c, currentLevel)).map(c => c.id);
     const checkedBoxes = Array.from(document.querySelectorAll('input[name="diapo-chap"]:checked')).map(cb => cb.value);
     let chapters = checkedBoxes.filter(id => validLevelChapters.includes(id));
     if (!chapters.length) {
@@ -114,15 +264,19 @@ window.MathsDiaporama = {
     const isDiff = modeSelect ? (modeSelect.value === 'differentiated') : false;
     this.state.isDifferentiated = isDiff;
 
-    // 2. Générer les questions à données aléatoires
+    // 2. Générer les questions à données aléatoires : automatismes sans calculatrice et énoncés courts
+    //    (MathsGenerators.pickRitualQuestion), palier abaissé seulement si un chapitre n'offre rien de compatible
     if (isDiff) {
       const pairs = [];
+      const used = new Set();
       for (let i = 0; i < count; i++) {
         const ch = chapters[i % chapters.length];
         const tierSocle = (i % 2 === 0) ? 1 : 2;
         const tierDefi = (i % 2 === 0) ? 3 : 4;
-        const qSocle = window.MathsGenerators.generate(ch, tierSocle);
-        const qDefi = window.MathsGenerators.generate(ch, tierDefi);
+        const qSocle = window.MathsGenerators.pickRitualQuestion(ch, tierSocle, used);
+        if (qSocle && qSocle.statement) used.add(qSocle.statement);
+        const qDefi = window.MathsGenerators.pickRitualQuestion(ch, tierDefi, used);
+        if (qDefi && qDefi.statement) used.add(qDefi.statement);
         pairs.push({
           isDifferentiated: true,
           socle: qSocle,
@@ -132,7 +286,7 @@ window.MathsDiaporama = {
       }
       this.state.questions = pairs;
     } else {
-      this.state.questions = window.MathsGenerators.generateSeries(chapters, count);
+      this.state.questions = window.MathsGenerators.generateSeries(chapters, count, { ritual: true });
     }
 
     this.state.currentIndex = 0;
@@ -140,6 +294,8 @@ window.MathsDiaporama = {
     this.state.answersRecord = [];
     this.state.isRunning = true;
     this.state.isPaused = false;
+    const pauseBtn = document.getElementById('btn-diapo-pause');
+    if (pauseBtn) pauseBtn.textContent = '⏸ Pause';
 
     // 3. Basculer sur l'écran diaporama
     this.showScreen('run');
@@ -151,7 +307,7 @@ window.MathsDiaporama = {
    */
   restart() {
     this.stop();
-    this.start();
+    this.start(false);
   },
 
   presentCurrentQuestion() {
@@ -181,7 +337,7 @@ window.MathsDiaporama = {
                 <span class="diapo-badge-socle">🟢 Socle</span>
                 <strong style="font-size:0.95rem; color:var(--text-main);">${q.socle.title || ''}</strong>
               </div>
-              <div class="diapo-col-body" style="font-size:1.15rem; line-height:1.5;">
+              <div class="diapo-col-body" style="font-size:var(--diapo-col-font, 1.15rem); line-height:1.5;">
                 ${window.MathsRenderer.markdownToHtml(q.socle.statement)}
               </div>
             </div>
@@ -190,7 +346,7 @@ window.MathsDiaporama = {
                 <span class="diapo-badge-defi">🟣 Défi</span>
                 <strong style="font-size:0.95rem; color:var(--text-main);">${q.defi.title || ''}</strong>
               </div>
-              <div class="diapo-col-body" style="font-size:1.15rem; line-height:1.5;">
+              <div class="diapo-col-body" style="font-size:var(--diapo-col-font, 1.15rem); line-height:1.5;">
                 ${window.MathsRenderer.markdownToHtml(q.defi.statement)}
               </div>
             </div>
@@ -213,6 +369,7 @@ window.MathsDiaporama = {
         window.MathsRenderer.renderElement(bodyEl);
       }
     }
+    this.fitStage();
 
     // Gestion du timer
     this.state.timeLeft = this.state.timePerQuestion;
@@ -294,11 +451,6 @@ window.MathsDiaporama = {
     this.renderRecapScreen();
   },
 
-  toggleRecapMode() {
-    this.state.recapMode = this.state.recapMode === 'statements' ? 'solutions' : 'statements';
-    this.renderRecapScreen();
-  },
-
   // Fonctions de Zoom pour ajuster le cadrage de la capture d'écran Notability
   zoomIn() {
     this.state.zoomLevel = Math.min(2.0, +(this.state.zoomLevel + 0.15).toFixed(2));
@@ -331,13 +483,39 @@ window.MathsDiaporama = {
    */
   formatAnswerForDisplay(ans) {
     if (ans === undefined || ans === null) return '';
-    let str = String(ans).trim();
-    if (!str.startsWith('$') && !str.startsWith('\\(') && !str.startsWith('\\[') && !str.startsWith('$$')) {
-      if (/\\[a-zA-Z]+|\^|_|\/|=|<|>/.test(str)) {
-        str = `$${str}$`;
-      }
-    }
-    return window.MathsRenderer.markdownToHtml(str);
+    const str = String(ans).trim();
+    const tex = this.plainAnswerToTex(str);
+    return window.MathsRenderer.markdownToHtml(this.isBareFormula(tex) ? `$${tex}$` : str);
+  },
+
+  /**
+   * Réponse écrite sous sa forme de saisie (« 7.5*10^-2 », « pi/4 ») : en mode math, « 10^-2 » et
+   * « 10^16 » n'élèveraient que le premier caractère et le point resterait anglo-saxon.
+   */
+  plainAnswerToTex(str) {
+    return str
+      .replace(/(\d)\.(\d)/g, '$1{,}$2')
+      .replace(/(^|[^\^_{])\*/g, '$1\\times ')
+      .replace(/\^(-?\d+)/g, '^{$1}')
+      .replace(/(^|[^\\a-zA-Z])pi(?![a-zA-Z])/g, '$1\\pi ')
+      .replace(/(^|[^\\a-zA-Z])sqrt\(([^()]*)\)/g, '$1\\sqrt{$2}');
+  },
+
+  /**
+   * Vrai pour une expression seule écrite sans délimiteurs : les réponses qui mêlent phrases et
+   * formules portent déjà leurs $…$, et un mot français en mode math perdrait ses espaces.
+   */
+  isBareFormula(str) {
+    // Nombre décimal seul : le mode math lui donne sa virgule et un vrai signe moins
+    if (/^-?\d+\{,\}\d+$/.test(str)) return true;
+    // Début par « = » : formule de tableur, à montrer telle quelle
+    if (/^=|\$|`|\\\(|\\\[/.test(str) || !/\\[a-zA-Z]+|\^|_|\/|=|<|>/.test(str)) return false;
+    // Une valeur suivie de son unité (« 2,5 mL/min ») reste du texte
+    if (/\d\s+[a-zA-Zµ]/.test(str)) return false;
+    const withoutCommands = str
+      .replace(/\\(?:text\w*|math\w+|operatorname|begin|end)\s*\{[^{}]*\}/g, ' ')
+      .replace(/\\[a-zA-Z]+/g, ' ');
+    return !/[a-zA-ZÀ-ÿ]{4,}/.test(withoutCommands);
   },
 
   /**
@@ -372,7 +550,8 @@ window.MathsDiaporama = {
     });
     const header = isSolutions ? "Corrigé du Rituel Flash" : "Énoncés du Rituel Flash";
     const textToCopy = `${header}\n\n${lines.join('\n')}\n\nL'Établi des Maths — Loïc Delaporte`;
-    if (navigator.clipboard && navigator.clipboard.writeText) {
+    const copyQuestions = () => {
+      if (!navigator.clipboard || !navigator.clipboard.writeText) return;
       navigator.clipboard.writeText(textToCopy).then(() => {
         if (window.MathsApp && window.MathsApp.showToast) {
           window.MathsApp.showToast('📋 Questions copiées dans le presse-papier !');
@@ -380,6 +559,12 @@ window.MathsDiaporama = {
           alert('Questions copiées dans le presse-papier !');
         }
       });
+    };
+    if (typeof navigator.share === 'function' && window.MathsApp && window.MathsApp.isCoarsePointer()) {
+      navigator.share({ title: header, text: textToCopy })
+        .catch(err => { if (err.name !== 'AbortError') copyQuestions(); });
+    } else {
+      copyQuestions();
     }
   },
 

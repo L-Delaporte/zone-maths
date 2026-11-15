@@ -30,16 +30,23 @@
     var q = p.toString();
     return q ? '?' + q : '';
   }
-  function cleanPath() { return location.pathname + cleanSearch() + location.hash; }
+  // Sans le fragment : le lien d'évitement (#contenu) ne doit pas compter une seconde page vue.
+  // La graine d'une série commune reste dans l'adresse affichée, mais ne doit pas fragmenter les statistiques.
+  function countedPath() {
+    var p = new URLSearchParams(cleanSearch());
+    p.delete('seed');
+    var q = p.toString();
+    return location.pathname + (q ? '?' + q : '');
+  }
   function cleanUrl() {
-    var target = cleanPath();
+    var target = location.pathname + cleanSearch() + location.hash;
     if (window.history && history.replaceState && target !== location.pathname + location.search + location.hash) {
       history.replaceState(history.state, '', target);
     }
   }
   window.goatcounter = {
     no_onload: true, // première visite comptée ci-dessous, pour nettoyer l'URL ensuite
-    path: function () { return cleanPath(); }
+    path: function () { return countedPath(); }
   };
   // Appelé au chargement de count.js : compte l'arrivée avec sa source, puis nettoie l'URL
   window.edmCountLanding = function () {
@@ -48,7 +55,7 @@
     if (!gc || typeof gc.count !== 'function') return;
     var go = function () {
       counted = true;
-      gc.count(source ? { path: cleanPath(), referrer: source } : { path: cleanPath() });
+      gc.count(source ? { path: countedPath(), referrer: source } : { path: countedPath() });
       cleanUrl();
     };
     if (document.visibilityState === 'prerender' || document.visibilityState === 'hidden') {
@@ -64,11 +71,10 @@
   };
   // Script bloqué ou hors ligne : l'adresse est nettoyée quand même
   window.addEventListener('load', function () { setTimeout(function () { if (!counted) cleanUrl(); }, 5000); });
-  window.addEventListener('hashchange', function () {
-    if (window.goatcounter && typeof window.goatcounter.count === 'function') {
-      window.goatcounter.count({ path: cleanPath() });
-    }
-  });
+
+  // Refus de la mesure d'audience (mentions légales) : count.js n'est même pas chargé. L'adresse est
+  // nettoyée par le délai de secours ci-dessus : js/app.js doit encore lire ?src= au démarrage.
+  try { if (localStorage.getItem('skipgc') === 't') return; } catch (e) { /* stockage indisponible : aucun refus enregistré */ }
 
   // count.js inséré ici pour écouter son chargement sans attribut onload (compatibilité CSP)
   var s = document.createElement('script');

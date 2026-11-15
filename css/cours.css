@@ -14,7 +14,8 @@
 /* Focus visible */
 .cours-page a:focus-visible,
 .cours-page summary:focus-visible,
-.cours-page button:focus-visible {
+.cours-page button:focus-visible,
+.cours-page .hub-table-wrap:focus-visible {
   outline: 3px solid var(--border-focus);
   outline-offset: 2px;
   border-radius: 4px;
@@ -118,7 +119,16 @@
 .cours-toc a:hover { color: var(--primary-text); }
 
 /* Sections */
-.cours-section { min-width: 0; scroll-margin-top: 5.5rem; }
+/* Sections hors écran non calculées tant qu'on n'y arrive pas : les formules KaTeX pèsent lourd dans le DOM.
+   content-visibility impose une containment de peinture : padding et marge opposés laissent la place aux ombres et contours. */
+.cours-section {
+  min-width: 0;
+  scroll-margin-top: 5.5rem;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+  padding: 6px;
+  margin: -6px;
+}
 .cours-section > h2 {
   font-size: 1.4rem;
   font-weight: 800;
@@ -128,6 +138,7 @@
   border-bottom: 2px solid var(--primary-border);
 }
 .cours-note { color: var(--text-muted); margin-bottom: 1rem; }
+.cours-hero .concours-notice { margin: 1rem 0 0; }
 
 .cours-card {
   background: var(--bg-surface);
@@ -385,6 +396,7 @@
   .app-header, .cours-footer, .cours-cta, .cours-cta-box, .cours-pager, .cours-toc, .cours-skip, .cours-breadcrumb { display: none; }
   body { display: block; background: #fff; color: #000; }
   .cours-wrapper { max-width: none; padding: 0; gap: 1rem; }
+  .cours-section { content-visibility: visible; contain-intrinsic-size: none; padding: 0; margin: 0; }
   /* important : impression, prime sur les styles d'écran, le thème sombre et le JS */
   .cours-hero, .cours-card, .cours-list, .cours-page details { box-shadow: none; background: #fff !important; border-color: #999; }
   .cours-hero { padding: 0 0 0.5rem; border: 0; border-bottom: 2px solid #000; border-radius: 0; }
@@ -413,6 +425,20 @@
   margin-bottom: 0.35rem;
 }
 [data-theme="dark"] .cours-title-kicker { color: #93c5fd; }
+
+/* Auteur et date de mise à jour, sous le H1 des chapitres */
+.cours-byline { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.6rem; }
+
+/* Encadré pour les parents (pages de 6e) */
+.cours-parents {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--primary-border);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  line-height: 1.65;
+}
+.cours-parents-title { font-weight: 800; margin-bottom: 0.35rem; }
 
 /* Chapitres liés / pour aller plus loin */
 .cours-related {
@@ -519,6 +545,7 @@
 .hub-exo-more { margin-top: 0.85rem; font-size: 0.9rem; color: var(--text-muted); }
 /* important : prime sur une règle concurrente plus spécifique ou plus tardive */
 .hub-inline { list-style: none; display: flex !important; flex-wrap: wrap; gap: 0.35rem 0.9rem; }
+.hub-inline a { display: inline-block; min-height: 24px; min-width: 24px; padding: 0.2rem 0.35rem; }
 .hub-pills a, .hub-tags li {
   display: inline-block;
   padding: 4px 12px;
@@ -538,7 +565,7 @@
   .hub-table th, .hub-table td { padding: 0.45rem 0.5rem; }
 }
 @media print {
-  .cours-related { display: none; }
+  .cours-related, .cours-parents { display: none; }
   .cours-faq-item > div { display: block; }
 }
 .hub-chapters + .cours-note, .hub-grid + .cours-note { margin-top: 0.85rem; }

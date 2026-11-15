@@ -11,7 +11,8 @@
  *  - QCM : options présentes, correctIndex entier dans les bornes, `answer` cohérent
  *    avec options[correctIndex], options dupliquées ou numériquement équivalentes ;
  *  - KaTeX : chaque fragment mathématique doit être rendu par vendor/katex
- *    (throwOnError), et aucun `$` orphelin ;
+ *    (throwOnError), et aucun `$` orphelin ; pas de `\\` collé à une lettre hors environnement ;
+ *  - identifiants de chapitre conformes à la convention du niveau (table dans README.md) ;
  *  - mots de brouillon oubliés (« attendez », « recalculons », « hmm »…) ;
  *  - indices (hint, hint1, hint2) : non vides, hint1 ne contient pas la réponse finale,
  *    pas d'indice identique dans deux chapitres différents ;
@@ -23,59 +24,17 @@ const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
 
+const { loadSiteData } = require('./load_site.js');
+
 const ROOT = path.resolve(__dirname, '..', '..');
 const problems = [];
 const fail = (msg) => problems.push(msg);
 
 // ---------------------------------------------------------------------------
-// 1. Environnement navigateur minimal + chargement dans l'ordre d'index.html
+// 1. Chargement des données dans l'ordre d'index.html
 // ---------------------------------------------------------------------------
-const sandbox = {
-  console,
-  localStorage: { getItem: () => null, setItem() {}, removeItem() {} },
-  document: {
-    addEventListener() {}, getElementById: () => null, querySelector: () => null,
-    querySelectorAll: () => [], createElement: () => ({ style: {}, appendChild() {}, setAttribute() {} })
-  }
-};
-sandbox.window = sandbox;
-sandbox.self = sandbox;
-vm.createContext(sandbox);
-
-const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
-/**
- * Fichiers de données dans l'ordre du site : d'abord les <script src="js/data/…"> chargés
- * au démarrage, puis ceux des niveaux chargés à la demande (<script id="level-bundles">,
- * lu par js/dataLoader.js), dans l'ordre où ils sont déclarés.
- */
-function dataFilesFromIndex(page) {
-  const files = [...page.matchAll(/<script[^>]+src="(js\/data\/[^"?]+)/g)].map((m) => m[1]);
-  const b = page.match(/<script[^>]*id="level-bundles"[^>]*>([\s\S]*?)<\/script>/);
-  if (b) {
-    try {
-      for (const urls of Object.values(JSON.parse(b[1]))) {
-        for (const u of urls) {
-          const f = String(u).split('?')[0];
-          if (/^js\/data\//.test(f) && !files.includes(f)) files.push(f);
-        }
-      }
-    } catch (e) {
-      fail(`index.html : déclaration level-bundles illisible (${e.message})`);
-    }
-  }
-  return files;
-}
-const dataFiles = dataFilesFromIndex(html);
+const { win: W, files: dataFiles } = loadSiteData({ onError: fail });
 if (!dataFiles.length) fail('index.html : aucun script js/data/ trouvé');
-
-for (const f of dataFiles) {
-  try {
-    vm.runInContext(fs.readFileSync(path.join(ROOT, f), 'utf8'), sandbox, { filename: f });
-  } catch (e) {
-    fail(`${f} : erreur au chargement : ${e.message}`);
-  }
-}
-const W = sandbox;
 
 // KaTeX réel
 let katex = null;
@@ -149,7 +108,16 @@ function checkKatex(str, where) {
       katexCache.set(key, msg);
     }
     if (msg) fail(`${where} : KaTeX invalide « ${c.tex.slice(0, 80)} » : ${msg}`);
+    checkDoubleBackslash(c.tex, where);
   }
+}
+
+// KaTeX accepte `\\alpha` (saut de ligne puis texte) : c'est presque toujours `\alpha` mal échappé.
+// Seuls les environnements à plusieurs lignes (pmatrix, cases, aligned, array…) ont besoin de `\\`.
+const LINE_ENVS = /\\begin\{([A-Za-z]+\*?)\}[\s\S]*?\\end\{\1\}/g;
+function checkDoubleBackslash(tex, where) {
+  const m = tex.replace(LINE_ENVS, '').match(/(?<!\\)(?:\\\\)+[A-Za-z]+/);
+  if (m) fail(`${where} : « ${m[0]} » dans « ${tex.slice(0, 80)} » (commande LaTeX mal échappée ?)`);
 }
 
 /** Normalisation textuelle d'une option de QCM (pour détecter les doublons). */
@@ -223,6 +191,23 @@ const dupCheck = (label, ids) => {
   }
 };
 dupCheck('Chapitres', chapters.map((c) => c.id));
+
+// Les identifiants figurent dans les liens, les QR codes imprimés et la progression des élèves : les
+// existants ne changent jamais. Seule la 3e garde des identifiants historiques sans préfixe de niveau.
+const LEGACY_3E_IDS = new Set(['N1', 'N2', 'N2bis', 'N3', 'N4', 'N5', 'G0', 'G1', 'G2', 'G2bis', 'G3', 'G4', 'G5', 'G6', 'G7', 'Org1', 'Org2', 'Org3', 'Org4', 'Algo']);
+const CHAPTER_ID_RULES = {
+  '6eme': /^6[A-Z]\d+$/, '5eme': /^5[A-Z]\d+$/, '4eme': /^4[A-Z]\d+$/, '3eme': /^3[A-Z]\d+$/,
+  '2nde': /^2[A-Z]\d+$/, '1ere': /^1[A-Z]\d+$/, tale: /^T[A-Z]\d+$/,
+  '1tc': /^1TC\d+$/, '1techno': /^1T\d+$/,
+  L1: /^L1-[A-Z]+\d*$/, L2: /^L2-[A-Z]+\d*$/, L3: /^L3-[A-Z]+\d*$/,
+  capes: /^capes-(\d{2}|oral2(-cas)?)$/, crpe: /^crpe-\d{2}$/, sante: /^sante-\d{2}$/, pass: /^pass-\d{2}$/, veto: /^veto-\d{2}$/
+};
+for (const { id, level } of chapters) {
+  if (level === '3eme' && LEGACY_3E_IDS.has(id)) continue;
+  const rule = CHAPTER_ID_RULES[level];
+  if (!rule) fail(`Chapitre ${id} : niveau « ${level} » inconnu`);
+  else if (!rule.test(id)) fail(`Chapitre ${id} : identifiant hors convention pour le niveau ${level} (voir README.md)`);
+}
 
 const chapterIds = new Set(chapters.map((c) => c.id));
 const capesIds = new Set(capesLessons.map((l) => l.id));
@@ -369,6 +354,13 @@ for (const [name, obj] of Object.entries(roots)) {
     const d = s.match(DRAFT_RE);
     if (d) fail(`${where} : brouillon oublié « ${d[0]} » — « ${s.slice(Math.max(0, d.index - 40), d.index + 40).replace(/\n/g, ' ')} »`);
     if (MTQ_RE.test(s)) fail(`${where} : mention de maths-et-tiques`);
+  });
+}
+
+// KaTeX des banques de DS et du brevet : contrôlé par test_ds_banks.js, sauf ce défaut qu'il ne peut pas voir.
+for (const [name, obj] of Object.entries({ MATHS_DS_BANK: W.MATHS_DS_BANK || {}, MATHS_BREVET_PROBLEMS: W.MATHS_BREVET_PROBLEMS || [] })) {
+  walkStrings(obj, name, (s, where) => {
+    if (s.includes('$')) for (const c of mathChunks(s).chunks) checkDoubleBackslash(c.tex, where);
   });
 }
 

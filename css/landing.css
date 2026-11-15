@@ -320,11 +320,34 @@
 .legal-section li + li {
   margin-top: 0.4rem;
 }
-.legal-section a {
+.legal-section a:not(.btn-primary):not(.landing-cta-btn) {
   color: var(--primary-text);
   text-decoration: underline;
   overflow-wrap: anywhere;
 }
+.legal-section h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 1.25rem 0 0.5rem;
+  color: var(--text-main);
+}
+.legal-table-wrap {
+  margin-top: 0.75rem;
+  overflow-x: auto;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+}
+.legal-table-wrap:focus-visible { outline: 2px solid var(--border-focus); outline-offset: 2px; }
+.legal-table { width: 100%; min-width: 46rem; border-collapse: collapse; font-size: 0.86rem; line-height: 1.45; }
+.legal-table th, .legal-table td {
+  padding: 0.55rem 0.7rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--border-color);
+}
+.legal-table tbody tr:last-child th, .legal-table tbody tr:last-child td { border-bottom: 0; }
+.legal-table-wrap + p { margin-top: 0.75rem; }
+[data-gc-optout] { font: inherit; font-weight: 600; }
 .legal-updated {
   text-align: center;
   color: var(--text-muted);
@@ -365,6 +388,10 @@
 }
 .landing-links-box a { color: var(--primary-text); text-decoration: underline; text-underline-offset: 2px; }
 [data-theme="dark"] .landing-links-box a { color: #93c5fd; }
+.bac-exemple h3 { font-size: 1.05rem; font-weight: 700; margin: 1rem 0 0.4rem; }
+.bac-exemple ol { padding-left: 1.4rem; margin-bottom: 0.75rem; }
+.bac-exemple li { margin-bottom: 0.6rem; }
+.bac-exemple pre { margin: 0.4rem 0; padding: 0.6rem 0.8rem; overflow-x: auto; border: 1px solid var(--border-color); border-radius: var(--radius-sm); }
 
 /* Accessibilité : contrastes ≥ 4,5:1 dans les deux thèmes */
 .landing-tag { color: var(--primary-text); }
@@ -399,6 +426,7 @@
 .kit-h2 { font-size: 1.4rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--text-main); }
 .kit-lead { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem; }
 .kit-note { color: var(--text-muted); font-size: 0.88rem; margin-top: 0.75rem; }
+.kit-note a, .ethics-item a { color: var(--primary-text); }
 .kit-toc ul {
   list-style: none; display: flex; flex-wrap: wrap; justify-content: center;
   gap: 0.5rem; margin-top: 1.5rem; padding: 0;
@@ -478,6 +506,8 @@
   .kit-qr-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem; }
   .kit-qr-card img { width: 112px; height: 112px; }
   .kit-btn-row .landing-cta-btn { width: 100%; }
+  .nav-portal-links { gap: 4px; }
+  .nav-portal-btn { font-size: 0.74rem; padding: 5px 8px; }
 }
 @media print {
   .kit-page .app-header, .kit-page footer, .kit-page .skip-link, .kit-page .kit-toc,

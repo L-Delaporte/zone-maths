@@ -25,7 +25,7 @@ window.MATHS_COURSES_SANTE = {
       },
       {
         title: "3. Préfixes et conversions",
-        content: "méga (M) $= 10^{6}$ ; kilo (k) $= 10^{3}$ ; déci (d) $= 10^{-1}$ ; centi (c) $= 10^{-2}$ ; milli (m) $= 10^{-3}$ ; micro (µ) $= 10^{-6}$ ; nano (n) $= 10^{-9}$.\nÉquivalences de volume : 1 L = 1 dm³ ; 1 mL = 1 cm³ ; 1 m³ = 1 000 L ; 1 µL = 1 mm³.\nPour une unité composée (g/L, mL/h…), on convertit séparément le numérateur et le dénominateur : 1 g/L = 1 000 mg / 10 dL = 100 mg/dL."
+        content: "méga (M) $= 10^{6}$ ; kilo (k) $= 10^{3}$ ; déci (d) $= 10^{-1}$ ; centi (c) $= 10^{-2}$ ; milli (m) $= 10^{-3}$ ; micro (µ) $= 10^{-6}$ ; nano (n) $= 10^{-9}$.\nÉquivalences de volume : 1 L = 1 dm³ ; 1 mL = 1 cm³ ; 1 m³ = 1 000 L ; 1 µL = 1 mm³.\nPour une unité composée (g/L, mL/h…), on convertit séparément le numérateur et le dénominateur : 1 g/L = 1 000 mg / 10 dL = 100 mg/dL.\nExemple d'unité composée : la **concentration massique** $C_m = \\dfrac{m}{V}$, masse de soluté divisée par volume de solution (voir PS-02). Pour l'obtenir en g/L, on exprime $m$ en g et $V$ en L : 2 g dans 250 mL donnent $\\dfrac{2}{0{,}25} = 8$ g/L."
       },
       {
         title: "4. Ordres de grandeur en biologie",
@@ -74,6 +74,7 @@ window.MATHS_COURSES_SANTE = {
     domain: "Calculs et dosages",
     objectives: [
       "Calculer une concentration massique, une masse de soluté ou un volume de solution.",
+      "Passer d'une concentration molaire à une concentration massique à l'aide de la masse molaire.",
       "Préparer une dilution avec la relation $C_1V_1 = C_2V_2$ et calculer un facteur de dilution.",
       "Calculer une posologie en mg/kg et un débit de perfusion.",
       "Vérifier la cohérence des unités à chaque étape d'un calcul de dose."
@@ -88,15 +89,19 @@ window.MATHS_COURSES_SANTE = {
         content: "$$C_m = \\frac{m}{V}$$\noù $m$ est la masse de soluté et $V$ le volume de solution. Unités usuelles : g/L, mg/mL (1 mg/mL = 1 g/L), mg/L.\nOn en déduit $m = C_m \\times V$ et $V = \\dfrac{m}{C_m}$."
       },
       {
-        title: "3. Dilution",
+        title: "3. Concentration molaire et masse molaire",
+        content: "La **quantité de matière** $n$ se mesure en moles (mol) ; une mole contient environ $6{,}02 \\times 10^{23}$ entités (constante d'Avogadro).\nLa **concentration molaire** est $$C = \\frac{n}{V}$$ en mol/L ; d'où $n = C \\times V$. En biologie, on utilise souvent le mmol/L : $1$ mmol/L $= 10^{-3}$ mol/L.\nLa **masse molaire** $M$ (en g/mol) relie masse et quantité de matière : $m = n \\times M$. On en déduit le lien entre les deux concentrations : $$C_m = C \\times M \\quad \\text{et} \\quad C = \\frac{C_m}{M}.$$\n*Exemple* : une natrémie de $140$ mmol/L, avec $M(\\text{Na}) = 23$ g/mol, correspond à $C_m = 0{,}140 \\times 23 = 3{,}22$ g/L. Vérifiez toujours que $C$ est en mol/L (et non en mmol/L) avant de multiplier par $M$."
+      },
+      {
+        title: "4. Dilution",
         content: "Lors d'une dilution, la masse de soluté se conserve : $C_1 V_1 = C_2 V_2$ (solution mère : $C_1$, $V_1$ prélevé ; solution fille : $C_2$, $V_2$ total).\nLe **facteur de dilution** est $F = \\dfrac{C_1}{C_2} = \\dfrac{V_2}{V_1}$. Des dilutions successives de facteurs $F_1$ et $F_2$ donnent un facteur global $F_1 \\times F_2$."
       },
       {
-        title: "4. Posologie et débit",
+        title: "5. Posologie et débit",
         content: "Une posologie en mg/kg se multiplie par la masse du patient : 15 mg/kg pour 20 kg donne 300 mg.\nLe **débit** d'une perfusion est le volume perfusé par unité de temps : $D = \\dfrac{V}{t}$ (en mL/h ou en mL/min). Avec un perfuseur où 1 mL correspond à 20 gouttes, un débit en mL/min se multiplie par 20 pour obtenir des gouttes/min.\nPour une seringue électrique, on divise la dose horaire prescrite par la concentration : 4 mg/h avec 2 mg/mL donne 2 mL/h."
       },
       {
-        title: "5. Aux épreuves : pièges fréquents",
+        title: "6. Aux épreuves : pièges fréquents",
         content: "• Inverser la relation de dilution et écrire $V_1 = \\dfrac{C_1 V_2}{C_2}$.\n• Confondre le volume d'eau ajouté et le volume final : ajouter 100 mL d'eau à 50 mL donne 150 mL, pas 100 mL.\n• Mélanger mL et L, ou heures et minutes, dans un même calcul de débit.\n• Arrondir trop tôt une valeur intermédiaire (débit en gouttes/min, par exemple)."
       }
     ],
@@ -127,6 +132,7 @@ window.MATHS_COURSES_SANTE = {
     ],
     flashcards: [
       { q: "Formule de la concentration massique ?", a: "$C_m = \\dfrac{m}{V}$." },
+      { q: "Lien entre concentration massique et concentration molaire ?", a: "$C_m = C \\times M$, avec $M$ la masse molaire en g/mol." },
       { q: "Relation de conservation lors d'une dilution ?", a: "$C_1 V_1 = C_2 V_2$." },
       { q: "Facteur de dilution si l'on complète 10 mL jusqu'à 250 mL ?", a: "$F = 25$." },
       { q: "Dose pour 12 mg/kg chez un patient de 25 kg ?", a: "300 mg." }
@@ -221,7 +227,7 @@ window.MATHS_COURSES_SANTE = {
       },
       {
         title: "4. Modèles exponentiels en santé",
-        content: "• **Croissance bactérienne** : $N(t) = N_0 e^{kt}$ avec $k > 0$ ; sur toute durée $\\Delta t$, la population est multipliée par le même facteur $e^{k \\Delta t}$.\n• **Élimination d'un médicament** : après une injection, $C(t) = C_0 e^{-kt}$ avec $k > 0$ ; en une unité de temps, la concentration est multipliée par $e^{-k}$, donc diminue de $(1 - e^{-k}) \\times 100$ %.\nCes modèles traduisent une variation proportionnelle à la quantité présente : $N' = kN$."
+        content: "• **Croissance bactérienne** : $N(t) = N_0 e^{kt}$ avec $k > 0$ ; sur toute durée $\\Delta t$, la population est multipliée par le même facteur $e^{k \\Delta t}$.\n• **Élimination d'un médicament** : après une injection, $C(t) = C_0 e^{-kt}$ avec $k > 0$ ; en une unité de temps, la concentration est multipliée par $e^{-k}$, donc diminue de $(1 - e^{-k}) \\times 100$ %.\nCes modèles traduisent une variation proportionnelle à la quantité présente : $N' = kN$ pour la croissance et $C' = -kC$ pour l'élimination."
       },
       {
         title: "5. Aux épreuves : pièges fréquents",
@@ -277,7 +283,7 @@ window.MATHS_COURSES_SANTE = {
       },
       {
         title: "2. Résoudre avec le logarithme",
-        content: "Pour $a > 0$ : $e^{x} = a \\iff x = \\ln a$.\nPour $0 < q < 1$, $q^{n} < a \\iff n \\ln q < \\ln a \\iff n > \\dfrac{\\ln a}{\\ln q}$ : le sens change car $\\ln q < 0$.\n*Exemple* : $0{,}8^{n} < 0{,}05 \\iff n > \\dfrac{\\ln 0{,}05}{\\ln 0{,}8} \\approx 13{,}4$, donc $n \\geq 14$."
+        content: "Pour $a > 0$ : $e^{x} = a \\iff x = \\ln a$.\nPour $0 < q < 1$ et $a > 0$, $q^{n} < a \\iff n \\ln q < \\ln a \\iff n > \\dfrac{\\ln a}{\\ln q}$ : le sens change car $\\ln q < 0$.\n*Exemple* : $0{,}8^{n} < 0{,}05 \\iff n > \\dfrac{\\ln 0{,}05}{\\ln 0{,}8} \\approx 13{,}4$, donc $n \\geq 14$."
       },
       {
         title: "3. Demi-vie et temps de doublement",
@@ -656,7 +662,7 @@ window.MATHS_COURSES_SANTE = {
     keyPoints: [
       {
         title: "1. Primitives",
-        content: "$F$ est une primitive de $f$ sur un intervalle $I$ si $F' = f$ sur $I$. Deux primitives de $f$ diffèrent d'une constante.\nPrimitives usuelles ($k$ et $a$ réels, $a \\neq 0$, $n$ entier, $n \\neq -1$) :\n• $k$ a pour primitive $kx$ ; $x^{n}$ a pour primitive $\\dfrac{x^{n+1}}{n+1}$ ; $\\dfrac{1}{x^{2}}$ a pour primitive $-\\dfrac{1}{x}$ ;\n• $\\dfrac{1}{x}$ a pour primitive $\\ln x$ sur $]0 ; +\\infty[$ ; $e^{ax}$ a pour primitive $\\dfrac{1}{a}e^{ax}$ ;\n• $u'e^{u}$ a pour primitive $e^{u}$ ; $\\dfrac{u'}{u}$ a pour primitive $\\ln u$ (si $u > 0$).\n*Exemple* : une primitive de $e^{-0{,}2t}$ est $-5e^{-0{,}2t}$ (vérification : $(-5e^{-0{,}2t})' = -5 \\times (-0{,}2)e^{-0{,}2t} = e^{-0{,}2t}$)."
+        content: "$F$ est une primitive de $f$ sur un intervalle $I$ si $F' = f$ sur $I$. Deux primitives de $f$ diffèrent d'une constante.\nPrimitives usuelles ($k$ et $a$ réels, $a \\neq 0$, $n$ entier, $n \\neq -1$ ; pour $n \\leq -2$, $x^{n}$ n'est pas défini en $0$ et la formule vaut sur $]-\\infty ; 0[$ ou sur $]0 ; +\\infty[$) :\n• $k$ a pour primitive $kx$ ; $x^{n}$ a pour primitive $\\dfrac{x^{n+1}}{n+1}$ ; $\\dfrac{1}{x^{2}}$ a pour primitive $-\\dfrac{1}{x}$ ;\n• $\\dfrac{1}{x}$ a pour primitive $\\ln x$ sur $]0 ; +\\infty[$ ; $e^{ax}$ a pour primitive $\\dfrac{1}{a}e^{ax}$ ;\n• $u'e^{u}$ a pour primitive $e^{u}$ ; $\\dfrac{u'}{u}$ a pour primitive $\\ln u$ (si $u > 0$).\n*Exemple* : une primitive de $e^{-0{,}2t}$ est $-5e^{-0{,}2t}$ (vérification : $(-5e^{-0{,}2t})' = -5 \\times (-0{,}2)e^{-0{,}2t} = e^{-0{,}2t}$)."
       },
       {
         title: "2. Intégrale et aire",
@@ -676,7 +682,7 @@ window.MATHS_COURSES_SANTE = {
       },
       {
         title: "6. AUC et clairance",
-        content: "Après une injection intraveineuse, la concentration est $C(t) = C_0e^{-kt}$ ($k > 0$). L'**aire sous la courbe** (AUC) entre 0 et $T$ vaut\n$$\\int_0^T C_0e^{-kt}\\,dt = \\Big[-\\frac{C_0}{k}e^{-kt}\\Big]_0^T = \\frac{C_0}{k}\\left(1 - e^{-kT}\\right).$$\nComme $\\displaystyle\\lim_{T \\to +\\infty} e^{-kT} = 0$, cette intégrale tend vers $\\dfrac{C_0}{k}$ : c'est l'AUC « de 0 à l'infini », qui mesure l'exposition totale de l'organisme au médicament (en mg·h/L si $C$ est en mg/L et $t$ en h).\nLa **clairance** d'un médicament injecté par voie intraveineuse est $CL = \\dfrac{\\text{Dose}}{\\text{AUC}}$ (en L/h).\n*Exemple* : dose 500 mg, $C_0 = 10$ mg/L, $k = 0{,}2$ par heure : AUC $= \\dfrac{10}{0{,}2} = 50$ mg·h/L et $CL = \\dfrac{500}{50} = 10$ L/h."
+        content: "Après une injection intraveineuse, la concentration est $C(t) = C_0e^{-kt}$ ($k > 0$). L'**aire sous la courbe** (AUC) entre 0 et $T$ vaut\n$$\\int_0^T C_0e^{-kt}\\,dt = \\Big[-\\frac{C_0}{k}e^{-kt}\\Big]_0^T = \\frac{C_0}{k}\\left(1 - e^{-kT}\\right).$$\nComme $\\displaystyle\\lim_{T \\to +\\infty} e^{-kT} = 0$, cette intégrale tend vers $\\dfrac{C_0}{k}$ : c'est l'AUC « de 0 à l'infini », qui mesure l'exposition totale de l'organisme au médicament (en mg·h/L si $C$ est en mg/L et $t$ en h).\nLa **clairance** d'un médicament injecté par voie intraveineuse est $CL = \\dfrac{\\text{Dose}}{\\text{AUC}}$ (en L/h).\n**Voie orale et biodisponibilité** : quand le médicament est pris par voie orale, seule une fraction $F$ de la dose ($0 < F \\leqslant 1$) atteint la circulation générale ; $F$ est la **biodisponibilité** ($F = 1$ par voie intraveineuse). On la mesure en comparant les aires sous la courbe obtenues avec la même dose : $F = \\dfrac{\\text{AUC}_{\\text{orale}}}{\\text{AUC}_{\\text{IV}}}$. La clairance se calcule alors avec la dose effective : $CL = \\dfrac{F \\times \\text{Dose}}{\\text{AUC}}$.\n*Exemple* : dose 500 mg, $C_0 = 10$ mg/L, $k = 0{,}2$ par heure : AUC $= \\dfrac{10}{0{,}2} = 50$ mg·h/L et $CL = \\dfrac{500}{50} = 10$ L/h."
       },
       {
         title: "7. Aux épreuves : pièges fréquents",
@@ -722,6 +728,7 @@ window.MATHS_COURSES_SANTE = {
       { q: "Valeur moyenne de $f$ sur $[a ; b]$ ?", a: "$\\dfrac{1}{b - a}\\displaystyle\\int_a^b f(t)\\,dt$." },
       { q: "AUC de 0 à l'infini pour $C(t) = C_0e^{-kt}$ ?", a: "$\\dfrac{C_0}{k}$ (limite de $\\dfrac{C_0}{k}(1 - e^{-kT})$ quand $T$ tend vers $+\\infty$)." },
       { q: "Clairance d'un médicament injecté par voie intraveineuse ?", a: "$CL = \\dfrac{\\text{Dose}}{\\text{AUC}}$." },
+      { q: "Biodisponibilité $F$ et clairance par voie orale ?", a: "$F = \\dfrac{\\text{AUC}_{\\text{orale}}}{\\text{AUC}_{\\text{IV}}}$ à dose égale, et $CL = \\dfrac{F \\times \\text{Dose}}{\\text{AUC}}$." },
       { q: "Aire d'un trapèze de largeur $h$ entre les valeurs $y_1$ et $y_2$ ?", a: "$h \\times \\dfrac{y_1 + y_2}{2}$." }
     ]
   }

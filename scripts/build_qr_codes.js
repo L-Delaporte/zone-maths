@@ -13,19 +13,14 @@
  */
 const fs = require('fs');
 const path = require('path');
-const vm = require('vm');
 const { execFileSync } = require('child_process');
+const { loadSiteData } = require('./tests/load_site.js');
 
 const ROOT = path.resolve(__dirname, '..');
 const OUT = path.join(ROOT, 'assets', 'qr');
 const BASE = 'https://etabli-des-maths.fr/';
 
-const sandbox = { window: {}, console };
-vm.createContext(sandbox);
-for (const f of ['chapters.js', 'chapters_lycee.js', 'chapters_licence.js', 'data_capes.js']) {
-  vm.runInContext(fs.readFileSync(path.join(ROOT, 'js/data', f), 'utf8'), sandbox, { filename: f });
-}
-const chapters = sandbox.window.MATHS_CHAPTERS || [];
+const chapters = loadSiteData().win.MATHS_CHAPTERS || [];
 
 fs.mkdirSync(OUT, { recursive: true });
 const POSTER_LEVELS = ['6eme', '5eme', '4eme', '3eme', '2nde', '1ere', 'tale'];

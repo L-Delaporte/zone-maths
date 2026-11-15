@@ -10,34 +10,43 @@ window.MATHS_COURSES_L1 = {
     "objectives": [
       "Maîtriser les connecteurs logiques, les quantificateurs $\\forall$ et $\\exists$ et la négation d'une assertion quantifiée.",
       "Rédiger les raisonnements usuels : contraposée, absurde, disjonction des cas, analyse-synthèse, récurrence simple et forte.",
+      "Manipuler les opérations ensemblistes (inclusion, réunion, intersection, complémentaire, produit cartésien) et les lois de De Morgan.",
       "Définir rigoureusement application, injection, surjection, bijection, image directe et image réciproque.",
-      "Définir une relation d'équivalence, ses classes, l'ensemble quotient, et une relation d'ordre.",
+      "Définir une relation d'équivalence, ses classes, l'ensemble quotient, et une relation d'ordre (majorants, minorants, bornes supérieure et inférieure).",
       "Dénombrer des ensembles finis : cardinal d'une réunion, d'un produit, de $\\mathcal{P}(E)$, arrangements et combinaisons $\\binom{n}{p}$."
     ],
     "keyPoints": [
       {
         "title": "1. Connecteurs, quantificateurs et négation",
-        "content": "• **Implication** : $P \\implies Q$ est fausse uniquement lorsque $P$ est vraie et $Q$ fausse ; elle équivaut à $(\\neg P) \\text{ ou } Q$.\n• **Contraposée** : $P \\implies Q$ équivaut à $\\neg Q \\implies \\neg P$. La **réciproque** $Q \\implies P$ n'a, en général, pas la même valeur de vérité.\n• **Négation** : $\\neg(P \\text{ et } Q) \\iff (\\neg P) \\text{ ou } (\\neg Q)$ et $\\neg(P \\implies Q) \\iff P \\text{ et } \\neg Q$.\n• **Négation des quantificateurs** : on échange $\\forall$ et $\\exists$ et on nie la propriété finale :\n$$\\neg(\\forall x \\in E,\\ P(x)) \\iff \\exists x \\in E,\\ \\neg P(x) \\qquad \\neg(\\exists x \\in E,\\ P(x)) \\iff \\forall x \\in E,\\ \\neg P(x)$$\n• **Ordre des quantificateurs** : « $\\forall x \\in \\mathbb{R},\\ \\exists y \\in \\mathbb{R},\\ y > x$ » est vraie (prendre $y = x + 1$), tandis que « $\\exists y \\in \\mathbb{R},\\ \\forall x \\in \\mathbb{R},\\ y > x$ » est fausse (aucun réel ne majore $\\mathbb{R}$)."
+        "content": "• **Implication** : $P \\implies Q$ est fausse uniquement lorsque $P$ est vraie et $Q$ fausse ; elle équivaut à $(\\neg P) \\text{ ou } Q$.\n• **Contraposée** : $P \\implies Q$ équivaut à $\\neg Q \\implies \\neg P$. La **réciproque** $Q \\implies P$ n'a, en général, pas la même valeur de vérité.\n• **Négation** (**lois de De Morgan** pour les connecteurs) : $\\neg(P \\text{ et } Q) \\iff (\\neg P) \\text{ ou } (\\neg Q)$ et $\\neg(P \\text{ ou } Q) \\iff (\\neg P) \\text{ et } (\\neg Q)$ ; de plus $\\neg(P \\implies Q) \\iff P \\text{ et } \\neg Q$.\n• **Négation des quantificateurs** : on échange $\\forall$ et $\\exists$ et on nie la propriété finale :\n$$\\neg(\\forall x \\in E,\\ P(x)) \\iff \\exists x \\in E,\\ \\neg P(x) \\qquad \\neg(\\exists x \\in E,\\ P(x)) \\iff \\forall x \\in E,\\ \\neg P(x)$$\n• **Ordre des quantificateurs** : « $\\forall x \\in \\mathbb{R},\\ \\exists y \\in \\mathbb{R},\\ y > x$ » est vraie (prendre $y = x + 1$), tandis que « $\\exists y \\in \\mathbb{R},\\ \\forall x \\in \\mathbb{R},\\ y > x$ » est fausse (aucun réel ne majore $\\mathbb{R}$)."
       },
       {
         "title": "2. Modes de raisonnement et principe de récurrence",
-        "content": "• **Absurde** : on suppose $\\neg P$ et on aboutit à une contradiction. **Disjonction des cas** : on traite séparément des cas qui recouvrent toutes les situations. **Analyse-synthèse** : on détermine les solutions possibles (analyse), puis on vérifie qu'elles conviennent (synthèse).\n• **Récurrence simple** : si $P(n_0)$ est vraie et si $\\forall n \\ge n_0,\\ P(n) \\implies P(n+1)$, alors $P(n)$ est vraie pour tout $n \\ge n_0$.\n• **Récurrence forte** : si $P(n_0)$ est vraie et si, pour tout $n \\ge n_0$, $\\big(P(n_0), \\dots, P(n)\\big) \\implies P(n+1)$, alors $P(n)$ est vraie pour tout $n \\ge n_0$. Exemple : tout entier $n \\ge 2$ admet un diviseur premier.\n\n**Démonstration du principe de récurrence** (à partir de la propriété : toute partie non vide de $\\mathbb{N}$ admet un plus petit élément).\n1. Posons $A = \\{n \\ge n_0 \\mid P(n) \\text{ est fausse}\\}$ et supposons, par l'absurde, $A \\neq \\emptyset$. Soit $m = \\min A$.\n2. Comme $P(n_0)$ est vraie, $m \\neq n_0$, donc $m - 1 \\ge n_0$.\n3. Par minimalité de $m$, $m - 1 \\notin A$ : $P(m-1)$ est vraie.\n4. L'hérédité appliquée à $n = m - 1$ donne $P(m)$ vraie, ce qui contredit $m \\in A$. Donc $A = \\emptyset$."
+        "content": "• **Absurde** : on suppose $\\neg P$ et on aboutit à une contradiction. **Disjonction des cas** : on traite séparément des cas qui recouvrent toutes les situations. **Analyse-synthèse** : on détermine les solutions possibles (analyse), puis on vérifie qu'elles conviennent (synthèse).\n• **Récurrence simple** : si $P(n_0)$ est vraie et si $\\forall n \\ge n_0,\\ P(n) \\implies P(n+1)$, alors $P(n)$ est vraie pour tout $n \\ge n_0$.\n• **Récurrence forte** : si $P(n_0)$ est vraie et si, pour tout $n \\ge n_0$, $\\big(P(n_0), \\dots, P(n)\\big) \\implies P(n+1)$, alors $P(n)$ est vraie pour tout $n \\ge n_0$. Exemple : tout entier $n \\ge 2$ admet un diviseur premier.\n\n**Démonstration du principe de récurrence** (à partir de la propriété : toute partie non vide de $\\mathbb{N}$ admet un plus petit élément).\n1. Posons $A = \\{n \\ge n_0 \\mid P(n) \\text{ est fausse}\\}$ et supposons, par l'absurde, $A \\neq \\emptyset$. Soit $m = \\min A$.\n2. Comme $P(n_0)$ est vraie, $m \\neq n_0$, donc $m - 1 \\ge n_0$.\n3. Par minimalité de $m$, $m - 1 \\notin A$ : $P(m-1)$ est vraie.\n4. L'hérédité appliquée à $n = m - 1$ donne $P(m)$ vraie, ce qui contredit $m \\in A$. Donc $A = \\emptyset$.\n\n**Pour s'entraîner** : les exercices de raisonnement (récurrence, absurde, contraposée) sont rassemblés dans le chapitre L1-PRF, « Démonstrations fondamentales de L1 »."
       },
       {
-        "title": "3. Applications : injectivité, surjectivité, bijectivité",
+        "title": "3. Ensembles : inclusion, opérations et lois de De Morgan",
+        "content": "Soient $A$, $B$, $C$ des parties d'un ensemble $E$. Chaque opération traduit un connecteur logique de la section 1.\n• **Inclusion** : $A \\subset B \\iff (\\forall x \\in E,\\ x \\in A \\implies x \\in B)$. **Égalité** : $A = B \\iff (A \\subset B \\text{ et } B \\subset A)$ (double inclusion). On note $\\mathcal{P}(E)$ l'ensemble des parties de $E$.\n• **Réunion et intersection** : $A \\cup B = \\{x \\in E \\mid x \\in A \\text{ ou } x \\in B\\}$, $A \\cap B = \\{x \\in E \\mid x \\in A \\text{ et } x \\in B\\}$. Ces opérations sont distributives l'une sur l'autre : $A \\cap (B \\cup C) = (A \\cap B) \\cup (A \\cap C)$ et $A \\cup (B \\cap C) = (A \\cup B) \\cap (A \\cup C)$.\n• **Complémentaire** dans $E$ : $\\overline{A} = E \\setminus A = \\{x \\in E \\mid x \\notin A\\}$ ; on a $\\overline{\\overline{A}} = A$ et $A \\setminus B = A \\cap \\overline{B}$.\n• **Produit cartésien** : $E \\times F = \\{(x, y) \\mid x \\in E,\\ y \\in F\\}$, ensemble des couples.\n\n**Théorème (lois de De Morgan)** : $\\overline{A \\cup B} = \\overline{A} \\cap \\overline{B}$ et $\\overline{A \\cap B} = \\overline{A} \\cup \\overline{B}$.\n**Démonstration.** Pour $x \\in E$ : $x \\in \\overline{A \\cup B} \\iff \\neg(x \\in A \\text{ ou } x \\in B) \\iff x \\notin A \\text{ et } x \\notin B \\iff x \\in \\overline{A} \\cap \\overline{B}$, par la loi de De Morgan sur les connecteurs. La seconde égalité se démontre de même.\n• **Exemple** : dans $E = \\{1, \\dots, 6\\}$, avec $A = \\{1, 2, 3\\}$ et $B = \\{3, 4\\}$, $A \\cup B = \\{1, 2, 3, 4\\}$, donc $\\overline{A \\cup B} = \\{5, 6\\}$, et l'on retrouve $\\overline{A} \\cap \\overline{B} = \\{4, 5, 6\\} \\cap \\{1, 2, 5, 6\\} = \\{5, 6\\}$."
+      },
+      {
+        "title": "4. Applications : injectivité, surjectivité, bijectivité",
         "content": "Soit $f : E \\to F$ une application.\n• **$f$ injective** : $\\forall x, x' \\in E,\\ f(x) = f(x') \\implies x = x'$ (tout élément de $F$ a au plus un antécédent).\n• **$f$ surjective** : $\\forall y \\in F,\\ \\exists x \\in E,\\ y = f(x)$ (tout élément de $F$ a au moins un antécédent).\n• **$f$ bijective** : injective et surjective. Il existe alors une unique application $f^{-1} : F \\to E$ telle que $f^{-1} \\circ f = \\mathrm{Id}_E$ et $f \\circ f^{-1} = \\mathrm{Id}_F$.\n• **Images** : pour $A \\subset E$, $f(A) = \\{f(x) \\mid x \\in A\\}$ ; pour $B \\subset F$, $f^{-1}(B) = \\{x \\in E \\mid f(x) \\in B\\}$ (défini même si $f$ n'est pas bijective).\n• **Composition** : si $g \\circ f$ est injective, alors $f$ est injective ; si $g \\circ f$ est surjective, alors $g$ est surjective.\n\n**Démonstration.** Si $f(x) = f(x')$, alors $g(f(x)) = g(f(x'))$, donc $x = x'$ par injectivité de $g \\circ f$. Si $z$ est dans l'ensemble d'arrivée de $g$, il existe $x$ tel que $z = g(f(x))$ : $z$ a l'antécédent $f(x)$ par $g$."
       },
       {
-        "title": "4. Relations d'équivalence, classes et ensemble quotient",
+        "title": "5. Relations d'équivalence, classes et ensemble quotient",
         "content": "Une relation $\\sim$ sur $E$ est une **relation d'équivalence** si elle est **réflexive** ($x \\sim x$), **symétrique** ($x \\sim y \\implies y \\sim x$) et **transitive** ($x \\sim y$ et $y \\sim z \\implies x \\sim z$).\n• **Classe** de $x$ : $\\bar{x} = \\{y \\in E \\mid y \\sim x\\}$. **Ensemble quotient** : $E/\\!\\sim$, ensemble des classes.\n• **Exemple** : la congruence modulo $n$ sur $\\mathbb{Z}$ ($a \\equiv b \\ [n] \\iff n \\mid b - a$) a $n$ classes $\\bar{0}, \\dots, \\overline{n-1}$ ; le quotient est noté $\\mathbb{Z}/n\\mathbb{Z}$.\n\n**Théorème** : les classes d'équivalence forment une partition de $E$.\n**Démonstration.**\n1. Chaque classe est non vide car $x \\in \\bar{x}$ (réflexivité), et la réunion des classes est $E$.\n2. Supposons $\\bar{x} \\cap \\bar{y} \\neq \\emptyset$ et soit $z$ dans l'intersection : $z \\sim x$ et $z \\sim y$, donc $x \\sim y$ (symétrie puis transitivité).\n3. Si $t \\in \\bar{x}$, alors $t \\sim x$ et $x \\sim y$, donc $t \\sim y$ : $\\bar{x} \\subset \\bar{y}$. Par symétrie des rôles, $\\bar{x} = \\bar{y}$. Deux classes sont donc disjointes ou égales."
       },
       {
-        "title": "5. Relations d'ordre, majorants et bornes",
-        "content": "Une relation $\\preceq$ sur $E$ est une **relation d'ordre** si elle est réflexive, **antisymétrique** ($x \\preceq y$ et $y \\preceq x \\implies x = y$) et transitive.\n• L'ordre est **total** si deux éléments sont toujours comparables, **partiel** sinon. Exemples d'ordres partiels : l'inclusion sur $\\mathcal{P}(E)$ (si $E$ a au moins deux éléments), la divisibilité sur $\\mathbb{N}^{\\ast}$ ($2$ et $3$ ne sont pas comparables).\n• Pour $A \\subset E$ : $M$ est un **majorant** de $A$ si $\\forall a \\in A,\\ a \\preceq M$ ; c'est le **plus grand élément** de $A$ si de plus $M \\in A$ (il est alors unique).\n• La **borne supérieure** de $A$, si elle existe, est le plus petit des majorants de $A$ ; elle n'appartient pas nécessairement à $A$."
+        "title": "6. Relations d'ordre, majorants et bornes",
+        "content": "Une relation $\\preceq$ sur $E$ est une **relation d'ordre** si elle est réflexive, **antisymétrique** ($x \\preceq y$ et $y \\preceq x \\implies x = y$) et transitive.\n• L'ordre est **total** si deux éléments sont toujours comparables, **partiel** sinon. Exemples d'ordres partiels : l'inclusion sur $\\mathcal{P}(E)$ (si $E$ a au moins deux éléments), la divisibilité sur $\\mathbb{N}^{\\ast}$ ($2$ et $3$ ne sont pas comparables).\n• Pour $A \\subset E$ : $M$ est un **majorant** de $A$ si $\\forall a \\in A,\\ a \\preceq M$ ; c'est le **plus grand élément** de $A$ si de plus $M \\in A$ (il est alors unique).\n• La **borne supérieure** de $A$, si elle existe, est le plus petit des majorants de $A$ ; elle n'appartient pas nécessairement à $A$.\n• De même, $m$ est un **minorant** de $A$ si $\\forall a \\in A,\\ m \\preceq a$ ; c'est le **plus petit élément** de $A$ si de plus $m \\in A$. La **borne inférieure** de $A$, si elle existe, est le plus grand des minorants de $A$.\n• **Exemples** : pour la divisibilité sur $\\mathbb{N}^{\\ast}$, les minorants de $\\{a, b\\}$ sont les diviseurs communs de $a$ et $b$, donc ceux de $\\operatorname{pgcd}(a, b)$ (PGCD vu au lycée, repris au chapitre L1-CMP, section 7) : la borne inférieure de $\\{a, b\\}$ est $\\operatorname{pgcd}(a, b)$, et de même sa borne supérieure est $\\operatorname{ppcm}(a, b)$. Pour l'inclusion sur $\\mathcal{P}(E)$, la borne inférieure de $\\{A, B\\}$ est $A \\cap B$ et sa borne supérieure $A \\cup B$."
       },
       {
-        "title": "6. Ensembles finis et dénombrement",
-        "content": "Soient $E$, $F$ finis, $|E| = p$, $|F| = n$.\n• **Réunion** : $|A \\cup B| = |A| + |B| - |A \\cap B|$. **Produit** : $|E \\times F| = pn$. **Applications** : $|F^E| = n^p$.\n• **Injections** de $E$ dans $F$ ($p \\le n$) : $n(n-1)\\cdots(n-p+1) = \\dfrac{n!}{(n-p)!}$ ; **permutations** de $E$ : $p!$.\n• **Parties à $p$ éléments** d'un ensemble à $n$ éléments : $\\binom{n}{p} = \\dfrac{n!}{p!\\,(n-p)!}$, avec $\\binom{n}{p} = \\binom{n}{n-p}$ et la formule de Pascal $\\binom{n}{p} + \\binom{n}{p+1} = \\binom{n+1}{p+1}$.\n• **Binôme** : $(a+b)^n = \\sum_{k=0}^n \\binom{n}{k} a^k b^{n-k}$ dans un anneau commutatif.\n• Si $|E| = |F|$ est fini, pour $f : E \\to F$ : $f$ injective $\\iff$ $f$ surjective $\\iff$ $f$ bijective.\n\n**Théorème** : $|\\mathcal{P}(E)| = 2^p$.\n**Démonstration.** L'application $\\Phi : \\mathcal{P}(E) \\to \\{0, 1\\}^E$ qui à $A$ associe sa fonction indicatrice $\\mathbf{1}_A$ est bijective : sa réciproque associe à $g : E \\to \\{0,1\\}$ la partie $g^{-1}(\\{1\\})$. Donc $|\\mathcal{P}(E)| = |\\{0,1\\}^E| = 2^p$. (Variante : $\\sum_{k=0}^p \\binom{p}{k} = (1+1)^p$.)"
+        "title": "7. Ensembles finis et dénombrement",
+        "content": "Soient $E$, $F$ finis, $|E| = p$, $|F| = n$.\n• **Réunion** : $|A \\cup B| = |A| + |B| - |A \\cap B|$. **Produit** : $|E \\times F| = pn$. **Applications** : $|F^E| = n^p$.\n• **Injections** de $E$ dans $F$ ($p \\le n$) : $n(n-1)\\cdots(n-p+1) = \\dfrac{n!}{(n-p)!}$ ; c'est aussi le nombre d'**arrangements** de $p$ éléments parmi $n$ ($p$-uplets d'éléments distincts de $F$), noté $A_n^p$ ; **permutations** de $E$ : $p!$.\n• **Parties à $p$ éléments** d'un ensemble à $n$ éléments : $\\binom{n}{p} = \\dfrac{n!}{p!\\,(n-p)!}$, avec $\\binom{n}{p} = \\binom{n}{n-p}$ et la formule de Pascal $\\binom{n}{p} + \\binom{n}{p+1} = \\binom{n+1}{p+1}$.\n• **Binôme** : $(a+b)^n = \\sum_{k=0}^n \\binom{n}{k} a^k b^{n-k}$ pour des réels ou des complexes $a$ et $b$ ; la preuve, par récurrence avec la formule de Pascal, n'utilise que $ab = ba$, donc la formule vaut aussi pour deux matrices carrées qui commutent (chapitre L1-MAT).\n• Si $|E| = |F|$ est fini, pour $f : E \\to F$ : $f$ injective $\\iff$ $f$ surjective $\\iff$ $f$ bijective.\n\n**Théorème** : $|\\mathcal{P}(E)| = 2^p$.\n**Démonstration.** L'application $\\Phi : \\mathcal{P}(E) \\to \\{0, 1\\}^E$ qui à $A$ associe sa fonction indicatrice $\\mathbf{1}_A$ est bijective : sa réciproque associe à $g : E \\to \\{0,1\\}$ la partie $g^{-1}(\\{1\\})$. Donc $|\\mathcal{P}(E)| = |\\{0,1\\}^E| = 2^p$. (Variante : $\\sum_{k=0}^p \\binom{p}{k} = (1+1)^p$.)"
+      },
+      {
+        "title": "8. Pour aller plus loin : construction de N, Z et Q",
+        "content": "• **Entiers naturels** : on admet l'existence d'un ensemble $\\mathbb{N}$ muni d'un élément $0$ et d'une application **successeur** $s : \\mathbb{N} \\to \\mathbb{N}$ injective, avec $0 \\notin s(\\mathbb{N})$, vérifiant l'**axiome de récurrence** : toute partie $A \\subset \\mathbb{N}$ qui contient $0$ et qui est stable par $s$ est égale à $\\mathbb{N}$ (axiomes de Peano). L'addition et la multiplication se définissent par récurrence ($n + 0 = n$ et $n + s(m) = s(n + m)$ ; $n \\times 0 = 0$ et $n \\times s(m) = n \\times m + n$), et le principe de récurrence de la section 2 découle de l'axiome.\n• **Construction de $\\mathbb{Z}$** : on représente l'entier « $a - b$ » par le couple $(a, b) \\in \\mathbb{N}^2$. On pose $(a, b) \\sim (a', b') \\iff a + b' = a' + b$ : c'est une relation d'équivalence sur $\\mathbb{N}^2$, et $\\mathbb{Z} = \\mathbb{N}^2/\\!\\sim$. Les opérations $\\overline{(a, b)} + \\overline{(c, d)} = \\overline{(a + c, b + d)}$ et $\\overline{(a, b)} \\times \\overline{(c, d)} = \\overline{(ac + bd, ad + bc)}$ ne dépendent pas des représentants choisis. On identifie $n \\in \\mathbb{N}$ à $\\overline{(n, 0)}$, et $-n$ désigne $\\overline{(0, n)}$.\n• **Construction de $\\mathbb{Q}$** : on représente « $\\frac{p}{q}$ » par le couple $(p, q) \\in \\mathbb{Z} \\times \\mathbb{Z}^*$ et l'on pose $(p, q) \\sim (p', q') \\iff pq' = p'q$. $\\mathbb{Q}$ est l'ensemble quotient, muni de $\\frac{p}{q} + \\frac{p'}{q'} = \\frac{pq' + p'q}{qq'}$ et $\\frac{p}{q} \\times \\frac{p'}{q'} = \\frac{pp'}{qq'}$ ; on identifie $n \\in \\mathbb{Z}$ à la classe de $(n, 1)$.\n\n**Vérification** (transitivité dans la construction de $\\mathbb{Q}$) : si $pq' = p'q$ et $p'q'' = p''q'$, alors $pq'q'' = p'qq'' = p''qq'$, donc $q'(pq'' - p''q) = 0$ ; comme $q' \\neq 0$ et qu'un produit nul d'entiers a un facteur nul, $pq'' = p''q$. La réflexivité et la symétrie sont immédiates.\n• **Et $\\mathbb{R}$ ?** $\\mathbb{Q}$ ne vérifie pas la propriété de la borne supérieure (chapitre L1-REL, section 3). La construction de $\\mathbb{R}$ (par les coupures de Dedekind ou par les suites de Cauchy de rationnels) dépasse le cadre de ce cours : on admet l'existence d'un corps totalement ordonné $\\mathbb{R}$ contenant $\\mathbb{Q}$ et vérifiant la propriété de la borne supérieure."
       }
     ],
     "methods": [
@@ -92,6 +101,10 @@ window.MATHS_COURSES_L1 = {
         "a": "$2^n$ parties, dont $\\binom{n}{p} = \\frac{n!}{p!\\,(n-p)!}$ à $p$ éléments ($0 \\le p \\le n$)."
       },
       {
+        "q": "Énoncer les lois de De Morgan pour deux parties $A$ et $B$ d'un ensemble $E$.",
+        "a": "$\\overline{A \\cup B} = \\overline{A} \\cap \\overline{B}$ et $\\overline{A \\cap B} = \\overline{A} \\cup \\overline{B}$, où $\\overline{X}$ désigne le complémentaire de $X$ dans $E$."
+      },
+      {
         "q": "Si $g \\circ f$ est bijective, que peut-on dire de $f$ et de $g$ ?",
         "a": "$f$ est injective et $g$ est surjective (sans plus en général)."
       }
@@ -110,7 +123,7 @@ window.MATHS_COURSES_L1 = {
     "keyPoints": [
       {
         "title": "1. Opérations sur les matrices",
-        "content": "• **Produit** : pour $A \\in \\mathcal{M}_{n,p}(\\mathbb{K})$ et $B \\in \\mathcal{M}_{p,q}(\\mathbb{K})$, $AB \\in \\mathcal{M}_{n,q}(\\mathbb{K})$ et $(AB)_{ij} = \\sum_{k=1}^p a_{ik} b_{kj}$. Le produit est associatif, distributif sur l'addition, mais **non commutatif** pour $n \\ge 2$.\n• $\\mathcal{M}_{n,p}(\\mathbb{K})$ est un espace vectoriel de dimension $np$, de base les matrices élémentaires $E_{ij}$.\n• **Transposée** : $({}^t\\!A)_{ij} = a_{ji}$ ; $\\,{}^t(AB) = {}^t\\!B\\,{}^t\\!A$. $A$ est **symétrique** si $\\,{}^t\\!A = A$, **antisymétrique** si $\\,{}^t\\!A = -A$.\n• **Trace** : $\\operatorname{Tr}(A) = \\sum_{i=1}^n a_{ii}$ ; elle est linéaire et $\\operatorname{Tr}(AB) = \\operatorname{Tr}(BA)$.\n• **Binôme de Newton** : si $AB = BA$, alors $(A + B)^m = \\sum_{k=0}^m \\binom{m}{k} A^k B^{m-k}$. Exemple : $N = \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix}$ vérifie $N^2 = 0$, donc $(I_2 + N)^m = I_2 + mN$."
+        "content": "• **Produit** : pour $A \\in \\mathcal{M}_{n,p}(\\mathbb{K})$ et $B \\in \\mathcal{M}_{p,q}(\\mathbb{K})$, $AB \\in \\mathcal{M}_{n,q}(\\mathbb{K})$ et $(AB)_{ij} = \\sum_{k=1}^p a_{ik} b_{kj}$. Le produit est associatif, distributif sur l'addition, mais **non commutatif** pour $n \\ge 2$.\n• $\\mathcal{M}_{n,p}(\\mathbb{K})$ est un espace vectoriel de dimension $np$, de base les matrices élémentaires $E_{ij}$ (notions d'espace vectoriel, de base et de dimension employées ici par anticipation : elles sont définies au chapitre L1-EV1).\n• **Transposée** : $({}^t\\!A)_{ij} = a_{ji}$ ; $\\,{}^t(AB) = {}^t\\!B\\,{}^t\\!A$. $A$ est **symétrique** si $\\,{}^t\\!A = A$, **antisymétrique** si $\\,{}^t\\!A = -A$.\n• **Trace** : $\\mathrm{tr}(A) = \\sum_{i=1}^n a_{ii}$ ; elle est linéaire et $\\mathrm{tr}(AB) = \\mathrm{tr}(BA)$.\n• **Binôme de Newton** : si $AB = BA$, alors $(A + B)^m = \\sum_{k=0}^m \\binom{m}{k} A^k B^{m-k}$. Exemple : $N = \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix}$ vérifie $N^2 = 0$, donc $(I_2 + N)^m = I_2 + mN$.\n• **Matrice nilpotente** : $N \\in \\mathcal{M}_n(\\mathbb{K})$ est **nilpotente** s'il existe un entier $p \\ge 1$ tel que $N^p = 0$ ; le plus petit tel entier est son **indice de nilpotence**. Une matrice **triangulaire supérieure stricte** (coefficients nuls sur la diagonale et en dessous) de taille $n$ vérifie $N^n = 0$ : on montre par récurrence sur $k$ que $(N^k)_{ij} = 0$ dès que $j < i + k$. Une matrice nilpotente n'est jamais inversible : si $N^p = 0$ avec $N$ inversible, on aurait $I_n = N^{-p}N^p = 0$.\n• **Exemple** : $N = \\begin{pmatrix} 0 & 1 & 0 \\\\ 0 & 0 & 2 \\\\ 0 & 0 & 0 \\end{pmatrix}$ vérifie $N^2 = \\begin{pmatrix} 0 & 0 & 2 \\\\ 0 & 0 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} \\neq 0$ et $N^3 = 0$ : son indice de nilpotence est $3$."
       },
       {
         "title": "2. Systèmes linéaires et opérations élémentaires",
@@ -118,11 +131,11 @@ window.MATHS_COURSES_L1 = {
       },
       {
         "title": "3. Rang d'une matrice et compatibilité",
-        "content": "• Le **rang** $\\operatorname{rg}(A)$ est la dimension de l'espace engendré par les colonnes de $A$ ; c'est aussi le **nombre de pivots** de toute forme échelonnée de $A$ (les opérations élémentaires conservent le rang).\n• $\\operatorname{rg}(A) \\le \\min(n, p)$ et $\\operatorname{rg}({}^t\\!A) = \\operatorname{rg}(A)$.\n• Le système $AX = B$ ($p$ inconnues) est **compatible** si et seulement si $\\operatorname{rg}(A \\mid B) = \\operatorname{rg}(A)$ ; l'ensemble des solutions dépend alors de $p - \\operatorname{rg}(A)$ paramètres.\n• **Exemple** : $\\begin{pmatrix} 1 & 2 \\\\ 2 & 4 \\end{pmatrix}$ est de rang $1$ ($L_2 \\leftarrow L_2 - 2L_1$ annule la deuxième ligne)."
+        "content": "• Le **rang** $\\operatorname{rg}(A)$ est le **nombre de pivots** d'une forme échelonnée de $A$.\n• **Ce nombre ne dépend pas de la forme échelonnée choisie.** Les opérations élémentaires sur les lignes ne changent pas les solutions de $AX = 0$, donc pas les relations de dépendance linéaire entre les colonnes. Or, sur une forme échelonnée, une colonne contient un pivot si et seulement si elle n'est pas combinaison linéaire des colonnes situées à sa gauche : les positions des pivots ne dépendent donc que de $A$.\n• **Renvoi en avant** : la dimension n'est définie qu'au chapitre L1-EV1. On verra alors, au chapitre L1-APP, que $\\operatorname{rg}(A)$ est aussi la dimension de l'espace engendré par les colonnes de $A$. Jusque-là, seule la définition par les pivots est utilisée.\n• $\\operatorname{rg}(A) \\le \\min(n, p)$, car il y a au plus un pivot par ligne et par colonne. On admet à ce stade que $\\operatorname{rg}({}^t\\!A) = \\operatorname{rg}(A)$.\n• Le système $AX = B$ ($p$ inconnues) est **compatible** si et seulement si $\\operatorname{rg}(A \\mid B) = \\operatorname{rg}(A)$ ; l'ensemble des solutions dépend alors de $p - \\operatorname{rg}(A)$ paramètres.\n• **Exemple** : $\\begin{pmatrix} 1 & 2 \\\\ 2 & 4 \\end{pmatrix}$ est de rang $1$ ($L_2 \\leftarrow L_2 - 2L_1$ annule la deuxième ligne)."
       },
       {
         "title": "4. Matrices inversibles : caractérisations",
-        "content": "$A \\in \\mathcal{M}_n(\\mathbb{K})$ est **inversible** s'il existe $B$ telle que $AB = BA = I_n$ ; l'ensemble $GL_n(\\mathbb{K})$ des matrices inversibles est un groupe, avec $(AB)^{-1} = B^{-1}A^{-1}$ et $({}^t\\!A)^{-1} = {}^t(A^{-1})$.\n**Théorème** : pour $A \\in \\mathcal{M}_n(\\mathbb{K})$, sont équivalents : (i) $A$ inversible ; (ii) $AX = 0 \\implies X = 0$ ; (iii) pour tout $B$, $AX = B$ a une unique solution ; (iv) $\\operatorname{rg}(A) = n$ ; (v) il existe $B$ telle que $BA = I_n$ ; (vi) $\\det(A) \\neq 0$.\n\n**Démonstration de (v) $\\implies$ (i)** (un inverse à gauche suffit).\n1. Si $BA = I_n$ et $AX = 0$, alors $X = BAX = 0$ : l'application linéaire $u : X \\mapsto AX$ de $\\mathbb{K}^n$ dans $\\mathbb{K}^n$ est injective.\n2. Par le théorème du rang (chapitre L1-APP), $\\operatorname{rg}(u) = n$, donc $u$ est bijective : il existe $C$ telle que $AC = I_n$ (colonnes de $C$ : antécédents des vecteurs de la base canonique).\n3. Alors $B = B(AC) = (BA)C = C$, donc $AB = BA = I_n$ : $A$ est inversible et $A^{-1} = B$."
+        "content": "$A \\in \\mathcal{M}_n(\\mathbb{K})$ est **inversible** s'il existe $B$ telle que $AB = BA = I_n$ ; l'ensemble $GL_n(\\mathbb{K})$ des matrices inversibles est un groupe, avec $(AB)^{-1} = B^{-1}A^{-1}$ et $({}^t\\!A)^{-1} = {}^t(A^{-1})$.\n**Théorème** : pour $A \\in \\mathcal{M}_n(\\mathbb{K})$, sont équivalents : (i) $A$ inversible ; (ii) $AX = 0 \\implies X = 0$ ; (iii) pour tout $B$, $AX = B$ a une unique solution ; (iv) $\\operatorname{rg}(A) = n$ ; (v) il existe $B$ telle que $BA = I_n$ ; (vi) $\\det(A) \\neq 0$.\n\n**Démonstration de (v) $\\implies$ (i)** (un inverse à gauche suffit).\n1. Si $BA = I_n$ et $AX = 0$, alors $X = BAX = 0$ : le système $AX = 0$ n'a que la solution nulle.\n2. Ce système n'a donc aucune inconnue libre : toute forme échelonnée de $A$ a $n$ pivots, donc aucune ligne nulle. Ainsi, pour tout second membre, le système de matrice $A$ est compatible ; en résolvant $AX = e_j$ pour chaque colonne $e_j$ de $I_n$, on obtient $C$ telle que $AC = I_n$. (Au chapitre L1-APP, le théorème du rang redonnera ce résultat : une application linéaire injective de $\\mathbb{K}^n$ dans lui-même est bijective.)\n3. Alors $B = B(AC) = (BA)C = C$, donc $AB = BA = I_n$ : $A$ est inversible et $A^{-1} = B$."
       },
       {
         "title": "5. Calcul de l'inverse : méthode de Gauss-Jordan",
@@ -196,7 +209,7 @@ window.MATHS_COURSES_L1 = {
       "Démontrer qu'une partie est un sous-espace vectoriel ; manipuler sous-espace engendré, intersection et somme.",
       "Définir famille libre, famille génératrice, base, et calculer des coordonnées.",
       "Énoncer le théorème de la base incomplète et les propriétés de la dimension finie.",
-      "Caractériser une somme directe, des sous-espaces supplémentaires, et démontrer la formule de Grassmann."
+      "Caractériser une somme directe de deux ou de $p$ sous-espaces, des sous-espaces supplémentaires, et démontrer la formule de Grassmann."
     ],
     "keyPoints": [
       {
@@ -217,7 +230,7 @@ window.MATHS_COURSES_L1 = {
       },
       {
         "title": "5. Somme, somme directe, supplémentaires",
-        "content": "• **Somme** : $F + G = \\{f + g \\mid f \\in F,\\ g \\in G\\}$ est le plus petit sous-espace contenant $F \\cup G$.\n• **Somme directe** : la somme est **directe**, notée $F \\oplus G$, si tout vecteur de $F + G$ s'écrit de manière unique $f + g$.\n• **Supplémentaires** : $F$ et $G$ sont supplémentaires dans $E$ si $E = F \\oplus G$. En dimension finie, tout sous-espace admet un supplémentaire (base incomplète), qui n'est pas unique.\n\n**Proposition** : $F + G$ est directe si et seulement si $F \\cap G = \\{0_E\\}$.\n**Démonstration.** Si la somme est directe et $x \\in F \\cap G$, alors $x = x + 0_E = 0_E + x$ sont deux décompositions, donc $x = 0_E$. Réciproquement, si $f + g = f' + g'$, alors $f - f' = g' - g \\in F \\cap G = \\{0_E\\}$, donc $f = f'$ et $g = g'$.\n• **Exemples** : dans $\\mathbb{R}^3$, le plan $P : x + y + z = 0$ et la droite $D = \\mathrm{Vect}\\big((1,1,1)\\big)$ sont supplémentaires ($(1,1,1) \\notin P$ et $2 + 1 = 3$). Dans $\\mathbb{R}^{\\mathbb{R}}$, fonctions paires et impaires sont supplémentaires : $f(x) = \\frac{f(x) + f(-x)}{2} + \\frac{f(x) - f(-x)}{2}$."
+        "content": "• **Somme** : $F + G = \\{f + g \\mid f \\in F,\\ g \\in G\\}$ est le plus petit sous-espace contenant $F \\cup G$.\n• **Somme directe** : la somme est **directe**, notée $F \\oplus G$, si tout vecteur de $F + G$ s'écrit de manière unique $f + g$.\n• **Supplémentaires** : $F$ et $G$ sont supplémentaires dans $E$ si $E = F \\oplus G$. En dimension finie, tout sous-espace admet un supplémentaire (base incomplète), qui n'est pas unique.\n\n**Proposition** : $F + G$ est directe si et seulement si $F \\cap G = \\{0_E\\}$.\n**Démonstration.** Si la somme est directe et $x \\in F \\cap G$, alors $x = x + 0_E = 0_E + x$ sont deux décompositions, donc $x = 0_E$. Réciproquement, si $f + g = f' + g'$, alors $f - f' = g' - g \\in F \\cap G = \\{0_E\\}$, donc $f = f'$ et $g = g'$.\n• **Exemples** : dans $\\mathbb{R}^3$, le plan $P : x + y + z = 0$ et la droite $D = \\mathrm{Vect}\\big((1,1,1)\\big)$ sont supplémentaires ($(1,1,1) \\notin P$ et $2 + 1 = 3$). Dans $\\mathbb{R}^{\\mathbb{R}}$, fonctions paires et impaires sont supplémentaires : $f(x) = \\frac{f(x) + f(-x)}{2} + \\frac{f(x) - f(-x)}{2}$.\n\n**Somme de $p$ sous-espaces.** $F_1 + \\dots + F_p = \\{x_1 + \\dots + x_p \\mid x_i \\in F_i\\}$. Elle est **directe**, notée $F_1 \\oplus \\dots \\oplus F_p$, si tout vecteur de la somme s'écrit de manière unique $x_1 + \\dots + x_p$ avec $x_i \\in F_i$.\n• **Critère** : la somme est directe si et seulement si $x_1 + \\dots + x_p = 0_E$ (avec $x_i \\in F_i$) entraîne $x_1 = \\dots = x_p = 0_E$ : la différence de deux décompositions d'un même vecteur est une décomposition de $0_E$.\n• **En dimension finie** : $\\dim(F_1 + \\dots + F_p) \\le \\dim F_1 + \\dots + \\dim F_p$, avec égalité si et seulement si la somme est directe ; on obtient alors une base de la somme en mettant bout à bout des bases des $F_i$.\n• **Attention** : dès $p = 3$, les conditions $F_i \\cap F_j = \\{0_E\\}$ pour $i \\neq j$ ne suffisent pas : trois droites vectorielles distinctes de $\\mathbb{R}^2$ ont des intersections deux à deux réduites à $\\{0\\}$, mais leur somme n'est pas directe ($1 + 1 + 1 > 2$)."
       },
       {
         "title": "6. Formule de Grassmann",
@@ -278,6 +291,10 @@ window.MATHS_COURSES_L1 = {
       {
         "q": "En dimension $n$, quand une famille de $n$ vecteurs est-elle une base ?",
         "a": "Dès qu'elle est libre, ou dès qu'elle est génératrice (l'une des deux propriétés suffit)."
+      },
+      {
+        "q": "Comment vérifier en dimension finie que $F_1 + \\dots + F_p$ est directe ?",
+        "a": "Il faut et il suffit que $\\dim(F_1 + \\dots + F_p) = \\dim F_1 + \\dots + \\dim F_p$. Les intersections deux à deux nulles ne suffisent pas dès $p = 3$."
       }
     ]
   },
@@ -289,7 +306,8 @@ window.MATHS_COURSES_L1 = {
       "Utiliser les critères d'injectivité ($\\mathrm{Ker}\\, f = \\{0_E\\}$) et de surjectivité ($\\mathrm{Im}\\, f = F$).",
       "Énoncer et démontrer le théorème du rang : $\\dim E = \\dim \\mathrm{Ker}\\, f + \\mathrm{rg}\\, f$.",
       "Représenter une application linéaire par une matrice dans des bases données et calculer avec ces matrices.",
-      "Appliquer les formules de changement de base $X = PX'$ et $A' = P^{-1}AP$."
+      "Appliquer les formules de changement de base $X = PX'$ et $A' = P^{-1}AP$.",
+      "Reconnaître une homothétie, un projecteur ($p \\circ p = p$), une symétrie ($s \\circ s = \\mathrm{Id}_E$) et les décrire à l'aide d'une décomposition $E = F \\oplus G$."
     ],
     "keyPoints": [
       {
@@ -310,11 +328,15 @@ window.MATHS_COURSES_L1 = {
       },
       {
         "title": "5. Matrice d'une application linéaire",
-        "content": "Soient $\\mathcal{B} = (e_1, \\dots, e_p)$ une base de $E$ et $\\mathcal{C} = (\\varepsilon_1, \\dots, \\varepsilon_n)$ une base de $F$.\n• $\\mathrm{Mat}_{\\mathcal{B}, \\mathcal{C}}(f) \\in \\mathcal{M}_{n,p}(\\mathbb{K})$ a pour $j$-ième colonne les coordonnées de $f(e_j)$ dans $\\mathcal{C}$.\n• Si $X$ et $Y$ sont les colonnes de coordonnées de $x$ et de $y = f(x)$, alors $Y = AX$.\n• $\\mathrm{Mat}(g \\circ f) = \\mathrm{Mat}(g)\\,\\mathrm{Mat}(f)$ (bases compatibles) ; $\\mathrm{rg}\\, f = \\mathrm{rg}\\, A$ ; $f$ est un isomorphisme si et seulement si $A$ est carrée inversible, et $\\mathrm{Mat}(f^{-1}) = A^{-1}$.\n• **Exemple** : la dérivation $D$ sur $\\mathbb{R}_2[X]$, base $(1, X, X^2)$ : $D(1) = 0$, $D(X) = 1$, $D(X^2) = 2X$, d'où\n$$\\mathrm{Mat}(D) = \\begin{pmatrix} 0 & 1 & 0 \\\\ 0 & 0 & 2 \\\\ 0 & 0 & 0 \\end{pmatrix}, \\quad \\mathrm{rg}\\, D = 2, \\quad \\mathrm{Ker}\\, D = \\mathbb{R}_0[X].$$"
+        "content": "Soient $\\mathcal{B} = (e_1, \\dots, e_p)$ une base de $E$ et $\\mathcal{C} = (\\varepsilon_1, \\dots, \\varepsilon_n)$ une base de $F$.\n• $\\mathrm{Mat}_{\\mathcal{B}, \\mathcal{C}}(f) \\in \\mathcal{M}_{n,p}(\\mathbb{K})$ a pour $j$-ième colonne les coordonnées de $f(e_j)$ dans $\\mathcal{C}$.\n• Si $X$ et $Y$ sont les colonnes de coordonnées de $x$ et de $y = f(x)$, alors $Y = AX$.\n• $\\mathrm{Mat}(g \\circ f) = \\mathrm{Mat}(g)\\,\\mathrm{Mat}(f)$ (bases compatibles) ; $\\mathrm{rg}\\, f = \\mathrm{rg}\\, A$ (les colonnes de $A$ sont les coordonnées d'une famille génératrice de $\\mathrm{Im}\\, f$, et ses colonnes à pivot en donnent une base : $\\mathrm{rg}\\, A$, défini au chapitre L1-MAT comme le nombre de pivots, est donc aussi la dimension de l'espace engendré par les colonnes de $A$) ; $f$ est un isomorphisme si et seulement si $A$ est carrée inversible, et $\\mathrm{Mat}(f^{-1}) = A^{-1}$.\n• **Exemple** : la dérivation $D$ sur $\\mathbb{R}_2[X]$, base $(1, X, X^2)$ : $D(1) = 0$, $D(X) = 1$, $D(X^2) = 2X$, d'où\n$$\\mathrm{Mat}(D) = \\begin{pmatrix} 0 & 1 & 0 \\\\ 0 & 0 & 2 \\\\ 0 & 0 & 0 \\end{pmatrix}, \\quad \\mathrm{rg}\\, D = 2, \\quad \\mathrm{Ker}\\, D = \\mathbb{R}_0[X].$$\n• **Endomorphisme nilpotent** : $u \\in \\mathcal{L}(E)$ est **nilpotent** s'il existe $p \\ge 1$ tel que $u^p = u \\circ \\dots \\circ u = 0$. En dimension finie, cela revient à dire que sa matrice dans une base (et alors dans toute base) est nilpotente (chapitre L1-MAT, section 1). Exemple : la dérivation $D$ ci-dessus vérifie $D^3 = 0$, et sa matrice est triangulaire supérieure stricte.\n• **Propriété** : si $\\dim E = n$, $u^n = 0$ et $u^{n-1}(x_0) \\neq 0_E$ pour un vecteur $x_0$, alors $\\big(x_0, u(x_0), \\dots, u^{n-1}(x_0)\\big)$ est une base de $E$.\n**Démonstration.** Supposons $\\sum_{k=0}^{n-1} \\lambda_k u^k(x_0) = 0_E$ avec des $\\lambda_k$ non tous nuls, et soit $j$ le plus petit indice tel que $\\lambda_j \\neq 0$. En appliquant $u^{n-1-j}$, chaque terme d'indice $k > j$ devient $\\lambda_k u^{n-1-j+k}(x_0) = 0_E$ (exposant $\\ge n$), d'où $\\lambda_j u^{n-1}(x_0) = 0_E$ : contradiction. La famille est libre et compte $n = \\dim E$ vecteurs : c'est une base."
       },
       {
         "title": "6. Changement de base",
-        "content": "• La **matrice de passage** $P = P_{\\mathcal{B} \\to \\mathcal{B}'}$ a pour colonnes les coordonnées des vecteurs de la nouvelle base $\\mathcal{B}'$ dans l'ancienne base $\\mathcal{B}$ ; elle est inversible et $P^{-1} = P_{\\mathcal{B}' \\to \\mathcal{B}}$.\n• **Coordonnées** : si $X$ (ancienne base) et $X'$ (nouvelle base) représentent le même vecteur, alors $X = PX'$.\n• **Application linéaire** : $A' = Q^{-1}AP$, où $P$ est le passage dans $E$ et $Q$ dans $F$. **Endomorphisme** : $A' = P^{-1}AP$ ; on dit que $A$ et $A'$ sont **semblables**. Deux matrices semblables ont même rang, même trace, même déterminant.\n• **Exemple** : $f$ de matrice $A = \\begin{pmatrix} 2 & 1 \\\\ 1 & 2 \\end{pmatrix}$ dans la base canonique de $\\mathbb{R}^2$ ; avec $\\mathcal{B}' = \\big((1,1), (1,-1)\\big)$, $f(1,1) = (3,3)$ et $f(1,-1) = (1,-1)$, donc $A' = \\begin{pmatrix} 3 & 0 \\\\ 0 & 1 \\end{pmatrix}$ (et l'on vérifie $\\operatorname{Tr} A = \\operatorname{Tr} A' = 4$, $\\det A = \\det A' = 3$)."
+        "content": "• La **matrice de passage** $P = P_{\\mathcal{B} \\to \\mathcal{B}'}$ a pour colonnes les coordonnées des vecteurs de la nouvelle base $\\mathcal{B}'$ dans l'ancienne base $\\mathcal{B}$ ; elle est inversible et $P^{-1} = P_{\\mathcal{B}' \\to \\mathcal{B}}$.\n• **Coordonnées** : si $X$ (ancienne base) et $X'$ (nouvelle base) représentent le même vecteur, alors $X = PX'$.\n• **Application linéaire** : $A' = Q^{-1}AP$, où $P$ est le passage dans $E$ et $Q$ dans $F$. **Endomorphisme** : $A' = P^{-1}AP$ ; on dit que $A$ et $A'$ sont **semblables**. Deux matrices semblables ont même rang, même trace, même déterminant.\n• **Exemple** : $f$ de matrice $A = \\begin{pmatrix} 2 & 1 \\\\ 1 & 2 \\end{pmatrix}$ dans la base canonique de $\\mathbb{R}^2$ ; avec $\\mathcal{B}' = \\big((1,1), (1,-1)\\big)$, $f(1,1) = (3,3)$ et $f(1,-1) = (1,-1)$, donc $A' = \\begin{pmatrix} 3 & 0 \\\\ 0 & 1 \\end{pmatrix}$ (et l'on vérifie $\\mathrm{tr} A = \\mathrm{tr} A' = 4$, $\\det A = \\det A' = 3$)."
+      },
+      {
+        "title": "7. Homothéties, projecteurs et symétries vectorielles",
+        "content": "Soit $E$ un $\\mathbb{K}$-espace vectoriel, avec $\\mathbb{K} = \\mathbb{R}$ ou $\\mathbb{C}$.\n• **Homothétie** de rapport $\\lambda \\in \\mathbb{K}$ : $h = \\lambda\\,\\mathrm{Id}_E$, soit $h(x) = \\lambda x$. Si $\\lambda \\neq 0$, c'est un automorphisme, de réciproque $\\frac{1}{\\lambda}\\mathrm{Id}_E$.\n• **Projection** : si $E = F \\oplus G$, tout $x \\in E$ s'écrit de manière unique $x = x_F + x_G$ avec $x_F \\in F$ et $x_G \\in G$. La **projection sur $F$ parallèlement à $G$** est l'application linéaire $p : x \\mapsto x_F$. On a $\\mathrm{Im}\\, p = F$, $\\mathrm{Ker}\\, p = G$ et $p \\circ p = p$.\n\n**Théorème** : si $p \\in \\mathcal{L}(E)$ vérifie $p \\circ p = p$ (on dit que $p$ est un **projecteur**), alors $E = \\mathrm{Ker}\\, p \\oplus \\mathrm{Im}\\, p$ et $p$ est la projection sur $\\mathrm{Im}\\, p$ parallèlement à $\\mathrm{Ker}\\, p$.\n**Démonstration.**\n1. **Somme** : pour $x \\in E$, on écrit $x = (x - p(x)) + p(x)$. On a $p(x) \\in \\mathrm{Im}\\, p$, et $p(x - p(x)) = p(x) - p^2(x) = 0_E$, donc $x - p(x) \\in \\mathrm{Ker}\\, p$.\n2. **Somme directe** : si $y \\in \\mathrm{Ker}\\, p \\cap \\mathrm{Im}\\, p$, il existe $z$ tel que $y = p(z)$, d'où $y = p(z) = p^2(z) = p(y) = 0_E$.\n3. **Identification** : la composante de $x$ sur $\\mathrm{Im}\\, p$ est $p(x)$, d'après le point 1 : $p$ est bien la projection annoncée. De plus, $\\mathrm{Im}\\, p = \\mathrm{Ker}(p - \\mathrm{Id}_E)$ : si $y = p(z)$, alors $p(y) = p^2(z) = y$, et réciproquement $y = p(y)$ est dans l'image.\n\n• **Symétrie** : si $E = F \\oplus G$, la **symétrie par rapport à $F$ parallèlement à $G$** est $s : x_F + x_G \\mapsto x_F - x_G$. Si $p$ est la projection sur $F$ parallèlement à $G$, alors $s = 2p - \\mathrm{Id}_E$, et $s \\circ s = \\mathrm{Id}_E$.\n• **Réciproque** : si $s \\in \\mathcal{L}(E)$ vérifie $s \\circ s = \\mathrm{Id}_E$, alors $p = \\frac{1}{2}(s + \\mathrm{Id}_E)$ vérifie $p^2 = \\frac{1}{4}(s^2 + 2s + \\mathrm{Id}_E) = \\frac{1}{2}(s + \\mathrm{Id}_E) = p$. Ainsi $s = 2p - \\mathrm{Id}_E$ est la symétrie par rapport à $\\mathrm{Ker}(s - \\mathrm{Id}_E)$ parallèlement à $\\mathrm{Ker}(s + \\mathrm{Id}_E)$.\n• **En dimension finie $n$**, dans une base obtenue en réunissant une base de $F$ (de dimension $r$) et une base de $G$, $p$ a pour matrice $\\begin{pmatrix} I_r & 0 \\\\ 0 & 0 \\end{pmatrix}$ et $s$ a pour matrice $\\begin{pmatrix} I_r & 0 \\\\ 0 & -I_{n-r} \\end{pmatrix}$. Donc $\\mathrm{tr}\\, p = \\mathrm{rg}\\, p = r$, $\\mathrm{tr}\\, s = 2r - n$ et $\\det s = (-1)^{n-r}$.\n• **Exemple** : sur $\\mathbb{R}^2$, $p(x, y) = (x + y, 0)$ vérifie $p^2(x, y) = p(x + y, 0) = (x + y, 0) = p(x, y)$. C'est la projection sur $\\mathrm{Im}\\, p = \\mathrm{Vect}\\big((1, 0)\\big)$ parallèlement à $\\mathrm{Ker}\\, p = \\mathrm{Vect}\\big((1, -1)\\big)$, et la symétrie associée est $s(x, y) = (x + 2y, -y)$."
       }
     ],
     "methods": [
@@ -343,7 +365,8 @@ window.MATHS_COURSES_L1 = {
       "L'équivalence injective $\\iff$ surjective exige $\\dim E = \\dim F$ finie : la dérivation sur $\\mathbb{K}[X]$ est surjective mais pas injective (les constantes sont dans le noyau).",
       "Le théorème du rang ne dit pas que $E = \\mathrm{Ker}\\, f \\oplus \\mathrm{Im}\\, f$ : pour $f(x, y) = (y, 0)$ sur $\\mathbb{R}^2$, $\\mathrm{Ker}\\, f = \\mathrm{Im}\\, f = \\mathrm{Vect}\\big((1, 0)\\big)$.",
       "La matrice de passage exprime la **nouvelle** base dans l'**ancienne**, et $X = PX'$ donne les anciennes coordonnées en fonction des nouvelles (et non l'inverse).",
-      "Une matrice dépend des bases choisies : parler de « la matrice de $f$ » sans préciser les bases n'a pas de sens."
+      "Une matrice dépend des bases choisies : parler de « la matrice de $f$ » sans préciser les bases n'a pas de sens.",
+      "Une projection dépend du sous-espace $F$ **et** du supplémentaire $G$ : sur $\\mathbb{R}^2$, projeter sur $\\mathrm{Vect}\\big((1, 0)\\big)$ parallèlement à $\\mathrm{Vect}\\big((0, 1)\\big)$ ou parallèlement à $\\mathrm{Vect}\\big((1, -1)\\big)$ donne deux applications différentes."
     ],
     "flashcards": [
       {
@@ -369,6 +392,14 @@ window.MATHS_COURSES_L1 = {
       {
         "q": "Quels invariants partagent deux matrices semblables ?",
         "a": "Le rang, la trace et le déterminant (entre autres)."
+      },
+      {
+        "q": "Que peut-on dire d'un endomorphisme $p$ tel que $p \\circ p = p$ ?",
+        "a": "C'est un projecteur : $E = \\mathrm{Ker}\\, p \\oplus \\mathrm{Im}\\, p$ et $p$ est la projection sur $\\mathrm{Im}\\, p$ parallèlement à $\\mathrm{Ker}\\, p$."
+      },
+      {
+        "q": "Quel lien relie une symétrie $s$ et le projecteur $p$ associé ?",
+        "a": "$s = 2p - \\mathrm{Id}_E$, soit $p = \\frac{1}{2}(s + \\mathrm{Id}_E)$ ; $s \\circ s = \\mathrm{Id}_E$ caractérise les symétries."
       }
     ]
   },
@@ -405,7 +436,11 @@ window.MATHS_COURSES_L1 = {
       },
       {
         "title": "6. Premières notions de topologie de R",
-        "content": "• **Voisinage** de $a$ : partie contenant un intervalle $]a - r ; a + r[$ avec $r > 0$.\n• **Ouvert** : $U$ est ouvert si $\\forall x \\in U,\\ \\exists r > 0,\\ ]x - r ; x + r[\\, \\subset U$. Exemples : $]a ; b[$, $\\mathbb{R}$, $\\emptyset$, toute réunion d'ouverts.\n• **Fermé** : $F$ est fermé si $\\mathbb{R} \\setminus F$ est ouvert. Exemples : $[a ; b]$, $\\mathbb{Z}$, toute intersection de fermés. $[0 ; 1[$ n'est ni ouvert ni fermé.\n• **Caractérisation séquentielle** : $F$ est fermé si et seulement si la limite de toute suite convergente d'éléments de $F$ appartient à $F$.\n• Un segment $[a ; b]$ est fermé et borné ; de toute suite à valeurs dans $[a ; b]$ on peut extraire une suite convergeant dans $[a ; b]$ (théorème de Bolzano-Weierstrass, chapitre L1-SUI)."
+        "content": "• **Voisinage** de $a$ : partie contenant un intervalle $]a - r ; a + r[$ avec $r > 0$.\n• **Ouvert** : $U$ est ouvert si $\\forall x \\in U,\\ \\exists r > 0,\\ ]x - r ; x + r[\\, \\subset U$. Exemples : $]a ; b[$, $\\mathbb{R}$, $\\emptyset$, toute réunion d'ouverts.\n• **Fermé** : $F$ est fermé si $\\mathbb{R} \\setminus F$ est ouvert. Exemples : $[a ; b]$, $\\mathbb{Z}$, toute intersection de fermés. $[0 ; 1[$ n'est ni ouvert ni fermé.\n• **Caractérisation séquentielle** : $F$ est fermé si et seulement si la limite de toute suite convergente d'éléments de $F$ appartient à $F$.\n• Un segment $[a ; b]$ est fermé et borné ; de toute suite à valeurs dans $[a ; b]$ on peut extraire une suite convergeant dans $[a ; b]$ (théorème de Bolzano-Weierstrass, chapitre L1-SUI).\n• **Adhérence** : $a \\in \\mathbb{R}$ est **adhérent** à $A \\subset \\mathbb{R}$ si tout intervalle $]a - r ; a + r[$ ($r > 0$) rencontre $A$ ; cela équivaut à : $a$ est la limite d'une suite d'éléments de $A$. L'**adhérence** $\\overline{A}$ est l'ensemble des points adhérents à $A$ : c'est le plus petit fermé contenant $A$, et $A$ est fermé si et seulement si $\\overline{A} = A$. À ne pas confondre avec une valeur d'adhérence d'une **suite** (chapitre L1-SUI, section 5).\n• **Intérieur** : $a$ est **intérieur** à $A$ s'il existe $r > 0$ tel que $]a - r ; a + r[\\, \\subset A$. L'**intérieur** $\\mathring{A}$ est l'ensemble des points intérieurs : c'est le plus grand ouvert contenu dans $A$, et $A$ est ouvert si et seulement si $\\mathring{A} = A$. La **frontière** de $A$ est $\\partial A = \\overline{A} \\setminus \\mathring{A}$.\n• **Exemples** : pour $A = [0 ; 1[$, $\\overline{A} = [0 ; 1]$, $\\mathring{A} = ]0 ; 1[$ et $\\partial A = \\{0, 1\\}$. Dans $[0 ; 1] \\cup \\{2\\}$, le point isolé $2$ est adhérent mais pas intérieur. Comme $\\mathbb{Q}$ et $\\mathbb{R} \\setminus \\mathbb{Q}$ sont denses (section 5), $\\overline{\\mathbb{Q}} = \\mathbb{R}$ et $\\mathring{\\mathbb{Q}} = \\emptyset$. Plus généralement, une partie $D$ est **dense** dans $\\mathbb{R}$ si et seulement si $\\overline{D} = \\mathbb{R}$."
+      },
+      {
+        "title": "7. Sous-groupes additifs de R",
+        "content": "Un **sous-groupe** de $(\\mathbb{R}, +)$ est une partie $G$ non vide telle que $x - y \\in G$ pour tous $x, y \\in G$ (elle contient alors $0$, les opposés et les sommes de ses éléments). Exemples : $\\{0\\}$, $a\\mathbb{Z} = \\{ka \\mid k \\in \\mathbb{Z}\\}$, $\\mathbb{Q}$, $\\mathbb{Z} + \\sqrt{2}\\,\\mathbb{Z}$.\n\n**Théorème** : tout sous-groupe $G$ de $(\\mathbb{R}, +)$ est de la forme $a\\mathbb{Z}$ avec $a \\ge 0$, ou bien est dense dans $\\mathbb{R}$.\n**Démonstration.**\n1. Si $G = \\{0\\}$, alors $G = 0\\mathbb{Z}$. Sinon, $G$ contient un réel $x \\neq 0$, donc aussi $|x| > 0$ (car $-x \\in G$) : la partie $G \\cap \\mathbb{R}_+^*$ est non vide et minorée par $0$, et l'on pose $a = \\inf(G \\cap \\mathbb{R}_+^*) \\ge 0$.\n2. **Cas $a > 0$.** Montrons que $a \\in G$. Sinon, par la caractérisation de la borne inférieure, il existe $g_1 \\in G$ avec $a < g_1 < 2a$, puis $g_2 \\in G$ avec $a < g_2 < g_1$ ; alors $g_1 - g_2 \\in G$ et $0 < g_1 - g_2 < a$, ce qui contredit la définition de $a$. Donc $a \\in G$ et $a\\mathbb{Z} \\subset G$. Soit $g \\in G$ et $k = \\left\\lfloor \\frac{g}{a} \\right\\rfloor$ : $r = g - ka$ appartient à $G$ et $0 \\le r < a$, donc $r = 0$ (sinon $r$ contredirait la définition de $a$). Ainsi $G = a\\mathbb{Z}$.\n3. **Cas $a = 0$.** Soient $x < y$ deux réels. Il existe $g \\in G$ tel que $0 < g < y - x$. Pour $k = \\left\\lfloor \\frac{x}{g} \\right\\rfloor + 1$, on a $x < kg \\le x + g < y$, et $kg \\in G$. Tout intervalle ouvert non vide rencontre $G$ : $G$ est dense dans $\\mathbb{R}$.\n• **Application** : $\\mathbb{Z} + \\sqrt{2}\\,\\mathbb{Z}$ est dense dans $\\mathbb{R}$. Sinon, il serait égal à $a\\mathbb{Z}$ avec $a > 0$ (il contient $1$, donc n'est pas $\\{0\\}$) : on aurait $1 = pa$ et $\\sqrt{2} = qa$ avec $p, q \\in \\mathbb{Z}$, $p \\neq 0$, d'où $\\sqrt{2} = \\frac{q}{p} \\in \\mathbb{Q}$, ce qui est absurde (section 3)."
       }
     ],
     "methods": [
@@ -472,7 +507,8 @@ window.MATHS_COURSES_L1 = {
       "Appliquer les théorèmes d'opérations, de comparaison, d'encadrement et de la limite monotone.",
       "Démontrer le théorème des suites adjacentes et l'utiliser.",
       "Utiliser les suites extraites, le théorème de Bolzano-Weierstrass et la notion de suite de Cauchy.",
-      "Étudier une suite récurrente $u_{n+1} = f(u_n)$ et manipuler les relations de comparaison $o$, $O$, $\\sim$."
+      "Étudier une suite récurrente $u_{n+1} = f(u_n)$ et manipuler les relations de comparaison $o$, $O$, $\\sim$.",
+      "Résoudre une récurrence linéaire d'ordre 2 à coefficients constants à l'aide de l'équation caractéristique."
     ],
     "keyPoints": [
       {
@@ -493,15 +529,23 @@ window.MATHS_COURSES_L1 = {
       },
       {
         "title": "5. Suites extraites, Bolzano-Weierstrass, suites de Cauchy",
-        "content": "• Une **suite extraite** de $(u_n)$ est $(u_{\\varphi(n)})$ avec $\\varphi : \\mathbb{N} \\to \\mathbb{N}$ strictement croissante. Si $u_n \\to \\ell$, toute suite extraite tend vers $\\ell$. Si $u_{2n} \\to \\ell$ et $u_{2n+1} \\to \\ell$, alors $u_n \\to \\ell$.\n• **Application** : $\\big((-1)^n\\big)$ diverge, car ses extraites $(u_{2n})$ et $(u_{2n+1})$ tendent vers $1$ et $-1$.\n• **Théorème de Bolzano-Weierstrass** : de toute suite réelle bornée on peut extraire une suite convergente. La limite d'une suite extraite convergente est une **valeur d'adhérence** de $(u_n)$.\n• **Suite de Cauchy** : $\\forall \\varepsilon > 0,\\ \\exists N,\\ \\forall p, q \\ge N,\\ |u_p - u_q| \\le \\varepsilon$.\n• **Complétude de $\\mathbb{R}$** : une suite réelle converge si et seulement si elle est de Cauchy (le sens « converge $\\implies$ Cauchy » est immédiat ; la réciproque utilise Bolzano-Weierstrass)."
+        "content": "• Une **suite extraite** de $(u_n)$ est $(u_{\\varphi(n)})$ avec $\\varphi : \\mathbb{N} \\to \\mathbb{N}$ strictement croissante. Si $u_n \\to \\ell$, toute suite extraite tend vers $\\ell$. Si $u_{2n} \\to \\ell$ et $u_{2n+1} \\to \\ell$, alors $u_n \\to \\ell$.\n• **Application** : $\\big((-1)^n\\big)$ diverge, car ses extraites $(u_{2n})$ et $(u_{2n+1})$ tendent vers $1$ et $-1$.\n• **Théorème de Bolzano-Weierstrass** : de toute suite réelle bornée on peut extraire une suite convergente (démonstration par dichotomie : chapitre L1-PRF, section 2). La limite d'une suite extraite convergente est une **valeur d'adhérence** de $(u_n)$.\n• **Suite de Cauchy** : $\\forall \\varepsilon > 0,\\ \\exists N,\\ \\forall p, q \\ge N,\\ |u_p - u_q| \\le \\varepsilon$.\n• **Complétude de $\\mathbb{R}$** : une suite réelle converge si et seulement si elle est de Cauchy (le sens « converge $\\implies$ Cauchy » est immédiat ; la réciproque utilise Bolzano-Weierstrass)."
       },
       {
         "title": "6. Suites récurrentes u(n+1) = f(u(n))",
-        "content": "Soit $f : I \\to \\mathbb{R}$ avec $I$ un intervalle **stable** ($f(I) \\subset I$) et $u_0 \\in I$ ; la suite est alors bien définie.\n• **Limite possible** : si $f$ est continue sur $I$ et si $u_n \\to \\ell \\in I$, alors $f(\\ell) = \\ell$ ($\\ell$ est un point fixe).\n• **$f$ croissante sur $I$** : $(u_n)$ est monotone, croissante si $u_1 \\ge u_0$, décroissante si $u_1 \\le u_0$ (récurrence : $u_n \\le u_{n+1} \\implies f(u_n) \\le f(u_{n+1})$).\n• **$f$ décroissante sur $I$** : $(u_{2n})$ et $(u_{2n+1})$ sont monotones de sens contraires (car $f \\circ f$ est croissante).\n• **$f$ contractante** : si $|f(x) - f(y)| \\le k|x - y|$ sur $I$ avec $0 \\le k < 1$ et $f(\\ell) = \\ell$, alors $|u_n - \\ell| \\le k^n |u_0 - \\ell|$, donc $u_n \\to \\ell$. C'est le cas si $|f'| \\le k$ sur $I$ (inégalité des accroissements finis)."
+        "content": "Soit $f : I \\to \\mathbb{R}$ avec $I$ un intervalle **stable** ($f(I) \\subset I$) et $u_0 \\in I$ ; la suite est alors bien définie.\n• **Limite possible** : si $f$ est continue sur $I$ et si $u_n \\to \\ell \\in I$, alors $f(\\ell) = \\ell$ ($\\ell$ est un point fixe).\n• **$f$ croissante sur $I$** : $(u_n)$ est monotone, croissante si $u_1 \\ge u_0$, décroissante si $u_1 \\le u_0$ (récurrence : $u_n \\le u_{n+1} \\implies f(u_n) \\le f(u_{n+1})$).\n• **$f$ décroissante sur $I$** : $(u_{2n})$ et $(u_{2n+1})$ sont monotones de sens contraires (car $f \\circ f$ est croissante).\n• **$f$ contractante** : si $|f(x) - f(y)| \\le k|x - y|$ sur $I$ avec $0 \\le k < 1$ et $f(\\ell) = \\ell$, alors $|u_n - \\ell| \\le k^n |u_0 - \\ell|$, donc $u_n \\to \\ell$. C'est le cas si $f$ est dérivable avec $|f'| \\le k$ sur $I$ (conséquence du théorème des accroissements finis, démontré au chapitre L1-PRF, section 3).\n• **Cas arithmético-géométrique** : $u_{n+1} = a u_n + b$ avec $a \\neq 1$. L'unique point fixe de $x \\mapsto ax + b$ est $\\ell = \\frac{b}{1 - a}$. La suite auxiliaire $v_n = u_n - \\ell$ vérifie $v_{n+1} = a u_n + b - (a\\ell + b) = a v_n$ : elle est géométrique de raison $a$, donc $u_n = \\ell + a^n (u_0 - \\ell)$. Si $|a| < 1$, alors $u_n \\to \\ell$ ; si $|a| \\ge 1$ et $u_0 \\neq \\ell$, la suite diverge. **Exemple** : pour $u_0 = 1$ et $u_{n+1} = \\frac{1}{3}u_n + 2$, on a $\\ell = 3$ et $u_n = 3 - \\frac{2}{3^n} \\to 3$."
       },
       {
         "title": "7. Relations de comparaison",
         "content": "Soit $(v_n)$ non nulle à partir d'un certain rang.\n• $u_n = o(v_n)$ si $\\frac{u_n}{v_n} \\to 0$ ; $u_n = O(v_n)$ si $\\left(\\frac{u_n}{v_n}\\right)$ est bornée ; $u_n \\sim v_n$ si $\\frac{u_n}{v_n} \\to 1$, ce qui équivaut à $u_n - v_n = o(v_n)$.\n• **Croissances comparées** : pour $\\alpha, \\beta > 0$ et $q > 1$, $(\\ln n)^\\alpha = o(n^\\beta)$, $n^\\beta = o(q^n)$ et $q^n = o(n!)$.\n• **Règles** : les équivalents se multiplient, se divisent et s'élèvent à une puissance fixe ; deux suites équivalentes ont la même limite (si elle existe) et le même signe à partir d'un certain rang.\n• **Exemple** : $\\frac{n^2 + 3n}{2n^2 - 1} \\sim \\frac{n^2}{2n^2} = \\frac{1}{2}$, donc la suite tend vers $\\frac{1}{2}$."
+      },
+      {
+        "title": "8. Moyennes de Cesàro, limites supérieure et inférieure",
+        "content": "**Théorème de Cesàro** : si $u_n \\to \\ell \\in \\mathbb{R}$, alors $v_n = \\frac{u_1 + u_2 + \\dots + u_n}{n} \\to \\ell$.\n**Démonstration.** Soit $\\varepsilon > 0$ et $N$ tel que $|u_k - \\ell| \\le \\frac{\\varepsilon}{2}$ pour tout $k > N$. Pour $n > N$,\n$$|v_n - \\ell| \\le \\frac{1}{n}\\sum_{k=1}^{N} |u_k - \\ell| + \\frac{1}{n}\\sum_{k=N+1}^{n} |u_k - \\ell| \\le \\frac{A}{n} + \\frac{n - N}{n} \\cdot \\frac{\\varepsilon}{2},$$\noù $A = \\sum_{k=1}^{N} |u_k - \\ell|$ ne dépend pas de $n$. Pour $n$ assez grand, $\\frac{A}{n} \\le \\frac{\\varepsilon}{2}$, d'où $|v_n - \\ell| \\le \\varepsilon$.\n• Le théorème reste vrai pour $\\ell = +\\infty$ ou $\\ell = -\\infty$. **La réciproque est fausse** : $u_n = (-1)^n$ diverge, mais $|v_n| \\le \\frac{1}{n}$, donc $v_n \\to 0$.\n• **Limites supérieure et inférieure** : soit $(u_n)$ une suite bornée. La suite $s_n = \\sup_{k \\ge n} u_k$ est décroissante et minorée, la suite $i_n = \\inf_{k \\ge n} u_k$ est croissante et majorée ; toutes deux convergent (théorème de la limite monotone). On pose\n$$\\limsup_{n \\to +\\infty} u_n = \\lim_{n \\to +\\infty} s_n, \\qquad \\liminf_{n \\to +\\infty} u_n = \\lim_{n \\to +\\infty} i_n.$$\n• **Propriétés** (admises) : $\\liminf u_n \\le \\limsup u_n$ ; $\\limsup u_n$ est la **plus grande valeur d'adhérence** de $(u_n)$ et $\\liminf u_n$ la plus petite ; $(u_n)$ converge si et seulement si $\\liminf u_n = \\limsup u_n$, et cette valeur commune est alors sa limite.\n• **Exemple** : pour $u_n = (-1)^n\\left(1 + \\frac{1}{n}\\right)$ ($n \\ge 1$), on a $u_{2n} \\to 1$ et $u_{2n+1} \\to -1$. Une suite extraite a une infinité d'indices pairs ou une infinité d'indices impairs, donc les seules valeurs d'adhérence sont $1$ et $-1$ : $\\limsup u_n = 1$ et $\\liminf u_n = -1$."
+      },
+      {
+        "title": "9. Suites récurrentes linéaires d'ordre 2",
+        "content": "On considère les suites réelles vérifiant $u_{n+2} = a u_{n+1} + b u_n$ pour tout $n \\in \\mathbb{N}$, où $a$ et $b$ sont des réels, $b \\neq 0$.\n• **Structure** : l'ensemble de ces suites est un sous-espace vectoriel de l'espace des suites réelles, et l'application $(u_n) \\mapsto (u_0, u_1)$ en est un isomorphisme vers $\\mathbb{R}^2$ : il est de **dimension 2** (chapitre L1-EV1). Deux solutions non proportionnelles en forment donc une base.\n• **Équation caractéristique** : $r^2 = ar + b$. Pour $r \\neq 0$, la suite géométrique $(r^n)$ vérifie la relation si et seulement si $r$ est racine de cette équation. On note $\\Delta = a^2 + 4b$.\n• **Cas $\\Delta > 0$** : deux racines réelles distinctes $r_1$ et $r_2$ ; les solutions sont les suites $u_n = \\lambda r_1^n + \\mu r_2^n$.\n• **Cas $\\Delta = 0$** : une racine double $r_0 = \\frac{a}{2}$ ; les solutions sont les suites $u_n = (\\lambda + \\mu n)\\,r_0^n$. En effet, $(n r_0^n)$ convient : comme $a r_0 + b = r_0^2$ et $a r_0 = 2r_0^2$, on a $a(n + 1)r_0^{n+1} + b\\,n r_0^n = r_0^n\\big(n(a r_0 + b) + a r_0\\big) = (n + 2)\\,r_0^{n+2}$.\n• **Cas $\\Delta < 0$** : deux racines complexes conjuguées $\\rho e^{\\pm i\\theta}$ ; les solutions réelles sont les suites $u_n = \\rho^n\\big(\\lambda \\cos(n\\theta) + \\mu \\sin(n\\theta)\\big)$ (parties réelle et imaginaire de la solution complexe $(\\rho e^{i\\theta})^n$).\n• Dans chaque cas, $\\lambda$ et $\\mu$ sont déterminés de façon unique par $u_0$ et $u_1$.\n• **Exemple** : $u_0 = 0$, $u_1 = 1$ et $u_{n+2} = u_{n+1} + 2u_n$. L'équation $r^2 = r + 2$ a pour racines $2$ et $-1$, donc $u_n = \\lambda 2^n + \\mu(-1)^n$, avec $\\lambda + \\mu = 0$ et $2\\lambda - \\mu = 1$ : $\\lambda = \\frac{1}{3}$, $\\mu = -\\frac{1}{3}$ et $u_n = \\frac{2^n - (-1)^n}{3}$."
       }
     ],
     "methods": [
@@ -558,6 +602,14 @@ window.MATHS_COURSES_L1 = {
       {
         "q": "Comment montrer qu'une suite diverge à l'aide de suites extraites ?",
         "a": "Exhiber deux suites extraites ayant des limites différentes (ou une extraite divergente)."
+      },
+      {
+        "q": "Comment étudier une suite $u_{n+1} = a u_n + b$ avec $a \\neq 1$ ?",
+        "a": "On pose $\\ell = \\frac{b}{1 - a}$ (point fixe) et $v_n = u_n - \\ell$ : $(v_n)$ est géométrique de raison $a$, donc $u_n = \\ell + a^n (u_0 - \\ell)$."
+      },
+      {
+        "q": "Forme des suites vérifiant $u_{n+2} = a u_{n+1} + b u_n$ lorsque $r^2 = ar + b$ a une racine double $r_0$ ?",
+        "a": "$u_n = (\\lambda + \\mu n)\\,r_0^n$, où $\\lambda$ et $\\mu$ sont fixés par $u_0$ et $u_1$."
       }
     ]
   },
@@ -582,11 +634,11 @@ window.MATHS_COURSES_L1 = {
       },
       {
         "title": "3. Formule de Taylor avec reste intégral",
-        "content": "**Théorème** : si $f$ est de classe $\\mathcal{C}^{n+1}$ sur un intervalle $I$ et $a, x \\in I$,\n$$f(x) = \\sum_{k=0}^n \\frac{f^{(k)}(a)}{k!}(x - a)^k + \\int_a^x \\frac{(x - t)^n}{n!} f^{(n+1)}(t)\\, dt.$$\n**Démonstration** (récurrence sur $n$).\n1. **Rang $0$** : $f$ est $\\mathcal{C}^1$, donc $f(x) = f(a) + \\int_a^x f'(t)\\, dt$ (théorème fondamental de l'analyse).\n2. **Hérédité** : supposons la formule vraie au rang $n - 1$ pour les fonctions $\\mathcal{C}^n$, et soit $f$ de classe $\\mathcal{C}^{n+1}$. Le reste au rang $n - 1$ est $R_{n-1} = \\int_a^x \\frac{(x - t)^{n-1}}{(n-1)!} f^{(n)}(t)\\, dt$.\n3. On intègre par parties avec $u(t) = -\\frac{(x - t)^n}{n!}$, $u'(t) = \\frac{(x - t)^{n-1}}{(n-1)!}$, $v = f^{(n)}$, $v' = f^{(n+1)}$, toutes continues :\n$$R_{n-1} = \\left[-\\frac{(x - t)^n}{n!} f^{(n)}(t)\\right]_a^x + \\int_a^x \\frac{(x - t)^n}{n!} f^{(n+1)}(t)\\, dt = \\frac{f^{(n)}(a)}{n!}(x - a)^n + R_n.$$\n4. En reportant dans la formule au rang $n - 1$, on obtient la formule au rang $n$."
+        "content": "**Prérequis.** Ce chapitre utilise l'intégrale des fonctions continues telle qu'elle est vue en terminale : théorème fondamental de l'analyse, linéarité, croissance et intégration par parties. Sa construction (sommes de Riemann) et ses propriétés sont reprises au chapitre L1-INT ; on s'en sert ici pour le reste intégral et pour primitiver les DL.\n**Théorème** : si $f$ est de classe $\\mathcal{C}^{n+1}$ sur un intervalle $I$ et $a, x \\in I$,\n$$f(x) = \\sum_{k=0}^n \\frac{f^{(k)}(a)}{k!}(x - a)^k + \\int_a^x \\frac{(x - t)^n}{n!} f^{(n+1)}(t)\\, dt.$$\n**Démonstration** (récurrence sur $n$).\n1. **Rang $0$** : $f$ est $\\mathcal{C}^1$, donc $f(x) = f(a) + \\int_a^x f'(t)\\, dt$ (théorème fondamental de l'analyse).\n2. **Hérédité** : supposons la formule vraie au rang $n - 1$ pour les fonctions $\\mathcal{C}^n$, et soit $f$ de classe $\\mathcal{C}^{n+1}$. Le reste au rang $n - 1$ est $R_{n-1} = \\int_a^x \\frac{(x - t)^{n-1}}{(n-1)!} f^{(n)}(t)\\, dt$.\n3. On intègre par parties avec $u(t) = -\\frac{(x - t)^n}{n!}$, $u'(t) = \\frac{(x - t)^{n-1}}{(n-1)!}$, $v = f^{(n)}$, $v' = f^{(n+1)}$, toutes continues :\n$$R_{n-1} = \\left[-\\frac{(x - t)^n}{n!} f^{(n)}(t)\\right]_a^x + \\int_a^x \\frac{(x - t)^n}{n!} f^{(n+1)}(t)\\, dt = \\frac{f^{(n)}(a)}{n!}(x - a)^n + R_n.$$\n4. En reportant dans la formule au rang $n - 1$, on obtient la formule au rang $n$."
       },
       {
         "title": "4. Taylor-Lagrange et Taylor-Young",
-        "content": "• **Inégalité de Taylor-Lagrange** : si $f$ est $\\mathcal{C}^{n+1}$ sur $I$ et $|f^{(n+1)}| \\le M$ entre $a$ et $x$,\n$$\\left|f(x) - \\sum_{k=0}^n \\frac{f^{(k)}(a)}{k!}(x - a)^k\\right| \\le \\frac{M|x - a|^{n+1}}{(n+1)!}.$$\nElle se déduit du reste intégral, puisque $\\left|\\int_a^x \\frac{(x - t)^n}{n!}\\, dt\\right| = \\frac{|x - a|^{n+1}}{(n+1)!}$.\n• **Égalité de Taylor-Lagrange** : si $f$ est $n + 1$ fois dérivable et $x \\neq a$, il existe $c$ strictement entre $a$ et $x$ tel que le reste vaut $\\frac{f^{(n+1)}(c)}{(n+1)!}(x - a)^{n+1}$ (pour $n = 0$, c'est le TAF).\n• **Formule de Taylor-Young** : si $f$ est de classe $\\mathcal{C}^n$ sur $I$ (il suffit que $f$ soit $n$ fois dérivable en $a$),\n$$f(x) = \\sum_{k=0}^n \\frac{f^{(k)}(a)}{k!}(x - a)^k + o\\big((x - a)^n\\big) \\quad (x \\to a).$$\n• **Application** : pour tout $x \\in \\mathbb{R}$, $\\left|e^x - \\sum_{k=0}^n \\frac{x^k}{k!}\\right| \\le \\frac{e^{|x|}|x|^{n+1}}{(n+1)!} \\to 0$, donc $e^x = \\sum_{k=0}^{+\\infty} \\frac{x^k}{k!}$."
+        "content": "• **Inégalité de Taylor-Lagrange** : si $f$ est $\\mathcal{C}^{n+1}$ sur $I$ et $|f^{(n+1)}| \\le M$ entre $a$ et $x$,\n$$\\left|f(x) - \\sum_{k=0}^n \\frac{f^{(k)}(a)}{k!}(x - a)^k\\right| \\le \\frac{M|x - a|^{n+1}}{(n+1)!}.$$\nElle se déduit du reste intégral, puisque $\\left|\\int_a^x \\frac{(x - t)^n}{n!}\\, dt\\right| = \\frac{|x - a|^{n+1}}{(n+1)!}$.\n• **Égalité de Taylor-Lagrange** : si $f$ est $n + 1$ fois dérivable et $x \\neq a$, il existe $c$ strictement entre $a$ et $x$ tel que le reste vaut $\\frac{f^{(n+1)}(c)}{(n+1)!}(x - a)^{n+1}$ (pour $n = 0$, c'est le TAF).\n• **Formule de Taylor-Young** : si $f$ est de classe $\\mathcal{C}^n$ sur $I$ (il suffit que $f$ soit $n$ fois dérivable en $a$),\n$$f(x) = \\sum_{k=0}^n \\frac{f^{(k)}(a)}{k!}(x - a)^k + o\\big((x - a)^n\\big) \\quad (x \\to a).$$\n**Démonstration** (cas $f$ de classe $\\mathcal{C}^n$, $n \\ge 1$). La formule avec reste intégral à l'ordre $n - 1$ donne $f(x) = \\sum_{k=0}^{n-1} \\frac{f^{(k)}(a)}{k!}(x - a)^k + \\int_a^x \\frac{(x - t)^{n-1}}{(n-1)!} f^{(n)}(t)\\, dt$. Écrivons $f^{(n)}(t) = f^{(n)}(a) + \\varepsilon(t)$, où $\\varepsilon(t) \\to 0$ quand $t \\to a$ par continuité de $f^{(n)}$. Le terme constant donne $f^{(n)}(a) \\int_a^x \\frac{(x - t)^{n-1}}{(n-1)!}\\, dt = \\frac{f^{(n)}(a)}{n!}(x - a)^n$, et le reste vérifie $\\left|\\int_a^x \\frac{(x - t)^{n-1}}{(n-1)!} \\varepsilon(t)\\, dt\\right| \\le \\frac{|x - a|^n}{n!} \\sup_{t \\text{ entre } a \\text{ et } x} |\\varepsilon(t)|$. Ce sup tend vers $0$ quand $x \\to a$, donc ce reste est un $o\\big((x - a)^n\\big)$. Le cas où $f$ est seulement $n$ fois dérivable en $a$ se traite par récurrence sur $n$ (en appliquant l'hypothèse à $f'$ et en primitivant) ; il est admis ici.\n• **Application** : pour tout $x \\in \\mathbb{R}$, $\\left|e^x - \\sum_{k=0}^n \\frac{x^k}{k!}\\right| \\le \\frac{e^{|x|}|x|^{n+1}}{(n+1)!} \\to 0$, donc $e^x = \\sum_{k=0}^{+\\infty} \\frac{x^k}{k!}$."
       },
       {
         "title": "5. Développements limités usuels en 0",
@@ -691,7 +743,7 @@ window.MATHS_COURSES_L1 = {
       },
       {
         "title": "6. Primitives usuelles",
-        "content": "• $\\int x^\\alpha\\, dx = \\frac{x^{\\alpha+1}}{\\alpha + 1}$ ($\\alpha \\neq -1$) ; $\\int \\frac{dx}{x} = \\ln|x|$ sur $]-\\infty ; 0[$ ou sur $]0 ; +\\infty[$ ; $\\int \\frac{u'}{u} = \\ln|u|$.\n• $\\int \\frac{dx}{1 + x^2} = \\arctan x$ ; $\\int \\frac{dx}{\\sqrt{1 - x^2}} = \\arcsin x$ sur $]-1 ; 1[$ ; $\\int u'e^u = e^u$.\n• **Trinôme sans racine réelle** : on écrit la forme canonique. Exemple : $x^2 + 2x + 5 = (x + 1)^2 + 4$, d'où\n$$\\int \\frac{dx}{x^2 + 2x + 5} = \\frac{1}{2}\\arctan\\left(\\frac{x + 1}{2}\\right) + C.$$\n• **Fractions rationnelles** : décomposition en éléments simples (chapitre L1-CMP), puis primitivation de chaque terme."
+        "content": "• $\\int x^\\alpha\\, dx = \\frac{x^{\\alpha+1}}{\\alpha + 1}$ ($\\alpha \\neq -1$) ; $\\int \\frac{dx}{x} = \\ln|x|$ sur $]-\\infty ; 0[$ ou sur $]0 ; +\\infty[$ ; $\\int \\frac{u'}{u} = \\ln|u|$.\n• $\\int \\frac{dx}{1 + x^2} = \\arctan x$ ; $\\int \\frac{dx}{\\sqrt{1 - x^2}} = \\arcsin x$ sur $]-1 ; 1[$ (fonctions $\\arctan$ et $\\arcsin$ : voir le chapitre L1-CNT, section 8) ; $\\int u'e^u = e^u$.\n• **Trinôme sans racine réelle** : on écrit la forme canonique. Exemple : $x^2 + 2x + 5 = (x + 1)^2 + 4$, d'où\n$$\\int \\frac{dx}{x^2 + 2x + 5} = \\frac{1}{2}\\arctan\\left(\\frac{x + 1}{2}\\right) + C.$$\n• **Fractions rationnelles** : décomposition en éléments simples (chapitre L1-CMP), puis primitivation de chaque terme."
       }
     ],
     "methods": [
@@ -760,14 +812,15 @@ window.MATHS_COURSES_L1 = {
     ]
   },
   "L1-CMP": {
-    "title": "L1-CMP : Nombres complexes, arithmétique des polynômes et fractions rationnelles",
+    "title": "L1-CMP : Nombres complexes et arithmétique des polynômes dans K[X]",
     "domain": "Algèbre Fondamentale",
     "objectives": [
       "Maîtriser les formes algébrique, trigonométrique et exponentielle d'un nombre complexe, les formules d'Euler et de Moivre.",
       "Calculer les racines $n$-ièmes d'un nombre complexe, en particulier les racines de l'unité $\\mathbb{U}_n$.",
-      "Démontrer l'existence et l'unicité de la division euclidienne dans $\\mathbb{K}[X]$ ; utiliser PGCD, théorèmes de Bézout et de Gauss.",
+      "Démontrer l'existence et l'unicité de la division euclidienne dans $\\mathbb{K}[X]$ (avec $\\mathbb{K} = \\mathbb{R}$ ou $\\mathbb{C}$) ; utiliser PGCD, théorèmes de Bézout et de Gauss.",
       "Relier racines, multiplicité et dérivées ; factoriser dans $\\mathbb{C}[X]$ et $\\mathbb{R}[X]$ grâce au théorème de d'Alembert-Gauss.",
-      "Décomposer une fraction rationnelle en éléments simples dans $\\mathbb{C}(X)$ et $\\mathbb{R}(X)$."
+      "Décomposer une fraction rationnelle en éléments simples dans $\\mathbb{C}(X)$ et $\\mathbb{R}(X)$.",
+      "Transposer cette arithmétique à $\\mathbb{Z}$ : algorithme d'Euclide, Bézout, Gauss, congruences et inverses modulo $n$, petit théorème de Fermat."
     ],
     "keyPoints": [
       {
@@ -780,7 +833,7 @@ window.MATHS_COURSES_L1 = {
       },
       {
         "title": "3. Polynômes et division euclidienne",
-        "content": "• Pour $P, Q \\in \\mathbb{K}[X]$ : $\\deg(PQ) = \\deg P + \\deg Q$ et $\\deg(P + Q) \\le \\max(\\deg P, \\deg Q)$ (convention $\\deg 0 = -\\infty$).\n**Théorème** : pour $A, B \\in \\mathbb{K}[X]$ avec $B \\neq 0$, il existe un unique couple $(Q, R)$ tel que $A = BQ + R$ et $\\deg R < \\deg B$.\n**Démonstration.** Notons $m = \\deg B$ et $b$ le coefficient dominant de $B$.\n1. **Existence** (récurrence forte sur $\\deg A$). Si $\\deg A < m$, on prend $Q = 0$, $R = A$. Sinon, soient $n = \\deg A \\ge m$ et $a$ son coefficient dominant ; $A_1 = A - \\frac{a}{b}X^{n-m}B$ a un degré $< n$ (les termes de degré $n$ se compensent). Par hypothèse de récurrence, $A_1 = BQ_1 + R_1$ avec $\\deg R_1 < m$, d'où $A = B\\left(Q_1 + \\frac{a}{b}X^{n-m}\\right) + R_1$.\n2. **Unicité** : si $BQ + R = BQ' + R'$, alors $B(Q - Q') = R' - R$. Si $Q \\neq Q'$, le membre de gauche est de degré $\\ge m$, celui de droite de degré $< m$ : contradiction. Donc $Q = Q'$, puis $R = R'$.\n• **Exemple** : $X^3 + 2 = 1 \\cdot (X^3 - X) + (X + 2)$."
+        "content": "Dans tout le chapitre, $\\mathbb{K}$ désigne $\\mathbb{R}$ ou $\\mathbb{C}$.\n• Pour $P, Q \\in \\mathbb{K}[X]$ : $\\deg(PQ) = \\deg P + \\deg Q$ et $\\deg(P + Q) \\le \\max(\\deg P, \\deg Q)$ (convention $\\deg 0 = -\\infty$).\n**Théorème** : pour $A, B \\in \\mathbb{K}[X]$ avec $B \\neq 0$, il existe un unique couple $(Q, R)$ tel que $A = BQ + R$ et $\\deg R < \\deg B$.\n**Démonstration.** Notons $m = \\deg B$ et $b$ le coefficient dominant de $B$.\n1. **Existence** (récurrence forte sur $\\deg A$). Si $\\deg A < m$, on prend $Q = 0$, $R = A$. Sinon, soient $n = \\deg A \\ge m$ et $a$ son coefficient dominant ; $A_1 = A - \\frac{a}{b}X^{n-m}B$ a un degré $< n$ (les termes de degré $n$ se compensent). Par hypothèse de récurrence, $A_1 = BQ_1 + R_1$ avec $\\deg R_1 < m$, d'où $A = B\\left(Q_1 + \\frac{a}{b}X^{n-m}\\right) + R_1$.\n2. **Unicité** : si $BQ + R = BQ' + R'$, alors $B(Q - Q') = R' - R$. Si $Q \\neq Q'$, le membre de gauche est de degré $\\ge m$, celui de droite de degré $< m$ : contradiction. Donc $Q = Q'$, puis $R = R'$.\n• **Exemple** : $X^3 + 2 = 1 \\cdot (X^3 - X) + (X + 2)$."
       },
       {
         "title": "4. Arithmétique dans K[X] : PGCD, Bézout, Gauss",
@@ -788,11 +841,15 @@ window.MATHS_COURSES_L1 = {
       },
       {
         "title": "5. Racines, multiplicité, factorisation",
-        "content": "• $a$ est **racine** de $P$ si et seulement si $(X - a)$ divise $P$ (reste de la division par $X - a$ : $P(a)$). Un polynôme non nul de degré $n$ a au plus $n$ racines.\n• $a$ est racine de **multiplicité** $m$ si $(X - a)^m$ divise $P$ mais pas $(X - a)^{m+1}$ ; cela équivaut à $P(a) = P'(a) = \\dots = P^{(m-1)}(a) = 0$ et $P^{(m)}(a) \\neq 0$.\n• **Théorème de d'Alembert-Gauss** : tout polynôme non constant de $\\mathbb{C}[X]$ admet au moins une racine complexe. Par récurrence, tout $P \\in \\mathbb{C}[X]$ de degré $n \\ge 1$ est **scindé** : $P = \\lambda\\prod_j (X - z_j)^{m_j}$ avec $\\sum m_j = n$.\n• **Dans $\\mathbb{R}[X]$** : si $P$ est à coefficients réels, $P(\\bar{z}) = \\overline{P(z)}$, donc les racines non réelles vont par paires conjuguées de même multiplicité. Les irréductibles de $\\mathbb{R}[X]$ sont les polynômes de degré $1$ et ceux de degré $2$ à discriminant strictement négatif.\n• **Exemple** : $X^4 + 1 = (X^2 + 1)^2 - 2X^2 = (X^2 - \\sqrt{2}X + 1)(X^2 + \\sqrt{2}X + 1)$ dans $\\mathbb{R}[X]$.\n• **Relations coefficients-racines** (degré $2$) : si $z_1$, $z_2$ sont les racines de $X^2 - sX + p$, alors $z_1 + z_2 = s$ et $z_1 z_2 = p$."
+        "content": "• $a$ est **racine** de $P$ si et seulement si $(X - a)$ divise $P$ (reste de la division par $X - a$ : $P(a)$). Un polynôme non nul de degré $n$ a au plus $n$ racines.\n• $a$ est racine de **multiplicité** $m$ si $(X - a)^m$ divise $P$ mais pas $(X - a)^{m+1}$ ; cela équivaut à $P(a) = P'(a) = \\dots = P^{(m-1)}(a) = 0$ et $P^{(m)}(a) \\neq 0$.\n• **Racines multiples et PGCD** : soit $P \\in \\mathbb{C}[X]$ non constant. Si $a$ est racine de $P$ de multiplicité $m \\ge 1$, alors $a$ est racine de $P'$ de multiplicité exactement $m - 1$ : en écrivant $P = (X - a)^m Q$ avec $Q(a) \\neq 0$, on obtient $P' = (X - a)^{m-1}\\big(mQ + (X - a)Q'\\big)$, et $mQ(a) \\neq 0$. Le PGCD de deux polynômes scindés étant le produit des $(X - a)^k$, où $a$ parcourt leurs racines communes et $k$ est la plus petite des deux multiplicités, les racines de $\\mathrm{PGCD}(P, P')$ sont exactement les racines multiples de $P$, chacune avec sa multiplicité diminuée de $1$. En particulier, $P$ n'a que des racines simples si et seulement si $\\mathrm{PGCD}(P, P') = 1$.\n• **Exemple** : $P = X^4 - 2X^3 + 2X - 1$ a pour dérivée $P' = 4X^3 - 6X^2 + 2 = 2(X - 1)^2(2X + 1)$. Comme $P(1) = 0$ et $P\\left(-\\frac{1}{2}\\right) = \\frac{1}{16} + \\frac{1}{4} - 1 - 1 \\neq 0$, la racine $1$ de $P$ a une multiplicité $m$ telle que $m - 1 = 2$ : $\\mathrm{PGCD}(P, P') = (X - 1)^2$, $1$ est racine triple, et $P = (X - 1)^3(X + 1)$.\n• **Théorème de d'Alembert-Gauss** : tout polynôme non constant de $\\mathbb{C}[X]$ admet au moins une racine complexe. Par récurrence, tout $P \\in \\mathbb{C}[X]$ de degré $n \\ge 1$ est **scindé** : $P = \\lambda\\prod_j (X - z_j)^{m_j}$ avec $\\sum m_j = n$.\n• **Dans $\\mathbb{R}[X]$** : si $P$ est à coefficients réels, $P(\\bar{z}) = \\overline{P(z)}$, donc les racines non réelles vont par paires conjuguées de même multiplicité. Les irréductibles de $\\mathbb{R}[X]$ sont les polynômes de degré $1$ et ceux de degré $2$ à discriminant strictement négatif.\n• **Exemple** : $X^4 + 1 = (X^2 + 1)^2 - 2X^2 = (X^2 - \\sqrt{2}X + 1)(X^2 + \\sqrt{2}X + 1)$ dans $\\mathbb{R}[X]$.\n• **Identité de Sophie Germain** : $a^4 + 4b^4 = (a^2 + 2b^2)^2 - (2ab)^2 = (a^2 - 2ab + 2b^2)(a^2 + 2ab + 2b^2)$.\n• **Relations coefficients-racines** : si $P = a_n X^n + \\dots + a_1 X + a_0$ ($a_n \\neq 0$) est scindé, de racines $z_1, \\dots, z_n$ comptées avec multiplicité, alors $\\sum_{k=1}^n z_k = -\\frac{a_{n-1}}{a_n}$ et $\\prod_{k=1}^n z_k = (-1)^n\\frac{a_0}{a_n}$. Plus généralement, $\\sigma_k = \\sum_{i_1 < \\dots < i_k} z_{i_1} \\cdots z_{i_k} = (-1)^k\\frac{a_{n-k}}{a_n}$.\n• **Cas du degré $2$** : si $z_1$, $z_2$ sont les racines de $X^2 - sX + p$, alors $z_1 + z_2 = s$ et $z_1 z_2 = p$."
       },
       {
         "title": "6. Fractions rationnelles et décomposition en éléments simples",
         "content": "Soit $F = \\frac{N}{D}$ écrite sous **forme irréductible** ; les racines de $D$ sont les **pôles** de $F$.\n• **Partie entière** : le quotient $E$ de la division euclidienne de $N$ par $D$ ; $E = 0$ si $\\deg N < \\deg D$.\n• **Dans $\\mathbb{C}(X)$** : si $D = \\prod_i (X - a_i)^{m_i}$, alors $F = E + \\sum_i \\sum_{j=1}^{m_i} \\frac{\\lambda_{i,j}}{(X - a_i)^j}$, de manière unique.\n• **Dans $\\mathbb{R}(X)$** : aux pôles réels s'ajoutent, pour chaque facteur irréductible $(X^2 + pX + q)^k$ du dénominateur, des termes $\\frac{\\alpha_j X + \\beta_j}{(X^2 + pX + q)^j}$, $1 \\le j \\le k$.\n• **Pôle simple** : si $a$ est racine simple de $D$, le coefficient de $\\frac{1}{X - a}$ vaut $\\lambda = \\frac{N(a)}{D'(a)}$, ou encore la valeur en $a$ de $(X - a)F$.\n• **Pôle d'ordre $m$** : le coefficient de $\\frac{1}{(X - a)^m}$ est la valeur en $a$ de $(X - a)^m F$ ; les autres s'obtiennent par évaluation en des points particuliers, par parité ou par limite de $xF(x)$ en $+\\infty$.\n• **Exemple** : $\\frac{1}{X^2(X - 1)} = -\\frac{1}{X} - \\frac{1}{X^2} + \\frac{1}{X - 1}$ (coefficient de $\\frac{1}{X^2}$ : $-1$ ; de $\\frac{1}{X - 1}$ : $1$ ; la limite de $xF(x)$ en $+\\infty$, nulle, donne $-1$ pour $\\frac{1}{X}$)."
+      },
+      {
+        "title": "7. Arithmétique dans Z : PGCD, Bézout, congruences",
+        "content": "Les résultats de la section 4 ont leurs analogues dans $\\mathbb{Z}$, avec les mêmes démonstrations.\n• **Division euclidienne** : pour $a \\in \\mathbb{Z}$ et $b \\in \\mathbb{N}^*$, il existe un unique couple $(q, r) \\in \\mathbb{Z}^2$ tel que $a = bq + r$ et $0 \\le r < b$ (on prend $q = \\left\\lfloor \\frac{a}{b} \\right\\rfloor$).\n• **PGCD et algorithme d'Euclide** : $\\mathrm{pgcd}(a, b) = \\mathrm{pgcd}(b, r)$, donc le PGCD est le dernier reste non nul. **Exemple** : $84 = 1 \\times 60 + 24$, $60 = 2 \\times 24 + 12$, $24 = 2 \\times 12$, donc $\\mathrm{pgcd}(84, 60) = 12$ ; en remontant les calculs, $12 = 60 - 2 \\times 24 = 60 - 2(84 - 60) = 3 \\times 60 - 2 \\times 84$.\n• **Bézout** : $a$ et $b$ sont premiers entre eux si et seulement s'il existe $u, v \\in \\mathbb{Z}$ tels que $au + bv = 1$ ; en général, il existe $u, v$ tels que $au + bv = \\mathrm{pgcd}(a, b)$. **Gauss** : si $a \\mid bc$ et $\\mathrm{pgcd}(a, b) = 1$, alors $a \\mid c$. **Lemme d'Euclide** : si un nombre premier $p$ divise $bc$, il divise $b$ ou $c$ ; on en déduit l'unicité de la décomposition d'un entier $n \\ge 2$ en produit de nombres premiers.\n• **Congruences** : $a \\equiv b \\ [n]$ si $n \\mid a - b$. C'est une relation d'équivalence (chapitre L1-LOG, section 5), compatible avec l'addition et la multiplication, ce qui définit ces deux opérations sur $\\mathbb{Z}/n\\mathbb{Z}$. **Inversibles** : $\\bar{a}$ est inversible dans $\\mathbb{Z}/n\\mathbb{Z}$ si et seulement si $\\mathrm{pgcd}(a, n) = 1$, et si $au + nv = 1$, son inverse est $\\bar{u}$. Si $p$ est premier, $\\mathbb{Z}/p\\mathbb{Z}$ est donc un corps. **Exemple** : $5 \\times (-5) + 26 \\times 1 = 1$, donc l'inverse de $\\bar{5}$ dans $\\mathbb{Z}/26\\mathbb{Z}$ est $\\overline{-5} = \\overline{21}$ (contrôle : $5 \\times 21 = 105 = 4 \\times 26 + 1$).\n\n**Petit théorème de Fermat** : si $p$ est premier et si $p$ ne divise pas $a$, alors $a^{p-1} \\equiv 1 \\ [p]$.\n**Démonstration.** Les $p - 1$ entiers $a, 2a, \\dots, (p - 1)a$ ne sont pas divisibles par $p$ (lemme d'Euclide) et sont deux à deux non congrus modulo $p$ : si $ia \\equiv ja \\ [p]$ avec $1 \\le j \\le i \\le p - 1$, alors $p \\mid (i - j)a$, donc $p \\mid i - j$, d'où $i = j$. Leurs restes sont donc $1, 2, \\dots, p - 1$ dans un autre ordre. En faisant le produit, $a^{p-1}(p - 1)! \\equiv (p - 1)! \\ [p]$ ; comme $(p - 1)!$ est premier avec $p$, le théorème de Gauss permet de simplifier : $a^{p-1} \\equiv 1 \\ [p]$.\n• **Lemme chinois** : si $\\mathrm{pgcd}(m, n) = 1$, le système $x \\equiv a \\ [m]$, $x \\equiv b \\ [n]$ admet des solutions, qui forment exactement une classe modulo $mn$. Si $mu + nv = 1$, l'entier $x_0 = bmu + anv$ convient. **Exemple** : pour $x \\equiv 2 \\ [3]$ et $x \\equiv 3 \\ [5]$, on a $3 \\times 2 + 5 \\times (-1) = 1$, puis $x_0 = 3 \\times 3 \\times 2 + 2 \\times 5 \\times (-1) = 8$ : les solutions sont les entiers $x \\equiv 8 \\ [15]$."
       }
     ],
     "methods": [
@@ -860,16 +917,19 @@ window.MATHS_COURSES_L1 = {
       "Démontrer le théorème des valeurs intermédiaires et utiliser le théorème de la bijection.",
       "Démontrer qu'une fonction continue sur un segment est bornée et atteint ses bornes.",
       "Définir la continuité uniforme et démontrer le théorème de Heine.",
-      "Connaître la dérivabilité, les théorèmes de Rolle et des accroissements finis (démontrés au chapitre L1-TAY)."
+      "Connaître la dérivabilité, les théorèmes de Rolle et des accroissements finis (démontrés au chapitre L1-TAY).",
+      "Définir la limite épointée, les limites à gauche et à droite, les limites en $\\pm\\infty$ et les limites infinies.",
+      "Définir $\\arcsin$, $\\arccos$, $\\arctan$ par le théorème de la bijection, connaître leurs domaines et leurs dérivées ; connaître les fonctions hyperboliques $\\cosh$, $\\sinh$, $\\tanh$.",
+      "Définir la convexité, la caractériser par $f'$ ou $f''$ et en déduire des inégalités (position par rapport aux tangentes, inégalité de Jensen)."
     ],
     "keyPoints": [
       {
         "title": "1. Limites et caractérisation séquentielle",
-        "content": "Soit $f : I \\to \\mathbb{R}$ et $x_0$ un point de $I$ ou une extrémité de $I$.\n• $f(x) \\to \\ell$ quand $x \\to x_0$ si $\\forall \\varepsilon > 0,\\ \\exists \\delta > 0,\\ \\forall x \\in I,\\ |x - x_0| \\le \\delta \\implies |f(x) - \\ell| \\le \\varepsilon$. La limite, si elle existe, est unique.\n• **Caractérisation séquentielle** : $f(x) \\to \\ell$ en $x_0$ si et seulement si, pour toute suite $(x_n)$ de $I$ tendant vers $x_0$, $f(x_n) \\to \\ell$.\n• **Usage** : pour montrer qu'une limite n'existe pas, on exhibe deux suites tendant vers $x_0$ dont les images ont des limites différentes.\n• **Opérations** : somme, produit, quotient (limite du dénominateur non nulle), composition ; théorème d'encadrement ; limite monotone (une fonction croissante sur $]a ; b[$ a une limite à gauche en $b$, finie si elle est majorée)."
+        "content": "Soit $f : I \\to \\mathbb{R}$ et $x_0$ un point de $I$ ou une extrémité de $I$.\n• $f(x) \\to \\ell$ quand $x \\to x_0$ si $\\forall \\varepsilon > 0,\\ \\exists \\delta > 0,\\ \\forall x \\in I,\\ |x - x_0| \\le \\delta \\implies |f(x) - \\ell| \\le \\varepsilon$. La limite, si elle existe, est unique ; si $x_0 \\in I$, elle ne peut être que $f(x_0)$ (prendre $x = x_0$).\n• **Limite épointée** : lorsque $f$ n'est pas définie en $x_0$, ou que l'on ne veut pas tenir compte de $f(x_0)$, on exclut ce point : $\\forall \\varepsilon > 0,\\ \\exists \\delta > 0,\\ \\forall x \\in I \\setminus \\{x_0\\},\\ |x - x_0| \\le \\delta \\implies |f(x) - \\ell| \\le \\varepsilon$. C'est cette limite qui intervient pour $\\frac{\\sin x}{x}$ en $0$, pour le taux d'accroissement et pour le quotient $\\frac{f'}{g'}$ de la règle de L'Hôpital.\n• **À gauche et à droite** : $f$ a pour limite $\\ell$ **à droite** de $x_0$, noté $\\lim_{x \\to x_0^+} f(x) = \\ell$, si $\\forall \\varepsilon > 0,\\ \\exists \\delta > 0,\\ \\forall x \\in I,\\ x_0 < x \\le x_0 + \\delta \\implies |f(x) - \\ell| \\le \\varepsilon$. **À gauche** ($x_0^-$), on remplace la condition par $x_0 - \\delta \\le x < x_0$. Si $x_0$ est intérieur à $I$, la limite épointée en $x_0$ existe et vaut $\\ell$ si et seulement si les limites à gauche et à droite existent et valent $\\ell$. Exemple : $\\lfloor x \\rfloor$ a pour limite $0$ à gauche de $1$ et $1$ à droite de $1$.\n• **Limite finie en $\\pm\\infty$** : si $I$ n'est pas majoré, $f(x) \\to \\ell$ quand $x \\to +\\infty$ si $\\forall \\varepsilon > 0,\\ \\exists A \\in \\mathbb{R},\\ \\forall x \\in I,\\ x \\ge A \\implies |f(x) - \\ell| \\le \\varepsilon$. En $-\\infty$, si $I$ n'est pas minoré, on remplace $x \\ge A$ par $x \\le A$.\n• **Limites infinies** : $f(x) \\to +\\infty$ quand $x \\to x_0$ (limite épointée) si $\\forall M \\in \\mathbb{R},\\ \\exists \\delta > 0,\\ \\forall x \\in I \\setminus \\{x_0\\},\\ |x - x_0| \\le \\delta \\implies f(x) \\ge M$ ; $f(x) \\to +\\infty$ quand $x \\to +\\infty$ si $\\forall M \\in \\mathbb{R},\\ \\exists A \\in \\mathbb{R},\\ \\forall x \\in I,\\ x \\ge A \\implies f(x) \\ge M$. Pour $-\\infty$, on remplace $f(x) \\ge M$ par $f(x) \\le M$. Exemple : $\\frac{1}{x} \\to +\\infty$ en $0^+$ et $\\frac{1}{x} \\to -\\infty$ en $0^-$, donc $\\frac{1}{x}$ n'a pas de limite épointée en $0$.\n• **Caractérisation séquentielle** : $f(x) \\to \\ell$ en $x_0$ si et seulement si, pour toute suite $(x_n)$ de $I$ tendant vers $x_0$, $f(x_n) \\to \\ell$. Elle reste vraie si $x_0$ ou $\\ell$ vaut $\\pm\\infty$ ; pour une limite épointée, on se limite aux suites telles que $x_n \\neq x_0$ pour tout $n$.\n• **Usage** : pour montrer qu'une limite n'existe pas, on exhibe deux suites tendant vers $x_0$ dont les images ont des limites différentes.\n• **Opérations** : somme, produit, quotient (limite du dénominateur non nulle), composition (pour des limites épointées, on suppose de plus $g$ continue au point limite $y_0$, ou $f(x) \\neq y_0$ près de $x_0$) ; théorème d'encadrement ; limite monotone (une fonction croissante sur $]a ; b[$ a une limite à gauche en $b$, finie si elle est majorée, égale à $+\\infty$ sinon). Les règles s'étendent aux limites infinies, sauf dans les formes indéterminées $\\infty - \\infty$, $0 \\times \\infty$, $\\frac{0}{0}$ et $\\frac{\\infty}{\\infty}$."
       },
       {
         "title": "2. Continuité",
-        "content": "• $f$ est **continue en $x_0 \\in I$** si $f(x) \\to f(x_0)$ quand $x \\to x_0$, soit : $\\forall \\varepsilon > 0,\\ \\exists \\delta > 0,\\ \\forall x \\in I,\\ |x - x_0| \\le \\delta \\implies |f(x) - f(x_0)| \\le \\varepsilon$.\n• De façon équivalente : pour toute suite $x_n \\to x_0$ dans $I$, $f(x_n) \\to f(x_0)$.\n• Sommes, produits, quotients (dénominateur non nul) et composées de fonctions continues sont continues ; les fonctions usuelles sont continues sur leur domaine.\n• **Prolongement par continuité** : si $f$ est définie sur $I \\setminus \\{x_0\\}$ et a une limite finie $\\ell$ en $x_0$, on la prolonge en posant $f(x_0) = \\ell$. Exemple : $\\frac{\\sin x}{x}$ se prolonge par $1$ en $0$.\n• **Exemple** : $x \\mapsto \\lfloor x \\rfloor$ est continue sur $\\mathbb{R} \\setminus \\mathbb{Z}$ et discontinue en tout entier."
+        "content": "• $f$ est **continue en $x_0 \\in I$** si $f(x) \\to f(x_0)$ quand $x \\to x_0$, soit : $\\forall \\varepsilon > 0,\\ \\exists \\delta > 0,\\ \\forall x \\in I,\\ |x - x_0| \\le \\delta \\implies |f(x) - f(x_0)| \\le \\varepsilon$.\n• De façon équivalente : pour toute suite $x_n \\to x_0$ dans $I$, $f(x_n) \\to f(x_0)$.\n• Sommes, produits, quotients (dénominateur non nul) et composées de fonctions continues sont continues ; les fonctions usuelles sont continues sur leur domaine.\n• **Prolongement par continuité** : si $f$ est définie sur $I \\setminus \\{x_0\\}$ et a une limite épointée finie $\\ell$ en $x_0$, on la prolonge en posant $f(x_0) = \\ell$. Exemple : $\\frac{\\sin x}{x}$ se prolonge par $1$ en $0$.\n• **Exemple** : $x \\mapsto \\lfloor x \\rfloor$ est continue sur $\\mathbb{R} \\setminus \\mathbb{Z}$ et discontinue en tout entier."
       },
       {
         "title": "3. Théorème des valeurs intermédiaires",
@@ -885,7 +945,23 @@ window.MATHS_COURSES_L1 = {
       },
       {
         "title": "6. Dérivabilité",
-        "content": "• $f$ est **dérivable en $x_0$** si $\\frac{f(x) - f(x_0)}{x - x_0}$ a une limite finie $f'(x_0)$ quand $x \\to x_0$ ; de façon équivalente, $f(x) = f(x_0) + f'(x_0)(x - x_0) + o(x - x_0)$. Dérivable implique continue.\n• **Opérations** : $(fg)' = f'g + fg'$, $\\left(\\frac{f}{g}\\right)' = \\frac{f'g - fg'}{g^2}$, $(g \\circ f)' = (g' \\circ f) \\cdot f'$, et $(f^{-1})'(y) = \\frac{1}{f'(f^{-1}(y))}$ si $f'(f^{-1}(y)) \\neq 0$.\n• **Extremum** : en un extremum local intérieur où $f$ est dérivable, $f'$ s'annule (la réciproque est fausse : $x^3$ en $0$).\n• **Rolle** : $f$ continue sur $[a ; b]$, dérivable sur $]a ; b[$, $f(a) = f(b)$ $\\implies \\exists c \\in\\, ]a ; b[,\\ f'(c) = 0$.\n• **Accroissements finis** : $f$ continue sur $[a ; b]$, dérivable sur $]a ; b[$ $\\implies \\exists c \\in\\, ]a ; b[,\\ f(b) - f(a) = f'(c)(b - a)$ ; si $|f'| \\le M$, alors $|f(b) - f(a)| \\le M|b - a|$."
+        "content": "• $f$ est **dérivable en $x_0$** si $\\frac{f(x) - f(x_0)}{x - x_0}$ a une limite finie $f'(x_0)$ quand $x \\to x_0$ avec $x \\neq x_0$ (limite épointée) ; de façon équivalente, $f(x) = f(x_0) + f'(x_0)(x - x_0) + o(x - x_0)$. Dérivable implique continue.\n• **Opérations** : $(fg)' = f'g + fg'$, $\\left(\\frac{f}{g}\\right)' = \\frac{f'g - fg'}{g^2}$, $(g \\circ f)' = (g' \\circ f) \\cdot f'$, et $(f^{-1})'(y) = \\frac{1}{f'(f^{-1}(y))}$ si $f'(f^{-1}(y)) \\neq 0$.\n• **Extremum** : en un extremum local intérieur où $f$ est dérivable, $f'$ s'annule (la réciproque est fausse : $x^3$ en $0$).\n• **Rolle** : $f$ continue sur $[a ; b]$, dérivable sur $]a ; b[$, $f(a) = f(b)$ $\\implies \\exists c \\in\\, ]a ; b[,\\ f'(c) = 0$. Ce théorème et le suivant sont démontrés au chapitre L1-TAY (section 1) à partir des sections 4 et 6 ci-dessus ; on les utilise dès maintenant, notamment pour démontrer la règle de L'Hôpital.\n• **Accroissements finis** : $f$ continue sur $[a ; b]$, dérivable sur $]a ; b[$ $\\implies \\exists c \\in\\, ]a ; b[,\\ f(b) - f(a) = f'(c)(b - a)$ ; si $|f'| \\le M$, alors $|f(b) - f(a)| \\le M|b - a|$."
+      },
+      {
+        "title": "7. Règle de L'Hôpital (forme indéterminée $\\frac{0}{0}$)",
+        "content": "**Théorème** : soient $I$ un intervalle, $x_0 \\in I$ et $f, g$ continues sur $I$, dérivables sur $I \\setminus \\{x_0\\}$, avec $f(x_0) = g(x_0) = 0$ et $g'$ ne s'annulant pas sur $I \\setminus \\{x_0\\}$. Si $\\frac{f'(x)}{g'(x)}$ a une limite $\\ell$ (finie ou infinie) quand $x \\to x_0$ avec $x \\neq x_0$, alors $\\frac{f(x)}{g(x)} \\to \\ell$ quand $x \\to x_0$ avec $x \\neq x_0$.\n**Démonstration.** Soit $x \\in I$ avec $x \\neq x_0$.\n1. $g(x) \\neq 0$ : sinon le théorème de Rolle donnerait un zéro de $g'$ strictement entre $x_0$ et $x$.\n2. La fonction $h : t \\mapsto f(t)g(x) - g(t)f(x)$ vérifie $h(x_0) = h(x) = 0$. Par Rolle, il existe $c_x$ strictement entre $x_0$ et $x$ tel que $h'(c_x) = 0$, soit $\\frac{f(x)}{g(x)} = \\frac{f'(c_x)}{g'(c_x)}$.\n3. Quand $x \\to x_0$, on a $c_x \\to x_0$ avec $c_x \\neq x_0$, d'où la limite $\\ell$.\n• **À vérifier avant d'appliquer** : la forme $\\frac{0}{0}$ en $x_0$, la dérivabilité, la non-annulation de $g'$ au voisinage de $x_0$ (sauf peut-être en $x_0$), et l'existence de la limite de $\\frac{f'}{g'}$.\n• **Exemple** : pour $\\lim_{x \\to 0} \\frac{\\ln(1 + x) - x}{x^2}$, le quotient des dérivées vaut $\\frac{-1}{2(1 + x)}$ et tend vers $-\\frac{1}{2}$ : la limite cherchée est $-\\frac{1}{2}$.\n• **La réciproque est fausse** : avec $f(x) = x^2\\sin\\frac{1}{x}$ pour $x \\neq 0$, $f(0) = 0$ et $g(x) = x$, on a $\\frac{f(x)}{g(x)} = x\\sin\\frac{1}{x} \\to 0$ en $0$, alors que $\\frac{f'(x)}{g'(x)} = 2x\\sin\\frac{1}{x} - \\cos\\frac{1}{x}$ n'a pas de limite en $0$. Si $\\frac{f'}{g'}$ n'a pas de limite, la règle ne permet de rien conclure."
+      },
+      {
+        "title": "8. Fonctions trigonométriques réciproques",
+        "content": "Ces fonctions s'obtiennent en restreignant $\\sin$, $\\cos$ et $\\tan$ à un intervalle où elles sont strictement monotones, puis en appliquant le théorème de la bijection (section 3) et la formule $(f^{-1})'(y) = \\frac{1}{f'(f^{-1}(y))}$ (section 6).\n• **Arc sinus** : $\\sin$ est continue et strictement croissante sur $\\left[-\\frac{\\pi}{2} ; \\frac{\\pi}{2}\\right]$, avec $\\sin\\left(-\\frac{\\pi}{2}\\right) = -1$ et $\\sin\\frac{\\pi}{2} = 1$. Sa réciproque $\\arcsin : [-1 ; 1] \\to \\left[-\\frac{\\pi}{2} ; \\frac{\\pi}{2}\\right]$ est continue, strictement croissante et impaire : pour $y \\in [-1 ; 1]$, $\\arcsin y$ est l'unique $\\theta \\in \\left[-\\frac{\\pi}{2} ; \\frac{\\pi}{2}\\right]$ tel que $\\sin\\theta = y$.\n• **Dérivée de $\\arcsin$** : pour $y \\in\\, ]-1 ; 1[$, $\\theta = \\arcsin y \\in \\left]-\\frac{\\pi}{2} ; \\frac{\\pi}{2}\\right[$, donc $\\cos\\theta > 0$ et $\\cos\\theta = \\sqrt{1 - \\sin^2\\theta} = \\sqrt{1 - y^2}$. Ainsi $\\arcsin'(y) = \\frac{1}{\\cos(\\arcsin y)} = \\frac{1}{\\sqrt{1 - y^2}}$. En $\\pm 1$, $\\sin' = \\cos$ s'annule : $\\arcsin$ n'y est pas dérivable (tangente verticale).\n• **Arc cosinus** : $\\cos$ est continue et strictement décroissante sur $[0 ; \\pi]$, de $1$ à $-1$. Sa réciproque $\\arccos : [-1 ; 1] \\to [0 ; \\pi]$ est continue, strictement décroissante, dérivable sur $]-1 ; 1[$ avec $\\arccos'(y) = -\\frac{1}{\\sqrt{1 - y^2}}$ (car $\\sin(\\arccos y) = \\sqrt{1 - y^2}$, le sinus étant positif sur $[0 ; \\pi]$). La somme $\\arcsin + \\arccos$ a une dérivée nulle sur $]-1 ; 1[$, vaut $\\frac{\\pi}{2}$ en $0$ et est continue sur $[-1 ; 1]$ : $\\arcsin y + \\arccos y = \\frac{\\pi}{2}$ pour tout $y \\in [-1 ; 1]$.\n• **Arc tangente** : $\\tan$ est continue et strictement croissante sur $\\left]-\\frac{\\pi}{2} ; \\frac{\\pi}{2}\\right[$, de limites $-\\infty$ et $+\\infty$ aux bornes. Sa réciproque $\\arctan : \\mathbb{R} \\to \\left]-\\frac{\\pi}{2} ; \\frac{\\pi}{2}\\right[$ est continue, strictement croissante, impaire, de limites $-\\frac{\\pi}{2}$ en $-\\infty$ et $\\frac{\\pi}{2}$ en $+\\infty$. Comme $\\tan' = 1 + \\tan^2$ ne s'annule pas, $\\arctan$ est dérivable sur $\\mathbb{R}$ et $\\arctan'(y) = \\frac{1}{1 + \\tan^2(\\arctan y)} = \\frac{1}{1 + y^2}$.\n• **Valeurs remarquables** : $\\arcsin\\frac{1}{2} = \\frac{\\pi}{6}$, $\\arcsin\\frac{\\sqrt{2}}{2} = \\frac{\\pi}{4}$, $\\arcsin\\frac{\\sqrt{3}}{2} = \\frac{\\pi}{3}$ ; $\\arccos\\frac{1}{2} = \\frac{\\pi}{3}$, $\\arccos 0 = \\frac{\\pi}{2}$, $\\arccos(-1) = \\pi$ ; $\\arctan\\frac{\\sqrt{3}}{3} = \\frac{\\pi}{6}$, $\\arctan 1 = \\frac{\\pi}{4}$, $\\arctan\\sqrt{3} = \\frac{\\pi}{3}$.\n• **Attention aux composées** : $\\sin(\\arcsin y) = y$ pour tout $y \\in [-1 ; 1]$, mais $\\arcsin(\\sin x) = x$ seulement si $x \\in \\left[-\\frac{\\pi}{2} ; \\frac{\\pi}{2}\\right]$. Par exemple $\\arcsin\\left(\\sin\\frac{5\\pi}{6}\\right) = \\arcsin\\frac{1}{2} = \\frac{\\pi}{6}$.\n• **Exemple** : $\\varphi(x) = \\arctan x + \\arctan\\frac{1}{x}$ a une dérivée nulle sur $]0 ; +\\infty[$ et sur $]-\\infty ; 0[$ : $\\varphi'(x) = \\frac{1}{1 + x^2} - \\frac{1}{x^2} \\cdot \\frac{1}{1 + \\frac{1}{x^2}} = 0$. Ces deux ensembles sont des intervalles, donc $\\varphi$ est constante sur chacun : $\\varphi = \\varphi(1) = \\frac{\\pi}{2}$ sur $]0 ; +\\infty[$ et, par imparité, $\\varphi = -\\frac{\\pi}{2}$ sur $]-\\infty ; 0[$.\n• **Usage** : ces dérivées donnent les primitives $\\int \\frac{dx}{1 + x^2} = \\arctan x$ et $\\int \\frac{dx}{\\sqrt{1 - x^2}} = \\arcsin x$ (chapitre L1-INT), et le DL de $\\arctan$ s'obtient en primitivant celui de $\\frac{1}{1 + x^2}$ (chapitre L1-TAY)."
+      },
+      {
+        "title": "9. Fonctions hyperboliques",
+        "content": "• **Définitions** : pour $x \\in \\mathbb{R}$, $\\cosh x = \\frac{e^x + e^{-x}}{2}$ et $\\sinh x = \\frac{e^x - e^{-x}}{2}$ (parties paire et impaire de $\\exp$ : $e^x = \\cosh x + \\sinh x$). On pose $\\tanh x = \\frac{\\sinh x}{\\cosh x}$.\n• **Propriétés** : $\\cosh$ est paire, $\\sinh$ et $\\tanh$ sont impaires ; $\\cosh' = \\sinh$, $\\sinh' = \\cosh$ et $\\tanh' = \\frac{1}{\\cosh^2} = 1 - \\tanh^2$. Pour tout réel $x$, $\\cosh^2 x - \\sinh^2 x = 1$ (développer les carrés) et $\\cosh x \\ge 1$.\n• **Variations** : $\\sinh' = \\cosh > 0$, donc $\\sinh$ est strictement croissante, de limites $\\mp\\infty$ en $\\mp\\infty$ : c'est une bijection de $\\mathbb{R}$ sur $\\mathbb{R}$. $\\cosh$ est strictement décroissante sur $]-\\infty ; 0]$, strictement croissante sur $[0 ; +\\infty[$, de minimum $\\cosh 0 = 1$. $\\tanh$ est une bijection strictement croissante de $\\mathbb{R}$ sur $]-1 ; 1[$.\n• **Réciproque de $\\sinh$** : pour $y \\in \\mathbb{R}$, l'équation $\\sinh x = y$ s'écrit, avec $X = e^x > 0$, $X^2 - 2yX - 1 = 0$. Le produit des racines vaut $-1$ : une seule est positive, $X = y + \\sqrt{y^2 + 1}$. Donc $\\sinh^{-1}(y) = \\ln\\left(y + \\sqrt{y^2 + 1}\\right)$, de dérivée $\\frac{1}{\\sqrt{y^2 + 1}}$.\n• **Géométrie** : comme $\\cosh^2 t - \\sinh^2 t = 1$ et $\\cosh t \\ge 1$, le point $(\\cosh t, \\sinh t)$ décrit la branche $x > 0$ de l'hyperbole $x^2 - y^2 = 1$ (voir le paramétrage des coniques, chapitre L1-GEO)."
+      },
+      {
+        "title": "10. Fonctions convexes",
+        "content": "Soit $f$ définie sur un intervalle $I$.\n• **Définition** : $f$ est **convexe** sur $I$ si $\\forall x, y \\in I,\\ \\forall t \\in [0 ; 1],\\ f\\big(tx + (1 - t)y\\big) \\le t f(x) + (1 - t) f(y)$ : entre deux points, la courbe est **sous la corde** qui les joint. $f$ est **concave** si $-f$ est convexe.\n• **Inégalité des pentes** : $f$ est convexe si et seulement si, pour tous $x < y < z$ dans $I$,\n$$\\frac{f(y) - f(x)}{y - x} \\le \\frac{f(z) - f(x)}{z - x} \\le \\frac{f(z) - f(y)}{z - y}.$$\n• **Caractérisation par la dérivée** : si $f$ est dérivable sur $I$, $f$ est convexe si et seulement si $f'$ est croissante sur $I$ (conséquence de l'inégalité des pentes et des accroissements finis) ; si $f$ est deux fois dérivable sur $I$, si et seulement si $f'' \\ge 0$ sur $I$.\n• **Position par rapport aux tangentes** : si $f$ est convexe et dérivable sur $I$, sa courbe est **au-dessus de chacune de ses tangentes** : $\\forall a, x \\in I,\\ f(x) \\ge f(a) + f'(a)(x - a)$.\n**Démonstration.** Pour $x > a$, le théorème des accroissements finis donne $c \\in\\, ]a ; x[$ tel que $f(x) - f(a) = f'(c)(x - a)$, et $f'(c) \\ge f'(a)$ car $f'$ est croissante. Pour $x < a$, il donne $c \\in\\, ]x ; a[$ avec $f'(c) \\le f'(a)$ et $x - a < 0$, donc encore $f'(c)(x - a) \\ge f'(a)(x - a)$.\n• **Inégalité de Jensen** : si $f$ est convexe sur $I$, $x_1, \\dots, x_n \\in I$ et $\\lambda_1, \\dots, \\lambda_n \\ge 0$ de somme $1$, alors $f\\left(\\sum_{k=1}^n \\lambda_k x_k\\right) \\le \\sum_{k=1}^n \\lambda_k f(x_k)$ (récurrence sur $n$).\n• **Inégalités classiques** : $\\exp$ est convexe ($\\exp'' = \\exp > 0$), donc $e^x \\ge 1 + x$ pour tout réel $x$ (tangente en $0$) ; $\\ln$ est concave ($\\ln''(x) = -\\frac{1}{x^2} < 0$), donc $\\ln(1 + x) \\le x$ pour tout $x > -1$ ; $\\sin$ est concave sur $\\left[0 ; \\frac{\\pi}{2}\\right]$, donc sa courbe est au-dessus de la corde joignant $(0, 0)$ à $\\left(\\frac{\\pi}{2}, 1\\right)$ : $\\sin x \\ge \\frac{2}{\\pi}x$ sur $\\left[0 ; \\frac{\\pi}{2}\\right]$.\n• **Exemple (inégalité arithmético-géométrique)** : pour $a_1, \\dots, a_n > 0$, l'inégalité de Jensen appliquée à la fonction concave $\\ln$ donne $\\ln\\left(\\frac{a_1 + \\dots + a_n}{n}\\right) \\ge \\frac{1}{n}\\sum_{k=1}^n \\ln a_k$, soit $\\sqrt[n]{a_1 a_2 \\cdots a_n} \\le \\frac{a_1 + a_2 + \\dots + a_n}{n}$."
       }
     ],
     "methods": [
@@ -915,7 +991,9 @@ window.MATHS_COURSES_L1 = {
       "Le TVI exige un **intervalle** : $x \\mapsto \\frac{1}{x}$ prend les valeurs $-1$ et $1$ sur $[-1 ; 0[\\, \\cup\\, ]0 ; 1]$ sans jamais s'annuler. De plus, il donne l'existence, pas l'unicité.",
       "Le théorème des bornes atteintes exige un **segment** : $\\frac{1}{x}$ est continue mais non bornée sur $]0 ; 1]$.",
       "Une seule suite ne suffit pas à établir une limite : pour $\\sin\\frac{1}{x}$, la suite $x_n = \\frac{1}{n\\pi}$ donne $f(x_n) = 0$, alors que la limite en $0$ n'existe pas.",
-      "Continue sur $I$ n'implique pas uniformément continue sur $I$ : $x^2$ sur $\\mathbb{R}$, ou $\\frac{1}{x}$ sur $]0 ; 1]$."
+      "Continue sur $I$ n'implique pas uniformément continue sur $I$ : $x^2$ sur $\\mathbb{R}$, ou $\\frac{1}{x}$ sur $]0 ; 1]$.",
+      "Limite et limite épointée diffèrent quand $f(x_0)$ joue un rôle : si $f$ vaut $0$ partout sauf $f(0) = 1$, sa limite épointée en $0$ vaut $0$, mais $f$ n'a pas de limite en $0$ au sens où $x = 0$ est autorisé.",
+      "$\\arcsin(\\sin x) = x$ et $\\arctan(\\tan x) = x$ ne valent que pour $x$ dans l'intervalle image de la réciproque : $\\arctan\\left(\\tan\\frac{3\\pi}{4}\\right) = \\arctan(-1) = -\\frac{\\pi}{4}$, et non $\\frac{3\\pi}{4}$."
     ],
     "flashcards": [
       {
@@ -941,6 +1019,22 @@ window.MATHS_COURSES_L1 = {
       {
         "q": "Énoncer le théorème de la bijection.",
         "a": "Si $f$ est continue et strictement monotone sur un intervalle $I$, elle est bijective de $I$ sur l'intervalle $f(I)$ et $f^{-1}$ est continue et de même monotonie."
+      },
+      {
+        "q": "Écrire avec des quantificateurs $\\lim_{x \\to +\\infty} f(x) = +\\infty$.",
+        "a": "$\\forall M \\in \\mathbb{R},\\ \\exists A \\in \\mathbb{R},\\ \\forall x \\in I,\\ x \\ge A \\implies f(x) \\ge M$."
+      },
+      {
+        "q": "Comment relier la limite épointée en un point intérieur aux limites latérales ?",
+        "a": "Elle existe et vaut $\\ell$ si et seulement si les limites à gauche et à droite en ce point existent et valent $\\ell$."
+      },
+      {
+        "q": "Donner l'ensemble de départ, l'ensemble d'arrivée et la dérivée de $\\arcsin$, $\\arccos$ et $\\arctan$.",
+        "a": "$\\arcsin : [-1 ; 1] \\to \\left[-\\frac{\\pi}{2} ; \\frac{\\pi}{2}\\right]$ et $\\arccos : [-1 ; 1] \\to [0 ; \\pi]$, dérivables sur $]-1 ; 1[$ de dérivées $\\frac{1}{\\sqrt{1 - x^2}}$ et $-\\frac{1}{\\sqrt{1 - x^2}}$ ; $\\arctan : \\mathbb{R} \\to \\left]-\\frac{\\pi}{2} ; \\frac{\\pi}{2}\\right[$, de dérivée $\\frac{1}{1 + x^2}$."
+      },
+      {
+        "q": "Définir $\\cosh$ et $\\sinh$ et donner la relation qui les lie.",
+        "a": "$\\cosh x = \\frac{e^x + e^{-x}}{2}$, $\\sinh x = \\frac{e^x - e^{-x}}{2}$ ; $\\cosh' = \\sinh$, $\\sinh' = \\cosh$ et $\\cosh^2 x - \\sinh^2 x = 1$."
       }
     ]
   },
@@ -951,7 +1045,9 @@ window.MATHS_COURSES_L1 = {
       "Maîtriser le produit scalaire canonique de $\\mathbb{R}^2$, la norme, l'orthogonalité et l'inégalité de Cauchy-Schwarz.",
       "Déterminer équations cartésiennes et paramétriques de droites et de cercles, et calculer des distances.",
       "Définir les coniques par foyer, directrice et excentricité $e$, et établir leurs équations réduites.",
-      "Réduire une équation du second degré sans terme en $xy$ et en déduire la nature et les éléments de la conique."
+      "Réduire une équation du second degré sans terme en $xy$ et en déduire la nature et les éléments de la conique.",
+      "Définir le barycentre d'un système de points pondérés et utiliser ses propriétés (coordonnées, associativité).",
+      "Traduire translations, homothéties, rotations et similitudes directes par une écriture complexe $z' = az + b$."
     ],
     "keyPoints": [
       {
@@ -972,11 +1068,19 @@ window.MATHS_COURSES_L1 = {
       },
       {
         "title": "5. Équations réduites et éléments caractéristiques",
-        "content": "• **Ellipse** $\\frac{x^2}{a^2} + \\frac{y^2}{b^2} = 1$, $a > b > 0$ : $c^2 = a^2 - b^2$, foyers $(\\pm c, 0)$, directrices $x = \\pm\\frac{a^2}{c}$, sommets $(\\pm a, 0)$ et $(0, \\pm b)$, $e = \\frac{c}{a}$. **Définition bifocale** : $MF + MF' = 2a$. Paramétrage : $(a\\cos t, b\\sin t)$.\n• **Hyperbole** $\\frac{x^2}{a^2} - \\frac{y^2}{b^2} = 1$ : $c^2 = a^2 + b^2$, foyers $(\\pm c, 0)$, directrices $x = \\pm\\frac{a^2}{c}$, sommets $(\\pm a, 0)$, asymptotes $y = \\pm\\frac{b}{a}x$, $e = \\frac{c}{a} > 1$. **Définition bifocale** : $|MF - MF'| = 2a$. Paramétrage d'une branche : $(a\\cosh t, b\\sinh t)$.\n• **Parabole** $y^2 = 2px$ : foyer $\\left(\\frac{p}{2}, 0\\right)$, directrice $x = -\\frac{p}{2}$, sommet $O$, $e = 1$.\n• **Équation polaire** (origine au foyer) : $r = \\frac{p}{1 + e\\cos\\theta}$, où $p$ est le paramètre de la conique."
+        "content": "• **Ellipse** $\\frac{x^2}{a^2} + \\frac{y^2}{b^2} = 1$, $a > b > 0$ : $c^2 = a^2 - b^2$, foyers $(\\pm c, 0)$, directrices $x = \\pm\\frac{a^2}{c}$, sommets $(\\pm a, 0)$ et $(0, \\pm b)$, $e = \\frac{c}{a}$. **Définition bifocale** : $MF + MF' = 2a$. Paramétrage : $(a\\cos t, b\\sin t)$.\n• **Hyperbole** $\\frac{x^2}{a^2} - \\frac{y^2}{b^2} = 1$ : $c^2 = a^2 + b^2$, foyers $(\\pm c, 0)$, directrices $x = \\pm\\frac{a^2}{c}$, sommets $(\\pm a, 0)$, asymptotes $y = \\pm\\frac{b}{a}x$, $e = \\frac{c}{a} > 1$. **Définition bifocale** : $|MF - MF'| = 2a$. Paramétrage d'une branche : $(a\\cosh t, b\\sinh t)$.\n• **Parabole** $y^2 = 2px$ : foyer $\\left(\\frac{p}{2}, 0\\right)$, directrice $x = -\\frac{p}{2}$, sommet $O$, $e = 1$.\n• **Équation polaire** : on place l'origine au foyer $F$ et l'on note $d > 0$ la distance de $F$ à la directrice associée $\\mathcal{D}$ ; le **paramètre** de la conique est $p = ed$. Si $\\mathcal{D}$ a pour équation $x = d$ (directrice à droite du foyer) et si $M$ est du côté de $F$, alors $MF = e\\,d(M, \\mathcal{D})$ s'écrit $r = e(d - r\\cos\\theta)$, soit $r = \\frac{p}{1 + e\\cos\\theta}$. Si $\\mathcal{D} : x = -d$ (directrice à gauche, comme pour la parabole $y^2 = 2px$ ci-dessus), on obtient $r = \\frac{p}{1 - e\\cos\\theta}$. Plus généralement, si $\\theta_0$ est l'angle polaire de la direction allant de $F$ vers $\\mathcal{D}$ perpendiculairement à $\\mathcal{D}$ : $r = \\frac{p}{1 + e\\cos(\\theta - \\theta_0)}$. Pour l'ellipse et l'hyperbole, $p = \\frac{b^2}{a}$ ; pour la parabole, $p$ est le paramètre de l'équation réduite $y^2 = 2px$. Pour l'hyperbole, on décrit ainsi, avec $r > 0$, la branche située du côté de $F$."
       },
       {
         "title": "6. Réduction d'une équation du second degré sans terme en xy",
         "content": "Pour $Ax^2 + Cy^2 + Dx + Ey + F = 0$ avec $(A, C) \\neq (0, 0)$, on complète les carrés pour se ramener à une équation réduite dans un repère translaté.\n• $AC > 0$ : ellipse (éventuellement cercle), un point ou l'ensemble vide.\n• $AC < 0$ : hyperbole ou réunion de deux droites sécantes.\n• $AC = 0$ : parabole, deux droites parallèles, une droite ou l'ensemble vide.\n• **Exemple** : $x^2 + 4y^2 - 2x + 8y + 1 = 0 \\iff (x - 1)^2 + 4(y + 1)^2 = 4 \\iff \\frac{(x - 1)^2}{4} + (y + 1)^2 = 1$ : ellipse de centre $(1, -1)$, $a = 2$, $b = 1$, $c = \\sqrt{3}$, foyers $(1 \\pm \\sqrt{3}, -1)$, $e = \\frac{\\sqrt{3}}{2}$."
+      },
+      {
+        "title": "7. Barycentres",
+        "content": "Soient $A_1, \\dots, A_n$ des points du plan et $\\alpha_1, \\dots, \\alpha_n$ des réels de somme $S = \\sum_i \\alpha_i \\neq 0$.\n\n**Théorème** : il existe un unique point $G$ tel que $\\sum_i \\alpha_i \\overrightarrow{GA_i} = \\vec{0}$. C'est le **barycentre** du système $(A_i, \\alpha_i)$ ; si tous les coefficients sont égaux, on parle d'**isobarycentre**.\n**Démonstration.** Pour un point $O$ fixé, la relation de Chasles donne $\\sum_i \\alpha_i \\overrightarrow{GA_i} = S\\,\\overrightarrow{GO} + \\sum_i \\alpha_i \\overrightarrow{OA_i}$. Cette somme est nulle si et seulement si $\\overrightarrow{OG} = \\frac{1}{S}\\sum_i \\alpha_i \\overrightarrow{OA_i}$, ce qui détermine $G$ de façon unique.\n• **Réduction** : pour tout point $M$, $\\sum_i \\alpha_i \\overrightarrow{MA_i} = S\\,\\overrightarrow{MG}$.\n• **Coordonnées** : dans un repère, $x_G = \\frac{1}{S}\\sum_i \\alpha_i x_i$ et $y_G = \\frac{1}{S}\\sum_i \\alpha_i y_i$.\n• **Deux points** : le barycentre de $(A, a)$ et $(B, b)$, avec $a + b \\neq 0$, vérifie $\\overrightarrow{AG} = \\frac{b}{a + b}\\overrightarrow{AB}$ ; il appartient à la droite $(AB)$.\n• **Homogénéité** : multiplier tous les coefficients par un même réel non nul ne change pas $G$. **Associativité** : si $\\alpha_1 + \\alpha_2 \\neq 0$, on peut remplacer $(A_1, \\alpha_1)$ et $(A_2, \\alpha_2)$ par $(G', \\alpha_1 + \\alpha_2)$, où $G'$ est leur barycentre.\n• **Exemple** : le centre de gravité $G$ du triangle $ABC$ est son isobarycentre. Par associativité, c'est le barycentre de $(A, 1)$ et $(I, 2)$, où $I$ est le milieu de $[BC]$ : $\\overrightarrow{AG} = \\frac{2}{3}\\overrightarrow{AI}$, et les trois médianes sont concourantes en $G$."
+      },
+      {
+        "title": "8. Nombres complexes et transformations du plan",
+        "content": "On identifie le plan muni d'un repère orthonormé direct à $\\mathbb{C}$ : le point $M(x ; y)$ a pour affixe $z = x + iy$ (nombres complexes : chapitre L1-CMP). Si $A$ et $B$ ont pour affixes $a$ et $b$, alors $AB = |b - a|$.\n• **Quotient et angle** : pour $A$, $B$, $C$ distincts, $\\frac{c - a}{b - a} = \\frac{AC}{AB}\\,e^{i\\theta}$, où $\\theta$ est une mesure de l'angle orienté $(\\overrightarrow{AB}, \\overrightarrow{AC})$. Ainsi $ABC$ est équilatéral si et seulement si $\\frac{c - a}{b - a} = e^{i\\pi/3}$ ou $e^{-i\\pi/3}$.\n• **Translation** de vecteur $\\vec{w}$ d'affixe $b$ : $z' = z + b$.\n• **Homothétie** de centre $\\Omega(\\omega)$ et de rapport $k \\in \\mathbb{R}^*$ : $z' - \\omega = k(z - \\omega)$.\n• **Rotation** de centre $\\Omega(\\omega)$ et d'angle $\\theta$ : $z' - \\omega = e^{i\\theta}(z - \\omega)$.\n• **Similitude directe** $z' = az + b$, avec $a \\in \\mathbb{C}^*$. Si $a = 1$, c'est une translation. Si $a \\neq 1$, elle a un unique point fixe, d'affixe $\\omega = \\frac{b}{1 - a}$, et s'écrit $z' - \\omega = a(z - \\omega)$ : c'est la composée de la rotation de centre $\\Omega$ et d'angle $\\arg a$ et de l'homothétie de centre $\\Omega$ et de rapport $|a|$ (ces deux transformations commutent). Elle multiplie les distances par $|a|$ et conserve les angles orientés.\n• **Exemple** : $z' = 2iz + 1$. Ici $|2i| = 2$, $\\arg(2i) = \\frac{\\pi}{2}$ et $\\omega = \\frac{1}{1 - 2i} = \\frac{1 + 2i}{5}$ : c'est la similitude de centre $\\Omega\\left(\\frac{1}{5} ; \\frac{2}{5}\\right)$, de rapport $2$ et d'angle $\\frac{\\pi}{2}$."
       }
     ],
     "methods": [
@@ -1030,8 +1134,16 @@ window.MATHS_COURSES_L1 = {
         "a": "Les droites $y = \\frac{b}{a}x$ et $y = -\\frac{b}{a}x$."
       },
       {
+        "q": "Coordonnées du barycentre de $(A, a)$ et $(B, b)$ avec $a + b \\neq 0$ ?",
+        "a": "$x_G = \\dfrac{a x_A + b x_B}{a + b}$ et $y_G = \\dfrac{a y_A + b y_B}{a + b}$."
+      },
+      {
         "q": "Définition bifocale de l'ellipse ?",
         "a": "Ensemble des points $M$ tels que $MF + MF' = 2a$, avec $2a > FF'$."
+      },
+      {
+        "q": "Écriture complexe de la rotation de centre $\\Omega(\\omega)$ et d'angle $\\theta$ ?",
+        "a": "$z' - \\omega = e^{i\\theta}(z - \\omega)$."
       }
     ]
   }
@@ -1057,6 +1169,25 @@ window.MATHS_EXERCISES_L1 = {
       "hint1": "La négation échange $\\forall$ et $\\exists$ et inverse l'inégalité stricte en inégalité large.",
       "hint2": "$\\neg(\\forall x, P(x)) \\iff \\exists x, \\neg P(x)$.",
       "solution": "La négation de $\\forall x, \\exists y, P(x, y)$ est $\\exists x, \\forall y, \\neg P(x, y)$, soit ici $\\exists x \\in \\mathbb{R}, \\forall y \\in \\mathbb{R}, x + y \\le 0$."
+    },
+    {
+      "id": "L1-LOG-1b",
+      "tier": 1,
+      "type": "mcq",
+      "title": "Complémentaire d'une réunion",
+      "skill": "Appliquer les lois de De Morgan sur un exemple fini",
+      "statement": "Dans $E = \\{1, 2, 3, 4, 5, 6\\}$, on considère $A = \\{1, 2, 3, 4\\}$ et $B = \\{3, 4, 5\\}$. On note $\\overline{X}$ le complémentaire de $X$ dans $E$. Que vaut $\\overline{A \\cup B}$ ?",
+      "options": [
+        "$\\{6\\}$",
+        "$\\{5, 6\\}$",
+        "$\\{1, 2, 5, 6\\}$",
+        "$\\{3, 4\\}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\{6\\}$",
+      "hint1": "Applique la loi de De Morgan : $\\overline{A \\cup B} = \\overline{A} \\cap \\overline{B}$, ou calcule d'abord $A \\cup B$.",
+      "hint2": "On a $\\overline{A} = \\{5, 6\\}$ ; détermine $\\overline{B}$, puis l'intersection.",
+      "solution": "$A \\cup B = \\{1, 2, 3, 4, 5\\}$, donc $\\overline{A \\cup B} = \\{6\\}$. On retrouve $\\overline{A} \\cap \\overline{B} = \\{5, 6\\} \\cap \\{1, 2, 6\\} = \\{6\\}$."
     },
     {
       "id": "L1-LOG-2",
@@ -1135,6 +1266,25 @@ window.MATHS_EXERCISES_L1 = {
       "solution": "Pour tout $y \\in \\mathbb{R}$, l'équation $3x - 5 = y$ admet la solution $x = \\frac{y+5}{3}$, qui appartient bien à $\\mathbb{R}$. Tout élément du codomaine possède donc un antécédent : $f$ est surjective."
     },
     {
+      "id": "L1-LOG-2e",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Nombre de parties à p éléments",
+      "skill": "Dénombrer des parties à l'aide des coefficients binomiaux",
+      "statement": "Combien un ensemble à $7$ éléments possède-t-il de parties à $3$ éléments ?",
+      "options": [
+        "$35$",
+        "$210$",
+        "$343$",
+        "$21$"
+      ],
+      "correctIndex": 0,
+      "answer": "$35$",
+      "hint1": "Une partie n'est pas ordonnée : on compte des combinaisons $\\binom{n}{p}$.",
+      "hint2": "Calcule $\\binom{7}{3} = \\dfrac{7 \\times 6 \\times 5}{3!}$.",
+      "solution": "$\\binom{7}{3} = \\dfrac{7 \\times 6 \\times 5}{3 \\times 2 \\times 1} = \\dfrac{210}{6} = 35$. L'ensemble a donc $35$ parties à $3$ éléments."
+    },
+    {
       "id": "L1-LOG-3",
       "tier": 3,
       "type": "mcq",
@@ -1154,6 +1304,44 @@ window.MATHS_EXERCISES_L1 = {
       "solution": "Chaque entier a un unique reste $r \\in \\{0, 1, 2, 3, 4\\}$ modulo 5. Il y a donc 5 classes d'équivalence disjointes, d'où $|\\mathbb{Z}/5\\mathbb{Z}| = 5$."
     },
     {
+      "id": "L1-LOG-3b",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Borne supérieure pour la divisibilité",
+      "skill": "Déterminer une borne supérieure dans un ensemble ordonné",
+      "statement": "On munit $\\mathbb{N}^{\\ast}$ de la relation d'ordre « divise ». Quelle est la borne supérieure de la partie $\\{4, 6\\}$ ?",
+      "options": [
+        "$12$",
+        "$24$",
+        "$6$",
+        "$2$"
+      ],
+      "correctIndex": 0,
+      "answer": "$12$",
+      "hint1": "Un majorant de $\\{4, 6\\}$ est un multiple commun de $4$ et $6$.",
+      "hint2": "La borne supérieure est le plus petit majorant au sens de la divisibilité : parmi les multiples communs, cherche celui qui divise tous les autres.",
+      "solution": "Les majorants de $\\{4, 6\\}$ sont les multiples communs de $4$ et $6$, c'est-à-dire les multiples de $\\operatorname{ppcm}(4, 6) = 12$. Le plus petit d'entre eux pour la divisibilité est $12$ : c'est la borne supérieure. (Le nombre $6$ n'est pas un majorant, car $4$ ne divise pas $6$.)"
+    },
+    {
+      "id": "L1-LOG-3c",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Construction de Z : définir le produit",
+      "skill": "Définir une opération sur un ensemble quotient à partir de représentants",
+      "statement": "On construit $\\mathbb{Z}$ comme l'ensemble quotient $\\mathbb{N}^2/\\!\\sim$, où $(a, b) \\sim (a', b') \\iff a + b' = a' + b$, la classe de $(a, b)$ représentant l'entier « $a - b$ ». Quelle définition du produit $\\overline{(a, b)} \\times \\overline{(c, d)}$ convient ?",
+      "options": [
+        "$\\overline{(ac + bd,\\ ad + bc)}$",
+        "$\\overline{(ac,\\ bd)}$",
+        "$\\overline{(ad + bc,\\ ac + bd)}$",
+        "$\\overline{(a + c,\\ b + d)}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\overline{(ac + bd,\\ ad + bc)}$",
+      "hint1": "Développe formellement $(a - b)(c - d)$ et regroupe les termes positifs d'un côté, les termes négatifs de l'autre.",
+      "hint2": "$(a - b)(c - d) = (ac + bd) - (\\dots)$ : complète, puis vérifie sur un exemple comme $(-1) \\times (-1)$, avec les représentants $(0, 1)$ et $(0, 1)$.",
+      "solution": "On a $(a - b)(c - d) = (ac + bd) - (ad + bc)$, d'où la définition $\\overline{(a, b)} \\times \\overline{(c, d)} = \\overline{(ac + bd,\\ ad + bc)}$, dont on vérifie qu'elle ne dépend pas des représentants. Contrôle : $(-1) \\times (-1)$ donne $\\overline{(0 + 1,\\ 0 + 0)} = \\overline{(1, 0)} = 1$. La proposition $\\overline{(ad + bc,\\ ac + bd)}$ donne l'opposé du produit, $\\overline{(ac,\\ bd)}$ donnerait $\\overline{(0, 1)} = -1$ pour ce contrôle, et $\\overline{(a + c,\\ b + d)}$ est la somme."
+    },
+    {
       "id": "L1-LOG-4",
       "tier": 4,
       "type": "mcq",
@@ -1171,6 +1359,25 @@ window.MATHS_EXERCISES_L1 = {
       "hint1": "$x \\in f^{-1}(A \\cap B) \\iff f(x) \\in A \\cap B$.",
       "hint2": "$f(x) \\in A \\text{ et } f(x) \\in B \\iff x \\in f^{-1}(A) \\text{ et } x \\in f^{-1}(B)$.",
       "solution": "$x \\in f^{-1}(A \\cap B) \\iff f(x) \\in A \\cap B \\iff f(x) \\in A \\text{ et } f(x) \\in B \\iff x \\in f^{-1}(A) \\cap f^{-1}(B)$."
+    },
+    {
+      "id": "L1-LOG-4b",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Parties contenant un élément donné",
+      "skill": "Construire une bijection pour dénombrer des parties",
+      "statement": "Combien l'ensemble $\\{1, 2, \\dots, 10\\}$ possède-t-il de parties à $4$ éléments contenant l'élément $1$ ?",
+      "options": [
+        "$84$",
+        "$210$",
+        "$126$",
+        "$120$"
+      ],
+      "correctIndex": 0,
+      "answer": "$84$",
+      "hint1": "Une telle partie est déterminée par ses éléments autres que $1$.",
+      "hint2": "Il reste $3$ éléments à choisir parmi les $9$ éléments de $\\{2, \\dots, 10\\}$.",
+      "solution": "L'application $X \\mapsto X \\setminus \\{1\\}$ est une bijection des parties à $4$ éléments contenant $1$ vers les parties à $3$ éléments de $\\{2, \\dots, 10\\}$. Il y en a donc $\\binom{9}{3} = \\dfrac{9 \\times 8 \\times 7}{6} = 84$."
     }
   ],
   "L1-CMP": [
@@ -1237,7 +1444,7 @@ window.MATHS_EXERCISES_L1 = {
       "type": "mcq",
       "title": "Polynôme du second degré à racine double",
       "skill": "Identifier une racine double et factoriser un carré parfait",
-      "statement": "Quelle est la factorisation dans $\\mathbb{R}[X]$ du trinôme $P(X) = X^2 - 6X + 9$, et quelle est la multiplicité de sa racine ?",
+      "statement": "Quelle est la factorisation complète dans $\\mathbb{R}[X]$ du trinôme $P(X) = X^2 - 6X + 9$, et quelle est la multiplicité de sa racine ?",
       "options": [
         "$(X - 3)^2$ ; $3$ est racine double (multiplicité 2)",
         "$(X - 3)(X + 3)$ ; deux racines simples distinctes",
@@ -1256,7 +1463,7 @@ window.MATHS_EXERCISES_L1 = {
       "type": "mcq",
       "title": "Polynôme de degré 3 avec racine double",
       "skill": "Détecter une racine double dans un polynôme de degré 3",
-      "statement": "Déterminer les racines et la factorisation dans $\\mathbb{R}[X]$ du polynôme de degré 3 : $P(X) = X^3 - 3X + 2$.",
+      "statement": "Déterminer les racines et la factorisation complète dans $\\mathbb{R}[X]$ du polynôme de degré 3 : $P(X) = X^3 - 3X + 2$.",
       "options": [
         "$(X - 1)^2 (X + 2)$ avec $1$ racine double et $-2$ racine simple",
         "$(X - 1)(X + 2)^2$ avec $-2$ racine double",
@@ -1294,7 +1501,7 @@ window.MATHS_EXERCISES_L1 = {
       "type": "mcq",
       "title": "Polynôme de degré 3 à racine double",
       "skill": "Détecter une racine double et factoriser un polynôme de degré 3",
-      "statement": "Factoriser dans $\\mathbb{R}[X]$ le polynôme $P(X) = X^3 - 5X^2 + 3X + 9$ :",
+      "statement": "Donner la factorisation complète (produit de facteurs irréductibles) dans $\\mathbb{R}[X]$ du polynôme $P(X) = X^3 - 5X^2 + 3X + 9$ :",
       "options": [
         "$(X - 3)^2 (X + 1)$",
         "$(X - 3)(X + 1)^2$",
@@ -1332,7 +1539,7 @@ window.MATHS_EXERCISES_L1 = {
       "type": "mcq",
       "title": "Polynôme de degré 4 à deux racines doubles",
       "skill": "Identifier deux racines doubles dans un polynôme de degré 4",
-      "statement": "Factoriser le polynôme $P(X) = X^4 - 2X^2 + 1$ dans $\\mathbb{R}[X]$ et préciser la multiplicité de ses racines :",
+      "statement": "Factoriser complètement le polynôme $P(X) = X^4 - 2X^2 + 1$ dans $\\mathbb{R}[X]$ et préciser la multiplicité de ses racines :",
       "options": [
         "$(X - 1)^2 (X + 1)^2$ (deux racines doubles : $1$ et $-1$)",
         "$(X^2 - 1)^2$ (deux racines simples)",
@@ -1387,8 +1594,8 @@ window.MATHS_EXERCISES_L1 = {
       "id": "L1-CMP-3f",
       "tier": 3,
       "type": "mcq",
-      "title": "Factorisation d'un polynôme de degré 4 sans racine réelle",
-      "skill": "Factoriser par complétion du carré (méthode de Sophie Germain)",
+      "title": "Degré 4 sans racine réelle : complétion du carré",
+      "skill": "Factoriser par complétion du carré",
       "statement": "Quelle est la décomposition en facteurs irréductibles dans $\\mathbb{R}[X]$ du polynôme $Q(X) = X^4 + X^2 + 1$ ?",
       "options": [
         "$(X^2 - X + 1)(X^2 + X + 1)$",
@@ -1406,8 +1613,8 @@ window.MATHS_EXERCISES_L1 = {
       "id": "L1-CMP-3g",
       "tier": 3,
       "type": "mcq",
-      "title": "Factorisation d'un polynôme de degré 4 sans racine réelle",
-      "skill": "Factoriser par complétion du carré (identité de Sophie Germain)",
+      "title": "Degré 4 sans racine réelle : identité de Sophie Germain",
+      "skill": "Appliquer l'identité de Sophie Germain",
       "statement": "Quelle est la factorisation en produit de polynômes irréductibles dans $\\mathbb{R}[X]$ du polynôme $Q(X) = X^4 + 4$ ?",
       "options": [
         "$(X^2 - 2X + 2)(X^2 + 2X + 2)$",
@@ -1425,39 +1632,58 @@ window.MATHS_EXERCISES_L1 = {
       "id": "L1-CMP-3h",
       "tier": 3,
       "type": "mcq",
-      "title": "Factorisation d'un polynôme de degré 4 sans racine réelle",
-      "skill": "Factoriser par complétion du carré",
-      "statement": "Quelle est la décomposition en facteurs irréductibles dans $\\mathbb{R}[X]$ du polynôme $Q(X) = X^4 + 4X^2 + 16$ ?",
+      "title": "Somme des carrés des racines d'un polynôme",
+      "skill": "Utiliser les relations entre coefficients et racines",
+      "statement": "Soient $a$, $b$, $c$ les trois racines complexes, comptées avec multiplicité, du polynôme $P(X) = X^3 - 2X^2 + 3X - 5$. Que vaut $a^2 + b^2 + c^2$ ?",
       "options": [
-        "$(X^2 - 2X + 4)(X^2 + 2X + 4)$",
-        "$(X^2 + 4)^2$",
-        "$(X^2 + 2X - 4)(X^2 - 2X - 4)$",
-        "Irréductible dans $\\mathbb{R}[X]$"
+        "$-2$",
+        "$10$",
+        "$4$",
+        "$1$"
       ],
       "correctIndex": 0,
-      "answer": "$(X^2 - 2X + 4)(X^2 + 2X + 4)$",
-      "hint1": "Complète le carré en écrivant : $X^4 + 4X^2 + 16 = (X^4 + 8X^2 + 16) - 4X^2 = (X^2 + 4)^2 - (2X)^2$.",
-      "hint2": "Applique $A^2 - B^2 = (A - B)(A + B)$ avec $A = X^2 + 4$ et $B = 2X$, puis étudie le signe des discriminants.",
-      "solution": "On complète le carré : $X^4 + 4X^2 + 16 = (X^2 + 4)^2 - 4X^2 = (X^2 - 2X + 4)(X^2 + 2X + 4)$. Le discriminant de chacun des deux trinômes est $\\Delta = 4 - 16 = -12 < 0$, donc ils sont irréductibles dans $\\mathbb{R}[X]$."
+      "answer": "$-2$",
+      "hint1": "Lis sur les coefficients de $P$ les valeurs de $\\sigma_1 = a + b + c$ et $\\sigma_2 = ab + ac + bc$.",
+      "hint2": "Développe $(a + b + c)^2$ pour exprimer $a^2 + b^2 + c^2$ à l'aide de $\\sigma_1$ et $\\sigma_2$.",
+      "solution": "Les relations coefficients-racines donnent $\\sigma_1 = a + b + c = 2$ et $\\sigma_2 = ab + ac + bc = 3$. Comme $(a + b + c)^2 = a^2 + b^2 + c^2 + 2\\sigma_2$, on a $a^2 + b^2 + c^2 = \\sigma_1^2 - 2\\sigma_2 = 4 - 6 = -2$. Cette valeur est négative : les trois racines ne sont donc pas toutes réelles."
     },
     {
       "id": "L1-CMP-3i",
       "tier": 3,
       "type": "mcq",
-      "title": "Factorisation d'un polynôme de degré 4 sans racine réelle",
-      "skill": "Factoriser par complétion du carré",
-      "statement": "Quelle est la décomposition en facteurs irréductibles dans $\\mathbb{R}[X]$ du polynôme $Q(X) = X^4 + 1$ ?",
+      "title": "Condition pour une racine double",
+      "skill": "Traduire une divisibilité par $(X - \\alpha)^2$ avec la dérivée",
+      "statement": "Pour quels réels $a$ et $b$ le polynôme $(X - 1)^2$ divise-t-il $P(X) = X^4 + aX + b$ ?",
       "options": [
-        "$(X^2 - \\sqrt{2}X + 1)(X^2 + \\sqrt{2}X + 1)$",
-        "$(X^2 + 1)^2$",
-        "$(X^2 - 1)^2$",
-        "Irréductible dans $\\mathbb{R}[X]$"
+        "$a = -4$ et $b = 3$",
+        "$a = 4$ et $b = -5$",
+        "$a = -4$ et $b = -3$",
+        "$a = -3$ et $b = 2$"
       ],
       "correctIndex": 0,
-      "answer": "$(X^2 - \\sqrt{2}X + 1)(X^2 + \\sqrt{2}X + 1)$",
-      "hint1": "Complète le carré en écrivant : $X^4 + 1 = (X^4 + 2X^2 + 1) - 2X^2 = (X^2 + 1)^2 - (\\sqrt{2}X)^2$.",
-      "hint2": "Applique $A^2 - B^2 = (A - B)(A + B)$ avec $A = X^2 + 1$ et $B = \\sqrt{2}X$, puis vérifie que les discriminants sont strictement négatifs.",
-      "solution": "On a $X^4 + 1 = (X^2 + 1)^2 - 2X^2 = (X^2 - \\sqrt{2}X + 1)(X^2 + \\sqrt{2}X + 1)$. Pour ces deux trinômes, $\\Delta = (-\\sqrt{2})^2 - 4(1)(1) = 2 - 4 = -2 < 0$, ils sont donc irréductibles dans $\\mathbb{R}[X]$."
+      "answer": "$a = -4$ et $b = 3$",
+      "hint1": "$(X - 1)^2$ divise $P$ si et seulement si $1$ est racine de $P$ et de $P'$.",
+      "hint2": "Écris $P(1) = 0$ et calcule $P'(X)$ pour traduire $P'(1) = 0$.",
+      "solution": "$(X - 1)^2$ divise $P$ si et seulement si $P(1) = P'(1) = 0$. Comme $P'(X) = 4X^3 + a$, on obtient $4 + a = 0$, soit $a = -4$, puis $P(1) = 1 + a + b = 0$ donne $b = 3$. Vérification : $X^4 - 4X + 3 = (X - 1)^2(X^2 + 2X + 3)$."
+    },
+    {
+      "id": "L1-CMP-3j",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Inverse modulo n par la relation de Bézout",
+      "skill": "Calculer un inverse dans $\\mathbb{Z}/n\\mathbb{Z}$ avec l'algorithme d'Euclide",
+      "statement": "Déterminer l'inverse de $\\bar{7}$ dans $\\mathbb{Z}/30\\mathbb{Z}$.",
+      "options": [
+        "$\\overline{13}$",
+        "$\\overline{17}$",
+        "$\\overline{7}$",
+        "$\\bar{7}$ n'est pas inversible dans $\\mathbb{Z}/30\\mathbb{Z}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\overline{13}$",
+      "hint1": "$\\bar{7}$ est inversible car $\\mathrm{pgcd}(7, 30) = 1$ ; cherche une relation de Bézout $7u + 30v = 1$ par l'algorithme d'Euclide.",
+      "hint2": "$30 = 4 \\times 7 + 2$ et $7 = 3 \\times 2 + 1$ : remonte ces égalités en partant de $1 = 7 - 3 \\times 2$.",
+      "solution": "L'algorithme d'Euclide donne $30 = 4 \\times 7 + 2$ et $7 = 3 \\times 2 + 1$, donc $\\mathrm{pgcd}(7, 30) = 1$. En remontant : $1 = 7 - 3 \\times 2 = 7 - 3(30 - 4 \\times 7) = 13 \\times 7 - 3 \\times 30$. Ainsi $7 \\times 13 \\equiv 1 \\ [30]$ et l'inverse de $\\bar{7}$ est $\\overline{13}$. Contrôle : $7 \\times 13 = 91 = 3 \\times 30 + 1$."
     },
     {
       "id": "L1-CMP-4",
@@ -1534,6 +1760,25 @@ window.MATHS_EXERCISES_L1 = {
       "hint1": "Comme le numérateur $X^3 + 2$ et le dénominateur $(X - 1)^2(X + 2)$ sont tous deux de degré 3, la partie entière est la constante $E(X) = 1/1 = 1$.",
       "hint2": "Pour isoler $\\alpha$, multiplie $G(X)$ par $(X - 1)^2$ puis évalue l'expression restante en $X = 1$.",
       "solution": "On a $\\deg(X^3 + 2) = 3$ et $\\deg((X - 1)^2(X + 2)) = 3$. Le quotient des coefficients dominants vaut $1/1 = 1$, donc la partie entière est $E(X) = 1$. Pour trouver $\\alpha$, on calcule $\\lim_{X \\to 1} (X - 1)^2 G(X) = \\left[\\frac{X^3 + 2}{X + 2}\\right]_{X=1} = \\frac{1 + 2}{1 + 2} = 1$. D'où $E(X) = 1$ et $\\alpha = 1$."
+    },
+    {
+      "id": "L1-CMP-4e",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Reste d'une grande puissance par le petit théorème de Fermat",
+      "skill": "Appliquer le petit théorème de Fermat pour réduire un exposant",
+      "statement": "Quel est le reste de la division euclidienne de $3^{100}$ par $7$ ?",
+      "options": [
+        "$4$",
+        "$1$",
+        "$3$",
+        "$2$"
+      ],
+      "correctIndex": 0,
+      "answer": "$4$",
+      "hint1": "$7$ est premier et ne divise pas $3$ : le petit théorème de Fermat donne $3^6 \\equiv 1 \\ [7]$.",
+      "hint2": "Écris la division euclidienne $100 = 6 \\times 16 + 4$, puis $3^{100} = (3^6)^{16} \\times 3^4$.",
+      "solution": "Comme $7$ est premier et ne divise pas $3$, le petit théorème de Fermat donne $3^6 \\equiv 1 \\ [7]$. Avec $100 = 6 \\times 16 + 4$, on obtient $3^{100} = (3^6)^{16} \\times 3^4 \\equiv 3^4 \\ [7]$. Or $3^4 = 81 = 11 \\times 7 + 4$. Le reste cherché est donc $4$."
     }
   ],
   "L1-MAT": [
@@ -1633,23 +1878,42 @@ window.MATHS_EXERCISES_L1 = {
       "solution": "$AB = \\begin{pmatrix} 1 \\times 0 + 2 \\times 1 & 1 \\times 1 + 2 \\times 0 \\\\ 0 \\times 0 + 1 \\times 1 & 0 \\times 1 + 1 \\times 0 \\end{pmatrix} = \\begin{pmatrix} 2 & 1 \\\\ 1 & 0 \\end{pmatrix}$."
     },
     {
+      "id": "L1-MAT-5",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Format d'un produit matriciel et transposée",
+      "skill": "Déterminer si un produit est défini et donner sa taille",
+      "statement": "Soient $A$ et $B$ deux matrices de $\\mathcal{M}_{2,3}(\\mathbb{R})$. Laquelle des affirmations suivantes est vraie ?",
+      "options": [
+        "Le produit $\\,{}^t\\!A\\,B$ est défini et c'est une matrice carrée d'ordre $3$",
+        "Le produit $AB$ est défini et c'est une matrice de $\\mathcal{M}_{2,3}(\\mathbb{R})$",
+        "Le produit $A\\,{}^t\\!B$ est défini et c'est une matrice carrée d'ordre $3$",
+        "Le produit $\\,{}^t\\!A\\,B$ n'est pas défini"
+      ],
+      "correctIndex": 0,
+      "answer": "Le produit $\\,{}^t\\!A\\,B$ est défini et c'est une matrice carrée d'ordre $3$",
+      "hint1": "Le produit $MN$ est défini si le nombre de colonnes de $M$ est égal au nombre de lignes de $N$ ; une matrice $n \\times p$ fois une matrice $p \\times q$ donne une matrice $n \\times q$.",
+      "hint2": "$\\,{}^t\\!A$ est de taille $3 \\times 2$, et $B$ de taille $2 \\times 3$.",
+      "solution": "$AB$ n'est pas défini : $A$ a $3$ colonnes et $B$ a $2$ lignes. $\\,{}^t\\!A \\in \\mathcal{M}_{3,2}(\\mathbb{R})$ et $B \\in \\mathcal{M}_{2,3}(\\mathbb{R})$, donc $\\,{}^t\\!A\\,B$ est défini, de taille $3 \\times 3$. Le produit $A\\,{}^t\\!B$ est aussi défini, mais de taille $2 \\times 2$."
+    },
+    {
       "id": "L1-MAT-3",
       "tier": 3,
       "type": "mcq",
-      "title": "Résolution de système échelonné",
-      "skill": "Résoudre un système linéaire échelonné en lignes",
-      "statement": "Quelle est l'unique solution du système $\\begin{cases} x + y + z = 6 \\\\ 2y + z = 7 \\\\ 3z = 9 \\end{cases}$ ?",
+      "title": "Résolution d'un système par la méthode du pivot",
+      "skill": "Échelonner puis résoudre un système linéaire $3 \\times 3$",
+      "statement": "Quelle est l'unique solution du système $\\begin{cases} x + y + z = 6 \\\\ 2x + 3y + z = 11 \\\\ x - y + 2z = 5 \\end{cases}$ ?",
       "options": [
         "$(x, y, z) = (1, 2, 3)$",
         "$(x, y, z) = (2, 1, 3)$",
         "$(x, y, z) = (3, 2, 1)$",
-        "$(x, y, z) = (0, 3, 3)$"
+        "$(x, y, z) = (1, 3, 2)$"
       ],
       "correctIndex": 0,
       "answer": "$(x, y, z) = (1, 2, 3)$",
-      "hint1": "Commence par $3z = 9 \\implies z = 3$.",
-      "hint2": "Remplace $z$ dans la deuxième équation pour trouver $y$, puis remonte à la première équation pour trouver $x$.",
-      "solution": "$3z = 9 \\implies z = 3$. Puis $2y + 3 = 7 \\implies y = 2$. Enfin $x + 2 + 3 = 6 \\implies x = 1$."
+      "hint1": "Utilise la première équation pour éliminer $x$ des deux autres : $L_2 \\leftarrow L_2 - 2L_1$ et $L_3 \\leftarrow L_3 - L_1$.",
+      "hint2": "Tu obtiens $y - z = -1$ et $-2y + z = -1$ ; élimine $y$ de la dernière équation avec $L_3 \\leftarrow L_3 + 2L_2$.",
+      "solution": "$L_2 \\leftarrow L_2 - 2L_1$ et $L_3 \\leftarrow L_3 - L_1$ donnent $y - z = -1$ et $-2y + z = -1$. Puis $L_3 \\leftarrow L_3 + 2L_2$ donne $-z = -3$. Le système échelonné $\\begin{cases} x + y + z = 6 \\\\ y - z = -1 \\\\ -z = -3 \\end{cases}$ a trois pivots : solution unique. En remontant : $z = 3$, $y = 2$, $x = 1$. Vérification dans la troisième équation : $1 - 2 + 6 = 5$."
     },
     {
       "id": "L1-MAT-4",
@@ -1657,18 +1921,18 @@ window.MATHS_EXERCISES_L1 = {
       "type": "mcq",
       "title": "Inversion par élimination de Gauss-Jordan",
       "skill": "Calculer l'inverse d'une matrice $3 \\times 3$",
-      "statement": "Quelle est la matrice inverse de $A = \\begin{pmatrix} 1 & 0 & 0 \\\\ 2 & 1 & 0 \\\\ 4 & 3 & 1 \\end{pmatrix}$ ?",
+      "statement": "Quelle est la matrice inverse de $A = \\begin{pmatrix} 1 & 1 & 0 \\\\ 1 & 2 & 1 \\\\ 0 & 1 & 2 \\end{pmatrix}$ ?",
       "options": [
-        "$\\begin{pmatrix} 1 & 0 & 0 \\\\ -2 & 1 & 0 \\\\ 2 & -3 & 1 \\end{pmatrix}$",
-        "$\\begin{pmatrix} 1 & 0 & 0 \\\\ 2 & 1 & 0 \\\\ -4 & -3 & 1 \\end{pmatrix}$",
-        "$\\begin{pmatrix} 1 & 2 & 4 \\\\ 0 & 1 & 3 \\\\ 0 & 0 & 1 \\end{pmatrix}$",
-        "$\\begin{pmatrix} -1 & 0 & 0 \\\\ 2 & -1 & 0 \\\\ -2 & 3 & -1 \\end{pmatrix}$"
+        "$\\begin{pmatrix} 3 & -2 & 1 \\\\ -2 & 2 & -1 \\\\ 1 & -1 & 1 \\end{pmatrix}$",
+        "$\\begin{pmatrix} 3 & 2 & 1 \\\\ 2 & 2 & 1 \\\\ 1 & 1 & 1 \\end{pmatrix}$",
+        "$\\begin{pmatrix} -3 & 2 & -1 \\\\ 2 & -2 & 1 \\\\ -1 & 1 & -1 \\end{pmatrix}$",
+        "$\\begin{pmatrix} 1 & -1 & 0 \\\\ -1 & 1 & -1 \\\\ 0 & -1 & 1 \\end{pmatrix}$"
       ],
       "correctIndex": 0,
-      "answer": "$\\begin{pmatrix} 1 & 0 & 0 \\\\ -2 & 1 & 0 \\\\ 2 & -3 & 1 \\end{pmatrix}$",
-      "hint1": "Opérations : $L_2 \\leftarrow L_2 - 2L_1$ puis $L_3 \\leftarrow L_3 - 3L_2 - 4L_1$.",
-      "hint2": "Le coefficient en position $(3,1)$ vaut $-4 - 3(-2) = 2$.",
-      "solution": "Par élimination de Gauss-Jordan sur $(A | I_3)$, on trouve $A^{-1} = \\begin{pmatrix} 1 & 0 & 0 \\\\ -2 & 1 & 0 \\\\ 2 & -3 & 1 \\end{pmatrix}$."
+      "answer": "$\\begin{pmatrix} 3 & -2 & 1 \\\\ -2 & 2 & -1 \\\\ 1 & -1 & 1 \\end{pmatrix}$",
+      "hint1": "Applique la méthode de Gauss-Jordan à $(A \\mid I_3)$ : commence par $L_2 \\leftarrow L_2 - L_1$.",
+      "hint2": "Après $L_2 \\leftarrow L_2 - L_1$, la deuxième ligne devient $(0\\ \\ 1\\ \\ 1 \\mid -1\\ \\ 1\\ \\ 0)$ ; utilise-la pour éliminer le $1$ de la troisième ligne : $L_3 \\leftarrow L_3 - L_2$.",
+      "solution": "Sur $(A \\mid I_3)$ : $L_2 \\leftarrow L_2 - L_1$ donne $(0\\ \\ 1\\ \\ 1 \\mid -1\\ \\ 1\\ \\ 0)$ ; $L_3 \\leftarrow L_3 - L_2$ donne $(0\\ \\ 0\\ \\ 1 \\mid 1\\ \\ -1\\ \\ 1)$ ; $L_2 \\leftarrow L_2 - L_3$ donne $(0\\ \\ 1\\ \\ 0 \\mid -2\\ \\ 2\\ \\ -1)$ ; enfin $L_1 \\leftarrow L_1 - L_2$ donne $(1\\ \\ 0\\ \\ 0 \\mid 3\\ \\ -2\\ \\ 1)$. Donc $A^{-1} = \\begin{pmatrix} 3 & -2 & 1 \\\\ -2 & 2 & -1 \\\\ 1 & -1 & 1 \\end{pmatrix}$. Vérification : la deuxième ligne de $A$ fois la première colonne de $A^{-1}$ donne $3 - 4 + 1 = 0$, et de même $AA^{-1} = I_3$."
     }
   ],
   "L1-EV1": [
@@ -1689,7 +1953,7 @@ window.MATHS_EXERCISES_L1 = {
       "answer": "$F = \\{(x, y, z) \\in \\mathbb{R}^3 \\mid 2x - 3y + z = 0\\}$",
       "hint1": "Un s.e.v. doit contenir $(0,0,0)$ et être stable par combinaison linéaire.",
       "hint2": "Écarte $G$ (contient-il le vecteur nul ?), puis cherche pour $H$ et $K$ deux vecteurs dont la somme, ou un multiple, sort de l'ensemble.",
-      "solution": "$F$ contient le vecteur nul $(0,0,0)$ et est défini par une équation linéaire homogène (forme linéaire). Pour $G$, $(0,0,0) \\notin G$. Pour $H$, la condition quadratique n'est pas stable par addition. Pour $K$, ce n'est pas stable par multiplication par un scalaire négatif. Seul $F$ est un SEV (hyperplan vectoriel de dimension 2)."
+      "solution": "$F$ contient le vecteur nul $(0,0,0)$ et est défini par une équation linéaire homogène (forme linéaire). Pour $G$, $(0,0,0) \\notin G$. Pour $H$, la condition quadratique n'est pas stable par addition. Pour $K$, la multiplication par un scalaire ne pose pas de problème (car $(\\lambda x)(\\lambda y) = \\lambda^2 xy \\ge 0$), mais $K$ n'est pas stable par addition : $(1, 0, 0)$ et $(0, -1, 0)$ sont dans $K$, alors que leur somme $(1, -1, 0)$ vérifie $xy = -1 < 0$. Seul $F$ est un SEV (hyperplan vectoriel de dimension 2)."
     },
     {
       "id": "L1-EV1-2",
@@ -1697,7 +1961,7 @@ window.MATHS_EXERCISES_L1 = {
       "type": "mcq",
       "title": "Famille de vecteurs sans composante nulle dans $\\mathbb{R}^3$",
       "skill": "Tester l'indépendance linéaire de vecteurs sans coefficients nuls",
-      "statement": "Dans $\\mathbb{R}^3$, la famille $\\mathcal{F} = \\{u = (1, 2, -1), \\, v = (2, -1, 3), \\, w = (3, 1, 2)\\}$ est-elle libre ou liée ?",
+      "statement": "Dans $\\mathbb{R}^3$, la famille $\\mathcal{F} = (u, v, w)$, où $u = (1, 2, -1)$, $v = (2, -1, 3)$ et $w = (3, 1, 2)$, est-elle libre ou liée ?",
       "options": [
         "Liée, car $w = u + v$",
         "Libre, car aucun vecteur ne contient de coordonnée nulle",
@@ -1716,7 +1980,7 @@ window.MATHS_EXERCISES_L1 = {
       "type": "mcq",
       "title": "Base de $\\mathbb{R}^3$ sans coordonnée nulle",
       "skill": "Vérifier la liberté par calcul de déterminant non nul",
-      "statement": "Dans $\\mathbb{R}^3$, la famille $\\mathcal{B} = \\{u = (1, 1, 2), \\, v = (2, -1, 1), \\, w = (1, 3, 1)\\}$ forme-t-elle une base de $\\mathbb{R}^3$ ?",
+      "statement": "Dans $\\mathbb{R}^3$, la famille $\\mathcal{B} = (u, v, w)$, où $u = (1, 1, 2)$, $v = (2, -1, 1)$ et $w = (1, 3, 1)$, forme-t-elle une base de $\\mathbb{R}^3$ ?",
       "options": [
         "Oui, car c'est une famille libre (déterminant non nul égal à 9) de 3 vecteurs dans $\\mathbb{R}^3$",
         "Non, car 3 vecteurs sans composante nulle sont toujours liés",
@@ -1730,6 +1994,25 @@ window.MATHS_EXERCISES_L1 = {
       "solution": "Le déterminant de la matrice formée par ces vecteurs est $\\det(u, v, w) = 1((-1)(1) - (1)(3)) - 1((2)(1) - (1)(1)) + 2((2)(3) - (-1)(1)) = -4 - 1 + 14 = 9 \\neq 0$. La famille est donc libre. Comme $\\text{Card}(\\mathcal{B}) = 3 = \\dim(\\mathbb{R}^3)$, $\\mathcal{B}$ est une base de $\\mathbb{R}^3$."
     },
     {
+      "id": "L1-EV1-5",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Dimension d'un sous-espace défini par des équations",
+      "skill": "Trouver une base d'un sous-espace de $\\mathbb{R}^4$",
+      "statement": "Quelle est la dimension du sous-espace $F = \\{(x, y, z, t) \\in \\mathbb{R}^4 : x + y = 0 \\text{ et } z - t = 0\\}$ ?",
+      "options": [
+        "$2$",
+        "$3$",
+        "$1$",
+        "$4$"
+      ],
+      "correctIndex": 0,
+      "answer": "$2$",
+      "hint1": "Exprime certaines coordonnées en fonction des autres, puis écris un vecteur quelconque de $F$ comme combinaison linéaire de vecteurs fixés.",
+      "hint2": "$(x, y, z, t) \\in F \\iff y = -x$ et $t = z$ : écris $(x, -x, z, z)$ à l'aide de $x$ et de $z$.",
+      "solution": "$(x, y, z, t) \\in F \\iff y = -x$ et $t = z$, donc $(x, y, z, t) = x(1, -1, 0, 0) + z(0, 0, 1, 1)$. La famille $\\big((1, -1, 0, 0), (0, 0, 1, 1)\\big)$ engendre $F$ et elle est libre (les vecteurs ne sont pas proportionnels) : c'est une base, et $\\dim F = 2$. On retrouve $4 - 2$ : deux équations indépendantes dans $\\mathbb{R}^4$."
+    },
+    {
       "id": "L1-EV1-3",
       "tier": 3,
       "type": "mcq",
@@ -1737,16 +2020,16 @@ window.MATHS_EXERCISES_L1 = {
       "skill": "Déterminer une base et la dimension d'un sous-espace cartésien",
       "statement": "Quelle est la dimension et une base du sous-espace $F = \\{(x, y, z) \\in \\mathbb{R}^3 \\mid x - 2y + z = 0\\}$ ?",
       "options": [
-        "$\\dim(F) = 2$, de base $\\mathcal{B} = \\{(2, 1, 0), \\, (-1, 0, 1)\\}$",
-        "$\\dim(F) = 1$, de base $\\mathcal{B} = \\{(1, -2, 1)\\}$",
+        "$\\dim(F) = 2$, de base $\\mathcal{B} = \\big((2, 1, 0), \\, (-1, 0, 1)\\big)$",
+        "$\\dim(F) = 1$, de base $\\mathcal{B} = \\big((1, -2, 1)\\big)$",
         "$\\dim(F) = 3$, de base canonique de $\\mathbb{R}^3$",
-        "$\\dim(F) = 2$, de base $\\mathcal{B} = \\{(1, 1, 1), \\, (0, 0, 0)\\}$"
+        "$\\dim(F) = 2$, de base $\\mathcal{B} = \\big((1, 1, 1), \\, (0, 0, 0)\\big)$"
       ],
       "correctIndex": 0,
-      "answer": "$\\dim(F) = 2$, de base $\\mathcal{B} = \\{(2, 1, 0), \\, (-1, 0, 1)\\}$",
+      "answer": "$\\dim(F) = 2$, de base $\\mathcal{B} = \\big((2, 1, 0), \\, (-1, 0, 1)\\big)$",
       "hint1": "Isole $x$ dans l'équation : $x = 2y - z$.",
       "hint2": "Décompose le vecteur $(x, y, z) = y(2, 1, 0) + z(-1, 0, 1)$.",
-      "solution": "Un vecteur $(x, y, z)$ appartient à $F$ ssi $x = 2y - z$. Donc $(x, y, z) = (2y - z, y, z) = y(2, 1, 0) + z(-1, 0, 1)$. Les deux vecteurs $(2, 1, 0)$ et $(-1, 0, 1)$ ne sont pas colinéaires, ils sont libres et engendrent $F$. Ainsi, $\\dim(F) = 2$ et $\{(2, 1, 0), (-1, 0, 1)\}$ est une base de $F$."
+      "solution": "Un vecteur $(x, y, z)$ appartient à $F$ ssi $x = 2y - z$. Donc $(x, y, z) = (2y - z, y, z) = y(2, 1, 0) + z(-1, 0, 1)$. Les deux vecteurs $(2, 1, 0)$ et $(-1, 0, 1)$ ne sont pas colinéaires, ils sont libres et engendrent $F$. Ainsi, $\\dim(F) = 2$ et $\\big((2, 1, 0), (-1, 0, 1)\\big)$ est une base de $F$."
     },
     {
       "id": "L1-EV1-3b",
@@ -1754,15 +2037,15 @@ window.MATHS_EXERCISES_L1 = {
       "type": "mcq",
       "title": "Sous-espaces supplémentaires et somme directe dans $\\mathbb{R}^3$",
       "skill": "Vérifier la condition de supplémentarité $F \\oplus D = \\mathbb{R}^3$",
-      "statement": "Soit le plan vectoriel $F = \\{(x, y, z) \\in \\mathbb{R}^3 \\mid x + y + z = 0\\}$. Pour quelle droite vectorielle $D = \\text{Vect}(u)$ a-t-on $F \\oplus D = \\mathbb{R}^3$ ?",
+      "statement": "Soit le plan vectoriel $F = \\{(x, y, z) \\in \\mathbb{R}^3 \\mid x + y + z = 0\\}$. Pour lequel des vecteurs suivants la droite $D = \\text{Vect}(u)$ vérifie-t-elle $F \\oplus D = \\mathbb{R}^3$ ?",
       "options": [
-        "Pour $u = (1, 1, 1)$, car $(1, 1, 1) \\notin F$",
-        "Pour $u = (1, -1, 0)$, car $(1, -1, 0) \\in F$",
-        "Pour $u = (2, -1, -1)$, car $2 + (-1) + (-1) = 0$",
-        "Pour aucun vecteur, car un plan n'a pas de supplémentaire"
+        "$u = (1, 1, 1)$",
+        "$u = (1, -1, 0)$",
+        "$u = (2, -1, -1)$",
+        "Aucun de ces vecteurs"
       ],
       "correctIndex": 0,
-      "answer": "Pour $u = (1, 1, 1)$, car $(1, 1, 1) \\notin F$",
+      "answer": "$u = (1, 1, 1)$",
       "hint1": "$\\dim(F) + \\dim(D) = 2 + 1 = 3$. La somme est directe ssi $F \\cap D = \\{0\\}$.",
       "hint2": "La condition $F \\cap D = \\{0\\}$ équivaut au fait que le vecteur directeur $u$ n'appartient pas au plan $F$.",
       "solution": "Comme $\\dim(F) = 2$ et $\\dim(D) = 1$, la somme des dimensions vaut 3. Pour que la somme soit directe, il faut et suffit que le vecteur directeur $u$ n'appartienne pas à $F$. Pour $u = (1, 1, 1)$, $1+1+1 = 3 \\neq 0$, donc $u \\notin F$. Ainsi $F \\cap D = \\{0\\}$ et $F \\oplus D = \\mathbb{R}^3$."
@@ -1846,6 +2129,25 @@ window.MATHS_EXERCISES_L1 = {
       "solution": "Par linéarité de la dérivation : $D(3X^2 - 5X + 4) = 3(X^2)' - 5(X)' + (4)' = 3(2X) - 5(1) + 0 = 6X - 5$."
     },
     {
+      "id": "L1-APP-4b",
+      "tier": 1,
+      "type": "mcq",
+      "title": "Équivalences fondamentales en dimension finie",
+      "skill": "Maîtriser le théorème reliant injectivité, surjectivité et bijectivité",
+      "statement": "Soit $E$ un espace vectoriel de dimension FINIE $n$, et $f \\in \\mathcal{L}(E)$ un endomorphisme. Laquelle des affirmations suivantes est TOUJOURS vraie ?",
+      "options": [
+        "$f \\text{ est injectif} \\iff f \\text{ est surjectif} \\iff f \\text{ est bijectif}$",
+        "$f \\text{ injectif} \\implies f = \\text{Id}_E$",
+        "L'équivalence entre injectivité et surjectivité reste vraie même en dimension infinie",
+        "$f \\text{ surjectif} \\implies \\text{Ker}(f) = E$"
+      ],
+      "correctIndex": 0,
+      "answer": "$f \\text{ est injectif} \\iff f \\text{ est surjectif} \\iff f \\text{ est bijectif}$",
+      "hint1": "Utilise le théorème du rang : $\\dim(E) = \\dim(\\text{Ker} f) + \\text{rg}(f)$.",
+      "hint2": "Comme l'espace de départ et d'arrivée ont la même dimension finie : $\\dim(\\text{Ker} f) = 0 \\iff \\text{rg}(f) = \\dim(E)$.",
+      "solution": "D'après le Théorème du Rang : $\\dim(E) = \\dim(\\text{Ker} f) + \\text{rg}(f)$. Comme départ et arrivée ont la même dimension finie $n$ : $f$ injectif $\\iff \\text{Ker}(f) = \\{0\\} \\iff \\text{rg}(f) = n = \\dim(E) \\iff f$ surjectif. Attention : ceci est faux en dimension infinie (par exemple l'opérateur de dérivation sur $\\mathbb{R}[X]$ est surjectif mais non injectif)."
+    },
+    {
       "id": "L1-APP-2",
       "tier": 2,
       "type": "mcq",
@@ -1903,6 +2205,25 @@ window.MATHS_EXERCISES_L1 = {
       "solution": "Dans la base canonique $(1, X, X^2)$ :\n$D(1) = 0$, $D(X) = 1$, $D(X^2) = 2X$.\nLa matrice est donc $M = \\begin{pmatrix} 0 & 1 & 0 \\\\ 0 & 0 & 2 \\\\ 0 & 0 & 0 \\end{pmatrix}$. C'est une matrice triangulaire supérieure stricte : sa diagonale est nulle, sa trace vaut 0, et elle est nilpotente d'indice 3 ($M^3 = 0$)."
     },
     {
+      "id": "L1-APP-5",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Rang et noyau à partir d'une matrice",
+      "skill": "Déterminer le rang et le noyau d'un endomorphisme de $\\mathbb{R}^3$",
+      "statement": "Soit $f \\in \\mathcal{L}(\\mathbb{R}^3)$ de matrice $\\begin{pmatrix} 1 & 2 & 3 \\\\ 2 & 4 & 6 \\\\ 1 & 0 & 1 \\end{pmatrix}$ dans la base canonique. Que valent le rang et le noyau de $f$ ?",
+      "options": [
+        "$\\operatorname{rg}(f) = 2$ et $\\operatorname{Ker}(f) = \\operatorname{Vect}\\big((1, 1, -1)\\big)$",
+        "$\\operatorname{rg}(f) = 3$ et $\\operatorname{Ker}(f) = \\{(0, 0, 0)\\}$",
+        "$\\operatorname{rg}(f) = 1$ et $\\dim \\operatorname{Ker}(f) = 2$",
+        "$\\operatorname{rg}(f) = 2$ et $\\operatorname{Ker}(f) = \\operatorname{Vect}\\big((1, 2, 1)\\big)$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\operatorname{rg}(f) = 2$ et $\\operatorname{Ker}(f) = \\operatorname{Vect}\\big((1, 1, -1)\\big)$",
+      "hint1": "Le rang de $f$ est le rang de la famille des colonnes : cherche une relation linéaire entre elles, puis applique le théorème du rang.",
+      "hint2": "La troisième colonne est la somme des deux premières, et les deux premières ne sont pas proportionnelles.",
+      "solution": "Notons $C_1, C_2, C_3$ les colonnes : $C_3 = C_1 + C_2$, et $C_1 = (1, 2, 1)$, $C_2 = (2, 4, 0)$ ne sont pas proportionnelles. Donc $\\operatorname{rg}(f) = 2$ et, par le théorème du rang, $\\dim \\operatorname{Ker}(f) = 3 - 2 = 1$. La relation $C_1 + C_2 - C_3 = 0$ signifie $f(1, 1, -1) = (0, 0, 0)$ : $\\operatorname{Ker}(f) = \\operatorname{Vect}\\big((1, 1, -1)\\big)$. Le vecteur $(1, 2, 1)$ est la première colonne, c'est-à-dire $f(1, 0, 0)$ : il est dans l'image, pas dans le noyau."
+    },
+    {
       "id": "L1-APP-4",
       "tier": 4,
       "type": "mcq",
@@ -1919,26 +2240,26 @@ window.MATHS_EXERCISES_L1 = {
       "answer": "$p^2 = p$ et $E = \\text{Ker}(p) \\oplus \\text{Im}(p)$",
       "hint1": "Un projecteur vérifie $p \\circ p = p$ (idempotence).",
       "hint2": "Tout vecteur s'écrit de façon unique $x = (x - p(x)) + p(x)$.",
-      "solution": "Un endomorphisme est un projecteur ssi $p^2 = p$. On a alors immédiatement $E = \\text{Ker}(p) \\oplus \\text{Im}(p)$, la projection se faisant sur $\\text{Im}(p)$ parallèlement à $\\text{Ker}(p)$. La relation $s^2 = \\text{Id}_E$ caractérise quant à elle les symétries vectorielles."
+      "solution": "Un endomorphisme est un projecteur ssi $p^2 = p$. On a alors $E = \\text{Ker}(p) \\oplus \\text{Im}(p)$ : tout $x$ s'écrit $x = (x - p(x)) + p(x)$, avec $p(x - p(x)) = p(x) - p^2(x) = 0$, et si $y = p(z)$ vérifie $p(y) = 0$, alors $y = p(z) = p^2(z) = p(y) = 0$. La projection se fait sur $\\text{Im}(p)$ parallèlement à $\\text{Ker}(p)$. La relation $s^2 = \\text{Id}_E$ caractérise quant à elle les symétries vectorielles."
     },
     {
-      "id": "L1-APP-4b",
+      "id": "L1-APP-6",
       "tier": 4,
       "type": "mcq",
-      "title": "Équivalences fondamentales en dimension finie",
-      "skill": "Maîtriser le théorème reliant injectivité, surjectivité et bijectivité",
-      "statement": "Soit $E$ un espace vectoriel de dimension FINIE $n$, et $f \\in \\mathcal{L}(E)$ un endomorphisme. Laquelle des affirmations suivantes est TOUJOURS vraie ?",
+      "title": "Endomorphisme de carré nul",
+      "skill": "Relier image et noyau pour majorer un rang",
+      "statement": "Soit $f \\in \\mathcal{L}(\\mathbb{R}^3)$ tel que $f \\circ f = 0$ et $f \\neq 0$. Que vaut $\\operatorname{rg}(f)$ ?",
       "options": [
-        "$f \\text{ est injectif} \\iff f \\text{ est surjectif} \\iff f \\text{ est bijectif}$",
-        "$f \\text{ injectif} \\implies f = \\text{Id}_E$",
-        "L'équivalence entre injectivité et surjectivité reste vraie même en dimension infinie",
-        "$f \\text{ surjectif} \\implies \\text{Ker}(f) = E$"
+        "$1$",
+        "$0$",
+        "$2$",
+        "On ne peut pas le déterminer"
       ],
       "correctIndex": 0,
-      "answer": "$f \\text{ est injectif} \\iff f \\text{ est surjectif} \\iff f \\text{ est bijectif}$",
-      "hint1": "Utilise le théorème du rang : $\\dim(E) = \\dim(\\text{Ker} f) + \\text{rg}(f)$.",
-      "hint2": "Comme l'espace de départ et d'arrivée ont la même dimension finie : $\\dim(\\text{Ker} f) = 0 \\iff \\text{rg}(f) = \\dim(E)$.",
-      "solution": "D'après le Théorème du Rang : $\\dim(E) = \\dim(\\text{Ker} f) + \\text{rg}(f)$. Comme départ et arrivée ont la même dimension finie $n$ : $f$ injectif $\\iff \\text{Ker}(f) = \\{0\\} \\iff \\text{rg}(f) = n = \\dim(E) \\iff f$ surjectif. Attention : ceci est faux en dimension infinie (par exemple l'opérateur de dérivation sur $\\mathbb{R}[X]$ est surjectif mais non injectif)."
+      "answer": "$1$",
+      "hint1": "Traduis $f \\circ f = 0$ par une inclusion entre $\\operatorname{Im}(f)$ et $\\operatorname{Ker}(f)$, puis utilise le théorème du rang.",
+      "hint2": "$f \\circ f = 0$ donne $\\operatorname{Im}(f) \\subset \\operatorname{Ker}(f)$, donc $\\operatorname{rg}(f) \\le \\dim \\operatorname{Ker}(f) = 3 - \\operatorname{rg}(f)$.",
+      "solution": "Pour tout $x$, $f(f(x)) = 0$, donc $\\operatorname{Im}(f) \\subset \\operatorname{Ker}(f)$ et $\\operatorname{rg}(f) \\le \\dim \\operatorname{Ker}(f) = 3 - \\operatorname{rg}(f)$ (théorème du rang). Ainsi $2\\operatorname{rg}(f) \\le 3$, soit $\\operatorname{rg}(f) \\le 1$. Comme $f \\neq 0$, $\\operatorname{rg}(f) \\ge 1$ : $\\operatorname{rg}(f) = 1$. Exemple : $f(x, y, z) = (z, 0, 0)$."
     }
   ],
   "L1-REL": [
@@ -1967,7 +2288,7 @@ window.MATHS_EXERCISES_L1 = {
       "type": "mcq",
       "title": "Borne inférieure et minimum d'un intervalle",
       "skill": "Distinguer borne inférieure et minimum sur un intervalle semi-ouvert",
-      "statement": "Soit l'intervalle $I = ]-2, 5]$. Quelles sont les bornes $\\inf(I)$, $\\sup(I)$ et les extrema $\\min(I)$, $\\max(I)$ ?",
+      "statement": "Soit l'intervalle $I = ]-2 ; 5]$. Quelles sont les bornes $\\inf(I)$, $\\sup(I)$ et les extrema $\\min(I)$, $\\max(I)$ ?",
       "options": [
         "$\\inf(I) = -2$ (pas de min), et $\\sup(I) = \\max(I) = 5$",
         "$\\inf(I) = \\min(I) = -2$, et $\\sup(I) = \\max(I) = 5$",
@@ -2043,16 +2364,16 @@ window.MATHS_EXERCISES_L1 = {
       "type": "mcq",
       "title": "Densité de Q et D dans R",
       "skill": "Comprendre et appliquer la densité des rationnels et décimaux dans R",
-      "statement": "Soient deux réels $x, y \\in \\mathbb{R}$ tels que $x < y$. L'existence prouvée d'un rationnel $r \\in \\mathbb{Q}$ (et d'un décimal $d \\in \\mathbb{D}$) vérifiant $x < r < y$ caractérise :",
+      "statement": "On sait que, pour tous réels $x < y$, il existe un rationnel $r$ et un nombre décimal $d$ tels que $x < r < y$ et $x < d < y$. Quelle propriété de $\\mathbb{Q}$ et de $\\mathbb{D}$ cet énoncé exprime-t-il ?",
       "options": [
         "La densité de $\\mathbb{Q}$ et $\\mathbb{D}$ dans $\\mathbb{R}$",
-        "La compacité du segment $[x, y]$",
+        "La compacité du segment $[x ; y]$",
         "La dénombrabilité du corps $\\mathbb{R}$",
         "L'absence de borne supérieure"
       ],
       "correctIndex": 0,
       "answer": "La densité de $\\mathbb{Q}$ et $\\mathbb{D}$ dans $\\mathbb{R}$",
-      "hint1": "Tout intervalle ouvert non vide $]x, y[$ rencontre $\\mathbb{Q}$ et $\\mathbb{D}$.",
+      "hint1": "Tout intervalle ouvert non vide $]x ; y[$ rencontre $\\mathbb{Q}$ et $\\mathbb{D}$.",
       "hint2": "Par la propriété d'Archimède, il existe $q \\in \\mathbb{N}^*$ tel que $q(y - x) > 1$, puis $p = \\lfloor qx \\rfloor + 1$ donne $x < p/q < y$.",
       "solution": "Une partie $A \\subset \\mathbb{R}$ est dense dans $\\mathbb{R}$ si tout intervalle ouvert non vide contient au moins un élément de $A$. C'est le cas pour $\\mathbb{Q}$ et pour l'ensemble des nombres décimaux $\\mathbb{D} = \\{p/10^q \\mid p \\in \\mathbb{Z}, q \\in \\mathbb{N}\\}$."
     },
@@ -2081,18 +2402,18 @@ window.MATHS_EXERCISES_L1 = {
       "type": "mcq",
       "title": "Propriété d'Archimède dans R",
       "skill": "Formaliser et manipuler le caractère archimédien de R",
-      "statement": "Quelle est l'énoncé quantifié exact de la propriété d'Archimède dans $\\mathbb{R}$ ?",
+      "statement": "La propriété d'Archimède affirme : pour tout $a > 0$ et tout $x \\in \\mathbb{R}$, il existe $n \\in \\mathbb{N}$ tel que $n a > x$. Soit $\\varepsilon > 0$. Pour démontrer que $\\inf \\left\\{ \\frac{1}{n} \\mid n \\in \\mathbb{N}^* \\right\\} = 0$, on cherche un entier $n \\ge 1$ tel que $\\frac{1}{n} < \\varepsilon$. Quelle application de la propriété fournit directement cet entier ?",
       "options": [
-        "$\\forall x \\in \\mathbb{R}_+^*, \\quad \\forall y \\in \\mathbb{R}, \\quad \\exists n \\in \\mathbb{N}, \\quad n x > y$",
-        "$\\forall x, y \\in \\mathbb{R}, \\quad x < y \\implies x^2 < y^2$",
-        "$\\forall x \\in \\mathbb{R}, \\quad \\exists n \\in \\mathbb{N}, \\quad n \\le x < n+1$",
-        "$\\forall x \\in \\mathbb{R}, \\quad |x| \\ge 0$"
+        "$a = \\varepsilon$ et $x = 1$ : il existe $n$ tel que $n \\varepsilon > 1$",
+        "$a = 1$ et $x = \\varepsilon$ : il existe $n$ tel que $n > \\varepsilon$",
+        "$a = \\varepsilon$ et $x = 0$ : il existe $n$ tel que $n \\varepsilon > 0$",
+        "$a = \\frac{1}{\\varepsilon}$ et $x = 1$ : il existe $n$ tel que $\\frac{n}{\\varepsilon} > 1$"
       ],
       "correctIndex": 0,
-      "answer": "$\\forall x \\in \\mathbb{R}_+^*, \\quad \\forall y \\in \\mathbb{R}, \\quad \\exists n \\in \\mathbb{N}, \\quad n x > y$",
-      "hint1": "Elle signifie que l'ensemble $\\mathbb{N}$ n'est pas majoré dans $\\mathbb{R}$.",
-      "hint2": "Pour tout pas $x > 0$ aussi petit soit-il, en faisant suffisamment de pas $n$, on dépasse tout réel $y$.",
-      "solution": "Le corps $\\mathbb{R}$ est archimédien : $\\forall x > 0, \\forall y \\in \\mathbb{R}, \\exists n \\in \\mathbb{N}, nx > y$. C'est ce qui garantit l'existence de la partie entière $\\lfloor x \\rfloor$ pour tout réel."
+      "answer": "$a = \\varepsilon$ et $x = 1$ : il existe $n$ tel que $n \\varepsilon > 1$",
+      "hint1": "Réécris l'objectif $\\frac{1}{n} < \\varepsilon$ sans fraction, sous la forme $n a > x$, puis identifie $a$ et $x$.",
+      "hint2": "Comme $n > 0$, tu peux multiplier les deux membres de $\\frac{1}{n} < \\varepsilon$ par $n$ sans changer le sens de l'inégalité.",
+      "solution": "La propriété appliquée à $a = \\varepsilon > 0$ et $x = 1$ fournit $n \\in \\mathbb{N}$ tel que $n \\varepsilon > 1$. On a $n \\ne 0$ (sinon $0 > 1$), donc $n \\ge 1$, et en divisant par $n > 0$ : $\\frac{1}{n} < \\varepsilon$. Les autres choix donnent $n > \\varepsilon$ ou seulement $n \\ge 1$, ce qui ne majore pas $\\frac{1}{n}$ par $\\varepsilon$. Comme $0$ minore l'ensemble et que $\\varepsilon$ ne le minore pour aucun $\\varepsilon > 0$, sa borne inférieure est $0$."
     },
     {
       "id": "L1-REL-3b",
@@ -2119,15 +2440,15 @@ window.MATHS_EXERCISES_L1 = {
       "type": "mcq",
       "title": "Densité des irrationnels dans R",
       "skill": "Prouver que l'ensemble des irrationnels est dense dans R",
-      "statement": "Soient deux réels $x < y$. Comment prouve-t-on l'existence d'un nombre irrationnel dans l'intervalle $]x, y[$ ?",
+      "statement": "Soient deux réels $x < y$. Comment prouve-t-on l'existence d'un nombre irrationnel dans l'intervalle $]x ; y[$ ?",
       "options": [
-        "En prenant un rationnel non nul $r \\in \\left]\\frac{x}{\\sqrt{2}}, \\frac{y}{\\sqrt{2}}\\right[$, puis $r\\sqrt{2} \\in ]x, y[$ est irrationnel",
+        "En prenant un rationnel non nul $r \\in \\left]\\frac{x}{\\sqrt{2}} ; \\frac{y}{\\sqrt{2}}\\right[$, puis $r\\sqrt{2} \\in ]x ; y[$ est irrationnel",
         "En constatant que le milieu $(x + y)/2$ est toujours un irrationnel",
         "Parce que tout intervalle de réels est un ensemble fini",
         "Cette propriété n'est vraie que pour des intervalles de longueur $> 1$"
       ],
       "correctIndex": 0,
-      "answer": "En prenant un rationnel non nul $r \\in \\left]\\frac{x}{\\sqrt{2}}, \\frac{y}{\\sqrt{2}}\\right[$, puis $r\\sqrt{2} \\in ]x, y[$ est irrationnel",
+      "answer": "En prenant un rationnel non nul $r \\in \\left]\\frac{x}{\\sqrt{2}} ; \\frac{y}{\\sqrt{2}}\\right[$, puis $r\\sqrt{2} \\in ]x ; y[$ est irrationnel",
       "hint1": "Pense à multiplier un rationnel par un irrationnel comme $\\sqrt{2}$.",
       "hint2": "Si $r \\in \\mathbb{Q}^*$, alors $r\\sqrt{2} \\notin \\mathbb{Q}$.",
       "solution": "Par densité de $\\mathbb{Q}$, il existe $r \\in \\mathbb{Q}^*$ tel que $\\frac{x}{\\sqrt{2}} < r < \\frac{y}{\\sqrt{2}}$. En multipliant par $\\sqrt{2} > 0$, $x < r\\sqrt{2} < y$. Comme $r \\in \\mathbb{Q}^*$ et $\\sqrt{2} \\notin \\mathbb{Q}$, le produit $r\\sqrt{2}$ est irrationnel."
@@ -2142,13 +2463,13 @@ window.MATHS_EXERCISES_L1 = {
       "options": [
         "$\\sup(A) = \\sqrt{2}$ et $A$ n'admet aucun plus grand élément",
         "$\\sup(A) = \\sqrt{2}$ et $\\max(A) = \\sqrt{2}$",
-        "$\\sup(A) = 1,414$ et $\\max(A)$ n'existe pas",
+        "$\\sup(A) = 1{,}414$ et $\\max(A)$ n'existe pas",
         "$A$ n'est pas majorée dans $\\mathbb{R}$"
       ],
       "correctIndex": 0,
       "answer": "$\\sup(A) = \\sqrt{2}$ et $A$ n'admet aucun plus grand élément",
       "hint1": "Par définition, $\\sqrt{2}$ majore $A$.",
-      "hint2": "Par densité de $\\mathbb{Q}$ dans $\\mathbb{R}$, pour tout $\\varepsilon > 0$, il existe un rationnel dans $]\\sqrt{2}-\\varepsilon, \\sqrt{2}[$. Comme $\\sqrt{2} \\notin \\mathbb{Q}$, $\\sqrt{2} \\notin A$.",
+      "hint2": "Par densité de $\\mathbb{Q}$ dans $\\mathbb{R}$, pour tout $\\varepsilon > 0$, il existe un rationnel dans $]\\sqrt{2}-\\varepsilon ; \\sqrt{2}[$. Comme $\\sqrt{2} \\notin \\mathbb{Q}$, $\\sqrt{2} \\notin A$.",
       "solution": "L'ensemble $A$ est majoré par $\\sqrt{2}$. Par densité de $\\mathbb{Q}$ dans $\\mathbb{R}$, pour tout $\\varepsilon > 0$, il existe $r \\in \\mathbb{Q}$ tel que $\\sqrt{2} - \\varepsilon < r < \\sqrt{2}$. Comme $r < \\sqrt{2}$, $r \\in A$. Donc $\\sup(A) = \\sqrt{2}$. Comme $\\sqrt{2} \\notin \\mathbb{Q}$, $\\sqrt{2} \\notin A$, d'où $A$ n'admet pas de plus grand élément."
     },
     {
@@ -2157,18 +2478,18 @@ window.MATHS_EXERCISES_L1 = {
       "type": "mcq",
       "title": "Théorème des segments emboîtés de Cantor",
       "skill": "Démontrer l'existence d'un point d'intersection par les suites adjacentes et la complétude",
-      "statement": "Soit $([a_n, b_n])_{n \\in \\mathbb{N}}$ une suite décroissante pour l'inclusion de segments fermés telle que $\\lim_{n \\to +\\infty} (b_n - a_n) = 0$. Que vaut l'intersection $\\bigcap_{n \\in \\mathbb{N}} [a_n, b_n]$ ?",
+      "statement": "Soit $([a_n ; b_n])_{n \\in \\mathbb{N}}$ une suite décroissante pour l'inclusion de segments telle que $\\lim_{n \\to +\\infty} (b_n - a_n) = 0$. Que vaut l'intersection $\\bigcap_{n \\in \\mathbb{N}} [a_n ; b_n]$ ? (On admet ici le théorème des suites adjacentes, démontré au chapitre L1-SUI, section 4.)",
       "options": [
         "C'est un singleton $\\{\\ell\\}$ où $\\ell = \\sup(a_n) = \\inf(b_n)$",
         "C'est l'ensemble vide $\\emptyset$",
-        "C'est le segment $[a_0, b_0]$",
-        "C'est un intervalle ouvert $]\\ell - \\varepsilon, \\ell + \\varepsilon[$"
+        "C'est le segment $[a_0 ; b_0]$",
+        "C'est un intervalle ouvert $]\\ell - \\varepsilon ; \\ell + \\varepsilon[$"
       ],
       "correctIndex": 0,
       "answer": "C'est un singleton $\\{\\ell\\}$ où $\\ell = \\sup(a_n) = \\inf(b_n)$",
       "hint1": "$(a_n)$ est croissante et majorée par $b_0$, $(b_n)$ est décroissante et minorée par $a_0$.",
       "hint2": "Comme $b_n - a_n \\to 0$, les deux suites sont adjacentes et convergent vers une même limite $\\ell$.",
-      "solution": "Les suites $(a_n)$ et $(b_n)$ sont adjacentes : $(a_n)$ croît vers $\\ell = \\sup(a_n)$ et $(b_n)$ décroît vers $\\ell = \\inf(b_n)$. Pour tout $n$, $\\ell \\in [a_n, b_n]$, donc $\\ell \\in \\bigcap_n [a_n, b_n]$. De plus, si $x, y$ appartenaient à l'intersection, $|x - y| \\le b_n - a_n \\to 0$, donc $x = y = \\ell$. L'intersection est le singleton $\\{\\ell\\}$."
+      "solution": "Les suites $(a_n)$ et $(b_n)$ sont adjacentes ; d'après le théorème des suites adjacentes (chapitre L1-SUI, section 4), $(a_n)$ croît vers $\\ell = \\sup(a_n)$ et $(b_n)$ décroît vers $\\ell = \\inf(b_n)$. Pour tout $n$, $\\ell \\in [a_n ; b_n]$, donc $\\ell \\in \\bigcap_n [a_n ; b_n]$. De plus, si $x, y$ appartenaient à l'intersection, $|x - y| \\le b_n - a_n \\to 0$, donc $x = y = \\ell$. L'intersection est le singleton $\\{\\ell\\}$."
     },
     {
       "id": "L1-REL-4c",
@@ -2185,9 +2506,9 @@ window.MATHS_EXERCISES_L1 = {
       ],
       "correctIndex": 0,
       "answer": "Soit $G = a\\mathbb{Z}$ avec $a \\ge 0$ (discret), soit $G$ est dense dans $\\mathbb{R}$",
-      "hint1": "On pose $a = \\inf(G \\cap \\mathbb{R}_+^*)$.",
+      "hint1": "Traite à part le cas $G = \\{0\\}$ ; sinon, $G \\cap \\mathbb{R}_+^*$ est non vide et l'on pose $a = \\inf(G \\cap \\mathbb{R}_+^*)$.",
       "hint2": "Si $a > 0$, montre que $a \\in G$ et que tout élément de $G$ est un multiple entier de $a$ ; si $a = 0$, que dire des multiples d'un $g \\in G$ très petit ?",
-      "solution": "En posant $a = \\inf(G \\cap \\mathbb{R}_+^*)$ : si $a > 0$, alors $a \\in G$ et $G = a\\mathbb{Z}$ (sous-groupe monogène/discret). Si $a = 0$, pour tout $\\varepsilon > 0$, il existe $g \\in G$ tel que $0 < g < \\varepsilon$. Comme les multiples entiers de $g$ parcourent la droite avec un pas $< \\varepsilon$, $G$ est dense dans $\\mathbb{R}$."
+      "solution": "Si $G = \\{0\\}$, alors $G = 0\\mathbb{Z}$, ce qui relève de la première alternative avec $a = 0$. Sinon, $G$ contient un réel $x \\neq 0$, donc aussi $|x|$ (car $-x \\in G$) : $G \\cap \\mathbb{R}_+^*$ est non vide et minorée par $0$, et l'on pose $a = \\inf(G \\cap \\mathbb{R}_+^*)$. Si $a > 0$, alors $a \\in G$ et $G = a\\mathbb{Z}$ (sous-groupe discret). Si $a = 0$, pour tout $\\varepsilon > 0$, il existe $g \\in G$ tel que $0 < g < \\varepsilon$. Comme les multiples entiers de $g$ parcourent la droite avec un pas $< \\varepsilon$, $G$ est dense dans $\\mathbb{R}$."
     }
   ],
   "L1-SUI": [
@@ -2195,20 +2516,39 @@ window.MATHS_EXERCISES_L1 = {
       "id": "L1-SUI-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Complétude et suites de Cauchy",
-      "skill": "Connaître la définition d'un espace métrique complet",
-      "statement": "Un espace métrique dans lequel toute suite de Cauchy converge est dit :",
+      "title": "Complétude de $\\mathbb{R}$ et suites de Cauchy",
+      "skill": "Connaître la propriété qui distingue $\\mathbb{R}$ de $\\mathbb{Q}$",
+      "statement": "Dans $\\mathbb{R}$, toute suite de Cauchy converge ; dans $\\mathbb{Q}$, c'est faux. Comment appelle-t-on cette propriété de $\\mathbb{R}$ ?",
       "options": [
-        "Complet",
-        "Compact",
-        "Connexe",
-        "Séparable"
+        "La complétude de $\\mathbb{R}$",
+        "La propriété d'Archimède",
+        "La densité de $\\mathbb{Q}$ dans $\\mathbb{R}$",
+        "Le théorème des valeurs intermédiaires"
       ],
       "correctIndex": 0,
-      "answer": "Complet",
-      "hint1": "Propriété fondamentale de $\\mathbb{R}$ qui le distingue de $\\mathbb{Q}$.",
-      "hint2": "Attention : « compact » exigerait que toute suite admette une sous-suite convergente ; ici, seule la convergence des suites de Cauchy est demandée.",
-      "solution": "Par définition, un espace métrique est complet si toute suite de Cauchy y est convergente."
+      "answer": "La complétude de $\\mathbb{R}$",
+      "hint1": "Repère, parmi les propositions, celle qui parle de la convergence des suites de Cauchy (cours, section 5).",
+      "hint2": "La suite des approximations décimales par défaut de $\\sqrt{2}$ est de Cauchy dans $\\mathbb{Q}$ mais n'a pas de limite rationnelle : la propriété cherchée est celle qui manque à $\\mathbb{Q}$.",
+      "solution": "Une suite réelle converge si et seulement si elle est de Cauchy : c'est la complétude de $\\mathbb{R}$ (cours, section 5). Elle est fausse dans $\\mathbb{Q}$ : les approximations décimales par défaut de $\\sqrt{2}$ forment une suite de rationnels de Cauchy, dont la limite $\\sqrt{2}$ n'est pas rationnelle. La propriété d'Archimède et la densité de $\\mathbb{Q}$ dans $\\mathbb{R}$ ne parlent pas des suites de Cauchy ; le théorème des valeurs intermédiaires concerne les fonctions continues."
+    },
+    {
+      "id": "L1-SUI-7",
+      "tier": 1,
+      "type": "mcq",
+      "title": "Théorème de la limite monotone",
+      "skill": "Appliquer le théorème de la limite monotone",
+      "statement": "Pour $n \\ge 1$, on pose $S_n = \\sum_{k=1}^{n} \\frac{1}{k^2}$. On admet que $S_n \\le 2 - \\frac{1}{n}$ pour tout $n \\ge 1$. Que peut-on en conclure ?",
+      "options": [
+        "$(S_n)$ converge vers une limite $\\ell \\le 2$",
+        "$(S_n)$ converge vers $2$",
+        "$(S_n)$ tend vers $+\\infty$",
+        "On ne peut rien conclure sans calculer la limite"
+      ],
+      "correctIndex": 0,
+      "answer": "$(S_n)$ converge vers une limite $\\ell \\le 2$",
+      "hint1": "Étudie la monotonie de $(S_n)$, puis applique le théorème de la limite monotone (cours, section 3).",
+      "hint2": "$S_{n+1} - S_n = \\frac{1}{(n+1)^2} > 0$ et $S_n \\le 2$ : la suite est croissante et majorée.",
+      "solution": "$S_{n+1} - S_n = \\frac{1}{(n+1)^2} > 0$, donc $(S_n)$ est croissante ; elle est majorée par $2$. Par le théorème de la limite monotone, elle converge vers une limite $\\ell$, et l'inégalité large $S_n \\le 2$ passe à la limite : $\\ell \\le 2$. Un majorant n'est pas forcément la limite : on montre (résultat admis ici) que $\\ell = \\frac{\\pi^2}{6} < 2$."
     },
     {
       "id": "L1-SUI-2",
@@ -2225,47 +2565,123 @@ window.MATHS_EXERCISES_L1 = {
       ],
       "correctIndex": 0,
       "answer": "$6$",
-      "hint1": "Résous l'équation du point fixe $\\ell = \\frac{1}{2}\\ell + 3$.",
+      "hint1": "Résous l'équation du point fixe $\\ell = \\frac{1}{2}\\ell + 3$, puis étudie la suite $v_n = u_n - \\ell$.",
       "hint2": "Isole $\\ell$ : $\\ell - \\frac{1}{2}\\ell = 3$.",
-      "solution": "Comme $|1/2| < 1$, la suite converge vers l'unique point fixe $\\ell = \\frac{1}{2}\\ell + 3 \\iff \\ell = 6$."
+      "solution": "Le point fixe vérifie $\\ell = \\frac{1}{2}\\ell + 3$, soit $\\ell = 6$. Posons $v_n = u_n - 6$ : $v_{n+1} = \\frac{1}{2}u_n + 3 - 6 = \\frac{1}{2}(u_n - 6) = \\frac{1}{2}v_n$. La suite $(v_n)$ est géométrique de raison $\\frac{1}{2}$, avec $v_0 = -2$, donc $v_n = -2 \\times \\left(\\frac{1}{2}\\right)^n \\to 0$ et $u_n = 6 - 2 \\times \\left(\\frac{1}{2}\\right)^n \\to 6$ (cours, section 6 : cas arithmético-géométrique)."
+    },
+    {
+      "id": "L1-SUI-5",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Récurrence linéaire d'ordre 2 : deux racines distinctes",
+      "skill": "Résoudre une récurrence linéaire d'ordre 2 par l'équation caractéristique",
+      "statement": "On définit $(u_n)$ par $u_0 = 0$, $u_1 = 1$ et $u_{n+2} = 5u_{n+1} - 6u_n$ pour tout $n \\in \\mathbb{N}$. Que vaut $u_n$ ?",
+      "options": [
+        "$u_n = 3^n - 2^n$",
+        "$u_n = 2^n - 3^n$",
+        "$u_n = n\\,2^{n-1}$",
+        "$u_n = 6^n - 5^n$"
+      ],
+      "correctIndex": 0,
+      "answer": "$u_n = 3^n - 2^n$",
+      "hint1": "Écris l'équation caractéristique $r^2 = 5r - 6$ : si elle a deux racines distinctes $r_1$ et $r_2$, alors $u_n = \\lambda r_1^n + \\mu r_2^n$ (cours, section 9).",
+      "hint2": "Les racines sont $2$ et $3$ ; les conditions initiales donnent $\\lambda + \\mu = 0$ et $2\\lambda + 3\\mu = 1$.",
+      "solution": "L'équation $r^2 - 5r + 6 = 0$ a pour racines $2$ et $3$, donc $u_n = \\lambda 2^n + \\mu 3^n$. Avec $u_0 = 0$ et $u_1 = 1$ : $\\lambda + \\mu = 0$ et $2\\lambda + 3\\mu = 1$, d'où $\\mu = 1$ et $\\lambda = -1$. Ainsi $u_n = 3^n - 2^n$. Vérification : $u_2 = 5 \\times 1 - 6 \\times 0 = 5 = 9 - 4$. Les suites $n\\,2^{n-1}$ et $6^n - 5^n$ ont les bons premiers termes $0$ et $1$, mais ne vérifient pas la relation ($u_2$ vaudrait $4$ ou $11$)."
     },
     {
       "id": "L1-SUI-3",
       "tier": 3,
       "type": "mcq",
-      "title": "Théorème des suites adjacentes",
-      "skill": "Appliquer le critère de convergence des suites adjacentes",
-      "statement": "Si $(u_n)$ croît, $(v_n)$ décroît et $\\lim (v_n - u_n) = 0$, alors :",
+      "title": "Suites adjacentes : rôle de l'hypothèse $v_n - u_n \\to 0$",
+      "skill": "Vérifier les hypothèses du théorème des suites adjacentes",
+      "statement": "Pour $n \\ge 1$, on pose $u_n = -\\frac{1}{n}$ et $v_n = 1 + \\frac{1}{n}$. Les suites $(u_n)$ et $(v_n)$ sont-elles adjacentes ?",
       "options": [
-        "$(u_n)$ et $(v_n)$ convergent vers une même limite",
-        "$(u_n)$ tend vers $+\\infty$",
-        "Les suites divergent",
-        "$\\lim u_n < \\lim v_n$"
+        "Non : $(u_n)$ est croissante et $(v_n)$ décroissante, mais $v_n - u_n$ tend vers $1$ et non vers $0$",
+        "Non, car $(u_n)$ n'est pas croissante",
+        "Non, car $(v_n)$ n'est pas décroissante",
+        "Oui, et elles convergent vers une même limite"
       ],
       "correctIndex": 0,
-      "answer": "$(u_n)$ et $(v_n)$ convergent vers une même limite",
-      "hint1": "Étudie la monotonie de $(v_n - u_n)$ pour montrer que $u_n \\le v_n$ pour tout $n$, d'où $u_0 \\le u_n \\le v_n \\le v_0$.",
-      "hint2": "Une suite croissante majorée converge, une suite décroissante minorée aussi ; utilise ensuite $\\lim (v_n - u_n) = 0$ pour comparer les deux limites.",
-      "solution": "D'après le théorème des suites adjacentes, les deux suites convergent et ont exactement la même limite réelle."
+      "answer": "Non : $(u_n)$ est croissante et $(v_n)$ décroissante, mais $v_n - u_n$ tend vers $1$ et non vers $0$",
+      "hint1": "Vérifie une à une les trois hypothèses : monotonie de $(u_n)$, monotonie de $(v_n)$, limite de $v_n - u_n$.",
+      "hint2": "$u_{n+1} - u_n = \\frac{1}{n} - \\frac{1}{n+1} > 0$ : $(u_n)$ est croissante. Calcule maintenant $v_n - u_n$.",
+      "solution": "$u_{n+1} - u_n = \\frac{1}{n} - \\frac{1}{n+1} > 0$, donc $(u_n)$ est croissante ; de même $(v_n)$ est décroissante. Mais $v_n - u_n = 1 + \\frac{2}{n} \\to 1 \\neq 0$ : les suites ne sont pas adjacentes. D'ailleurs $u_n \\to 0$ et $v_n \\to 1$ : elles convergent toutes deux, mais vers des limites différentes. Sans l'hypothèse $v_n - u_n \\to 0$, la conclusion « même limite » du théorème tombe."
+    },
+    {
+      "id": "L1-SUI-3b",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Moyennes de Cesàro d'une suite divergente",
+      "skill": "Appliquer le théorème de Cesàro et savoir que sa réciproque est fausse",
+      "statement": "Pour $n \\ge 1$, on pose $u_n = (-1)^n$ et $v_n = \\dfrac{u_1 + u_2 + \\dots + u_n}{n}$. Que peut-on affirmer ?",
+      "options": [
+        "$(v_n)$ converge vers $0$, alors que $(u_n)$ diverge",
+        "$(v_n)$ diverge, puisque $(u_n)$ diverge",
+        "$(v_n)$ converge vers $-1$",
+        "$(v_n)$ converge vers $\\frac{1}{2}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$(v_n)$ converge vers $0$, alors que $(u_n)$ diverge",
+      "hint1": "Calcule la somme $u_1 + u_2 + \\dots + u_n$ selon la parité de $n$.",
+      "hint2": "Les termes se compensent deux par deux : $u_1 + u_2 = -1 + 1 = 0$. La somme ne prend donc que deux valeurs.",
+      "solution": "La somme $u_1 + \\dots + u_n$ vaut $0$ si $n$ est pair et $-1$ si $n$ est impair. Donc $|v_n| \\le \\frac{1}{n}$ et $v_n \\to 0$. Pourtant $(u_n)$ diverge, puisque $u_{2n} \\to 1$ et $u_{2n+1} \\to -1$. Le théorème de Cesàro affirme que si $u_n \\to \\ell$, alors $v_n \\to \\ell$ ; cet exemple montre que la réciproque est fausse."
+    },
+    {
+      "id": "L1-SUI-6",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Récurrence linéaire d'ordre 2 : racine double",
+      "skill": "Traiter le cas d'une racine double de l'équation caractéristique",
+      "statement": "On définit $(u_n)$ par $u_0 = 1$, $u_1 = 4$ et $u_{n+2} = 4u_{n+1} - 4u_n$ pour tout $n \\in \\mathbb{N}$. Que vaut $u_n$ ?",
+      "options": [
+        "$u_n = (n + 1)\\,2^n$",
+        "$u_n = 4^n$",
+        "$u_n = 1 + 3n$",
+        "$u_n = (2n + 1)\\,2^n$"
+      ],
+      "correctIndex": 0,
+      "answer": "$u_n = (n + 1)\\,2^n$",
+      "hint1": "Écris l'équation caractéristique $r^2 = 4r - 4$ ; si elle a une racine double $r_0$, alors $u_n = (\\lambda + \\mu n)\\,r_0^n$ (cours, section 9).",
+      "hint2": "La racine double est $r_0 = 2$ ; la condition $u_0 = 1$ donne $\\lambda = 1$. Utilise $u_1 = 4$ pour trouver $\\mu$.",
+      "solution": "$r^2 - 4r + 4 = (r - 2)^2$ : racine double $2$, donc $u_n = (\\lambda + \\mu n)\\,2^n$. Alors $u_0 = \\lambda = 1$ et $u_1 = 2(1 + \\mu) = 4$, d'où $\\mu = 1$ et $u_n = (n + 1)\\,2^n$. Vérification : $u_2 = 4 \\times 4 - 4 \\times 1 = 12 = 3 \\times 4$. Les suites $4^n$ et $1 + 3n$ ont les bons premiers termes, mais donnent $u_2 = 16$ et $u_2 = 7$."
     },
     {
       "id": "L1-SUI-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Théorème de Bolzano-Weierstrass",
-      "skill": "Propriété de compacité séquentielle de $\\mathbb{R}$",
-      "statement": "Que garantit le théorème de Bolzano-Weierstrass pour toute suite réelle bornée ?",
+      "title": "Bolzano-Weierstrass : rôle de l'hypothèse « bornée »",
+      "skill": "Utiliser le théorème de Bolzano-Weierstrass et sa contraposée",
+      "statement": "Laquelle de ces suites, définies pour $n \\ge 1$, n'admet aucune suite extraite convergente ?",
       "options": [
-        "L'existence d'au moins une sous-suite convergente",
-        "La convergence de la suite",
-        "La monotonie à partir d'un certain rang",
-        "L'absence de points d'accumulation"
+        "$u_n = n(-1)^n$",
+        "$u_n = (-1)^n$",
+        "$u_n = \\sin n$",
+        "$u_n = (-1)^n + \\frac{1}{n}$"
       ],
       "correctIndex": 0,
-      "answer": "L'existence d'au moins une sous-suite convergente",
-      "hint1": "Pense à $u_n = (-1)^n$, qui ne converge pas mais admet des sous-suites convergentes.",
-      "hint2": "Teste les autres options avec $u_n = (-1)^n$ : converge-t-elle ? est-elle monotone à partir d'un certain rang ? que dire de $(u_{2n})$ ?",
-      "solution": "Le théorème de Bolzano-Weierstrass affirme que de toute suite réelle bornée, on peut extraire une sous-suite convergente."
+      "answer": "$u_n = n(-1)^n$",
+      "hint1": "Une suite bornée admet toujours une suite extraite convergente (Bolzano-Weierstrass) : commence par écarter les suites bornées.",
+      "hint2": "Trois des suites sont bornées par $2$. Pour la dernière, compare $|u_{\\varphi(n)}|$ à $\\varphi(n)$, en utilisant $\\varphi(n) \\ge n$.",
+      "solution": "Les suites $(-1)^n$, $\\sin n$ et $(-1)^n + \\frac{1}{n}$ sont bornées : par le théorème de Bolzano-Weierstrass, chacune admet une suite extraite convergente (par exemple $u_{2n} \\to 1$ pour la première). Pour $u_n = n(-1)^n$ et toute extraction $\\varphi$, $|u_{\\varphi(n)}| = \\varphi(n) \\ge n$, donc $|u_{\\varphi(n)}| \\to +\\infty$ : aucune suite extraite n'est bornée, donc aucune ne converge."
+    },
+    {
+      "id": "L1-SUI-8",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Suite récurrente d'ordre 2 périodique",
+      "skill": "Exploiter une relation de récurrence pour établir une périodicité",
+      "statement": "On définit $(u_n)$ par $u_0 = u_1 = 1$ et $u_{n+2} = u_{n+1} - u_n$ pour tout $n \\in \\mathbb{N}$. Que vaut $u_{2026}$ ?",
+      "options": [
+        "$-1$",
+        "$1$",
+        "$0$",
+        "$2$"
+      ],
+      "correctIndex": 0,
+      "answer": "$-1$",
+      "hint1": "Calcule les premiers termes, puis cherche une relation entre $u_{n+3}$ et $u_n$.",
+      "hint2": "Les premiers termes sont $1, 1, 0, -1, \\dots$ En écrivant $u_{n+3} = u_{n+2} - u_{n+1}$ et en remplaçant $u_{n+2}$, tu obtiens $u_{n+3} = -u_n$.",
+      "solution": "$u_{n+3} = u_{n+2} - u_{n+1} = (u_{n+1} - u_n) - u_{n+1} = -u_n$, donc $u_{n+6} = -u_{n+3} = u_n$ : la suite est périodique de période $6$, de termes $1, 1, 0, -1, -1, 0$. Comme $2026 = 6 \\times 337 + 4$, on a $u_{2026} = u_4 = -1$. (L'équation caractéristique $r^2 = r - 1$ a pour racines $e^{\\pm i\\pi/3}$, d'où cette période $6$ : cours, section 9.)"
     }
   ],
   "L1-CNT": [
@@ -2275,18 +2691,37 @@ window.MATHS_EXERCISES_L1 = {
       "type": "mcq",
       "title": "Théorème de Rolle",
       "skill": "Énoncer le théorème de Rolle",
-      "statement": "Soit $f$ continue sur $[a, b]$, dérivable sur $]a, b[$ avec $f(a) = f(b)$. Que garantit le théorème de Rolle ?",
+      "statement": "Soit $f$ continue sur $[a ; b]$, dérivable sur $]a ; b[$ avec $f(a) = f(b)$. Que garantit le théorème de Rolle ?",
       "options": [
-        "$\\exists c \\in ]a, b[, f'(c) = 0$",
-        "$f$ est constante sur $[a, b]$",
+        "$\\exists c \\in ]a ; b[, f'(c) = 0$",
+        "$f$ est constante sur $[a ; b]$",
         "$f'(x) > 0$ partout",
-        "$\\exists c \\in [a, b], f(c) = 0$"
+        "$\\exists c \\in [a ; b], f(c) = 0$"
       ],
       "correctIndex": 0,
-      "answer": "$\\exists c \\in ]a, b[, f'(c) = 0$",
+      "answer": "$\\exists c \\in ]a ; b[, f'(c) = 0$",
       "hint1": "Interprète graphiquement : la courbe part et arrive à la même hauteur.",
-      "hint2": "$f$ atteint un extremum en un point $c$ de $]a, b[$ (si elle n'est pas constante) : que vaut la pente de la tangente en ce point ?",
-      "solution": "Le théorème de Rolle assure qu'il existe au moins un point $c \\in ]a, b[$ tel que $f'(c) = 0$."
+      "hint2": "$f$ atteint un extremum en un point $c$ de $]a ; b[$ (si elle n'est pas constante) : que vaut la pente de la tangente en ce point ?",
+      "solution": "Le théorème de Rolle assure qu'il existe au moins un point $c \\in ]a ; b[$ tel que $f'(c) = 0$."
+    },
+    {
+      "id": "L1-CNT-1b",
+      "tier": 1,
+      "type": "mcq",
+      "title": "Limite infinie en $+\\infty$",
+      "skill": "Traduire une limite infinie avec des quantificateurs",
+      "statement": "Soit $f : \\mathbb{R} \\to \\mathbb{R}$. Quelle assertion traduit $\\lim_{x \\to +\\infty} f(x) = +\\infty$ ?",
+      "options": [
+        "$\\forall M \\in \\mathbb{R},\\ \\exists A \\in \\mathbb{R},\\ \\forall x \\in \\mathbb{R},\\ x \\ge A \\implies f(x) \\ge M$",
+        "$\\exists A \\in \\mathbb{R},\\ \\forall M \\in \\mathbb{R},\\ \\forall x \\in \\mathbb{R},\\ x \\ge A \\implies f(x) \\ge M$",
+        "$\\forall M \\in \\mathbb{R},\\ \\exists A \\in \\mathbb{R},\\ \\forall x \\in \\mathbb{R},\\ f(x) \\ge M \\implies x \\ge A$",
+        "$\\forall A \\in \\mathbb{R},\\ \\exists M \\in \\mathbb{R},\\ \\forall x \\in \\mathbb{R},\\ x \\ge A \\implies f(x) \\ge M$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\forall M \\in \\mathbb{R},\\ \\exists A \\in \\mathbb{R},\\ \\forall x \\in \\mathbb{R},\\ x \\ge A \\implies f(x) \\ge M$",
+      "hint1": "Dis-le d'abord en français : $f(x)$ dépasse n'importe quel seuil $M$ dès que $x$ est assez grand.",
+      "hint2": "Le seuil $M$ est imposé, et le réel $A$ a le droit de dépendre de $M$ : regarde l'ordre des quantificateurs.",
+      "solution": "$\\lim_{x \\to +\\infty} f(x) = +\\infty$ signifie : $\\forall M,\\ \\exists A,\\ \\forall x,\\ x \\ge A \\implies f(x) \\ge M$. Dans la deuxième assertion, le même $A$ devrait convenir pour tous les $M$ : elle est toujours fausse, car $f(A)$ devrait dépasser tout réel. La troisième inverse l'implication ; $x \\mapsto x^2$ tend vers $+\\infty$ en $+\\infty$ et ne la vérifie pas, car $f(x) \\ge 1$ a lieu pour $x$ aussi négatif que l'on veut. La quatrième dit seulement que $f$ est minorée sur chaque $[A ; +\\infty[$ ; la fonction $\\sin$ la vérifie sans avoir de limite."
     },
     {
       "id": "L1-CNT-2",
@@ -2294,7 +2729,7 @@ window.MATHS_EXERCISES_L1 = {
       "type": "mcq",
       "title": "Théorème des Valeurs Intermédiaires",
       "skill": "Localiser une racine d'une fonction continue",
-      "statement": "L'équation $x^3 + 3x - 1 = 0$ admet-elle une solution sur $[0, 1]$ ?",
+      "statement": "L'équation $x^3 + 3x - 1 = 0$ admet-elle une solution sur $[0 ; 1]$ ?",
       "options": [
         "Oui, car $f$ est continue et $f(0)f(1) < 0$",
         "Non, car $f(0) \\ne 0$",
@@ -2304,8 +2739,84 @@ window.MATHS_EXERCISES_L1 = {
       "correctIndex": 0,
       "answer": "Oui, car $f$ est continue et $f(0)f(1) < 0$",
       "hint1": "$f(0) = -1 < 0$ et $f(1) = 3 > 0$.",
-      "hint2": "$f$ est-elle continue sur $[0, 1]$ ? Quel théorème relie un changement de signe à l'existence d'une solution ?",
-      "solution": "$f(0) = -1$ et $f(1) = 3$. Comme $f$ est continue sur $[0, 1]$, le TVI garantit l'existence d'une racine dans $]0, 1[$."
+      "hint2": "$f$ est-elle continue sur $[0 ; 1]$ ? Quel théorème relie un changement de signe à l'existence d'une solution ?",
+      "solution": "$f(0) = -1$ et $f(1) = 3$. Comme $f$ est continue sur $[0 ; 1]$, le TVI garantit l'existence d'une racine dans $]0 ; 1[$."
+    },
+    {
+      "id": "L1-CNT-2b",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Limites à gauche et à droite",
+      "skill": "Calculer des limites latérales et conclure sur la limite épointée",
+      "statement": "Soit $f : \\mathbb{R}^* \\to \\mathbb{R}$ définie par $f(x) = \\frac{|x|}{x}$. Que peut-on dire de $f$ en $0$ ?",
+      "options": [
+        "$f$ a pour limite $1$ à droite, $-1$ à gauche, et n'a pas de limite épointée en $0$",
+        "$f$ a pour limite $-1$ à droite, $1$ à gauche, et n'a pas de limite épointée en $0$",
+        "$f$ a pour limite épointée $1$ en $0$",
+        "$f$ a pour limite épointée $0$ en $0$"
+      ],
+      "correctIndex": 0,
+      "answer": "$f$ a pour limite $1$ à droite, $-1$ à gauche, et n'a pas de limite épointée en $0$",
+      "hint1": "Simplifie $f(x)$ selon le signe de $x$.",
+      "hint2": "Pour $x > 0$, $|x| = x$ ; traite de même le cas $x < 0$, puis compare les deux limites.",
+      "solution": "Si $x > 0$, $f(x) = \\frac{x}{x} = 1$, donc $\\lim_{x \\to 0^+} f(x) = 1$. Si $x < 0$, $f(x) = \\frac{-x}{x} = -1$, donc $\\lim_{x \\to 0^-} f(x) = -1$. Les limites à gauche et à droite existant sans être égales, $f$ n'a pas de limite épointée en $0$."
+    },
+    {
+      "id": "L1-CNT-2f",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Reconnaître une fonction convexe",
+      "skill": "Utiliser la caractérisation $f'' \\ge 0$ de la convexité",
+      "statement": "Laquelle de ces fonctions est convexe sur $\\mathbb{R}$ ?",
+      "options": [
+        "$x \\mapsto x^4$",
+        "$x \\mapsto x^3$",
+        "$x \\mapsto -x^2$",
+        "$x \\mapsto \\sin x$"
+      ],
+      "correctIndex": 0,
+      "answer": "$x \\mapsto x^4$",
+      "hint1": "Une fonction deux fois dérivable sur un intervalle est convexe si et seulement si sa dérivée seconde est positive ou nulle sur cet intervalle.",
+      "hint2": "Calcule les dérivées secondes : $6x$ pour $x^3$, $-2$ pour $-x^2$, $-\\sin x$ pour $\\sin x$. Laquelle reste positive ou nulle sur tout $\\mathbb{R}$ ?",
+      "solution": "Pour $f(x) = x^4$, $f''(x) = 12x^2 \\ge 0$ sur $\\mathbb{R}$, donc $f$ est convexe (la dérivée seconde s'annule en $0$, mais seule sa positivité compte). En revanche, $(x^3)'' = 6x$ est négative pour $x < 0$, $(-x^2)'' = -2 < 0$ (fonction concave), et $(\\sin x)'' = -\\sin x$ change de signe : aucune de ces trois fonctions n'est convexe sur $\\mathbb{R}$."
+    },
+    {
+      "id": "L1-CNT-2c",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Dérivée de la fonction arc sinus",
+      "skill": "Dériver une réciproque : domaine et dérivée de $\\arcsin$",
+      "statement": "La fonction $\\arcsin$ est la réciproque de la restriction de $\\sin$ à $\\left[-\\frac{\\pi}{2} ; \\frac{\\pi}{2}\\right]$. Sur quel ensemble est-elle dérivable, et quelle est sa dérivée ?",
+      "options": [
+        "Sur $]-1 ; 1[$, avec $\\arcsin'(x) = \\frac{1}{\\sqrt{1 - x^2}}$",
+        "Sur $[-1 ; 1]$, avec $\\arcsin'(x) = \\frac{1}{\\sqrt{1 - x^2}}$",
+        "Sur $]-1 ; 1[$, avec $\\arcsin'(x) = -\\frac{1}{\\sqrt{1 - x^2}}$",
+        "Sur $\\mathbb{R}$, avec $\\arcsin'(x) = \\frac{1}{1 + x^2}$"
+      ],
+      "correctIndex": 0,
+      "answer": "Sur $]-1 ; 1[$, avec $\\arcsin'(x) = \\frac{1}{\\sqrt{1 - x^2}}$",
+      "hint1": "Applique la formule $(f^{-1})'(y) = \\frac{1}{f'(f^{-1}(y))}$ avec $f = \\sin$ restreinte à $\\left[-\\frac{\\pi}{2} ; \\frac{\\pi}{2}\\right]$ : elle exige $f'(f^{-1}(y)) \\neq 0$.",
+      "hint2": "Pose $\\theta = \\arcsin x$ : exprime $\\cos\\theta$ en fonction de $x$ à l'aide de $\\cos^2\\theta + \\sin^2\\theta = 1$, en tenant compte du signe de $\\cos$ sur $\\left[-\\frac{\\pi}{2} ; \\frac{\\pi}{2}\\right]$.",
+      "solution": "Pour $x \\in [-1 ; 1]$, posons $\\theta = \\arcsin x \\in \\left[-\\frac{\\pi}{2} ; \\frac{\\pi}{2}\\right]$. On a $\\cos\\theta \\ge 0$, donc $\\cos\\theta = \\sqrt{1 - \\sin^2\\theta} = \\sqrt{1 - x^2}$. Ce nombre est non nul si et seulement si $x \\in\\, ]-1 ; 1[$ ; la formule de dérivation d'une réciproque donne alors $\\arcsin'(x) = \\frac{1}{\\cos(\\arcsin x)} = \\frac{1}{\\sqrt{1 - x^2}}$. En $\\pm 1$, le taux d'accroissement tend vers $+\\infty$ : la courbe a une tangente verticale et $\\arcsin$ n'y est pas dérivable. La dérivée $-\\frac{1}{\\sqrt{1 - x^2}}$ est celle de $\\arccos$, et $\\frac{1}{1 + x^2}$ celle de $\\arctan$."
+    },
+    {
+      "id": "L1-CNT-3f",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Convexité et inégalité de tangente",
+      "skill": "Déduire une inégalité de la position d'une courbe convexe par rapport à une tangente",
+      "statement": "Soit $f : x \\mapsto x\\ln x$ sur $]0 ; +\\infty[$. Laquelle des affirmations suivantes est vraie ?",
+      "options": [
+        "$f$ est convexe et $x\\ln x \\ge x - 1$ pour tout $x > 0$",
+        "$f$ est concave et $x\\ln x \\le x - 1$ pour tout $x > 0$",
+        "$f$ est convexe et $x\\ln x \\le x - 1$ pour tout $x > 0$",
+        "$f$ n'est ni convexe ni concave sur $]0 ; +\\infty[$"
+      ],
+      "correctIndex": 0,
+      "answer": "$f$ est convexe et $x\\ln x \\ge x - 1$ pour tout $x > 0$",
+      "hint1": "Calcule $f'$ et $f''$ ; une fonction convexe et dérivable a sa courbe au-dessus de chacune de ses tangentes.",
+      "hint2": "$f'(x) = \\ln x + 1$ et $f''(x) = \\frac{1}{x}$. Écris l'équation de la tangente au point d'abscisse $1$.",
+      "solution": "On a $f'(x) = \\ln x + 1$ et $f''(x) = \\frac{1}{x} > 0$ sur $]0 ; +\\infty[$, donc $f$ est convexe. Sa courbe est au-dessus de ses tangentes ; au point d'abscisse $1$, $f(1) = 0$ et $f'(1) = 1$, la tangente a pour équation $y = x - 1$. Donc $x\\ln x \\ge x - 1$ pour tout $x > 0$, avec égalité seulement en $x = 1$. L'inégalité inverse est fausse : pour $x = e$, $e\\ln e = e > e - 1$."
     },
     {
       "id": "L1-CNT-3",
@@ -2322,28 +2833,66 @@ window.MATHS_EXERCISES_L1 = {
       ],
       "correctIndex": 0,
       "answer": "$\\frac{2}{3}$",
-      "hint1": "Forme indéterminée 0/0 : dérive en haut et en bas.",
+      "hint1": "Forme indéterminée $\\frac{0}{0}$ : vérifie les hypothèses de la règle de L'Hôpital (voir le cours), puis étudie le quotient des dérivées.",
       "hint2": "Les dérivées du numérateur et du dénominateur sont $2e^{2x}$ et $3\\cos(3x)$ : évalue leur quotient en $x = 0$.",
-      "solution": "Par la règle de L'Hôpital : $\\lim_{x \\to 0} \\frac{e^{2x}-1}{\\sin(3x)} = \\lim_{x \\to 0} \\frac{2e^{2x}}{3\\cos(3x)} = \\frac{2}{3}$."
+      "solution": "Posons $f(x) = e^{2x} - 1$ et $g(x) = \\sin(3x)$. Ces fonctions sont dérivables, $f(0) = g(0) = 0$, et $g'(x) = 3\\cos(3x)$ ne s'annule pas au voisinage de $0$. Comme $\\frac{f'(x)}{g'(x)} = \\frac{2e^{2x}}{3\\cos(3x)} \\to \\frac{2}{3}$ quand $x \\to 0$, la règle de L'Hôpital donne $\\lim_{x \\to 0} \\frac{e^{2x}-1}{\\sin(3x)} = \\frac{2}{3}$."
+    },
+    {
+      "id": "L1-CNT-3b",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Une relation entre arc tangentes",
+      "skill": "Montrer qu'une fonction est constante sur un intervalle par le calcul de sa dérivée",
+      "statement": "Pour $x > 0$, que vaut $\\arctan x + \\arctan\\frac{1}{x}$ ?",
+      "options": [
+        "$\\frac{\\pi}{2}$",
+        "$\\frac{\\pi}{4}$",
+        "$0$",
+        "$\\pi$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\frac{\\pi}{2}$",
+      "hint1": "Pose $\\varphi(x) = \\arctan x + \\arctan\\frac{1}{x}$ et calcule $\\varphi'(x)$ sur $]0 ; +\\infty[$, avec $\\arctan'(u) = \\frac{1}{1 + u^2}$.",
+      "hint2": "La dérivée de $x \\mapsto \\arctan\\frac{1}{x}$ est $-\\frac{1}{x^2} \\cdot \\frac{1}{1 + \\frac{1}{x^2}}$ : simplifie-la et compare-la à $\\frac{1}{1 + x^2}$. Que dire d'une fonction de dérivée nulle sur un intervalle ?",
+      "solution": "Pour $x > 0$, $\\varphi'(x) = \\frac{1}{1 + x^2} - \\frac{1}{x^2} \\cdot \\frac{1}{1 + \\frac{1}{x^2}} = \\frac{1}{1 + x^2} - \\frac{1}{x^2 + 1} = 0$. Comme $]0 ; +\\infty[$ est un intervalle, $\\varphi$ y est constante (accroissements finis), égale à $\\varphi(1) = 2\\arctan 1 = 2 \\times \\frac{\\pi}{4} = \\frac{\\pi}{2}$. Remarque : sur $]-\\infty ; 0[$, l'imparité donne $\\varphi = -\\frac{\\pi}{2}$ ; l'égalité n'est donc pas vraie pour tout $x \\neq 0$, car $\\mathbb{R}^*$ n'est pas un intervalle."
     },
     {
       "id": "L1-CNT-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Théorème de Heine",
-      "skill": "Continuité uniforme sur un compact",
-      "statement": "Que garantit le théorème de Heine pour une fonction continue $f : [a, b] \\to \\mathbb{R}$ ?",
+      "title": "Théorème de Heine et continuité uniforme",
+      "skill": "Distinguer continuité et continuité uniforme",
+      "statement": "Laquelle de ces fonctions n'est pas uniformément continue sur l'intervalle indiqué ?",
       "options": [
-        "$f$ est uniformément continue sur $[a, b]$",
-        "$f$ est dérivable sur $[a, b]$",
-        "$f$ est strictement monotone",
-        "$f$ est lipschitzienne"
+        "$x \\mapsto x^3$ sur $[0 ; +\\infty[$",
+        "$x \\mapsto x^3$ sur $[0 ; 5]$",
+        "$x \\mapsto \\sqrt{x}$ sur $[0 ; +\\infty[$",
+        "$x \\mapsto \\sin(2x)$ sur $\\mathbb{R}$"
       ],
       "correctIndex": 0,
-      "answer": "$f$ est uniformément continue sur $[a, b]$",
-      "hint1": "Le segment $[a, b]$ est fermé et borné (compact) : quelle propriété plus forte que la continuité en découle ?",
-      "hint2": "Il s'agit de pouvoir choisir le même $\\eta$ pour tous les points : $\\forall \\varepsilon > 0, \\exists \\eta > 0, \\forall x, y \\in [a, b], |x-y| < \\eta \\implies |f(x)-f(y)| < \\varepsilon$.",
-      "solution": "Le théorème de Heine stipule que toute fonction continue sur un espace métrique compact (comme $[a, b]$) y est uniformément continue."
+      "answer": "$x \\mapsto x^3$ sur $[0 ; +\\infty[$",
+      "hint1": "Écarte les fonctions continues sur un segment (théorème de Heine) et les fonctions lipschitziennes ; pour $\\sqrt{x}$, montre que $|\\sqrt{x} - \\sqrt{y}| \\le \\sqrt{|x - y|}$.",
+      "hint2": "Pour la fonction restante, prends $x_n = n + \\frac{1}{n^2}$ et $y_n = n$ : compare $f(x_n) - f(y_n)$ à $3$.",
+      "solution": "$x \\mapsto x^3$ est continue sur le segment $[0 ; 5]$, donc uniformément continue (théorème de Heine). $x \\mapsto \\sin(2x)$ est $2$-lipschitzienne (accroissements finis). Pour $0 \\le y \\le x$, $(\\sqrt{y} + \\sqrt{x - y})^2 \\ge x$, d'où $\\sqrt{x} - \\sqrt{y} \\le \\sqrt{x - y}$ : on prend $\\delta = \\varepsilon^2$. Enfin, avec $x_n = n + \\frac{1}{n^2}$ et $y_n = n$, on a $|x_n - y_n| \\to 0$ mais $x_n^3 - y_n^3 = 3 + \\frac{3}{n^3} + \\frac{1}{n^6} \\ge 3$ : $x \\mapsto x^3$ n'est pas uniformément continue sur $[0 ; +\\infty[$."
+    },
+    {
+      "id": "L1-CNT-4b",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Réciproque du sinus hyperbolique",
+      "skill": "Expliciter la réciproque d'une bijection en résolvant une équation",
+      "statement": "La fonction $\\sinh : x \\mapsto \\frac{e^x - e^{-x}}{2}$ est une bijection de $\\mathbb{R}$ sur $\\mathbb{R}$. Pour $y \\in \\mathbb{R}$, quel est l'unique réel $x$ tel que $\\sinh x = y$ ?",
+      "options": [
+        "$x = \\ln\\left(y + \\sqrt{y^2 + 1}\\right)$",
+        "$x = \\ln\\left(y + \\sqrt{y^2 - 1}\\right)$",
+        "$x = \\ln\\left(\\sqrt{y^2 + 1} - y\\right)$",
+        "$x = \\frac{1}{2}\\ln\\left(\\frac{1 + y}{1 - y}\\right)$"
+      ],
+      "correctIndex": 0,
+      "answer": "$x = \\ln\\left(y + \\sqrt{y^2 + 1}\\right)$",
+      "hint1": "Pose $X = e^x$, avec $X > 0$, et multiplie l'équation $\\frac{X - X^{-1}}{2} = y$ par $2X$.",
+      "hint2": "Tu obtiens $X^2 - 2yX - 1 = 0$. Le produit des deux racines vaut $-1$ : une seule est strictement positive.",
+      "solution": "Avec $X = e^x > 0$, l'équation $\\sinh x = y$ équivaut à $X^2 - 2yX - 1 = 0$, de discriminant $4(y^2 + 1) > 0$ et de racines $y \\pm \\sqrt{y^2 + 1}$. Leur produit vaut $-1$ ; comme $\\sqrt{y^2 + 1} > |y|$, seule $y + \\sqrt{y^2 + 1}$ est strictement positive. Donc $e^x = y + \\sqrt{y^2 + 1}$, soit $x = \\ln\\left(y + \\sqrt{y^2 + 1}\\right)$. La deuxième expression n'est définie que pour $|y| \\ge 1$ (c'est la réciproque de $\\cosh$ sur $[0 ; +\\infty[$), la troisième vaut $-\\ln\\left(y + \\sqrt{y^2 + 1}\\right)$, soit l'opposé de la bonne réponse, et la quatrième est la réciproque de $\\tanh$, définie sur $]-1 ; 1[$."
     }
   ],
   "L1-TAY": [
@@ -2367,6 +2916,25 @@ window.MATHS_EXERCISES_L1 = {
       "solution": "$\\cos(x) = 1 - \\frac{x^2}{2!} + \\frac{x^4}{4!} + o(x^4) = 1 - \\frac{x^2}{2} + \\frac{x^4}{24} + o(x^4)$."
     },
     {
+      "id": "L1-TAY-5",
+      "tier": 1,
+      "type": "mcq",
+      "title": "Hypothèse de la formule de Taylor-Young",
+      "skill": "Connaître les hypothèses de la formule de Taylor-Young",
+      "statement": "Soit $f : I \\to \\mathbb{R}$, $a \\in I$ et $n \\ge 2$. Quelle hypothèse permet d'écrire la formule de Taylor-Young à l'ordre $n$ en $a$ : $f(x) = \\sum_{k=0}^{n} \\frac{f^{(k)}(a)}{k!}(x - a)^k + o\\big((x - a)^n\\big)$ ?",
+      "options": [
+        "$f$ est de classe $\\mathcal{C}^n$ sur $I$",
+        "$f$ est continue sur $I$",
+        "$f$ est dérivable en $a$",
+        "$f$ est bornée sur $I$"
+      ],
+      "correctIndex": 0,
+      "answer": "$f$ est de classe $\\mathcal{C}^n$ sur $I$",
+      "hint1": "La formule fait intervenir $f^{(n)}(a)$ : quelle hypothèse garantit au moins l'existence de cette dérivée ?",
+      "hint2": "Une fonction seulement dérivable en $a$ n'a pas forcément de dérivée seconde en $a$ : l'hypothèse doit porter sur les dérivées jusqu'à l'ordre $n$.",
+      "solution": "La formule de Taylor-Young s'applique si $f$ est de classe $\\mathcal{C}^n$ sur $I$ (cours, section 4 ; il suffit même que $f$ soit $n$ fois dérivable en $a$). La continuité, la dérivabilité en $a$ ou le caractère borné ne garantissent pas l'existence de $f^{(n)}(a)$ pour $n \\ge 2$."
+    },
+    {
       "id": "L1-TAY-2",
       "tier": 2,
       "type": "mcq",
@@ -2386,52 +2954,185 @@ window.MATHS_EXERCISES_L1 = {
       "solution": "Comme $\\ln(1+x) - x = -\\frac{x^2}{2} + o(x^2)$, le quotient par $x^2$ tend vers $-\\frac{1}{2}$."
     },
     {
+      "id": "L1-TAY-6",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Produit de développements limités",
+      "skill": "Calculer le DL d'un produit",
+      "statement": "Quel est le développement limité à l'ordre 3 en $0$ de $e^x \\sin x$ ?",
+      "options": [
+        "$x + x^2 + \\frac{x^3}{3} + o(x^3)$",
+        "$x + x^2 + \\frac{x^3}{2} + o(x^3)$",
+        "$x + x^2 - \\frac{x^3}{6} + o(x^3)$",
+        "$x - \\frac{x^3}{6} + o(x^3)$"
+      ],
+      "correctIndex": 0,
+      "answer": "$x + x^2 + \\frac{x^3}{3} + o(x^3)$",
+      "hint1": "Multiplie les DL de $e^x$ et de $\\sin x$, en ne gardant que les termes de degré au plus $3$.",
+      "hint2": "$\\left(1 + x + \\frac{x^2}{2}\\right)\\left(x - \\frac{x^3}{6}\\right)$ : le terme en $x^3$ provient de $\\frac{x^2}{2} \\times x$ et de $1 \\times \\left(-\\frac{x^3}{6}\\right)$.",
+      "solution": "$e^x = 1 + x + \\frac{x^2}{2} + o(x^2)$ et $\\sin x = x - \\frac{x^3}{6} + o(x^3)$ ; comme $\\sin x = O(x)$, l'ordre 2 suffit pour $e^x$. Le produit vaut $x + x^2 + \\frac{x^3}{2} - \\frac{x^3}{6} + o(x^3) = x + x^2 + \\frac{x^3}{3} + o(x^3)$."
+    },
+    {
       "id": "L1-TAY-3",
       "tier": 3,
       "type": "mcq",
       "title": "Reste de Taylor-Lagrange",
       "skill": "Estimer l'erreur dans la formule de Taylor",
-      "statement": "Pour $f(x) = e^x$ sur $[0, 1]$ à l'ordre 1, l'erreur $e - 2$ s'écrit :",
+      "statement": "Pour $f(x) = e^x$ sur $[0 ; 1]$ à l'ordre 1, l'erreur $e - 2$ s'écrit :",
       "options": [
-        "$\\frac{e^c}{2}$ avec $c \\in ]0, 1[$",
-        "$\\frac{1}{6}$",
-        "$e$",
-        "$0$"
+        "$\\frac{e^c}{2}$ avec $c \\in ]0 ; 1[$",
+        "$\\frac{e^c}{6}$ avec $c \\in ]0 ; 1[$",
+        "$e^c$ avec $c \\in ]0 ; 1[$",
+        "$\\frac{e}{2}$"
       ],
       "correctIndex": 0,
-      "answer": "$\\frac{e^c}{2}$ avec $c \\in ]0, 1[$",
+      "answer": "$\\frac{e^c}{2}$ avec $c \\in ]0 ; 1[$",
       "hint1": "Le reste d'ordre 1 est $\\frac{f''(c)}{2!}(1-0)^2$.",
       "hint2": "Ici $f(1) - (f(0) + f'(0)) = e - 2$ : calcule $f''(t)$ et remplace dans la formule du reste.",
-      "solution": "Par Taylor-Lagrange à l'ordre 1 : $e = 1 + 1 + \\frac{e^c}{2} \\implies e - 2 = \\frac{e^c}{2}$ avec $c \\in ]0, 1[$."
+      "solution": "Par Taylor-Lagrange à l'ordre 1 : $e = 1 + 1 + \\frac{e^c}{2}$, donc $e - 2 = \\frac{e^c}{2}$ avec $c \\in ]0 ; 1[$. Le facteur $\\frac{1}{6} = \\frac{1}{3!}$ correspondrait au reste d'ordre 2, et $e^c$ oublie le $2!$. Enfin $\\frac{e}{2} > 1 > e - 2$ : le point $c$ est strictement entre $0$ et $1$, il n'est pas égal à $1$."
+    },
+    {
+      "id": "L1-TAY-7",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Position par rapport à la tangente et point d'inflexion",
+      "skill": "Utiliser un DL pour étudier la position d'une courbe par rapport à sa tangente",
+      "statement": "Soit $f(x) = e^x \\cos x$. À l'aide d'un développement limité à l'ordre 3 en $0$, déterminer la position de la courbe de $f$ par rapport à sa tangente au point d'abscisse $0$.",
+      "options": [
+        "La courbe traverse sa tangente $y = 1 + x$ : au-dessus pour $x < 0$, en dessous pour $x > 0$",
+        "La courbe traverse sa tangente $y = 1 + x$ : en dessous pour $x < 0$, au-dessus pour $x > 0$",
+        "La courbe est au-dessus de sa tangente $y = 1 + x$ au voisinage de $0$",
+        "La courbe est en dessous de sa tangente $y = 1 + x$ au voisinage de $0$"
+      ],
+      "correctIndex": 0,
+      "answer": "La courbe traverse sa tangente $y = 1 + x$ : au-dessus pour $x < 0$, en dessous pour $x > 0$",
+      "hint1": "Multiplie les DL de $e^x$ et de $\\cos x$ à l'ordre 3 ; le premier terme non nul après la partie affine donne la position.",
+      "hint2": "Le terme en $x^2$ vaut $\\frac{1}{2} - \\frac{1}{2} = 0$ : calcule le terme en $x^3$.",
+      "solution": "$e^x \\cos x = \\left(1 + x + \\frac{x^2}{2} + \\frac{x^3}{6}\\right)\\left(1 - \\frac{x^2}{2}\\right) + o(x^3) = 1 + x + \\left(\\frac{1}{6} - \\frac{1}{2}\\right)x^3 + o(x^3) = 1 + x - \\frac{x^3}{3} + o(x^3)$. La tangente en $0$ est $y = 1 + x$ et $f(x) - (1 + x) \\sim -\\frac{x^3}{3}$, qui change de signe en $0$ : positif pour $x < 0$, négatif pour $x > 0$. La courbe traverse sa tangente : c'est un point d'inflexion."
     },
     {
       "id": "L1-TAY-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Position relative par rapport à l'asymptote",
-      "skill": "Étudier la position d'une courbe par DL à l'infini",
-      "statement": "Au voisinage de $+\\infty$, $f(x) = x + 1 - \\frac{1}{2x} + o(1/x)$. Comment se situe la courbe par rapport à l'asymptote $y = x + 1$ ?",
+      "title": "Asymptote oblique et position par DL",
+      "skill": "Étudier la position d'une courbe par rapport à son asymptote à l'aide d'un DL",
+      "statement": "Pour $x > 0$, on pose $f(x) = x\\,e^{1/x}$. Quelle est l'asymptote à la courbe de $f$ en $+\\infty$, et quelle est la position de la courbe par rapport à elle ?",
       "options": [
-        "Strictement en dessous",
-        "Strictement au-dessus",
-        "Elle la traverse une infinité de fois",
-        "Confondue"
+        "Asymptote $y = x + 1$, courbe au-dessus",
+        "Asymptote $y = x + 1$, courbe en dessous",
+        "Asymptote $y = x$, courbe au-dessus",
+        "Asymptote $y = x + \\frac{1}{2}$, courbe au-dessus"
       ],
       "correctIndex": 0,
-      "answer": "Strictement en dessous",
-      "hint1": "Étudie le signe de $f(x) - (x + 1)$ quand $x \\to +\\infty$.",
-      "hint2": "$f(x) - (x + 1) \\sim -\\frac{1}{2x}$ : quel est le signe de cet équivalent pour $x > 0$ ?",
-      "solution": "$f(x) - (x+1) = -\\frac{1}{2x} + o(1/x) < 0$ pour $x$ assez grand, donc la courbe est strictement en dessous."
+      "answer": "Asymptote $y = x + 1$, courbe au-dessus",
+      "hint1": "Pose $h = \\frac{1}{x}$, qui tend vers $0$, et développe $e^h$ à l'ordre 2.",
+      "hint2": "$x\\,e^{1/x} = x\\left(1 + \\frac{1}{x} + \\frac{1}{2x^2} + o\\left(\\frac{1}{x^2}\\right)\\right)$ : développe, puis étudie le signe de $f(x) - (x + 1)$.",
+      "solution": "Avec $h = \\frac{1}{x} \\to 0$, $e^h = 1 + h + \\frac{h^2}{2} + o(h^2)$, donc $f(x) = x + 1 + \\frac{1}{2x} + o\\left(\\frac{1}{x}\\right)$. La droite $y = x + 1$ est asymptote en $+\\infty$, et $f(x) - (x + 1) \\sim \\frac{1}{2x} > 0$ : la courbe est au-dessus de l'asymptote pour $x$ assez grand."
+    },
+    {
+      "id": "L1-TAY-8",
+      "tier": 4,
+      "type": "mcq",
+      "title": "DL d'ordre 2 et dérivée seconde",
+      "skill": "Savoir qu'un DL d'ordre 2 n'implique pas l'existence de $f''(a)$",
+      "statement": "Soit $f$ définie sur $\\mathbb{R}$ par $f(0) = 0$ et $f(x) = x^3 \\sin\\left(\\frac{1}{x}\\right)$ pour $x \\neq 0$. Laquelle des affirmations suivantes est vraie ?",
+      "options": [
+        "$f(x) = o(x^2)$ en $0$, donc $f$ admet un DL d'ordre 2 en $0$, mais $f''(0)$ n'existe pas",
+        "$f$ n'admet pas de DL d'ordre 2 en $0$, car $\\sin\\left(\\frac{1}{x}\\right)$ n'a pas de limite en $0$",
+        "$f''(0)$ existe et vaut $0$, puisque $f$ admet un DL d'ordre 2 en $0$",
+        "$f$ n'est pas dérivable en $0$"
+      ],
+      "correctIndex": 0,
+      "answer": "$f(x) = o(x^2)$ en $0$, donc $f$ admet un DL d'ordre 2 en $0$, mais $f''(0)$ n'existe pas",
+      "hint1": "Encadre $|f(x)|$ pour obtenir un DL ; pour $f''(0)$, calcule $f'$ puis étudie le taux d'accroissement $\\frac{f'(x) - f'(0)}{x}$.",
+      "hint2": "Pour $x \\neq 0$, $f'(x) = 3x^2 \\sin\\left(\\frac{1}{x}\\right) - x\\cos\\left(\\frac{1}{x}\\right)$, et $f'(0) = \\lim_{x \\to 0} \\frac{f(x)}{x} = 0$.",
+      "solution": "$|f(x)| \\le |x|^3$, donc $f(x) = o(x^2)$ : $f$ admet en $0$ le DL $f(x) = 0 + 0x + 0x^2 + o(x^2)$. Elle est dérivable en $0$ avec $f'(0) = \\lim \\frac{f(x)}{x} = 0$. Mais $\\frac{f'(x) - f'(0)}{x} = 3x\\sin\\left(\\frac{1}{x}\\right) - \\cos\\left(\\frac{1}{x}\\right)$ n'a pas de limite en $0$ (le premier terme tend vers $0$, le second n'a pas de limite) : $f''(0)$ n'existe pas. Un DL d'ordre $n \\ge 2$ ne garantit donc pas l'existence de $f^{(n)}(a)$ ; seul le DL d'ordre 1 équivaut à la dérivabilité."
     }
   ],
   "L1-INT": [
     {
-      "id": "L1-INT-1",
+      "id": "L1-INT-6",
       "tier": 1,
+      "type": "mcq",
+      "title": "Primitive usuelle",
+      "skill": "Connaître les primitives usuelles",
+      "statement": "Quelle est une primitive de $x \\mapsto \\frac{1}{1 + x^2}$ sur $\\mathbb{R}$ ?",
+      "options": [
+        "$x \\mapsto \\arctan x$",
+        "$x \\mapsto \\ln(1 + x^2)$",
+        "$x \\mapsto -\\frac{2x}{(1 + x^2)^2}$",
+        "$x \\mapsto \\arcsin x$"
+      ],
+      "correctIndex": 0,
+      "answer": "$x \\mapsto \\arctan x$",
+      "hint1": "Dérive chacune des fonctions proposées et compare le résultat à $\\frac{1}{1 + x^2}$.",
+      "hint2": "$(\\ln(1 + x^2))' = \\frac{2x}{1 + x^2}$ et $\\arcsin$ n'est définie que sur $[-1 ; 1]$.",
+      "solution": "$\\arctan$ est dérivable sur $\\mathbb{R}$ et $\\arctan'(x) = \\frac{1}{1 + x^2}$ (cours, section 6). En revanche $(\\ln(1 + x^2))' = \\frac{2x}{1 + x^2}$, $-\\frac{2x}{(1 + x^2)^2}$ est la dérivée de $\\frac{1}{1 + x^2}$ (et non une primitive), et $\\arcsin$ n'est définie que sur $[-1 ; 1]$, de dérivée $\\frac{1}{\\sqrt{1 - x^2}}$."
+    },
+    {
+      "id": "L1-INT-7",
+      "tier": 1,
+      "type": "mcq",
+      "title": "Calcul d'une intégrale par primitive",
+      "skill": "Calculer une intégrale avec le théorème fondamental",
+      "statement": "Que vaut $\\int_0^2 (3x^2 - 2x)\\,dx$ ?",
+      "options": [
+        "$4$",
+        "$8$",
+        "$6$",
+        "$12$"
+      ],
+      "correctIndex": 0,
+      "answer": "$4$",
+      "hint1": "Cherche une primitive $F$ de $x \\mapsto 3x^2 - 2x$, puis calcule $F(2) - F(0)$.",
+      "hint2": "Une primitive est $F(x) = x^3 - x^2$.",
+      "solution": "Une primitive de $x \\mapsto 3x^2 - 2x$ est $F(x) = x^3 - x^2$, donc $\\int_0^2 (3x^2 - 2x)\\,dx = F(2) - F(0) = (8 - 4) - 0 = 4$."
+    },
+    {
+      "id": "L1-INT-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Intégration par parties",
+      "skill": "Calculer $\\int_1^e x^2 \\ln x\\,dx$",
+      "statement": "Que vaut l'intégrale $\\int_1^e x^2 \\ln(x)\\,dx$ ?",
+      "options": [
+        "$\\frac{2e^3 + 1}{9}$",
+        "$\\frac{2e^3 - 1}{9}$",
+        "$\\frac{e^3}{3}$",
+        "$\\frac{e^3 + 1}{9}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\frac{2e^3 + 1}{9}$",
+      "hint1": "Intègre par parties en dérivant $\\ln x$ et en primitivant $x^2$.",
+      "hint2": "On obtient $\\left[\\frac{x^3 \\ln x}{3}\\right]_1^e - \\int_1^e \\frac{x^2}{3}\\,dx$ : calcule chacun des deux termes.",
+      "solution": "Avec $u = \\ln x$ et $v' = x^2$ (donc $u' = \\frac{1}{x}$, $v = \\frac{x^3}{3}$), fonctions de classe $\\mathcal{C}^1$ sur $[1 ; e]$ : $\\int_1^e x^2 \\ln x\\,dx = \\left[\\frac{x^3 \\ln x}{3}\\right]_1^e - \\int_1^e \\frac{x^2}{3}\\,dx = \\frac{e^3}{3} - \\frac{e^3 - 1}{9} = \\frac{2e^3 + 1}{9}$."
+    },
+    {
+      "id": "L1-INT-5",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Intégrale nulle d'une fonction continue positive",
+      "skill": "Exploiter la positivité et la continuité dans une intégrale",
+      "statement": "Soit $f$ continue et positive sur $[0 ; 1]$ telle que $\\int_0^1 f(t)\\,dt = 0$. Que peut-on affirmer ?",
+      "options": [
+        "$f$ est nulle sur $[0 ; 1]$",
+        "$f$ s'annule au moins une fois sur $[0 ; 1]$, sans être forcément nulle",
+        "$f$ est constante non nulle",
+        "Rien de plus : une fonction continue positive non nulle peut avoir une intégrale nulle"
+      ],
+      "correctIndex": 0,
+      "answer": "$f$ est nulle sur $[0 ; 1]$",
+      "hint1": "Raisonne par l'absurde : suppose que $f(x_0) > 0$ en un point $x_0$ et utilise la continuité de $f$ en $x_0$.",
+      "hint2": "Par continuité, il existe un segment $[c ; d] \\subset [0 ; 1]$, avec $c < d$, contenant $x_0$, sur lequel $f \\ge \\frac{f(x_0)}{2}$ : minore l'intégrale à l'aide de ce segment.",
+      "solution": "Supposons $f(x_0) > 0$. Par continuité, il existe $c < d$ dans $[0 ; 1]$ avec $x_0 \\in [c ; d]$ et $f \\ge \\frac{f(x_0)}{2}$ sur $[c ; d]$. Comme $f \\ge 0$, $\\int_0^1 f \\ge \\int_c^d f \\ge (d - c)\\frac{f(x_0)}{2} > 0$ : contradiction. Donc $f$ est nulle sur $[0 ; 1]$. L'hypothèse de continuité est indispensable : la fonction nulle sauf en un point, où elle vaut $1$, est positive, non nulle et d'intégrale nulle."
+    },
+    {
+      "id": "L1-INT-1",
+      "tier": 3,
       "type": "mcq",
       "title": "Somme de Riemann élémentaire",
       "skill": "Calculer la limite d'une somme de Riemann",
-      "statement": "Quelle est la limite quand $n \\to +\\infty$ de $\\frac{1}{n}\\sum_{k=1}^n (k/n)^2$ ?",
+      "statement": "Quelle est la limite quand $n \\to +\\infty$ de $S_n = \\sum_{k=1}^{n} \\frac{k^2}{n^3}$ ?",
       "options": [
         "$\\frac{1}{3}$",
         "$\\frac{1}{2}$",
@@ -2440,28 +3141,9 @@ window.MATHS_EXERCISES_L1 = {
       ],
       "correctIndex": 0,
       "answer": "$\\frac{1}{3}$",
-      "hint1": "C'est l'intégrale $\\int_0^1 x^2 dx$.",
-      "hint2": "Une primitive de $x^2$ est $\\frac{x^3}{3}$.",
-      "solution": "Par le théorème des sommes de Riemann, $\\lim S_n = \\int_0^1 x^2 dx = [x^3/3]_0^1 = 1/3$."
-    },
-    {
-      "id": "L1-INT-2",
-      "tier": 2,
-      "type": "mcq",
-      "title": "Intégration par parties",
-      "skill": "Calculer $\\int_1^e x \\ln x dx$",
-      "statement": "Que vaut l'intégrale $\\int_1^e x \\ln(x) dx$ ?",
-      "options": [
-        "$\\frac{e^2 + 1}{4}$",
-        "$\\frac{e^2 - 1}{4}$",
-        "$\\frac{e^2}{2}$",
-        "$1$"
-      ],
-      "correctIndex": 0,
-      "answer": "$\\frac{e^2 + 1}{4}$",
-      "hint1": "Pose $u = \\ln x$ et $v' = x$.",
-      "hint2": "On obtient $\\left[\\frac{x^2 \\ln x}{2}\\right]_1^e - \\int_1^e \\frac{x}{2}\\,dx$ : calcule chacun des deux termes.",
-      "solution": "Par IPP : $[x^2 \\ln(x)/2]_1^e - [x^2/4]_1^e = e^2/2 - (e^2-1)/4 = \\frac{e^2+1}{4}$."
+      "hint1": "Fais apparaître une somme de Riemann $\\frac{1}{n}\\sum_{k=1}^{n} f\\left(\\frac{k}{n}\\right)$ : identifie la fonction $f$ et l'intervalle (cours, section 5).",
+      "hint2": "$\\frac{k^2}{n^3} = \\frac{1}{n}\\left(\\frac{k}{n}\\right)^2$ : la fonction est $x \\mapsto x^2$, continue sur $[0 ; 1]$.",
+      "solution": "$S_n = \\frac{1}{n}\\sum_{k=1}^{n} \\left(\\frac{k}{n}\\right)^2$ est une somme de Riemann de $x \\mapsto x^2$, continue sur $[0 ; 1]$. Donc $S_n \\to \\int_0^1 x^2\\,dx = \\left[\\frac{x^3}{3}\\right]_0^1 = \\frac{1}{3}$. Chaque terme tend vers $0$, mais leur nombre augmente : la limite n'est pas $0$. Vérification : $\\sum_{k=1}^{n} k^2 = \\frac{n(n+1)(2n+1)}{6}$, d'où $S_n = \\frac{(n+1)(2n+1)}{6n^2} \\to \\frac{2}{6} = \\frac{1}{3}$."
     },
     {
       "id": "L1-INT-3",
@@ -2500,6 +3182,25 @@ window.MATHS_EXERCISES_L1 = {
       "hint1": "Si $G$ est une primitive de $t \\mapsto e^{-t^2}$, alors $F(x) = G(x^2) - G(0)$ : dérive cette composée avec $(G \\circ u)' = u' \\times (G' \\circ u)$.",
       "hint2": "$(x^2)' = 2x$ et $G'(t) = e^{-t^2}$.",
       "solution": "$F'(x) = (x^2)' \\cdot e^{-(x^2)^2} = 2x e^{-x^4}$."
+    },
+    {
+      "id": "L1-INT-8",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Limite d'une suite d'intégrales",
+      "skill": "Encadrer une suite d'intégrales pour en trouver la limite",
+      "statement": "Pour $n \\in \\mathbb{N}$, on pose $I_n = \\int_0^1 \\frac{x^n}{1 + x}\\,dx$. Que vaut $\\lim_{n \\to +\\infty} I_n$ ?",
+      "options": [
+        "$0$, car $0 \\le I_n \\le \\frac{1}{n + 1}$",
+        "$\\ln 2$, car $\\int_0^1 \\frac{dx}{1 + x} = \\ln 2$",
+        "$\\frac{1}{2}$, car $\\frac{x^n}{1 + x}$ vaut $\\frac{1}{2}$ en $x = 1$",
+        "La suite $(I_n)$ n'a pas de limite"
+      ],
+      "correctIndex": 0,
+      "answer": "$0$, car $0 \\le I_n \\le \\frac{1}{n + 1}$",
+      "hint1": "Encadre la fonction intégrée sur $[0 ; 1]$ par deux fonctions simples, puis intègre l'encadrement (positivité de l'intégrale).",
+      "hint2": "Pour $x \\in [0 ; 1]$, $1 \\le 1 + x$, donc $0 \\le \\frac{x^n}{1 + x} \\le x^n$.",
+      "solution": "Pour $x \\in [0 ; 1]$, $0 \\le \\frac{x^n}{1 + x} \\le x^n$. Par croissance de l'intégrale, $0 \\le I_n \\le \\int_0^1 x^n\\,dx = \\frac{1}{n + 1}$, donc $I_n \\to 0$ par encadrement. La valeur $\\ln 2$ est celle de $I_0$ seulement, et la valeur en $x = 1$ ne suffit pas : $\\frac{x^n}{1 + x} \\to 0$ pour tout $x \\in [0 ; 1[$."
     }
   ],
   "L1-GEO": [
@@ -2523,6 +3224,25 @@ window.MATHS_EXERCISES_L1 = {
       "solution": "Une droite d'équation cartésienne $ax + by + c = 0$ admet pour vecteur normal le vecteur $\\vec{n}(a; b)$. Ici, $a = 3$ et $b = -4$, donc $\\vec{n}(3; -4)$ est normal à la droite."
     },
     {
+      "id": "L1-GEO-3",
+      "tier": 1,
+      "type": "mcq",
+      "title": "Conique monofocale et excentricité",
+      "skill": "Déterminer la nature d'une conique selon son excentricité",
+      "statement": "Soit une conique propre de foyer $F$, de directrice $\\mathcal{D}$ et d'excentricité $e = 0{,}75$. Quelle est sa nature géométrique ?",
+      "options": [
+        "Une ellipse",
+        "Une parabole",
+        "Une hyperbole",
+        "Un cercle"
+      ],
+      "correctIndex": 0,
+      "answer": "Une ellipse",
+      "hint1": "Comparer l'excentricité $e$ à 1.",
+      "hint2": "Selon que $e < 1$, $e = 1$ ou $e > 1$, on obtient une ellipse, une parabole ou une hyperbole : dans quel cas se trouve $e = 0{,}75$ ?",
+      "solution": "Par définition monofocale d'une conique propre, si $0 < e < 1$, la courbe est une ellipse (courbe fermée bornée). Pour $e = 1$ c'est une parabole, et pour $e > 1$ une hyperbole."
+    },
+    {
       "id": "L1-GEO-2",
       "tier": 2,
       "type": "mcq",
@@ -2542,42 +3262,118 @@ window.MATHS_EXERCISES_L1 = {
       "solution": "En regroupant les termes : $(x - 2)^2 - 4 + (y + 3)^2 - 9 + 4 = 0 \\iff (x - 2)^2 + (y + 3)^2 = 9 = 3^2$. Il s'agit du cercle de centre $\\Omega(2; -3)$ et de rayon $R = 3$."
     },
     {
-      "id": "L1-GEO-3",
-      "tier": 3,
+      "id": "L1-GEO-2b",
+      "tier": 2,
       "type": "mcq",
-      "title": "Conique monofocale et excentricité",
-      "skill": "Déterminer la nature d'une conique selon son excentricité",
-      "statement": "Soit une conique propre de foyer $F$, de directrice $\\mathcal{D}$ et d'excentricité $e = 0,75$. Quelle est sa nature géométrique ?",
+      "title": "Barycentre de deux points pondérés",
+      "skill": "Calculer les coordonnées d'un barycentre",
+      "statement": "Dans un repère, on considère $A(1 ; 2)$ et $B(7 ; -4)$. Quelles sont les coordonnées du barycentre $G$ de $(A, 2)$ et $(B, 1)$ ?",
       "options": [
-        "Une ellipse",
-        "Une parabole",
-        "Une hyperbole",
-        "Un cercle"
+        "$G(3 ; 0)$",
+        "$G(5 ; -2)$",
+        "$G(9 ; 0)$",
+        "$G(4 ; -1)$"
       ],
       "correctIndex": 0,
-      "answer": "Une ellipse",
-      "hint1": "Comparer l'excentricité $e$ à 1.",
-      "hint2": "Selon que $e < 1$, $e = 1$ ou $e > 1$, on obtient une ellipse, une parabole ou une hyperbole : dans quel cas se trouve $e = 0{,}75$ ?",
-      "solution": "Par définition monofocale d'une conique propre, si $0 < e < 1$, la courbe est une ellipse (courbe fermée bornée). Pour $e = 1$ c'est une parabole, et pour $e > 1$ une hyperbole."
+      "answer": "$G(3 ; 0)$",
+      "hint1": "On a $x_G = \\dfrac{a x_A + b x_B}{a + b}$, de même pour $y_G$.",
+      "hint2": "Ici la somme des coefficients vaut $3$ : calcule d'abord $2 x_A + x_B$.",
+      "solution": "La somme des coefficients vaut $3 \\neq 0$. $x_G = \\dfrac{2 \\times 1 + 7}{3} = 3$ et $y_G = \\dfrac{2 \\times 2 + (-4)}{3} = 0$, donc $G(3 ; 0)$."
+    },
+    {
+      "id": "L1-GEO-5",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Écriture complexe d'une rotation",
+      "skill": "Écrire une rotation sous la forme $z' = az + b$",
+      "statement": "Dans le plan complexe, quelle est l'écriture complexe de la rotation de centre $\\Omega$ d'affixe $1 + i$ et d'angle $\\frac{\\pi}{2}$ ?",
+      "options": [
+        "$z' = iz + 2$",
+        "$z' = iz + 1 + i$",
+        "$z' = iz$",
+        "$z' = -iz + 2i$"
+      ],
+      "correctIndex": 0,
+      "answer": "$z' = iz + 2$",
+      "hint1": "La rotation de centre $\\Omega(\\omega)$ et d'angle $\\theta$ s'écrit $z' - \\omega = e^{i\\theta}(z - \\omega)$ (cours, section 8).",
+      "hint2": "Ici $e^{i\\pi/2} = i$ : $z' = i(z - 1 - i) + 1 + i$ ; développe.",
+      "solution": "$z' - (1 + i) = i\\big(z - (1 + i)\\big)$, donc $z' = iz - i - i^2 + 1 + i = iz + 2$. Vérification : $\\Omega$ est fixe, car $i(1 + i) + 2 = 1 + i$. L'écriture $z' = -iz + 2i$ fixe aussi $1 + i$, mais c'est la rotation d'angle $-\\frac{\\pi}{2}$."
     },
     {
       "id": "L1-GEO-4",
-      "tier": 4,
+      "tier": 3,
       "type": "mcq",
       "title": "Équation réduite d'une ellipse et distance focale",
       "skill": "Calculer la distance focale 2c et l'excentricité d'une ellipse",
-      "statement": "Soit l'ellipse d'équation réduite $\\frac{x^2}{25} + \\frac{y^2}{9} = 1$. Que vaut sa distance focale $2c$ (distance entre ses deux foyers) ?",
+      "statement": "Soit l'ellipse d'équation réduite $\\frac{x^2}{169} + \\frac{y^2}{144} = 1$. Que vaut sa distance focale $2c$ (distance entre ses deux foyers) ?",
       "options": [
-        "$8$",
-        "$4$",
-        "$16$",
-        "$2\\sqrt{34}$"
+        "$10$",
+        "$5$",
+        "$26$",
+        "$2\\sqrt{313}$"
       ],
       "correctIndex": 0,
-      "answer": "$8$",
-      "hint1": "$a^2 = 25$ donc $a = 5$, et $b^2 = 9$ donc $b = 3$.",
-      "hint2": "Dans l'ellipse avec $a > b$, $c^2 = a^2 - b^2 = 25 - 9 = 16$.",
-      "solution": "On a $a = 5$ et $b = 3$. La relation fondamentale de l'ellipse donne $c^2 = a^2 - b^2 = 25 - 9 = 16$, d'où $c = 4$. La distance focale est $2c = 2 \\times 4 = 8$ (les foyers sont $F(-4; 0)$ et $F'(4; 0)$)."
+      "answer": "$10$",
+      "hint1": "Identifie $a$ et $b$ ($a > b$), puis utilise la relation $c^2 = a^2 - b^2$ propre à l'ellipse.",
+      "hint2": "$a^2 = 169$ et $b^2 = 144$, donc $c^2 = 169 - 144$.",
+      "solution": "On a $a = 13$ et $b = 12$. La relation $c^2 = a^2 - b^2$ donne $c^2 = 169 - 144 = 25$, d'où $c = 5$. La distance focale est $2c = 10$ (foyers $F(-5 ; 0)$ et $F'(5 ; 0)$). La valeur $2\\sqrt{313}$ viendrait de $c^2 = a^2 + b^2$, qui est la relation de l'hyperbole ; $26 = 2a$ est la longueur du grand axe."
+    },
+    {
+      "id": "L1-GEO-6",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Éléments d'une similitude directe",
+      "skill": "Déterminer centre, rapport et angle de $z \\mapsto az + b$",
+      "statement": "Quelle est la nature de la transformation du plan d'écriture complexe $z' = (1 + i)z + 2$ ?",
+      "options": [
+        "Similitude de centre $\\Omega(2i)$, de rapport $\\sqrt{2}$ et d'angle $\\frac{\\pi}{4}$",
+        "Similitude de centre $\\Omega(-2i)$, de rapport $\\sqrt{2}$ et d'angle $\\frac{\\pi}{4}$",
+        "Similitude de centre $\\Omega(2i)$, de rapport $2$ et d'angle $\\frac{\\pi}{4}$",
+        "Rotation de centre $\\Omega(2i)$ et d'angle $\\frac{\\pi}{4}$"
+      ],
+      "correctIndex": 0,
+      "answer": "Similitude de centre $\\Omega(2i)$, de rapport $\\sqrt{2}$ et d'angle $\\frac{\\pi}{4}$",
+      "hint1": "Cherche le point fixe $\\omega$ en résolvant $\\omega = (1 + i)\\omega + 2$, puis écris $a = 1 + i$ sous forme exponentielle (cours, section 8).",
+      "hint2": "Le point fixe vérifie $-i\\omega = 2$ ; et $|1 + i| = \\sqrt{2}$.",
+      "solution": "$\\omega = (1 + i)\\omega + 2 \\iff -i\\omega = 2 \\iff \\omega = \\frac{2}{-i} = 2i$. Alors $z' - 2i = (1 + i)(z - 2i)$, avec $1 + i = \\sqrt{2}\\,e^{i\\pi/4}$ : c'est la similitude de centre $\\Omega(2i)$, de rapport $\\sqrt{2}$ et d'angle $\\frac{\\pi}{4}$. Ce n'est pas une rotation, car $|1 + i| \\neq 1$."
+    },
+    {
+      "id": "L1-GEO-7",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Nature d'un triangle par les complexes",
+      "skill": "Utiliser le quotient $\\frac{c - a}{b - a}$ pour caractériser un triangle",
+      "statement": "Les points $A$, $B$, $C$ ont pour affixes $a = 0$, $b = 2$ et $c = 1 + i\\sqrt{3}$. Que vaut $\\frac{c - a}{b - a}$, et quelle est la nature du triangle $ABC$ ?",
+      "options": [
+        "$\\frac{c - a}{b - a} = e^{i\\pi/3}$ : $ABC$ est équilatéral",
+        "$\\frac{c - a}{b - a} = e^{i\\pi/3}$ : $ABC$ est rectangle en $A$",
+        "$\\frac{c - a}{b - a} = e^{i\\pi/6}$ : $ABC$ est isocèle en $A$, non équilatéral",
+        "$\\frac{c - a}{b - a} = i$ : $ABC$ est rectangle isocèle en $A$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\frac{c - a}{b - a} = e^{i\\pi/3}$ : $ABC$ est équilatéral",
+      "hint1": "Le module de $\\frac{c - a}{b - a}$ vaut $\\frac{AC}{AB}$ et son argument mesure l'angle $(\\overrightarrow{AB}, \\overrightarrow{AC})$ (cours, section 8).",
+      "hint2": "$\\frac{c - a}{b - a} = \\frac{1 + i\\sqrt{3}}{2} = \\frac{1}{2} + i\\frac{\\sqrt{3}}{2}$ : reconnais un nombre de module $1$ dont tu connais l'argument.",
+      "solution": "$\\frac{c - a}{b - a} = \\frac{1}{2} + i\\frac{\\sqrt{3}}{2} = e^{i\\pi/3}$. Donc $AC = AB$ et $(\\overrightarrow{AB}, \\overrightarrow{AC}) = \\frac{\\pi}{3}$ : $C$ est l'image de $B$ par la rotation de centre $A$ et d'angle $\\frac{\\pi}{3}$. Le triangle $ABC$ est isocèle en $A$ avec un angle de $\\frac{\\pi}{3}$ au sommet, donc ses deux autres angles mesurent aussi $\\frac{\\pi}{3}$ : il est équilatéral."
+    },
+    {
+      "id": "L1-GEO-8",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Réduction d'une équation de conique",
+      "skill": "Réduire une équation du second degré par complétion des carrés",
+      "statement": "Quelle est la nature de l'ensemble d'équation $x^2 + 4y^2 - 2x - 16y + 13 = 0$ dans un repère orthonormé ?",
+      "options": [
+        "Une ellipse de centre $\\Omega(1 ; 2)$ et d'excentricité $\\frac{\\sqrt{3}}{2}$",
+        "Une ellipse de centre $\\Omega(1 ; 2)$ et d'excentricité $\\frac{1}{2}$",
+        "Une hyperbole de centre $\\Omega(1 ; 2)$ et d'excentricité $\\frac{\\sqrt{5}}{2}$",
+        "Un cercle de centre $\\Omega(1 ; 2)$ et de rayon $2$"
+      ],
+      "correctIndex": 0,
+      "answer": "Une ellipse de centre $\\Omega(1 ; 2)$ et d'excentricité $\\frac{\\sqrt{3}}{2}$",
+      "hint1": "Complète les carrés en $x$ et en $y$, puis divise pour obtenir une équation réduite $\\frac{X^2}{a^2} \\pm \\frac{Y^2}{b^2} = 1$ (cours, section 6).",
+      "hint2": "$x^2 - 2x = (x - 1)^2 - 1$ et $4y^2 - 16y = 4(y - 2)^2 - 16$ : l'équation devient $(x - 1)^2 + 4(y - 2)^2 = 4$.",
+      "solution": "On obtient $(x - 1)^2 + 4(y - 2)^2 = 1 + 16 - 13 = 4$, soit $\\frac{(x - 1)^2}{4} + \\frac{(y - 2)^2}{1} = 1$ : ellipse de centre $\\Omega(1 ; 2)$, avec $a = 2$ et $b = 1$. Alors $c = \\sqrt{a^2 - b^2} = \\sqrt{3}$ et $e = \\frac{c}{a} = \\frac{\\sqrt{3}}{2}$. Ce n'est pas un cercle, car les coefficients de $(x - 1)^2$ et de $(y - 2)^2$ diffèrent."
     }
   ]
 };
@@ -2619,7 +3415,7 @@ Conclusion : $S = \\left\\{\\left(\\frac{14}{3} ; 0 ; \\frac{5}{3}\\right)\\righ
 
 ### Exercice 1 : Factorisation de polynômes (5 points)
 1. Factoriser $P(X) = X^4 - 16$ en produit de polynômes irréductibles dans $\\mathbb{C}[X]$, puis dans $\\mathbb{R}[X]$.
-2. Factoriser $Q(X) = X^4 + X^2 + 1$ dans $\\mathbb{R}[X]$ à l'aide de l'identité $X^4 + X^2 + 1 = (X^2 + 1)^2 - X^2$.
+2. Factoriser complètement $Q(X) = X^4 + X^2 + 1$ dans $\\mathbb{R}[X]$ à l'aide de l'identité $X^4 + X^2 + 1 = (X^2 + 1)^2 - X^2$.
 
 ### Exercice 2 : DES à pôles simples réels (7 points)
 Soit la fraction rationnelle $F(X) = \\frac{2X + 5}{(X - 1)(X + 2)(X + 3)}$.
@@ -2710,11 +3506,11 @@ En appliquant avec $t = 10^n z$ et en divisant par $10^n > 0$ :
 $$z - \\frac{1}{10^n} < \\frac{\\lfloor 10^n z \\rfloor}{10^n} \\le z \\iff z - 10^{-n} < u_n \\le z$$
 Comme $\\lim_{n \\to +\\infty} 10^{-n} = 0$, le théorème des gendarmes assure que $\\lim_{n \\to +\\infty} u_n = z$.
 De plus, $p = \\lfloor 10^n z \\rfloor \\in \\mathbb{Z}$ et $10^n = 10^q$ avec $q = n \\in \\mathbb{N}$, donc $u_n \\in \\mathbb{D}$. *(3 pts)*
-2. L'intervalle $]x, y[$ est centré en $z = \\frac{x+y}{2}$ de rayon $\\varepsilon = \\frac{y-x}{2} > 0$, c'est-à-dire $]x, y[ = ]z - \\varepsilon, z + \\varepsilon[$.
+2. L'intervalle $]x ; y[$ est centré en $z = \\frac{x+y}{2}$ de rayon $\\varepsilon = \\frac{y-x}{2} > 0$, c'est-à-dire $]x ; y[ = ]z - \\varepsilon ; z + \\varepsilon[$.
 Comme $u_n \\to z$, par définition de la limite pour $\\varepsilon > 0$, il existe un rang $q \\in \\mathbb{N}$ tel que pour tout $n \\ge q$, $|u_n - z| < \\varepsilon$.
 En particulier pour $n = q$, $z - \\varepsilon < u_q < z + \\varepsilon$, ce qui équivaut exactement à $x < u_q < y$. *(3 pts)*
 3. Pour tous réels $x < y$, il existe un décimal $d = u_q \\in \\mathbb{D}$ tel que $x < d < y$. Donc $\\mathbb{D}$ est dense dans $\\mathbb{R}$.
-Comme tout décimal est un rationnel ($\\\\mathbb{D} \\subset \\mathbb{Q}$), on a également $x < d < y$ avec $d \\in \\mathbb{Q}$, ce qui prouve la densité de $\\mathbb{Q}$ dans $\\mathbb{R}$. *(2 pts)*
+Comme tout décimal est un rationnel ($\\mathbb{D} \\subset \\mathbb{Q}$), on a également $x < d < y$ avec $d \\in \\mathbb{Q}$, ce qui prouve la densité de $\\mathbb{Q}$ dans $\\mathbb{R}$. *(2 pts)*
 
 ### Correction Exercice 3 : Borne supérieure sans max (6 points)
 1. $B$ est non vide (par exemple $0 \\in B$) et $B$ est majoré par $\\sqrt{2}$ (car tout $x \\in B$ vérifie $x < \\sqrt{2}$).

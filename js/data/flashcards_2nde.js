@@ -7,11 +7,11 @@ window.MATHS_EXTRA_FLASHCARDS = window.MATHS_EXTRA_FLASHCARDS || {};
 Object.assign(window.MATHS_EXTRA_FLASHCARDS, {
   "2N1": [
     {
-      q: "Décomposer $360$ en produit de facteurs premiers.",
+      q: "(Pour aller plus loin, rappel du collège) Décomposer $360$ en produit de facteurs premiers.",
       a: "$360 = 2^3 \\times 3^2 \\times 5$ (on divise successivement par $2$, puis $3$, puis $5$)."
     },
     {
-      q: "Comment rendre irréductible la fraction $\\frac{84}{126}$ à l'aide des facteurs premiers ?",
+      q: "(Pour aller plus loin) Comment rendre irréductible la fraction $\\frac{84}{126}$ à l'aide des facteurs premiers ?",
       a: "$84 = 2^2 \\times 3 \\times 7$ et $126 = 2 \\times 3^2 \\times 7$. On simplifie par les facteurs communs $2 \\times 3 \\times 7 = 42$ : $\\frac{84}{126} = \\frac{2}{3}$."
     },
     {
@@ -228,7 +228,7 @@ Object.assign(window.MATHS_EXTRA_FLASHCARDS, {
     },
     {
       q: "Quel est le signe de la fonction cube, et quelle symétrie présente sa courbe ?",
-      a: "$x^3$ est du signe de $x$ (négatif pour $x < 0$, positif pour $x > 0$). Comme $(-x)^3 = -x^3$, la fonction est impaire : sa courbe est symétrique par rapport à l'origine $O$."
+      a: "$x^3$ est du signe de $x$ (négatif pour $x < 0$, positif pour $x > 0$). **Pour aller plus loin** : comme $(-x)^3 = -x^3$, la fonction est impaire et sa courbe est symétrique par rapport à l'origine $O$."
     }
   ],
   "2G1": [
@@ -267,38 +267,50 @@ Object.assign(window.MATHS_EXTRA_FLASHCARDS, {
   ],
   "2G2": [
     {
-      q: "Que signifie l'égalité $\\vec{AB} = \\vec{DC}$ pour les points $A$, $B$, $C$, $D$ ?",
-      a: "$ABCD$ est un parallélogramme (éventuellement aplati). Attention à l'ordre des lettres : $\\vec{AB} = \\vec{DC}$, et non $\\vec{CD}$."
+      q: "Que signifie l'égalité $\\overrightarrow{AB} = \\overrightarrow{DC}$ pour les points $A$, $B$, $C$, $D$ ?",
+      a: "$ABCD$ est un parallélogramme (éventuellement aplati). Attention à l'ordre des lettres : $\\overrightarrow{AB} = \\overrightarrow{DC}$, et non $\\overrightarrow{CD}$."
     },
     {
       q: "Énoncer la règle du parallélogramme.",
-      a: "$\\vec{AB} + \\vec{AD} = \\vec{AC}$ si et seulement si $ABCD$ est un parallélogramme."
+      a: "$\\overrightarrow{AB} + \\overrightarrow{AD} = \\overrightarrow{AC}$ si et seulement si $ABCD$ est un parallélogramme."
     },
     {
-      q: "Vrai ou faux : $\\vec{AB} + \\vec{AC} = \\vec{BC}$ ?",
-      a: "**Faux** en général. La relation de Chasles enchaîne les points : $\\vec{BA} + \\vec{AC} = \\vec{BC}$, c'est-à-dire $\\vec{AC} - \\vec{AB} = \\vec{BC}$."
+      q: "Vrai ou faux : $\\overrightarrow{AB} + \\overrightarrow{AC} = \\overrightarrow{BC}$ ?",
+      a: "**Faux** en général. La relation de Chasles enchaîne les points : $\\overrightarrow{BA} + \\overrightarrow{AC} = \\overrightarrow{BC}$, c'est-à-dire $\\overrightarrow{AC} - \\overrightarrow{AB} = \\overrightarrow{BC}$."
     },
     {
       q: "Comment démontrer que trois points sont alignés ? que deux droites sont parallèles ?",
-      a: "$A$, $B$, $C$ sont alignés si et seulement si $\\det(\\vec{AB}, \\vec{AC}) = 0$. Les droites $(AB)$ et $(CD)$ sont parallèles si et seulement si $\\det(\\vec{AB}, \\vec{CD}) = 0$."
+      a: "$A$, $B$, $C$ sont alignés si et seulement si $\\det(\\overrightarrow{AB}, \\overrightarrow{AC}) = 0$. Les droites $(AB)$ et $(CD)$ sont parallèles si et seulement si $\\det(\\overrightarrow{AB}, \\overrightarrow{CD}) = 0$."
     },
     {
-      q: "Déterminer le réel $x$ pour que $\\vec{u}(2 ; x)$ et $\\vec{v}(3 ; 6)$ soient colinéaires.",
+      q: "Déterminer le réel $x$ pour que $\\vec{u}\\begin{pmatrix} 2 \\\\ x \\end{pmatrix}$ et $\\vec{v}\\begin{pmatrix} 3 \\\\ 6 \\end{pmatrix}$ soient colinéaires.",
       a: "$\\det(\\vec{u}, \\vec{v}) = 2 \\times 6 - x \\times 3 = 12 - 3x = 0 \\iff x = 4$."
     },
     {
       q: "Vrai ou faux : si $\\|\\vec{u}\\| = \\|\\vec{v}\\|$, alors $\\vec{u} = \\vec{v}$ ?",
-      a: "**Faux** : deux vecteurs égaux ont même direction, même sens **et** même norme. Contre-exemple : $\\vec{u}(1 ; 0)$ et $\\vec{v}(0 ; 1)$ ont la même norme $1$."
+      a: "**Faux** : deux vecteurs égaux ont même direction, même sens **et** même norme. Contre-exemple : $\\vec{u}\\begin{pmatrix} 1 \\\\ 0 \\end{pmatrix}$ et $\\vec{v}\\begin{pmatrix} 0 \\\\ 1 \\end{pmatrix}$ ont la même norme $1$."
     },
     {
       q: "Qu'est-ce que l'image d'un point $M$ par la translation de vecteur $\\vec{u}$ ?",
-      a: "C'est l'unique point $M'$ tel que $\\vec{MM'} = \\vec{u}$."
+      a: "C'est l'unique point $M'$ tel que $\\overrightarrow{MM'} = \\vec{u}$."
+    },
+    {
+      q: "Qu'est-ce que le vecteur nul ?",
+      a: "C'est le vecteur $\\overrightarrow{AA}$, noté $\\vec{0}$ : sa norme vaut $0$ et il n'a ni direction ni sens."
+    },
+    {
+      q: "Qu'est-ce qu'un représentant d'un vecteur $\\vec{u}$ ?",
+      a: "Une flèche qui dessine $\\vec{u}$ : même direction, même sens, même norme. Pour tout point $M$, il existe un unique point $N$ tel que $\\overrightarrow{MN} = \\vec{u}$."
+    },
+    {
+      q: "Simplifier $\\overrightarrow{AB} + \\overrightarrow{BA}$.",
+      a: "D'après la relation de Chasles, $\\overrightarrow{AB} + \\overrightarrow{BA} = \\overrightarrow{AA} = \\vec{0}$."
     }
   ],
   "2G3": [
     {
       q: "Donner un vecteur directeur de la droite d'équation réduite $y = mx + p$.",
-      a: "$\\vec{u}(1 ; m)$ : quand $x$ augmente de $1$, $y$ augmente de $m$."
+      a: "$\\vec{u}\\begin{pmatrix} 1 \\\\ m \\end{pmatrix}$ : quand $x$ augmente de $1$, $y$ augmente de $m$."
     },
     {
       q: "Quelle est la forme de l'équation d'une droite parallèle à l'axe des ordonnées ?",
@@ -306,11 +318,11 @@ Object.assign(window.MATHS_EXTRA_FLASHCARDS, {
     },
     {
       q: "Comment obtenir une équation cartésienne de la droite passant par $A$ et de vecteur directeur $\\vec{u}$ ?",
-      a: "$M(x ; y)$ appartient à la droite si et seulement si $\\vec{AM}$ et $\\vec{u}$ sont colinéaires, c'est-à-dire $\\det(\\vec{AM}, \\vec{u}) = 0$."
+      a: "$M(x ; y)$ appartient à la droite si et seulement si $\\overrightarrow{AM}$ et $\\vec{u}$ sont colinéaires, c'est-à-dire $\\det(\\overrightarrow{AM}, \\vec{u}) = 0$."
     },
     {
-      q: "Équation cartésienne de la droite passant par $A(1 ; 2)$ et de vecteur directeur $\\vec{u}(3 ; -1)$ ?",
-      a: "$\\det(\\vec{AM}, \\vec{u}) = (x - 1) \\times (-1) - (y - 2) \\times 3 = -x - 3y + 7 = 0$, ou encore $x + 3y - 7 = 0$."
+      q: "Équation cartésienne de la droite passant par $A(1 ; 2)$ et de vecteur directeur $\\vec{u}\\begin{pmatrix} 3 \\\\ -1 \\end{pmatrix}$ ?",
+      a: "$\\det(\\overrightarrow{AM}, \\vec{u}) = (x - 1) \\times (-1) - (y - 2) \\times 3 = -x - 3y + 7 = 0$, ou encore $x + 3y - 7 = 0$."
     },
     {
       q: "Coefficient directeur de la droite $(AB)$ avec $A(-1 ; 3)$ et $B(3 ; -5)$ ?",
@@ -325,8 +337,16 @@ Object.assign(window.MATHS_EXTRA_FLASHCARDS, {
       a: "**Faux** : si $ax + by + c = 0$ en est une, alors $k(ax + by + c) = 0$ en est une autre pour tout $k \\neq 0$. En revanche, l'équation réduite (si elle existe) est unique."
     },
     {
-      q: "Résoudre par combinaison le système $\\begin{cases} x + y = 5 \\\\ x - y = 1 \\end{cases}$.",
+      q: "(Pour aller plus loin) Résoudre par combinaison le système $\\begin{cases} x + y = 5 \\\\ x - y = 1 \\end{cases}$.",
       a: "En additionnant les deux lignes : $2x = 6$, donc $x = 3$ ; puis $y = 5 - 3 = 2$. Le couple solution est $(3 ; 2)$."
+    },
+    {
+      q: "Qu'appelle-t-on vecteur directeur d'une droite $d$ ?",
+      a: "Tout vecteur **non nul** colinéaire à $\\overrightarrow{AB}$, où $A$ et $B$ sont deux points distincts de $d$."
+    },
+    {
+      q: "Comment tracer la droite d'équation $2x - 5y - 10 = 0$ ?",
+      a: "On place deux points. Pour $x = 0$ : $-5y - 10 = 0$, donc $y = -2$, d'où $(0 ; -2)$. Pour $y = 0$ : $2x - 10 = 0$, donc $x = 5$, d'où $(5 ; 0)$. On trace la droite qui les joint."
     }
   ],
   "2S1": [
@@ -340,19 +360,19 @@ Object.assign(window.MATHS_EXTRA_FLASHCARDS, {
     },
     {
       q: "Déterminer $Q_1$ et $Q_3$ pour la série ordonnée $2 ; 4 ; 5 ; 7 ; 9 ; 10 ; 12 ; 15$.",
-      a: "$N = 8$. $Q_1$ est la valeur de rang $\\lceil 0{,}25 \\times 8 \\rceil = 2$ : $Q_1 = 4$. $Q_3$ est la valeur de rang $\\lceil 0{,}75 \\times 8 \\rceil = 6$ : $Q_3 = 10$."
+      a: "$N = 8$. On a $0{,}25 \\times 8 = 2$ : $Q_1$ est la valeur de rang $2$, donc $Q_1 = 4$. On a $0{,}75 \\times 8 = 6$ : $Q_3$ est la valeur de rang $6$, donc $Q_3 = 10$."
     },
     {
-      q: "On multiplie toutes les valeurs d'une série par $3$. Que deviennent la moyenne et l'écart-type ?",
-      a: "Les deux sont multipliés par $3$ (un changement d'unité multiplie la moyenne et l'écart-type par le même facteur positif)."
+      q: "On multiplie toutes les valeurs d'une série par $3$. Que deviennent la moyenne et l'écart type ?",
+      a: "Les deux sont multipliés par $3$ (un changement d'unité multiplie la moyenne et l'écart type par le même facteur positif)."
     },
     {
-      q: "Que vaut l'écart-type d'une série dont toutes les valeurs sont égales ?",
-      a: "$0$ : tous les écarts à la moyenne sont nuls. Un écart-type est toujours positif ou nul."
+      q: "Que vaut l'écart type d'une série dont toutes les valeurs sont égales ?",
+      a: "$0$ : tous les écarts à la moyenne sont nuls. Un écart type est toujours positif ou nul."
     },
     {
-      q: "Quand préférer le couple (médiane ; écart interquartile) au couple (moyenne ; écart-type) ?",
-      a: "Quand la série contient des valeurs extrêmes : la médiane et l'écart interquartile y sont peu sensibles, contrairement à la moyenne et à l'écart-type."
+      q: "Quand préférer le couple (médiane ; écart interquartile) au couple (moyenne ; écart type) ?",
+      a: "Quand la série contient des valeurs extrêmes : la médiane et l'écart interquartile y sont peu sensibles, contrairement à la moyenne et à l'écart type."
     },
     {
       q: "Comment estimer la moyenne d'une série regroupée en classes ?",
@@ -361,6 +381,18 @@ Object.assign(window.MATHS_EXTRA_FLASHCARDS, {
     {
       q: "Dans un tableau croisé d'effectifs, qu'est-ce qu'une fréquence marginale ?",
       a: "Le quotient d'un total de ligne (ou de colonne) par l'effectif total : c'est la fréquence d'une modalité d'une seule variable dans toute la population."
+    },
+    {
+      q: "Comment construit-on le polygone des fréquences cumulées croissantes d'une série regroupée en classes de même amplitude ?",
+      a: "On relie les points dont l'abscisse est la borne supérieure d'une classe et l'ordonnée la fréquence cumulée, en partant du point d'abscisse la borne inférieure de la première classe et d'ordonnée $0$."
+    },
+    {
+      q: "Quelle est la différence entre une variable qualitative nominale et une variable qualitative ordinale ?",
+      a: "Les modalités d'une variable ordinale se rangent naturellement (mention à un examen, niveau de satisfaction). Celles d'une variable nominale n'ont pas d'ordre naturel (sport pratiqué, couleur des yeux)."
+    },
+    {
+      q: "Comment comparer deux séries statistiques ?",
+      a: "Avec le même couple d'indicateurs pour les deux : on compare leur position (moyennes ou médianes), puis leur dispersion (écarts types ou écarts interquartiles). La plus homogène a le plus petit indicateur de dispersion."
     }
   ],
   "2S2": [

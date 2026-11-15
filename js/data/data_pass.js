@@ -23,7 +23,7 @@ window.MATHS_COURSES_PASS = {
       },
       {
         title: "2. Paramètres de position",
-        content: "Pour une série $x_1, \\dots, x_n$ : **moyenne** $\\bar{x} = \\dfrac{1}{n}\\sum_{i=1}^{n} x_i$ ; avec des effectifs $n_k$ : $\\bar{x} = \\dfrac{1}{n}\\sum_k n_k x_k$.\nLa **médiane** partage la série ordonnée en deux moitiés ; le **mode** est la valeur la plus fréquente ; les **quartiles** $Q_1$ et $Q_3$ laissent un quart des valeurs en dessous (resp. au-dessus).\nLa médiane est **robuste** : une valeur aberrante la modifie peu, alors qu'elle peut déplacer fortement la moyenne. Si la moyenne est nettement supérieure à la médiane, la distribution est étalée vers les grandes valeurs."
+        content: "Pour une série $x_1, \\dots, x_n$ : **moyenne** $\\bar{x} = \\dfrac{1}{n}\\sum_{i=1}^{n} x_i$ ; avec des effectifs $n_k$ : $\\bar{x} = \\dfrac{1}{n}\\sum_k n_k x_k$.\nLa **médiane** partage la série ordonnée en deux moitiés ; le **mode** est la valeur la plus fréquente ; le **premier quartile** $Q_1$ est la plus petite valeur de la série rangée telle qu'au moins $25\\,\\%$ des valeurs lui soient inférieures ou égales (rang : premier entier $\\geq \\dfrac{n}{4}$) ; le **troisième quartile** $Q_3$ se définit de même avec $75\\,\\%$ (rang : premier entier $\\geq \\dfrac{3n}{4}$). D'autres conventions existent (logiciels, calculatrices) : suivez celle de l'énoncé.\nLa médiane est **robuste** : une valeur aberrante la modifie peu, alors qu'elle peut déplacer fortement la moyenne. Si la moyenne est nettement supérieure à la médiane, la distribution est étalée vers les grandes valeurs."
       },
       {
         title: "3. Variance, écart type et formule de König-Huygens",
@@ -223,7 +223,7 @@ window.MATHS_COURSES_PASS = {
       },
       {
         title: "4. Approximation de la binomiale par la loi de Poisson",
-        content: "Quand $n$ est grand et $p$ petit (critère usuel : $n \\geq 30$ et $p \\leq 0{,}1$, avec $np$ modéré), $$\\mathcal{B}(n, p) \\approx \\mathcal{P}(np).$$\nL'approximation conserve l'espérance ; la variance $np(1 - p)$ est alors très proche de $np$.\nSi au contraire $np$ et $n(1 - p)$ sont tous deux grands, on utilise une approximation normale (PA-05)."
+        content: "Quand $n$ est grand et $p$ petit (critère usuel : $n \\geq 30$ et $p \\leq 0{,}1$, avec $np$ modéré), $$\\mathcal{B}(n, p) \\approx \\mathcal{P}(np).$$\nL'approximation conserve l'espérance ; la variance $np(1 - p)$ est alors très proche de $np$.\nSi au contraire $np$ et $n(1 - p)$ sont tous deux grands, on utilise une approximation normale (voir PA-05, section 5)."
       },
       {
         title: "5. Aux partiels : pièges fréquents",
@@ -290,7 +290,11 @@ window.MATHS_COURSES_PASS = {
         content: "Pour $Z \\sim \\mathcal{N}(0, 1)$ :\n• $P(-1 \\leq Z \\leq 1) \\approx 0{,}68$ ; $P(-2 \\leq Z \\leq 2) \\approx 0{,}95$ ;\n• $P(-1{,}96 \\leq Z \\leq 1{,}96) \\approx 0{,}95$, soit $\\Phi(1{,}96) \\approx 0{,}975$ ;\n• $P(-2{,}58 \\leq Z \\leq 2{,}58) \\approx 0{,}99$ ; $\\Phi(1{,}645) \\approx 0{,}95$.\n**Intervalle de référence** (« valeurs normales » d'un dosage) : $[\\mu - 1{,}96\\sigma ; \\mu + 1{,}96\\sigma]$ contient $95\\,\\%$ des sujets sains."
       },
       {
-        title: "5. Aux partiels : pièges fréquents",
+        title: "5. Approximation normale de la loi binomiale",
+        content: "Si $X \\sim \\mathcal{B}(n, p)$ avec $n \\geq 30$, $np \\geq 5$ et $n(1 - p) \\geq 5$ (critère usuel), alors $$X \\approx \\mathcal{N}\\big(np, np(1 - p)\\big).$$\n*Exemple* : un effet indésirable touche $20\\,\\%$ des patients et l'on en traite $n = 400$. Alors $np = 80$, $np(1 - p) = 64$, donc $\\sigma = 8$ et, sans correction de continuité, $P(X \\leq 96) \\approx \\Phi\\left(\\dfrac{96 - 80}{8}\\right) = \\Phi(2) \\approx 0{,}977$.\nC'est aussi cette approximation qui justifie l'intervalle de confiance et le test d'une proportion (PA-06, PA-07). Si $p$ est petit et $np$ modéré, on utilise plutôt la loi de Poisson (PA-04)."
+      },
+      {
+        title: "6. Aux partiels : pièges fréquents",
         content: "• Diviser par la variance au lieu de l'écart type en centrant-réduisant ($\\mathcal{N}(50, 25)$ a pour écart type $5$).\n• Oublier la symétrie : $P(Z > 2) = 1 - \\Phi(2)$, et $P(|Z| > 1{,}96) \\approx 0{,}05$ (deux queues).\n• Additionner des écarts types pour une somme de variables indépendantes.\n• Croire qu'un résultat hors de l'intervalle de référence signe une maladie : $5\\,\\%$ des sujets sains en sortent."
       }
     ],
@@ -347,7 +351,7 @@ window.MATHS_COURSES_PASS = {
       },
       {
         title: "3. Intervalles de confiance",
-        content: "**Moyenne, grand échantillon** : $$IC_{95\\,\\%} = \\left[\\bar{x} - 1{,}96\\dfrac{s}{\\sqrt{n}} ; \\bar{x} + 1{,}96\\dfrac{s}{\\sqrt{n}}\\right].$$\n**Petit échantillon** issu d'une loi normale : remplacer $1{,}96$ par le quantile $t_{n-1}$ de la loi de Student à $n - 1$ degrés de liberté.\n**Proportion** : $\\left[f - 1{,}96\\sqrt{\\dfrac{f(1 - f)}{n}} ; f + 1{,}96\\sqrt{\\dfrac{f(1 - f)}{n}}\\right]$, valable si $nf \\geq 5$ et $n(1 - f) \\geq 5$.\nÀ $99\\,\\%$, on utilise $2{,}58$ : l'intervalle est plus large."
+        content: "**Moyenne, grand échantillon** : $$IC_{95\\,\\%} = \\left[\\bar{x} - 1{,}96\\dfrac{s}{\\sqrt{n}} ; \\bar{x} + 1{,}96\\dfrac{s}{\\sqrt{n}}\\right].$$\n**Petit échantillon** issu d'une loi normale : remplacer $1{,}96$ par le quantile $t_{n-1}$ de la loi de Student à $n - 1$ degrés de liberté.\n**Proportion** : $\\left[f - 1{,}96\\sqrt{\\dfrac{f(1 - f)}{n}} ; f + 1{,}96\\sqrt{\\dfrac{f(1 - f)}{n}}\\right]$, valable si $nf \\geq 5$ et $n(1 - f) \\geq 5$.\n*Justification* : le nombre de cas $X$ observés suit $\\mathcal{B}(n ; p)$ ; sous ces conditions, on l'approche par une loi normale (PA-05, section 5), donc la fréquence $F = \\dfrac{X}{n}$ suit approximativement $\\mathcal{N}\\left(p ; \\dfrac{p(1 - p)}{n}\\right)$ et $P\\left(|F - p| \\leq 1{,}96\\sqrt{\\dfrac{p(1 - p)}{n}}\\right) \\approx 0{,}95$. Comme $p$ est inconnue, on la remplace par $f$ dans l'erreur standard.\nÀ $99\\,\\%$, on utilise $2{,}58$ : l'intervalle est plus large."
       },
       {
         title: "4. Interprétation et nombre de sujets nécessaire",
@@ -398,6 +402,7 @@ window.MATHS_COURSES_PASS = {
       "Formuler une hypothèse nulle et une hypothèse alternative, choisir un test unilatéral ou bilatéral.",
       "Calculer une statistique de test (Z, Student, khi-deux) et conclure au risque $\\alpha$.",
       "Interpréter les risques $\\alpha$ et $\\beta$, la puissance et le degré de signification $p$.",
+      "Comparer deux moyennes sur échantillons indépendants (écart réduit, test de Student).",
       "Éviter les contresens sur un résultat non significatif."
     ],
     keyPoints: [
@@ -411,15 +416,23 @@ window.MATHS_COURSES_PASS = {
       },
       {
         title: "3. Comparaison d'une moyenne ou d'une proportion à une référence",
-        content: "Moyenne (grand échantillon) : $$Z = \\dfrac{\\bar{x} - \\mu_0}{s / \\sqrt{n}}.$$ Petit échantillon d'une loi normale : même formule, comparée à la loi de Student à $n - 1$ degrés de liberté. Données appariées : on travaille sur les différences.\nProportion : $$Z = \\dfrac{f - p_0}{\\sqrt{p_0(1 - p_0)/n}}$$ (on utilise $p_0$, la valeur sous $H_0$).\nEn bilatéral au risque $5\\,\\%$ : rejet si $|Z| > 1{,}96$ ; en unilatéral : rejet si $Z > 1{,}645$ (dans le sens prévu)."
+        content: "Moyenne (grand échantillon) : $$Z = \\dfrac{\\bar{x} - \\mu_0}{s / \\sqrt{n}}.$$ Petit échantillon d'une loi normale : même formule, comparée à la loi de Student à $n - 1$ degrés de liberté. Données appariées : on travaille sur les différences.\nProportion : $$Z = \\dfrac{f - p_0}{\\sqrt{p_0(1 - p_0)/n}}$$ (on utilise $p_0$, la valeur sous $H_0$), valable si $np_0 \\geq 5$ et $n(1 - p_0) \\geq 5$.\nEn bilatéral au risque $5\\,\\%$ : rejet si $|Z| > 1{,}96$ ; en unilatéral : rejet si $Z > 1{,}645$ (dans le sens prévu)."
       },
       {
-        title: "4. Test du khi-deux",
+        title: "4. Comparaison de deux moyennes sur échantillons indépendants",
+        content: "On compare deux groupes **indépendants** d'effectifs $n_1$ et $n_2$, de moyennes $\\bar{x}_1$ et $\\bar{x}_2$, d'écarts types $s_1$ et $s_2$. Hypothèse nulle : $H_0 : \\mu_1 = \\mu_2$.\n**Grands échantillons** ($n_1 \\geq 30$ et $n_2 \\geq 30$) : $$Z = \\dfrac{\\bar{x}_1 - \\bar{x}_2}{\\sqrt{\\dfrac{s_1^2}{n_1} + \\dfrac{s_2^2}{n_2}}},$$ comparée aux seuils de la loi normale ($1{,}96$ en bilatéral à $5\\,\\%$).\n**Petits échantillons** (lois normales, variances supposées égales) : on calcule la **variance commune** $$s^2 = \\dfrac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2},$$ puis $$t = \\dfrac{\\bar{x}_1 - \\bar{x}_2}{\\sqrt{s^2\\left(\\dfrac{1}{n_1} + \\dfrac{1}{n_2}\\right)}},$$ que l'on compare à la loi de Student à $n_1 + n_2 - 2$ degrés de liberté.\nSi les mêmes sujets sont mesurés deux fois, les groupes ne sont pas indépendants : on utilise le test apparié (section 3)."
+      },
+      {
+        title: "5. Test du khi-deux",
         content: "Pour comparer des effectifs observés $O$ à des effectifs théoriques $E$ (calculés sous $H_0$) : $$\\chi^2 = \\sum \\dfrac{(O - E)^2}{E}.$$\n• **Indépendance** (tableau $l \\times c$) : $E = \\dfrac{\\text{total ligne} \\times \\text{total colonne}}{\\text{total}}$, $(l - 1)(c - 1)$ degrés de liberté.\n• **Ajustement** à une distribution théorique à $k$ classes : $k - 1$ degrés de liberté.\nCondition : tous les effectifs théoriques $\\geq 5$. Seuil à $5\\,\\%$ pour $1$ degré de liberté : $3{,}84$."
       },
       {
-        title: "5. Aux partiels : pièges fréquents",
+        title: "6. Aux partiels : pièges fréquents",
         content: "• « $p = 0{,}03$ » ne veut **pas** dire « $H_0$ a $3\\,\\%$ de chances d'être vraie ».\n• Un résultat non significatif ne prouve pas l'absence d'effet : la puissance était peut-être insuffisante.\n• Significatif ne veut pas dire cliniquement important : avec un très grand $n$, une différence minime devient significative.\n• Choisir le sens d'un test unilatéral après avoir vu les données est une faute de méthode."
+      },
+      {
+        title: "Pour aller plus loin : tests non paramétriques et analyse de variance",
+        content: "Quand les conditions des tests précédents ne sont pas réunies (petits effectifs, distribution nettement non normale), on recourt à un test **non paramétrique**, fondé sur les rangs des observations :\n• **test de Mann-Whitney** (ou de Wilcoxon sur la somme des rangs) pour deux groupes indépendants ;\n• **test de Wilcoxon des rangs signés** pour des données appariées.\nPour comparer **plus de deux moyennes**, l'**analyse de variance** (ANOVA) à un facteur fait un seul test : sous $H_0$ (toutes les moyennes égales), et sous les hypothèses de normalité et d'égalité des variances, le rapport $F$ de la dispersion entre groupes à la dispersion à l'intérieur des groupes suit une loi de Fisher à $k - 1$ et $N - k$ degrés de liberté ($k$ groupes, $N$ sujets au total). Multiplier les comparaisons deux à deux gonflerait le risque global de conclure à tort.\nCes méthodes figurent ou non au programme selon les universités : vérifiez le vôtre."
       }
     ],
     methods: [
@@ -430,6 +443,24 @@ window.MATHS_COURSES_PASS = {
           "**Étape 1 (Hypothèses)** : $H_0 : \\mu = 62$, $H_1 : \\mu \\neq 62$ (bilatéral).",
           "**Étape 2 (Statistique)** : $ES = \\dfrac{7}{7} = 1$, $Z = \\dfrac{58 - 62}{1} = -4$.",
           "**Étape 3 (Conclure)** : $|Z| = 4 > 1{,}96$ : on rejette $H_0$, la fréquence moyenne des sportifs diffère significativement de la référence."
+        ]
+      },
+      {
+        title: "Méthode : Comparer deux moyennes sur de grands échantillons indépendants",
+        example: "La fréquence cardiaque de repos vaut en moyenne $78$ bpm ($s_1 = 6$) chez $100$ patients non traités et $74{,}5$ bpm ($s_2 = 6{,}4$) chez $64$ patients traités. Différence au risque $5\\,\\%$ ?",
+        steps: [
+          "**Étape 1 (Hypothèses)** : $H_0 : \\mu_1 = \\mu_2$, $H_1 : \\mu_1 \\neq \\mu_2$ (bilatéral) ; $n_1 \\geq 30$ et $n_2 \\geq 30$.",
+          "**Étape 2 (Statistique)** : $ES = \\sqrt{\\dfrac{36}{100} + \\dfrac{40{,}96}{64}} = \\sqrt{0{,}36 + 0{,}64} = 1$, donc $Z = \\dfrac{78 - 74{,}5}{1} = 3{,}5$.",
+          "**Étape 3 (Conclure)** : $|Z| = 3{,}5 > 1{,}96$ : on rejette $H_0$, les deux fréquences moyennes diffèrent significativement au risque $5\\,\\%$."
+        ]
+      },
+      {
+        title: "Méthode : Test de Student à variance commune",
+        example: "Deux groupes indépendants de $13$ patients, de moyennes $\\bar{x}_1 = 21$ et $\\bar{x}_2 = 18$ et de variances $s_1^2 = 5$ et $s_2^2 = 8$ (lois normales, variances supposées égales). Différence au risque $5\\,\\%$ ?",
+        steps: [
+          "**Étape 1 (Variance commune)** : $s^2 = \\dfrac{12 \\times 5 + 12 \\times 8}{24} = 6{,}5$.",
+          "**Étape 2 (Statistique)** : $\\sqrt{6{,}5\\left(\\dfrac{1}{13} + \\dfrac{1}{13}\\right)} = \\sqrt{1} = 1$, donc $t = \\dfrac{21 - 18}{1} = 3$.",
+          "**Étape 3 (Conclure)** : à $13 + 13 - 2 = 24$ degrés de liberté, le seuil bilatéral à $5\\,\\%$ est d'environ $2{,}06$ ; $3 > 2{,}06$ : différence significative."
         ]
       },
       {
@@ -445,13 +476,17 @@ window.MATHS_COURSES_PASS = {
     traps: [
       "⚠️ Le risque $\\alpha$ se fixe avant l'expérience ; $p$ se calcule après.",
       "⚠️ Dans un khi-deux, on calcule les écarts sur les **effectifs**, jamais sur des pourcentages.",
-      "⚠️ « Ne pas rejeter $H_0$ » n'est pas « accepter $H_0$ comme vraie »."
+      "⚠️ « Ne pas rejeter $H_0$ » n'est pas « accepter $H_0$ comme vraie ».",
+      "⚠️ Pour une différence de deux moyennes indépendantes, ce sont les **variances** des moyennes qui s'additionnent, jamais les erreurs standards.",
+      "⚠️ Deux mesures sur les mêmes sujets ne forment pas deux groupes indépendants : on applique un test apparié."
     ],
     flashcards: [
       { q: "Définition du risque $\\alpha$ ?", a: "Probabilité de rejeter $H_0$ alors qu'elle est vraie." },
       { q: "Définition de la puissance ?", a: "$1 - \\beta$ : probabilité de rejeter $H_0$ quand $H_1$ est vraie." },
       { q: "Degrés de liberté d'un khi-deux d'indépendance $l \\times c$ ?", a: "$(l - 1)(c - 1)$." },
-      { q: "Seuil bilatéral de $Z$ au risque $5\\,\\%$ ?", a: "$1{,}96$." }
+      { q: "Seuil bilatéral de $Z$ au risque $5\\,\\%$ ?", a: "$1{,}96$." },
+      { q: "Statistique de comparaison de deux moyennes indépendantes (grands échantillons) ?", a: "$Z = \\dfrac{\\bar{x}_1 - \\bar{x}_2}{\\sqrt{s_1^2/n_1 + s_2^2/n_2}}$." },
+      { q: "Degrés de liberté du test de Student à variance commune ?", a: "$n_1 + n_2 - 2$." }
     ]
   },
 
@@ -460,7 +495,8 @@ window.MATHS_COURSES_PASS = {
     domain: "Épidémiologie",
     objectives: [
       "Calculer une prévalence, une incidence cumulée et un taux d'incidence.",
-      "Distinguer étude de cohorte et étude cas-témoins.",
+      "Distinguer les schémas d'étude : transversale, cohorte (prospective ou historique), cas-témoins, essai randomisé.",
+      "Reconnaître un biais de sélection, un biais de mesure et un facteur de confusion, et comprendre le principe de l'ajustement.",
       "Calculer et interpréter un risque relatif, un odds ratio, une différence de risques et un nombre de sujets à traiter.",
       "Lire un intervalle de confiance de risque relatif ou d'odds ratio."
     ],
@@ -471,18 +507,22 @@ window.MATHS_COURSES_PASS = {
       },
       {
         title: "2. Types d'études",
-        content: "• **Cohorte** : on suit des exposés et des non-exposés et on compte les nouveaux cas ; on mesure directement des risques, donc un risque relatif.\n• **Cas-témoins** : on recrute des malades (cas) et des non-malades (témoins) puis on recherche l'exposition passée ; la proportion de malades est fixée par l'investigateur : on ne peut pas calculer de risque, seulement un **odds ratio**.\n• **Essai randomisé** : l'exposition (le traitement) est attribuée par tirage au sort ; c'est le meilleur niveau de preuve d'un effet causal."
+        content: "• **Étude transversale** : exposition et maladie sont relevées au même moment sur un échantillon. Elle mesure des **prévalences** (on peut les comparer par un rapport de prévalences), pas des risques, et ne dit pas ce qui a précédé quoi.\n• **Cohorte** : on suit des exposés et des non-exposés et on compte les nouveaux cas ; on mesure directement des risques, donc un risque relatif. La cohorte est **prospective** si le suivi se déroule à partir de l'inclusion, **historique** (ou rétrospective) s'il est reconstitué à partir d'archives : la logique reste la même, on part de l'exposition.\n• **Cas-témoins** : on recrute des malades (cas) et des non-malades (témoins) puis on recherche l'exposition passée ; la proportion de malades est fixée par l'investigateur : on ne peut pas calculer de risque, seulement un **odds ratio**.\n• **Essai randomisé** : l'exposition (le traitement) est attribuée par tirage au sort ; c'est le meilleur niveau de preuve d'un effet causal."
       },
       {
         title: "3. Risque relatif, différence de risques, NNT",
-        content: "Tableau : exposés $a$ malades et $b$ non-malades ; non-exposés $c$ malades et $d$ non-malades.\nRisques : $R_1 = \\dfrac{a}{a + b}$, $R_0 = \\dfrac{c}{c + d}$, $$RR = \\dfrac{R_1}{R_0}.$$\n**Différence de risques** : $DR = R_1 - R_0$. Pour un traitement qui diminue le risque, la **réduction absolue** est $R_0 - R_1$ et le **nombre de sujets à traiter** pour éviter un événement est $$NNT = \\dfrac{1}{R_0 - R_1}$$ (arrondi à l'entier supérieur). La réduction relative du risque est $1 - RR$."
+        content: "Tableau : exposés $a$ malades et $b$ non-malades ; non-exposés $c$ malades et $d$ non-malades.\nRisques : $R_1 = \\dfrac{a}{a + b}$, $R_0 = \\dfrac{c}{c + d}$, $$RR = \\dfrac{R_1}{R_0}.$$\n**Différence de risques** : $DR = R_1 - R_0$. Pour un traitement qui diminue le risque, la **réduction absolue** est $R_0 - R_1$ et le **nombre de sujets à traiter** pour éviter un événement est $$NNT = \\dfrac{1}{R_0 - R_1}$$ (arrondi à l'entier supérieur). La réduction relative du risque est $1 - RR$.\nPour un effet indésirable que le traitement augmente, on calcule de même le **nombre de sujets à traiter pour nuire**, ou NNH (*number needed to harm*) : $NNH = \\dfrac{1}{R_1 - R_0}$, où $R_1$ est le risque sous traitement. C'est le nombre de patients à traiter pour observer un effet indésirable supplémentaire ; on le met en balance avec le NNT."
       },
       {
         title: "4. Odds ratio",
         content: "La cote de la maladie chez les exposés est $\\dfrac{a}{b}$, chez les non-exposés $\\dfrac{c}{d}$ : $$OR = \\dfrac{a/b}{c/d} = \\dfrac{ad}{bc}.$$\nL'$OR$ calculé à partir des expositions des cas et des témoins est le même : c'est pourquoi il est estimable dans une étude cas-témoins.\nSi la maladie est **rare** (moins de $10\\,\\%$ environ), $OR \\approx RR$ ; sinon l'$OR$ s'éloigne de $1$ plus que le $RR$.\nUn $RR$ ou un $OR$ est significativement différent de $1$ si son $IC_{95\\,\\%}$ ne contient **pas** $1$."
       },
       {
-        title: "5. Aux partiels : pièges fréquents",
+        title: "5. Biais et facteur de confusion",
+        content: "Une association observée n'est pas forcément un effet de l'exposition. Trois familles d'erreurs systématiques sont à examiner.\n• **Biais de sélection** : les sujets étudiés ne sont pas comparables ou ne représentent pas la population visée (témoins hospitaliers mal choisis, perdus de vue plus nombreux dans un groupe).\n• **Biais de mesure** (ou de classement) : l'exposition ou la maladie est mal mesurée, parfois différemment selon le groupe. Exemple : dans une étude cas-témoins, les malades se souviennent mieux de leurs expositions passées (**biais de mémoire**).\n• **Facteur de confusion** : variable liée à l'exposition et, indépendamment d'elle, à la maladie, sans être une étape intermédiaire entre les deux. Elle peut créer, masquer ou déformer une association.\nOn traite la confusion **à la conception** (randomisation, qui équilibre en moyenne les facteurs connus et inconnus, restriction ou appariement) ou **à l'analyse** : on compare les groupes à l'intérieur de chaque strate du facteur (**stratification**), ou on utilise un modèle de régression. Le résultat est dit **ajusté**.\nUn facteur non mesuré ne peut pas être ajusté, et un ajustement ne corrige ni un biais de sélection ni un biais de mesure. Sans essai randomisé, un lien causal ne s'établit que par un faisceau d'arguments concordants, comme pour le tabac et le cancer du poumon."
+      },
+      {
+        title: "6. Aux partiels : pièges fréquents",
         content: "• Calculer un risque relatif dans une étude cas-témoins.\n• Lire un $OR = 3$ comme « le risque est triplé » alors que la maladie est fréquente.\n• Confondre prévalence (cas existants) et incidence (nouveaux cas).\n• Présenter seulement la réduction relative du risque : $RR = 0{,}5$ peut correspondre à un gain absolu minime si le risque de base est faible."
       }
     ],
@@ -504,18 +544,30 @@ window.MATHS_COURSES_PASS = {
           "**Étape 2 (NNT)** : $\\dfrac{1}{0{,}04} = 25$.",
           "**Étape 3 (Interpréter)** : il faut traiter $25$ patients pendant la durée de l'essai pour éviter un infarctus."
         ]
+      },
+      {
+        title: "Méthode : Repérer un facteur de confusion par stratification",
+        example: "Cohorte fictive, café et maladie respiratoire. Buveurs de café : $500$ sujets, $41$ malades ; non-buveurs : $500$ sujets, $14$ malades. Chez les fumeurs : $40$ malades sur $400$ buveurs, $10$ sur $100$ non-buveurs. Chez les non-fumeurs : $1$ malade sur $100$ buveurs, $4$ sur $400$ non-buveurs.",
+        steps: [
+          "**Étape 1 (Risque relatif brut)** : $RR = \\dfrac{41/500}{14/500} = \\dfrac{41}{14} \\approx 2{,}9$.",
+          "**Étape 2 (Par strate)** : chez les fumeurs, $RR = \\dfrac{40/400}{10/100} = \\dfrac{0{,}1}{0{,}1} = 1$ ; chez les non-fumeurs, $RR = \\dfrac{1/100}{4/400} = \\dfrac{0{,}01}{0{,}01} = 1$.",
+          "**Étape 3 (Conclure)** : l'association brute disparaît dans chaque strate. Le tabac est un facteur de confusion : il est lié au café ($80\\,\\%$ de fumeurs chez les buveurs, $20\\,\\%$ chez les non-buveurs) et à la maladie. Le risque relatif ajusté vaut $1$."
+        ]
       }
     ],
     traps: [
       "⚠️ Dans une étude cas-témoins, la « proportion de malades » reflète le recrutement, pas la population : pas de risque, pas de $RR$.",
       "⚠️ Un $IC_{95\\,\\%}$ de $RR$ égal à $[0{,}8 ; 1{,}6]$ contient $1$ : la différence n'est pas significative.",
-      "⚠️ Le NNT s'arrondit à l'entier supérieur et dépend de la durée de suivi."
+      "⚠️ Le NNT s'arrondit à l'entier supérieur et dépend de la durée de suivi.",
+      "⚠️ Une association statistiquement significative peut venir d'un biais ou d'un facteur de confusion : la significativité ne dit rien sur la validité de l'étude."
     ],
     flashcards: [
       { q: "Formule de l'odds ratio d'un tableau $a, b, c, d$ ?", a: "$OR = \\dfrac{ad}{bc}$." },
       { q: "Indicateur estimable dans une étude cas-témoins ?", a: "L'odds ratio." },
       { q: "Formule du NNT ?", a: "$\\dfrac{1}{R_0 - R_1}$ (inverse de la réduction absolue du risque)." },
-      { q: "Relation approchée entre prévalence et incidence ?", a: "Prévalence $\\approx$ incidence $\\times$ durée moyenne de la maladie." }
+      { q: "Relation approchée entre prévalence et incidence ?", a: "Prévalence $\\approx$ incidence $\\times$ durée moyenne de la maladie." },
+      { q: "Qu'est-ce qu'un facteur de confusion ?", a: "Une variable liée à l'exposition et, indépendamment d'elle, à la maladie, sans être une étape intermédiaire entre les deux." },
+      { q: "Que mesure une étude transversale ?", a: "Des prévalences : exposition et maladie sont relevées au même moment." }
     ]
   },
 
@@ -595,11 +647,11 @@ window.MATHS_COURSES_PASS = {
     keyPoints: [
       {
         title: "1. Équations $y' = ay$ et $y' = ay + b$",
-        content: "Les solutions de $y' = ay$ sont $y(t) = Ke^{at}$, $K \\in \\mathbb{R}$.\nPour $y' = ay + b$ ($a \\neq 0$) : la solution constante est $y^* = -\\dfrac{b}{a}$, et $$y(t) = Ke^{at} - \\dfrac{b}{a}.$$\nLa constante $K$ se détermine par la condition initiale : $y(0) = K - \\dfrac{b}{a}$. Si $a < 0$, $y(t)$ tend vers $-\\dfrac{b}{a}$ (équilibre)."
+        content: "Les solutions de $y' = ay$ sont $y(t) = Ke^{at}$, $K \\in \\mathbb{R}$.\nPour $y' = ay + b$ ($a \\neq 0$) : la solution constante est $y^* = -\\dfrac{b}{a}$, et $$y(t) = Ke^{at} - \\dfrac{b}{a}.$$\nLa constante $K$ se détermine par la condition initiale : $y(0) = K - \\dfrac{b}{a}$. Si $a < 0$, $y(t)$ tend vers $-\\dfrac{b}{a}$ (équilibre).\n**Rappel : primitives usuelles.** Les solutions de $y' = f$ sont les primitives de $f$. Une primitive de $x^n$ est $\\dfrac{x^{n+1}}{n+1}$ ; de $e^{kx}$ ($k \\neq 0$) : $\\dfrac{1}{k}e^{kx}$ ; de $u'e^{u}$ : $e^{u}$ ; de $\\dfrac{u'}{u}$ (avec $u > 0$) : $\\ln(u)$.\n**Second membre non constant** : pour $y' = ay + g(x)$, si l'on connaît une solution particulière $y_p$ (l'énoncé en indique la forme, par exemple affine $y_p(x) = \\alpha x + \\beta$ quand $g$ est affine : on identifie les coefficients), les solutions sont $y = Ke^{ax} + y_p$."
       },
       {
         title: "2. Élimination d'ordre 1 et demi-vie",
-        content: "Modèle à **un compartiment** après injection intraveineuse (bolus) d'une dose $D$ dans un volume de distribution $V$ : $$C'(t) = -kC(t), \\qquad C(t) = C_0e^{-kt}, \\qquad C_0 = \\dfrac{D}{V}.$$\n$k$ est la **constante d'élimination** (en h$^{-1}$). **Demi-vie** : durée au bout de laquelle la concentration est divisée par $2$ : $$t_{1/2} = \\dfrac{\\ln 2}{k}.$$\nAprès $n$ demi-vies, $C = \\dfrac{C_0}{2^n}$. La **clairance** est $Cl = kV$ (en L/h). Si $C$ passe de $C_1$ à $C_2$ en une durée $\\Delta t$ : $k = \\dfrac{\\ln(C_1/C_2)}{\\Delta t}$."
+        content: "Modèle à **un compartiment** après injection intraveineuse (bolus) d'une dose $D$ dans un volume de distribution $V$ : $$C'(t) = -kC(t), \\qquad C(t) = C_0e^{-kt}, \\qquad C_0 = \\dfrac{D}{V}.$$\n$k$ est la **constante d'élimination** (en h$^{-1}$). **Demi-vie** : durée au bout de laquelle la concentration est divisée par $2$ : $$t_{1/2} = \\dfrac{\\ln 2}{k}.$$\nAprès $n$ demi-vies, $C = \\dfrac{C_0}{2^n}$. La **clairance** est $Cl = kV$ (en L/h) ; elle vaut aussi $Cl = \\dfrac{D}{\\text{AUC}}$, où $\\text{AUC} = \\dfrac{C_0}{k}$ est l'aire sous la courbe. **Voie orale** : seule une fraction $F$ de la dose ($0 < F \\leqslant 1$, la **biodisponibilité**) atteint la circulation générale ; dans les formules, la dose $D$ est remplacée par $F \\times D$, d'où $Cl = \\dfrac{F \\times D}{\\text{AUC}}$, et $F = \\dfrac{\\text{AUC}_{\\text{orale}}}{\\text{AUC}_{\\text{IV}}}$ à dose égale. Si $C$ passe de $C_1$ à $C_2$ en une durée $\\Delta t$ : $k = \\dfrac{\\ln(C_1/C_2)}{\\Delta t}$."
       },
       {
         title: "3. Perfusion à débit constant",
@@ -643,7 +695,9 @@ window.MATHS_COURSES_PASS = {
       { q: "Demi-vie en fonction de $k$ ?", a: "$t_{1/2} = \\dfrac{\\ln 2}{k}$." },
       { q: "Concentration au plateau d'une perfusion ?", a: "$C_{ss} = \\dfrac{R_0}{kV} = \\dfrac{R_0}{Cl}$." },
       { q: "Solutions de $y' = ay + b$ ?", a: "$y(t) = Ke^{at} - \\dfrac{b}{a}$." },
-      { q: "Fraction du plateau atteinte après $5$ demi-vies ?", a: "Environ $97\\,\\%$ ($1 - 2^{-5}$)." }
+      { q: "Fraction du plateau atteinte après $5$ demi-vies ?", a: "Environ $97\\,\\%$ ($1 - 2^{-5}$)." },
+      { q: "Biodisponibilité $F$ par voie orale ?", a: "Fraction de la dose qui atteint la circulation générale : $F = \\dfrac{\\text{AUC}_{\\text{orale}}}{\\text{AUC}_{\\text{IV}}}$ à dose égale, et $Cl = \\dfrac{F \\times D}{\\text{AUC}}$." },
+      { q: "Solutions de $y' = ay + g(x)$, connaissant une solution particulière $y_p$ ?", a: "$y = Ke^{ax} + y_p$, $K \\in \\mathbb{R}$." }
     ]
   },
 
@@ -671,7 +725,7 @@ window.MATHS_COURSES_PASS = {
       },
       {
         title: "4. Coefficient de détermination, prédiction et causalité",
-        content: "**Coefficient de détermination** : $r^2$, entre $0$ et $1$, est la part de la variance de $y$ « expliquée » par la relation linéaire avec $x$. Avec $r = 0{,}8$, $r^2 = 0{,}64$ : $64\\,\\%$ de la variabilité de $y$ est expliquée par la droite.\n**Prédiction** : pour une valeur $x_0$, on prédit $\\hat{y} = ax_0 + b$. Elle n'est raisonnable que **dans le domaine des $x$ observés** : au-delà, c'est une **extrapolation**, risquée car rien ne garantit que la relation reste linéaire.\n**Corrélation n'est pas causalité** : une forte corrélation peut venir d'un **facteur de confusion** lié aux deux variables (l'âge, la saison…), du hasard, ou d'une causalité inverse. Seul un essai contrôlé randomisé permet de conclure à un effet causal.\n**Test de nullité de $r$** (aperçu) : pour tester $H_0$ « pas de corrélation linéaire dans la population », on calcule $t = \\dfrac{r\\sqrt{n - 2}}{\\sqrt{1 - r^2}}$, que l'on compare au seuil de la loi de Student à $n - 2$ degrés de liberté (proche de $2$ au risque $5\\,\\%$ dès que $n$ dépasse quelques dizaines). Avec un grand effectif, un $r$ faible peut être significatif sans être cliniquement important."
+        content: "**Coefficient de détermination** : $r^2$, entre $0$ et $1$, est la part de la variance de $y$ « expliquée » par la relation linéaire avec $x$. Avec $r = 0{,}8$, $r^2 = 0{,}64$ : $64\\,\\%$ de la variabilité de $y$ est expliquée par la droite.\n**Prédiction** : pour une valeur $x_0$, on prédit $\\hat{y} = ax_0 + b$. Elle n'est raisonnable que **dans le domaine des $x$ observés** : au-delà, c'est une **extrapolation**, risquée car rien ne garantit que la relation reste linéaire.\n**Corrélation n'est pas causalité** : une forte corrélation peut venir d'un **facteur de confusion** (voir PA-08) lié aux deux variables (l'âge, la saison…), du hasard, ou d'une causalité inverse. L'essai contrôlé randomisé est le meilleur niveau de preuve d'un effet causal ; sans essai, la causalité ne s'établit que par un faisceau d'arguments concordants.\n**Test de nullité de $r$** (aperçu) : pour tester $H_0$ « pas de corrélation linéaire dans la population », on calcule $t = \\dfrac{r\\sqrt{n - 2}}{\\sqrt{1 - r^2}}$, que l'on compare au seuil de la loi de Student à $n - 2$ degrés de liberté (proche de $2$ au risque $5\\,\\%$ dès que $n$ dépasse quelques dizaines). Avec un grand effectif, un $r$ faible peut être significatif sans être cliniquement important."
       },
       {
         title: "5. Aux partiels : pièges fréquents",

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Content-Security-Policy : voir scripts/csp.js (style-src 'unsafe-inline' requis par les attributs style de KaTeX) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://etabli-des-maths.goatcounter.com; font-src 'self' data:; connect-src 'self' https://etabli-des-maths.goatcounter.com; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Maths en première, tronc commun : cours et exercices corrigés</title>
+  <meta name="description" content="Maths en première (tronc commun) : 6 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Notamment : automatismes." />
+  <meta name="author" content="Loïc Delaporte, professeur de mathématiques" />
+  <link rel="canonical" href="https://etabli-des-maths.fr/cours/premiere-tronc-commun/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Maths en première, tronc commun : cours et exercices corrigés" />
+  <meta property="og:description" content="Maths en première (tronc commun) : 6 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Notamment : automatismes." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://etabli-des-maths.fr/cours/premiere-tronc-commun/" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
+  <meta property="og:image:alt" content="Logo de L'Établi des Maths" />
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="L'Établi des Maths" />
+
+  <link rel="stylesheet" href="../../css/style.css?v=141db07fda" />
+  <link rel="stylesheet" href="../../css/landing.css?v=9c24ff37f8" />
+  <link rel="stylesheet" href="../../vendor/katex/katex.min.css?v=1be2fd298c" />
+  <link rel="stylesheet" href="../../css/cours.css?v=85b541e52d" />
+  <!-- Après les feuilles de style : la CSP en meta désactive le préchargement, et ce script s'exécute quand même avant le premier rendu -->
+  <script src="../../js/themeInit.js?v=58d3835cf3"></script>
+  <link rel="icon" href="../../favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="../../assets/favicon.png" />
+  <link rel="manifest" href="../../manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Cours et exercices de maths en première (tronc commun), gratuits et corrigés",
+    "description": "Maths en première (tronc commun) : 6 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Notamment : automatismes.",
+    "url": "https://etabli-des-maths.fr/cours/premiere-tronc-commun/",
+    "inLanguage": "fr",
+    "educationalLevel": "Lycée — première générale, enseignement de mathématiques du tronc commun",
+    "isAccessibleForFree": true,
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/"
+    },
+    "mainEntity": {
+      "@type": "ItemList",
+      "numberOfItems": 6,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Automatismes : proportions, pourcentages et évolutions",
+          "url": "https://etabli-des-maths.fr/cours/premiere-tronc-commun/automatismes-proportions-pourcentages-et-evolutions.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Information chiffrée : tableaux croisés, nuages de points et ajustement affine",
+          "url": "https://etabli-des-maths.fr/cours/premiere-tronc-commun/information-chiffree.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Probabilités conditionnelles, indépendance et répétition d'épreuves",
+          "url": "https://etabli-des-maths.fr/cours/premiere-tronc-commun/probabilites-conditionnelles.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Croissance linéaire : suites arithmétiques et fonctions affines",
+          "url": "https://etabli-des-maths.fr/cours/premiere-tronc-commun/croissance-lineaire.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "Modèles quadratiques : paraboles et forme factorisée",
+          "url": "https://etabli-des-maths.fr/cours/premiere-tronc-commun/modeles-quadratiques.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "name": "Croissance exponentielle : suites géométriques et taux moyen",
+          "url": "https://etabli-des-maths.fr/cours/premiere-tronc-commun/croissance-exponentielle.html"
+        }
+      ]
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Quels chapitres sont au programme de maths en première (tronc commun) ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Le site couvre 6 chapitres en première (tronc commun), regroupés en 3 domaines. Nombres et calculs : automatismes & Pourcentages. Probabilités et Statistiques : tableaux croisés & Ajustement et probabilités conditionnelles. Analyse et Fonctions : croissance linéaire, modèles quadratiques et croissance exponentielle."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Comment s'entraîner en maths en première (tronc commun) ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Choisis un chapitre puis clique sur « S'entraîner » : les exercices sont générés à chaque tirage et corrigés immédiatement. Ils sont classés en quatre paliers (1. Socle et automatismes, 2. Entraînement guidé, 3. Objectif bac, 4. Défi et approfondissement) ; un palier se débloque quand le précédent est maîtrisé."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Quelle épreuve de maths passe-t-on en première sans la spécialité ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Les élèves de première générale qui ne suivent pas la spécialité passent eux aussi l'épreuve anticipée de mathématiques (2 heures, sans calculatrice) : des automatismes en questions à réponses courtes, puis des exercices sur le programme du tronc commun (proportions et évolutions, information chiffrée, probabilités, modèles de croissance). Format et sujet blanc : Préparer l'épreuve anticipée de maths."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Les cours et exercices de maths de première tronc commun sont-ils gratuits ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Oui : tout est gratuit, sans inscription et sans publicité. La progression est enregistrée uniquement sur ton appareil, aucune donnée personnelle n’est demandée."
+        }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": "https://etabli-des-maths.fr/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Cours",
+        "item": "https://etabli-des-maths.fr/cours/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Première (tronc commun)",
+        "item": "https://etabli-des-maths.fr/cours/premiere-tronc-commun/"
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="cours-page">
+  <a class="cours-skip" href="#contenu">Aller au contenu</a>
+
+  <!-- Header Uniformisé -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="../../" class="brand-container">
+        <img src="../../assets/logo-96.png" alt="" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Cours</span></p>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
+        </div>
+      </a>
+
+      <!-- Navigation entre Portails -->
+      <nav class="nav-portal-links" aria-label="Portails thématiques">
+        <a href="../../" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="../../cours/" class="nav-portal-btn active" aria-current="true">📚 Cours</a>
+        <a href="../../exercices-de-maths/" class="nav-portal-btn">✏️ Exercices</a>
+        <a href="../../rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
+        <a href="../../reviser-le-brevet-de-maths/" class="nav-portal-btn">📝 Brevet</a>
+        <a href="../../reussir-le-bac-de-maths/" class="nav-portal-btn">🎓 Bac</a>
+        <a href="../../enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
+        <a href="../../parents.html" class="nav-portal-btn">👪 Parents</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="landing-wrapper cours-wrapper" id="contenu" tabindex="-1">
+    <nav class="cours-breadcrumb" aria-label="Fil d'Ariane">
+      <ol>
+        <li><a href="../../">Accueil</a></li>
+        <li><a href="../">Cours</a></li>
+        <li><span aria-current="page">Première (tronc commun)</span></li>
+      </ol>
+    </nav>
+
+    <header class="cours-hero">
+      <p class="landing-tag">Lycée · Première (tronc commun) · 6 chapitres</p>
+      <h1 class="cours-title">Cours et exercices de maths en première (tronc commun), gratuits et corrigés</h1>
+      <p class="cours-lead">Les mathématiques du tronc commun de première générale, pour les élèves qui ne suivent pas la spécialité : automatismes, proportions et évolutions, information chiffrée, probabilités conditionnelles, croissance linéaire, modèles quadratiques et croissance exponentielle, avec la préparation de l'épreuve anticipée. Chaque chapitre contient le cours complet, des méthodes rédigées et des exercices corrigés, puis renvoie vers des exercices générés à l'infini pour s'entraîner.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../../index.html?level=1tc">🎯 S'entraîner en première (tronc commun)</a>
+        <a class="btn-secondary cours-cta-alt" href="../../index.html?mode=rituel&amp;level=1tc">⏱️ Questions flash</a>
+      </div>
+    </header>
+
+    <section class="cours-section" id="domaine-1" aria-labelledby="domaine-1-titre">
+      <h2 id="domaine-1-titre">Nombres et calculs</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="automatismes-proportions-pourcentages-et-evolutions.html">
+          <span class="topic-num">1TC1</span>
+          <span class="cours-chapter-text"><strong>Automatismes : proportions, pourcentages et évolutions</strong><span>Calcul numérique et littéral sans calculatrice, proportion d'une proportion, pourcentages, évolutions successives et réciproques, coefficient…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-2" aria-labelledby="domaine-2-titre">
+      <h2 id="domaine-2-titre">Probabilités et Statistiques</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="information-chiffree.html">
+          <span class="topic-num">1TC2</span>
+          <span class="cours-chapter-text"><strong>Information chiffrée : tableaux croisés, nuages de points et ajustement affine</strong><span>Tableaux croisés d'effectifs, fréquences marginales et conditionnelles, séries à deux variables, nuage de points, point moyen, ajustement affine…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="probabilites-conditionnelles.html">
+          <span class="topic-num">1TC3</span>
+          <span class="cours-chapter-text"><strong>Probabilités conditionnelles, indépendance et répétition d'épreuves</strong><span>Probabilité conditionnelle P_A(B), tableaux croisés et arbres pondérés, formule des probabilités totales, événements indépendants, répétition de deux…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-3" aria-labelledby="domaine-3-titre">
+      <h2 id="domaine-3-titre">Analyse et Fonctions</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="croissance-lineaire.html">
+          <span class="topic-num">1TC4</span>
+          <span class="cours-chapter-text"><strong>Croissance linéaire : suites arithmétiques et fonctions affines</strong><span>Variations absolues constantes, suites arithmétiques (terme général, représentation par des points alignés), fonctions affines, taux de variation…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="modeles-quadratiques.html">
+          <span class="topic-num">1TC5</span>
+          <span class="cours-chapter-text"><strong>Modèles quadratiques : paraboles et forme factorisée</strong><span>Fonctions x ↦ ax², paraboles, symétrie et sommet, fonctions du second degré données sous forme factorisée a(x − x₁)(x − x₂) : racines, signe, axe…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="croissance-exponentielle.html">
+          <span class="topic-num">1TC6</span>
+          <span class="cours-chapter-text"><strong>Croissance exponentielle : suites géométriques et taux moyen</strong><span>Variations relatives constantes, suites géométriques de raison positive, fonctions x ↦ aˣ, comparaison des croissances linéaire et exponentielle…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section " id="methode" aria-labelledby="methode-titre">
+      <h2 id="methode-titre">Comment travailler les maths en première (tronc commun) ?</h2>
+      <ol class="cours-list">
+        <li><strong>Lire le cours du chapitre</strong> et refaire seul les exemples rédigés de la partie « Méthodes ».</li>
+        <li><strong>Chercher les exercices corrigés</strong> de la page avant d'ouvrir la correction, puis comparer la rédaction.</li>
+        <li><strong>S'entraîner par paliers</strong> dans l'application : palier 1 « Socle et automatismes », palier 2 « Entraînement guidé », palier 3 « Objectif bac », palier 4 « Défi et approfondissement ». Les exercices changent à chaque tirage.</li>
+        <li><strong>Mémoriser</strong> les définitions et formules avec les flashcards, quelques minutes par jour.</li>
+      </ol>
+    </section>
+
+    <section class="cours-section " id="faq" aria-labelledby="faq-titre">
+      <h2 id="faq-titre">Questions fréquentes sur les maths en première (tronc commun)</h2>
+      <div class="cours-faq">
+        <details class="cours-faq-item"><summary><h3>Quels chapitres sont au programme de maths en première (tronc commun) ?</h3></summary><div><p>Le site couvre 6 chapitres en première (tronc commun), regroupés en 3 domaines. Nombres et calculs : automatismes & Pourcentages. Probabilités et Statistiques : tableaux croisés & Ajustement et probabilités conditionnelles. Analyse et Fonctions : croissance linéaire, modèles quadratiques et croissance exponentielle.</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Comment s'entraîner en maths en première (tronc commun) ?</h3></summary><div><p>Choisis un chapitre puis clique sur « S'entraîner » : les exercices sont générés à chaque tirage et corrigés immédiatement. Ils sont classés en quatre paliers (1. Socle et automatismes, 2. Entraînement guidé, 3. Objectif bac, 4. Défi et approfondissement) ; un palier se débloque quand le précédent est maîtrisé.</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Quelle épreuve de maths passe-t-on en première sans la spécialité ?</h3></summary><div><p>Les élèves de première générale qui ne suivent pas la spécialité passent eux aussi l'épreuve anticipée de mathématiques (2 heures, sans calculatrice) : des automatismes en questions à réponses courtes, puis des exercices sur le programme du tronc commun (proportions et évolutions, information chiffrée, probabilités, modèles de croissance). Format et sujet blanc : <a href="../../epreuve-anticipee-de-maths/">Préparer l'épreuve anticipée de maths</a>.</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Les cours et exercices de maths de première tronc commun sont-ils gratuits ?</h3></summary><div><p>Oui : tout est gratuit, sans inscription et sans publicité. La progression est enregistrée uniquement sur ton appareil, aucune donnée personnelle n’est demandée.</p></div></details>
+      </div>
+    </section>
+
+    <nav class="cours-related" aria-label="Autres ressources">
+      <div><p class="cours-related-title">Autres classes</p><ul><li><a href="../">Tous les cours de maths</a></li></ul></div>
+      <div><p class="cours-related-title">Pages utiles</p><ul><li><a href="../../epreuve-anticipee-de-maths/">Épreuve anticipée de maths</a> : format, automatismes, sujet blanc</li><li><a href="../premiere/">Cours de première, spécialité mathématiques</a></li><li><a href="../../exercices-de-maths/">Exercices de maths corrigés</a>, tous niveaux</li><li><a href="../../entrainement-maths/">Entraînement en ligne</a> : paliers, rituels, flashcards</li></ul></div>
+    </nav>
+
+    <nav class="cours-pager" aria-label="Autres niveaux">
+      <a class="nav-portal-btn" href="../6e/">6e</a>
+      <a class="nav-portal-btn" href="../5e/">5e</a>
+      <a class="nav-portal-btn" href="../4e/">4e</a>
+      <a class="nav-portal-btn" href="../3e/">3e</a>
+      <a class="nav-portal-btn" href="../seconde/">Seconde</a>
+      <a class="nav-portal-btn" href="../premiere/">Première</a>
+      <a class="nav-portal-btn active" href="../premiere-tronc-commun/" aria-current="page">Première (tronc commun)</a>
+      <a class="nav-portal-btn" href="../premiere-technologique/">Première technologique</a>
+      <a class="nav-portal-btn" href="../terminale/">Terminale</a>
+      <a class="nav-portal-btn" href="../l1/">Licence 1</a>
+      <a class="nav-portal-btn" href="../l2/">Licence 2</a>
+      <a class="nav-portal-btn" href="../l3/">Licence 3</a>
+      <a class="nav-portal-btn" href="../capes/">CAPES</a>
+      <a class="nav-portal-btn" href="../professeur-des-ecoles/">Professeur des écoles</a>
+      <a class="nav-portal-btn" href="../prepa-sante/">Prépa santé</a>
+      <a class="nav-portal-btn" href="../pass-las/">PASS / L.AS</a>
+      <a class="nav-portal-btn" href="../veto-bcpst/">Véto (BCPST)</a>
+    </nav>
+  </main>
+
+  <footer class="cours-footer">
+    <p>L'Établi des Maths — Conçu par Loïc Delaporte, professeur de mathématiques • 100 % gratuit, conforme aux programmes</p>
+    <p><a href="../../cours/">Cours de maths</a> · <a href="../../exercices-de-maths/">Exercices corrigés</a> · <a href="../../entrainement-maths/">Entraînement en ligne</a> · <a href="../../reviser-le-brevet-de-maths/">Réviser le brevet</a> · <a href="../../reussir-le-bac-de-maths/">Réussir le bac</a> · <a href="../../epreuve-d-entretien-capes/">Oral 2 du CAPES</a></p>
+    <p><a href="../../">Ouvrir l'application</a> · <a href="../../rituels.html">Rituels</a> · <a href="../../brevet.html">Brevet blanc</a> · <a href="../../bac.html">Devoir type bac</a> · <a href="../../a-propos.html">Qui suis-je&#8239;?</a> · <a href="../../mentions-legales.html">Mentions légales</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a></p>
+    <p>Contenus sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a></p>
+  </footer>
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

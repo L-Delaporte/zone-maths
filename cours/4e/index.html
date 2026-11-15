@@ -4,28 +4,29 @@
   <meta charset="UTF-8" />
   <!-- Content-Security-Policy : voir scripts/csp.js (style-src 'unsafe-inline' requis par les attributs style de KaTeX) -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://etabli-des-maths.goatcounter.com; font-src 'self' data:; connect-src 'self' https://etabli-des-maths.goatcounter.com; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'" />
-  <script src="../../js/themeInit.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Maths en 4e : cours et exercices corrigés gratuits</title>
-  <meta name="description" content="Maths en 4e : 14 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Relatifs, fractions, puissances, calcul littéral…" />
+  <meta name="description" content="Maths en 4e : 14 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Notamment : relatifs, fractions et puissances." />
   <meta name="author" content="Loïc Delaporte, professeur de mathématiques" />
   <link rel="canonical" href="https://etabli-des-maths.fr/cours/4e/" />
 
   <!-- Open Graph -->
   <meta property="og:title" content="Maths en 4e : cours et exercices corrigés gratuits" />
-  <meta property="og:description" content="Maths en 4e : 14 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Relatifs, fractions, puissances, calcul littéral…" />
+  <meta property="og:description" content="Maths en 4e : 14 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Notamment : relatifs, fractions et puissances." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://etabli-des-maths.fr/cours/4e/" />
-  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
-  <meta property="og:image:alt" content="Maths en 4e : cours et exercices corrigés gratuits" />
-  <meta name="twitter:card" content="summary" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/og/4e.png" />
+  <meta property="og:image:alt" content="L'Établi des Maths — 4e" />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta property="og:locale" content="fr_FR" />
   <meta property="og:site_name" content="L'Établi des Maths" />
 
-  <link rel="stylesheet" href="../../css/style.css" />
-  <link rel="stylesheet" href="../../css/landing.css" />
-  <link rel="stylesheet" href="../../vendor/katex/katex.min.css" />
-  <link rel="stylesheet" href="../../css/cours.css" />
+  <link rel="stylesheet" href="../../css/style.css?v=141db07fda" />
+  <link rel="stylesheet" href="../../css/landing.css?v=9c24ff37f8" />
+  <link rel="stylesheet" href="../../vendor/katex/katex.min.css?v=1be2fd298c" />
+  <link rel="stylesheet" href="../../css/cours.css?v=85b541e52d" />
+  <!-- Après les feuilles de style : la CSP en meta désactive le préchargement, et ce script s'exécute quand même avant le premier rendu -->
+  <script src="../../js/themeInit.js?v=58d3835cf3"></script>
   <link rel="icon" href="../../favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32x32.png" />
   <link rel="apple-touch-icon" href="../../assets/favicon.png" />
@@ -36,7 +37,7 @@
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     "name": "Cours et exercices de maths en 4e, gratuits et corrigés",
-    "description": "Maths en 4e : 14 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Relatifs, fractions, puissances, calcul littéral…",
+    "description": "Maths en 4e : 14 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Notamment : relatifs, fractions et puissances.",
     "url": "https://etabli-des-maths.fr/cours/4e/",
     "inLanguage": "fr",
     "educationalLevel": "Collège — classe de 4e (cycle 4)",
@@ -156,7 +157,7 @@
         "name": "Comment s'entraîner en maths en 4e ?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Choisis un chapitre puis clique sur « S'entraîner » : les exercices sont générés à chaque tirage et corrigés immédiatement. Ils sont classés en quatre paliers (1. Socle et automatismes, 2. Entraînement guidé, 3. Approfondissement, 4. Défi 3e) ; un palier se débloque quand le précédent est maîtrisé."
+          "text": "Choisis un chapitre puis clique sur « S'entraîner » : les exercices sont générés à chaque tirage et corrigés immédiatement. Ils sont classés en quatre paliers (1. Socle et automatismes, 2. Entraînement guidé, 3. Approfondissement, 4. Défi) ; un palier se débloque quand le précédent est maîtrisé."
         }
       },
       {
@@ -172,7 +173,7 @@
         "name": "Les cours et exercices de maths de 4e sont-ils gratuits ?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Oui : tout est gratuit, sans inscription et sans publicité. La progression est enregistrée uniquement sur ton appareil, aucune donnée personnelle n’est collectée."
+          "text": "Oui : tout est gratuit, sans inscription et sans publicité. La progression est enregistrée uniquement sur ton appareil, aucune donnée personnelle n’est demandée."
         }
       }
     ]
@@ -211,7 +212,7 @@
   <!-- Header Uniformisé -->
   <header class="app-header">
     <div class="header-inner">
-      <a href="../../index.html" class="brand-container">
+      <a href="../../" class="brand-container">
         <img src="../../assets/logo-96.png" alt="" class="brand-logo-img" width="44" height="44" />
         <div class="brand-text">
           <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Cours</span></p>
@@ -221,7 +222,7 @@
 
       <!-- Navigation entre Portails -->
       <nav class="nav-portal-links" aria-label="Portails thématiques">
-        <a href="../../index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="../../" class="nav-portal-btn">🏠 Accueil</a>
         <a href="../../cours/" class="nav-portal-btn active" aria-current="true">📚 Cours</a>
         <a href="../../exercices-de-maths/" class="nav-portal-btn">✏️ Exercices</a>
         <a href="../../rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
@@ -236,7 +237,7 @@
   <main class="landing-wrapper cours-wrapper" id="contenu" tabindex="-1">
     <nav class="cours-breadcrumb" aria-label="Fil d'Ariane">
       <ol>
-        <li><a href="../../index.html">Accueil</a></li>
+        <li><a href="../../">Accueil</a></li>
         <li><a href="../">Cours</a></li>
         <li><span aria-current="page">4e</span></li>
       </ol>
@@ -265,7 +266,7 @@
         </a></li>
         <li><a class="cours-chapter-card" href="puissances-d-un-nombre-et-puissances-de-10.html">
           <span class="topic-num">4N3</span>
-          <span class="cours-chapter-text"><strong>Puissances d'un nombre et puissances de 10</strong><span>Définition de a^n pour un exposant entier positif, règles de calcul sur les puissances d'un même nombre, puissances de 10 et notation décimale.</span></span>
+          <span class="cours-chapter-text"><strong>Puissances d'un nombre et puissances de 10</strong><span>Définition de a^n pour un exposant entier positif, produits de puissances d'un même nombre par écriture développée, puissances de 10 et notation…</span></span>
         </a></li>
         <li><a class="cours-chapter-card" href="racines-carrees-et-carres-parfaits.html">
           <span class="topic-num">4N4</span>
@@ -287,11 +288,11 @@
         </a></li>
         <li><a class="cours-chapter-card" href="triangle-rectangle.html">
           <span class="topic-num">4G2</span>
-          <span class="cours-chapter-text"><strong>Triangle rectangle, cercle circonscrit et droite des milieux</strong><span>Caractérisation du triangle rectangle inscrit dans un demi-cercle, théorèmes de la droite des milieux dans un triangle quelconque.</span></span>
+          <span class="cours-chapter-text"><strong>Triangle rectangle, cercle circonscrit et droite des milieux</strong><span>Caractérisation du triangle rectangle inscrit dans un demi-cercle, théorèmes de la droite des milieux dans un triangle quelconque, théorème de Thalès…</span></span>
         </a></li>
         <li><a class="cours-chapter-card" href="translations-et-proprietes-de-conservation.html">
           <span class="topic-num">4G3</span>
-          <span class="cours-chapter-text"><strong>Translations et propriétés de conservation</strong><span>Notion de translation (direction, sens, distance), lien direct avec les parallélogrammes, propriétés de conservation des longueurs, angles et aires.</span></span>
+          <span class="cours-chapter-text"><strong>Translations et propriétés de conservation</strong><span>La translation comme glissement, lien avec le parallélogramme, propriétés de conservation des longueurs, angles et aires, frises et pavages.</span></span>
         </a></li>
         <li><a class="cours-chapter-card" href="espace-pyramides-cones-de-revolution-et-volumes.html">
           <span class="topic-num">4G4</span>
@@ -305,11 +306,11 @@
       <ul class="cours-chapter-grid">
         <li><a class="cours-chapter-card" href="statistiques-moyenne-ponderee-mediane-et-etendue.html">
           <span class="topic-num">4D1</span>
-          <span class="cours-chapter-text"><strong>Statistiques : moyenne pondérée, médiane et étendue</strong><span>Calcul et interprétation de la moyenne pondérée, détermination de la médiane d'une série statistique discrète, calcul de l'étendue.</span></span>
+          <span class="cours-chapter-text"><strong>Statistiques : moyenne pondérée, médiane et étendue</strong><span>Calcul et interprétation de la moyenne pondérée, détermination de la médiane d'une série statistique discrète (données brutes, tableau, diagramme…</span></span>
         </a></li>
         <li><a class="cours-chapter-card" href="probabilites-evenements-contraires-et-experiences.html">
           <span class="topic-num">4D2</span>
-          <span class="cours-chapter-text"><strong>Probabilités : événements contraires et expériences à deux épreuves</strong><span>Notations ensemblistes (événement contraire, intersection, réunion), calcul de P(non A) = 1 - P(A), expériences aléatoires simples à deux épreuves.</span></span>
+          <span class="cours-chapter-text"><strong>Probabilités : événements contraires et expériences à deux épreuves</strong><span>Vocabulaire des probabilités, événement contraire et calcul de P(non A) = 1 - P(A), situations non équiprobables (roues à secteurs inégaux, cibles…</span></span>
         </a></li>
       </ul>
     </section>
@@ -319,7 +320,7 @@
       <ul class="cours-chapter-grid">
         <li><a class="cours-chapter-card" href="proportionnalite-ratios-et-pourcentages.html">
           <span class="topic-num">4P1</span>
-          <span class="cours-chapter-text"><strong>Proportionnalité, ratios et pourcentages (coefficients)</strong><span>Grandeurs quotients (vitesse km/h, masse volumique), partage selon un ratio a:b, coefficient multiplicateur d'augmentation ou réduction (1 ± t/100).</span></span>
+          <span class="cours-chapter-text"><strong>Proportionnalité, ratios et pourcentages (coefficients)</strong><span>Reconnaître et exploiter la proportionnalité (tableau, graphique), quatrième proportionnelle, partage selon un ratio a:b, pourcentages, grandeurs…</span></span>
         </a></li>
       </ul>
     </section>
@@ -329,7 +330,7 @@
       <ul class="cours-chapter-grid">
         <li><a class="cours-chapter-card" href="notion-de-fonction-et-programmes-de-calcul.html">
           <span class="topic-num">4P2</span>
-          <span class="cours-chapter-text"><strong>Notion de fonction et programmes de calcul</strong><span>Programmes de calcul avec une variable x, expression littérale traduisant la dépendance, calcul d'images numériques, tableau et courbe.</span></span>
+          <span class="cours-chapter-text"><strong>Notion de fonction et programmes de calcul</strong><span>Programmes de calcul avec une variable x, expression littérale traduisant la dépendance, valeur obtenue et valeur de départ, tableau…</span></span>
         </a></li>
       </ul>
     </section>
@@ -339,7 +340,7 @@
       <ul class="cours-chapter-grid">
         <li><a class="cours-chapter-card" href="algorithmique-instructions-conditionnelles-et-variables.html">
           <span class="topic-num">4A1</span>
-          <span class="cours-chapter-text"><strong>Algorithmique : instructions conditionnelles et variables Scratch</strong><span>Structures conditionnelles « si alors sinon », création et modification de variables numériques dans Scratch, résolution de défis géométriques.</span></span>
+          <span class="cours-chapter-text"><strong>Algorithmique : instructions conditionnelles et variables Scratch</strong><span>Structures conditionnelles « si alors sinon », création et modification de variables numériques dans Scratch, résolution de défis géométriques.</span></span>
         </a></li>
       </ul>
     </section>
@@ -349,7 +350,7 @@
       <ol class="cours-list">
         <li><strong>Lire le cours du chapitre</strong> et refaire seul les exemples rédigés de la partie « Méthodes ».</li>
         <li><strong>Chercher les exercices corrigés</strong> de la page avant d'ouvrir la correction, puis comparer la rédaction.</li>
-        <li><strong>S'entraîner par paliers</strong> dans l'application : palier 1 « Socle et automatismes », palier 2 « Entraînement guidé », palier 3 « Approfondissement », palier 4 « Défi 3e ». Les exercices changent à chaque tirage.</li>
+        <li><strong>S'entraîner par paliers</strong> dans l'application : palier 1 « Socle et automatismes », palier 2 « Entraînement guidé », palier 3 « Approfondissement », palier 4 « Défi ». Les exercices changent à chaque tirage.</li>
         <li><strong>Mémoriser</strong> les définitions et formules avec les flashcards, quelques minutes par jour.</li>
       </ol>
     </section>
@@ -358,15 +359,15 @@
       <h2 id="faq-titre">Questions fréquentes sur les maths en 4e</h2>
       <div class="cours-faq">
         <details class="cours-faq-item"><summary><h3>Quels chapitres sont au programme de maths en 4e ?</h3></summary><div><p>Le site couvre 14 chapitres en 4e, regroupés en 6 domaines. Nombres et Calculs : relatifs : × et ÷, fractions & Quotients 4e, puissances 4e, racines carrées 4e et calcul littéral & Équations. Espace et Géométrie : théorème de Pythagore, cercle circonscrit & Milieux, translations et pyramides & Cônes. Organisation et Fonctions : statistiques 4e et probabilités 4e. Proportionnalité : ratios & Pourcentages. Fonctions : fonctions & Programmes. Pensée Informatique : algorithmique 4e.</p></div></details>
-        <details class="cours-faq-item"><summary><h3>Comment s'entraîner en maths en 4e ?</h3></summary><div><p>Choisis un chapitre puis clique sur « S'entraîner » : les exercices sont générés à chaque tirage et corrigés immédiatement. Ils sont classés en quatre paliers (1. Socle et automatismes, 2. Entraînement guidé, 3. Approfondissement, 4. Défi 3e) ; un palier se débloque quand le précédent est maîtrisé.</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Comment s'entraîner en maths en 4e ?</h3></summary><div><p>Choisis un chapitre puis clique sur « S'entraîner » : les exercices sont générés à chaque tirage et corrigés immédiatement. Ils sont classés en quatre paliers (1. Socle et automatismes, 2. Entraînement guidé, 3. Approfondissement, 4. Défi) ; un palier se débloque quand le précédent est maîtrisé.</p></div></details>
         <details class="cours-faq-item"><summary><h3>Quels chapitres de 4e sont importants pour le brevet ?</h3></summary><div><p>Le théorème de Pythagore, les puissances, le calcul littéral et les équations, les fractions et les pourcentages reviennent très souvent au brevet. Ils sont repris en 3e, mais les maîtriser dès la 4e allège beaucoup les révisions. Voir <a href="../../reviser-le-brevet-de-maths/">Réviser le brevet de maths</a>.</p></div></details>
-        <details class="cours-faq-item"><summary><h3>Les cours et exercices de maths de 4e sont-ils gratuits ?</h3></summary><div><p>Oui : tout est gratuit, sans inscription et sans publicité. La progression est enregistrée uniquement sur ton appareil, aucune donnée personnelle n’est collectée.</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Les cours et exercices de maths de 4e sont-ils gratuits ?</h3></summary><div><p>Oui : tout est gratuit, sans inscription et sans publicité. La progression est enregistrée uniquement sur ton appareil, aucune donnée personnelle n’est demandée.</p></div></details>
       </div>
     </section>
 
     <nav class="cours-related" aria-label="Autres ressources">
       <div><p class="cours-related-title">Autres classes</p><ul><li><a href="../5e/">Cours et exercices en 5e</a> (classe précédente)</li><li><a href="../3e/">Cours et exercices en 3e</a> (classe suivante)</li><li><a href="../">Tous les cours de maths</a></li></ul></div>
-      <div><p class="cours-related-title">Pages utiles</p><ul><li><a href="../../reviser-le-brevet-de-maths/">Réviser le brevet de maths</a> : méthode, programme, planning</li><li><a href="../../exercices-de-maths/">Exercices de maths corrigés</a>, tous niveaux</li><li><a href="../../entrainement-maths/">Entraînement en ligne</a> : paliers, rituels, flashcards</li></ul></div>
+      <div><p class="cours-related-title">Pages utiles</p><ul><li><a href="../../reviser-le-brevet-de-maths/">Réviser le brevet de maths</a> : méthode, programme, planning</li><li><a href="../../exercices-de-maths/">Exercices de maths corrigés</a>, tous niveaux</li><li><a href="../../entrainement-maths/">Entraînement en ligne</a> : paliers, rituels, flashcards</li></ul></div>
     </nav>
 
     <nav class="cours-pager" aria-label="Autres niveaux">
@@ -376,6 +377,8 @@
       <a class="nav-portal-btn" href="../3e/">3e</a>
       <a class="nav-portal-btn" href="../seconde/">Seconde</a>
       <a class="nav-portal-btn" href="../premiere/">Première</a>
+      <a class="nav-portal-btn" href="../premiere-tronc-commun/">Première (tronc commun)</a>
+      <a class="nav-portal-btn" href="../premiere-technologique/">Première technologique</a>
       <a class="nav-portal-btn" href="../terminale/">Terminale</a>
       <a class="nav-portal-btn" href="../l1/">Licence 1</a>
       <a class="nav-portal-btn" href="../l2/">Licence 2</a>
@@ -391,7 +394,7 @@
   <footer class="cours-footer">
     <p>L'Établi des Maths — Conçu par Loïc Delaporte, professeur de mathématiques • 100 % gratuit, conforme aux programmes</p>
     <p><a href="../../cours/">Cours de maths</a> · <a href="../../exercices-de-maths/">Exercices corrigés</a> · <a href="../../entrainement-maths/">Entraînement en ligne</a> · <a href="../../reviser-le-brevet-de-maths/">Réviser le brevet</a> · <a href="../../reussir-le-bac-de-maths/">Réussir le bac</a> · <a href="../../epreuve-d-entretien-capes/">Oral 2 du CAPES</a></p>
-    <p><a href="../../index.html">Ouvrir l'application</a> · <a href="../../rituels.html">Rituels</a> · <a href="../../brevet.html">Brevet blanc</a> · <a href="../../bac.html">Devoir type bac</a> · <a href="../../a-propos.html">Qui suis-je ?</a> · <a href="../../mentions-legales.html">Mentions légales</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a></p>
+    <p><a href="../../">Ouvrir l'application</a> · <a href="../../rituels.html">Rituels</a> · <a href="../../brevet.html">Brevet blanc</a> · <a href="../../bac.html">Devoir type bac</a> · <a href="../../a-propos.html">Qui suis-je&#8239;?</a> · <a href="../../mentions-legales.html">Mentions légales</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a></p>
     <p>Contenus sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a></p>
   </footer>
   <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->

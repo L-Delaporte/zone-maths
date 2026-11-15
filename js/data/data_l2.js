@@ -108,7 +108,7 @@ window.MATHS_COURSES_L2 = {
     "keyPoints": [
       {
         "title": "1. Produit scalaire, norme associée, exemples",
-        "content": "Soit $E$ un $\\mathbb{R}$-espace vectoriel. Un **produit scalaire** est une application $\\langle \\cdot, \\cdot \\rangle : E \\times E \\to \\mathbb{R}$ **bilinéaire, symétrique, positive** ($\\langle x, x \\rangle \\ge 0$) et **définie** ($\\langle x, x \\rangle = 0 \\implies x = 0_E$).\n• $(E, \\langle \\cdot, \\cdot \\rangle)$ est un espace **préhilbertien** ; s'il est de dimension finie, c'est un espace **euclidien**.\n• **Norme associée** : $\\|x\\| = \\sqrt{\\langle x, x \\rangle}$. **Identité de polarisation** : $\\langle x, y \\rangle = \\frac{1}{2}\\left(\\|x + y\\|^2 - \\|x\\|^2 - \\|y\\|^2\\right)$.\n• **Exemples** : sur $\\mathbb{R}^n$, $\\langle x, y \\rangle = \\sum_{i=1}^n x_i y_i$ ; sur $\\mathcal{C}([a ; b], \\mathbb{R})$, $\\langle f, g \\rangle = \\int_a^b f(t) g(t)\\, dt$ (le caractère défini utilise la continuité) ; sur $\\mathcal{M}_n(\\mathbb{R})$, $\\langle A, B \\rangle = \\text{tr}({}^t A B)$."
+        "content": "Soit $E$ un $\\mathbb{R}$-espace vectoriel. Un **produit scalaire** est une application $\\langle \\cdot, \\cdot \\rangle : E \\times E \\to \\mathbb{R}$ **bilinéaire, symétrique, positive** ($\\langle x, x \\rangle \\ge 0$) et **définie** ($\\langle x, x \\rangle = 0 \\implies x = 0_E$).\n• $(E, \\langle \\cdot, \\cdot \\rangle)$ est un espace **préhilbertien** ; s'il est de dimension finie, c'est un espace **euclidien**.\n• **Norme associée** : $\\|x\\| = \\sqrt{\\langle x, x \\rangle}$. **Identité de polarisation** : $\\langle x, y \\rangle = \\frac{1}{2}\\left(\\|x + y\\|^2 - \\|x\\|^2 - \\|y\\|^2\\right)$.\n• **Exemples** : sur $\\mathbb{R}^n$, $\\langle x, y \\rangle = \\sum_{i=1}^n x_i y_i$ ; sur $\\mathcal{C}([a ; b], \\mathbb{R})$, $\\langle f, g \\rangle = \\int_a^b f(t) g(t)\\, dt$ (le caractère défini utilise la continuité) ; sur $\\mathcal{M}_n(\\mathbb{R})$, $\\langle A, B \\rangle = \\text{tr}({}^t A B)$.\n• **Identité du parallélogramme** : en additionnant $\\|x + y\\|^2 = \\|x\\|^2 + 2\\langle x, y \\rangle + \\|y\\|^2$ et $\\|x - y\\|^2 = \\|x\\|^2 - 2\\langle x, y \\rangle + \\|y\\|^2$, on obtient $\\|x + y\\|^2 + \\|x - y\\|^2 = 2\\|x\\|^2 + 2\\|y\\|^2$. Une norme qui ne vérifie pas cette identité ne provient donc d'aucun produit scalaire : c'est le cas de $\\|\\cdot\\|_\\infty$ sur $\\mathbb{R}^2$, avec $x = (1, 0)$ et $y = (0, 1)$, puisque $1 + 1 \\neq 2 + 2$. Réciproquement (théorème de Fréchet, von Neumann et Jordan, admis), une norme qui vérifie l'identité du parallélogramme provient d'un produit scalaire, donné par $\\langle x, y \\rangle = \\frac{1}{4}\\left(\\|x + y\\|^2 - \\|x - y\\|^2\\right)$."
       },
       {
         "title": "2. Inégalités de Cauchy-Schwarz et de Minkowski",
@@ -129,6 +129,10 @@ window.MATHS_COURSES_L2 = {
       {
         "title": "6. Procédé d'orthonormalisation de Gram-Schmidt",
         "content": "Soit $(v_1, \\dots, v_n)$ une famille libre de $E$. On définit par récurrence :\n$$u_1 = v_1, \\qquad u_k = v_k - \\sum_{i=1}^{k-1} \\langle v_k, e_i \\rangle e_i, \\qquad e_k = \\frac{u_k}{\\|u_k\\|}.$$\n• $u_k = v_k - p_{F_{k-1}}(v_k)$ où $F_{k-1} = \\text{Vect}(v_1, \\dots, v_{k-1}) = \\text{Vect}(e_1, \\dots, e_{k-1})$ ; $u_k \\neq 0_E$ car $v_k \\notin F_{k-1}$ (liberté).\n• $(e_1, \\dots, e_n)$ est **orthonormée** et $\\text{Vect}(e_1, \\dots, e_k) = \\text{Vect}(v_1, \\dots, v_k)$ pour tout $k$. C'est l'unique famille ayant ces propriétés avec $\\langle e_k, v_k \\rangle > 0$.\n• **Conséquences** : tout espace euclidien admet une base orthonormée ; toute famille orthonormée se complète en base orthonormée."
+      },
+      {
+        "title": "7. Application statistique : moindres carrés et corrélation",
+        "content": "Soit une série statistique double $(x_i, y_i)_{1 \\le i \\le n}$, les $x_i$ n'étant pas tous égaux. On note $\\bar{x} = \\frac{1}{n}\\sum_{i=1}^n x_i$ et $\\bar{y}$ les moyennes, $V(x) = \\frac{1}{n}\\sum_{i=1}^n (x_i - \\bar{x})^2$ la variance, $\\sigma_x = \\sqrt{V(x)}$ l'écart type et $\\text{Cov}(x, y) = \\frac{1}{n}\\sum_{i=1}^n (x_i - \\bar{x})(y_i - \\bar{y}) = \\overline{xy} - \\bar{x}\\,\\bar{y}$ la covariance.\n• **Moindres carrés** : on cherche $(a, b)$ qui minimise $\\sum_{i=1}^n (y_i - a x_i - b)^2 = \\|Y - aX - bU\\|^2$ dans $\\mathbb{R}^n$ euclidien canonique, avec $X = (x_i)$, $Y = (y_i)$ et $U = (1, \\dots, 1)$. Comme $X$ et $U$ sont libres, le minimum est atteint en un unique couple : $aX + bU$ est le projeté orthogonal de $Y$ sur le plan $\\text{Vect}(X, U)$ (§ 5).\n• **Droite de régression** : les conditions $\\langle Y - aX - bU, U \\rangle = 0$ et $\\langle Y - aX - bU, X \\rangle = 0$ donnent $b = \\bar{y} - a\\bar{x}$ et $a = \\frac{\\text{Cov}(x, y)}{V(x)}$. La droite d'équation $y = ax + b$, droite de régression de $y$ en $x$, passe par le point moyen $(\\bar{x}, \\bar{y})$.\n• **Coefficient de corrélation linéaire** : si les $y_i$ ne sont pas tous égaux, $r = \\frac{\\text{Cov}(x, y)}{\\sigma_x \\sigma_y}$. C'est le cosinus de l'angle entre les vecteurs centrés $X - \\bar{x}U$ et $Y - \\bar{y}U$ : l'inégalité de Cauchy-Schwarz donne $-1 \\le r \\le 1$, avec $|r| = 1$ si et seulement si les points $(x_i, y_i)$ sont alignés. Le signe de $r$ est celui de $a$, et plus $|r|$ est proche de $1$, plus l'ajustement affine est pertinent.\n• **Moyenne et médiane** : la moyenne $\\bar{x}$ est le réel $m$ qui minimise $\\sum_{i=1}^n (x_i - m)^2$, tandis qu'une médiane (valeur qui partage la série ordonnée en deux groupes de même effectif) minimise $\\sum_{i=1}^n |x_i - m|$. L'estimation et les tests sont étudiés en L3-PRC."
       }
     ],
     "methods": [
@@ -207,15 +211,15 @@ window.MATHS_COURSES_L2 = {
       },
       {
         "title": "3. Démonstration : comparaison série-intégrale et séries de Riemann",
-        "content": "**Théorème.** Soit $f : [n_0 ; +\\infty[ \\to \\mathbb{R}_+$ continue par morceaux et **décroissante**. Alors la série $\\sum f(n)$ et l'intégrale $\\int_{n_0}^{+\\infty} f(t)\\, dt$ sont de même nature.\n**Démonstration.**\n1. Pour $k \\ge n_0 + 1$ et $t \\in [k - 1 ; k]$, la décroissance donne $f(k) \\le f(t) \\le f(k - 1)$ ; en intégrant sur un intervalle de longueur 1 : $f(k) \\le \\int_{k-1}^{k} f(t)\\, dt \\le f(k-1)$.\n2. En sommant pour $k$ de $n_0 + 1$ à $N$ (relation de Chasles) : $\\sum_{k=n_0+1}^{N} f(k) \\le \\int_{n_0}^{N} f(t)\\, dt \\le \\sum_{k=n_0}^{N-1} f(k)$.\n3. Comme $f \\ge 0$, $X \\mapsto \\int_{n_0}^X f$ est croissante : l'intégrale converge si et seulement si la suite $\\left(\\int_{n_0}^N f\\right)_N$ est majorée ; de même, la série converge si et seulement si ses sommes partielles sont majorées.\n4. L'encadrement montre que l'une des deux suites est majorée si et seulement si l'autre l'est.\n**Application (Riemann).** Pour $\\alpha > 0$, $f(t) = t^{-\\alpha}$ est décroissante et $\\int_1^N t^{-\\alpha} dt$ vaut $\\frac{N^{1-\\alpha} - 1}{1 - \\alpha}$ si $\\alpha \\neq 1$ et $\\ln N$ si $\\alpha = 1$ : elle est bornée si et seulement si $\\alpha > 1$. Pour $\\alpha \\le 0$, $n^{-\\alpha} \\not\\to 0$. Donc $\\sum \\frac{1}{n^\\alpha}$ **converge si et seulement si $\\alpha > 1$**. L'encadrement donne aussi $\\ln(n + 1) \\le \\sum_{k=1}^n \\frac{1}{k} \\le 1 + \\ln n$, donc $\\sum_{k=1}^n \\frac{1}{k} \\sim \\ln n$."
+        "content": "**Théorème.** Soit $f : [n_0 ; +\\infty[ \\to \\mathbb{R}_+$ continue par morceaux et **décroissante**. Alors la série $\\sum f(n)$ et l'intégrale $\\int_{n_0}^{+\\infty} f(t)\\, dt$ sont de même nature.\n**Démonstration.**\n1. Pour $k \\ge n_0 + 1$ et $t \\in [k - 1 ; k]$, la décroissance donne $f(k) \\le f(t) \\le f(k - 1)$ ; en intégrant sur un intervalle de longueur 1 : $f(k) \\le \\int_{k-1}^{k} f(t)\\, dt \\le f(k-1)$.\n2. En sommant pour $k$ de $n_0 + 1$ à $N$ (relation de Chasles) : $\\sum_{k=n_0+1}^{N} f(k) \\le \\int_{n_0}^{N} f(t)\\, dt \\le \\sum_{k=n_0}^{N-1} f(k)$.\n3. Comme $f \\ge 0$, $X \\mapsto \\int_{n_0}^X f$ est croissante : l'intégrale converge si et seulement si la suite $\\left(\\int_{n_0}^N f\\right)_N$ est majorée ; de même, la série converge si et seulement si ses sommes partielles sont majorées.\n4. L'encadrement montre que l'une des deux suites est majorée si et seulement si l'autre l'est.\n**Application (Riemann).** Pour $\\alpha > 0$, $f(t) = t^{-\\alpha}$ est décroissante et $\\int_1^N t^{-\\alpha} dt$ vaut $\\frac{N^{1-\\alpha} - 1}{1 - \\alpha}$ si $\\alpha \\neq 1$ et $\\ln N$ si $\\alpha = 1$ : elle est bornée si et seulement si $\\alpha > 1$. Pour $\\alpha \\le 0$, $n^{-\\alpha} \\not\\to 0$. Donc $\\sum \\frac{1}{n^\\alpha}$ **converge si et seulement si $\\alpha > 1$**. L'encadrement donne aussi $\\ln(n + 1) \\le \\sum_{k=1}^n \\frac{1}{k} \\le 1 + \\ln n$, donc $\\sum_{k=1}^n \\frac{1}{k} \\sim \\ln n$.\n**Constante d'Euler** : la suite $u_n = \\sum_{k=1}^n \\frac{1}{k} - \\ln n$ est décroissante, car $u_n - u_{n+1} = \\int_n^{n+1} \\left(\\frac{1}{t} - \\frac{1}{n+1}\\right) dt \\ge 0$, et minorée par $\\ln(n + 1) - \\ln n > 0$ d'après l'encadrement précédent. Elle converge donc vers un réel $\\gamma \\approx 0{,}5772$, appelé **constante d'Euler**, et $\\sum_{k=1}^n \\frac{1}{k} = \\ln n + \\gamma + o(1)$."
       },
       {
         "title": "4. Séries de référence et règles de d'Alembert et de Cauchy",
-        "content": "• **Géométrique** : $\\sum q^n$ converge si et seulement si $|q| < 1$, et $\\sum_{n=0}^{+\\infty} q^n = \\frac{1}{1 - q}$.\n• **Riemann** : $\\sum_{n \\ge 1} \\frac{1}{n^\\alpha}$ converge si et seulement si $\\alpha > 1$.\n• **Règle de d'Alembert** : si $u_n > 0$ et $\\frac{u_{n+1}}{u_n} \\to \\ell \\in [0 ; +\\infty]$ : convergence si $\\ell < 1$, divergence grossière si $\\ell > 1$, aucune conclusion si $\\ell = 1$.\n• **Règle de Cauchy** : si $u_n \\ge 0$ et $\\sqrt[n]{u_n} \\to \\ell$ : mêmes conclusions.\n• Les deux règles reposent sur la comparaison à une série géométrique ; elles échouent pour les séries de Riemann ($\\ell = 1$ pour tout $\\alpha$)."
+        "content": "• **Géométrique** : $\\sum q^n$ converge si et seulement si $|q| < 1$, et $\\sum_{n=0}^{+\\infty} q^n = \\frac{1}{1 - q}$.\n• **Série géométrique dérivée** : pour $|x| < 1$, le produit de Cauchy de $\\sum x^n$ par elle-même (voir § 5) donne $\\sum_{n=0}^{+\\infty} (n + 1) x^n = \\frac{1}{(1 - x)^2}$, c'est-à-dire $\\sum_{n \\ge 1} n x^{n-1} = \\frac{1}{(1 - x)^2}$ : on obtient le même résultat en dérivant terme à terme $\\sum x^n = \\frac{1}{1 - x}$. La dérivation terme à terme d'une série entière sur son intervalle ouvert de convergence est justifiée en L3-SER (voir aussi le lemme d'Abel, L2-PRF § 4) ; elle donne par exemple $\\sum_{n \\ge 1} n x^n = \\frac{x}{(1 - x)^2}$ et $\\sum_{n \\ge 1} n^2 x^n = \\frac{x(1 + x)}{(1 - x)^3}$.\n• **Riemann** : $\\sum_{n \\ge 1} \\frac{1}{n^\\alpha}$ converge si et seulement si $\\alpha > 1$.\n• **Règle de d'Alembert** : si $u_n > 0$ et $\\frac{u_{n+1}}{u_n} \\to \\ell \\in [0 ; +\\infty]$ : convergence si $\\ell < 1$, divergence grossière si $\\ell > 1$, aucune conclusion si $\\ell = 1$.\n• **Règle de Cauchy** : si $u_n \\ge 0$ et $\\sqrt[n]{u_n} \\to \\ell$ : mêmes conclusions.\n• Les deux règles reposent sur la comparaison à une série géométrique ; elles échouent pour les séries de Riemann ($\\ell = 1$ pour tout $\\alpha$)."
       },
       {
         "title": "5. Convergence absolue et critère spécial des séries alternées",
-        "content": "• $\\sum u_n$ est **absolument convergente** si $\\sum |u_n|$ converge. Toute série absolument convergente converge (complétude de $\\mathbb{R}$ et de $\\mathbb{C}$) et $\\left|\\sum_{n=0}^{+\\infty} u_n\\right| \\le \\sum_{n=0}^{+\\infty} |u_n|$.\n• **Critère spécial des séries alternées** : si $(a_n)$ est **décroissante** et tend vers $0$, alors $\\sum (-1)^n a_n$ converge, son reste $R_n$ est du signe de son premier terme $(-1)^{n+1} a_{n+1}$ et $|R_n| \\le a_{n+1}$.\n• **Idée de preuve** : $(S_{2n})$ décroît, $(S_{2n+1})$ croît et $S_{2n} - S_{2n+1} = a_{2n+1} \\to 0$ : ces suites sont adjacentes.\n• **Exemple** : $\\sum_{n \\ge 1} \\frac{(-1)^{n+1}}{n}$ converge (sa somme vaut $\\ln 2$) sans converger absolument : elle est **semi-convergente**."
+        "content": "• $\\sum u_n$ est **absolument convergente** si $\\sum |u_n|$ converge. Toute série absolument convergente converge (complétude de $\\mathbb{R}$ et de $\\mathbb{C}$) et $\\left|\\sum_{n=0}^{+\\infty} u_n\\right| \\le \\sum_{n=0}^{+\\infty} |u_n|$.\n• **Critère spécial des séries alternées** : si $(a_n)$ est **décroissante** et tend vers $0$, alors $\\sum (-1)^n a_n$ converge, son reste $R_n$ est du signe de son premier terme $(-1)^{n+1} a_{n+1}$ et $|R_n| \\le a_{n+1}$.\n• **Idée de preuve** : $(S_{2n})$ décroît, $(S_{2n+1})$ croît et $S_{2n} - S_{2n+1} = a_{2n+1} \\to 0$ : ces suites sont adjacentes.\n• **Exemple** : $\\sum_{n \\ge 1} \\frac{(-1)^{n+1}}{n}$ converge (sa somme vaut $\\ln 2$) sans converger absolument : elle est **semi-convergente**.\n• **Produit de Cauchy** : si $\\sum a_n$ et $\\sum b_n$ convergent absolument, la série de terme général $c_n = \\sum_{k=0}^{n} a_k b_{n-k}$ converge absolument et $\\sum_{n=0}^{+\\infty} c_n = \\left(\\sum_{n=0}^{+\\infty} a_n\\right)\\left(\\sum_{n=0}^{+\\infty} b_n\\right)$. Exemple : pour $|x| < 1$ et $|y| < 1$, $\\sum_{n=0}^{+\\infty} \\sum_{k=0}^{n} x^k y^{n-k} = \\frac{1}{(1 - x)(1 - y)}$. L'hypothèse de convergence absolue ne peut pas être supprimée : le produit de Cauchy de $\\sum \\frac{(-1)^n}{\\sqrt{n+1}}$ par elle-même diverge grossièrement."
       },
       {
         "title": "6. Développements asymptotiques pour les séries de signe quelconque",
@@ -282,12 +286,18 @@ window.MATHS_COURSES_L2 = {
     "title": "L2-CAL : Calcul différentiel à plusieurs variables, gradient et extremums",
     "domain": "Calcul Différentiel",
     "objectives": [
+      "Connaître les notions d'ouvert, de fermé, de bord et la continuité à plusieurs variables.",
       "Définir la différentiabilité d'une fonction de plusieurs variables, le gradient et la matrice jacobienne.",
+      "Écrire le plan tangent à un graphe et la tangente à une ligne de niveau.",
       "Utiliser la règle de la chaîne pour dériver des fonctions composées.",
       "Énoncer le théorème de Schwarz avec ses hypothèses et connaître un contre-exemple.",
       "Démontrer la condition nécessaire d'extremum sur un ouvert et classer les points critiques à l'aide de la hessienne."
     ],
     "keyPoints": [
+      {
+        "title": "Préliminaires : ouverts, fermés, continuité à plusieurs variables",
+        "content": "On munit $\\mathbb{R}^n$ de la norme euclidienne $\\|\\cdot\\|$.\n• **Boule ouverte** de centre $a$ et de rayon $r > 0$ : $B(a, r) = \\{x \\in \\mathbb{R}^n : \\|x - a\\| < r\\}$.\n• **Ouvert** : $U \\subset \\mathbb{R}^n$ est ouvert si, pour tout $a \\in U$, il existe $r > 0$ tel que $B(a, r) \\subset U$. C'est ce qui permet de faire varier chaque coordonnée autour de $a$ sans quitter $U$, donc de parler de dérivées partielles.\n• **Fermé** : $F \\subset \\mathbb{R}^n$ est fermé si son complémentaire est ouvert ; de façon équivalente (admis), toute suite de points de $F$ qui converge a sa limite dans $F$.\n• **Intérieur et bord** : $\\mathring{K}$ est l'ensemble des points $a$ tels que $B(a, r) \\subset K$ pour un certain $r > 0$ ; le bord $\\partial K$ est l'ensemble des points dont toute boule rencontre à la fois $K$ et son complémentaire. Si $K$ est fermé, $K = \\mathring{K} \\cup \\partial K$.\n• **Exemple** : $\\{x^2 + y^2 \\le 1\\}$ est fermé, d'intérieur le disque ouvert $\\{x^2 + y^2 < 1\\}$ et de bord le cercle $\\{x^2 + y^2 = 1\\}$.\n• **Continuité** : $f : U \\to \\mathbb{R}$ est **continue** en $a \\in U$ si\n$$\\forall \\varepsilon > 0,\\ \\exists \\delta > 0,\\ \\forall x \\in U,\\ \\|x - a\\| < \\delta \\Rightarrow |f(x) - f(a)| < \\varepsilon.$$\nLa limite $\\lim_{x \\to a} f(x) = \\ell$ se définit de la même façon, avec $\\ell$ à la place de $f(a)$. Les sommes, produits, quotients à dénominateur non nul et composées de fonctions continues sont continus ; les fonctions polynomiales en $x_1, \\dots, x_n$ le sont donc.\n• **Montrer qu'il n'y a pas de limite** : si $f$ a des limites différentes le long de deux courbes tendant vers $a$, elle n'a pas de limite en $a$. Pour $f(x, y) = \\frac{xy}{x^2 + y^2}$ en $(0, 0)$ : $f(t, 0) = 0$ et $f(t, t) = \\frac{1}{2}$.\n• **Lien utile** (admis) : si $f$ est continue sur $\\mathbb{R}^n$, l'ensemble $\\{f < c\\}$ est ouvert, les ensembles $\\{f \\le c\\}$ et $\\{f = c\\}$ sont fermés."
+      },
       {
         "title": "1. Dérivées partielles, différentielle, gradient",
         "content": "Soit $U$ un **ouvert** de $\\mathbb{R}^n$, $f : U \\to \\mathbb{R}$ et $a \\in U$.\n• **Dérivée selon un vecteur** $v$ : $D_v f(a) = \\lim_{t \\to 0} \\frac{f(a + t v) - f(a)}{t}$ ; les **dérivées partielles** sont $\\frac{\\partial f}{\\partial x_i}(a) = D_{e_i} f(a)$.\n• **Différentiabilité** : $f$ est différentiable en $a$ s'il existe une application linéaire $df_a : \\mathbb{R}^n \\to \\mathbb{R}$ telle que $f(a + h) = f(a) + df_a(h) + o(\\|h\\|)$.\n• Si $f$ est différentiable en $a$, elle est continue en $a$, admet des dérivées selon tout vecteur et $df_a(h) = \\sum_{i=1}^n \\frac{\\partial f}{\\partial x_i}(a) h_i = \\langle \\nabla f(a), h \\rangle$.\n• **Théorème** : si les dérivées partielles existent et sont continues sur $U$ ($f$ de classe $\\mathcal{C}^1$), alors $f$ est différentiable en tout point de $U$.\n• Pour $f : U \\to \\mathbb{R}^p$, la **matrice jacobienne** est $J_f(a) = \\left(\\frac{\\partial f_i}{\\partial x_j}(a)\\right)_{1 \\le i \\le p,\\ 1 \\le j \\le n}$."
@@ -297,20 +307,28 @@ window.MATHS_COURSES_L2 = {
         "content": "• **Composition** : si $f$ est différentiable en $a$ et $g$ en $f(a)$, alors $g \\circ f$ est différentiable en $a$ et $d(g \\circ f)_a = dg_{f(a)} \\circ df_a$, soit $J_{g \\circ f}(a) = J_g(f(a))\\, J_f(a)$.\n• **Le long d'une courbe** : si $\\gamma : I \\to U$ est dérivable, $\\frac{d}{dt} f(\\gamma(t)) = \\langle \\nabla f(\\gamma(t)), \\gamma'(t) \\rangle$.\n• **Interprétation** : si $\\nabla f(a) \\neq 0$, c'est la direction de plus forte croissance de $f$ (Cauchy-Schwarz) et il est orthogonal à la ligne de niveau de $f$ passant par $a$.\n• **Exemple** : pour $g(r, \\theta) = f(r \\cos\\theta, r\\sin\\theta)$, $\\frac{\\partial g}{\\partial r} = \\cos\\theta\\, \\frac{\\partial f}{\\partial x} + \\sin\\theta\\, \\frac{\\partial f}{\\partial y}$."
       },
       {
-        "title": "3. Dérivées secondes et théorème de Schwarz",
+        "title": "3. Plan tangent et lignes de niveau",
+        "content": "Soit $f : U \\to \\mathbb{R}$ de classe $\\mathcal{C}^1$ sur un ouvert $U$ de $\\mathbb{R}^2$ et $a = (x_0, y_0) \\in U$.\n• **Plan tangent** au graphe $z = f(x, y)$ au-dessus de $a$ : c'est le graphe de l'approximation affine donnée par la différentielle,\n$$z = f(x_0, y_0) + \\frac{\\partial f}{\\partial x}(a)\\,(x - x_0) + \\frac{\\partial f}{\\partial y}(a)\\,(y - y_0).$$\n• **Ligne de niveau** $c$ : l'ensemble $L_c = \\{(x, y) \\in U : f(x, y) = c\\}$.\n• **Orthogonalité** : si $\\gamma$ est une courbe dérivable tracée sur $L_c$ avec $\\gamma(t_0) = a$, alors $f(\\gamma(t)) = c$ et la règle de la chaîne donne $\\langle \\nabla f(a), \\gamma'(t_0) \\rangle = 0$.\n• **Tangente à une ligne de niveau** : si $\\nabla f(a) \\neq 0$, $L_c$ est près de $a$ une courbe régulière (admis) et sa tangente en $a$ est orthogonale au gradient :\n$$\\frac{\\partial f}{\\partial x}(a)\\,(x - x_0) + \\frac{\\partial f}{\\partial y}(a)\\,(y - y_0) = 0.$$\n• **Exemple** : $f(x, y) = x^2 + y^2$ en $a = (3, 4)$, avec $\\nabla f(a) = (6, 8)$. Le plan tangent est $z = 25 + 6(x - 3) + 8(y - 4)$, soit $z = 6x + 8y - 25$. La ligne de niveau $25$ est le cercle de centre $O$ et de rayon $5$, de tangente $6(x - 3) + 8(y - 4) = 0$, soit $3x + 4y = 25$."
+      },
+      {
+        "title": "4. Dérivées secondes et théorème de Schwarz",
         "content": "• **Théorème de Schwarz** : si $f$ est de **classe $\\mathcal{C}^2$** sur l'ouvert $U$, alors pour tous $i, j$ : $\\frac{\\partial^2 f}{\\partial x_i \\partial x_j} = \\frac{\\partial^2 f}{\\partial x_j \\partial x_i}$ sur $U$.\n• **L'hypothèse $\\mathcal{C}^2$ est utile** : pour $f(x, y) = \\frac{xy(x^2 - y^2)}{x^2 + y^2}$ et $f(0, 0) = 0$, on a $\\frac{\\partial f}{\\partial x}(0, y) = -y$ et $\\frac{\\partial f}{\\partial y}(x, 0) = x$, donc les dérivées croisées en $(0, 0)$ valent $-1$ et $1$.\n• **Hessienne** de $f \\in \\mathcal{C}^2(U, \\mathbb{R})$ : $H_f(a) = \\left(\\frac{\\partial^2 f}{\\partial x_i \\partial x_j}(a)\\right)_{i, j}$, **symétrique réelle** d'après Schwarz.\n• **Taylor-Young à l'ordre 2** :\n$$f(a + h) = f(a) + \\langle \\nabla f(a), h \\rangle + \\frac{1}{2}\\, {}^t h\\, H_f(a)\\, h + o(\\|h\\|^2).$$"
       },
       {
-        "title": "4. Démonstration : condition nécessaire et condition suffisante d'extremum local",
+        "title": "5. Démonstration : condition nécessaire et condition suffisante d'extremum local",
         "content": "**Théorème 1.** Si $f : U \\to \\mathbb{R}$, $U$ **ouvert**, est différentiable en $a$ et admet un extremum local en $a$, alors $\\nabla f(a) = 0$.\n**Démonstration.**\n1. Supposons un maximum local (l'autre cas s'en déduit avec $-f$). Comme $U$ est ouvert, il existe $r > 0$ tel que $g_i(t) = f(a + t e_i)$ soit défini sur $]-r ; r[$ et vérifie $g_i(t) \\le g_i(0)$ pour $|t|$ assez petit.\n2. $g_i$ est dérivable en $0$ avec $g_i'(0) = \\frac{\\partial f}{\\partial x_i}(a)$.\n3. Pour $t > 0$ petit, $\\frac{g_i(t) - g_i(0)}{t} \\le 0$, donc $g_i'(0) \\le 0$ ; pour $t < 0$, ce quotient est $\\ge 0$, donc $g_i'(0) \\ge 0$.\n4. Ainsi $\\frac{\\partial f}{\\partial x_i}(a) = 0$ pour tout $i$, c'est-à-dire $\\nabla f(a) = 0$.\n**Théorème 2.** Si $f$ est de classe $\\mathcal{C}^2$ sur $U$, $\\nabla f(a) = 0$ et $H_f(a)$ a toutes ses valeurs propres **strictement positives**, alors $f$ admet un minimum local strict en $a$.\n**Démonstration.**\n1. Notons $\\lambda > 0$ la plus petite valeur propre de $H_f(a)$. Par le théorème spectral, ${}^t h\\, H_f(a)\\, h \\ge \\lambda \\|h\\|^2$ pour tout $h$.\n2. Taylor-Young : $f(a + h) - f(a) = \\frac{1}{2} {}^t h\\, H_f(a)\\, h + \\|h\\|^2 \\varepsilon(h)$ avec $\\varepsilon(h) \\to 0$.\n3. Choisissons $r > 0$ tel que $|\\varepsilon(h)| \\le \\frac{\\lambda}{4}$ pour $\\|h\\| < r$. Alors $f(a + h) - f(a) \\ge \\frac{\\lambda}{4}\\|h\\|^2 > 0$ pour $0 < \\|h\\| < r$.\nDe même, si $f$ a un minimum local en $a$, alors $H_f(a)$ est positive (valeurs propres $\\ge 0$)."
       },
       {
-        "title": "5. Classification des points critiques",
+        "title": "6. Classification des points critiques",
         "content": "Soit $f$ de classe $\\mathcal{C}^2$ sur l'ouvert $U$ et $a$ un **point critique** ($\\nabla f(a) = 0$).\n• Valeurs propres de $H_f(a)$ toutes $> 0$ : minimum local strict. Toutes $< 0$ : maximum local strict. Deux valeurs propres de signes **strictement opposés** : **point col** (pas d'extremum). Une valeur propre nulle sans signes opposés : cas **douteux**.\n• **En dimension 2**, avec les notations de Monge $r = \\frac{\\partial^2 f}{\\partial x^2}(a)$, $s = \\frac{\\partial^2 f}{\\partial x \\partial y}(a)$, $t = \\frac{\\partial^2 f}{\\partial y^2}(a)$ : $rt - s^2 = \\det H_f(a)$ est le produit des valeurs propres et $r + t$ leur somme.\n1. $rt - s^2 > 0$ et $r > 0$ : minimum local strict ;\n2. $rt - s^2 > 0$ et $r < 0$ : maximum local strict ;\n3. $rt - s^2 < 0$ : point col ;\n4. $rt - s^2 = 0$ : on ne peut pas conclure à l'ordre 2 ($x^4 + y^4$, $-x^4 - y^4$ et $x^4 - y^4$ ont tous une hessienne nulle en $(0, 0)$)."
       },
       {
-        "title": "6. Extremums globaux sur un compact",
+        "title": "7. Extremums globaux sur un compact",
         "content": "• Une fonction **continue** sur une partie **fermée bornée** (compacte) $K$ de $\\mathbb{R}^n$ est bornée et atteint ses bornes.\n• **Stratégie** : écrire $K = \\mathring{K} \\cup \\partial K$. Un extremum atteint dans l'intérieur $\\mathring{K}$ (ouvert) est un point critique ; sur le bord $\\partial K$, on paramètre le bord et on se ramène à une fonction d'une variable.\n• On compare ensuite les valeurs obtenues aux points critiques intérieurs et sur le bord."
+      },
+      {
+        "title": "8. Extremums sous contrainte : multiplicateur de Lagrange",
+        "content": "Soient $f, g : U \\to \\mathbb{R}$ de classe $\\mathcal{C}^1$ sur un ouvert $U$ de $\\mathbb{R}^2$, $c \\in \\mathbb{R}$ et $\\Gamma = \\{(x, y) \\in U : g(x, y) = c\\}$.\n• **Théorème** (admis) : si la restriction de $f$ à $\\Gamma$ admet un extremum local en $a$ et si $\\nabla g(a) \\neq 0$, il existe un réel $\\lambda$, appelé **multiplicateur de Lagrange**, tel que $\\nabla f(a) = \\lambda \\nabla g(a)$.\n• **Idée** : pour une courbe $\\gamma$ tracée sur $\\Gamma$ avec $\\gamma(t_0) = a$, la fonction $t \\mapsto f(\\gamma(t))$ a un extremum local en $t_0$, donc $\\langle \\nabla f(a), \\gamma'(t_0) \\rangle = 0$ : $\\nabla f(a)$ est orthogonal à la tangente à $\\Gamma$, comme $\\nabla g(a)$ (paragraphe 3). Ils sont donc colinéaires.\n• **Usage** : la condition est **nécessaire**, pas suffisante. On résout le système $\\nabla f = \\lambda \\nabla g$, $g = c$, puis on justifie l'existence de l'extremum (compacité, ou comportement à l'infini) et on compare les valeurs.\n• **Contrainte affine** : on peut aussi substituer et se ramener à une fonction d'une variable (méthode 4). Le cas général, avec plusieurs contraintes, est démontré en L3 avec le théorème des extrema liés."
       }
     ],
     "methods": [
@@ -334,6 +352,26 @@ window.MATHS_COURSES_L2 = {
           "**Bord** : pour $(\\cos\\theta, \\sin\\theta)$, $f = 1 + \\sin^2\\theta - \\cos\\theta = 2 - c^2 - c$ avec $c = \\cos\\theta \\in [-1 ; 1]$. La fonction $c \\mapsto 2 - c^2 - c$ est maximale en $c = -\\frac{1}{2}$ (valeur $\\frac{9}{4}$) et minimale en $c = 1$ (valeur $0$).",
           "**Conclusion** : $\\min_D f = -\\frac{1}{4}$, atteint en $\\left(\\frac{1}{2}, 0\\right)$ ; $\\max_D f = \\frac{9}{4}$, atteint en $\\left(-\\frac{1}{2}, \\pm\\frac{\\sqrt{3}}{2}\\right)$, points où le gradient $(-2, \\pm 2\\sqrt{3})$ n'est pas nul."
         ]
+      },
+      {
+        "title": "Méthode : Plan tangent et tangente à une ligne de niveau",
+        "example": "Soit $f(x, y) = x^2 + xy - y^2$. Donner le plan tangent au graphe au-dessus de $a = (1, 2)$ et la tangente en $a$ à la ligne de niveau de $f$ passant par $a$.",
+        "steps": [
+          "**Gradient** : $\\frac{\\partial f}{\\partial x} = 2x + y$, $\\frac{\\partial f}{\\partial y} = x - 2y$, donc $\\nabla f(1, 2) = (4, -3)$, non nul. Valeur : $f(1, 2) = 1 + 2 - 4 = -1$.",
+          "**Plan tangent** : $z = -1 + 4(x - 1) - 3(y - 2)$, soit $z = 4x - 3y + 1$.",
+          "**Ligne de niveau** : celle de niveau $-1$ passe par $a$. Sa tangente est orthogonale au gradient : $4(x - 1) - 3(y - 2) = 0$, soit $4x - 3y + 2 = 0$.",
+          "**Pente** : $\\frac{4}{3}$, qui vaut bien $-\\frac{\\partial_x f(a)}{\\partial_y f(a)}$."
+        ]
+      },
+      {
+        "title": "Méthode : Minimum sous contrainte par Lagrange et par substitution",
+        "example": "Déterminer le minimum de $f(x, y) = x^2 + y^2$ sous la contrainte $x + 2y = 5$.",
+        "steps": [
+          "**Condition de Lagrange** : avec $g(x, y) = x + 2y$, $\\nabla g = (1, 2) \\neq 0$. La condition $(2x, 2y) = \\lambda (1, 2)$ donne $y = 2x$.",
+          "**Contrainte** : $x + 4x = 5$, donc $(x, y) = (1, 2)$, l'unique candidat, et $f(1, 2) = 5$.",
+          "**Existence** : $x^2 + y^2 \\to +\\infty$ quand on s'éloigne sur la droite, donc le minimum est atteint, forcément en ce candidat. Il vaut $5$.",
+          "**Vérification par substitution** : $x = 5 - 2y$ donne $(5 - 2y)^2 + y^2 = 5y^2 - 20y + 25$, minimal en $y = 2$, de valeur $5$."
+        ]
       }
     ],
     "traps": [
@@ -341,7 +379,9 @@ window.MATHS_COURSES_L2 = {
       "$\\nabla f(a) = 0$ est nécessaire mais pas suffisant : $f(x, y) = x^2 - y^2$ a un point critique en $(0, 0)$ qui est un point col.",
       "La condition $\\nabla f(a) = 0$ ne vaut qu'en un point **intérieur** : sur un domaine fermé, un extremum peut être atteint au bord avec un gradient non nul (méthode 2).",
       "Si $rt - s^2 = 0$, le test d'ordre 2 ne conclut pas : $x^4 + y^4$ (minimum) et $x^4 - y^4$ (col) ont la même hessienne nulle en $(0, 0)$.",
-      "Un minimum local n'est pas forcément global, même s'il est l'unique extremum local (méthode 1)."
+      "Un minimum local n'est pas forcément global, même s'il est l'unique extremum local (méthode 1).",
+      "Le plan tangent $z = f(a) + \\ldots$ et la tangente à une ligne de niveau $\\partial_x f(a)(x - x_0) + \\partial_y f(a)(y - y_0) = 0$ sont deux objets différents : le premier est dans l'espace, la seconde dans le plan.",
+      "La condition de Lagrange est seulement nécessaire et suppose $\\nabla g(a) \\neq 0$ : il reste à justifier l'existence de l'extremum."
     ],
     "flashcards": [
       {
@@ -367,6 +407,22 @@ window.MATHS_COURSES_L2 = {
       {
         "q": "Une fonction de classe $\\mathcal{C}^1$ sur un ouvert est-elle différentiable ?",
         "a": "Oui, en tout point de l'ouvert ; la réciproque est fausse."
+      },
+      {
+        "q": "Quand dit-on qu'une partie $U$ de $\\mathbb{R}^n$ est ouverte ?",
+        "a": "Si, pour tout $a \\in U$, il existe $r > 0$ tel que la boule ouverte $B(a, r)$ soit contenue dans $U$."
+      },
+      {
+        "q": "Équation du plan tangent au graphe de $f$ au-dessus de $(x_0, y_0)$ ?",
+        "a": "$z = f(x_0, y_0) + \\partial_x f(x_0, y_0)(x - x_0) + \\partial_y f(x_0, y_0)(y - y_0)$."
+      },
+      {
+        "q": "Quelle est la position du gradient par rapport à une ligne de niveau ?",
+        "a": "Si $\\nabla f(a) \\neq 0$, il est orthogonal à la tangente en $a$ à la ligne de niveau passant par $a$."
+      },
+      {
+        "q": "Que dit la condition de Lagrange ?",
+        "a": "Si $f$ restreinte à $\\{g = c\\}$ a un extremum local en $a$ et si $\\nabla g(a) \\neq 0$, alors $\\nabla f(a) = \\lambda \\nabla g(a)$ pour un réel $\\lambda$."
       }
     ]
   },
@@ -492,7 +548,7 @@ window.MATHS_COURSES_L2 = {
       },
       {
         "title": "6. Sous-espaces caractéristiques et décomposition de Dunford",
-        "content": "On suppose $\\chi_u = \\prod_{i=1}^p (X - \\lambda_i)^{m_i}$ scindé, les $\\lambda_i$ étant distincts.\n• **Sous-espaces caractéristiques** : $N_i = \\text{Ker}(u - \\lambda_i\\,\\text{Id})^{m_i}$. Par Cayley-Hamilton et le lemme des noyaux, $E = \\bigoplus_{i=1}^p N_i$, chaque $N_i$ est stable par $u$ et $\\dim N_i = m_i$.\n• **Décomposition de Dunford** : il existe un **unique** couple $(d, n)$ d'endomorphismes tel que $u = d + n$, $d$ diagonalisable, $n$ nilpotent et $d \\circ n = n \\circ d$. De plus, $d$ et $n$ sont des polynômes en $u$ ; $d$ agit sur $N_i$ comme $\\lambda_i\\,\\text{Id}$.\n• **Usage** : $u^k = \\sum_{j=0}^{k} \\binom{k}{j} d^{k-j} n^j$, somme qui s'arrête à $j = r - 1$ si $n^r = 0$ ; de même $e^{u} = e^{d} e^{n}$."
+        "content": "On suppose $\\chi_u = \\prod_{i=1}^p (X - \\lambda_i)^{m_i}$ scindé, les $\\lambda_i$ étant distincts.\n• **Sous-espaces caractéristiques** : $N_i = \\text{Ker}(u - \\lambda_i\\,\\text{Id})^{m_i}$. Par Cayley-Hamilton et le lemme des noyaux, $E = \\bigoplus_{i=1}^p N_i$, chaque $N_i$ est stable par $u$ et $\\dim N_i = m_i$.\n• **Décomposition de Dunford** : il existe un **unique** couple $(d, n)$ d'endomorphismes tel que $u = d + n$, $d$ diagonalisable, $n$ nilpotent et $d \\circ n = n \\circ d$. De plus, $d$ et $n$ sont des polynômes en $u$ ; $d$ agit sur $N_i$ comme $\\lambda_i\\,\\text{Id}$.\n• **Exponentielle** : pour $A \\in \\mathcal{M}_n(\\mathbb{K})$, on pose $\\exp(A) = e^A = \\sum_{k=0}^{+\\infty} \\frac{A^k}{k!}$ (série absolument convergente, étudiée au § 5 du cours sur les équations différentielles, L2-EDO), et de même pour un endomorphisme. Si $N^r = 0$, la somme s'arrête à $k = r - 1$ ; si $A$ et $B$ commutent, $\\exp(A + B) = \\exp(A)\\exp(B)$.\n• **Usage** : $u^k = \\sum_{j=0}^{k} \\binom{k}{j} d^{k-j} n^j$, somme qui s'arrête à $j = r - 1$ si $n^r = 0$ ; de même $e^{u} = e^{d} e^{n}$, car $d$ et $n$ commutent, et $e^{n}$ est une somme finie."
       }
     ],
     "methods": [
@@ -649,7 +705,8 @@ window.MATHS_COURSES_L2 = {
       "Définir l'adjoint d'un endomorphisme d'un espace euclidien et sa matrice en base orthonormée.",
       "Établir les propriétés spectrales des endomorphismes symétriques (valeurs propres réelles, sous-espaces propres orthogonaux).",
       "Énoncer et démontrer le théorème spectral.",
-      "Étudier le groupe orthogonal $O(E)$ et classer les isométries du plan et de l'espace."
+      "Étudier le groupe orthogonal $O(E)$ et classer les isométries du plan et de l'espace.",
+      "Réduire une forme quadratique par la méthode de Gauss, déterminer sa signature et utiliser le critère de Sylvester."
     ],
     "keyPoints": [
       {
@@ -674,10 +731,25 @@ window.MATHS_COURSES_L2 = {
       },
       {
         "title": "6. Isométries du plan et de l'espace",
-        "content": "• **Plan** : les éléments de $SO_2(\\mathbb{R})$ sont les $R_\\theta = \\begin{pmatrix} \\cos\\theta & -\\sin\\theta \\\\ \\sin\\theta & \\cos\\theta \\end{pmatrix}$ (et $R_\\theta R_{\\theta'} = R_{\\theta + \\theta'}$, donc $SO_2(\\mathbb{R})$ est commutatif) ; ceux de $O_2(\\mathbb{R}) \\setminus SO_2(\\mathbb{R})$ sont les $\\begin{pmatrix} \\cos\\theta & \\sin\\theta \\\\ \\sin\\theta & -\\cos\\theta \\end{pmatrix}$, réflexions d'axe dirigé par $\\left(\\cos\\frac{\\theta}{2}, \\sin\\frac{\\theta}{2}\\right)$.\n• **Espace** : tout $u \\in SO_3(\\mathbb{R})$ distinct de l'identité est une rotation d'axe $\\text{Ker}(u - \\text{Id})$, une droite ; son angle $\\theta$ vérifie $\\text{tr}(u) = 1 + 2\\cos\\theta$. Le signe de $\\sin\\theta$, l'axe étant orienté par $w$, est celui de $\\det(x, u(x), w)$ pour $x \\notin \\mathbb{R}w$."
+        "content": "• **Plan** : les éléments de $SO_2(\\mathbb{R})$ sont les $R_\\theta = \\begin{pmatrix} \\cos\\theta & -\\sin\\theta \\\\ \\sin\\theta & \\cos\\theta \\end{pmatrix}$ (et $R_\\theta R_{\\theta'} = R_{\\theta + \\theta'}$, donc $SO_2(\\mathbb{R})$ est commutatif) ; ceux de $O_2(\\mathbb{R}) \\setminus SO_2(\\mathbb{R})$ sont les $\\begin{pmatrix} \\cos\\theta & \\sin\\theta \\\\ \\sin\\theta & -\\cos\\theta \\end{pmatrix}$, réflexions d'axe dirigé par $\\left(\\cos\\frac{\\theta}{2}, \\sin\\frac{\\theta}{2}\\right)$.\n• **Espace** : tout $u \\in SO_3(\\mathbb{R})$ distinct de l'identité est une rotation d'axe $\\text{Ker}(u - \\text{Id})$, une droite ; son angle $\\theta$ vérifie $\\text{tr}(u) = 1 + 2\\cos\\theta$. Le signe de $\\sin\\theta$, l'axe étant orienté par $w$, est celui de $\\det(x, u(x), w)$ pour $x \\notin \\mathbb{R}w$.\n• **Espace, cas $\\det u = -1$** : $\\det(u + \\text{Id}) = \\det\\left(u \\circ (\\text{Id} + u^{\\ast})\\right) = \\det u \\cdot \\det(\\text{Id} + u) = -\\det(u + \\text{Id})$, donc $\\det(u + \\text{Id}) = 0$ : il existe $w$ unitaire avec $u(w) = -w$. Le plan $P = w^\\perp$ est stable par $u$, et $u_{|P}$ est une isométrie de déterminant $1$, donc une rotation d'angle $\\theta$. Dans une base orthonormée directe $(e_1, e_2, w)$, la matrice de $u$ est donc\n$$\\begin{pmatrix} \\cos\\theta & -\\sin\\theta & 0 \\\\ \\sin\\theta & \\cos\\theta & 0 \\\\ 0 & 0 & -1 \\end{pmatrix}, \\qquad \\text{tr}(u) = 2\\cos\\theta - 1.$$\nAinsi $u$ est la composée, commutative, de la rotation d'axe $\\mathbb{R}w$ et d'angle $\\theta$ et de la réflexion par rapport au plan $w^\\perp$ ; de façon équivalente, $u = -r$ avec $r = -u \\in SO_3(\\mathbb{R})$.\n• **Classification de $O_3(\\mathbb{R}) \\setminus SO_3(\\mathbb{R})$** : si $\\text{tr}(u) = 1$ ($\\theta = 0$), $u$ est la **réflexion** par rapport au plan $\\text{Ker}(u - \\text{Id}) = w^\\perp$ ; si $\\text{tr}(u) = -3$ ($\\theta = \\pi$), $u = -\\text{Id}$ ; sinon, $u$ est une **antirotation** d'axe $\\text{Ker}(u + \\text{Id}) = \\mathbb{R}w$, avec $\\cos\\theta = \\frac{\\text{tr}(u) + 1}{2}$, et le signe de $\\sin\\theta$, l'axe étant orienté par $w$, est encore celui de $\\det(x, u(x), w)$ pour $x \\notin \\mathbb{R}w$."
+      },
+      {
+        "title": "7. Formes quadratiques : réduction de Gauss, signature, critère de Sylvester",
+        "content": "Soit $E$ un $\\mathbb{R}$-espace vectoriel de dimension finie $n$.\n• **Forme quadratique** : $q : E \\to \\mathbb{R}$ est une forme quadratique s'il existe une forme bilinéaire symétrique $\\varphi$ telle que $q(x) = \\varphi(x, x)$ pour tout $x$. Cette forme $\\varphi$, appelée **forme polaire** de $q$, est unique : $\\varphi(x, y) = \\frac{1}{2}\\left(q(x + y) - q(x) - q(y)\\right)$.\n• **Matrice** : dans une base $\\mathcal{B} = (e_1, \\dots, e_n)$, $q(x) = {}^tX A X$ avec $A = (\\varphi(e_i, e_j))_{i,j}$ symétrique. Pour $q(x, y) = ax^2 + 2bxy + cy^2$, on a $A = \\begin{pmatrix} a & b \\\\ b & c \\end{pmatrix}$ : le coefficient du terme croisé se partage en deux. Si $P$ est la matrice de passage vers une autre base, la matrice de $q$ y devient ${}^tP A P$ (relation de **congruence**, et non de similitude). Le **rang** de $q$ est celui de $A$.\n• **Réduction de Gauss** : toute forme quadratique s'écrit $q = \\sum_{i=1}^r \\alpha_i \\ell_i^2$, où les $\\alpha_i$ sont des réels non nuls et $\\ell_1, \\dots, \\ell_r$ des formes linéaires **linéairement indépendantes** ; on a alors $r = \\text{rg}(q)$. Algorithme :\n  – s'il y a un terme carré $a x_1^2$ ($a \\neq 0$), on regroupe tous les termes contenant $x_1$ sous la forme $a x_1^2 + x_1 B$, où $B$ est une forme linéaire en les autres variables, et l'on complète le carré : $a x_1^2 + x_1 B = a\\left(x_1 + \\frac{B}{2a}\\right)^2 - \\frac{B^2}{4a}$ ; on recommence avec le reste, qui ne contient plus $x_1$ ;\n  – s'il n'y a aucun terme carré mais un terme $a x_1 x_2$ ($a \\neq 0$), on écrit $q = a x_1 x_2 + x_1 B + x_2 C + D$, où $B$, $C$, $D$ ne contiennent ni $x_1$ ni $x_2$, puis $q = a\\left(x_1 + \\frac{C}{a}\\right)\\left(x_2 + \\frac{B}{a}\\right) + D - \\frac{BC}{a}$ et $uv = \\frac{1}{4}\\left((u + v)^2 - (u - v)^2\\right)$.\n• **Loi d'inertie de Sylvester** : dans toute décomposition de Gauss, le nombre $s$ de coefficients $\\alpha_i > 0$ et le nombre $t$ de coefficients $\\alpha_i < 0$ sont les mêmes. Le couple $(s, t)$ est la **signature** de $q$, et $s + t = \\text{rg}(q)$.\n• **Lien avec le théorème spectral** : en écrivant $A = P D\\, {}^tP$ avec $P$ orthogonale et $X = PY$, on obtient $q(x) = \\sum_i \\lambda_i y_i^2$. Donc $s$ est le nombre de valeurs propres strictement positives de $A$ et $t$ celui des valeurs propres strictement négatives, comptées avec leur multiplicité.\n• **Positivité** : $q$ est positive si et seulement si $t = 0$, et définie positive si et seulement si $(s, t) = (n, 0)$ ; de même, $q$ est négative si et seulement si $s = 0$, et définie négative si et seulement si $(s, t) = (0, n)$. On dit que $q$ est **non dégénérée** si $\\text{rg}(q) = n$, c'est-à-dire $\\det A \\neq 0$ : une forme non dégénérée qui n'est ni définie positive ni définie négative prend des valeurs strictement positives et strictement négatives (elle n'est ni positive ni négative).\n• **Critère de Sylvester** : $A \\in \\mathcal{S}_n(\\mathbb{R})$ est définie positive si et seulement si ses mineurs principaux dominants $\\Delta_k = \\det(a_{ij})_{1 \\le i, j \\le k}$, $1 \\le k \\le n$, sont tous strictement positifs. En l'appliquant à $-A$, dont le mineur d'ordre $k$ vaut $(-1)^k \\Delta_k$ : $A$ est définie négative si et seulement si $(-1)^k \\Delta_k > 0$ pour tout $k$, c'est-à-dire si les $\\Delta_k$ alternent de signe en commençant par $\\Delta_1 < 0$. En dimension $2$ : $ax^2 + 2bxy + cy^2$ est définie positive si et seulement si $a > 0$ et $ac - b^2 > 0$."
       }
     ],
     "methods": [
+      {
+        "title": "Méthode : Réduire une forme quadratique par la méthode de Gauss",
+        "example": "Réduire $q(x, y, z) = x^2 + 3y^2 + z^2 + 4xy - 2xz + 2yz$ et donner sa signature.",
+        "steps": [
+          "**Termes en $x$** : $x^2 + x(4y - 2z) = (x + 2y - z)^2 - (2y - z)^2 = (x + 2y - z)^2 - 4y^2 + 4yz - z^2$.",
+          "**Reste** : $3y^2 + z^2 + 2yz - 4y^2 + 4yz - z^2 = -y^2 + 6yz$, qui ne contient plus $x$.",
+          "**Termes en $y$** : $-y^2 + 6yz = -(y^2 - 6yz) = -(y - 3z)^2 + 9z^2$.",
+          "**Décomposition** : $q = (x + 2y - z)^2 - (y - 3z)^2 + 9z^2$. Les formes $x + 2y - z$, $y - 3z$ et $z$ sont indépendantes (système triangulaire).",
+          "**Conclusion** : la signature est $(2, 1)$ et le rang $3$. La forme n'est pas positive : $q(-2, 1, 0) = 4 + 3 - 8 = -1$. Contrôle par le critère de Sylvester : $\\Delta_1 = 1$ et $\\Delta_2 = \\begin{vmatrix} 1 & 2 \\\\ 2 & 3 \\end{vmatrix} = -1 < 0$, donc $q$ n'est pas définie positive."
+        ]
+      },
       {
         "title": "Méthode : Diagonaliser une matrice symétrique en base orthonormée",
         "example": "Diagonaliser dans une base orthonormée $A = \\begin{pmatrix} 0 & 2 \\\\ 2 & 3 \\end{pmatrix}$.",
@@ -697,6 +769,17 @@ window.MATHS_COURSES_L2 = {
           "**Angle** : $\\text{tr}(A) = 2 = 1 + 2\\cos\\theta$, donc $\\cos\\theta = \\frac{1}{2}$.",
           "**Signe** : avec $x = (1, -1, 0)$, $Ax = (1, 0, -1)$ et $\\det(x, Ax, w) = 3 > 0$ : $A$ est la rotation d'axe dirigé et orienté par $(1, 1, 1)$ et d'angle $\\frac{\\pi}{3}$."
         ]
+      },
+      {
+        "title": "Méthode : Reconnaître une isométrie de déterminant $-1$ de l'espace",
+        "example": "Étudier $A = \\frac{1}{3}\\begin{pmatrix} -2 & 1 & -2 \\\\ -2 & -2 & 1 \\\\ 1 & -2 & -2 \\end{pmatrix}$.",
+        "steps": [
+          "**Orthogonalité** : les colonnes $\\frac{1}{3}(-2, -2, 1)$, $\\frac{1}{3}(1, -2, -2)$, $\\frac{1}{3}(-2, 1, -2)$ sont unitaires et deux à deux orthogonales, donc $A \\in O_3(\\mathbb{R})$ ; on calcule $\\det A = -1$.",
+          "**Nature** : $\\text{tr}(A) = -2$, différent de $1$ et de $-3$ : $A$ n'est ni une réflexion ni $-I_3$, c'est une antirotation.",
+          "**Axe** : chaque ligne de $A$ a pour somme $-1$, donc $Aw = -w$ pour $w = (1, 1, 1)$, qui dirige l'axe $\\text{Ker}(A + I_3)$.",
+          "**Angle** : $\\text{tr}(A) = -2 = 2\\cos\\theta - 1$, donc $\\cos\\theta = -\\frac{1}{2}$.",
+          "**Signe** : avec $x = (1, -1, 0)$, $Ax = (-1, 0, 1)$ et $\\det(x, Ax, w) = -3 < 0$, donc $\\sin\\theta < 0$ : $A$ est la composée de la rotation d'axe orienté par $(1, 1, 1)$ et d'angle $-\\frac{2\\pi}{3}$ et de la réflexion par rapport au plan $x + y + z = 0$."
+        ]
       }
     ],
     "traps": [
@@ -704,6 +787,9 @@ window.MATHS_COURSES_L2 = {
       "Pour que $P^{-1} = {}^t P$, les colonnes de $P$ doivent être orthogonales **et normées**.",
       "La matrice de l'adjoint n'est la transposée que dans une base **orthonormée**.",
       "Une matrice réelle diagonalisable à valeurs propres réelles n'est pas forcément symétrique ($\\begin{pmatrix} 1 & 1 \\\\ 0 & 2 \\end{pmatrix}$) : elle n'est alors pas diagonalisable en base orthonormée.",
+      "En dimension 3, vérifier le signe du déterminant avant d'utiliser la trace : une réflexion par rapport à un plan a pour trace $1$, comme une rotation d'angle $\\frac{\\pi}{2}$ ; la formule d'une isométrie de déterminant $-1$ est $\\text{tr}(u) = 2\\cos\\theta - 1$.",
+      "Une écriture $q = \\sum \\alpha_i \\ell_i^2$ ne donne la signature que si les formes $\\ell_i$ sont linéairement indépendantes : $x^2 + y^2 - (x + y)^2 = -2xy$ a pour signature $(1, 1)$, et non $(2, 1)$.",
+      "Des mineurs principaux dominants positifs ou nuls ne prouvent pas la positivité : pour $\\text{diag}(0, -1)$, $\\Delta_1 = \\Delta_2 = 0$, mais la forme $-y^2$ n'est pas positive.",
       "$\\det u = 1$ ne suffit pas pour être une isométrie : $\\text{diag}\\left(2, \\frac{1}{2}\\right)$ a pour déterminant $1$ mais ne conserve pas la norme."
     ],
     "flashcards": [
@@ -728,6 +814,10 @@ window.MATHS_COURSES_L2 = {
         "a": "${}^t M M = I_n$ ; ses colonnes forment une base orthonormée ; elle conserve la norme euclidienne."
       },
       {
+        "q": "Comment reconnaître une isométrie $u$ de déterminant $-1$ en dimension 3 ?",
+        "a": "$u$ s'écrit réflexion par rapport à $w^\\perp$ composée d'une rotation d'axe $\\mathbb{R}w$ et d'angle $\\theta$ ; $\\text{tr}(u) = 2\\cos\\theta - 1$. Trace $1$ : réflexion ; trace $-3$ : $-\\text{Id}$ ; sinon antirotation d'axe $\\text{Ker}(u + \\text{Id})$."
+      },
+      {
         "q": "Comment obtient-on l'angle d'une rotation de $SO_3(\\mathbb{R})$ ?",
         "a": "$\\text{tr}(A) = 1 + 2\\cos\\theta$ ; le signe de $\\sin\\theta$ est celui de $\\det(x, Ax, w)$, où $w$ oriente l'axe."
       }
@@ -745,15 +835,15 @@ window.MATHS_COURSES_L2 = {
     "keyPoints": [
       {
         "title": "1. Fonctions en escalier et fonctions réglées",
-        "content": "Soit $[a ; b]$ un segment ($a < b$).\n• $\\varphi : [a ; b] \\to \\mathbb{R}$ est **en escalier** s'il existe une subdivision $a = x_0 < x_1 < \\dots < x_n = b$ telle que $\\varphi$ soit constante sur chaque $]x_{i-1} ; x_i[$.\n• $f$ est **réglée** si elle est limite uniforme d'une suite de fonctions en escalier : pour tout $\\varepsilon > 0$, il existe $\\varphi$ en escalier avec $\\|f - \\varphi\\|_\\infty \\le \\varepsilon$.\n• **Caractérisation** : $f$ est réglée si et seulement si elle admet une limite finie à droite en tout point de $[a ; b[$ et une limite finie à gauche en tout point de $]a ; b]$.\n• **Exemples** : les fonctions continues (par uniforme continuité, théorème de Heine), monotones, continues par morceaux sont réglées. L'indicatrice de $\\mathbb{Q} \\cap [0 ; 1]$ n'est pas réglée (elle n'a de limite à droite en aucun point)."
+        "content": "Soit $[a ; b]$ un segment ($a < b$).\n• $\\varphi : [a ; b] \\to \\mathbb{R}$ est **en escalier** s'il existe une subdivision $a = x_0 < x_1 < \\dots < x_n = b$ telle que $\\varphi$ soit constante sur chaque $]x_{i-1} ; x_i[$.\n• $f$ est **réglée** si elle est limite uniforme d'une suite de fonctions en escalier : pour tout $\\varepsilon > 0$, il existe $\\varphi$ en escalier avec $\\|f - \\varphi\\|_\\infty \\le \\varepsilon$.\n• **Caractérisation** : $f$ est réglée si et seulement si elle admet une limite finie à droite en tout point de $[a ; b[$ et une limite finie à gauche en tout point de $]a ; b]$.\n• **Exemples** : les fonctions continues (par uniforme continuité, théorème de Heine), monotones, continues par morceaux sont réglées. L'indicatrice de $\\mathbb{Q} \\cap [0 ; 1]$ n'est pas réglée (elle n'a de limite à droite en aucun point).\n• **Point de vue topologique** : dans l'espace $\\mathcal{B}([a ; b], \\mathbb{R})$ des fonctions bornées sur $[a ; b]$, muni de la norme uniforme $\\|\\cdot\\|_\\infty$, l'ensemble des fonctions réglées est l'**adhérence** de l'ensemble des fonctions en escalier : une fonction bornée est réglée si et seulement si elle est limite uniforme d'une suite de fonctions en escalier."
       },
       {
         "title": "2. Construction de l'intégrale",
-        "content": "• Pour $\\varphi$ en escalier valant $c_i$ sur $]x_{i-1} ; x_i[$ : $\\int_a^b \\varphi = \\sum_{i=1}^n c_i (x_i - x_{i-1})$. Cette valeur ne dépend pas de la subdivision adaptée choisie, ni des valeurs de $\\varphi$ aux points $x_i$.\n• L'application $\\varphi \\mapsto \\int_a^b \\varphi$ est linéaire et vérifie $\\left|\\int_a^b \\varphi\\right| \\le (b - a)\\|\\varphi\\|_\\infty$.\n• Si $f$ est réglée et $(\\varphi_n)$ en escalier converge uniformément vers $f$, la suite $\\left(\\int_a^b \\varphi_n\\right)$ est de Cauchy, donc converge ; sa limite ne dépend pas de la suite choisie. On la note $\\int_a^b f$.\n• On obtient une forme linéaire sur l'espace des fonctions réglées, vérifiant encore $\\left|\\int_a^b f\\right| \\le (b - a)\\|f\\|_\\infty$."
+        "content": "• Pour $\\varphi$ en escalier valant $c_i$ sur $]x_{i-1} ; x_i[$ : $\\int_a^b \\varphi = \\sum_{i=1}^n c_i (x_i - x_{i-1})$. Cette valeur ne dépend pas de la subdivision adaptée choisie, ni des valeurs de $\\varphi$ aux points $x_i$.\n• L'application $\\varphi \\mapsto \\int_a^b \\varphi$ est linéaire et vérifie $\\left|\\int_a^b \\varphi\\right| \\le (b - a)\\|\\varphi\\|_\\infty$.\n• Si $f$ est réglée et $(\\varphi_n)$ en escalier converge uniformément vers $f$, la suite $\\left(\\int_a^b \\varphi_n\\right)$ est de Cauchy, donc converge ; sa limite ne dépend pas de la suite choisie. On la note $\\int_a^b f$.\n• On obtient une forme linéaire sur l'espace des fonctions réglées, vérifiant encore $\\left|\\int_a^b f\\right| \\le (b - a)\\|f\\|_\\infty$.\n• **Lien avec les sommes de Darboux** (vues en L1-INT) : pour $f$ bornée et une subdivision $\\sigma = (x_i)_{0 \\le i \\le n}$, on note $s(f, \\sigma) = \\sum_{i=1}^n (x_i - x_{i-1}) \\inf_{[x_{i-1} ; x_i]} f$ et $S(f, \\sigma) = \\sum_{i=1}^n (x_i - x_{i-1}) \\sup_{[x_{i-1} ; x_i]} f$. **Critère de Darboux** : $f$ est intégrable au sens de Riemann si et seulement si, pour tout $\\varepsilon > 0$, il existe une subdivision $\\sigma$ telle que $S(f, \\sigma) - s(f, \\sigma) < \\varepsilon$. Toute fonction réglée vérifie ce critère, et son intégrale de Riemann coïncide avec l'intégrale construite ci-dessus."
       },
       {
         "title": "3. Démonstration : positivité et relation de Chasles",
-        "content": "**Théorème.** Pour $f, g$ réglées sur $[a ; b]$ :\n(i) si $f \\ge 0$, alors $\\int_a^b f \\ge 0$ ; par linéarité, $f \\le g \\implies \\int_a^b f \\le \\int_a^b g$ ;\n(ii) pour $c \\in ]a ; b[$, $\\int_a^b f = \\int_a^c f + \\int_c^b f$.\n**Démonstration.**\n1. **Cas en escalier.** Si $\\varphi \\ge 0$, toutes ses valeurs $c_i$ sur les intervalles ouverts sont $\\ge 0$, donc $\\int \\varphi \\ge 0$. Pour Chasles, on choisit une subdivision adaptée contenant $c$ ; la somme $\\sum c_i(x_i - x_{i-1})$ se coupe en deux sommes, qui sont $\\int_a^c \\varphi$ et $\\int_c^b \\varphi$.\n2. **Positivité, cas réglé.** Soit $(\\varphi_n)$ en escalier telle que $\\varepsilon_n = \\|f - \\varphi_n\\|_\\infty \\to 0$. La fonction $\\psi_n = \\varphi_n + \\varepsilon_n$ est en escalier, vérifie $\\psi_n \\ge f \\ge 0$ et converge uniformément vers $f$. Donc $\\int_a^b \\psi_n \\ge 0$ et, par passage à la limite, $\\int_a^b f \\ge 0$.\n3. **Chasles, cas réglé.** Les restrictions de $\\varphi_n$ à $[a ; c]$ et $[c ; b]$ sont en escalier et convergent uniformément vers celles de $f$. On passe à la limite dans $\\int_a^b \\varphi_n = \\int_a^c \\varphi_n + \\int_c^b \\varphi_n$.\n**Compléments** : $\\left|\\int_a^b f\\right| \\le \\int_a^b |f|$ (appliquer (i) à $|f| - f$ et $|f| + f$). Si $f$ est **continue**, positive et d'intégrale nulle, alors $f = 0$ : sinon $f \\ge \\frac{f(x_0)}{2} > 0$ sur un segment non trivial autour d'un point $x_0$, et l'intégrale serait $> 0$."
+        "content": "**Théorème.** Pour $f, g$ réglées sur $[a ; b]$ :\n(i) si $f \\ge 0$, alors $\\int_a^b f \\ge 0$ ; par linéarité, $f \\le g \\implies \\int_a^b f \\le \\int_a^b g$ ;\n(ii) pour $c \\in ]a ; b[$, $\\int_a^b f = \\int_a^c f + \\int_c^b f$.\n**Démonstration.**\n1. **Cas en escalier.** Si $\\varphi \\ge 0$, toutes ses valeurs $c_i$ sur les intervalles ouverts sont $\\ge 0$, donc $\\int \\varphi \\ge 0$. Pour Chasles, on choisit une subdivision adaptée contenant $c$ ; la somme $\\sum c_i(x_i - x_{i-1})$ se coupe en deux sommes, qui sont $\\int_a^c \\varphi$ et $\\int_c^b \\varphi$.\n2. **Positivité, cas réglé.** Soit $(\\varphi_n)$ en escalier telle que $\\varepsilon_n = \\|f - \\varphi_n\\|_\\infty \\to 0$. La fonction $\\psi_n = \\varphi_n + \\varepsilon_n$ est en escalier, vérifie $\\psi_n \\ge f \\ge 0$ et converge uniformément vers $f$. Donc $\\int_a^b \\psi_n \\ge 0$ et, par passage à la limite, $\\int_a^b f \\ge 0$.\n3. **Chasles, cas réglé.** Les restrictions de $\\varphi_n$ à $[a ; c]$ et $[c ; b]$ sont en escalier et convergent uniformément vers celles de $f$. On passe à la limite dans $\\int_a^b \\varphi_n = \\int_a^c \\varphi_n + \\int_c^b \\varphi_n$.\n**Compléments** : $\\left|\\int_a^b f\\right| \\le \\int_a^b |f|$ (appliquer (i) à $|f| - f$ et $|f| + f$). Si $f$ est **continue**, positive et d'intégrale nulle, alors $f = 0$ : sinon $f \\ge \\frac{f(x_0)}{2} > 0$ sur un segment non trivial autour d'un point $x_0$, et l'intégrale serait $> 0$.\n**Première formule de la moyenne** : si $f$ est continue sur $[a ; b]$ et si $g$ est réglée et positive sur $[a ; b]$, il existe $c \\in [a ; b]$ tel que $\\int_a^b f g = f(c) \\int_a^b g$. En effet, avec $m = \\min f$ et $M = \\max f$, la positivité donne $m \\int_a^b g \\le \\int_a^b f g \\le M \\int_a^b g$ ; si $\\int_a^b g > 0$, le théorème des valeurs intermédiaires fournit $c$ tel que $f(c) = \\frac{\\int_a^b f g}{\\int_a^b g}$, et si $\\int_a^b g = 0$, tout $c$ convient. Avec $g = 1$, on retrouve la formule de la moyenne vue en L1-INT."
       },
       {
         "title": "4. Théorème fondamental de l'analyse",
@@ -849,7 +939,7 @@ window.MATHS_COURSES_L2 = {
       },
       {
         "title": "5. Convergence absolue",
-        "content": "• $\\int_a^b f$ est **absolument convergente** si $\\int_a^b |f|$ converge.\n• **Théorème** : une intégrale absolument convergente est convergente, et $\\left|\\int_a^b f\\right| \\le \\int_a^b |f|$.\n• **Démonstration** (cas réel) : $f^+ = \\max(f, 0)$ et $f^- = \\max(-f, 0)$ vérifient $0 \\le f^\\pm \\le |f|$, donc $\\int f^+$ et $\\int f^-$ convergent par comparaison, et $f = f^+ - f^-$. Cas complexe : on applique ce résultat aux parties réelle et imaginaire, majorées par $|f|$.\n• Pour une fonction de signe quelconque, on étudie donc d'abord $|f|$ par comparaison."
+        "content": "• $\\int_a^b f$ est **absolument convergente** si $\\int_a^b |f|$ converge.\n• **Vocabulaire** : on dit alors que $f$ est **intégrable** sur $[a ; b[$ (ou sur l'intervalle $I$ considéré). « Intégrable » est donc synonyme d'« intégrale absolument convergente » ; une intégrale qui converge sans converger absolument est dite **semi-convergente**, et la fonction n'est alors pas intégrable (exemple : $t \\mapsto \\frac{\\sin t}{t}$ sur $]0 ; +\\infty[$). Ce vocabulaire est celui du cours sur les intégrales à paramètre (L2-PAR).\n• **Théorème** : une intégrale absolument convergente est convergente, et $\\left|\\int_a^b f\\right| \\le \\int_a^b |f|$.\n• **Démonstration** (cas réel) : $f^+ = \\max(f, 0)$ et $f^- = \\max(-f, 0)$ vérifient $0 \\le f^\\pm \\le |f|$, donc $\\int f^+$ et $\\int f^-$ convergent par comparaison, et $f = f^+ - f^-$. Cas complexe : on applique ce résultat aux parties réelle et imaginaire, majorées par $|f|$.\n• Pour une fonction de signe quelconque, on étudie donc d'abord $|f|$ par comparaison."
       },
       {
         "title": "6. Semi-convergence : l'exemple de $\\frac{\\sin t}{t}$",
@@ -919,7 +1009,8 @@ window.MATHS_COURSES_L2 = {
       "Résoudre les équations différentielles linéaires scalaires d'ordre 1 et d'ordre 2 à coefficients constants, avec second membre.",
       "Énoncer le théorème de Cauchy-Lipschitz linéaire et démontrer la structure de l'espace des solutions (dimension, wronskien).",
       "Résoudre les systèmes différentiels linéaires $X' = AX$ à coefficients constants via l'exponentielle de matrice.",
-      "Appliquer la méthode de variation des constantes pour déterminer une solution particulière."
+      "Appliquer la méthode de variation des constantes pour déterminer une solution particulière.",
+      "Résoudre une équation à variables séparables $y' = a(t) g(y)$ en précisant l'intervalle de résolution (exemple de l'équation logistique)."
     ],
     "keyPoints": [
       {
@@ -940,11 +1031,15 @@ window.MATHS_COURSES_L2 = {
       },
       {
         "title": "5. Systèmes à coefficients constants et exponentielle de matrice",
-        "content": "• Pour $A \\in \\mathcal{M}_n(\\mathbb{K})$, $e^A = \\sum_{k=0}^{+\\infty} \\frac{A^k}{k!}$ (série absolument convergente pour toute norme d'algèbre).\n• $t \\mapsto e^{tA}$ est dérivable, $\\frac{d}{dt} e^{tA} = A e^{tA} = e^{tA} A$, et $e^{(s+t)A} = e^{sA} e^{tA}$ ; en particulier $e^{tA}$ est inversible d'inverse $e^{-tA}$.\n• **Solution** : l'unique solution de $X' = AX$, $X(0) = X_0$ est $X(t) = e^{tA} X_0$.\n• Si $A = P D P^{-1}$ avec $D = \\text{diag}(\\lambda_i)$ : $e^{tA} = P\\, \\text{diag}(e^{\\lambda_1 t}, \\dots, e^{\\lambda_n t})\\, P^{-1}$ ; les solutions sont les $\\sum C_i e^{\\lambda_i t} V_i$, où $V_i$ est la $i$-ième colonne de $P$.\n• Si $AB = BA$, alors $e^{A + B} = e^A e^B$ ; et $\\det(e^A) = e^{\\text{tr} A}$."
+        "content": "• Pour $A \\in \\mathcal{M}_n(\\mathbb{K})$, $e^A = \\sum_{k=0}^{+\\infty} \\frac{A^k}{k!}$ (série absolument convergente pour toute norme d'algèbre).\n• $t \\mapsto e^{tA}$ est dérivable, $\\frac{d}{dt} e^{tA} = A e^{tA} = e^{tA} A$, et $e^{(s+t)A} = e^{sA} e^{tA}$ ; en particulier $e^{tA}$ est inversible d'inverse $e^{-tA}$.\n• **Solution** : l'unique solution de $X' = AX$, $X(0) = X_0$ est $X(t) = e^{tA} X_0$.\n• Si $A = P D P^{-1}$ avec $D = \\text{diag}(\\lambda_i)$ : $e^{tA} = P\\, \\text{diag}(e^{\\lambda_1 t}, \\dots, e^{\\lambda_n t})\\, P^{-1}$ ; les solutions sont les $\\sum C_i e^{\\lambda_i t} V_i$, où $V_i$ est la $i$-ième colonne de $P$.\n• Si $AB = BA$, alors $e^{A + B} = e^A e^B$ ; et $\\det(e^A) = e^{\\text{tr} A}$.\n• **Matrice de transition** : $e^{tA}$ est appelée matrice de transition (ou résolvante) du système $X' = AX$ : elle fait passer de l'état initial $X_0$ à l'état $X(t) = e^{tA} X_0$, et sa $j$-ième colonne est la solution qui vaut $e_j$ (vecteur de la base canonique) en $t = 0$. Quand $A$ n'est pas diagonalisable, on peut calculer $e^{tA}$ directement par la série : si $A = \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix}$, alors $A^2 = 0$ et $e^{tA} = I_2 + tA = \\begin{pmatrix} 1 & t \\\\ 0 & 1 \\end{pmatrix}$ ; si $A^2 = -I_2$, on sépare les puissances paires et impaires de $A$."
       },
       {
         "title": "6. Variation des constantes à l'ordre 2",
         "content": "Soit $y'' + a(t) y' + b(t) y = f(t)$ ($a, b, f$ continues sur $I$) et $(y_1, y_2)$ une base des solutions homogènes, de wronskien $W$ ne s'annulant pas.\n• On cherche $y = c_1(t) y_1 + c_2(t) y_2$ en imposant\n$$\\begin{cases} c_1' y_1 + c_2' y_2 = 0 \\\\ c_1' y_1' + c_2' y_2' = f \\end{cases}$$\n• Ce système de Cramer (déterminant $W(t) \\neq 0$) donne $c_1' = -\\frac{f y_2}{W}$ et $c_2' = \\frac{f y_1}{W}$, puis $c_1, c_2$ par primitivation.\n• C'est la traduction, pour l'équation scalaire, de la recherche de $X = e^{tA} C(t)$ dans le cas des systèmes : $C'(t) = e^{-tA} B(t)$."
+      },
+      {
+        "title": "7. Au-delà du linéaire : équations à variables séparables",
+        "content": "Soient $I$ un intervalle, $J$ un intervalle **ouvert**, $a : I \\to \\mathbb{R}$ continue et $g : J \\to \\mathbb{R}$ de classe $\\mathcal{C}^1$. On étudie $(S) : y' = a(t)\\, g(y)$, en général **non linéaire**.\n• **Cauchy-Lipschitz** (admis, version non linéaire) : pour tout $(t_0, y_0) \\in I \\times J$, il existe une unique solution maximale telle que $y(t_0) = y_0$ ; deux solutions qui coïncident en un point coïncident sur l'intersection de leurs intervalles de définition.\n• **Solutions constantes** : si $g(c) = 0$, alors $y = c$ est solution. Par unicité, une solution qui prend la valeur $c$ en un point est constante égale à $c$. Toute autre solution vérifie donc $g(y(t)) \\neq 0$ sur tout son intervalle de définition : on peut diviser par $g(y)$.\n• **Séparation des variables** : on écrit $\\frac{y'}{g(y)} = a(t)$. Si $G$ est une primitive de $\\frac{1}{g}$ sur un intervalle $J'$ où $g$ ne s'annule pas, et $A$ une primitive de $a$ sur $I$, alors $G(y(t)) = A(t) + C$. Comme $G' = \\frac{1}{g}$ est de signe constant, $G$ est strictement monotone et $y(t) = G^{-1}(A(t) + C)$.\n• **Intervalle de résolution** : la solution n'existe que là où $A(t) + C \\in G(J')$, ce qui peut être strictement plus petit que $I$. Par exemple, $y' = y^2$, $y(0) = 1$ a pour solution maximale $y(t) = \\frac{1}{1 - t}$ sur $]-\\infty ; 1[$, alors que $a = 1$ est continue sur $\\mathbb{R}$ : contrairement au cas linéaire, une solution peut exploser en temps fini.\n• **Équation logistique** : pour $r, K > 0$ et $y_0 > 0$, le problème $y' = r y \\left(1 - \\frac{y}{K}\\right)$, $y(0) = y_0$ a pour solution $y(t) = \\frac{K}{1 + B e^{-rt}}$ avec $B = \\frac{K - y_0}{y_0}$. Si $0 < y_0 \\le K$, elle est définie sur $\\mathbb{R}$ ; si $y_0 > K$, elle n'est définie que sur un intervalle $]t^* ; +\\infty[$ avec $t^* < 0$. Dans tous les cas, $y(t) \\to K$ en $+\\infty$."
       }
     ],
     "methods": [
@@ -968,6 +1063,17 @@ window.MATHS_COURSES_L2 = {
           "**Conditions initiales** : $y = C_1 e^t + C_2 e^{2t} - t e^t$ ; $y(0) = C_1 + C_2 = 0$ et $y'(0) = C_1 + 2C_2 - 1 = 0$, d'où $C_2 = 1$, $C_1 = -1$.",
           "**Conclusion** : $y(t) = e^{2t} - e^{t} - t e^{t}$."
         ]
+      },
+      {
+        "title": "Méthode : Résoudre une équation à variables séparables",
+        "example": "Résoudre $y' = y(2 - y)$ avec $y(0) = 1$.",
+        "steps": [
+          "**Solutions constantes** : $y(2 - y) = 0$ donne les solutions constantes $y = 0$ et $y = 2$.",
+          "**Valeurs prises** : $y(0) = 1 \\in \\,]0 ; 2[$ et, par unicité, $y$ ne peut pas prendre les valeurs $0$ ou $2$ ; donc $0 < y(t) < 2$ sur tout l'intervalle de définition, et on peut diviser par $y(2 - y)$.",
+          "**Séparation** : $\\frac{y'}{y(2 - y)} = 1$ et $\\frac{1}{y(2 - y)} = \\frac{1}{2}\\left(\\frac{1}{y} + \\frac{1}{2 - y}\\right)$, d'où $\\frac{1}{2} \\ln\\frac{y}{2 - y} = t + C$.",
+          "**Constante** : en $t = 0$, $\\ln 1 = 0$ donne $C = 0$, donc $\\frac{y}{2 - y} = e^{2t}$.",
+          "**Expression et intervalle** : $y(t) = \\frac{2 e^{2t}}{1 + e^{2t}} = \\frac{2}{1 + e^{-2t}}$, définie sur $\\mathbb{R}$, qui est donc l'intervalle maximal. Contrôle : $y(0) = 1$, et $y$ tend vers $2$ en $+\\infty$, vers $0$ en $-\\infty$."
+        ]
       }
     ],
     "traps": [
@@ -975,7 +1081,9 @@ window.MATHS_COURSES_L2 = {
       "Cauchy-Lipschitz s'applique à l'équation **résolue** : pour $t y' - y = 0$ sur $\\mathbb{R}$, les solutions sont les $y = Ct$ ; le problème $y(0) = 1$ n'a aucune solution et le problème $y(0) = 0$ en a une infinité.",
       "En cas de résonance, oublier le facteur $t$ (ou $t^2$ pour une racine double) conduit à une identification impossible : chercher $a e^t$ pour $y'' - 3y' + 2y = e^t$ donne $0 = e^t$.",
       "Les solutions de l'équation **avec** second membre ne forment pas un espace vectoriel mais un espace affine : la somme de deux solutions n'est pas une solution.",
-      "Dans la variation des constantes à l'ordre 2, la condition $c_1' y_1 + c_2' y_2 = 0$ est un choix qui rend le système de Cramer ; l'oublier conduit à une équation du second ordre en $c_1, c_2$."
+      "Dans la variation des constantes à l'ordre 2, la condition $c_1' y_1 + c_2' y_2 = 0$ est un choix qui rend le système de Cramer ; l'oublier conduit à une équation du second ordre en $c_1, c_2$.",
+      "Pour $y' = a(t) g(y)$, diviser par $g(y)$ sans précaution fait perdre les solutions constantes : pour $y' = y(2 - y)$, ce sont $y = 0$ et $y = 2$. L'unicité, qui justifie cette division, demande une régularité de $g$ : pour $y' = 3|y|^{2/3}$, le problème $y(0) = 0$ admet $y = 0$ et $y = t^3$.",
+      "Hors du cadre linéaire, une solution n'est pas nécessairement définie sur tout $I$ : $y' = y^2$, $y(0) = 1$ donne $y(t) = \\frac{1}{1 - t}$, qui explose en $t = 1$."
     ],
     "flashcards": [
       {
@@ -1001,6 +1109,14 @@ window.MATHS_COURSES_L2 = {
       {
         "q": "Quelle équation différentielle vérifie le wronskien de $y'' + a(t)y' + b(t)y = 0$ ?",
         "a": "$W' = -a(t) W$, donc $W(t) = W(t_0) \\exp\\left(-\\int_{t_0}^t a\\right)$."
+      },
+      {
+        "q": "Comment résoudre une équation à variables séparables $y' = a(t) g(y)$ ?",
+        "a": "On met à part les solutions constantes ($g(c) = 0$), puis on sépare : $\\frac{y'}{g(y)} = a(t)$, d'où $G(y) = A(t) + C$, avec $G$ primitive de $\\frac{1}{g}$ et $A$ primitive de $a$."
+      },
+      {
+        "q": "Quelle est la solution de $y' = r y \\left(1 - \\frac{y}{K}\\right)$, $y(0) = y_0 > 0$ (avec $r, K > 0$) ?",
+        "a": "$y(t) = \\frac{K}{1 + B e^{-rt}}$ avec $B = \\frac{K - y_0}{y_0}$ ; elle tend vers $K$ en $+\\infty$."
       }
     ]
   },
@@ -1190,6 +1306,7 @@ window.MATHS_COURSES_L2 = {
     "domain": "Géométrie Différentielle",
     "objectives": [
       "Définir un arc paramétré régulier, sa longueur et son abscisse curviligne.",
+      "Conduire l'étude d'un arc : plan d'étude, nature des points stationnaires, branches infinies, courbes polaires.",
       "Construire le repère de Frenet $(\\vec{T}, \\vec{N})$ d'une courbe plane et énoncer les formules de Frenet.",
       "Démontrer la formule de la courbure pour un paramétrage quelconque et l'appliquer.",
       "Déterminer le rayon et le centre de courbure, et connaître la courbure et la torsion d'une courbe de l'espace."
@@ -1200,23 +1317,39 @@ window.MATHS_COURSES_L2 = {
         "content": "Soit $\\gamma : I \\to \\mathbb{R}^2$, $t \\mapsto M(t) = (x(t), y(t))$, de classe $\\mathcal{C}^k$ ($k \\ge 1$).\n• Le point $M(t_0)$ est **régulier** si $\\gamma'(t_0) \\neq \\vec{0}$ ; la tangente est alors dirigée par $\\gamma'(t_0)$. L'arc est **régulier** si tous ses points le sont.\n• En un point **singulier** ($\\gamma'(t_0) = \\vec{0}$), la tangente, si elle existe, est dirigée par le premier vecteur dérivé non nul.\n• **Longueur** de l'arc entre $a$ et $b$ : $L = \\int_a^b \\|\\gamma'(t)\\|\\, dt$. Elle ne dépend pas du paramétrage (changement de variable dans l'intégrale), pourvu que l'arc soit parcouru une seule fois.\n• **Exemple** : le cercle $(R\\cos t, R\\sin t)$, $t \\in [0 ; 2\\pi]$, a pour longueur $\\int_0^{2\\pi} R\\, dt = 2\\pi R$."
       },
       {
-        "title": "2. Abscisse curviligne et paramétrage normal",
+        "title": "2. Plan d'étude d'un arc",
+        "content": "Avant toute étude, on réduit le domaine.\n• **Périodicité** : si $x$ et $y$ sont $T$-périodiques, un intervalle de longueur $T$ suffit.\n• **Symétries** : on compare $M(-t)$, ou plus généralement $M(a - t)$, à $M(t)$. Si $M(-t) = (x(t), -y(t))$ : symétrie d'axe $(Ox)$ ; si $M(-t) = (-x(t), y(t))$ : symétrie d'axe $(Oy)$ ; si $M(-t) = (-x(t), -y(t))$ : symétrie de centre $O$ ; si $M(-t) = M(t)$ : même point. On étudie alors l'arc pour $t \\ge 0$ et on complète par la symétrie.\n• **Variations conjointes** : on dresse dans un même tableau les signes de $x'$ et $y'$ et les variations de $x$ et $y$. Si $x'(t_0) = 0$ et $y'(t_0) \\neq 0$, la tangente est verticale ; si $y'(t_0) = 0$ et $x'(t_0) \\neq 0$, elle est horizontale.\n• **Points multiples** : on cherche les $t_1 \\neq t_2$ tels que $M(t_1) = M(t_2)$.\n• **Exemple** : pour $M(t) = (\\cos t, \\sin 2t)$, de période $2\\pi$, on a $M(-t) = (x(t), -y(t))$ : axe $(Ox)$, on se ramène à $[0 ; \\pi]$. Puis $M(\\pi - t) = (-\\cos t, -\\sin 2t)$ : centre $O$, on se ramène à $\\left[0 ; \\frac{\\pi}{2}\\right]$."
+      },
+      {
+        "title": "3. Étude locale : points stationnaires, entiers caractéristiques",
+        "content": "Soit $\\gamma$ de classe $\\mathcal{C}^k$ avec $k$ assez grand, et $t_0 \\in I$.\n• **Entiers caractéristiques** : $p$ est le plus petit entier $\\ge 1$ tel que $\\gamma^{(p)}(t_0) \\neq \\vec{0}$, et $q > p$ le plus petit entier tel que $\\left(\\gamma^{(p)}(t_0), \\gamma^{(q)}(t_0)\\right)$ soit libre. Le point est régulier si et seulement si $p = 1$. La tangente est dirigée par $\\gamma^{(p)}(t_0)$.\n• **Développement** : avec Taylor-Young, dans le repère $\\left(M(t_0), \\gamma^{(p)}(t_0), \\gamma^{(q)}(t_0)\\right)$, les coordonnées de $M(t_0 + h)$ sont\n$$X(h) = \\frac{h^p}{p!}\\,(1 + o(1)), \\qquad Y(h) = \\frac{h^q}{q!}\\,(1 + o(1)).$$\n• **Lecture des parités** (signes de $X$ et $Y$ quand $h$ change de signe) :\n1. $p$ impair, $q$ pair : **point d'allure ordinaire** (la courbe reste d'un même côté de la tangente) ;\n2. $p$ impair, $q$ impair : **point d'inflexion** (la courbe traverse la tangente) ;\n3. $p$ pair, $q$ impair : **rebroussement de première espèce** (les deux branches sont de part et d'autre de la tangente) ;\n4. $p$ pair, $q$ pair : **rebroussement de seconde espèce** (les deux branches sont du même côté de la tangente).\n• **Exemple** : pour la cycloïde $(t - \\sin t, 1 - \\cos t)$ en $t = 0$, $\\gamma'(0) = \\vec{0}$, $\\gamma''(0) = (0, 1)$ et $\\gamma'''(0) = (1, 0)$ : $p = 2$, $q = 3$, rebroussement de première espèce, de tangente $(Oy)$."
+      },
+      {
+        "title": "4. Branches infinies",
+        "content": "Il y a **branche infinie** quand $t \\to t_0$ (fini ou infini) si $\\|\\gamma(t)\\| \\to +\\infty$.\n• Si $x(t) \\to \\ell$ fini et $|y(t)| \\to +\\infty$ : **asymptote verticale** $x = \\ell$. Si $y(t) \\to \\ell$ fini et $|x(t)| \\to +\\infty$ : **asymptote horizontale** $y = \\ell$.\n• Si $|x(t)|$ et $|y(t)|$ tendent vers $+\\infty$, on étudie $\\frac{y(t)}{x(t)}$ :\n1. limite $0$ : **branche parabolique** de direction $(Ox)$ ;\n2. limite infinie : **branche parabolique** de direction $(Oy)$ ;\n3. limite $\\alpha \\neq 0$ finie : on étudie $y(t) - \\alpha x(t)$. Si elle tend vers $\\beta$ fini, la droite $y = \\alpha x + \\beta$ est **asymptote** et le signe de $y(t) - \\alpha x(t) - \\beta$ donne la position de la courbe ; si elle tend vers l'infini, branche parabolique de direction $y = \\alpha x$.\n• Sans limite de $\\frac{y}{x}$, cette méthode ne conclut pas."
+      },
+      {
+        "title": "5. Courbes en coordonnées polaires",
+        "content": "Une courbe polaire est l'arc $M(\\theta) = r(\\theta)\\, \\vec{u}(\\theta)$, avec $\\vec{u}(\\theta) = (\\cos\\theta, \\sin\\theta)$ et $\\vec{v}(\\theta) = (-\\sin\\theta, \\cos\\theta)$.\n• **Vitesse** : comme $\\vec{u}' = \\vec{v}$, on a $M'(\\theta) = r'(\\theta)\\vec{u}(\\theta) + r(\\theta)\\vec{v}(\\theta)$, donc $\\|M'(\\theta)\\|^2 = r(\\theta)^2 + r'(\\theta)^2$. Le point est régulier dès que $r(\\theta) \\neq 0$ ou $r'(\\theta) \\neq 0$.\n• **Longueur** : $L = \\int_\\alpha^\\beta \\sqrt{r(\\theta)^2 + r'(\\theta)^2}\\, d\\theta$.\n• **Tangente** : en un point où $r(\\theta) \\neq 0$, l'angle $V$ entre $\\vec{u}(\\theta)$ et $M'(\\theta)$ vérifie $\\tan V = \\frac{r}{r'}$ si $r' \\neq 0$, et $V = \\frac{\\pi}{2}$ si $r' = 0$. Si $r(\\theta_0) = 0$ et que $r$ ne s'annule pas au voisinage de $\\theta_0$ en dehors de $\\theta_0$, la tangente au pôle est la droite d'angle polaire $\\theta_0$.\n• **Réduction** : si $r$ est $2\\pi$-périodique, on étudie sur une période. Si $r(-\\theta) = r(\\theta)$ : symétrie d'axe $(Ox)$ ; si $r(-\\theta) = -r(\\theta)$ : symétrie d'axe $(Oy)$ ; si $r(\\theta + \\pi) = r(\\theta)$ : symétrie de centre $O$.\n• **Exemple** : $r(\\theta) = 2\\cos\\theta$ sur $\\left[-\\frac{\\pi}{2} ; \\frac{\\pi}{2}\\right]$. On a $r^2 + r'^2 = 4$, donc $L = 2\\pi$ : c'est le cercle d'équation $x^2 + y^2 = 2x$, de rayon $1$."
+      },
+      {
+        "title": "6. Abscisse curviligne et paramétrage normal",
         "content": "Soit $\\gamma$ un arc régulier de classe $\\mathcal{C}^2$ et $t_0 \\in I$.\n• **Abscisse curviligne** : $s(t) = \\int_{t_0}^{t} \\|\\gamma'(u)\\|\\, du$. Comme $s'(t) = \\|\\gamma'(t)\\| > 0$, $s$ est un $\\mathcal{C}^1$-difféomorphisme strictement croissant de $I$ sur $s(I)$ (et même de classe $\\mathcal{C}^2$ ici).\n• Le paramétrage $s \\mapsto M(s)$ est dit **normal** : $\\left\\|\\frac{dM}{ds}\\right\\| = 1$.\n• **Règle pratique** : $\\frac{d}{dt} = \\frac{ds}{dt}\\, \\frac{d}{ds} = \\|\\gamma'(t)\\|\\, \\frac{d}{ds}$."
       },
       {
-        "title": "3. Repère de Frenet et formules de Frenet",
+        "title": "7. Repère de Frenet et formules de Frenet",
         "content": "Pour un arc plan régulier de classe $\\mathcal{C}^2$, paramétré par l'abscisse curviligne $s$ :\n• $\\vec{T}(s) = \\frac{dM}{ds}$ est le **vecteur tangent unitaire** ; $\\vec{N}(s)$ est l'image de $\\vec{T}(s)$ par la rotation d'angle $+\\frac{\\pi}{2}$, de sorte que $(\\vec{T}, \\vec{N})$ est une base orthonormée directe.\n• Comme $\\|\\vec{T}\\|^2 = 1$, en dérivant : $2\\left\\langle \\frac{d\\vec{T}}{ds}, \\vec{T} \\right\\rangle = 0$ ; donc $\\frac{d\\vec{T}}{ds}$ est colinéaire à $\\vec{N}$.\n• **Formules de Frenet** :\n$$\\frac{d\\vec{T}}{ds} = \\kappa(s)\\, \\vec{N}(s), \\qquad \\frac{d\\vec{N}}{ds} = -\\kappa(s)\\, \\vec{T}(s),$$\noù $\\kappa(s)$ est la **courbure algébrique**.\n• **Angle** : si $\\vec{T} = (\\cos\\alpha, \\sin\\alpha)$ avec $\\alpha$ de classe $\\mathcal{C}^1$ (relèvement), alors $\\kappa = \\frac{d\\alpha}{ds}$ : la courbure mesure la vitesse de rotation de la tangente."
       },
       {
-        "title": "4. Démonstration de la formule de la courbure",
+        "title": "8. Démonstration de la formule de la courbure",
         "content": "**Théorème.** Pour un arc régulier de classe $\\mathcal{C}^2$ paramétré par $t$ quelconque :\n$$\\kappa(t) = \\frac{\\det\\left(\\gamma'(t), \\gamma''(t)\\right)}{\\|\\gamma'(t)\\|^3} = \\frac{x'y'' - y'x''}{\\left(x'^2 + y'^2\\right)^{3/2}}.$$\n**Démonstration.**\n1. Notons $v(t) = \\|\\gamma'(t)\\| = \\frac{ds}{dt} > 0$. Par définition, $\\gamma'(t) = v(t)\\, \\vec{T}$.\n2. En dérivant par rapport à $t$ et en utilisant $\\frac{d\\vec{T}}{dt} = \\frac{ds}{dt}\\, \\frac{d\\vec{T}}{ds} = v\\, \\kappa\\, \\vec{N}$ : $\\gamma''(t) = v'(t)\\, \\vec{T} + v(t)^2 \\kappa\\, \\vec{N}$.\n3. Par bilinéarité et alternance du déterminant : $\\det(\\gamma', \\gamma'') = \\det(v\\vec{T}, v'\\vec{T} + v^2\\kappa\\vec{N}) = v \\cdot v'\\det(\\vec{T}, \\vec{T}) + v^3 \\kappa \\det(\\vec{T}, \\vec{N}) = v^3\\kappa$, car $\\det(\\vec{T}, \\vec{T}) = 0$ et $\\det(\\vec{T}, \\vec{N}) = 1$ (base orthonormée directe).\n4. D'où $\\kappa = \\frac{\\det(\\gamma', \\gamma'')}{v^3}$.\n**Cas d'un graphe** $y = f(x)$ : avec $x(t) = t$, $\\kappa = \\frac{f''(x)}{\\left(1 + f'(x)^2\\right)^{3/2}}$. On lit aussi au point 2 l'accélération : composante tangentielle $v'$, composante normale $v^2\\kappa$."
       },
       {
-        "title": "5. Rayon, centre de courbure et cercle osculateur",
+        "title": "9. Rayon, centre de courbure et cercle osculateur",
         "content": "On suppose $\\kappa(t) \\neq 0$ (point **birégulier** : $(\\gamma', \\gamma'')$ libre).\n• **Rayon de courbure** : $R = \\frac{1}{|\\kappa|}$ ; on utilise aussi le rayon algébrique $\\frac{1}{\\kappa}$.\n• **Centre de courbure** : $C = M + \\frac{1}{\\kappa}\\, \\vec{N}$. Le **cercle osculateur** de centre $C$ et de rayon $R$ est le cercle qui approche le mieux la courbe au voisinage de $M$ (contact d'ordre 2).\n• La **développée** est le lieu des centres de courbure.\n• **Exemples** : une droite a une courbure nulle ; le cercle de rayon $R$ parcouru dans le sens direct a pour courbure $\\frac{1}{R}$, et $-\\frac{1}{R}$ dans le sens indirect ; son centre de courbure est son centre."
       },
       {
-        "title": "6. Courbes de l'espace : courbure et torsion",
+        "title": "10. Courbes de l'espace : courbure et torsion",
         "content": "Pour un arc birégulier de $\\mathbb{R}^3$ de classe $\\mathcal{C}^3$ :\n• **Courbure** (positive) : $\\kappa = \\frac{\\|\\gamma' \\wedge \\gamma''\\|}{\\|\\gamma'\\|^3}$ ; **normale principale** $\\vec{N}$ définie par $\\frac{d\\vec{T}}{ds} = \\kappa\\vec{N}$ ; **binormale** $\\vec{B} = \\vec{T} \\wedge \\vec{N}$.\n• **Torsion** : $\\tau = \\frac{\\det(\\gamma', \\gamma'', \\gamma''')}{\\|\\gamma' \\wedge \\gamma''\\|^2}$ ; elle est nulle si et seulement si la courbe est plane.\n• **Formules de Frenet** : $\\frac{d\\vec{T}}{ds} = \\kappa\\vec{N}$, $\\frac{d\\vec{N}}{ds} = -\\kappa\\vec{T} + \\tau\\vec{B}$, $\\frac{d\\vec{B}}{ds} = -\\tau\\vec{N}$.\n• **Exemple** : l'hélice $(a\\cos t, a\\sin t, bt)$, $a > 0$, a une courbure $\\frac{a}{a^2 + b^2}$ et une torsion $\\frac{b}{a^2 + b^2}$, constantes."
       }
     ],
@@ -1240,6 +1373,34 @@ window.MATHS_COURSES_L2 = {
           "**Intégrale** : $L = \\int_0^{2\\pi} 2R\\sin\\frac{t}{2}\\, dt = 2R\\left[-2\\cos\\frac{t}{2}\\right]_0^{2\\pi} = 2R(2 + 2) = 8R$.",
           "**Remarque** : les points $t = 0$ et $t = 2\\pi$ sont singuliers ($\\gamma' = \\vec{0}$) ; cela n'empêche pas le calcul de la longueur."
         ]
+      },
+      {
+        "title": "Méthode : Déterminer la nature d'un point stationnaire",
+        "example": "Soit $\\gamma(t) = (t^2 + t^3, t^2 - t^3)$. Étudier le point de paramètre $t = 0$.",
+        "steps": [
+          "**Dérivées successives en 0** : $\\gamma'(0) = \\vec{0}$, $\\gamma''(0) = (2, 2)$ et $\\gamma'''(0) = (6, -6)$.",
+          "**Entiers** : $\\gamma''(0) \\neq \\vec{0}$ donne $p = 2$ ; $\\left(\\gamma''(0), \\gamma'''(0)\\right)$ est libre car $2 \\times (-6) - 2 \\times 6 = -24 \\neq 0$, donc $q = 3$.",
+          "**Nature** : $p$ pair et $q$ impair : rebroussement de première espèce.",
+          "**Tangente et vérification** : elle est dirigée par $(2, 2)$, c'est la droite $y = x$. On a $x + y = 2t^2 \\ge 0$ et $x - y = 2t^3$ change de signe : les deux branches sont bien de part et d'autre de la tangente."
+        ]
+      },
+      {
+        "title": "Méthode : Étudier les branches infinies d'un arc",
+        "example": "Étudier les branches infinies de $x(t) = t + \\frac{1}{t}$, $y(t) = t + \\frac{2}{t^2}$, pour $t \\neq 0$.",
+        "steps": [
+          "**Quand $t \\to \\pm\\infty$** : $|x|$ et $|y|$ tendent vers $+\\infty$, et $\\frac{y}{x} \\to 1$. Puis $y - x = \\frac{2}{t^2} - \\frac{1}{t} \\to 0$ : la droite $y = x$ est asymptote.",
+          "**Position** : $y - x = \\frac{2 - t}{t^2}$ est négatif pour $t \\to +\\infty$ (courbe au-dessous de l'asymptote) et positif pour $t \\to -\\infty$ (courbe au-dessus).",
+          "**Quand $t \\to 0$** : $|x| \\to +\\infty$, $y \\to +\\infty$ et $\\frac{y}{x} = \\frac{t^3 + 2}{t^3 + t}$ tend vers l'infini : branche parabolique de direction $(Oy)$."
+        ]
+      },
+      {
+        "title": "Méthode : Calculer la longueur d'une courbe polaire",
+        "example": "Calculer la longueur de la courbe $r(\\theta) = \\sin^3\\frac{\\theta}{3}$, $\\theta \\in [0 ; 3\\pi]$.",
+        "steps": [
+          "**Dérivée** : $r'(\\theta) = \\sin^2\\frac{\\theta}{3}\\cos\\frac{\\theta}{3}$.",
+          "**Vitesse** : $r^2 + r'^2 = \\sin^4\\frac{\\theta}{3}\\left(\\sin^2\\frac{\\theta}{3} + \\cos^2\\frac{\\theta}{3}\\right) = \\sin^4\\frac{\\theta}{3}$, donc $\\|M'(\\theta)\\| = \\sin^2\\frac{\\theta}{3}$.",
+          "**Intégrale** : avec $u = \\frac{\\theta}{3}$, $L = 3\\int_0^\\pi \\sin^2 u\\, du = \\frac{3\\pi}{2}$."
+        ]
       }
     ],
     "traps": [
@@ -1247,7 +1408,9 @@ window.MATHS_COURSES_L2 = {
       "La courbure algébrique d'une courbe plane dépend du sens de parcours : le cercle de rayon $R$ parcouru dans le sens indirect a pour courbure $-\\frac{1}{R}$ ; le rayon de courbure est $\\frac{1}{|\\kappa|}$.",
       "Les formules de courbure ne s'appliquent pas en un point singulier ($\\gamma'(t_0) = \\vec{0}$) : pour la cycloïde, en $t = 0$, le dénominateur $\\|\\gamma'\\|^3$ s'annule (point de rebroussement).",
       "La longueur $\\int \\|\\gamma'\\|$ compte les passages multiples : $(\\cos 2t, \\sin 2t)$, $t \\in [0 ; 2\\pi]$, parcourt deux fois le cercle unité et donne $4\\pi$.",
-      "Pour une courbe de l'espace, la courbure est positive et se calcule avec le produit vectoriel ; la formule plane avec $\\det(\\gamma', \\gamma'')$ n'a pas de sens en dimension 3."
+      "Pour une courbe de l'espace, la courbure est positive et se calcule avec le produit vectoriel ; la formule plane avec $\\det(\\gamma', \\gamma'')$ n'a pas de sens en dimension 3.",
+      "$q$ n'est pas le rang de la dérivée suivante mais le premier rang où le vecteur dérivé est **non colinéaire** à $\\gamma^{(p)}(t_0)$.",
+      "Pour une asymptote oblique, il faut les deux limites : $\\frac{y}{x} \\to \\alpha$ ne suffit pas, $y - \\alpha x$ peut tendre vers l'infini."
     ],
     "flashcards": [
       {
@@ -1273,6 +1436,18 @@ window.MATHS_COURSES_L2 = {
       {
         "q": "Que vaut la longueur d'une arche de cycloïde de paramètre $R$ ?",
         "a": "$8R$."
+      },
+      {
+        "q": "Comment lire la nature d'un point sur les parités de $(p, q)$ ?",
+        "a": "$p$ impair, $q$ pair : ordinaire ; $p$ impair, $q$ impair : inflexion ; $p$ pair, $q$ impair : rebroussement de première espèce ; $p$ pair, $q$ pair : rebroussement de seconde espèce."
+      },
+      {
+        "q": "Comment trouver une asymptote oblique d'un arc ?",
+        "a": "Si $|x|, |y| \\to +\\infty$, $\\frac{y}{x} \\to \\alpha \\neq 0$ et $y - \\alpha x \\to \\beta$ fini, alors $y = \\alpha x + \\beta$ est asymptote."
+      },
+      {
+        "q": "Formule de la longueur d'une courbe polaire ?",
+        "a": "$L = \\int_\\alpha^\\beta \\sqrt{r(\\theta)^2 + r'(\\theta)^2}\\, d\\theta$."
       }
     ]
   },
@@ -1296,7 +1471,7 @@ window.MATHS_COURSES_L2 = {
       },
       {
         "title": "3. Variables aléatoires discrètes et espérance",
-        "content": "• $X : \\Omega \\to \\mathbb{R}$ est une **variable aléatoire discrète** si $X(\\Omega)$ est fini ou dénombrable et $\\{X = x\\} \\in \\mathcal{A}$ pour tout $x$. Sa **loi** est donnée par les $P(X = x)$, $x \\in X(\\Omega)$, de somme 1.\n• **Espérance** : $X$ admet une espérance si $\\sum_{x \\in X(\\Omega)} |x|\\, P(X = x) < +\\infty$ ; on pose alors $E(X) = \\sum_x x\\, P(X = x)$.\n• **Théorème de transfert** : $g(X)$ admet une espérance si et seulement si $\\sum_x |g(x)| P(X = x) < +\\infty$, et alors $E(g(X)) = \\sum_x g(x) P(X = x)$. Il vaut aussi pour un couple : $E(g(X, Y)) = \\sum_{(x, y)} g(x, y) P(X = x, Y = y)$.\n• **Propriétés** : positivité ($X \\ge 0 \\implies E(X) \\ge 0$), croissance, $E(\\mathbf{1}_A) = P(A)$."
+        "content": "• $X : \\Omega \\to \\mathbb{R}$ est une **variable aléatoire discrète** si $X(\\Omega)$ est fini ou dénombrable et $\\{X = x\\} \\in \\mathcal{A}$ pour tout $x$. Sa **loi** est donnée par les $P(X = x)$, $x \\in X(\\Omega)$, de somme 1.\n• **Espérance** : $X$ admet une espérance si $\\sum_{x \\in X(\\Omega)} |x|\\, P(X = x) < +\\infty$ ; on pose alors $E(X) = \\sum_x x\\, P(X = x)$.\n• **Théorème de transfert** : $g(X)$ admet une espérance si et seulement si $\\sum_x |g(x)| P(X = x) < +\\infty$, et alors $E(g(X)) = \\sum_x g(x) P(X = x)$. Il vaut aussi pour un couple : $E(g(X, Y)) = \\sum_{(x, y)} g(x, y) P(X = x, Y = y)$.\n• **Propriétés** : positivité ($X \\ge 0 \\implies E(X) \\ge 0$), croissance, $E(\\mathbf{1}_A) = P(A)$.\n• **Indépendance de deux variables** : $X$ et $Y$ discrètes sont **indépendantes** si, pour tous $x \\in X(\\Omega)$ et $y \\in Y(\\Omega)$, $P(X = x, Y = y) = P(X = x)\\,P(Y = y)$, c'est-à-dire si les événements $\\{X = x\\}$ et $\\{Y = y\\}$ sont indépendants. Par sommation ($\\sigma$-additivité), on a alors $P(X \\in A, Y \\in B) = P(X \\in A)\\,P(Y \\in B)$ pour toutes parties $A$ et $B$ de $\\mathbb{R}$, et $f(X)$ et $g(Y)$ sont indépendantes pour toutes fonctions $f$ et $g$.\n• **Famille de variables** : $(X_i)_{i \\in I}$ est une famille de variables **(mutuellement) indépendantes** si, pour toute partie finie $J$ de $I$ et tous $x_j \\in X_j(\\Omega)$, $P\\left(\\bigcap_{j \\in J} \\{X_j = x_j\\}\\right) = \\prod_{j \\in J} P(X_j = x_j)$, c'est-à-dire si, pour tout choix des $x_j$, les événements $\\{X_j = x_j\\}$ sont mutuellement indépendants. Sans autre précision, « indépendantes » signifie mutuellement indépendantes.\n• **Lien avec les événements** : $A$ et $B$ sont indépendants si et seulement si les variables $\\mathbf{1}_A$ et $\\mathbf{1}_B$ sont indépendantes."
       },
       {
         "title": "4. Démonstration : linéarité de l'espérance",
@@ -1304,15 +1479,15 @@ window.MATHS_COURSES_L2 = {
       },
       {
         "title": "5. Variance, covariance et inégalité de Bienaymé-Tchebychev",
-        "content": "• Si $E(X^2) < +\\infty$ : $V(X) = E\\left[(X - E(X))^2\\right] = E(X^2) - E(X)^2 \\ge 0$, $\\sigma(X) = \\sqrt{V(X)}$, et $V(aX + b) = a^2 V(X)$.\n• $\\text{Cov}(X, Y) = E(XY) - E(X)E(Y)$ et $V(X + Y) = V(X) + V(Y) + 2\\,\\text{Cov}(X, Y)$. Si $X$ et $Y$ sont indépendantes, $E(XY) = E(X)E(Y)$, donc $\\text{Cov}(X, Y) = 0$ et $V(X + Y) = V(X) + V(Y)$.\n**Inégalité de Markov.** Si $X \\ge 0$ admet une espérance et $a > 0$ : $P(X \\ge a) \\le \\frac{E(X)}{a}$.\n**Inégalité de Bienaymé-Tchebychev.** Si $E(X^2) < +\\infty$ et $\\varepsilon > 0$ : $P\\left(|X - E(X)| \\ge \\varepsilon\\right) \\le \\frac{V(X)}{\\varepsilon^2}$.\n**Démonstration.**\n1. **Markov** : on a $a\\, \\mathbf{1}_{\\{X \\ge a\\}} \\le X$ (si $X \\ge a$, c'est $a \\le X$ ; sinon, $0 \\le X$). Par croissance et linéarité de l'espérance : $a\\, P(X \\ge a) \\le E(X)$.\n2. **Bienaymé-Tchebychev** : $\\{|X - E(X)| \\ge \\varepsilon\\} = \\{(X - E(X))^2 \\ge \\varepsilon^2\\}$ ; on applique Markov à la variable positive $(X - E(X))^2$, d'espérance $V(X)$, avec $a = \\varepsilon^2$.\n• **Exemple** : si $X \\sim \\mathcal{B}(100, \\frac{1}{2})$, $V(X) = 25$ et $P(|X - 50| \\ge 10) \\le \\frac{25}{100} = \\frac{1}{4}$.\n• **Loi faible des grands nombres** : si les $X_i$ sont indépendantes, de même loi, de moyenne $m$ et de variance $\\sigma^2$, alors $P\\left(\\left|\\frac{X_1 + \\dots + X_n}{n} - m\\right| \\ge \\varepsilon\\right) \\le \\frac{\\sigma^2}{n\\varepsilon^2} \\to 0$."
+        "content": "• Si $E(X^2) < +\\infty$ : $V(X) = E\\left[(X - E(X))^2\\right] = E(X^2) - E(X)^2 \\ge 0$, $\\sigma(X) = \\sqrt{V(X)}$, et $V(aX + b) = a^2 V(X)$.\n• $\\text{Cov}(X, Y) = E(XY) - E(X)E(Y)$ et $V(X + Y) = V(X) + V(Y) + 2\\,\\text{Cov}(X, Y)$. Si $X$ et $Y$ sont indépendantes et admettent une espérance, alors $XY$ admet une espérance et $E(XY) = E(X)E(Y)$ (transfert pour le couple : $\\sum_{(x, y)} |xy|\\, P(X = x)P(Y = y) = \\sum_x |x| P(X = x) \\sum_y |y| P(Y = y) < +\\infty$, puis même calcul sans les valeurs absolues), donc $\\text{Cov}(X, Y) = 0$ et $V(X + Y) = V(X) + V(Y)$.\n**Inégalité de Markov.** Si $X \\ge 0$ admet une espérance et $a > 0$ : $P(X \\ge a) \\le \\frac{E(X)}{a}$.\n**Inégalité de Bienaymé-Tchebychev.** Si $E(X^2) < +\\infty$ et $\\varepsilon > 0$ : $P\\left(|X - E(X)| \\ge \\varepsilon\\right) \\le \\frac{V(X)}{\\varepsilon^2}$.\n**Démonstration.**\n1. **Markov** : on a $a\\, \\mathbf{1}_{\\{X \\ge a\\}} \\le X$ (si $X \\ge a$, c'est $a \\le X$ ; sinon, $0 \\le X$). Par croissance et linéarité de l'espérance : $a\\, P(X \\ge a) \\le E(X)$.\n2. **Bienaymé-Tchebychev** : $\\{|X - E(X)| \\ge \\varepsilon\\} = \\{(X - E(X))^2 \\ge \\varepsilon^2\\}$ ; on applique Markov à la variable positive $(X - E(X))^2$, d'espérance $V(X)$, avec $a = \\varepsilon^2$.\n• **Exemple** : si $X \\sim \\mathcal{B}(100, \\frac{1}{2})$, $V(X) = 25$ et $P(|X - 50| \\ge 10) \\le \\frac{25}{100} = \\frac{1}{4}$.\n• **Loi faible des grands nombres** : si les $X_i$ sont indépendantes, de même loi, de moyenne $m$ et de variance $\\sigma^2$, alors $P\\left(\\left|\\frac{X_1 + \\dots + X_n}{n} - m\\right| \\ge \\varepsilon\\right) \\le \\frac{\\sigma^2}{n\\varepsilon^2} \\to 0$."
       },
       {
         "title": "6. Lois discrètes usuelles",
-        "content": "| Loi | $P(X = k)$ | $E(X)$ | $V(X)$ |\n|:---|:---:|:---:|:---:|\n| Bernoulli $\\mathcal{B}(p)$ | $P(X = 1) = p$, $P(X = 0) = 1 - p$ | $p$ | $p(1 - p)$ |\n| Binomiale $\\mathcal{B}(n, p)$ | $\\binom{n}{k} p^k (1-p)^{n-k}$, $0 \\le k \\le n$ | $np$ | $np(1-p)$ |\n| Géométrique $\\mathcal{G}(p)$ | $(1 - p)^{k-1} p$, $k \\ge 1$ | $\\frac{1}{p}$ | $\\frac{1 - p}{p^2}$ |\n| Poisson $\\mathcal{P}(\\lambda)$ | $e^{-\\lambda}\\frac{\\lambda^k}{k!}$, $k \\ge 0$ | $\\lambda$ | $\\lambda$ |\n• La binomiale compte les succès dans $n$ épreuves de Bernoulli indépendantes de paramètre $p$ ; c'est la loi d'une somme de $n$ variables de Bernoulli indépendantes.\n• La loi géométrique est le rang du premier succès ; elle est **sans mémoire** : $P(X > n + k \\mid X > n) = P(X > k)$.\n• **Approximation** : si $n p_n \\to \\lambda$, alors $P(X_n = k) \\to e^{-\\lambda}\\frac{\\lambda^k}{k!}$ pour $X_n \\sim \\mathcal{B}(n, p_n)$."
+        "content": "| Loi | $P(X = k)$ | $E(X)$ | $V(X)$ |\n|:---|:---:|:---:|:---:|\n| Bernoulli $\\mathcal{B}(p)$ | $P(X = 1) = p$, $P(X = 0) = 1 - p$ | $p$ | $p(1 - p)$ |\n| Binomiale $\\mathcal{B}(n, p)$ | $\\binom{n}{k} p^k (1-p)^{n-k}$, $0 \\le k \\le n$ | $np$ | $np(1-p)$ |\n| Géométrique $\\mathcal{G}(p)$ | $(1 - p)^{k-1} p$, $k \\ge 1$ | $\\frac{1}{p}$ | $\\frac{1 - p}{p^2}$ |\n| Poisson $\\mathcal{P}(\\lambda)$ | $e^{-\\lambda}\\frac{\\lambda^k}{k!}$, $k \\ge 0$ | $\\lambda$ | $\\lambda$ |\n• La binomiale compte les succès dans $n$ épreuves de Bernoulli indépendantes de paramètre $p$ ; c'est la loi d'une somme de $n$ variables de Bernoulli indépendantes.\n• La loi géométrique est le rang du premier succès ; elle est **sans mémoire** : $P(X > n + k \\mid X > n) = P(X > k)$.\n• **Approximation** : si $n p_n \\to \\lambda$, alors $P(X_n = k) \\to e^{-\\lambda}\\frac{\\lambda^k}{k!}$ pour $X_n \\sim \\mathcal{B}(n, p_n)$. On dit que la suite $(X_n)$ **converge en loi** vers la loi de Poisson $\\mathcal{P}(\\lambda)$ : pour des variables à valeurs dans $\\mathbb{N}$, la convergence en loi vers une variable $X$ à valeurs dans $\\mathbb{N}$ signifie que $P(X_n = k) \\to P(X = k)$ pour tout $k \\in \\mathbb{N}$ (la définition générale, par les fonctions de répartition, est donnée en L3-PRC). En pratique, on approche $\\mathcal{B}(n, p)$ par $\\mathcal{P}(np)$ lorsque $n$ est grand et $p$ petit."
       },
       {
         "title": "7. Fonctions génératrices",
-        "content": "Pour $X$ à valeurs dans $\\mathbb{N}$ : $G_X(t) = E(t^X) = \\sum_{k=0}^{+\\infty} P(X = k)\\, t^k$, série entière de rayon au moins 1, définie au moins sur $[-1 ; 1]$, avec $G_X(1) = 1$.\n• La fonction génératrice **caractérise la loi** : $P(X = k) = \\frac{G_X^{(k)}(0)}{k!}$.\n• $X$ admet une espérance si et seulement si $G_X$ est dérivable (à gauche) en $1$, et alors $E(X) = G_X'(1)$.\n• $X$ admet un moment d'ordre 2 si et seulement si $G_X$ est deux fois dérivable en $1$, et alors $V(X) = G_X''(1) + G_X'(1) - G_X'(1)^2$.\n• Si $X$ et $Y$ sont **indépendantes** : $G_{X+Y} = G_X\\, G_Y$. Exemple : la somme de deux variables de Poisson indépendantes de paramètres $\\lambda$ et $\\mu$ suit $\\mathcal{P}(\\lambda + \\mu)$."
+        "content": "Pour $X$ à valeurs dans $\\mathbb{N}$ : $G_X(t) = E(t^X) = \\sum_{k=0}^{+\\infty} P(X = k)\\, t^k$, série entière de rayon au moins 1, définie au moins sur $[-1 ; 1]$, avec $G_X(1) = 1$.\n• **Ce qui est démontré, ce qui est admis** : pour $|t| \\le 1$, $|P(X = k)\\, t^k| \\le P(X = k)$ et $\\sum_k P(X = k) = 1$, donc la série converge absolument par comparaison : c'est la seule propriété démontrée ici. Le rayon de convergence et le lemme d'Abel sont présentés au § 4 du chapitre L2-PRF ; la théorie complète des séries entières (dérivation terme à terme, unicité des coefficients) est faite en L3-SER. Les propriétés de dérivation de $G_X$ énoncées ci-dessous sont admises à ce stade.\n• La fonction génératrice **caractérise la loi** : $P(X = k) = \\frac{G_X^{(k)}(0)}{k!}$.\n• $X$ admet une espérance si et seulement si $G_X$ est dérivable (à gauche) en $1$, et alors $E(X) = G_X'(1)$.\n• $X$ admet un moment d'ordre 2 si et seulement si $G_X$ est deux fois dérivable en $1$, et alors $V(X) = G_X''(1) + G_X'(1) - G_X'(1)^2$.\n• Si $X$ et $Y$ sont **indépendantes** : $G_{X+Y} = G_X\\, G_Y$. Exemple : la somme de deux variables de Poisson indépendantes de paramètres $\\lambda$ et $\\mu$ suit $\\mathcal{P}(\\lambda + \\mu)$."
       }
     ],
     "methods": [
@@ -1363,6 +1538,10 @@ window.MATHS_COURSES_L2 = {
       {
         "q": "Quelle loi discrète est sans mémoire ?",
         "a": "La loi géométrique : $P(X > n + k \\mid X > n) = P(X > k)$."
+      },
+      {
+        "q": "Quand deux variables aléatoires discrètes $X$ et $Y$ sont-elles indépendantes ?",
+        "a": "Si $P(X = x, Y = y) = P(X = x)\\,P(Y = y)$ pour tous $x \\in X(\\Omega)$ et $y \\in Y(\\Omega)$."
       },
       {
         "q": "Comment obtient-on la fonction génératrice d'une somme de variables indépendantes ?",
@@ -1440,7 +1619,7 @@ window.MATHS_EXERCISES_L2 = {
       "statement": "Que vaut le déterminant de Vandermonde $V(a, b, c) = \\begin{vmatrix} 1 & a & a^2 \\\\ 1 & b & b^2 \\\\ 1 & c & c^2 \\end{vmatrix}$ ?",
       "options": [
         "$(c - b)(c - a)(b - a)$",
-        "$(a - b)(b - c)(c - a)$",
+        "$(a - b)(b - c)(a - c)$",
         "$(a + b + c)(ab + bc + ca)$",
         "$abc$"
       ],
@@ -1449,6 +1628,18 @@ window.MATHS_EXERCISES_L2 = {
       "hint1": "Le déterminant de Vandermonde est le produit $\\prod_{1 \\le i < j \\le n} (x_j - x_i)$.",
       "hint2": "Pour $n = 3$, avec $x_1 = a$, $x_2 = b$, $x_3 = c$, les couples $(i, j)$ tels que $i < j$ sont $(1,2)$, $(1,3)$ et $(2,3)$.",
       "solution": "Par les opérations élémentaires sur les lignes ou par racines polynomiales, $V(a, b, c) = (b - a)(c - a)(c - b) = (c - b)(c - a)(b - a)$."
+    },
+    {
+      "id": "L2-DET-5",
+      "tier": 3,
+      "type": "exact",
+      "title": "Matrice à paramètre non inversible",
+      "skill": "Calculer un déterminant 3x3 à paramètre et l'utiliser pour l'inversibilité",
+      "statement": "Soit $m \\in \\mathbb{R}$ et $A_m = \\begin{pmatrix} 1 & 2 & m \\\\ 0 & 1 & 3 \\\\ 2 & 1 & 0 \\end{pmatrix}$. Déterminer l'unique valeur de $m$ pour laquelle $A_m$ n'est pas inversible.",
+      "answer": "9/2",
+      "hint1": "Une matrice carrée est inversible si et seulement si son déterminant est non nul : calcule $\\det(A_m)$ en fonction de $m$.",
+      "hint2": "En développant selon la première ligne, le terme en $m$ vaut $m \\begin{vmatrix} 0 & 1 \\\\ 2 & 1 \\end{vmatrix}$. Calcule les deux autres termes, puis résous $\\det(A_m) = 0$.",
+      "solution": "En développant selon la première ligne :\n$\\det(A_m) = 1 \\cdot \\begin{vmatrix} 1 & 3 \\\\ 1 & 0 \\end{vmatrix} - 2 \\begin{vmatrix} 0 & 3 \\\\ 2 & 0 \\end{vmatrix} + m \\begin{vmatrix} 0 & 1 \\\\ 2 & 1 \\end{vmatrix} = -3 - 2 \\times (-6) + m \\times (-2) = 9 - 2m$.\n$A_m$ est inversible si et seulement si $\\det(A_m) \\neq 0$, c'est-à-dire $m \\neq \\frac{9}{2}$. La seule valeur cherchée est $m = \\frac{9}{2}$."
     }
   ],
   "L2-RED1": [
@@ -1527,6 +1718,18 @@ window.MATHS_EXERCISES_L2 = {
       "hint1": "$A^k = P D^k P^{-1}$, donc $A^k$ et $D^k$ sont semblables.",
       "hint2": "Deux matrices semblables ont la même trace : calcule $D^k$ (diagonale) puis sa trace.",
       "solution": "Comme $A^k$ est semblable à $D^k = \\begin{pmatrix} 1^k & 0 \\\\ 0 & 2^k \\end{pmatrix}$, la trace est invariante par similitude : $\\text{Tr}(A^k) = 1 + 2^k$."
+    },
+    {
+      "id": "L2-RED1-5",
+      "tier": 4,
+      "type": "exact",
+      "title": "Suite récurrente linéaire par diagonalisation",
+      "skill": "Appliquer la diagonalisation au calcul d'un terme d'une suite récurrente vectorielle",
+      "statement": "On définit deux suites par $u_0 = 1$, $v_0 = 0$ et, pour tout $k \\in \\mathbb{N}$, $u_{k+1} = 2u_k + v_k$ et $v_{k+1} = u_k + 2v_k$. En diagonalisant la matrice $A$ telle que $X_{k+1} = A X_k$ avec $X_k = \\begin{pmatrix} u_k \\\\ v_k \\end{pmatrix}$, calculer $u_6$.",
+      "answer": "365",
+      "hint1": "Écris $A = \\begin{pmatrix} 2 & 1 \\\\ 1 & 2 \\end{pmatrix}$, cherche ses valeurs propres et des vecteurs propres associés, puis utilise $X_k = A^k X_0 = P D^k P^{-1} X_0$.",
+      "hint2": "Les vecteurs $(1, 1)$ et $(1, -1)$ sont propres pour $A$. Décompose $X_0 = (1, 0)$ sur ces deux vecteurs, puis applique $A^k$ à chaque composante.",
+      "solution": "$A = \\begin{pmatrix} 2 & 1 \\\\ 1 & 2 \\end{pmatrix}$ a pour polynôme caractéristique $(X - 2)^2 - 1 = (X - 3)(X - 1)$ : deux valeurs propres distinctes, donc $A$ est diagonalisable. On a $A(1, 1) = 3(1, 1)$ et $A(1, -1) = (1, -1)$.\nComme $X_0 = (1, 0) = \\frac{1}{2}(1, 1) + \\frac{1}{2}(1, -1)$, on obtient $X_k = A^k X_0 = \\frac{3^k}{2}(1, 1) + \\frac{1}{2}(1, -1)$, soit $u_k = \\frac{3^k + 1}{2}$ et $v_k = \\frac{3^k - 1}{2}$.\nContrôle : $u_1 = 2$ et $v_1 = 1$, conformes à la récurrence. Donc $u_6 = \\frac{729 + 1}{2} = 365$."
     }
   ],
   "L2-RED2": [
@@ -1555,7 +1758,7 @@ window.MATHS_EXERCISES_L2 = {
       "type": "mcq",
       "title": "Polynôme minimal et diagonalisabilité",
       "skill": "Caractériser la diagonalisabilité par le polynôme minimal",
-      "statement": "Une matrice $A \\in \\mathcal{M}_n(K)$ est diagonalisable sur $K$ si et seulement si son polynôme minimal $\\mu_A$ :",
+      "statement": "Une matrice $A \\in \\mathcal{M}_n(K)$ est diagonalisable sur $K$ si et seulement si son polynôme minimal $\\pi_A$ :",
       "options": [
         "Est scindé à racines simples sur $K$",
         "Est de degré $n$",
@@ -1564,8 +1767,8 @@ window.MATHS_EXERCISES_L2 = {
       ],
       "correctIndex": 0,
       "answer": "Est scindé à racines simples sur $K$",
-      "hint1": "Pense au lemme des noyaux : si $\\mu_A = \\prod_i (X - \\lambda_i)$ avec des $\\lambda_i$ deux à deux distincts, alors $K^n = \\bigoplus_i \\text{Ker}(A - \\lambda_i I_n)$.",
-      "hint2": "Les racines de $\\mu_A$ sont exactement les valeurs propres.",
+      "hint1": "Pense au lemme des noyaux : si $\\pi_A = \\prod_i (X - \\lambda_i)$ avec des $\\lambda_i$ deux à deux distincts, alors $K^n = \\bigoplus_i \\text{Ker}(A - \\lambda_i I_n)$.",
+      "hint2": "Les racines de $\\pi_A$ sont exactement les valeurs propres.",
       "solution": "Une matrice $A$ est diagonalisable si et seulement si son polynôme minimal est scindé à racines simples sur le corps $K$ considéré."
     },
     {
@@ -1605,6 +1808,25 @@ window.MATHS_EXERCISES_L2 = {
       "hint1": "Comme $N^2 = 0$, la série exponentielle $\\sum_{k=0}^\\infty \\frac{N^k}{k!}$ s'arrête à $k=1$.",
       "hint2": "$\\exp(N) = I_2 + N$.",
       "solution": "Comme $N^2 = 0$, tous les termes d'ordre $k \\ge 2$ sont nuls. Ainsi $\\exp(N) = I_2 + N = \\begin{pmatrix} 1 & 3 \\\\ 0 & 1 \\end{pmatrix}$."
+    },
+    {
+      "id": "L2-RED2-5",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Une fausse décomposition de Dunford",
+      "skill": "Vérifier les hypothèses de la décomposition de Dunford sur un exemple",
+      "statement": "Soit $A = \\begin{pmatrix} 1 & 1 \\\\ 0 & 2 \\end{pmatrix}$. On écrit $A = D + N$ avec $D = \\begin{pmatrix} 1 & 0 \\\\ 0 & 2 \\end{pmatrix}$ et $N = \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix}$. Est-ce la décomposition de Dunford de $A$ ?",
+      "options": [
+        "Non : $DN \\neq ND$ ; comme $A$ a deux valeurs propres distinctes, elle est diagonalisable et sa décomposition de Dunford est $D = A$, $N = 0$",
+        "Oui : $D$ est diagonale et $N$ est nilpotente",
+        "Non : $N$ n'est pas nilpotente",
+        "Non : $A$ n'a pas de décomposition de Dunford, car son polynôme caractéristique n'est pas scindé"
+      ],
+      "correctIndex": 0,
+      "answer": "Non : $DN \\neq ND$ ; comme $A$ a deux valeurs propres distinctes, elle est diagonalisable et sa décomposition de Dunford est $D = A$, $N = 0$",
+      "hint1": "La décomposition de Dunford demande trois conditions : $D$ diagonalisable, $N$ nilpotente et $DN = ND$. Vérifie la troisième en calculant les deux produits.",
+      "hint2": "On trouve $DN = \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix}$. Calcule $ND$, puis regarde les valeurs propres de $A$ : que peut-on dire d'une matrice $2 \\times 2$ à deux valeurs propres distinctes ?",
+      "solution": "$D$ est diagonale et $N^2 = 0$, mais $DN = \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix}$ et $ND = \\begin{pmatrix} 0 & 2 \\\\ 0 & 0 \\end{pmatrix}$ : $D$ et $N$ ne commutent pas, donc ce n'est pas la décomposition de Dunford.\n$A$ est triangulaire, de valeurs propres $1$ et $2$ distinctes : son polynôme caractéristique $(X - 1)(X - 2)$ est scindé à racines simples, donc $A$ est diagonalisable. Par unicité de la décomposition, $D = A$ et $N = 0$.\nÀ retenir : « diagonale plus nilpotente » ne suffit pas, la commutation est indispensable."
     }
   ],
   "L2-DUA": [
@@ -1683,6 +1905,18 @@ window.MATHS_EXERCISES_L2 = {
       "hint1": "Par définition, $\\text{codim}(H) = 1$, donc par le théorème du rang, son équation provient d'une forme linéaire dans le corps $K$.",
       "hint2": "Si $H$ est un hyperplan, choisis $a \\notin H$ : $E = H \\oplus Ka$. Considère la forme $\\varphi$ qui à $x = h + \\lambda a$ associe $\\lambda$ : quel est son noyau ?",
       "solution": "Un sous-espace $H$ est un hyperplan si et seulement s'il existe une forme linéaire non nulle $\\varphi$ telle que $H = \\text{Ker}(\\varphi)$, deux formes ayant même noyau étant proportionnelles."
+    },
+    {
+      "id": "L2-DUA-5",
+      "tier": 4,
+      "type": "exact",
+      "title": "Équation d'un hyperplan donné par une base",
+      "skill": "Déterminer une forme linéaire de noyau un hyperplan donné",
+      "statement": "Dans $\\mathbb{R}^3$, soit $H = \\mathrm{Vect}(u, v)$ avec $u = (1, 0, 1)$ et $v = (0, 1, 2)$. Il existe une unique forme linéaire $\\varphi(x, y, z) = x + by + cz$ dont $H$ est le noyau. Déterminer le couple $(b ; c)$, à saisir sous la forme $(b;c)$.",
+      "answer": "(2;-1)",
+      "hint1": "Comme $u$ et $v$ ne sont pas colinéaires, $H$ est un plan, donc un hyperplan de $\\mathbb{R}^3$. Une forme linéaire non nulle s'annule sur $H$ si et seulement si elle s'annule sur $u$ et sur $v$.",
+      "hint2": "La condition $\\varphi(u) = 0$ s'écrit $1 + c = 0$. Écris de même $\\varphi(v) = 0$ et déduis-en $b$.",
+      "solution": "$u$ et $v$ ne sont pas colinéaires, donc $H$ est de dimension $2$ : c'est un hyperplan de $\\mathbb{R}^3$.\n$\\varphi(u) = 1 + c = 0$ donne $c = -1$, puis $\\varphi(v) = b + 2c = 0$ donne $b = 2$.\nLa forme $\\varphi(x, y, z) = x + 2y - z$ est non nulle, donc son noyau est de dimension $2$ ; il contient $u$ et $v$, donc il est égal à $H$. Les formes de noyau $H$ sont les $\\lambda \\varphi$ avec $\\lambda \\neq 0$ : imposer le coefficient $1$ devant $x$ fixe $\\lambda = 1$. Réponse : $(b ; c) = (2 ; -1)$."
     }
   ],
   "L2-PRE": [
@@ -1692,7 +1926,7 @@ window.MATHS_EXERCISES_L2 = {
       "type": "mcq",
       "title": "Inégalité de Cauchy-Schwarz",
       "skill": "Énoncer l'inégalité de Cauchy-Schwarz",
-      "statement": "Pour tous vecteurs $x, y$ d'un espace préhilbertien réel muni du produit scalaire $\\langle \\cdot, \\cdot \\rangle$, que vaut l'inégalité de Cauchy-Schwarz ?",
+      "statement": "Pour tous vecteurs $x, y$ d'un espace préhilbertien réel muni du produit scalaire $\\langle \\cdot, \\cdot \\rangle$, que dit l'inégalité de Cauchy-Schwarz ?",
       "options": [
         "$|\\langle x, y \\rangle| \\le \\|x\\| \\|y\\|$",
         "$\\langle x, y \\rangle \\ge \\|x\\| + \\|y\\|$",
@@ -1760,7 +1994,50 @@ window.MATHS_EXERCISES_L2 = {
       "answer": "$\\|x + y\\|^2 + \\|x - y\\|^2 = 2\\|x\\|^2 + 2\\|y\\|^2$",
       "hint1": "Théorème de Fréchet-von Neumann-Jordan.",
       "hint2": "Pour une norme issue d'un produit scalaire, développe $\\|x + y\\|^2$ et $\\|x - y\\|^2$ puis additionne : les doubles produits $2\\langle x, y \\rangle$ disparaissent.",
-      "solution": "Le théorème de Jordan-von Neumann stipule qu'une norme est issue d'un produit scalaire si et seulement si elle vérifie l'identité du parallélogramme $\\|x + y\\|^2 + \\|x - y\\|^2 = 2\\|x\\|^2 + 2\\|y\\|^2$."
+      "solution": "Le théorème de Fréchet-von Neumann-Jordan stipule qu'une norme est issue d'un produit scalaire si et seulement si elle vérifie l'identité du parallélogramme $\\|x + y\\|^2 + \\|x - y\\|^2 = 2\\|x\\|^2 + 2\\|y\\|^2$."
+    },
+    {
+      "id": "L2-PRE-5",
+      "tier": 3,
+      "type": "exact",
+      "title": "Distance d'un vecteur à une droite",
+      "skill": "Calculer une distance à un sous-espace par projection orthogonale",
+      "statement": "Dans $\\mathbb{R}^3$ muni du produit scalaire usuel, soit $F = \\mathrm{Vect}(u)$ avec $u = (1, 2, 2)$ et $x = (3, 3, 0)$. Calculer la distance $d(x, F)$.",
+      "answer": "3",
+      "hint1": "Le projeté orthogonal sur la droite $F = \\mathrm{Vect}(u)$ est $p_F(x) = \\frac{\\langle x, u \\rangle}{\\|u\\|^2}\\, u$, et $d(x, F) = \\|x - p_F(x)\\|$.",
+      "hint2": "Ici $\\|u\\|^2 = 9$. Calcule $\\langle x, u \\rangle$, puis $p_F(x)$ et enfin la norme de $x - p_F(x)$.",
+      "solution": "$\\langle x, u \\rangle = 3 + 6 + 0 = 9$ et $\\|u\\|^2 = 1 + 4 + 4 = 9$, donc $p_F(x) = u = (1, 2, 2)$.\n$x - p_F(x) = (2, 1, -2)$, qui est bien orthogonal à $u$ : $2 + 2 - 4 = 0$.\n$d(x, F) = \\|(2, 1, -2)\\| = \\sqrt{4 + 1 + 4} = 3$."
+    },
+    {
+      "id": "L2-PRE-6",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Une norme qui ne vient pas d'un produit scalaire",
+      "skill": "Utiliser l'identité du parallélogramme comme contre-exemple",
+      "statement": "Sur $\\mathbb{R}^2$, on considère la norme $\\|(a, b)\\|_1 = |a| + |b|$, et $x = (1, 0)$, $y = (0, 1)$. Que peut-on conclure ?",
+      "options": [
+        "$\\|x + y\\|_1^2 + \\|x - y\\|_1^2 = 8$ et $2\\|x\\|_1^2 + 2\\|y\\|_1^2 = 4$ : l'identité du parallélogramme est fausse, donc $\\|\\cdot\\|_1$ ne provient d'aucun produit scalaire",
+        "Les deux membres de l'identité du parallélogramme valent $4$ : $\\|\\cdot\\|_1$ provient d'un produit scalaire",
+        "$\\|x + y\\|_1 = \\sqrt{2}$, donc l'identité du parallélogramme est vérifiée",
+        "On ne peut rien conclure : l'identité du parallélogramme ne concerne que les normes euclidiennes"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\|x + y\\|_1^2 + \\|x - y\\|_1^2 = 8$ et $2\\|x\\|_1^2 + 2\\|y\\|_1^2 = 4$ : l'identité du parallélogramme est fausse, donc $\\|\\cdot\\|_1$ ne provient d'aucun produit scalaire",
+      "hint1": "Si une norme provient d'un produit scalaire, en développant $\\|x + y\\|^2$ et $\\|x - y\\|^2$ on obtient $\\|x + y\\|^2 + \\|x - y\\|^2 = 2\\|x\\|^2 + 2\\|y\\|^2$ pour tous $x, y$. Un seul couple qui la met en défaut suffit.",
+      "hint2": "Ici $x + y = (1, 1)$ et $x - y = (1, -1)$ : calcule leurs normes $\\|\\cdot\\|_1$, puis compare les deux membres.",
+      "solution": "Si $\\|z\\|^2 = \\langle z, z \\rangle$, on a $\\|x \\pm y\\|^2 = \\|x\\|^2 \\pm 2\\langle x, y \\rangle + \\|y\\|^2$, et la somme donne l'identité du parallélogramme.\nPour la norme $\\|\\cdot\\|_1$ : $\\|x + y\\|_1 = |1| + |1| = 2$ et $\\|x - y\\|_1 = |1| + |-1| = 2$, donc le premier membre vaut $4 + 4 = 8$ ; le second vaut $2 \\times 1 + 2 \\times 1 = 4$.\nL'identité est fausse pour ce couple, donc $\\|\\cdot\\|_1$ ne provient d'aucun produit scalaire."
+    },
+    {
+      "id": "L2-PRE-7",
+      "tier": 3,
+      "type": "exact",
+      "title": "Droite de régression par les moindres carrés",
+      "skill": "Calculer un ajustement affine comme une projection orthogonale",
+      "statement": "On considère la série statistique double suivante : pour $x_i = 0, 1, 2, 3, 4$, on a relevé respectivement $y_i = 0, 4, 5, 8, 8$. Déterminer le couple $(a ; b)$ tel que la droite d'équation $y = ax + b$ soit la droite de régression de $y$ en $x$ par la méthode des moindres carrés. Saisir sous la forme $(a;b)$.",
+      "answer": "(2;1)",
+      "hint1": "La droite des moindres carrés a pour coefficient directeur $a = \\frac{\\text{Cov}(x, y)}{V(x)}$ et passe par le point moyen $(\\bar{x}, \\bar{y})$, donc $b = \\bar{y} - a\\bar{x}$.",
+      "hint2": "Ici $\\bar{x} = 2$ et $\\bar{y} = 5$, et les écarts $x_i - \\bar{x}$ valent $-2, -1, 0, 1, 2$, d'où $V(x) = \\frac{4 + 1 + 0 + 1 + 4}{5} = 2$. Calcule les écarts $y_i - \\bar{y}$, puis $\\text{Cov}(x, y)$.",
+      "solution": "$\\bar{x} = \\frac{10}{5} = 2$ et $\\bar{y} = \\frac{25}{5} = 5$. Les écarts valent $-2, -1, 0, 1, 2$ pour $x$ et $-5, -1, 0, 3, 3$ pour $y$.\n$V(x) = \\frac{4 + 1 + 0 + 1 + 4}{5} = 2$ et $\\text{Cov}(x, y) = \\frac{10 + 1 + 0 + 3 + 6}{5} = 4$, donc $a = \\frac{4}{2} = 2$ et $b = 5 - 2 \\times 2 = 1$ : la droite de régression a pour équation $y = 2x + 1$.\nContrôle : les résidus $y_i - (2x_i + 1)$ valent $-1, 1, 0, 1, -1$ ; ils sont de somme nulle et orthogonaux à $(x_i)$, puisque $0 + 1 + 0 + 3 - 4 = 0$. Le coefficient de corrélation vaut $r = \\frac{4}{\\sqrt{2} \\times \\sqrt{\\frac{44}{5}}} = \\frac{20}{\\sqrt{440}} \\approx 0{,}95$ : l'ajustement affine est pertinent."
     }
   ],
   "L2-SYM": [
@@ -1839,6 +2116,18 @@ window.MATHS_EXERCISES_L2 = {
       "hint1": "Réduis en carrés de Gauss : $x^2 - 4xy + 5y^2 = (x - 2y)^2 - 4y^2 + 5y^2$.",
       "hint2": "$(x - 2y)^2 + y^2$. Les deux coefficients devant les carrés sont $+1 > 0$.",
       "solution": "$q(x, y) = (x - 2y)^2 + y^2$. C'est une somme de deux carrés indépendants affectés de coefficients strictement positifs. La signature est $(2, 0)$ : la forme est définie positive."
+    },
+    {
+      "id": "L2-SYM-5",
+      "tier": 3,
+      "type": "exact",
+      "title": "Déterminant d'une matrice orthogonale donnée",
+      "skill": "Vérifier qu'une matrice est orthogonale et calculer son déterminant",
+      "statement": "Soit $P = \\frac{1}{3}\\begin{pmatrix} 1 & 2 & 2 \\\\ 2 & 1 & -2 \\\\ 2 & -2 & 1 \\end{pmatrix}$. Vérifier que $P$ est orthogonale, puis calculer $\\det(P)$.",
+      "answer": "-1",
+      "hint1": "$P$ est orthogonale si ses colonnes forment une famille orthonormée. Son déterminant vaut alors $1$ ou $-1$ : il reste à trouver le signe par le calcul.",
+      "hint2": "Le facteur $\\frac{1}{3}$ multiplie chacune des trois lignes, donc $\\det(P) = \\frac{1}{27} \\det(M)$ avec $M = \\begin{pmatrix} 1 & 2 & 2 \\\\ 2 & 1 & -2 \\\\ 2 & -2 & 1 \\end{pmatrix}$. Développe $\\det(M)$ selon la première ligne.",
+      "solution": "Les colonnes de $3P$ sont $(1, 2, 2)$, $(2, 1, -2)$ et $(2, -2, 1)$, de norme $3$, et deux à deux orthogonales : $2 + 2 - 4 = 0$, $2 - 4 + 2 = 0$, $4 - 2 - 2 = 0$. Les colonnes de $P$ forment donc une base orthonormée : $P \\in \\mathcal{O}_3(\\mathbb{R})$.\n$\\det(M) = 1 \\times (1 - 4) - 2 \\times (2 + 4) + 2 \\times (-4 - 2) = -3 - 12 - 12 = -27$, donc $\\det(P) = \\frac{-27}{27} = -1$.\nComme $P$ est de plus symétrique, $P^2 = P\\,{}^tP = I_3$ : ses valeurs propres valent $\\pm 1$, et la trace $1$ et le déterminant $-1$ donnent $1, 1, -1$. $P$ est la réflexion par rapport au plan orthogonal à $(1, -1, -1)$."
     }
   ],
   "L2-SER": [
@@ -1915,8 +2204,27 @@ window.MATHS_EXERCISES_L2 = {
       "correctIndex": 0,
       "answer": "$H_n = \\ln(n) + \\gamma + o(1)$",
       "hint1": "Compare la somme à l'intégrale $\\int_1^n \\frac{dt}{t} = \\ln(n)$.",
-      "hint2": "$\\gamma \\approx 0.5772$ est la constante d'Euler-Mascheroni.",
+      "hint2": "$\\gamma \\approx 0{,}5772$ est la constante d'Euler-Mascheroni.",
       "solution": "Par comparaison série-intégrale, la série harmonique vérifie le développement asymptotique classique $H_n = \\ln(n) + \\gamma + o(1)$, où $\\gamma$ est la constante d'Euler-Mascheroni."
+    },
+    {
+      "id": "L2-SER-5",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Équivalents et séries de signe non constant",
+      "skill": "Utiliser un développement limité quand le critère d'équivalence ne s'applique pas",
+      "statement": "Quelle est la nature de la série $\\sum_{n \\ge 2} \\ln\\left(1 + \\frac{(-1)^n}{\\sqrt{n}}\\right)$ ?",
+      "options": [
+        "Elle diverge, alors que son terme général est équivalent à $\\frac{(-1)^n}{\\sqrt{n}}$, terme d'une série convergente",
+        "Elle converge, car son terme général est équivalent à $\\frac{(-1)^n}{\\sqrt{n}}$",
+        "Elle converge d'après le critère des séries alternées",
+        "Elle diverge grossièrement, car son terme général ne tend pas vers $0$"
+      ],
+      "correctIndex": 0,
+      "answer": "Elle diverge, alors que son terme général est équivalent à $\\frac{(-1)^n}{\\sqrt{n}}$, terme d'une série convergente",
+      "hint1": "Le terme général change de signe : le critère d'équivalence ne s'applique pas. Pousse le développement limité de $\\ln(1 + x)$ à l'ordre $2$ en $x = \\frac{(-1)^n}{\\sqrt{n}}$.",
+      "hint2": "On obtient $\\ln\\left(1 + \\frac{(-1)^n}{\\sqrt{n}}\\right) = \\frac{(-1)^n}{\\sqrt{n}} - \\frac{1}{2n} + w_n$ avec $w_n = O\\left(\\frac{1}{n^{3/2}}\\right)$. Étudie séparément la nature des trois séries.",
+      "solution": "Comme $\\frac{(-1)^n}{\\sqrt{n}} \\to 0$, on a $\\ln\\left(1 + \\frac{(-1)^n}{\\sqrt{n}}\\right) = \\frac{(-1)^n}{\\sqrt{n}} - \\frac{1}{2n} + w_n$ avec $|w_n| \\le \\frac{C}{n^{3/2}}$.\n• $\\sum \\frac{(-1)^n}{\\sqrt{n}}$ converge (critère des séries alternées) ;\n• $\\sum w_n$ converge absolument (Riemann, $\\frac{3}{2} > 1$) ;\n• $\\sum \\frac{1}{2n}$ diverge.\nLa somme d'une série divergente et de séries convergentes diverge : la série étudiée diverge (vers $-\\infty$). Pourtant son terme général est équivalent à $\\frac{(-1)^n}{\\sqrt{n}}$ : le critère d'équivalence exige des termes de signe constant. Le critère des séries alternées ne s'applique pas non plus, car la valeur absolue du terme général n'est pas décroissante ($\\frac{1}{\\sqrt{n}} \\mp \\frac{1}{2n}$ selon la parité de $n$, à $O(n^{-3/2})$ près)."
     }
   ],
   "L2-RIE": [
@@ -1935,9 +2243,9 @@ window.MATHS_EXERCISES_L2 = {
       ],
       "correctIndex": 0,
       "answer": "$\\frac{2}{3}$",
-      "hint1": "$S_n$ est une somme de Riemann pour la fonction $f(x) = \\sqrt{x}$ sur $[0, 1]$.",
+      "hint1": "$S_n$ est une somme de Riemann pour la fonction $f(x) = \\sqrt{x}$ sur $[0 ; 1]$.",
       "hint2": "$\\lim S_n = \\int_0^1 \\sqrt{x} dx = [\\frac{2}{3} x^{3/2}]_0^1$.",
-      "solution": "$S_n$ est la somme de Riemann associée à la fonction continue $f(x) = \\sqrt{x}$ sur $[0, 1]$ avec un pas de $1/n$. Par le théorème des sommes de Riemann, $\\lim_{n \\to +\\infty} S_n = \\int_0^1 \\sqrt{x} \\, dx = \\left[\\frac{2}{3} x^{3/2}\\right]_0^1 = \\frac{2}{3}$."
+      "solution": "$S_n$ est la somme de Riemann associée à la fonction continue $f(x) = \\sqrt{x}$ sur $[0 ; 1]$ avec un pas de $1/n$. Par le théorème des sommes de Riemann, $\\lim_{n \\to +\\infty} S_n = \\int_0^1 \\sqrt{x} \\, dx = \\left[\\frac{2}{3} x^{3/2}\\right]_0^1 = \\frac{2}{3}$."
     },
     {
       "id": "L2-RIE-2",
@@ -1945,10 +2253,10 @@ window.MATHS_EXERCISES_L2 = {
       "type": "mcq",
       "title": "Sommes de Darboux et critère d'intégrabilité",
       "skill": "Caractériser l'intégrabilité de Riemann par les sommes de Darboux",
-      "statement": "Soit $f : [a, b] \\to \\mathbb{R}$ une fonction bornée. $f$ est intégrable au sens de Riemann sur $[a, b]$ si et seulement si :",
+      "statement": "Soit $f : [a ; b] \\to \\mathbb{R}$ une fonction bornée. $f$ est intégrable au sens de Riemann sur $[a ; b]$ si et seulement si :",
       "options": [
         "$\\forall \\varepsilon > 0$, il existe une subdivision $\\sigma$ telle que $S(f, \\sigma) - s(f, \\sigma) < \\varepsilon$",
-        "$f$ est strictement croissante sur $[a, b]$",
+        "$f$ est strictement croissante sur $[a ; b]$",
         "$f$ est de classe $\\mathcal{C}^1$",
         "L'ensemble des points de discontinuité de $f$ est vide"
       ],
@@ -1964,7 +2272,7 @@ window.MATHS_EXERCISES_L2 = {
       "type": "mcq",
       "title": "Intégration des fonctions réglées",
       "skill": "Propriétés des fonctions réglées et continues par morceaux",
-      "statement": "Dans l'espace vectoriel $\\mathcal{B}([a, b], \\mathbb{R})$ muni de la norme uniforme $\\|\\cdot\\|_\\infty$, quelle est la caractérisation fondamentale des fonctions réglées ?",
+      "statement": "Dans l'espace vectoriel $\\mathcal{B}([a ; b], \\mathbb{R})$ muni de la norme uniforme $\\|\\cdot\\|_\\infty$, quelle est la caractérisation fondamentale des fonctions réglées ?",
       "options": [
         "Elles forment l'adhérence de l'ensemble des fonctions en escalier",
         "Elles sont toutes dérivables sauf en un nombre fini de points",
@@ -1975,7 +2283,7 @@ window.MATHS_EXERCISES_L2 = {
       "answer": "Elles forment l'adhérence de l'ensemble des fonctions en escalier",
       "hint1": "Toute fonction réglée est limite uniforme de fonctions en escalier.",
       "hint2": "Elle admet en tout point une limite à gauche et une limite à droite finies.",
-      "solution": "Une fonction est réglée sur un segment $[a, b]$ ssi elle est limite uniforme d'une suite de fonctions en escalier. Toute fonction continue par morceaux est réglée, et toute fonction réglée est intégrable au sens de Riemann."
+      "solution": "Une fonction est réglée sur un segment $[a ; b]$ ssi elle est limite uniforme d'une suite de fonctions en escalier. Toute fonction continue par morceaux est réglée, et toute fonction réglée est intégrable au sens de Riemann."
     },
     {
       "id": "L2-RIE-4",
@@ -1983,18 +2291,49 @@ window.MATHS_EXERCISES_L2 = {
       "type": "mcq",
       "title": "Première formule de la moyenne",
       "skill": "Appliquer la formule de la moyenne pour les intégrales",
-      "statement": "Soient $f, g : [a, b] \\to \\mathbb{R}$ continues avec $g \\ge 0$ ne s'annulant pas identiquement. Que garantit la première formule de la moyenne ?",
+      "statement": "Soient $f, g : [a ; b] \\to \\mathbb{R}$ continues avec $g \\ge 0$ ne s'annulant pas identiquement. Que garantit la première formule de la moyenne ?",
       "options": [
-        "$\\exists c \\in [a, b], \\quad \\int_a^b f(t) g(t) \\, dt = f(c) \\int_a^b g(t) \\, dt$",
+        "$\\exists c \\in [a ; b], \\quad \\int_a^b f(t) g(t) \\, dt = f(c) \\int_a^b g(t) \\, dt$",
         "$\\int_a^b f(t) g(t) \\, dt = \\left(\\int_a^b f(t) dt\\right) \\left(\\int_a^b g(t) dt\\right)$",
-        "$\\exists c \\in [a, b], \\quad f(c) = g(c)$",
+        "$\\exists c \\in [a ; b], \\quad f(c) = g(c)$",
         "$\\int_a^b f(t) g(t) \\, dt \\le \\frac{f(a) + f(b)}{2}$"
       ],
       "correctIndex": 0,
-      "answer": "$\\exists c \\in [a, b], \\quad \\int_a^b f(t) g(t) \\, dt = f(c) \\int_a^b g(t) \\, dt$",
+      "answer": "$\\exists c \\in [a ; b], \\quad \\int_a^b f(t) g(t) \\, dt = f(c) \\int_a^b g(t) \\, dt$",
       "hint1": "Comme $m \\le f(t) \\le M$, en multipliant par $g(t) \\ge 0$, on encadre l'intégrale.",
       "hint2": "Par le TVI, $f$ atteint la valeur moyenne $\\frac{\\int_a^b fg}{\\int_a^b g}$.",
-      "solution": "Comme $g \\ge 0$, on a $m \\int_a^b g \\le \\int_a^b fg \\le M \\int_a^b g$ où $m = \\min f$ et $M = \\max f$. Par le théorème des valeurs intermédiaires appliqué à la fonction continue $f$, il existe $c \\in [a, b]$ tel que $\\int_a^b f(t)g(t)dt = f(c)\\int_a^b g(t)dt$."
+      "solution": "Comme $g \\ge 0$, on a $m \\int_a^b g \\le \\int_a^b fg \\le M \\int_a^b g$ où $m = \\min f$ et $M = \\max f$. Par le théorème des valeurs intermédiaires appliqué à la fonction continue $f$, il existe $c \\in [a ; b]$ tel que $\\int_a^b f(t)g(t)dt = f(c)\\int_a^b g(t)dt$."
+    },
+    {
+      "id": "L2-RIE-5",
+      "tier": 3,
+      "type": "exact",
+      "title": "Limite d'une somme par les sommes de Riemann",
+      "skill": "Reconnaître une somme de Riemann et calculer sa limite",
+      "statement": "Calculer $\\lim_{n \\to +\\infty} \\sum_{k=1}^{n} \\frac{n}{(n + k)^2}$.",
+      "answer": "1/2",
+      "hint1": "Mets $n^2$ en facteur dans $(n + k)^2$ pour faire apparaître $\\frac{1}{n} \\sum_{k=1}^{n} f\\left(\\frac{k}{n}\\right)$ avec $f$ continue sur $[0 ; 1]$.",
+      "hint2": "On a $\\frac{n}{(n + k)^2} = \\frac{1}{n} \\cdot \\frac{1}{(1 + k/n)^2}$. La limite est donc l'intégrale sur $[0 ; 1]$ de $f(x) = \\frac{1}{(1 + x)^2}$ : cherche une primitive de $f$.",
+      "solution": "$\\sum_{k=1}^{n} \\frac{n}{(n + k)^2} = \\frac{1}{n} \\sum_{k=1}^{n} f\\left(\\frac{k}{n}\\right)$ avec $f(x) = \\frac{1}{(1 + x)^2}$, continue sur $[0 ; 1]$.\nPar le théorème des sommes de Riemann, la limite vaut $\\int_0^1 \\frac{dx}{(1 + x)^2} = \\left[-\\frac{1}{1 + x}\\right]_0^1 = -\\frac{1}{2} + 1 = \\frac{1}{2}$."
+    },
+    {
+      "id": "L2-RIE-6",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Reconnaître une fonction non réglée",
+      "skill": "Appliquer la caractérisation des fonctions réglées par les limites latérales",
+      "statement": "Parmi les fonctions suivantes, définies sur $[0 ; 1]$ et prolongées par $0$ en $0$, laquelle n'est **pas** réglée ?",
+      "options": [
+        "$f(x) = \\sin\\left(\\frac{1}{x}\\right)$ pour $x > 0$",
+        "$g(x) = x \\sin\\left(\\frac{1}{x}\\right)$ pour $x > 0$",
+        "$h(x) = \\frac{1}{n}$ pour $x \\in \\left]\\frac{1}{n + 1} ; \\frac{1}{n}\\right]$, $n \\in \\mathbb{N}^*$",
+        "$k(x) = 1$ pour $x \\in \\left]0 ; \\frac{1}{2}\\right]$ et $k(x) = 0$ pour $x \\in \\left]\\frac{1}{2} ; 1\\right]$"
+      ],
+      "correctIndex": 0,
+      "answer": "$f(x) = \\sin\\left(\\frac{1}{x}\\right)$ pour $x > 0$",
+      "hint1": "Une fonction est réglée sur $[0 ; 1]$ si et seulement si elle admet une limite finie à droite en tout point de $[0 ; 1[$ et une limite finie à gauche en tout point de $]0 ; 1]$. Le point à examiner en priorité est $0$.",
+      "hint2": "Une fonction continue, monotone ou en escalier est réglée : classe chacune des quatre fonctions. Pour celle qui n'entre dans aucune de ces catégories, compare ses valeurs le long de deux suites qui tendent vers $0$ par la droite.",
+      "solution": "• $g$ est continue sur $[0 ; 1]$ (car $|g(x)| \\le x$), donc réglée.\n• $h$ est croissante sur $[0 ; 1]$ (si $x \\le x'$, l'entier $n$ associé à $x$ est supérieur ou égal à celui de $x'$), donc réglée.\n• $k$ est en escalier, donc réglée.\n• $f$ n'a pas de limite à droite en $0$ : $f(x_p) = 1$ et $f(y_p) = 0$ avec $x_p \\to 0^+$ et $y_p \\to 0^+$. Par la caractérisation, $f$ n'est pas réglée, bien qu'elle soit bornée et continue sur $]0 ; 1]$."
     }
   ],
   "L2-ING": [
@@ -2002,7 +2341,7 @@ window.MATHS_EXERCISES_L2 = {
       "id": "L2-ING-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Critère de convergence des intégrales de Riemann en +l'infini",
+      "title": "Critère de convergence des intégrales de Riemann en $+\\infty$",
       "skill": "Maîtriser les intégrales de référence de Riemann en l'infini",
       "statement": "Pour quelle condition sur le paramètre réel $\\alpha$ l'intégrale impropre $\\int_1^{+\\infty} \\frac{dt}{t^\\alpha}$ converge-t-elle ?",
       "options": [
@@ -2021,7 +2360,7 @@ window.MATHS_EXERCISES_L2 = {
       "id": "L2-ING-2",
       "tier": 2,
       "type": "mcq",
-      "title": "Convergence par équivalence au voisinage de +l'infini",
+      "title": "Convergence par équivalence au voisinage de $+\\infty$",
       "skill": "Appliquer la règle des équivalents pour fonctions positives",
       "statement": "Quelle est la nature de l'intégrale impropre $I = \\int_1^{+\\infty} \\frac{1}{\\sqrt{t^3 + 2t + 5}} \\, dt$ ?",
       "options": [
@@ -2034,7 +2373,7 @@ window.MATHS_EXERCISES_L2 = {
       "answer": "Elle converge car l'intégrande est équivalent à $\\frac{1}{t^{3/2}}$ avec $\\frac{3}{2} > 1$",
       "hint1": "En $+\\infty$, $\\sqrt{t^3 + 2t + 5} \\sim \\sqrt{t^3} = t^{3/2}$.",
       "hint2": "Compare avec l'intégrale de Riemann de référence $\\int_1^{+\\infty} \\frac{dt}{t^\\alpha}$ : pour quelles valeurs de $\\alpha$ converge-t-elle ?",
-      "solution": "La fonction $t \\mapsto \\frac{1}{\\sqrt{t^3 + 2t + 5}}$ est continue et strictement positive sur $[1, +\\infty[$. Au voisinage de $+\\infty$, $\\frac{1}{\\sqrt{t^3 + 2t + 5}} \\sim \\frac{1}{t^{3/2}}$. Comme l'intégrale de Riemann de référence $\\int_1^{+\\infty} \\frac{dt}{t^{3/2}}$ converge ($\\\\alpha = 3/2 > 1$), l'intégrale $I$ converge."
+      "solution": "La fonction $t \\mapsto \\frac{1}{\\sqrt{t^3 + 2t + 5}}$ est continue et strictement positive sur $[1 ; +\\infty[$. Au voisinage de $+\\infty$, $\\frac{1}{\\sqrt{t^3 + 2t + 5}} \\sim \\frac{1}{t^{3/2}}$. Comme l'intégrale de Riemann de référence $\\int_1^{+\\infty} \\frac{dt}{t^{3/2}}$ converge ($\\alpha = 3/2 > 1$), l'intégrale $I$ converge."
     },
     {
       "id": "L2-ING-3",
@@ -2053,7 +2392,7 @@ window.MATHS_EXERCISES_L2 = {
       "answer": "$\\alpha > 1$, ou ($\\alpha = 1$ et $\\beta > 1$)",
       "hint1": "Si $\\alpha > 1$, la puissance $t^\\alpha$ suffit à faire converger l'intégrale.",
       "hint2": "Si $\\alpha = 1$, le changement de variable $u = \\ln t$ ramène à $\\int \\frac{du}{u^\\beta}$.",
-      "solution": "Pour $\\alpha > 1$, $t^\\alpha (\\ln t)^\\beta$ croît plus vite que $t^{\\frac{\\alpha + 1}{2}}$ donc l'intégrale converge pour tout $\\beta$. Pour $\\alpha = 1$, par le changement de variable $u = \\ln t$, $\\int_2^X \\frac{dt}{t(\\ln t)^\\beta} = \\int_{\\ln 2}^{\\ln X} \\frac{du}{u^\\beta}$ converge ssi $\\beta > 1$."
+      "solution": "Pour $\\alpha > 1$, $t^\\alpha (\\ln t)^\\beta$ croît plus vite que $t^{\\frac{\\alpha + 1}{2}}$ donc l'intégrale converge pour tout $\\beta$. Pour $\\alpha = 1$, par le changement de variable $u = \\ln t$, $\\int_2^X \\frac{dt}{t(\\ln t)^\\beta} = \\int_{\\ln 2}^{\\ln X} \\frac{du}{u^\\beta}$ converge ssi $\\beta > 1$. Pour $\\alpha < 1$, $\\frac{t^{1 - \\alpha}}{(\\ln t)^\\beta} \\to +\\infty$, donc $\\frac{1}{t^\\alpha (\\ln t)^\\beta} \\ge \\frac{1}{t}$ pour $t$ assez grand ; comme $\\int_2^{+\\infty} \\frac{dt}{t}$ diverge, l'intégrale diverge par comparaison de fonctions positives, quel que soit $\\beta$."
     },
     {
       "id": "L2-ING-4",
@@ -2073,6 +2412,37 @@ window.MATHS_EXERCISES_L2 = {
       "hint1": "En 0, $\\lim_{t \\to 0} \\frac{\\sin t}{t} = 1$, pas de problème d'intégrabilité en 0.",
       "hint2": "En $+\\infty$, intégrer par parties : $\\int_1^X \\frac{\\sin t}{t} dt = [-\\frac{\\cos t}{t}]_1^X - \\int_1^X \\frac{\\cos t}{t^2} dt$.",
       "solution": "En $0$, la fonction se prolonge par continuité par $1$. En $+\\infty$, une intégration par parties montre que $\\int_1^X \\frac{\\sin t}{t} dt = -\\frac{\\cos X}{X} + \\cos(1) - \\int_1^X \\frac{\\cos t}{t^2} dt$, qui converge car $\\frac{|\\cos t|}{t^2} \\le \\frac{1}{t^2}$ intégrable. Cependant, $\\int_0^{+\\infty} \\frac{|\\sin t|}{t} dt = +\\infty$, l'intégrale est donc semi-convergente."
+    },
+    {
+      "id": "L2-ING-5",
+      "tier": 3,
+      "type": "exact",
+      "title": "Calcul d'une intégrale de Bertrand",
+      "skill": "Calculer une intégrale généralisée par changement de variable",
+      "statement": "Justifier la convergence de $I = \\int_e^{+\\infty} \\frac{dt}{t (\\ln t)^3}$, puis calculer sa valeur.",
+      "answer": "1/2",
+      "hint1": "C'est une intégrale de Bertrand avec $\\alpha = 1$ et $\\beta = 3 > 1$. Pour la calculer, travaille sur $[e ; X]$ et remarque que $\\frac{1}{t}$ est la dérivée de $\\ln t$.",
+      "hint2": "Une primitive de $\\frac{1}{t (\\ln t)^3}$ sur $]1 ; +\\infty[$ est $-\\frac{1}{2 (\\ln t)^2}$. Calcule l'intégrale sur $[e ; X]$, puis fais tendre $X$ vers $+\\infty$.",
+      "solution": "L'intégrande est continue et positive sur $[e ; +\\infty[$. Pour $X > e$, comme $\\frac{d}{dt}\\left(-\\frac{1}{2 (\\ln t)^2}\\right) = \\frac{1}{t (\\ln t)^3}$ :\n$\\int_e^X \\frac{dt}{t (\\ln t)^3} = \\left[-\\frac{1}{2 (\\ln t)^2}\\right]_e^X = \\frac{1}{2} - \\frac{1}{2 (\\ln X)^2}$.\nCette expression tend vers $\\frac{1}{2}$ quand $X \\to +\\infty$ : l'intégrale converge (ce qui est cohérent avec Bertrand, $\\alpha = 1$ et $\\beta = 3 > 1$) et $I = \\frac{1}{2}$."
+    },
+    {
+      "id": "L2-ING-6",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Intégrale convergente, intégrande sans limite",
+      "skill": "Connaître un contre-exemple à une fausse analogie avec les séries",
+      "statement": "Soit $f$ continue sur $[0 ; +\\infty[$ telle que $\\int_0^{+\\infty} f(t)\\, dt$ converge. Peut-on en déduire que $f(t) \\to 0$ quand $t \\to +\\infty$ ?",
+      "options": [
+        "Non : $\\int_0^{+\\infty} \\sin(t^2)\\, dt$ converge, alors que $\\sin(t^2)$ n'a pas de limite en $+\\infty$",
+        "Oui : c'est la condition nécessaire de convergence, comme pour les séries",
+        "Oui, dès que $f$ est continue",
+        "Oui, car $\\int_x^{x+1} f(t)\\, dt \\to 0$ entraîne $f(x) \\to 0$"
+      ],
+      "correctIndex": 0,
+      "answer": "Non : $\\int_0^{+\\infty} \\sin(t^2)\\, dt$ converge, alors que $\\sin(t^2)$ n'a pas de limite en $+\\infty$",
+      "hint1": "Cherche un contre-exemple : une fonction qui oscille de plus en plus vite, de sorte que les aires positives et négatives se compensent.",
+      "hint2": "Pour $\\int_1^{X} \\sin(t^2)\\, dt$, pose $u = t^2$ : on obtient $\\int_1^{X^2} \\frac{\\sin u}{2\\sqrt{u}}\\, du$. Une intégration par parties montre que cette intégrale a une limite finie.",
+      "solution": "Contre-exemple : $f(t) = \\sin(t^2)$, continue sur $[0 ; +\\infty[$.\nPour $X > 1$, le changement de variable $u = t^2$ donne $\\int_1^X \\sin(t^2)\\, dt = \\int_1^{X^2} \\frac{\\sin u}{2\\sqrt{u}}\\, du$. Par intégration par parties,\n$\\int_1^{Y} \\frac{\\sin u}{2\\sqrt{u}}\\, du = \\left[-\\frac{\\cos u}{2\\sqrt{u}}\\right]_1^{Y} - \\int_1^{Y} \\frac{\\cos u}{4 u^{3/2}}\\, du$,\noù le crochet a une limite finie et la dernière intégrale converge absolument ($\\left|\\frac{\\cos u}{4 u^{3/2}}\\right| \\le \\frac{1}{4 u^{3/2}}$). L'intégrale converge donc.\nPourtant $\\sin(t^2)$ vaut $1$ en $t = \\sqrt{\\pi/2 + 2p\\pi}$ et $0$ en $t = \\sqrt{p\\pi}$ : elle n'a pas de limite. La condition « terme général tendant vers $0$ » des séries n'a pas d'analogue pour les intégrales généralisées."
     }
   ],
   "L2-EDO": [
@@ -2151,6 +2521,18 @@ window.MATHS_EXERCISES_L2 = {
       "hint1": "Remarque que $A^2 = -I_2$. $A$ joue le rôle de $i$.",
       "hint2": "Sépare la série $\\sum_k \\frac{t^k A^k}{k!}$ en termes pairs ($A^{2p} = (-1)^p I_2$) et impairs ($A^{2p+1} = (-1)^p A$) : reconnais les développements de $\\cos t$ et $\\sin t$.",
       "solution": "Comme $A^2 = -I_2$, on a $\\exp(tA) = \\sum_{k=0}^\\infty \\frac{t^k A^k}{k!} = \\cos(t) I_2 + \\sin(t) A = \\begin{pmatrix} \\cos t & \\sin t \\\\ -\\sin t & \\cos t \\end{pmatrix}$."
+    },
+    {
+      "id": "L2-EDO-5",
+      "tier": 4,
+      "type": "exact",
+      "title": "Problème de Cauchy avec second membre polynomial",
+      "skill": "Résoudre un problème de Cauchy d'ordre 2 à coefficients constants avec second membre",
+      "statement": "On considère le problème de Cauchy $y'' - 3y' + 2y = 4t$, $y(0) = 3$, $y'(0) = 3$. Son unique solution s'écrit $y(t) = \\alpha e^{t} + \\beta e^{2t} + at + b$. Déterminer le couple $(\\alpha ; \\beta)$, à saisir sous la forme $(\\alpha;\\beta)$.",
+      "answer": "(-1;1)",
+      "hint1": "Résous l'équation homogène par l'équation caractéristique, cherche une solution particulière polynomiale de degré $1$ (car $0$ n'est pas racine de l'équation caractéristique), puis utilise les conditions initiales.",
+      "hint2": "L'équation caractéristique $r^2 - 3r + 2 = 0$ a pour racines $1$ et $2$. Pour $y_p(t) = at + b$, on obtient $-3a + 2(at + b) = 4t$ : identifie les coefficients, puis écris $y(0) = 3$ et $y'(0) = 3$.",
+      "solution": "Équation homogène : $r^2 - 3r + 2 = (r - 1)(r - 2)$, d'où les solutions $\\alpha e^{t} + \\beta e^{2t}$.\nSolution particulière : avec $y_p(t) = at + b$, $y_p'' - 3y_p' + 2y_p = 2at + 2b - 3a = 4t$, donc $a = 2$ et $b = 3$.\nConditions initiales : $y(0) = \\alpha + \\beta + 3 = 3$ et $y'(0) = \\alpha + 2\\beta + 2 = 3$, soit $\\alpha + \\beta = 0$ et $\\alpha + 2\\beta = 1$, d'où $\\beta = 1$ et $\\alpha = -1$.\nLa solution est $y(t) = -e^{t} + e^{2t} + 2t + 3$ ; on vérifie $y(0) = 3$ et $y'(0) = -1 + 2 + 2 = 3$. Réponse : $(\\alpha ; \\beta) = (-1 ; 1)$."
     }
   ],
   "L2-PAR": [
@@ -2170,8 +2552,8 @@ window.MATHS_EXERCISES_L2 = {
       "correctIndex": 0,
       "answer": "$\\forall x \\in \\mathbb{R}, \\forall t \\ge 0, \\quad \\left|\\frac{\\sin(xt)}{1 + t^2}\\right| \\le \\frac{1}{1 + t^2}$ avec $\\int_0^{+\\infty} \\frac{dt}{1 + t^2} = \\frac{\\pi}{2} < +\\infty$",
       "hint1": "Pour tout $u \\in \\mathbb{R}$, $|\\sin u| \\le 1$ : majore l'intégrande par une fonction de $t$ seul.",
-      "hint2": "La fonction $\\varphi(t) = \\frac{1}{1+t^2}$ est intégrable sur $[0, +\\infty[$ et ne dépend pas de $x$.",
-      "solution": "Comme $|\sin(xt)| \\le 1$, l'intégrande est dominé par $\\varphi(t) = \\frac{1}{1+t^2}$ qui est indépendante de $x$ et intégrable sur $[0, +\\infty[$. D'après le théorème de continuité sous le signe intégral, $F$ est continue sur $\\mathbb{R}$."
+      "hint2": "La fonction $\\varphi(t) = \\frac{1}{1+t^2}$ est intégrable sur $[0 ; +\\infty[$ et ne dépend pas de $x$.",
+      "solution": "Comme $|\sin(xt)| \\le 1$, l'intégrande est dominé par $\\varphi(t) = \\frac{1}{1+t^2}$ qui est indépendante de $x$ et intégrable sur $[0 ; +\\infty[$. D'après le théorème de continuité sous le signe intégral, $F$ est continue sur $\\mathbb{R}$."
     },
     {
       "id": "L2-PAR-2",
@@ -2189,7 +2571,7 @@ window.MATHS_EXERCISES_L2 = {
       "correctIndex": 0,
       "answer": "$-\\int_0^1 t^2 e^{-x t^2} \\, dt$",
       "hint1": "Dérive l'intégrande par rapport à $x$ : $\\frac{\\partial}{\\partial x}(e^{-x t^2}) = -t^2 e^{-x t^2}$.",
-      "hint2": "L'intervalle d'intégration $[0, 1]$ est compact, la domination est directe sur tout segment.",
+      "hint2": "L'intervalle d'intégration $[0 ; 1]$ est compact, la domination est directe sur tout segment.",
       "solution": "Par le théorème de dérivation sous le signe intégral (règle de Leibniz) : $F'(x) = \\int_0^1 \\frac{\\partial}{\\partial x}(e^{-xt^2}) \\, dt = -\\int_0^1 t^2 e^{-xt^2} \\, dt$."
     },
     {
@@ -2226,9 +2608,21 @@ window.MATHS_EXERCISES_L2 = {
       ],
       "correctIndex": 0,
       "answer": "$\\ln(x)$",
-      "hint1": "Sur $]0, +\\infty[$, $F$ est une primitive de $x \\mapsto \\frac{1}{x}$ : laquelle, à une constante additive près ?",
+      "hint1": "Sur $]0 ; +\\infty[$, $F$ est une primitive de $x \\mapsto \\frac{1}{x}$ : laquelle, à une constante additive près ?",
       "hint2": "Comme $F(1) = \\int_0^{+\\infty} 0 \\, dt = 0$, la constante $C$ vaut $0$.",
       "solution": "En dérivant sous l'intégrale, $F'(x) = \\int_0^{+\\infty} e^{-xt} dt = \\left[-\\frac{e^{-xt}}{x}\\right]_0^{+\\infty} = \\frac{1}{x}$. En intégrant, $F(x) = \\ln(x) + C$. Comme $F(1) = 0$, on en déduit $C = 0$, soit $F(x) = \\ln(x)$ (intégrale de Frullani)."
+    },
+    {
+      "id": "L2-PAR-5",
+      "tier": 3,
+      "type": "exact",
+      "title": "Une intégrale obtenue en dérivant par rapport au paramètre",
+      "skill": "Justifier une dérivation sous le signe intégral par domination locale et l'exploiter",
+      "statement": "Pour $x > -1$, on pose $F(x) = \\int_0^1 t^x\\, dt = \\frac{1}{x + 1}$. En justifiant la dérivation sous le signe intégral, calculer $\\int_0^1 t^2 \\ln t\\, dt$.",
+      "answer": "-1/9",
+      "hint1": "La dérivée de $x \\mapsto t^x = e^{x \\ln t}$ est $t^x \\ln t$. Domine-la sur tout intervalle $[a ; +\\infty[$ avec $a > -1$, en remarquant que $t^x \\le t^a$ pour $t \\in ]0 ; 1]$ et $x \\ge a$.",
+      "hint2": "Sur $[a ; +\\infty[$, $|t^x \\ln t| \\le t^a |\\ln t|$, qui est intégrable sur $]0 ; 1]$ car $a > -1$. On obtient $F'(x) = \\int_0^1 t^x \\ln t\\, dt$ : dérive aussi $\\frac{1}{x + 1}$ et choisis la bonne valeur de $x$.",
+      "solution": "Pour $t \\in ]0 ; 1]$, $\\frac{\\partial}{\\partial x}(t^x) = t^x \\ln t$, continue en $(x, t)$. Fixons $a > -1$ : pour $x \\ge a$ et $t \\in ]0 ; 1]$, $t^x \\le t^a$, donc $|t^x \\ln t| \\le t^a |\\ln t|$. Cette fonction est intégrable sur $]0 ; 1]$ : avec $-1 < c < a$, $t^a |\\ln t| = t^c \\cdot t^{a - c} |\\ln t|$ et $t^{a - c}|\\ln t| \\to 0$ en $0$, donc $t^a |\\ln t| = O(t^c)$, intégrable. La domination valant sur tout $[a ; +\\infty[$, $F$ est de classe $\\mathcal{C}^1$ sur $]-1 ; +\\infty[$ et $F'(x) = \\int_0^1 t^x \\ln t\\, dt$.\nOr $F(x) = \\frac{1}{x + 1}$, donc $F'(x) = -\\frac{1}{(x + 1)^2}$. Pour $x = 2$ : $\\int_0^1 t^2 \\ln t\\, dt = -\\frac{1}{9}$.\nContrôle par intégration par parties : $\\left[\\frac{t^3}{3} \\ln t\\right]_0^1 - \\int_0^1 \\frac{t^2}{3}\\, dt = 0 - \\frac{1}{9}$."
     }
   ],
   "L2-MUL": [
@@ -2238,7 +2632,7 @@ window.MATHS_EXERCISES_L2 = {
       "type": "mcq",
       "title": "Théorème de Fubini sur un rectangle",
       "skill": "Calculer une intégrale double par produit d'intégrales",
-      "statement": "Que vaut l'intégrale double $I = \\iint_{[0, 1] \\times [0, 2]} x y^2 dx dy$ ?",
+      "statement": "Que vaut l'intégrale double $I = \\iint_{[0 ; 1] \\times [0 ; 2]} x y^2 dx dy$ ?",
       "options": [
         "$\\frac{4}{3}$",
         "$\\frac{2}{3}$",
@@ -2287,26 +2681,50 @@ window.MATHS_EXERCISES_L2 = {
       "answer": "$\\sqrt{\\pi}$",
       "hint1": "Calcule $I^2 = \\iint_{\\mathbb{R}^2} e^{-(x^2+y^2)} dx dy$ en coordonnées polaires.",
       "hint2": "En polaires, $I^2 = \\int_0^{2\\pi} d\\theta \\int_0^{+\\infty} r e^{-r^2} dr$ ; une primitive de $r e^{-r^2}$ est $-\\frac{1}{2} e^{-r^2}$. N'oublie pas que $I > 0$.",
-      "solution": "$I^2 = \\int_0^{2\\pi} d\\theta \\int_0^{+\\infty} r e^{-r^2} dr = 2\\pi \\left[ -\\frac{e^{-r^2}}{2} \\right]_0^{+\\infty} = 2\\pi \\left(0 - \\left(-\\frac{1}{2}\\right)\\right) = \\pi$. Donc $I = \\sqrt{\\pi}$."
+      "solution": "La fonction $(x, y) \\mapsto e^{-(x^2+y^2)}$ étant positive, le théorème de Fubini-Tonelli donne $I^2 = \\iint_{\\mathbb{R}^2} e^{-(x^2+y^2)} dx dy$, et le passage en polaires sur tout le plan se justifie par l'encadrement entre disques et carrés du § 6 du cours. Ainsi $I^2 = \\int_0^{2\\pi} d\\theta \\int_0^{+\\infty} r e^{-r^2} dr = 2\\pi \\left[ -\\frac{e^{-r^2}}{2} \\right]_0^{+\\infty} = 2\\pi \\left(0 - \\left(-\\frac{1}{2}\\right)\\right) = \\pi$. Comme $I > 0$, on conclut que $I = \\sqrt{\\pi}$."
     },
     {
       "id": "L2-MUL-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Volume d'une sphère en coordonnées sphériques",
+      "title": "Volume d'une boule en coordonnées sphériques",
       "skill": "Calculer un volume par intégrale triple",
-      "statement": "Quel est l'élément de volume $dV$ en coordonnées sphériques $(r, \\theta, \\varphi)$ ?",
+      "statement": "En coordonnées sphériques $x = r\\sin\\varphi\\cos\\theta$, $y = r\\sin\\varphi\\sin\\theta$, $z = r\\cos\\varphi$, où $\\varphi \\in [0 ; \\pi]$ est l'angle avec l'axe $Oz$, quel est l'élément de volume $dV$ ?",
       "options": [
-        "$r^2 \\sin\\theta \\, dr d\\theta d\\varphi$",
-        "$r \\sin\\theta \\, dr d\\theta d\\varphi$",
+        "$r^2 \\sin\\varphi \\, dr d\\theta d\\varphi$",
+        "$r \\sin\\varphi \\, dr d\\theta d\\varphi$",
         "$r^2 \\, dr d\\theta d\\varphi$",
-        "$r^3 \\cos\\theta \\, dr d\\theta d\\varphi$"
+        "$r^3 \\cos\\varphi \\, dr d\\theta d\\varphi$"
       ],
       "correctIndex": 0,
-      "answer": "$r^2 \\sin\\theta \\, dr d\\theta d\\varphi$",
-      "hint1": "Calcule le jacobien de $(r, \\theta, \\varphi) \\mapsto (r\\sin\\theta\\cos\\varphi, r\\sin\\theta\\sin\\varphi, r\\cos\\theta)$, ou raisonne sur le petit pavé de côtés $dr$, $r\\,d\\theta$ et $r\\sin\\theta\\,d\\varphi$.",
+      "answer": "$r^2 \\sin\\varphi \\, dr d\\theta d\\varphi$",
+      "hint1": "Calcule la valeur absolue du jacobien de $(r, \\theta, \\varphi) \\mapsto (r\\sin\\varphi\\cos\\theta, r\\sin\\varphi\\sin\\theta, r\\cos\\varphi)$, ou raisonne sur le petit pavé de côtés $dr$, $r\\,d\\varphi$ et $r\\sin\\varphi\\,d\\theta$.",
       "hint2": "Vérification : en intégrant $dV$ sur la boule de rayon $R$, tu dois retrouver $\\frac{4}{3}\\pi R^3$.",
-      "solution": "Le jacobien de la transformation sphérique $(x=r\\sin\\theta\\cos\\varphi, y=r\\sin\\theta\\sin\\varphi, z=r\\cos\\theta)$ est $r^2 \\sin\\theta$, d'où $dV = r^2 \\sin\\theta \\, dr d\\theta d\\varphi$."
+      "solution": "Pour la transformation sphérique $(x=r\\sin\\varphi\\cos\\theta, y=r\\sin\\varphi\\sin\\theta, z=r\\cos\\varphi)$, on trouve $|\\det J| = r^2 \\sin\\varphi$ ($\\sin\\varphi \\ge 0$ car $\\varphi \\in [0 ; \\pi]$), d'où $dV = r^2 \\sin\\varphi \\, dr d\\theta d\\varphi$."
+    },
+    {
+      "id": "L2-MUL-5",
+      "tier": 3,
+      "type": "exact",
+      "title": "Intégrale double sur un disque en polaires",
+      "skill": "Calculer une intégrale double par passage en coordonnées polaires",
+      "statement": "Soit $D$ le disque $\\{(x, y) \\in \\mathbb{R}^2 \\mid x^2 + y^2 \\le 4\\}$. Calculer la valeur exacte de $\\iint_D (x^2 + y^2)\\, dx\\, dy$.",
+      "answer": "8π",
+      "hint1": "Passe en coordonnées polaires $x = r\\cos\\theta$, $y = r\\sin\\theta$ : le disque devient $r \\in [0 ; 2]$, $\\theta \\in [0 ; 2\\pi]$, et $dx\\, dy = r\\, dr\\, d\\theta$.",
+      "hint2": "L'intégrale devient $\\int_0^{2\\pi} \\int_0^2 r^2 \\cdot r\\, dr\\, d\\theta$ : calcule d'abord $\\int_0^2 r^3\\, dr$.",
+      "solution": "En polaires, $x^2 + y^2 = r^2$ et $dx\\, dy = r\\, dr\\, d\\theta$, donc\n$\\iint_D (x^2 + y^2)\\, dx\\, dy = \\int_0^{2\\pi} \\int_0^2 r^3\\, dr\\, d\\theta = 2\\pi \\left[\\frac{r^4}{4}\\right]_0^2 = 2\\pi \\times 4 = 8\\pi$."
+    },
+    {
+      "id": "L2-MUL-6",
+      "tier": 4,
+      "type": "exact",
+      "title": "Intégrale triple sur la boule unité en sphériques",
+      "skill": "Calculer une intégrale triple en coordonnées sphériques",
+      "statement": "Soit $B$ la boule unité fermée de $\\mathbb{R}^3$. Calculer la valeur exacte de $\\iiint_B z^2\\, dx\\, dy\\, dz$.",
+      "answer": "4π/15",
+      "hint1": "Passe en coordonnées sphériques avec $\\varphi \\in [0 ; \\pi]$ l'angle avec l'axe $Oz$ : $z = r\\cos\\varphi$ et $dx\\, dy\\, dz = r^2 \\sin\\varphi\\, dr\\, d\\theta\\, d\\varphi$, avec $r \\in [0 ; 1]$ et $\\theta \\in [0 ; 2\\pi]$.",
+      "hint2": "L'intégrale se sépare en $\\left(\\int_0^1 r^4\\, dr\\right)\\left(\\int_0^{2\\pi} d\\theta\\right)\\left(\\int_0^\\pi \\cos^2\\varphi \\sin\\varphi\\, d\\varphi\\right)$. Pour le dernier facteur, pose $w = \\cos\\varphi$.",
+      "solution": "En sphériques, $z^2 = r^2\\cos^2\\varphi$ et $dx\\, dy\\, dz = r^2\\sin\\varphi\\, dr\\, d\\theta\\, d\\varphi$. Par Fubini, l'intégrande étant un produit de fonctions de chaque variable :\n$\\iiint_B z^2 = \\int_0^1 r^4\\, dr \\times \\int_0^{2\\pi} d\\theta \\times \\int_0^\\pi \\cos^2\\varphi \\sin\\varphi\\, d\\varphi = \\frac{1}{5} \\times 2\\pi \\times \\left[-\\frac{\\cos^3\\varphi}{3}\\right]_0^\\pi = \\frac{1}{5} \\times 2\\pi \\times \\frac{2}{3} = \\frac{4\\pi}{15}$.\nContrôle : par symétrie, les intégrales de $x^2$, $y^2$ et $z^2$ sont égales, et leur somme $\\iiint_B r^2 = 4\\pi \\int_0^1 r^4\\, dr = \\frac{4\\pi}{5}$ vaut bien $3 \\times \\frac{4\\pi}{15}$."
     }
   ],
   "L2-CRB": [
@@ -2353,7 +2771,7 @@ window.MATHS_EXERCISES_L2 = {
       "tier": 3,
       "type": "mcq",
       "title": "Calcul de la courbure d'un cercle",
-      "skill": "Appliquer la formule de la courbure $\\kappa = \\frac{|x'y'' - x''y'|}{(x'^2 + y'^2)^{3/2}}$",
+      "skill": "Appliquer la formule de la courbure $\\kappa = \\frac{x'y'' - x''y'}{(x'^2 + y'^2)^{3/2}}$",
       "statement": "Quelle est la courbure $\\kappa(t)$ en tout point d'un cercle de rayon $R > 0$ paramétré par $x(t) = R\\cos t$, $y(t) = R\\sin t$ ?",
       "options": [
         "$\\kappa = \\frac{1}{R}$",
@@ -2385,6 +2803,18 @@ window.MATHS_EXERCISES_L2 = {
       "hint1": "Calcule les dérivées successives $\\vec{r}''(0)$ et $\\vec{r}'''(0)$.",
       "hint2": "Trouve les ordres $p$ (premier vecteur non nul) et $q$ (premier vecteur indépendant de $\\vec{r}^{(p)}$).",
       "solution": "On a $\\vec{r}'(t) = (2t, 3t^2) \\implies \\vec{r}'(0) = (0,0)$. Ensuite, $\\vec{r}''(t) = (2, 6t) \\implies \\vec{r}''(0) = (2, 0) \\neq \\vec{0}$, donc $p = 2$ (ordre pair). Enfin, $\\vec{r}^{(3)}(t) = (0, 6) \\implies \\vec{r}^{(3)}(0) = (0, 6)$, qui est linéairement indépendant de $\\vec{r}''(0)$, donc $q = 3$ (ordre impair). Le couple $(p=2 \\text{ pair}, q=3 \\text{ impair})$ définit un point de rebroussement de première espèce."
+    },
+    {
+      "id": "L2-CRB-5",
+      "tier": 3,
+      "type": "exact",
+      "title": "Longueur d'un arc avec un point stationnaire",
+      "skill": "Calculer la longueur d'un arc paramétré",
+      "statement": "Calculer la longueur de l'arc $\\gamma(t) = \\left(t^2, \\frac{2}{3}t^3\\right)$ pour $t \\in [0 ; \\sqrt{3}]$.",
+      "answer": "14/3",
+      "hint1": "La longueur vaut $L = \\int_0^{\\sqrt{3}} \\|\\gamma'(t)\\|\\, dt$ : calcule $\\gamma'(t)$ puis sa norme, en factorisant sous la racine.",
+      "hint2": "$\\gamma'(t) = (2t, 2t^2)$, donc $\\|\\gamma'(t)\\| = 2t\\sqrt{1 + t^2}$ pour $t \\ge 0$. Reconnais la dérivée de $u = 1 + t^2$ pour trouver une primitive.",
+      "solution": "$\\gamma'(t) = (2t, 2t^2)$, donc $\\|\\gamma'(t)\\| = \\sqrt{4t^2 + 4t^4} = 2|t|\\sqrt{1 + t^2} = 2t\\sqrt{1 + t^2}$ sur $[0 ; \\sqrt{3}]$.\n$L = \\int_0^{\\sqrt{3}} 2t\\sqrt{1 + t^2}\\, dt = \\left[\\frac{2}{3}(1 + t^2)^{3/2}\\right]_0^{\\sqrt{3}} = \\frac{2}{3}(8 - 1) = \\frac{14}{3}$.\nLe point $t = 0$ est stationnaire ($\\gamma'(0) = \\vec{0}$) : cela n'empêche pas le calcul, l'intégrande étant continue sur le segment."
     }
   ],
   "L2-PRB": [
@@ -2394,7 +2824,7 @@ window.MATHS_EXERCISES_L2 = {
       "type": "mcq",
       "title": "Espérance d'une loi géométrique",
       "skill": "Connaître les moments d'une loi discrète usuelle",
-      "statement": "Soit $X \\sim \\mathcal{G}(p)$ une variable aléatoire suivant une loi géométrique de paramètre $p \\in ]0, 1]$. Quelle est son espérance $\\mathbb{E}[X]$ ?",
+      "statement": "Soit $X \\sim \\mathcal{G}(p)$ une variable aléatoire suivant une loi géométrique de paramètre $p \\in ]0 ; 1]$. Quelle est son espérance $E(X)$ ?",
       "options": [
         "$\\frac{1}{p}$",
         "$\\frac{1-p}{p}$",
@@ -2404,8 +2834,8 @@ window.MATHS_EXERCISES_L2 = {
       "correctIndex": 0,
       "answer": "$\\frac{1}{p}$",
       "hint1": "La loi géométrique modélise le rang du premier succès dans une suite d'épreuves indépendantes.",
-      "hint2": "$\\mathbb{E}[X] = \\sum_{k \\ge 1} k p (1-p)^{k-1}$ : utilise $\\sum_{k \\ge 1} k q^{k-1} = \\frac{1}{(1-q)^2}$ pour $|q| < 1$.",
-      "solution": "Pour une loi géométrique sur $\\mathbb{N}^*$, l'espérance est $\\mathbb{E}[X] = \\frac{1}{p}$ et la variance est $\\text{Var}(X) = \\frac{1-p}{p^2}$."
+      "hint2": "$E(X) = \\sum_{k \\ge 1} k p (1-p)^{k-1}$ : utilise $\\sum_{k \\ge 1} k q^{k-1} = \\frac{1}{(1-q)^2}$ pour $|q| < 1$.",
+      "solution": "Pour une loi géométrique sur $\\mathbb{N}^*$, l'espérance est $E(X) = \\frac{1}{p}$ et la variance est $V(X) = \\frac{1-p}{p^2}$."
     },
     {
       "id": "L2-PRB-2",
@@ -2413,18 +2843,18 @@ window.MATHS_EXERCISES_L2 = {
       "type": "mcq",
       "title": "Formule des probabilités totales",
       "skill": "Décomposer une probabilité sur un système complet d'événements",
-      "statement": "Soit $(A_1, A_2)$ une partition de l'univers avec $\\mathbb{P}(A_1) = 0.4$, $\\mathbb{P}(A_2) = 0.6$. Si $\\mathbb{P}(B \\mid A_1) = 0.5$ et $\\mathbb{P}(B \\mid A_2) = 0.1$, que vaut $\\mathbb{P}(B)$ ?",
+      "statement": "Soit $(A_1, A_2)$ une partition de l'univers avec $P(A_1) = 0{,}4$, $P(A_2) = 0{,}6$. Si $P(B \\mid A_1) = 0{,}5$ et $P(B \\mid A_2) = 0{,}1$, que vaut $P(B)$ ?",
       "options": [
-        "$0.26$",
-        "$0.30$",
-        "$0.20$",
-        "$0.36$"
+        "$0{,}26$",
+        "$0{,}30$",
+        "$0{,}20$",
+        "$0{,}36$"
       ],
       "correctIndex": 0,
-      "answer": "$0.26$",
-      "hint1": "$\\mathbb{P}(B) = \\mathbb{P}(B \\mid A_1)\\mathbb{P}(A_1) + \\mathbb{P}(B \\mid A_2)\\mathbb{P}(A_2)$.",
-      "hint2": "Calcule $0.5 \\times 0.4$ et $0.1 \\times 0.6$, puis additionne.",
-      "solution": "Par la formule des probabilités totales : $\\mathbb{P}(B) = 0.5(0.4) + 0.1(0.6) = 0.20 + 0.06 = 0.26$."
+      "answer": "$0{,}26$",
+      "hint1": "$P(B) = P(B \\mid A_1)P(A_1) + P(B \\mid A_2)P(A_2)$.",
+      "hint2": "Calcule $0{,}5 \\times 0{,}4$ et $0{,}1 \\times 0{,}6$, puis additionne.",
+      "solution": "Par la formule des probabilités totales : $P(B) = 0{,}5 \\times 0{,}4 + 0{,}1 \\times 0{,}6 = 0{,}20 + 0{,}06 = 0{,}26$."
     },
     {
       "id": "L2-PRB-3",
@@ -2451,7 +2881,7 @@ window.MATHS_EXERCISES_L2 = {
       "type": "mcq",
       "title": "Formule de Bayes",
       "skill": "Calculer une probabilité a posteriori",
-      "statement": "Un test médical a une sensibilité de 99% et une spécificité de 99%. Une maladie touche 1 personne sur 1000 ($p = 0.001$). Si un patient est testé positif, quelle est la probabilité approximative qu'il soit réellement malade ?",
+      "statement": "Un test médical a une sensibilité de 99% et une spécificité de 99%. Une maladie touche 1 personne sur 1000 ($p = 0{,}001$). Si un patient est testé positif, quelle est la probabilité approximative qu'il soit réellement malade ?",
       "options": [
         "$\\approx 9\\%$",
         "$\\approx 99\\%$",
@@ -2460,9 +2890,28 @@ window.MATHS_EXERCISES_L2 = {
       ],
       "correctIndex": 0,
       "answer": "$\\approx 9\\%$",
-      "hint1": "Applique la formule de Bayes : $\\mathbb{P}(M \\mid +) = \\frac{\\mathbb{P}(+ \\mid M)\\mathbb{P}(M)}{\\mathbb{P}(+)}$.",
-      "hint2": "Numérateur : $0.99 \\times 0.001 = 0.00099$. Dénominateur : $\\mathbb{P}(+) = 0.00099 + 0.01 \\times 0.999$ (faux positifs). Fais le quotient.",
-      "solution": "Par la formule de Bayes : $\\mathbb{P}(M \\mid +) = \\frac{0.99 \\times 0.001}{0.99 \\times 0.001 + 0.01 \\times 0.999} = \\frac{0.00099}{0.00099 + 0.00999} = \\frac{0.00099}{0.01098} \\approx 0.0901$, soit environ $9\\%$."
+      "hint1": "Applique la formule de Bayes : $P(M \\mid +) = \\frac{P(+ \\mid M)P(M)}{P(+)}$.",
+      "hint2": "Numérateur : $0{,}99 \\times 0{,}001 = 0{,}00099$. Dénominateur : $P(+) = 0{,}00099 + 0{,}01 \\times 0{,}999$ (faux positifs). Fais le quotient.",
+      "solution": "Par la formule de Bayes : $P(M \\mid +) = \\frac{0{,}99 \\times 0{,}001}{0{,}99 \\times 0{,}001 + 0{,}01 \\times 0{,}999} = \\frac{0{,}00099}{0{,}00099 + 0{,}00999} = \\frac{0{,}00099}{0{,}01098} \\approx 0{,}0902$, soit environ $9\\%$."
+    },
+    {
+      "id": "L2-PRB-5",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Approximation de Poisson en pratique",
+      "skill": "Appliquer l'approximation d'une loi binomiale par une loi de Poisson",
+      "statement": "Une machine produit $1000$ pièces ; chacune est défectueuse avec probabilité $0{,}002$, indépendamment des autres. Soit $X$ le nombre de pièces défectueuses. Par l'approximation de Poisson, quelle valeur approchée de $P(X \\le 1)$ obtient-on ?",
+      "options": [
+        "$3e^{-2} \\approx 0{,}406$",
+        "$e^{-2} \\approx 0{,}135$",
+        "$2e^{-2} \\approx 0{,}271$",
+        "$1 - e^{-2} \\approx 0{,}865$"
+      ],
+      "correctIndex": 0,
+      "answer": "$3e^{-2} \\approx 0{,}406$",
+      "hint1": "$X$ suit la loi $\\mathcal{B}(1000 ; 0{,}002)$ : $n$ est grand et $p$ petit, on l'approche par la loi de Poisson de paramètre $\\lambda = np$.",
+      "hint2": "Ici $\\lambda = 2$. Écris $P(X \\le 1) = P(X = 0) + P(X = 1)$ avec $P(X = k) \\approx e^{-\\lambda} \\frac{\\lambda^k}{k!}$.",
+      "solution": "$X \\sim \\mathcal{B}(1000 ; 0{,}002)$, et $\\lambda = np = 2$. Avec la loi $\\mathcal{P}(2)$ :\n$P(X \\le 1) \\approx e^{-2} + 2e^{-2} = 3e^{-2} \\approx 0{,}406$.\nLa valeur exacte $0{,}998^{1000} + 1000 \\times 0{,}002 \\times 0{,}998^{999} \\approx 0{,}406$ confirme la qualité de l'approximation."
     }
   ],
   "L2-CAL": [
@@ -2541,6 +2990,18 @@ window.MATHS_EXERCISES_L2 = {
       "hint1": "L'ordre des dérivations partielles peut être interverti si la fonction est $\\mathcal{C}^2$.",
       "hint2": "La matrice hessienne d'une fonction $\\mathcal{C}^2$ est symétrique.",
       "solution": "Le théorème de Schwarz affirme que pour toute fonction de classe $\\mathcal{C}^2$, les dérivées partielles croisées sont égales : $\\frac{\\partial^2 f}{\\partial x \\partial y} = \\frac{\\partial^2 f}{\\partial y \\partial x}$."
+    },
+    {
+      "id": "L2-CAL-5",
+      "tier": 4,
+      "type": "exact",
+      "title": "Dérivées croisées différentes : un contre-exemple à Schwarz",
+      "skill": "Calculer des dérivées partielles secondes en un point par taux d'accroissement",
+      "statement": "Soit $f(x, y) = \\frac{x^3 y - 3 x y^3}{x^2 + y^2}$ pour $(x, y) \\neq (0, 0)$ et $f(0, 0) = 0$. Calculer $\\frac{\\partial}{\\partial y}\\left(\\frac{\\partial f}{\\partial x}\\right)(0, 0)$.",
+      "answer": "-3",
+      "hint1": "En un point où la formule ne s'applique pas, on revient aux taux d'accroissement. Calcule d'abord $\\frac{\\partial f}{\\partial x}(0, y)$ pour tout $y$, comme limite de $\\frac{f(h, y) - f(0, y)}{h}$ quand $h \\to 0$.",
+      "hint2": "Pour $y \\neq 0$, $f(0, y) = 0$ et $\\frac{f(h, y)}{h} = \\frac{h^2 y - 3y^3}{h^2 + y^2}$. Fais tendre $h$ vers $0$, puis dérive la fonction de $y$ obtenue en $y = 0$.",
+      "solution": "Pour $y \\neq 0$ : $\\frac{f(h, y) - f(0, y)}{h} = \\frac{h^2 y - 3y^3}{h^2 + y^2} \\xrightarrow[h \\to 0]{} \\frac{-3y^3}{y^2} = -3y$. Pour $y = 0$ : $f(h, 0) = 0$, donc $\\frac{\\partial f}{\\partial x}(0, 0) = 0$. Ainsi $\\frac{\\partial f}{\\partial x}(0, y) = -3y$ pour tout $y$, et $\\frac{\\partial}{\\partial y}\\left(\\frac{\\partial f}{\\partial x}\\right)(0, 0) = -3$.\nDe même, $\\frac{f(x, k)}{k} = \\frac{x^3 - 3xk^2}{x^2 + k^2} \\to x$, donc $\\frac{\\partial f}{\\partial y}(x, 0) = x$ et $\\frac{\\partial}{\\partial x}\\left(\\frac{\\partial f}{\\partial y}\\right)(0, 0) = 1$.\nLes dérivées croisées en $(0, 0)$ diffèrent ($-3 \\neq 1$) : d'après le théorème de Schwarz, $f$ n'est pas de classe $\\mathcal{C}^2$ au voisinage de $(0, 0)$."
     }
   ]
 };
@@ -2564,9 +3025,9 @@ $$A = \\begin{pmatrix} 2 & 1 & 1 \\\\ 1 & 2 & 1 \\\\ 1 & 1 & 2 \\end{pmatrix}$$
       "solution": `### Correction Exercice 1
 1. $X I_3 - A = \\begin{pmatrix} X-2 & -1 & -1 \\\\ -1 & X-2 & -1 \\\\ -1 & -1 & X-2 \\end{pmatrix}$.
 En additionnant toutes les colonnes sur $C_1$ : $C_1 \\leftarrow C_1 + C_2 + C_3$ :
-$\\det = (X - 4) \\begin{pmatrix} 1 & -1 & -1 \\\\ 1 & X-2 & -1 \\\\ 1 & -1 & X-2 \\end{pmatrix}$.
+$P_A(X) = (X - 4) \\begin{vmatrix} 1 & -1 & -1 \\\\ 1 & X-2 & -1 \\\\ 1 & -1 & X-2 \\end{vmatrix}$.
 Opérations $L_2 \\leftarrow L_2 - L_1$ et $L_3 \\leftarrow L_3 - L_1$ :
-$P_A(X) = (X - 4)(X - 1)^2$.
+$P_A(X) = (X - 4) \\begin{vmatrix} 1 & -1 & -1 \\\\ 0 & X-1 & 0 \\\\ 0 & 0 & X-1 \\end{vmatrix} = (X - 4)(X - 1)^2$ (déterminant d'une matrice triangulaire).
 2. Valeurs propres : $\\lambda_1 = 4$ (multiplicité 1) et $\\lambda_2 = 1$ (multiplicité 2).
 3. Pour $\\lambda = 1$ : $(A - I_3)X = 0 \\iff x + y + z = 0$ (équation d'un plan vectoriel de dimension 2). Base : $u_1(1; -1; 0)$ et $u_2(1; 0; -1)$. $\\dim(E_1) = 2 = m_1$.
 Pour $\\lambda = 4$ : $A - 4I_3$ donne $x = y = z$, base $u_3(1; 1; 1)$. $\\dim(E_4) = 1$.
@@ -2651,7 +3112,7 @@ La série $\\sum u_n$ converge.
 2. Pour $v_n = \\left(\\frac{2n+1}{3n-1}\\right)^n > 0$, règle de Cauchy :
 $$\\sqrt[n]{v_n} = \\frac{2n+1}{3n-1} \\xrightarrow[n\\to+\\infty]{} \\frac{2}{3} < 1$$
 La série $\\sum v_n$ converge.
-3. Pour $w_n = \\frac{1}{n\\ln n} > 0$, la fonction $f(t) = \\frac{1}{t\\ln t}$ est continue, décroissante et positive sur $[2, +\\infty[$.
+3. Pour $w_n = \\frac{1}{n\\ln n} > 0$, la fonction $f(t) = \\frac{1}{t\\ln t}$ est continue, décroissante et positive sur $[2 ; +\\infty[$.
 Par comparaison série-intégrale :
 $$\\int_2^X \\frac{dt}{t\\ln t} = [\\ln(\\ln t)]_2^X \\xrightarrow[X\\to+\\infty]{} +\\infty$$
 L'intégrale divergeant, la série de Bertrand $\\sum w_n$ diverge.
@@ -2679,7 +3140,7 @@ Bien que $a_n \\sim \\frac{(-1)^n}{\\sqrt{n}}$, elles n'ont pas la même nature 
 ### Exercice 1 : Équation différentielle scalaire d'ordre 1 et raccordement (8 points)
 On considère l'équation différentielle :
 $$(E_1) \\quad x y' - 2 y = x^3 \\cos(x)$$
-1. Résoudre $(E_1)$ sur $]0, +\\infty[$ puis sur $]-\\infty, 0[$.
+1. Résoudre $(E_1)$ sur $]0 ; +\\infty[$ puis sur $]-\\infty ; 0[$.
 2. Existe-t-il des solutions de classe $\\mathcal{C}^1$ sur $\\mathbb{R}$ tout entier ? Si oui, les expliciter.
 
 ### Exercice 2 : Oscillateur harmonique et résonance (6 points)
@@ -2699,7 +3160,7 @@ L'équation homogène $y' - \\frac{2}{x}y = 0$ donne $y_h(x) = C x^2$.
 Par la méthode de variation de la constante avec $y(x) = C(x) x^2$ :
 $$x(C'(x)x^2 + 2x C(x)) - 2C(x)x^2 = x^3 \\cos x \\iff C'(x) x^3 = x^3 \\cos x \\iff C'(x) = \\cos x$$
 D'où $C(x) = \\sin x + K$.
-Sur $]0, +\\infty[$, $y_+(x) = (\\sin x + K_1)x^2$, et sur $]-\\infty, 0[$, $y_-(x) = (\\sin x + K_2)x^2$.
+Sur $]0 ; +\\infty[$, $y_+(x) = (\\sin x + K_1)x^2$, et sur $]-\\infty ; 0[$, $y_-(x) = (\\sin x + K_2)x^2$.
 2. En $x=0$, $y_+(0) = y_-(0) = 0$.
 Taux d'accroissement en $0$ : $\\frac{y(x) - 0}{x} = x(\\sin x + K) \\xrightarrow[x\\to 0]{} 0$, donc $y'(0) = 0$.
 Dérivée pour $x \\neq 0$ : $y'(x) = x^2 \\cos x + 2x(\\sin x + K) \\xrightarrow[x\\to 0]{} 0 = y'(0)$.

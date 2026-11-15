@@ -3,5 +3,4 @@
 exclude:
   - GEMINI.md
   - scripts/
-  - outils-audit/
   - "*.md"

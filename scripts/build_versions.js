@@ -8,8 +8,8 @@
  * 1. Remplace dans chaque page HTML les `?v=...` des fichiers locaux (js/, css/, vendor/)
  *    par une empreinte du contenu du fichier : un fichier modifié change d'URL,
  *    un fichier inchangé garde la sienne (le cache des élèves reste valide).
- * 2. Régénère dans sw.js la liste de pré-cache (URLs versionnées de l'application)
- *    et le nom du cache.
+ * 2. Régénère dans sw.js la liste de pré-cache (URLs versionnées de l'application et polices
+ *    de KaTeX) et le nom du cache.
  */
 const fs = require('fs');
 const path = require('path');
@@ -33,6 +33,7 @@ let outdated = [];
 
 // 1. Pages HTML
 const appAssets = [];
+let indexHtml = '';
 for (const file of htmlFiles) {
   const full = path.join(ROOT, file);
   const src = fs.readFileSync(full, 'utf8');
@@ -57,6 +58,7 @@ for (const file of htmlFiles) {
     if (file === 'index.html') appAssets.push(url);
     return `${pre}${url}${post}`;
   });
+  if (file === 'index.html') indexHtml = out;
   if (out !== src) {
     outdated.push(file);
     if (!CHECK_ONLY) fs.writeFileSync(full, out);
@@ -65,11 +67,15 @@ for (const file of htmlFiles) {
 
 // 2. Service worker : pré-cache du noyau applicatif (index.html et ses ressources)
 const staticFiles = ['./', './index.html', './manifest.json', './assets/logo.svg', './assets/favicon-32x32.png', './assets/favicon-144x144.png'];
-const precache = [...staticFiles, ...[...new Set(appAssets)].map(u => './' + u)];
+const FONTS_DIR = 'vendor/katex/fonts';
+const fonts = fs.readdirSync(path.join(ROOT, FONTS_DIR)).filter(f => f.endsWith('.woff2')).sort()
+  .map(f => `./${FONTS_DIR}/${f}?v=${fileHash(`${FONTS_DIR}/${f}`)}`);
+const precache = [...staticFiles, ...[...new Set(appAssets)].map(u => './' + u), ...fonts];
 const swPath = path.join(ROOT, 'sw.js');
 const sw = fs.readFileSync(swPath, 'utf8');
 const listJs = '[\n' + precache.map(u => `  '${u}'`).join(',\n') + '\n]';
-const cacheId = crypto.createHash('sha1').update(precache.join('|')).digest('hex').slice(0, 10);
+// index.html entre dans l'empreinte : son pré-cache suit les changements de données d'un niveau (les ?v= de level-bundles)
+const cacheId = crypto.createHash('sha1').update(precache.join('|') + indexHtml).digest('hex').slice(0, 10);
 const newSw = sw
   .replace(/(\/\/ @precache-start\n)[\s\S]*?(\n\/\/ @precache-end)/, `$1const PRECACHE_URLS = ${listJs};$2`)
   .replace(/const CACHE_NAME = '[^']*';/, `const CACHE_NAME = 'etabli-des-maths-${cacheId}';`);

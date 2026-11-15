@@ -37,6 +37,10 @@ Object.assign(window.MATHS_EXTRA_FLASHCARDS, {
     {
       q: "Trouver deux nombres dont la somme vaut $7$ et le produit $12$.",
       a: "Ce sont les racines de $x^2 - 7x + 12$ : $\\Delta = 49 - 48 = 1$, d'où $3$ et $4$."
+    },
+    {
+      q: "Quelle est la contraposée de « si le trinôme a une racine réelle, alors $\\Delta \\ge 0$ » ?",
+      a: "« Si $\\Delta < 0$, alors le trinôme n'a pas de racine réelle. » Elle est **équivalente** à l'implication de départ (à ne pas confondre avec la réciproque, « si $\\Delta \\ge 0$, alors le trinôme a une racine réelle »)."
     }
   ],
   "1A2": [
@@ -237,20 +241,20 @@ Object.assign(window.MATHS_EXTRA_FLASHCARDS, {
   ],
   "1G2": [
     {
-      q: "$ABCD$ est un carré de côté $4$. Calculer $\\vec{AB} \\cdot \\vec{AC}$.",
-      a: "Le projeté orthogonal de $C$ sur $(AB)$ est $B$, donc $\\vec{AB} \\cdot \\vec{AC} = \\vec{AB} \\cdot \\vec{AB} = AB^2 = 16$."
+      q: "$ABCD$ est un carré de côté $4$. Calculer $\\overrightarrow{AB} \\cdot \\overrightarrow{AC}$.",
+      a: "Le projeté orthogonal de $C$ sur $(AB)$ est $B$, donc $\\overrightarrow{AB} \\cdot \\overrightarrow{AC} = \\overrightarrow{AB} \\cdot \\overrightarrow{AB} = AB^2 = 16$."
     },
     {
-      q: "$ABC$ est un triangle équilatéral de côté $2$. Calculer $\\vec{AB} \\cdot \\vec{AC}$.",
-      a: "$\\vec{AB} \\cdot \\vec{AC} = 2 \\times 2 \\times \\cos\\left(\\frac{\\pi}{3}\\right) = 4 \\times \\frac{1}{2} = 2$."
+      q: "$ABC$ est un triangle équilatéral de côté $2$. Calculer $\\overrightarrow{AB} \\cdot \\overrightarrow{AC}$.",
+      a: "$\\overrightarrow{AB} \\cdot \\overrightarrow{AC} = 2 \\times 2 \\times \\cos\\left(\\frac{\\pi}{3}\\right) = 4 \\times \\frac{1}{2} = 2$."
     },
     {
       q: "Vrai ou faux : si $\\vec{u} \\cdot \\vec{v} = 0$, alors $\\vec{u} = \\vec{0}$ ou $\\vec{v} = \\vec{0}$.",
       a: "**Faux** : $\\vec{u}(1 ; 0)$ et $\\vec{v}(0 ; 1)$ sont non nuls et $\\vec{u} \\cdot \\vec{v} = 0$ ; ils sont orthogonaux."
     },
     {
-      q: "Vrai ou faux : $\\vec{AB} \\cdot \\vec{AC} = AB \\times AC$.",
-      a: "**Faux** en général : $\\vec{AB} \\cdot \\vec{AC} = AB \\times AC \\times \\cos\\left(\\widehat{BAC}\\right)$. L'égalité n'a lieu que si $\\vec{AB}$ et $\\vec{AC}$ sont colinéaires de même sens."
+      q: "Vrai ou faux : $\\overrightarrow{AB} \\cdot \\overrightarrow{AC} = AB \\times AC$.",
+      a: "**Faux** en général : $\\overrightarrow{AB} \\cdot \\overrightarrow{AC} = AB \\times AC \\times \\cos\\left(\\widehat{BAC}\\right)$. L'égalité n'a lieu que si $\\overrightarrow{AB}$ et $\\overrightarrow{AC}$ sont colinéaires de même sens."
     },
     {
       q: "Déterminer le réel $m$ tel que $\\vec{u}(m ; 3)$ et $\\vec{v}(2 ; -4)$ soient orthogonaux (repère orthonormé).",
@@ -280,7 +284,7 @@ Object.assign(window.MATHS_EXTRA_FLASHCARDS, {
     },
     {
       q: "Déterminer une équation cartésienne de la droite passant par $A(1 ; 2)$ et de vecteur normal $\\vec{n}(3 ; -1)$.",
-      a: "$M(x ; y)$ convient si et seulement si $\\vec{AM} \\cdot \\vec{n} = 0$ : $3(x - 1) - (y - 2) = 0$, soit $3x - y - 1 = 0$."
+      a: "$M(x ; y)$ convient si et seulement si $\\overrightarrow{AM} \\cdot \\vec{n} = 0$ : $3(x - 1) - (y - 2) = 0$, soit $3x - y - 1 = 0$."
     },
     {
       q: "À quelle condition les droites $ax + by + c = 0$ et $a'x + b'y + c' = 0$ sont-elles perpendiculaires ?",
@@ -288,7 +292,7 @@ Object.assign(window.MATHS_EXTRA_FLASHCARDS, {
     },
     {
       q: "Donner une équation du cercle de diamètre $[AB]$ avec $A(1 ; 0)$ et $B(5 ; 0)$.",
-      a: "$\\vec{MA} \\cdot \\vec{MB} = 0$ donne $(x - 1)(x - 5) + y^2 = 0$, c'est-à-dire $(x - 3)^2 + y^2 = 4$ : centre $(3 ; 0)$, rayon $2$."
+      a: "$\\overrightarrow{MA} \\cdot \\overrightarrow{MB} = 0$ donne $(x - 1)(x - 5) + y^2 = 0$, c'est-à-dire $(x - 3)^2 + y^2 = 4$ : centre $(3 ; 0)$, rayon $2$."
     },
     {
       q: "Déterminer le centre et le rayon du cercle d'équation $x^2 + y^2 - 4x + 6y - 3 = 0$.",
@@ -300,7 +304,7 @@ Object.assign(window.MATHS_EXTRA_FLASHCARDS, {
     },
     {
       q: "Déterminer le projeté orthogonal $H$ du point $A(3 ; 4)$ sur la droite $d$ d'équation $x - y = 0$.",
-      a: "$\\vec{AH}$ est colinéaire au vecteur normal $\\vec{n}(1 ; -1)$ : $H(3 + t ; 4 - t)$. $H \\in d$ donne $3 + t = 4 - t$, soit $t = \\frac{1}{2}$ : $H\\left(\\frac{7}{2} ; \\frac{7}{2}\\right)$."
+      a: "$\\overrightarrow{AH}$ est colinéaire au vecteur normal $\\vec{n}(1 ; -1)$ : $H(3 + t ; 4 - t)$. $H \\in d$ donne $3 + t = 4 - t$, soit $t = \\frac{1}{2}$ : $H\\left(\\frac{7}{2} ; \\frac{7}{2}\\right)$."
     }
   ],
   "1S1": [
@@ -387,6 +391,10 @@ Object.assign(window.MATHS_EXTRA_FLASHCARDS, {
     {
       q: "Comment simuler en Python un événement de probabilité $0{,}3$ ?",
       a: "Avec `random() < 0.3` (module `random`) : `random()` renvoie un flottant de $[0 ; 1[$, et la condition est vraie avec la probabilité $0{,}3$."
+    },
+    {
+      q: "Dans un algorithme en langage naturel, que signifie $u \\leftarrow 2 \\times u + 1$, et comment l'écrit-on en Python ?",
+      a: "$u$ prend la valeur $2 \\times u + 1$ (on calcule à droite avec l'ancienne valeur, puis on range le résultat dans $u$). En Python : `u = 2 * u + 1`."
     },
     {
       q: "Que vaut `[k for k in range(10) if k % 3 == 0]` ?",

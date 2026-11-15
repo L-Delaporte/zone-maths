@@ -50,27 +50,30 @@
       ]),
     C('crpe-05', 'PE-05', 'fonctions', 'Organisation et gestion de données, fonctions',
       'Proportionnalité, pourcentages et vitesses', 'Proportionnalité', 'percent', 'Expert de la Proportionnalité', '#0f766e',
-      'Reconnaître et traiter une situation de proportionnalité (coefficient, linéarité, passage à l\'unité, produit en croix), échelles, pourcentages et évolutions successives, vitesse moyenne et débits.',
+      'Reconnaître et traiter une situation de proportionnalité (coefficient, linéarité, passage à l\'unité, produit en croix), ratio et partage proportionnel, échelles, pourcentages et évolutions successives, grandeurs quotients : vitesse moyenne et débits.',
       [
         'Choisir une procédure adaptée pour résoudre un problème de proportionnalité',
+        'Utiliser un ratio et effectuer un partage proportionnel',
         'Appliquer et composer des pourcentages d\'évolution',
-        'Calculer une vitesse moyenne, une durée ou une distance avec des unités cohérentes'
+        'Calculer une vitesse moyenne, une durée ou une distance avec des unités cohérentes ; reconnaître une grandeur quotient'
       ]),
     C('crpe-06', 'PE-06', 'fonctions', 'Organisation et gestion de données, fonctions',
       'Notion de fonction, fonctions linéaires et affines', 'Fonctions', 'trending-up', 'Analyste des Fonctions', '#0d9488',
-      'Image, antécédent, tableau de valeurs et représentation graphique, lecture graphique, fonctions linéaires et affines, coefficient directeur, comparaison de tarifs et modélisation.',
+      'Image, antécédent, tableau de valeurs et représentation graphique, lecture graphique, fonctions linéaires et affines, fonction carré et résolutions graphiques, coefficient directeur, comparaison de tarifs et modélisation.',
       [
         'Calculer une image, déterminer un antécédent par le calcul ou graphiquement',
         'Reconnaître et déterminer une fonction linéaire ou affine',
+        'Représenter la fonction carré et résoudre graphiquement une équation ou une inéquation',
         'Modéliser une situation (tarifs, coûts) et comparer deux offres'
       ]),
     C('crpe-07', 'PE-07', 'fonctions', 'Organisation et gestion de données, fonctions',
       'Statistiques et probabilités', 'Statistiques & probabilités', 'bar-chart', 'Statisticien Averti', '#0e7490',
-      'Moyenne (simple et pondérée), médiane, étendue, fréquences, lecture de tableaux et de diagrammes, vocabulaire des probabilités, calcul de probabilités en situation d\'équiprobabilité, expériences à deux épreuves.',
+      'Moyenne (simple et pondérée), médiane, étendue, effectifs cumulés, quartiles, boîtes à moustaches, fréquences, lecture de tableaux, de diagrammes et d\'histogrammes, vocabulaire et notations ensemblistes des probabilités, calcul de probabilités en situation d\'équiprobabilité, expériences à deux épreuves, fluctuation et simulation.',
       [
-        'Calculer et interpréter moyenne, médiane, étendue et fréquences',
-        'Lire et exploiter des tableaux et des diagrammes',
-        'Calculer une probabilité, y compris pour une expérience à deux épreuves'
+        'Calculer et interpréter moyenne, médiane, étendue, quartiles et fréquences',
+        'Lire et exploiter des tableaux, des diagrammes, des histogrammes et des boîtes à moustaches',
+        'Calculer une probabilité, y compris pour une expérience à deux épreuves ou une réunion d\'événements',
+        'Interpréter la fluctuation et la stabilisation des fréquences, simuler une expérience aléatoire'
       ]),
     C('crpe-08', 'PE-08', 'geometrie', 'Grandeurs et mesures',
       'Grandeurs et mesures : longueurs, aires, volumes, durées et conversions', 'Grandeurs & mesures', 'ruler', 'Maître des Mesures', '#1d4ed8',
@@ -90,7 +93,7 @@
       ]),
     C('crpe-10', 'PE-10', 'geometrie', 'Espace et géométrie',
       'Figures, transformations et géométrie dans l\'espace', 'Transformations & espace', 'box', 'Bâtisseur de l\'Espace', '#4338ca',
-      'Propriétés des quadrilatères, symétries, translations, rotations et homothéties, solides (patrons, sections, repérage dans l\'espace), représentations en perspective et vocabulaire de la géométrie.',
+      'Définitions et propriétés des quadrilatères, symétries, translations, rotations et homothéties, vecteurs, solides (patrons, sections, repérage dans l\'espace), représentations en perspective et vocabulaire de la géométrie.',
       [
         'Reconnaître et utiliser les transformations du plan',
         'Identifier un solide, ses faces, arêtes et sommets, et un patron',

@@ -50,9 +50,16 @@ window.MathsDataLoader = {
     if (this.isLevelLoaded(level)) return Promise.resolve();
     if (!this._levels[level]) {
       const urls = this.bundles()[level] || [];
-      this._levels[level] = urls
-        .reduce((chain, url) => chain.then(() => this.loadScript(url)), Promise.resolve())
-        .then(() => {
+      const alreadyRequested = new Set(urls.filter(u => this._scripts[u]));
+      // Tous insérés d'un coup : téléchargement parallèle, exécution dans l'ordre (async = false)
+      this._levels[level] = Promise.allSettled(urls.map(u => this.loadScript(u)))
+        .then(results => {
+          const failed = results.findIndex(r => r.status === 'rejected');
+          if (failed >= 0) {
+            // Les suivants se sont exécutés sans lui : on les oublie pour les rejouer dans l'ordre à la relance
+            urls.slice(failed + 1).forEach(u => { if (!alreadyRequested.has(u)) delete this._scripts[u]; });
+            throw results[failed].reason;
+          }
           this._levels[level] = true;
           // Les flashcards complémentaires s'ajoutent aux cours fraîchement chargés
           if (window.MathsFlashcards && typeof window.MathsFlashcards.enrichCoursesWithExtras === 'function') {

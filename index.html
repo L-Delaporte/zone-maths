@@ -4,11 +4,9 @@
   <meta charset="UTF-8" />
   <!-- Content-Security-Policy : voir scripts/csp.js (style-src 'unsafe-inline' requis par les attributs style de KaTeX et de l'application) -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://etabli-des-maths.goatcounter.com; font-src 'self' data:; connect-src 'self' https://etabli-des-maths.goatcounter.com; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'" />
-  <script src="js/themeInit.js?v=b22b407710"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="author" content="Loïc Delaporte, Professeur de Mathématiques" />
   <meta name="description" content="Exercices de maths corrigés et générés à l'infini, cours, rituels et brevets blancs, de la 6e au bac. Gratuit, sans compte ni pub, par un prof de maths." />
-  <meta name="keywords" content="mathématiques, collège, lycée, cycle 4, 3ème, 4ème, 5ème, 2nde, 1ère, terminale, brevet, DNB, bac, baccalauréat, rituels maths, questions flash, calcul mental, devoirs blancs, exercices interactifs, établi des maths, Loïc Delaporte" />
   
   <link rel="canonical" href="https://etabli-des-maths.fr/" />
 
@@ -48,6 +46,7 @@
     {
       "@context": "https://schema.org",
       "@type": "Organization",
+      "@id": "https://etabli-des-maths.fr/#organisation",
       "name": "L'Établi des Maths",
       "url": "https://etabli-des-maths.fr/",
       "logo": "https://etabli-des-maths.fr/assets/logo-192.png"
@@ -63,21 +62,24 @@
       "isAccessibleForFree": true,
       "inLanguage": "fr",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
-      "author": { "@type": "Person", "name": "Loïc Delaporte", "jobTitle": "Professeur de mathématiques" },
+      "author": { "@type": "Person", "@id": "https://etabli-des-maths.fr/a-propos.html#auteur", "name": "Loïc Delaporte", "jobTitle": "Professeur de mathématiques", "url": "https://etabli-des-maths.fr/a-propos.html" },
       "educationalLevel": ["6e", "5e", "4e", "3e", "Brevet (DNB)", "Seconde", "Première spécialité", "Terminale spécialité", "Baccalauréat", "Licence", "CAPES", "Concours de professeur des écoles (CRPE)", "Études de santé (PASS / L.AS)", "Classe préparatoire BCPST (concours vétérinaire)"]
     }
   ]
   </script>
 
-  <!-- Délégation d'événements (data-click…, replis data-fallback-*) : avant toute ressource à repli -->
-  <script src="js/eventDelegation.js?v=89e87b61a8"></script>
+  <!-- Délégation d'événements (data-click…) -->
+  <script defer src="js/eventDelegation.js?v=324576ed13"></script>
 
-  <!-- KaTeX pour le rendu des formules mathématiques (avec fallback CDN) -->
-  <link rel="stylesheet" href="vendor/katex/katex.min.css?v=000b7545e1" />
+  <!-- KaTeX pour le rendu des formules mathématiques -->
+  <link rel="stylesheet" href="vendor/katex/katex.min.css?v=1be2fd298c" />
   
   <!-- Feuilles de style de l'application -->
-  <link rel="stylesheet" href="css/style.css?v=a4e7161be9" />
-  <link rel="stylesheet" href="css/sheets.css?v=1f1346a799" />
+  <link rel="stylesheet" href="css/style.css?v=141db07fda" />
+  <!-- media="print" : ne bloque pas le premier affichage ; js/app.js passe cette feuille en media="all" au démarrage -->
+  <link rel="stylesheet" href="css/sheets.css?v=1f1346a799" id="sheets-css" media="print" />
+  <!-- Synchrone (pas de clignotement du thème), mais après les feuilles de style pour ne pas retarder leur découverte -->
+  <script src="js/themeInit.js?v=58d3835cf3"></script>
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="48x48" href="assets/favicon-48x48.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
@@ -85,8 +87,9 @@
   <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon.png" />
   <link rel="apple-touch-icon" href="assets/favicon.png" />
 </head>
-<body>
+<body class="home-view-active">
   <a class="skip-link" href="#contenu">Aller au contenu</a>
+  <div id="sr-live-region" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
 
   <!-- En-tête de l'application -->
   <header class="app-header">
@@ -94,10 +97,42 @@
       <a class="brand-container" id="brand-home-link" href="./" data-click="MathsApp.showHomeView" data-prevent title="Retourner à la page d'accueil">
         <img src="assets/logo-96.png" alt="" class="brand-logo-img" width="44" height="44" />
         <div class="brand-text">
-          <h1 id="app-main-title">L'Établi des Maths <span class="brand-level-tag">Collège & Lycée</span></h1>
+          <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap;"><h1 id="app-main-title">L'Établi des Maths</h1> <span class="brand-level-tag" id="app-level-tag">Collège &amp; Lycée</span></div>
           <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
         </div>
       </a>
+
+      <!-- En-tête mobile : niveau et menu (outils, progression, réglages) ; masqués au-delà de 768 px -->
+      <div class="header-mobile-controls">
+        <label for="mobile-level-select" class="sr-only">Niveau d'études</label>
+        <select id="mobile-level-select" class="mobile-level-select">
+          <option value="">Accueil</option>
+          <optgroup label="Collège">
+            <option value="6eme">6ème</option>
+            <option value="5eme">5ème</option>
+            <option value="4eme">4ème</option>
+            <option value="3eme">3ème (DNB)</option>
+          </optgroup>
+          <optgroup label="Lycée">
+            <option value="2nde">2nde</option>
+            <option value="1ere">1ère</option>
+            <option value="tale">Terminale</option>
+          </optgroup>
+          <optgroup label="Licence">
+            <option value="L1">L1 (S1/S2)</option>
+            <option value="L2">L2 (S3/S4)</option>
+            <option value="L3">L3 (S5/S6)</option>
+          </optgroup>
+          <optgroup label="Concours">
+            <option value="capes">CAPES</option>
+            <option value="crpe">Professeur des écoles</option>
+            <option value="sante">Prépa santé</option>
+            <option value="pass">PASS / L.AS</option>
+            <option value="veto">Véto (BCPST)</option>
+          </optgroup>
+        </select>
+        <button type="button" id="btn-header-menu" class="header-menu-btn" aria-expanded="false" aria-controls="header-tools-panel" aria-label="Menu&nbsp;: outils, progression et réglages"><span aria-hidden="true">⋯</span></button>
+      </div>
 
       <!-- Sélecteur Multi-Cycles (Collège, Lycée, Licence, Concours) & Niveaux -->
       <div class="app-curriculum-nav" role="navigation" aria-label="Cycles et Niveaux d'études">
@@ -129,7 +164,7 @@
           <!-- Niveaux Lycée -->
           <div class="cycle-levels-group" id="levels-group-lycee" style="display:none;">
             <button class="level-pill" id="level-btn-2nde" data-level="2nde" data-click="MathsApp.switchLevel" data-args='["2nde"]'>2nde</button>
-            <button class="level-pill" id="level-btn-1ere" data-level="1ere" data-click="MathsApp.switchLevel" data-args='["1ere"]'>1ère Spé</button>
+            <button class="level-pill" id="level-btn-1ere" data-level="1ere" data-click="MathsApp.openPremiere">1ère</button>
             <button class="level-pill" id="level-btn-tale" data-level="tale" data-click="MathsApp.switchLevel" data-args='["tale"]'>Terminale</button>
           </div>
           <!-- Niveaux Licence -->
@@ -138,9 +173,9 @@
             <button class="level-pill" id="level-btn-L2" data-level="L2" data-click="MathsApp.switchLevel" data-args='["L2"]'>L2 (S3/S4)</button>
             <button class="level-pill" id="level-btn-L3" data-level="L3" data-click="MathsApp.switchLevel" data-args='["L3"]'>L3 (S5/S6)</button>
           </div>
-          <!-- Concours (CAPES / agrégation, professeur des écoles, études de santé, écoles vétérinaires) -->
+          <!-- Concours (CAPES, professeur des écoles, études de santé, écoles vétérinaires) -->
           <div class="cycle-levels-group" id="levels-group-concours" style="display:none;">
-            <button class="level-pill" id="level-btn-capes" data-level="capes" data-click="MathsApp.switchLevel" data-args='["capes"]'>CAPES / Agrég</button>
+            <button class="level-pill" id="level-btn-capes" data-level="capes" data-click="MathsApp.switchLevel" data-args='["capes"]'>CAPES</button>
             <button class="level-pill" id="level-btn-crpe" data-level="crpe" data-click="MathsApp.switchLevel" data-args='["crpe"]'>Professeur des écoles</button>
             <button class="level-pill" id="level-btn-sante" data-level="sante" data-click="MathsApp.switchLevel" data-args='["sante"]'>Prépa santé</button>
             <button class="level-pill" id="level-btn-pass" data-level="pass" data-click="MathsApp.switchLevel" data-args='["pass"]'>PASS / L.AS</button>
@@ -149,7 +184,7 @@
         </div>
       </div>
 
-      <div class="header-user-status">
+      <div class="header-user-status" id="header-tools-panel">
         <div class="status-pills-row">
           <button type="button" class="status-pill status-pill-clickable" id="header-level-pill" title="Clique pour voir ta progression vers le niveau suivant">
             <span id="header-user-level">Niveau 1</span>
@@ -157,7 +192,7 @@
           <button type="button" class="status-pill status-pill-clickable" id="header-xp-pill" title="Clique pour voir ta progression d'XP">
             <span id="header-user-xp">0 XP</span>
           </button>
-          <button type="button" class="status-pill status-pill-clickable" id="header-streak-pill" title="Clique pour voir les détails de ta série quotidienne" aria-label="Série quotidienne : 0 jour">
+          <button type="button" class="status-pill status-pill-clickable" id="header-streak-pill" title="Clique pour voir les détails de ta série quotidienne" aria-label="Série quotidienne&nbsp;: 0 jour">
             <span id="header-user-streak" aria-hidden="true">🔥 0</span>
           </button>
         </div>
@@ -171,7 +206,7 @@
             <button id="btn-open-quiz" class="btn-icon-text" title="Générer des devoirs blancs d'entraînement">
               📝 <span class="btn-lbl">Devoir Blanc</span>
             </button>
-            <button id="btn-open-flashcards" class="btn-icon-text btn-flashcards-glow" title="Mémorisation active : Flashcards & Boîte de Leitner (style Fabien Olicard)">
+            <button id="btn-open-flashcards" class="btn-icon-text btn-flashcards-glow" title="Mémorisation active&nbsp;: Flashcards & Boîte de Leitner (méthode mise en avant par Fabien Olicard)">
               🗂️ <span class="btn-lbl">Flashcards</span>
             </button>
             <button id="passport-btn" class="btn-icon-text" title="Mon passeport de compétences">
@@ -181,7 +216,7 @@
 
           <!-- Réglages d'affichage et de confort (thème, affichage simplifié, police, sons) -->
           <details class="settings-menu" id="settings-menu">
-            <summary class="settings-trigger btn-icon-text" title="Réglages : thème, affichage, police, sons">
+            <summary class="settings-trigger btn-icon-text" title="Réglages&nbsp;: thème, affichage, police, sons">
               <svg class="settings-gear" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
               <span class="btn-lbl">Réglages</span>
             </summary>
@@ -190,6 +225,7 @@
               <button id="simple-toggle-btn" class="settings-item" type="button" role="switch" aria-checked="false" title="Réduire les animations et effets visuels"><span class="settings-ico" aria-hidden="true">👓</span><span class="settings-txt">Affichage simplifié</span><span class="settings-state" aria-hidden="true"></span></button>
               <button id="dys-toggle-btn" class="settings-item" type="button" role="switch" aria-checked="false" title="Remplacer la police du site par OpenDyslexic"><span class="settings-ico" aria-hidden="true">🔤</span><span class="settings-txt">Police dyslexie</span><span class="settings-state" aria-hidden="true"></span></button>
               <button id="sound-toggle-btn" class="settings-item" type="button" role="switch" aria-checked="true" data-click="MathsAudio.toggleMute"><span class="settings-ico" aria-hidden="true">🔊</span><span class="settings-txt">Sons</span><span class="settings-state" aria-hidden="true"></span></button>
+              <button id="shortcuts-toggle-btn" class="settings-item" type="button" role="switch" aria-checked="true" title="Touches N, H, A à D et 1 à 4 pendant un exercice"><span class="settings-ico" aria-hidden="true">⌨️</span><span class="settings-txt">Raccourcis clavier</span><span class="settings-state" aria-hidden="true"></span></button>
             </div>
           </details>
         </div>
@@ -203,7 +239,7 @@
       <img src="assets/logo-96.png" alt="Logo L'Établi des Maths" class="pwa-banner-logo" width="36" height="36" />
       <div class="pwa-banner-text">
         <strong class="pwa-banner-title">Installer L'Établi des Maths</strong>
-        <span class="pwa-banner-desc" id="pwa-banner-desc">Accès rapide & révisions 100% hors-ligne</span>
+        <span class="pwa-banner-desc" id="pwa-banner-desc">Accès rapide & contenus déjà ouverts hors ligne</span>
       </div>
     </div>
     <div class="pwa-banner-actions">
@@ -215,7 +251,7 @@
   </div>
 
   <!-- Déclencheur Rapide du Volet Chapitres sur Mobile / Tablette -->
-  <div class="mobile-chapter-trigger-bar no-print" id="mobile-chapter-trigger-bar">
+  <div class="mobile-chapter-trigger-bar no-print" id="mobile-chapter-trigger-bar" style="display: none;">
     <button id="mobile-chapter-btn" class="mobile-chapter-btn" type="button" aria-expanded="false" aria-controls="sidebar-chapters">
       <div class="m-chap-left">
         <span class="m-chap-badge">📚 Chapitre</span>
@@ -229,19 +265,22 @@
   </div>
 
   <!-- Contenu Principal -->
-  <main class="app-container" id="contenu" tabindex="-1">
+  <main class="app-container home-active" id="contenu" tabindex="-1">
 
     <!-- =========================================================================
-         PAGE D'ACCUEIL / TABLEAU DE BORD (HUB D'APPRENTISSAGE ZPD)
+         PAGE D'ACCUEIL / TABLEAU DE BORD (HUB D'APPRENTISSAGE)
          ========================================================================= -->
-    <section id="home-view" class="home-view" style="display: none;" aria-label="Accueil">
+    <section id="home-view" class="home-view" aria-label="Accueil">
+      <noscript>
+        <p class="hero-desc">Les exercices interactifs ont besoin de JavaScript. Sans lui, tous les cours restent consultables&nbsp;: <a href="cours/">voir les cours de la 6e au bac</a>.</p>
+      </noscript>
       <!-- Hero Bannière d'Accueil -->
       <div class="chapter-hero-banner home-hero-banner">
         <div class="hero-text-zone">
-          <span class="app-badge-zpd">✨ Zone Optimale d'Apprentissage (ZPD)</span>
-          <h2 class="hero-title" id="home-greeting-title">Bonjour ! Prêt pour ta séance de maths ?</h2>
+          <span class="app-badge-zpd">✨ Gratuit, sans compte ni publicité</span>
+          <h2 class="hero-title" id="home-greeting-title">Exercices de maths corrigés, générés à l'infini, de la 6e au bac</h2>
           <p class="hero-desc">
-            Pratique à ton rythme par paliers de difficulté adaptatifs, consolide tes automatismes et valide tes compétences en toute autonomie.
+            Entraîne-toi à ton rythme sur 4 paliers de difficulté, avec une correction détaillée à chaque réponse, des cours complets et des rituels de calcul mental.
           </p>
         </div>
         <div class="home-streak-card" id="home-streak-card">
@@ -252,14 +291,32 @@
 
       <!-- Zone de Continuité & Échauffement (Effet Zeigarnik) -->
       <div class="home-resume-box">
-        <div class="home-resume-card" id="home-resume-card" data-click="MathsApp.handleResumeOrStart" style="cursor: pointer;">
+        <!-- Première visite : le choix de la classe et les portes enseignant / parent. Masqué dès qu'une progression existe (js/app/home.js). -->
+        <div id="home-doors">
+          <h3 class="home-section-title">En quelle classe es-tu&#8239;?</h3>
+          <div class="home-cycle-levels">
+            <a href="cours/6e/" class="level-pill-mini" data-click="MathsApp.switchLevel" data-args='["6eme"]' data-prevent>6e</a>
+            <a href="cours/5e/" class="level-pill-mini" data-click="MathsApp.switchLevel" data-args='["5eme"]' data-prevent>5e</a>
+            <a href="cours/4e/" class="level-pill-mini" data-click="MathsApp.switchLevel" data-args='["4eme"]' data-prevent>4e</a>
+            <a href="cours/3e/" class="level-pill-mini" data-click="MathsApp.switchLevel" data-args='["3eme"]' data-prevent>3e</a>
+            <a href="cours/seconde/" class="level-pill-mini" data-click="MathsApp.switchLevel" data-args='["2nde"]' data-prevent>2de</a>
+            <a href="cours/premiere/" class="level-pill-mini" data-click="MathsApp.openPremiere" data-prevent>1re</a>
+            <a href="cours/terminale/" class="level-pill-mini" data-click="MathsApp.switchLevel" data-args='["tale"]' data-prevent>Terminale</a>
+          </div>
+          <div class="home-portals-links">
+            <a href="enseignants.html" class="home-portal-link">👩‍🏫 Vous enseignez&#8239;?</a>
+            <a href="parents.html" class="home-portal-link">👪 Vous êtes parent&#8239;?</a>
+          </div>
+        </div>
+
+        <div class="home-resume-card" id="home-resume-card" data-click="MathsApp.handleResumeOrStart" style="cursor: pointer; display: none;">
           <div class="home-resume-left">
             <div class="home-resume-badge" id="home-resume-badge">🚀</div>
             <div class="home-resume-info">
               <div class="home-resume-tag" id="home-resume-tag">🎯 Démarrage Rapide</div>
               <div class="home-resume-title" id="home-resume-title">
                 <span id="home-resume-chap-name">Choisis ton cycle pour démarrer</span>
-                <span class="home-resume-tier-pill" id="home-resume-tier-pill" style="display: none;">Palier 1 : Socle</span>
+                <span class="home-resume-tier-pill" id="home-resume-tier-pill" style="display: none;">Palier 1&nbsp;: Socle</span>
               </div>
               <div class="home-resume-sub" id="home-resume-sub">
                 Collège, Lycée ou prépare ton Brevet / Bac
@@ -277,7 +334,7 @@
             <div class="home-warmup-title">Rituel Flash 3 min</div>
             <div class="home-warmup-sub">Calcul mental & automatismes</div>
           </div>
-          <button class="btn-secondary home-warmup-btn" type="button" title="Lancer une séance chronométrée">
+          <button class="btn-secondary home-warmup-btn" type="button" title="Lancer une séance chronométrée" data-click="MathsApp.openDiaporamaModal" data-stop>
             Lancer ⏱️
           </button>
         </div>
@@ -309,6 +366,7 @@
             <button class="level-pill-mini" data-click="MathsApp.switchLevel" data-args='["4eme"]' data-stop>4ème</button>
             <button class="level-pill-mini" data-click="MathsApp.switchLevel" data-args='["3eme"]' data-stop>3ème (DNB)</button>
           </div>
+          <button type="button" class="btn-secondary btn-sm home-cycle-open" data-click="MathsApp.switchCycle" data-args='["college"]' data-stop>Ouvrir le collège</button>
         </div>
 
         <!-- Lycée -->
@@ -318,12 +376,13 @@
             <span class="home-cycle-status-badge badge-open">Libre Accès</span>
           </div>
           <div class="home-cycle-name">Lycée</div>
-          <div class="home-cycle-desc">Voie Générale • Spécialités mathématiques et préparation au Baccalauréat</div>
+          <div class="home-cycle-desc">Voies générale et technologique • Spécialité maths, tronc commun et épreuve anticipée de 1re</div>
           <div class="home-cycle-levels">
             <button class="level-pill-mini" data-click="MathsApp.switchLevel" data-args='["2nde"]' data-stop>2nde</button>
-            <button class="level-pill-mini" data-click="MathsApp.switchLevel" data-args='["1ere"]' data-stop>1ère Spé</button>
+            <button class="level-pill-mini" data-click="MathsApp.openPremiere" data-stop>1ère</button>
             <button class="level-pill-mini" data-click="MathsApp.switchLevel" data-args='["tale"]' data-stop>Terminale</button>
           </div>
+          <button type="button" class="btn-secondary btn-sm home-cycle-open" data-click="MathsApp.switchCycle" data-args='["lycee"]' data-stop>Ouvrir le lycée</button>
         </div>
 
         <!-- Licence -->
@@ -339,6 +398,7 @@
             <button class="level-pill-mini" data-click="MathsApp.switchLevel" data-args='["L2"]' data-stop>L2</button>
             <button class="level-pill-mini" data-click="MathsApp.switchLevel" data-args='["L3"]' data-stop>L3</button>
           </div>
+          <button type="button" class="btn-secondary btn-sm home-cycle-open" data-click="MathsApp.switchCycle" data-args='["licence"]' data-stop>Ouvrir la licence</button>
         </div>
 
         <!-- Concours -->
@@ -348,14 +408,15 @@
             <span class="home-cycle-status-badge badge-open">Libre Accès</span>
           </div>
           <div class="home-cycle-name">Concours</div>
-          <div class="home-cycle-desc">Professorat • CAPES et agrégation, professeur des écoles. Études de santé • prépa santé, PASS / L.AS. Écoles vétérinaires • prépa BCPST</div>
+          <div class="home-cycle-desc">Professorat • CAPES, professeur des écoles. Études de santé • prépa santé, PASS / L.AS. Écoles vétérinaires • prépa BCPST</div>
           <div class="home-cycle-levels">
-            <button class="level-pill-mini" data-click="MathsApp.switchLevel" data-args='["capes"]' data-stop>CAPES / Agrég</button>
+            <button class="level-pill-mini" data-click="MathsApp.switchLevel" data-args='["capes"]' data-stop>CAPES</button>
             <button class="level-pill-mini" data-click="MathsApp.switchLevel" data-args='["crpe"]' data-stop>Professeur des écoles</button>
             <button class="level-pill-mini" data-click="MathsApp.switchLevel" data-args='["sante"]' data-stop>Prépa santé</button>
             <button class="level-pill-mini" data-click="MathsApp.switchLevel" data-args='["pass"]' data-stop>PASS / L.AS</button>
             <button class="level-pill-mini" data-click="MathsApp.switchLevel" data-args='["veto"]' data-stop>Véto (BCPST)</button>
           </div>
+          <button type="button" class="btn-secondary btn-sm home-cycle-open" data-click="MathsApp.switchCycle" data-args='["concours"]' data-stop>Ouvrir les concours</button>
         </div>
       </div>
 
@@ -368,7 +429,7 @@
         <div class="home-tool-card" data-click="MathsApp.showModeExplainer" data-args='["adaptive"]' role="button" tabindex="0" title="Découvrir le mode Entraînement Adaptatif">
           <div class="home-tool-icon">🎯</div>
           <div class="home-tool-title">Entraînement Adaptatif</div>
-          <div class="home-tool-desc">4 paliers de difficulté ZPD pour progresser sans blocage et monter de niveau.</div>
+          <div class="home-tool-desc">4 paliers de difficulté pour progresser sans blocage et monter de niveau.</div>
           <span class="home-tool-action-hint">💡 Voir le principe & un exemple</span>
         </div>
         <div class="home-tool-card" data-click="MathsApp.showModeExplainer" data-args='["rituel"]' role="button" tabindex="0" title="Découvrir le mode Rituels Flash">
@@ -393,12 +454,18 @@
 
       <!-- Portails Thématiques & Référencement -->
       <div class="home-portals-footer">
-        <span class="home-portals-lbl">📚 Portails dédiés :</span>
+        <span class="home-portals-lbl">📚 Portails dédiés&nbsp;:</span>
         <div class="home-portals-links">
           <a href="cours/" class="home-portal-link">📚 Tous les cours</a>
+          <a href="exercices-de-maths/" class="home-portal-link">✏️ Exercices de maths corrigés</a>
+          <a href="entrainement-maths/" class="home-portal-link">🎯 Entraînement maths en ligne</a>
+          <a href="reviser-le-brevet-de-maths/" class="home-portal-link">📘 Réviser le brevet de maths</a>
+          <a href="reussir-le-bac-de-maths/" class="home-portal-link">🏁 Réussir le bac de maths</a>
+          <a href="epreuve-anticipee-de-maths/" class="home-portal-link">🎓 Épreuve anticipée (1re)</a>
           <a href="rituels.html" class="home-portal-link">⏱️ Rituels à projeter</a>
           <a href="brevet.html" class="home-portal-link">📝 Brevet blanc (3e)</a>
           <a href="bac.html" class="home-portal-link">🎓 Sujets type bac</a>
+          <a href="preparer-le-capes-de-maths/" class="home-portal-link">🧭 Préparer le CAPES de maths</a>
           <a href="epreuve-d-entretien-capes/" class="home-portal-link">⚖️ Oral 2 du CAPES</a>
           <a href="enseignants.html" class="home-portal-link">👩‍🏫 Espace enseignants</a>
           <a href="parents.html" class="home-portal-link">👪 Espace parents</a>
@@ -407,7 +474,7 @@
     </section>
 
     <!-- Volet Latéral : Sélection des 18 Chapitres -->
-    <aside id="sidebar-chapters" class="sidebar-chapters">
+    <aside id="sidebar-chapters" class="sidebar-chapters" style="display: none;">
       <div class="sidebar-title-row">
         <h2>Progression 3ème</h2>
         <div class="sidebar-header-actions" style="display: flex; align-items: center; gap: 0.35rem;">
@@ -441,7 +508,15 @@
     </aside>
 
     <!-- Zone Centrale de Travail -->
-    <div class="main-workspace">
+    <div class="main-workspace" style="display: none;">
+
+      <!-- Voie de Première (visible en Première seulement) : spécialité, tronc commun, technologique -->
+      <div id="premiere-voie-switch" class="voie-switch" role="radiogroup" aria-labelledby="premiere-voie-label" hidden>
+        <span id="premiere-voie-label" class="voie-switch-label">Ta voie en 1ère&#8239;:</span>
+        <button type="button" role="radio" class="voie-option" data-voie="1ere" aria-checked="false" tabindex="-1" data-click="MathsApp.choosePremiereVoie" data-args='["1ere"]'>Spécialité maths</button>
+        <button type="button" role="radio" class="voie-option" data-voie="1tc" aria-checked="false" tabindex="-1" data-click="MathsApp.choosePremiereVoie" data-args='["1tc"]'>Générale sans spé</button>
+        <button type="button" role="radio" class="voie-option" data-voie="1techno" aria-checked="false" tabindex="-1" data-click="MathsApp.choosePremiereVoie" data-args='["1techno"]'>Technologique</button>
+      </div>
 
       <!-- Hero Bannière du Chapitre Sélectionné -->
       <div class="chapter-hero-banner">
@@ -449,7 +524,7 @@
           <div class="hero-meta">
             <span id="chapter-hero-domain" class="domain-pill">Nombres et Calculs</span>
           </div>
-          <h2 id="chapter-hero-title">N1 : Ensemble de nombres et fractions</h2>
+          <h2 id="chapter-hero-title">N1&nbsp;: Ensemble de nombres et fractions</h2>
           <p id="chapter-hero-desc">Ensembles de nombres, 4 opérations sur les fractions et priorités opératoires.</p>
         </div>
 
@@ -464,6 +539,11 @@
           </button>
         </div>
       </div>
+
+      <!-- Mention affichée sur tous les niveaux du cycle Concours (voir renderLevelFrame) -->
+      <p id="concours-notice" class="concours-notice no-print" role="note" hidden>L'Établi des Maths est une aide complémentaire à la préparation et ne garantit pas la réussite au concours&nbsp;: les programmes et les attendus varient d'une université ou d'une formation à l'autre. Le programme officiel de chaque formation fait foi.</p>
+      <!-- Voie et épreuves visées, pour les niveaux de concours qui en ont plusieurs (texte : CONCOURS_EXAM_NOTES dans js/app.js) -->
+      <p id="concours-exam-notice" class="concours-notice no-print" role="note" hidden></p>
 
       <!-- Barre d'onglets du Chapitre -->
       <div class="tabs-navigation-bar no-print" role="tablist" aria-label="Rubriques du chapitre">
@@ -484,16 +564,16 @@
       <!-- 1. ONGLET : ENTRAÎNEMENT ADAPTATIF -->
       <section id="tab-pane-train" class="tab-pane active" role="tabpanel" aria-labelledby="tab-btn-train">
         
-        <!-- Panneau de Contrôle Adaptatif ZPD -->
+        <!-- Panneau de Contrôle Adaptatif -->
         <div class="adaptive-control-panel">
           <div class="tier-selector-row">
             <div class="tier-left-group">
-              <span class="tier-selector-label">Palier :</span>
+              <span class="tier-selector-label">Palier&nbsp;:</span>
               <div class="tier-pills-group">
-                <button class="tier-pill-btn active" data-tier="1">Palier 1 : Socle</button>
-                <button class="tier-pill-btn" data-tier="2">Palier 2 : Guidé</button>
-                <button class="tier-pill-btn" data-tier="3">Palier 3 : Brevet / Bac / Examen</button>
-                <button class="tier-pill-btn" data-tier="4">Palier 4 : Défi & Approfondissement</button>
+                <button class="tier-pill-btn active" data-tier="1">Palier 1&nbsp;: Socle</button>
+                <button class="tier-pill-btn" data-tier="2">Palier 2&nbsp;: Guidé</button>
+                <button class="tier-pill-btn" data-tier="3">Palier 3&nbsp;: Brevet / Bac / Examen</button>
+                <button class="tier-pill-btn" data-tier="4">Palier 4&nbsp;: Défi & Approfondissement</button>
               </div>
             </div>
             
@@ -516,6 +596,7 @@
 
         <!-- Espace de l'Exercice Interactif -->
         <div class="exercise-workspace-box">
+          <h2 class="sr-only">Exercice</h2>
           <div id="exercise-statement-box">
             <!-- Énoncé rendu dynamiquement avec KaTeX -->
           </div>
@@ -528,7 +609,7 @@
           <!-- Clavier Mathématique Virtuel Optionnel -->
           <div class="virtual-keyboard-section">
             <div class="keyboard-toggle-bar">
-              <button id="btn-toggle-math-keyboard" class="btn-icon-text" type="button">
+              <button id="btn-toggle-math-keyboard" class="btn-icon-text" type="button" aria-controls="virtual-math-keyboard" aria-expanded="false">
                 ⌨️ Clavier Mathématique
               </button>
             </div>
@@ -633,13 +714,13 @@
       <div class="footer-brand">
         <img src="assets/logo-96.png" alt="L'Établi des Maths" class="footer-logo-img" width="38" height="38" />
         <div>
-          <div id="app-footer-title" class="footer-title">L'Établi des Maths — Collège (6ème, 5ème, 4ème, 3ème)</div>
+          <div id="app-footer-title" class="footer-title">L'Établi des Maths — Collège, lycée et concours</div>
           <div class="footer-subtitle">Entraînement adaptatif par paliers, cours complets, rituels flash & devoirs blancs</div>
         </div>
       </div>
       <div class="footer-author-box">
         <span class="footer-author-badge">Créé par <strong>Loïc Delaporte</strong>, Professeur de Mathématiques</span>
-        <p class="site-legal-links" style="margin-top: 0.5rem; font-size: 0.8rem;"><a href="a-propos.html">Qui suis-je ?</a> · <a href="mentions-legales.html">Mentions légales et confidentialité</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a> · Contenus sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a></p>
+        <p class="site-legal-links"><a href="a-propos.html">Qui suis-je&#8239;?</a> · <a href="mentions-legales.html">Mentions légales et confidentialité</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a> · Contenus sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a></p>
       </div>
     </div>
   </footer>
@@ -660,12 +741,12 @@
           <button aria-label="Fermer" class="modal-close-btn" data-click="MathsDiaporama.closeModal">✕</button>
         </div>
         <p class="modal-intro">
-          Projetez en classe ou entraînez-vous avec des questions flash à données aléatoires rythmées par un compte à rebours.
+          Des questions flash à données aléatoires, rythmées par un compte à rebours, à projeter en classe ou pour s'entraîner seul.
         </p>
 
         <div class="diapo-settings-grid">
           <div class="diapo-setting-item">
-            <label for="diapo-count-select">Nombre de questions :</label>
+            <label for="diapo-count-select">Nombre de questions&nbsp;:</label>
             <select id="diapo-count-select" class="form-select">
               <option value="5" selected>5 questions</option>
               <option value="10">10 questions</option>
@@ -674,7 +755,7 @@
           </div>
 
           <div class="diapo-setting-item">
-            <label for="diapo-time-select">Durée par question :</label>
+            <label for="diapo-time-select">Durée par question&nbsp;:</label>
             <select id="diapo-time-select" class="form-select">
               <option value="15">15 secondes (Flash rapide)</option>
               <option value="30" selected>30 secondes (Standard)</option>
@@ -685,7 +766,7 @@
           </div>
 
           <div class="diapo-setting-item">
-            <label for="diapo-mode-select">Mode de projection :</label>
+            <label for="diapo-mode-select">Mode de projection&nbsp;:</label>
             <select id="diapo-mode-select" class="form-select">
               <option value="standard" selected>Standard (1 question plein écran)</option>
               <option value="differentiated">Double Rituel Différencié (🟢 Socle & 🟣 Défi)</option>
@@ -693,18 +774,16 @@
           </div>
         </div>
 
-        <div class="diapo-chapters-select-section">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
-            <label style="margin-bottom: 0;">Chapitres à inclure dans le rituel :</label>
-            <div style="display: flex; gap: 0.5rem;">
-              <button type="button" class="btn-secondary btn-sm" data-click="MathsDiaporama.selectAllChapters" data-args='[true]' style="padding: 0.25rem 0.6rem; font-size: 0.8rem; cursor: pointer;">✅ Tout cocher</button>
-              <button type="button" class="btn-secondary btn-sm" data-click="MathsDiaporama.selectAllChapters" data-args='[false]' style="padding: 0.25rem 0.6rem; font-size: 0.8rem; cursor: pointer;">❌ Tout décocher</button>
-            </div>
+        <fieldset class="diapo-chapters-select-section">
+          <legend>Chapitres à inclure dans le rituel&nbsp;:</legend>
+          <div class="diapo-chapters-actions">
+            <button type="button" class="btn-secondary btn-sm" data-click="MathsDiaporama.selectAllChapters" data-args='[true]' style="padding: 0.25rem 0.6rem; font-size: 0.8rem; cursor: pointer;">✅ Tout cocher</button>
+            <button type="button" class="btn-secondary btn-sm" data-click="MathsDiaporama.selectAllChapters" data-args='[false]' style="padding: 0.25rem 0.6rem; font-size: 0.8rem; cursor: pointer;">❌ Tout décocher</button>
           </div>
           <div id="diaporama-chapters-checkboxes" class="diapo-chips-container">
             <!-- Rempli dynamiquement -->
           </div>
-        </div>
+        </fieldset>
 
         <div class="modal-footer">
           <button class="btn-secondary" data-click="MathsDiaporama.closeModal">Annuler</button>
@@ -809,12 +888,12 @@
           <button aria-label="Fermer" class="modal-close-btn" data-click="MathsQuizGenerator.closeModal">✕</button>
         </div>
         <p class="modal-intro">
-          Entraînez-vous en conditions réelles d'examen avec ce sujet de devoir blanc ! Il est généré aléatoirement avec de nouvelles questions à chaque fois : vous pouvez en générer plusieurs pour vous entraîner intensément.
+          Entraîne-toi en conditions réelles d'examen avec ce sujet de devoir blanc&#8239;! Il est généré aléatoirement avec de nouvelles questions à chaque fois&nbsp;: tu peux en générer plusieurs pour t'entraîner intensément.
         </p>
 
         <div class="diapo-settings-grid">
           <div class="diapo-setting-item">
-            <label for="quiz-count-select">Format du devoir blanc :</label>
+            <label for="quiz-count-select">Format du devoir blanc&nbsp;:</label>
             <select id="quiz-count-select" class="form-select">
               <!-- Rempli selon le niveau (MathsQuizGenerator.EXAM_FORMATS / FREE_FORMATS) -->
               <option value="10" selected>Devoir surveillé — 3 exercices — 1 h — sur 20 points</option>
@@ -822,12 +901,12 @@
           </div>
         </div>
 
-        <div class="diapo-chapters-select-section">
-          <label>Chapitres au programme du devoir :</label>
+        <fieldset class="diapo-chapters-select-section">
+          <legend>Chapitres au programme du devoir&nbsp;:</legend>
           <div id="quiz-chapters-checkboxes" class="diapo-chips-container">
             <!-- Rempli dynamiquement -->
           </div>
-        </div>
+        </fieldset>
 
         <div class="modal-footer">
           <button class="btn-secondary" data-click="MathsQuizGenerator.closeModal">Annuler</button>
@@ -875,12 +954,12 @@
       <div class="reward-chap-title" id="unlock-modal-chap">4G1 — Théorème de Pythagore</div>
 
       <div class="reward-description-box" id="unlock-modal-desc">
-        Félicitations pour tes efforts ! Tu as validé le <strong>Palier 3</strong> et débloqué ce rang prestigieux.
+        Félicitations pour tes efforts&#8239;! Tu as validé le <strong>Palier 3</strong> et débloqué ce rang prestigieux.
       </div>
 
       <div class="reward-perk-pills" id="unlock-modal-perks">
         <span class="reward-perk-pill">🏅 Trophée ajouté au passeport</span>
-        <span class="reward-perk-pill">🚀 Prochain cap : Palier 4</span>
+        <span class="reward-perk-pill">🚀 Prochain cap&nbsp;: Palier 4</span>
       </div>
 
       <div class="reward-timer-wrapper">
@@ -919,8 +998,8 @@
 
         <div class="fc-intro-banner">
           <div class="fc-intro-text">
-            <strong>Méthode des boîtes de mémorisation (Fabien Olicard / Leitner) :</strong>
-            Chaque notion progresse de boîte en boîte au fil de vos réussites. Si vous vous trompez, la notion retourne en Boîte 1 et vous est re-présentée dans la séance pour être sûr de la maîtriser !
+            <strong>Méthode de Leitner, mise en avant par Fabien Olicard&nbsp;:</strong>
+            Chaque notion progresse de boîte en boîte au fil de tes réussites. Si tu te trompes, la notion retourne en Boîte 1 et revient dans la séance, pour être sûr que tu la maîtrises&#8239;!
           </div>
           <div class="fc-stats-summary" id="fc-global-stats-summary">
             <!-- Rempli dynamiquement -->
@@ -929,7 +1008,7 @@
 
         <div class="diapo-settings-grid">
           <div class="diapo-setting-item">
-            <label for="fc-count-select">Taille de la session :</label>
+            <label for="fc-count-select">Taille de la session&nbsp;:</label>
             <select id="fc-count-select" class="form-select">
               <option value="10" selected>10 flashcards (Session express ~ 3 min)</option>
               <option value="15">15 flashcards (Session recommandée ~ 5 min)</option>
@@ -938,7 +1017,7 @@
             </select>
           </div>
           <div class="diapo-setting-item">
-            <label for="fc-mode-select">Mode d'interrogation :</label>
+            <label for="fc-mode-select">Mode d'interrogation&nbsp;:</label>
             <select id="fc-mode-select" class="form-select">
               <option value="smart" selected>🎯 Adaptatif intelligent (Priorité Boîte 1 & Nouvelles notions)</option>
               <option value="focus_wrong">🔄 Révision urgente (Uniquement Boîte 1)</option>
@@ -947,19 +1026,17 @@
           </div>
         </div>
 
-        <div class="diapo-chapters-select-section">
-          <div class="fc-chap-header-row">
-            <label>Chapitres à réviser :</label>
-            <div class="fc-chap-quick-actions">
-              <button type="button" class="btn-text-sm" data-click="MathsFlashcards.selectAllChapters" data-args='[true]'>Tout cocher</button>
-              <span class="fc-sep">·</span>
-              <button type="button" class="btn-text-sm" data-click="MathsFlashcards.selectAllChapters" data-args='[false]'>Tout décocher</button>
-            </div>
+        <fieldset class="diapo-chapters-select-section">
+          <legend>Chapitres à réviser&nbsp;:</legend>
+          <div class="diapo-chapters-actions fc-chap-quick-actions">
+            <button type="button" class="btn-text-sm" data-click="MathsFlashcards.selectAllChapters" data-args='[true]'>Tout cocher</button>
+            <span class="fc-sep">·</span>
+            <button type="button" class="btn-text-sm" data-click="MathsFlashcards.selectAllChapters" data-args='[false]'>Tout décocher</button>
           </div>
           <div id="flashcards-chapters-checkboxes" class="diapo-chips-container">
             <!-- Rempli dynamiquement avec les chapitres du niveau actif -->
           </div>
-        </div>
+        </fieldset>
 
         <div class="modal-footer">
           <button class="btn-secondary" data-click="MathsFlashcards.closeModal">Annuler</button>
@@ -993,7 +1070,7 @@
                 <!-- Rempli dynamiquement -->
               </div>
               <div class="fc-card-hint-notice">
-                <span class="fc-reveal-cta">💡 Touchez la carte ou le bouton ci-dessous pour révéler la réponse</span>
+                <span class="fc-reveal-cta">💡 Touche la carte ou le bouton ci-dessous pour révéler la réponse</span>
               </div>
             </div>
 
@@ -1018,7 +1095,7 @@
 
           <!-- Après révélation : boutons auto-évaluation -->
           <div id="fc-post-reveal-actions" class="fc-action-group" style="display: none;">
-            <button class="btn-fc-eval btn-fc-wrong" data-click="MathsFlashcards.submitEvaluation" data-args='[false]' title="Raccourci : Touche 1 ou Flèche Gauche">
+            <button class="btn-fc-eval btn-fc-wrong" data-click="MathsFlashcards.submitEvaluation" data-args='[false]' title="Raccourci&nbsp;: Touche 1 ou Flèche Gauche">
               <span class="btn-fc-emoji">❌</span>
               <div class="btn-fc-text">
                 <span class="btn-fc-main">J'avais faux / À revoir</span>
@@ -1027,10 +1104,10 @@
               <span class="btn-fc-shortcut">[1]</span>
             </button>
 
-            <button class="btn-fc-eval btn-fc-correct" data-click="MathsFlashcards.submitEvaluation" data-args='[true]' title="Raccourci : Touche 2 ou Flèche Droite">
+            <button class="btn-fc-eval btn-fc-correct" data-click="MathsFlashcards.submitEvaluation" data-args='[true]' title="Raccourci&nbsp;: Touche 2 ou Flèche Droite">
               <span class="btn-fc-emoji">✅</span>
               <div class="btn-fc-text">
-                <span class="btn-fc-main">J'avais bon / C'est su !</span>
+                <span class="btn-fc-main">J'avais bon / C'est su&#8239;!</span>
                 <span class="btn-fc-sub">Monte en boîte supérieure (+10 XP)</span>
               </div>
               <span class="btn-fc-shortcut">[2]</span>
@@ -1043,8 +1120,8 @@
       <div id="flashcards-summary-screen" style="display: none;">
         <div class="modal-header">
           <div>
-            <h2><span aria-hidden="true">🎉</span> Bilan de votre session Flashcards</h2>
-            <div class="modal-author-badge">Mémoire active consolidée !</div>
+            <h2><span aria-hidden="true">🎉</span> Bilan de ta session Flashcards</h2>
+            <div class="modal-author-badge">Mémoire active consolidée&#8239;!</div>
           </div>
           <button type="button" aria-label="Fermer" class="modal-close-btn" data-click="MathsFlashcards.closeModal">✕</button>
         </div>
@@ -1081,7 +1158,7 @@
         <div class="streak-hero-card">
           <div class="streak-hero-flame" id="streak-modal-flame" aria-hidden="true">🔥</div>
           <div class="streak-hero-count" id="streak-modal-count">0 jour</div>
-          <div class="streak-hero-subtitle" id="streak-modal-status">Complète un exercice aujourd'hui pour allumer ta flamme !</div>
+          <div class="streak-hero-subtitle" id="streak-modal-status">Complète un exercice aujourd'hui pour allumer ta flamme&#8239;!</div>
         </div>
 
         <!-- Statistiques de série -->
@@ -1113,17 +1190,17 @@
 
         <!-- Explication pédagogique -->
         <div class="streak-explanation-box">
-          <h3><span aria-hidden="true">💡</span> Comment fonctionne la flamme ?</h3>
+          <h3><span aria-hidden="true">💡</span> Comment fonctionne la flamme&#8239;?</h3>
           <ul>
             <li><strong>1 exercice par jour</strong> suffit pour entretenir ta flamme et faire grimper ta série.</li>
-            <li><strong>La régularité est la clé</strong> : s'entraîner 5 à 10 minutes chaque jour consolide durablement ta mémoire pour tout le collège et le Brevet.</li>
+            <li><strong>La régularité est la clé</strong>&nbsp;: s'entraîner 5 à 10 minutes chaque jour consolide durablement ta mémoire pour tout le collège et le Brevet.</li>
             <li>Si tu manques une journée entière, le compteur repartira à 1 au prochain entraînement.</li>
           </ul>
         </div>
       </div>
 
       <div class="modal-footer gami-modal-footer">
-        <button type="button" class="btn-primary" data-click="MathsApp.closeStreakModal">C'est compris ! 🚀</button>
+        <button type="button" class="btn-primary" data-click="MathsApp.closeStreakModal">C'est compris&#8239;! 🚀</button>
       </div>
     </div>
   </div>
@@ -1159,11 +1236,11 @@
             <span class="level-xp-step-label">Vers le <strong id="level-modal-next-level">Niveau 2</strong></span>
             <span class="level-xp-values"><strong id="level-modal-xp-in-level">0</strong> / <span id="level-modal-xp-needed">50</span> XP</span>
           </div>
-          <div class="level-progress-bar-bg" role="progressbar" aria-valuemin="0" aria-valuemax="100" id="level-modal-progressbar" aria-valuenow="0">
+          <div class="level-progress-bar-bg" role="progressbar" aria-label="Progression vers le niveau suivant" aria-valuemin="0" aria-valuemax="100" id="level-modal-progressbar" aria-valuenow="0">
             <div class="level-progress-bar-fill" id="level-modal-progress-fill" style="width: 0%;"></div>
           </div>
           <div class="level-xp-remaining-banner" id="level-modal-remaining-banner">
-            🚀 Plus que <strong>50 XP</strong> nécessaires pour passer au <strong>Niveau 2</strong> !
+            🚀 Plus que <strong>50 XP</strong> nécessaires pour passer au <strong>Niveau 2</strong>&#8239;!
           </div>
         </div>
 
@@ -1181,11 +1258,11 @@
 
         <!-- Astuces pédagogiques -->
         <div class="level-tips-box">
-          <h3><span aria-hidden="true">💡</span> Comment fonctionne la montée de niveau ?</h3>
+          <h3><span aria-hidden="true">💡</span> Comment fonctionne la montée de niveau&#8239;?</h3>
           <ul>
-            <li><strong>Courbe progressive</strong> : comme dans un jeu d'aventure, chaque niveau demande un peu plus d'expérience (+25 XP par palier) pour valoriser ta persévérance.</li>
+            <li><strong>Courbe progressive</strong>&nbsp;: comme dans un jeu d'aventure, chaque niveau demande un peu plus d'expérience (+25 XP par palier) pour valoriser ta persévérance.</li>
             <li><strong>+10 XP</strong> par bonne réponse en entraînement adaptatif ou flashcards.</li>
-            <li><strong>Bonus de régularité</strong> : connecte-toi chaque jour pour entretenir ta flamme et débloquer des trophées !</li>
+            <li><strong>Bonus de régularité</strong>&nbsp;: connecte-toi chaque jour pour entretenir ta flamme et débloquer des trophées&#8239;!</li>
           </ul>
         </div>
       </div>
@@ -1206,7 +1283,7 @@
           <span class="mode-explainer-icon" id="mode-explainer-icon">🎯</span>
           <div>
             <h2 id="mode-explainer-title" class="modal-title">Entraînement Adaptatif</h2>
-            <div id="mode-explainer-subtitle" class="mode-explainer-subtitle">Progression par paliers ZPD</div>
+            <div id="mode-explainer-subtitle" class="mode-explainer-subtitle">Progression par 4 paliers de difficulté</div>
           </div>
         </div>
         <button class="modal-close-btn" type="button" data-click="MathsApp.closeModeExplainer" aria-label="Fermer">✕</button>
@@ -1302,13 +1379,13 @@
 
       <div class="pwa-ios-modal-body">
         <p class="pwa-ios-intro">
-          Sur <strong>Safari</strong> (iPhone & iPad), suivez ces 3 étapes simples pour installer l'application sur votre écran d'accueil :
+          Sur <strong>Safari</strong> (iPhone & iPad), suis ces 3 étapes simples pour installer l'application sur ton écran d'accueil&nbsp;:
         </p>
         <div class="pwa-ios-steps">
           <div class="pwa-ios-step">
             <span class="pwa-step-num">1</span>
             <div class="pwa-step-content">
-              <strong>Touchez le bouton de Partage</strong>
+              <strong>Touche le bouton de Partage</strong>
               <p>Situé dans la barre de navigation en bas de Safari.</p>
               <div class="pwa-step-icon-preview">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #0284c7; flex-shrink: 0;">
@@ -1324,7 +1401,7 @@
           <div class="pwa-ios-step">
             <span class="pwa-step-num">2</span>
             <div class="pwa-step-content">
-              <strong>Faites défiler vers le bas et appuyez sur :</strong>
+              <strong>Fais défiler vers le bas et appuie sur&nbsp;:</strong>
               <div class="pwa-step-action-badge">
                 <span style="font-size: 1.15rem; font-weight: bold; margin-right: 0.4rem;">➕</span>
                 <span>« Sur l'écran d'accueil »</span>
@@ -1335,8 +1412,8 @@
           <div class="pwa-ios-step">
             <span class="pwa-step-num">3</span>
             <div class="pwa-step-content">
-              <strong>Touchez « Ajouter » en haut à droite</strong>
-              <p>L'icône de L'Établi des Maths apparaît instantanément parmi vos applications !</p>
+              <strong>Touche « Ajouter » en haut à droite</strong>
+              <p>L'icône de L'Établi des Maths apparaît instantanément parmi tes applications&#8239;!</p>
             </div>
           </div>
         </div>
@@ -1344,24 +1421,23 @@
 
       <div class="modal-footer" style="justify-content: flex-end; padding-top: 1rem;">
         <button type="button" class="btn-primary" data-click="MathsPwa.closeIosModal" style="padding: 0.6rem 1.4rem;">
-          J'ai compris ! 👍
+          J'ai compris&#8239;! 👍
         </button>
       </div>
     </div>
   </div>
 
   <!-- Scripts KaTeX (copie locale ; pas de repli CDN : la CSP n'autorise que la même origine) -->
-  <script src="vendor/katex/katex.min.js?v=9616b6e2a7"></script>
-  <script src="vendor/katex/auto-render.min.js?v=491616b8c9"></script>
+  <script defer src="vendor/katex/katex.min.js?v=6d481709e3"></script>
+  <script defer src="vendor/katex/auto-render.min.js?v=82dca94048"></script>
 
   <!-- Données communes : la liste des chapitres de tous les niveaux (navigation, recherche, bilan) -->
-  <script src="js/data/chapters.js?v=46326557ac"></script>
-  <script src="js/data/chapters_lycee.js?v=9c8659021a"></script>
-  <script src="js/data/chapters_licence.js?v=862554015c"></script>
-  <script src="js/data/chapters_crpe.js?v=10b36172f9"></script>
-  <script src="js/data/chapters_sante.js?v=ce4408e4c2"></script>
-  <script src="js/data/chapters_veto.js?v=48b8440023"></script>
-  <script src="js/data/data_capes.js?v=472498f26b"></script>
+  <script defer src="js/data/chapters.js?v=fdfe18abe8"></script>
+  <script defer src="js/data/chapters_lycee.js?v=912f2746ac"></script>
+  <script defer src="js/data/chapters_licence.js?v=d178882706"></script>
+  <script defer src="js/data/chapters_crpe.js?v=14446a775d"></script>
+  <script defer src="js/data/chapters_sante.js?v=ce4408e4c2"></script>
+  <script defer src="js/data/chapters_veto.js?v=8c3a9da22c"></script>
 
   <!--
     Données chargées À LA DEMANDE, niveau par niveau (js/dataLoader.js) : cours, exercices,
@@ -1369,53 +1445,55 @@
   -->
   <script id="level-bundles" type="application/json">
   {
-    "6eme": ["js/data/data_6eme.js?v=e9253340d9", "js/data/flashcards_6eme.js?v=6fe4adb991", "js/generators6e.js?v=cc705c0f30", "js/data/ds_bank_6eme.js?v=ad640d790c"],
-    "5eme": ["js/data/data_5eme.js?v=8b31493e14", "js/data/ds_bank_5eme.js?v=c04a3bb068", "js/randomGenerators.js?v=cb044e9561"],
-    "4eme": ["js/data/data_4eme.js?v=5b132c9ed0", "js/data/ds_bank_4eme.js?v=f3ccfd5900", "js/randomGenerators.js?v=cb044e9561"],
-    "3eme": ["js/data/courses.js?v=e10856b90b", "js/data/exercises.js?v=1b303247c9", "js/data/worksheets.js?v=46fea924d4", "js/data/brevet_problems.js?v=c7e219b890", "js/data/ds_bank_3eme.js?v=66ae7a94d5", "js/randomGenerators.js?v=cb044e9561"],
-    "2nde": ["js/data/data_2nde.js?v=e91f1cd4f9", "js/data/flashcards_2nde.js?v=83740b38eb", "js/data/ds_bank_2nde.js?v=8c3dc2b410", "js/advancedGenerators.js?v=a511a2c77f", "js/lyceeGenerators.js?v=ee6f054de0"],
-    "1ere": ["js/data/data_1ere.js?v=33acabf45f", "js/data/flashcards_1ere.js?v=fba4840ff4", "js/data/ds_bank_1ere.js?v=2847bb47bc", "js/advancedGenerators.js?v=a511a2c77f", "js/lyceeGenerators.js?v=ee6f054de0"],
-    "tale": ["js/data/data_terminale.js?v=be1262f5cd", "js/data/flashcards_tale.js?v=83e1944552", "js/data/ds_bank_tale.js?v=5ebce31616", "js/advancedGenerators.js?v=a511a2c77f", "js/lyceeGenerators.js?v=ee6f054de0"],
-    "L1": ["js/data/data_l1.js?v=cb0d247127", "js/data/ds_bank_l1.js?v=46eb0d4bf5", "js/data/data_proofs.js?v=5c3feeace9", "js/advancedGenerators.js?v=a511a2c77f", "js/lyceeGenerators.js?v=ee6f054de0"],
-    "L2": ["js/data/data_l2.js?v=dc14a61449", "js/data/ds_bank_l2.js?v=20b64ded8e", "js/data/data_proofs.js?v=5c3feeace9", "js/advancedGenerators.js?v=a511a2c77f", "js/lyceeGenerators.js?v=ee6f054de0"],
-    "L3": ["js/data/data_l3.js?v=365e050528", "js/data/ds_bank_l3.js?v=b8cae8303e", "js/data/data_proofs.js?v=5c3feeace9", "js/advancedGenerators.js?v=a511a2c77f", "js/lyceeGenerators.js?v=ee6f054de0"],
-    "capes": ["js/data/ds_bank_capes.js?v=966ae95b45", "js/data/data_proofs.js?v=5c3feeace9", "js/advancedGenerators.js?v=a511a2c77f", "js/lyceeGenerators.js?v=ee6f054de0"],
-    "crpe": ["js/data/data_crpe.js?v=f4cc0a84b4", "js/data/exercises_crpe.js?v=0790f00999", "js/randomGenerators.js?v=cb044e9561", "js/generators6e.js?v=cc705c0f30", "js/crpeGenerators.js?v=4f97ee9662"],
-    "sante": ["js/data/data_sante.js?v=59c0adfd7e", "js/data/exercises_sante.js?v=a38af47675", "js/advancedGenerators.js?v=a511a2c77f", "js/lyceeGenerators.js?v=ee6f054de0", "js/santeGenerators.js?v=46a01822ac"],
-    "pass": ["js/data/data_pass.js?v=b873dcc02c", "js/data/exercises_pass.js?v=e89343b865", "js/advancedGenerators.js?v=a511a2c77f", "js/lyceeGenerators.js?v=ee6f054de0", "js/santeGenerators.js?v=46a01822ac"],
-    "veto": ["js/data/data_veto.js?v=a7f41da98a", "js/data/exercises_veto.js?v=48222f68fd", "js/data/exercises_veto_b.js?v=7d52b2e3af", "js/advancedGenerators.js?v=a511a2c77f", "js/lyceeGenerators.js?v=ee6f054de0", "js/santeGenerators.js?v=46a01822ac", "js/vetoGenerators.js?v=218bb8ff38"]
+    "6eme": ["js/data/data_6eme.js?v=d6379dad5f", "js/data/flashcards_6eme.js?v=39f0000cbb", "js/generators6e.js?v=cb9b4e7f36", "js/data/ds_bank_6eme.js?v=53bd1a7289"],
+    "5eme": ["js/data/data_5eme.js?v=22f5810bab", "js/data/ds_bank_5eme.js?v=641426bc38", "js/randomGenerators.js?v=ae8e463294"],
+    "4eme": ["js/data/data_4eme.js?v=62a0206ab4", "js/data/ds_bank_4eme.js?v=e52c2503d9", "js/randomGenerators.js?v=ae8e463294"],
+    "3eme": ["js/data/courses.js?v=9ab2a115f5", "js/data/exercises.js?v=e319185246", "js/data/worksheets.js?v=faad6b5b4d", "js/data/brevet_problems.js?v=b6e0906091", "js/data/ds_bank_3eme.js?v=4a9630678a", "js/randomGenerators.js?v=ae8e463294"],
+    "2nde": ["js/data/data_2nde.js?v=4351ad1b8d", "js/data/flashcards_2nde.js?v=29f82e3599", "js/data/ds_bank_2nde.js?v=1c17dd9205", "js/advancedGenerators.js?v=db100374d7", "js/lyceeGenerators.js?v=d57fd2ac83"],
+    "1ere": ["js/data/data_1ere.js?v=6d39b1ca65", "js/data/flashcards_1ere.js?v=d8b3d07ccd", "js/data/ds_bank_1ere.js?v=4eb6e6127a", "js/advancedGenerators.js?v=db100374d7", "js/lyceeGenerators.js?v=d57fd2ac83", "js/eaGenerators.js?v=bf71cd61b4"],
+    "1tc": ["js/data/data_1tc.js?v=ce1dab0fe0", "js/data/ds_bank_1tc.js?v=c0294e76a0", "js/advancedGenerators.js?v=db100374d7", "js/lyceeGenerators.js?v=d57fd2ac83", "js/premiereVoiesGenerators.js?v=3f89c7f316", "js/eaGenerators.js?v=bf71cd61b4"],
+    "1techno": ["js/data/data_1techno.js?v=92ead9093b", "js/data/ds_bank_1techno.js?v=69d994e37f", "js/advancedGenerators.js?v=db100374d7", "js/lyceeGenerators.js?v=d57fd2ac83", "js/premiereVoiesGenerators.js?v=3f89c7f316", "js/eaGenerators.js?v=bf71cd61b4"],
+    "tale": ["js/data/data_terminale.js?v=eafd917ce2", "js/data/flashcards_tale.js?v=cf84ca9a06", "js/data/ds_bank_tale.js?v=ee51a405f2", "js/advancedGenerators.js?v=db100374d7", "js/lyceeGenerators.js?v=d57fd2ac83"],
+    "L1": ["js/data/data_l1.js?v=e3f3a30598", "js/data/ds_bank_l1.js?v=08c296aec3", "js/data/data_proofs.js?v=e9b4373c86", "js/advancedGenerators.js?v=db100374d7"],
+    "L2": ["js/data/data_l2.js?v=53390a11c8", "js/data/ds_bank_l2.js?v=0352e79f78", "js/data/data_proofs.js?v=e9b4373c86", "js/advancedGenerators.js?v=db100374d7"],
+    "L3": ["js/data/data_l3.js?v=748150daf9", "js/data/ds_bank_l3.js?v=621b23020b", "js/data/data_proofs.js?v=e9b4373c86", "js/advancedGenerators.js?v=db100374d7"],
+    "capes": ["js/data/data_capes.js?v=d01f711539", "js/data/ds_bank_capes.js?v=b8d4ac25de", "js/data/data_proofs.js?v=e9b4373c86", "js/advancedGenerators.js?v=db100374d7"],
+    "crpe": ["js/data/data_crpe.js?v=67de94bd9a", "js/data/exercises_crpe.js?v=a9a7b060c7", "js/randomGenerators.js?v=ae8e463294", "js/generators6e.js?v=cb9b4e7f36", "js/crpeGenerators.js?v=7f34a2fe3a"],
+    "sante": ["js/data/data_sante.js?v=e89f78d442", "js/data/exercises_sante.js?v=e71f7f2540", "js/advancedGenerators.js?v=db100374d7", "js/lyceeGenerators.js?v=d57fd2ac83", "js/santeGenerators.js?v=a1e4153d09"],
+    "pass": ["js/data/data_pass.js?v=7d3d88f3f4", "js/data/exercises_pass.js?v=b0ee958726", "js/advancedGenerators.js?v=db100374d7", "js/lyceeGenerators.js?v=d57fd2ac83", "js/santeGenerators.js?v=a1e4153d09"],
+    "veto": ["js/data/data_veto.js?v=2d661248b0", "js/data/exercises_veto.js?v=95beabe329", "js/data/exercises_veto_b.js?v=0fda70c3aa", "js/advancedGenerators.js?v=db100374d7", "js/lyceeGenerators.js?v=d57fd2ac83", "js/santeGenerators.js?v=a1e4153d09", "js/vetoGenerators.js?v=7cfdb6c29b"]
   }
   </script>
 
   <!-- Modules applicatifs -->
-  <script src="js/data/defis.js?v=3bb2c75031"></script>
-  <script src="js/badges.js?v=05ce78ce09"></script>
-  <script src="js/storage.js?v=8bde9ab0a9"></script>
-  <script src="js/audioEffects.js?v=c9749a11c5"></script>
-  <script src="js/confetti.js?v=2f09c3d81b"></script>
-  <script src="js/mathRenderer.js?v=f11fac766a"></script>
-  <script src="js/geometryFigures.js?v=656295f7c5"></script>
-  <script src="js/scratchRenderer.js?v=5f9033f40a"></script>
-  <script src="js/adaptiveEngine.js?v=0b7a1d89b2"></script>
-  <script src="js/generatorsCore.js?v=5a2f64b52a"></script>
-  <script src="js/proofEngine.js?v=f99d384bfd"></script>
-  <script src="js/mathVisualizer.js?v=c374ad43df"></script>
-  <script src="js/diaporamaEngine.js?v=ebc328db91"></script>
-  <script src="js/flashQuizGenerator.js?v=c9a8fd5230"></script>
-  <script src="js/flashcardsEngine.js?v=9621e5c78a"></script>
-  <script src="js/dataLoader.js?v=828f7fa67d"></script>
-  <script src="js/app.js?v=c8a835d63f"></script>
-  <script src="js/app/home.js?v=c25700373c"></script>
-  <script src="js/app/tools.js?v=4b710dcdc8"></script>
-  <script src="js/app/training.js?v=3ab710ca1d"></script>
-  <script src="js/app/course.js?v=1ad34b342a"></script>
-  <script src="js/app/sheets.js?v=0ea45ec716"></script>
-  <script src="js/app/defi.js?v=1e8bbcd86e"></script>
-  <script src="js/app/stats.js?v=fd7ce9df6d"></script>
-  <script src="js/pwaManager.js?v=325a61601c"></script>
+  <script defer src="js/data/defis.js?v=3bb2c75031"></script>
+  <script defer src="js/badges.js?v=d6d3ff1cb4"></script>
+  <script defer src="js/storage.js?v=1a7f19f24a"></script>
+  <script defer src="js/audioEffects.js?v=6a42222dc7"></script>
+  <script defer src="js/confetti.js?v=2f09c3d81b"></script>
+  <script defer src="js/mathRenderer.js?v=55127cad9f"></script>
+  <script defer src="js/geometryFigures.js?v=d069af3233"></script>
+  <script defer src="js/scratchRenderer.js?v=22c1b769a7"></script>
+  <script defer src="js/adaptiveEngine.js?v=451ea58605"></script>
+  <script defer src="js/generatorsCore.js?v=6d0f090ee9"></script>
+  <script defer src="js/proofEngine.js?v=4b12396949"></script>
+  <script defer src="js/mathVisualizer.js?v=6127e4f45b"></script>
+  <script defer src="js/diaporamaEngine.js?v=df509cc987"></script>
+  <script defer src="js/flashQuizGenerator.js?v=0339c7263f"></script>
+  <script defer src="js/flashcardsEngine.js?v=2acfa040dd"></script>
+  <script defer src="js/dataLoader.js?v=ec353d5898"></script>
+  <script defer src="js/app.js?v=dc78a65b3c"></script>
+  <script defer src="js/app/home.js?v=dde61e7ef0"></script>
+  <script defer src="js/app/tools.js?v=2edaf2a99b"></script>
+  <script defer src="js/app/training.js?v=80b6280ffe"></script>
+  <script defer src="js/app/course.js?v=95bca56211"></script>
+  <script defer src="js/app/sheets.js?v=a5812a4b3d"></script>
+  <script defer src="js/app/defi.js?v=ff8db1d630"></script>
+  <script defer src="js/app/stats.js?v=db8ad89897"></script>
+  <script defer src="js/pwaManager.js?v=563fe7be63"></script>
 
   <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter, sans cookie) : voir js/analytics.js
        (sources de trafic ?src=…). L'enregistrement du service worker est dans js/pwaManager.js. -->
-  <script src="js/analytics.js?v=e2a0e91aab"></script>
+  <script defer src="js/analytics.js?v=e7d82b3bd0"></script>
 </body>
 </html>

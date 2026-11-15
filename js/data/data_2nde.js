@@ -9,10 +9,10 @@ window.MATHS_COURSES_2NDE = {
     "domain": "Nombres et Calculs",
     "objectives": [
       "Identifier les ensembles fondamentaux de nombres : $\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{D} \\subset \\mathbb{Q} \\subset \\mathbb{R}$.",
-      "Décomposer un nombre entier naturel en produit de facteurs premiers.",
+      "Pour aller plus loin (rappel du collège) : décomposer un nombre entier naturel en produit de facteurs premiers.",
       "Simplifier des fractions et des radicaux à l'aide de l'arithmétique.",
       "Démontrer que $\\sqrt{2}$ est un nombre irrationnel (démonstration par l'absurde historique).",
-      "Utiliser les notions de multiple, de diviseur, de nombre premier et de nombre pair ou impair.",
+      "Utiliser les notions de multiple, de diviseur et de nombre pair ou impair ; pour aller plus loin (rappel du collège) : nombre premier.",
       "Connaître et appliquer les règles de calcul sur les racines carrées.",
       "Démontrer que $\\frac{1}{3}$ n'est pas un nombre décimal et que $\\sqrt{ab} = \\sqrt{a}\\sqrt{b}$ pour $a, b \\ge 0$.",
       "Utiliser le vocabulaire de la logique : implication, réciproque, contraposée, contre-exemple, raisonnement par l'absurde.",
@@ -25,19 +25,19 @@ window.MATHS_COURSES_2NDE = {
         "content": "Les nombres réels sont classés par ensembles emboîtés :\n• **$\\mathbb{N}$ (Entiers naturels)** : $\\{0, 1, 2, 3, \\dots\\}$\n• **$\\mathbb{Z}$ (Entiers relatifs)** : $\\{\\dots, -2, -1, 0, 1, 2, \\dots\\}$\n• **$\\mathbb{D}$ (Nombres décimaux)** : nombres s'écrivant $\\frac{a}{10^n}$ avec $a \\in \\mathbb{Z}, n \\in \\mathbb{N}$ (nombre fini de chiffres après la virgule, ex: $0{,}75$, $-3{,}12$).\n• **$\\mathbb{Q}$ (Nombres rationnels)** : nombres s'écrivant $\\frac{a}{b}$ avec $a \\in \\mathbb{Z}, b \\in \\mathbb{Z}^*$ (développement décimal périodique, ex: $\\frac{1}{3} = 0{,}333\\dots$).\n• **$\\mathbb{R}$ (Nombres réels)** : ensemble de tous les nombres mesurant une abscisse sur la droite graduée (inclut les irrationnels comme $\\pi$, $\\sqrt{2}$, $\\sqrt{5}$).\n\n$$\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{D} \\subset \\mathbb{Q} \\subset \\mathbb{R}$$"
       },
       {
-        "title": "2. Décomposition en facteurs premiers et simplifications",
-        "content": "• **Théorème fondamental de l'arithmétique** : Tout entier $n \\ge 2$ se décompose de manière **unique** en produit de facteurs premiers :\n$$n = p_1^{\\alpha_1} \\times p_2^{\\alpha_2} \\times \\dots \\times p_k^{\\alpha_k}$$\n• **Application aux radicaux** : Pour simplifier $\\sqrt{72}$ :\n$$72 = 2^3 \\times 3^2 = (2^2 \\times 3^2) \\times 2 = 6^2 \\times 2 \\implies \\sqrt{72} = 6\\sqrt{2}$$"
+        "title": "2. Pour aller plus loin (rappel du collège) : décomposition en facteurs premiers et simplifications",
+        "content": "*Notion du cycle 4, rappelée ici comme outil pour simplifier des fractions et des radicaux.*\n• **Théorème fondamental de l'arithmétique** : Tout entier $n \\ge 2$ se décompose de manière **unique** en produit de facteurs premiers :\n$$n = p_1^{\\alpha_1} \\times p_2^{\\alpha_2} \\times \\dots \\times p_k^{\\alpha_k}$$\n• **Application aux radicaux** : Pour simplifier $\\sqrt{72}$ :\n$$72 = 2^3 \\times 3^2 = (2^2 \\times 3^2) \\times 2 = 6^2 \\times 2 \\implies \\sqrt{72} = 6\\sqrt{2}$$"
       },
       {
         "title": "3. Démonstration : $\\sqrt{2}$ est irrationnel",
-        "content": "Supposons par l'absurde que $\\sqrt{2} \\in \\mathbb{Q}$ : il existe alors deux entiers $p$ et $q > 0$ tels que $\\sqrt{2} = \\frac{p}{q}$, avec la fraction $\\frac{p}{q}$ **irréductible** (donc $p$ et $q$ ne sont pas tous deux pairs).\n1. En élevant au carré : $2 = \\frac{p^2}{q^2} \\iff p^2 = 2q^2$.\n2. Donc $p^2$ est pair, ce qui implique que $p$ est pair. Posons $p = 2k$ ($k \\in \\mathbb{Z}$).\n3. Alors $(2k)^2 = 2q^2 \\iff 4k^2 = 2q^2 \\iff q^2 = 2k^2$.\n4. Donc $q^2$ est pair, ce qui implique que $q$ est également pair.\n5. **Contradiction** : $p$ et $q$ sont tous les deux pairs, ce qui contredit le fait que la fraction $\\frac{p}{q}$ soit irréductible !\nConclusion : $\\sqrt{2} \\notin \\mathbb{Q}$, c'est un nombre irrationnel."
+        "content": "Supposons par l'absurde que $\\sqrt{2} \\in \\mathbb{Q}$ : il existe alors deux entiers $p$ et $q > 0$ tels que $\\sqrt{2} = \\frac{p}{q}$, avec la fraction $\\frac{p}{q}$ **irréductible** (donc $p$ et $q$ ne sont pas tous deux pairs).\n1. En élevant au carré : $2 = \\frac{p^2}{q^2} \\iff p^2 = 2q^2$.\n2. Donc $p^2$ est pair, ce qui implique que $p$ est pair : si $p$ était impair, son carré serait impair (propriété démontrée à la section 9). Posons $p = 2k$ ($k \\in \\mathbb{Z}$).\n3. Alors $(2k)^2 = 2q^2 \\iff 4k^2 = 2q^2 \\iff q^2 = 2k^2$.\n4. Donc $q^2$ est pair et, pour la même raison, $q$ est également pair.\n5. **Contradiction** : $p$ et $q$ sont tous les deux pairs, ce qui contredit le fait que la fraction $\\frac{p}{q}$ soit irréductible !\nConclusion : $\\sqrt{2} \\notin \\mathbb{Q}$, c'est un nombre irrationnel."
       },
       {
         "title": "4. Multiples, diviseurs, nombres pairs et impairs",
         "content": "• **Définition** : soient $a$ et $b$ deux entiers relatifs avec $b \\neq 0$. On dit que $a$ est un **multiple** de $b$ (ou que $b$ est un **diviseur** de $a$) s'il existe un entier $k$ tel que $a = k \\times b$.\n• Un entier $n$ est **pair** s'il s'écrit $n = 2k$ avec $k \\in \\mathbb{Z}$, et **impair** s'il s'écrit $n = 2k + 1$.\n• **Propriété** : la somme de deux multiples de $a$ est un multiple de $a$ : $ka + k'a = (k + k')a$.\n• **Propriété** : le carré d'un nombre impair est impair. En effet, $(2k+1)^2 = 4k^2 + 4k + 1 = 2(2k^2 + 2k) + 1$.\nPar contraposée : si $p^2$ est pair, alors $p$ est pair (c'est l'argument utilisé dans la démonstration de l'irrationalité de $\\sqrt{2}$)."
       },
       {
-        "title": "5. Rappel du collège : nombres premiers",
+        "title": "5. Pour aller plus loin (rappel du collège) : nombres premiers",
         "content": "*Notion du cycle 4, utile ici comme outil pour rendre une fraction irréductible.*\n• **Définition** : un entier naturel $p$ est **premier** s'il possède exactement deux diviseurs positifs : $1$ et lui-même.\n• Les nombres premiers inférieurs à 30 sont : $2, 3, 5, 7, 11, 13, 17, 19, 23, 29$.\n• **Test pratique** : pour savoir si $n \\ge 2$ est premier, il suffit de tester sa divisibilité par les nombres premiers $p$ tels que $p^2 \\le n$.\n*Exemple* : pour $97$, on teste $2, 3, 5, 7$ (car $11^2 = 121 > 97$). Aucun ne divise $97$, donc $97$ est premier."
       },
       {
@@ -66,7 +66,7 @@ window.MATHS_COURSES_2NDE = {
       },
       {
         "title": "12. Algorithmes en Python : multiples et encadrement de $\\sqrt{2}$",
-        "content": "• **Tester si $a$ est un multiple de $b$** ($b \\neq 0$) : c'est le cas si et seulement si le reste de la division de $a$ par $b$ est nul.\n• **Plus grand multiple de $a$ inférieur ou égal à $b$** : c'est $a$ fois le quotient entier de $b$ par $a$.\n```python\ndef est_multiple(a, b):\n    return a % b == 0\n\ndef plus_grand_multiple(a, b):\n    return (b // a) * a\n\nprint(est_multiple(91, 7))          # affiche True (91 = 7 × 13)\nprint(plus_grand_multiple(7, 100))  # affiche 98 (7 × 14 = 98 et 7 × 15 = 105)\n```\n• **Encadrement de $\\sqrt{2}$ par balayage** à $10^{-n}$ près : on cherche le plus grand entier $k$ tel que $\\left(\\frac{k}{10^n}\\right)^2 \\le 2$, c'est-à-dire $k^2 \\le 2 \\times 10^{2n}$ (on travaille avec des entiers pour éviter les erreurs d'arrondi).\n```python\ndef encadrement_racine2(n):\n    k = 10 ** n\n    while (k + 1) ** 2 <= 2 * 10 ** (2 * n):\n        k = k + 1\n    return k / 10 ** n, (k + 1) / 10 ** n\n\nprint(encadrement_racine2(3))   # affiche (1.414, 1.415)\n```\nAinsi $1{,}414 \\le \\sqrt{2} < 1{,}415$ : c'est un encadrement d'amplitude $10^{-3}$."
+        "content": "**Prérequis** : les fonctions (`def`), les tests et les boucles (`while`) sont présentés au chapitre 2S4 (Algorithmique et programmation) ; ici, il suffit de savoir que `a % b` donne le reste et `a // b` le quotient de la division euclidienne de `a` par `b`.\n• **Tester si $a$ est un multiple de $b$** ($b \\neq 0$) : c'est le cas si et seulement si le reste de la division de $a$ par $b$ est nul.\n• **Plus grand multiple de $a$ inférieur ou égal à $b$** : c'est $a$ fois le quotient entier de $b$ par $a$.\n```python\ndef est_multiple(a, b):\n    return a % b == 0\n\ndef plus_grand_multiple(a, b):\n    return (b // a) * a\n\nprint(est_multiple(91, 7))          # affiche True (91 = 7 × 13)\nprint(plus_grand_multiple(7, 100))  # affiche 98 (7 × 14 = 98 et 7 × 15 = 105)\n```\n• **Encadrement de $\\sqrt{2}$ par balayage** à $10^{-n}$ près : on cherche le plus grand entier $k$ tel que $\\left(\\frac{k}{10^n}\\right)^2 \\le 2$, c'est-à-dire $k^2 \\le 2 \\times 10^{2n}$ (on travaille avec des entiers pour éviter les erreurs d'arrondi).\n```python\ndef encadrement_racine2(n):\n    k = 10 ** n\n    while (k + 1) ** 2 <= 2 * 10 ** (2 * n):\n        k = k + 1\n    return k / 10 ** n, (k + 1) / 10 ** n\n\nprint(encadrement_racine2(3))   # affiche (1.414, 1.415)\n```\nAinsi $1{,}414 \\le \\sqrt{2} < 1{,}415$ : c'est un encadrement d'amplitude $10^{-3}$."
       },
       {
         "title": "13. Vocabulaire ensembliste",
@@ -84,11 +84,11 @@ window.MATHS_COURSES_2NDE = {
         "steps": [
           "**Étape 1** : Simplifier chaque expression avant de conclure. $A = 2$ et $D = 7$ sont des entiers naturels, donc $A, D \\in \\mathbb{N}$.",
           "**Étape 2** : Pour $B = -2{,}4 = -\\frac{24}{10}$, c'est un décimal négatif non entier, donc son plus petit ensemble est $\\mathbb{D}$.",
-          "**Étape 3** : Pour $C = \\frac{7}{6} = 1{,}1666\\dots$, le dénominateur comporte le facteur premier 3 (non présent dans 10), donc le développement est infini périodique. Son plus petit ensemble est $\\mathbb{Q}$."
+          "**Étape 3** : Pour $C = \\frac{7}{6} = 1{,}1666\\dots$, en posant la division de $7$ par $6$, le reste $4$ revient sans cesse et le chiffre $6$ se répète indéfiniment : $C$ n'est pas décimal. C'est un quotient d'entiers, donc son plus petit ensemble est $\\mathbb{Q}$."
         ]
       },
       {
-        "title": "Méthode : Rendre une fraction irréductible avec les facteurs premiers",
+        "title": "Pour aller plus loin — Méthode : Rendre une fraction irréductible avec les facteurs premiers",
         "example": "Rendre irréductible la fraction $\\frac{84}{126}$.",
         "steps": [
           "**Étape 1** : On décompose le numérateur : $84 = 2 \\times 42 = 2 \\times 2 \\times 21 = 2^2 \\times 3 \\times 7$.",
@@ -112,7 +112,7 @@ window.MATHS_COURSES_2NDE = {
     "traps": [
       "⚠️ Ne pas juger un nombre sur son écriture brute ! $\\frac{21}{7} = 3 \\in \\mathbb{N}$ et $\\sqrt{9} = 3 \\in \\mathbb{N}$.",
       "⚠️ $\\frac{1}{3} \\notin \\mathbb{D}$ : un nombre décimal doit posséder un nombre **fini** de chiffres après la virgule.",
-      "⚠️ $1$ n'est pas un nombre premier : il ne possède qu'un seul diviseur positif. Le plus petit nombre premier est $2$ (c'est aussi le seul nombre premier pair).",
+      "⚠️ (Pour aller plus loin, rappel du collège) $1$ n'est pas un nombre premier : il ne possède qu'un seul diviseur positif. Le plus petit nombre premier est $2$ (c'est aussi le seul nombre premier pair).",
       "⚠️ $\\sqrt{a + b} \\neq \\sqrt{a} + \\sqrt{b}$ en général : on ne peut « couper » une racine que sur un **produit** ou un **quotient**.",
       "⚠️ Le quotient de deux décimaux n'est pas toujours décimal : $1$ et $3$ sont décimaux, mais $\\frac{1}{3} \\notin \\mathbb{D}$.",
       "⚠️ Ne pas confondre réciproque et contraposée : « si $x = 2$ alors $x^2 = 4$ » est vraie, sa réciproque « si $x^2 = 4$ alors $x = 2$ » est fausse, mais sa contraposée « si $x^2 \\neq 4$ alors $x \\neq 2$ » est vraie."
@@ -131,15 +131,15 @@ window.MATHS_COURSES_2NDE = {
         "a": "$\\sqrt{50} = \\sqrt{25 \\times 2} = 5\\sqrt{2}$."
       },
       {
-        "q": "Le nombre $91$ est-il premier ?",
+        "q": "(Pour aller plus loin) Le nombre $91$ est-il premier ?",
         "a": "Non : $91 = 7 \\times 13$."
       },
       {
-        "q": "Écrire $x = 0{,}272727\\dots$ sous forme de fraction irréductible.",
+        "q": "**Pour aller plus loin** : écrire $x = 0{,}272727\\dots$ sous forme de fraction irréductible.",
         "a": "$100x = 27{,}2727\\dots$ donc $100x - x = 27$, soit $99x = 27$ et $x = \\frac{27}{99} = \\frac{3}{11}$."
       },
       {
-        "q": "Pourquoi $\\frac{7}{40}$ est-il un nombre décimal ?",
+        "q": "**Pour aller plus loin** : pourquoi $\\frac{7}{40}$ est-il un nombre décimal ?",
         "a": "La fraction est irréductible et $40 = 2^3 \\times 5$ n'a que $2$ et $5$ comme facteurs premiers : $\\frac{7}{40} = 0{,}175$."
       },
       {
@@ -177,7 +177,7 @@ window.MATHS_COURSES_2NDE = {
       },
       {
         "title": "2. Techniques avancées de factorisation",
-        "content": "• **Facteur commun évident ou composé** :\n$$A(x) = (2x - 3)(x + 5) - (2x - 3)(4x - 1) = (2x - 3)[(x + 5) - (4x - 1)] = (2x - 3)(-3x + 6)$$\n• **Reconnaissance d'une identité remarquable** :\n$$B(x) = 9x^2 - 25 = (3x)^2 - 5^2 = (3x - 5)(3x + 5)$$"
+        "content": "• **Facteur commun évident ou composé** :\n$$A(x) = (2x - 3)(x + 5) - (2x - 3)(4x - 1) = (2x - 3)[(x + 5) - (4x - 1)] = (2x - 3)(-3x + 6) = -3(2x - 3)(x - 2)$$\nLa factorisation n'est complète qu'après la mise en facteur finale du nombre commun aux coefficients du second facteur : $-3x + 6 = -3(x - 2)$.\n• **Reconnaissance d'une identité remarquable** :\n$$B(x) = 9x^2 - 25 = (3x)^2 - 5^2 = (3x - 5)(3x + 5)$$"
       },
       {
         "title": "3. Distributivité simple et double",
@@ -223,7 +223,9 @@ window.MATHS_COURSES_2NDE = {
         "steps": [
           "**Étape 1** : On reconnaît la forme $a^2 - b^2 = (a - b)(a + b)$ avec $a = (3x - 2)$ et $b = (x + 4)$.",
           "**Étape 2** : On écrit les facteurs en conservant les parenthèses intérieures : $E(x) = [(3x - 2) - (x + 4)][(3x - 2) + (x + 4)]$.",
-          "**Étape 3** : On supprime les parenthèses avec précaution : $E(x) = [3x - 2 - x - 4][3x - 2 + x + 4] = (2x - 6)(4x + 2)$."
+          "**Étape 3** : On supprime les parenthèses avec précaution : $E(x) = [3x - 2 - x - 4][3x - 2 + x + 4] = (2x - 6)(4x + 2)$.",
+          "**Étape 4** : On met en facteur les nombres communs aux coefficients de chaque facteur : $2x - 6 = 2(x - 3)$ et $4x + 2 = 2(2x + 1)$, donc $(2x - 6)(4x + 2) = 2(x - 3) \\times 2(2x + 1) = 4(x - 3)(2x + 1)$.",
+          "**Conclusion** : $E(x) = 4(x - 3)(2x + 1)$ est la forme factorisée complète. Contrôle en $x = 0$ : $(-2)^2 - 4^2 = -12$ et $4 \\times (-3) \\times 1 = -12$."
         ]
       },
       {
@@ -263,7 +265,7 @@ window.MATHS_COURSES_2NDE = {
       "⚠️ $(3x)^2 = 9x^2$ et non $3x^2$ : le carré porte sur **tout** le produit.",
       "⚠️ $-3^2 = -9$ alors que $(-3)^2 = 9$ : sans parenthèses, le carré ne porte que sur $3$.",
       "⚠️ On ne simplifie jamais un terme d'une somme : $\\frac{x + 3}{x} \\neq 3$. Seul un **facteur** commun au numérateur et au dénominateur se simplifie : $\\frac{3(x + 1)}{5(x + 1)} = \\frac{3}{5}$ pour $x \\neq -1$.",
-      "⚠️ $\\frac{a}{b} \\div \\frac{c}{d} \\neq \\frac{a \\div c}{b \\div d}$ en pratique : on multiplie par l'**inverse** de la seconde fraction, $\\frac{a}{b} \\times \\frac{d}{c}$."
+      "⚠️ Pour diviser par une fraction, la méthode usuelle consiste à multiplier par l'**inverse** de la **seconde** fraction : $\\frac{a}{b} \\div \\frac{c}{d} = \\frac{a}{b} \\times \\frac{d}{c}$. Par exemple, $\\frac{3}{4} \\div \\frac{9}{8} = \\frac{3}{4} \\times \\frac{8}{9} = \\frac{2}{3}$ ; inverser la première fraction donnerait $\\frac{4}{3} \\times \\frac{9}{8} = \\frac{3}{2}$, ce qui est faux."
     ],
     "flashcards": [
       {
@@ -318,11 +320,11 @@ window.MATHS_COURSES_2NDE = {
     "keyPoints": [
       {
         "title": "1. Intervalles de $\\mathbb{R}$, intersection et réunion",
-        "content": "• **Intersection $I \\cap J$** : ensemble des réels appartenant **à la fois** à $I$ et à $J$.\n• **Réunion $I \\cup J$** : ensemble des réels appartenant **à au moins l'un** des deux intervalles $I$ ou $J$.\nExemple : Si $I = [-3 ; 4]$ et $J = [1 ; 7[$, alors :\n$$I \\cap J = [1 ; 4] \\quad \\text{et} \\quad I \\cup J = [-3 ; 7[$$\n• **Inégalités strictes et larges** : crochet tourné vers l'extérieur pour exclu ($]a ; b[$), vers l'intérieur pour inclus ($[a ; b]$)."
+        "content": "• **Intervalles bornés** : soit $a$ et $b$ deux réels tels que $a < b$. Les réels $a$ et $b$ sont les **bornes** des intervalles suivants.\n• $[a ; b]$ (intervalle **fermé**) est l'ensemble des réels $x$ tels que $a \\le x \\le b$.\n• $]a ; b[$ (intervalle **ouvert**) est l'ensemble des réels $x$ tels que $a < x < b$.\n• $[a ; b[$ (intervalle **semi-ouvert**) est l'ensemble des réels $x$ tels que $a \\le x < b$.\n• $]a ; b]$ (intervalle **semi-ouvert**) est l'ensemble des réels $x$ tels que $a < x \\le b$.\n• **Lecture des crochets** : une inégalité large correspond à une borne **incluse**, avec un crochet tourné vers l'intérieur ; une inégalité stricte correspond à une borne **exclue**, avec un crochet tourné vers l'extérieur. *Exemple* : $x \\in [-2 ; 3[$ signifie $-2 \\le x < 3$ : $-2$ appartient à l'intervalle, $3$ n'y appartient pas. Les intervalles non bornés sont définis à la section 5.\n• **Intersection $I \\cap J$** : ensemble des réels appartenant **à la fois** à $I$ et à $J$.\n• **Réunion $I \\cup J$** : ensemble des réels appartenant **à au moins l'un** des deux intervalles $I$ ou $J$.\nExemple : Si $I = [-3 ; 4]$ et $J = [1 ; 7[$, alors :\n$$I \\cap J = [1 ; 4] \\quad \\text{et} \\quad I \\cup J = [-3 ; 7[$$"
       },
       {
         "title": "2. Valeur absolue et distance sur la droite numérique",
-        "content": "• **Définition** : La valeur absolue d'un réel $x$, notée $|x|$, est sa distance à l'origine $0$ :\n$$|x| = \\begin{cases} x & \\text{si } x \\ge 0 \\\\ -x & \\text{si } x < 0 \\end{cases}$$\n• **Propriété géométrique** : Pour tous réels $x$ et $a$, $|x - a|$ est la **distance** entre les points d'abscisses $x$ et $a$ sur la droite graduée.\n• **Résolution d'inéquations** : Pour $r > 0$ :\n$$|x - a| \\le r \\iff a - r \\le x \\le a + r \\iff x \\in [a - r ; a + r]$$\n$$|x - a| = r \\iff x = a - r \\quad \\text{ou} \\quad x = a + r$$"
+        "content": "• **Définition** : La valeur absolue d'un réel $x$, notée $|x|$, est sa distance à l'origine $0$ :\n$$|x| = \\begin{cases} x & \\text{si } x \\ge 0 \\\\ -x & \\text{si } x < 0 \\end{cases}$$\n• **Propriété géométrique** : Pour tous réels $x$ et $a$, $|x - a|$ est la **distance** entre les points d'abscisses $x$ et $a$ sur la droite graduée.\n• **Résolution d'inéquations** : Pour $r > 0$ :\n$$|x - a| \\le r \\iff a - r \\le x \\le a + r \\iff x \\in [a - r ; a + r]$$\n$$|x - a| = r \\iff x = a - r \\quad \\text{ou} \\quad x = a + r$$\n• **Centre et rayon** : $[a - r ; a + r]$ est l'intervalle de **centre** $a$ et de **rayon** $r$. Réciproquement, l'intervalle $[\\alpha ; \\beta]$ a pour centre $c = \\frac{\\alpha + \\beta}{2}$ et pour rayon $r = \\frac{\\beta - \\alpha}{2}$, et $x \\in [\\alpha ; \\beta] \\iff |x - c| \\le r$. Avec une inégalité stricte : $|x - a| < r \\iff x \\in ]a - r ; a + r[$.\n*Exemple* : $[2 ; 10]$ a pour centre $\\frac{2 + 10}{2} = 6$ et pour rayon $\\frac{10 - 2}{2} = 4$, donc $x \\in [2 ; 10] \\iff |x - 6| \\le 4$.\n• **Pour aller plus loin** : les réels dont la distance à $a$ est **supérieure** à $r$ ne forment pas un intervalle ; le cas $|x - a| > r$ est traité dans la méthode « Pour aller plus loin » du chapitre."
       },
       {
         "title": "3. Ordre et opérations",
@@ -330,11 +332,11 @@ window.MATHS_COURSES_2NDE = {
       },
       {
         "title": "4. Comparer deux nombres",
-        "content": "• **Par la différence** : $a \\le b \\iff b - a \\ge 0$. Pour comparer deux nombres, on étudie le signe de leur différence.\n*Exemple* : $\\frac{5}{7} - \\frac{7}{10} = \\frac{50 - 49}{70} = \\frac{1}{70} > 0$, donc $\\frac{5}{7} > \\frac{7}{10}$.\n• **Nombres positifs** : pour $a \\ge 0$ et $b \\ge 0$, on a $a < b \\iff a^2 < b^2 \\iff \\sqrt{a} < \\sqrt{b}$.\n• **Propriété** : si $0 < a < 1$, alors $a^2 < a$ ; si $a > 1$, alors $a^2 > a$. En effet $a^2 - a = a(a - 1)$, qui est du signe de $a - 1$ lorsque $a > 0$.\n• **Par le quotient** (pour $a > 0$ et $b > 0$) : $a < b \\iff \\frac{a}{b} < 1$.\n*Exemple* : $\\frac{7}{8} \\div \\frac{8}{9} = \\frac{63}{64} < 1$, donc $\\frac{7}{8} < \\frac{8}{9}$."
+        "content": "• **Par la différence** : $a \\le b \\iff b - a \\ge 0$. Pour comparer deux nombres, on étudie le signe de leur différence.\n*Exemple* : $\\frac{5}{7} - \\frac{7}{10} = \\frac{50 - 49}{70} = \\frac{1}{70} > 0$, donc $\\frac{5}{7} > \\frac{7}{10}$.\n• **Nombres positifs** : pour $a \\ge 0$ et $b \\ge 0$, on a $a < b \\iff a^2 < b^2 \\iff \\sqrt{a} < \\sqrt{b}$.\n• **Propriété** : si $0 < a < 1$, alors $a^2 < a$ ; si $a > 1$, alors $a^2 > a$. En effet $a^2 - a = a(a - 1)$, qui est du signe de $a - 1$ lorsque $a > 0$.\n• **Inverses de nombres strictement positifs** : si $0 < a \\le b$, alors $\\frac{1}{b} \\le \\frac{1}{a}$. En effet, $ab > 0$ : en divisant les deux membres de $a \\le b$ par $ab$, le sens est conservé, donc $\\frac{a}{ab} \\le \\frac{b}{ab}$, c'est-à-dire $\\frac{1}{b} \\le \\frac{1}{a}$. *Exemple* : $2 \\le 5$ donne $\\frac{1}{5} \\le \\frac{1}{2}$. Ce résultat sera repris au chapitre 2A3 avec la fonction inverse.\n• **Par le quotient** (pour $a > 0$ et $b > 0$) : $a < b \\iff \\frac{a}{b} < 1$.\n*Exemple* : $\\frac{7}{8} \\div \\frac{8}{9} = \\frac{63}{64} < 1$, donc $\\frac{7}{8} < \\frac{8}{9}$."
       },
       {
         "title": "5. Intervalles non bornés et encadrements",
-        "content": "• $[a ; +\\infty[$ est l'ensemble des réels $x$ tels que $x \\ge a$ ; $]-\\infty ; b[$ celui des réels $x$ tels que $x < b$ ; $\\mathbb{R} = ]-\\infty ; +\\infty[$.\n• Du côté de $+\\infty$ ou $-\\infty$, le crochet est **toujours ouvert**.\n• **Encadrement** : $1{,}414 < \\sqrt{2} < 1{,}415$ est un encadrement de $\\sqrt{2}$ d'**amplitude** $10^{-3}$ ; $1{,}414$ en est une valeur approchée par défaut à $10^{-3}$ près.\n• **Arrondir avec des chiffres significatifs** : les chiffres significatifs sont comptés à partir du premier chiffre non nul. $0{,}004\\,567 \\approx 0{,}004\\,6$ (2 chiffres significatifs) ; $12\\,345 \\approx 12\\,300 = 1{,}23 \\times 10^4$ (3 chiffres significatifs). On adapte la précision à la situation (une mesure au millimètre près ne justifie pas 8 décimales)."
+        "content": "• Les intervalles bornés sont définis à la section 1. Pour les intervalles **non bornés** : $[a ; +\\infty[$ est l'ensemble des réels $x$ tels que $x \\ge a$ ; $]a ; +\\infty[$ celui des réels $x$ tels que $x > a$ ; $]-\\infty ; b]$ celui des réels $x$ tels que $x \\le b$ ; $]-\\infty ; b[$ celui des réels $x$ tels que $x < b$ ; $\\mathbb{R} = ]-\\infty ; +\\infty[$.\n• Du côté de $+\\infty$ ou $-\\infty$, le crochet est **toujours ouvert**.\n• **Encadrement** : $1{,}414 < \\sqrt{2} < 1{,}415$ est un encadrement de $\\sqrt{2}$ d'**amplitude** $10^{-3}$ ; $1{,}414$ en est une valeur approchée par défaut à $10^{-3}$ près.\n• **Arrondir avec des chiffres significatifs** : les chiffres significatifs sont comptés à partir du premier chiffre non nul. $0{,}004\\,567 \\approx 0{,}004\\,6$ (2 chiffres significatifs) ; $12\\,345 \\approx 12\\,300 = 1{,}23 \\times 10^4$ (3 chiffres significatifs). On adapte la précision à la situation (une mesure au millimètre près ne justifie pas 8 décimales)."
       },
       {
         "title": "6. Pour aller plus loin : moyennes arithmétique et géométrique",
@@ -579,7 +581,7 @@ window.MATHS_COURSES_2NDE = {
       },
       {
         "title": "2. Courbe représentative et résolutions graphiques",
-        "content": "La courbe représentative $\\mathcal{C}_f$ est l'ensemble des points $M(x ; y)$ tels que $x \\in \\mathcal{D}_f$ et $y = f(x)$.\n• Pour résoudre graphiquement $f(x) = k$, on trace la droite horizontale $y = k$ et on lit les **abscisses** des points d'intersection.\n• Pour résoudre $f(x) \\le g(x)$, on relève les intervalles d'abscisses où la courbe $\\mathcal{C}_f$ est située **en dessous** de $\\mathcal{C}_g$."
+        "content": "La courbe représentative $\\mathcal{C}_f$ est l'ensemble des points $M(x ; y)$ tels que $x \\in \\mathcal{D}_f$ et $y = f(x)$.\n• Pour résoudre graphiquement $f(x) = k$, on trace la droite horizontale $y = k$ et on lit les **abscisses** des points d'intersection.\n• Pour résoudre $f(x) \\le g(x)$, on relève les intervalles d'abscisses où la courbe $\\mathcal{C}_f$ est située **en dessous** de $\\mathcal{C}_g$.\n\n**Exemple.** La courbe ci-dessous représente une fonction $f$ définie sur $[-3 ; 4]$. La droite d'équation $y = 2$ la coupe aux points d'abscisses $-2$, $1$ et $3$ : l'équation $f(x) = 2$ a pour ensemble de solutions $\\{-2 ; 1 ; 3\\}$. La courbe est sur ou au-dessus de cette droite lorsque $x$ appartient à $[-3 ; -2] \\cup [1 ; 3]$ : c'est l'ensemble des solutions de $f(x) \\ge 2$.\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:0.6rem auto;\"><svg class=\"geo-svg-figure\" role=\"img\" aria-label=\"Courbe de la fonction f sur l'intervalle [-3 ; 4], passant par les points (-3 ; 4), (-2 ; 2), (-1 ; 0), (0 ; 1), (1 ; 2), (2 ; 3), (3 ; 2) et (4 ; 0). La droite horizontale d'équation y = 2 la coupe aux points d'abscisses -2, 1 et 3.\" viewBox=\"0 0 252 204\" width=\"252\" height=\"204\" style=\"max-width:330px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\"><line x1=\"18\" y1=\"186\" x2=\"18\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"42\" y1=\"186\" x2=\"42\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"66\" y1=\"186\" x2=\"66\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"90\" y1=\"186\" x2=\"90\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"114\" y1=\"186\" x2=\"114\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"138\" y1=\"186\" x2=\"138\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"162\" y1=\"186\" x2=\"162\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"186\" y1=\"186\" x2=\"186\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"210\" y1=\"186\" x2=\"210\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"234\" y1=\"186\" x2=\"234\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"186\" x2=\"234\" y2=\"186\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"162\" x2=\"234\" y2=\"162\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"138\" x2=\"234\" y2=\"138\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"114\" x2=\"234\" y2=\"114\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"90\" x2=\"234\" y2=\"90\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"66\" x2=\"234\" y2=\"66\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"42\" x2=\"234\" y2=\"42\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"18\" x2=\"234\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"138\" x2=\"244\" y2=\"138\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\"/><polygon points=\"0,0 -8,-3.5 -8,3.5\" transform=\"translate(246 138) rotate(0)\" fill=\"var(--text-main, #334155)\"/><line x1=\"114\" y1=\"186\" x2=\"114\" y2=\"8\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\"/><polygon points=\"0,0 -8,-3.5 -8,3.5\" transform=\"translate(114 6) rotate(-90)\" fill=\"var(--text-main, #334155)\"/><text x=\"18\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−4</text><text x=\"42\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−3</text><text x=\"66\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−2</text><text x=\"90\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−1</text><text x=\"138\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">1</text><text x=\"162\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">2</text><text x=\"186\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">3</text><text x=\"210\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">4</text><text x=\"234\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">5</text><text x=\"109\" y=\"189.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−2</text><text x=\"109\" y=\"165.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−1</text><text x=\"109\" y=\"117.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">1</text><text x=\"109\" y=\"93.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">2</text><text x=\"109\" y=\"69.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">3</text><text x=\"109\" y=\"45.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">4</text><text x=\"109\" y=\"21.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">5</text><text x=\"108\" y=\"151\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">0</text><path d=\"M 42 42 C 50 58 58 74 66 90 C 74 106 82 138 90 138 C 98 138 106 122 114 114 C 122 106 130 98 138 90 C 146 82 154 66 162 66 C 170 66 178 79.33 186 90 C 194 100.67 202 122 210 138\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.2\"/><circle cx=\"42\" cy=\"42\" r=\"3.2\" fill=\"#2563eb\"/><circle cx=\"210\" cy=\"138\" r=\"3.2\" fill=\"#2563eb\"/><line x1=\"18\" y1=\"90\" x2=\"234\" y2=\"90\" stroke=\"#dc2626\" stroke-width=\"1.8\" stroke-dasharray=\"6 4\"/><line x1=\"66\" y1=\"90\" x2=\"66\" y2=\"138\" stroke=\"#dc2626\" stroke-width=\"1.2\" stroke-dasharray=\"3 3\"/><circle cx=\"66\" cy=\"90\" r=\"3.6\" fill=\"#dc2626\"/><line x1=\"138\" y1=\"90\" x2=\"138\" y2=\"138\" stroke=\"#dc2626\" stroke-width=\"1.2\" stroke-dasharray=\"3 3\"/><circle cx=\"138\" cy=\"90\" r=\"3.6\" fill=\"#dc2626\"/><line x1=\"186\" y1=\"90\" x2=\"186\" y2=\"138\" stroke=\"#dc2626\" stroke-width=\"1.2\" stroke-dasharray=\"3 3\"/><circle cx=\"186\" cy=\"90\" r=\"3.6\" fill=\"#dc2626\"/><text x=\"55.199999999999996\" y=\"37.199999999999996\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"700\" fill=\"#2563eb\">C<tspan dy=\"3\" font-size=\"10\">f</tspan></text><text x=\"219.60000000000002\" y=\"84\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"700\" fill=\"#dc2626\">y = 2</text></svg></div>"
       },
       {
         "title": "3. Différentes façons de définir une fonction",
@@ -688,6 +690,7 @@ window.MATHS_COURSES_2NDE = {
       "Comparer des images à l'aide du sens de variation sans calcul explicite.",
       "Démontrer le sens de variation d'une fonction affine ou de la fonction carré à l'aide de la définition.",
       "Exploiter un tableau de variations pour déterminer le nombre de solutions d'une équation $f(x) = k$.",
+      "Passer de la courbe d'une fonction à son tableau de variations et lire graphiquement ses extremums.",
       "Interpréter le coefficient $m$ d'une fonction affine comme un taux d'accroissement.",
       "Approcher un extremum ou une longueur de courbe à l'aide d'un algorithme (balayage, dichotomie).",
       "Traiter un problème d'optimisation."
@@ -707,7 +710,7 @@ window.MATHS_COURSES_2NDE = {
       },
       {
         "title": "4. Démonstration : sens de variation d'une fonction affine",
-        "content": "Soit $f(x) = mx + p$ définie sur $\\mathbb{R}$.\n• Si $m > 0$, $f$ est strictement croissante ; si $m < 0$, $f$ est strictement décroissante ; si $m = 0$, $f$ est constante.\n**Démonstration** : soient deux réels $a < b$. Alors\n$$f(b) - f(a) = (mb + p) - (ma + p) = m(b - a)$$\nComme $b - a > 0$, $f(b) - f(a)$ a le **signe de $m$** :\n• si $m > 0$, $f(b) - f(a) > 0$, soit $f(a) < f(b)$ : l'ordre est conservé, $f$ est strictement croissante ;\n• si $m < 0$, $f(b) - f(a) < 0$, soit $f(a) > f(b)$ : l'ordre est inversé, $f$ est strictement décroissante ;\n• si $m = 0$, $f(a) = f(b)$ : $f$ est constante.\n**Interprétation de $m$** : pour $a \\neq b$, $\\frac{f(b) - f(a)}{b - a} = m$. Le coefficient $m$ est le **taux d'accroissement** : quand $x$ augmente de $1$, $f(x)$ varie de $m$. Et $p = f(0)$ est l'**ordonnée à l'origine**.\n*Exemple* : un forfait téléphonique coûte $f(x) = 0{,}2x + 15$ euros pour $x$ minutes hors forfait : chaque minute supplémentaire coûte $0{,}20$ €, et $15$ € est le prix de base."
+        "content": "Soit $f(x) = mx + p$ définie sur $\\mathbb{R}$.\n*Au collège, on écrivait $f(x) = ax + b$ : ici, $m$ joue le rôle de $a$ et $p$ celui de $b$.*\n• Si $m > 0$, $f$ est strictement croissante ; si $m < 0$, $f$ est strictement décroissante ; si $m = 0$, $f$ est constante.\n**Démonstration** : soient deux réels $x_1 < x_2$. Alors\n$$f(x_2) - f(x_1) = (mx_2 + p) - (mx_1 + p) = m(x_2 - x_1)$$\nComme $x_2 - x_1 > 0$, $f(x_2) - f(x_1)$ a le **signe de $m$** :\n• si $m > 0$, $f(x_2) - f(x_1) > 0$, soit $f(x_1) < f(x_2)$ : l'ordre est conservé, $f$ est strictement croissante ;\n• si $m < 0$, $f(x_2) - f(x_1) < 0$, soit $f(x_1) > f(x_2)$ : l'ordre est inversé, $f$ est strictement décroissante ;\n• si $m = 0$, $f(x_1) = f(x_2)$ : $f$ est constante.\n**Interprétation de $m$** : pour $x_1 \\neq x_2$, $\\frac{f(x_2) - f(x_1)}{x_2 - x_1} = m$. Le coefficient $m$ est le **taux d'accroissement** : quand $x$ augmente de $1$, $f(x)$ varie de $m$. Et $p = f(0)$ est l'**ordonnée à l'origine**.\n*Exemple* : un forfait téléphonique coûte $f(x) = 0{,}2x + 15$ euros pour $x$ minutes hors forfait : chaque minute supplémentaire coûte $0{,}20$ €, et $15$ € est le prix de base."
       },
       {
         "title": "5. Existence d'un extremum",
@@ -743,6 +746,16 @@ window.MATHS_COURSES_2NDE = {
         ]
       },
       {
+        "title": "Méthode : Passer de la courbe au tableau de variations",
+        "example": "La courbe ci-dessous représente une fonction $f$ définie sur $[-3 ; 4]$. Dresser son tableau de variations et donner ses extremums.\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:0.6rem auto;\"><svg class=\"geo-svg-figure\" role=\"img\" aria-label=\"Courbe de la fonction f sur l'intervalle [-3 ; 4], passant par les points (-3 ; -2), (-2 ; 0), (-1 ; 2), (0 ; 3), (1 ; 1), (2 ; 0), (3 ; -1), (4 ; 2).\" viewBox=\"0 0 252 204\" width=\"252\" height=\"204\" style=\"max-width:330px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\"><line x1=\"18\" y1=\"186\" x2=\"18\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"42\" y1=\"186\" x2=\"42\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"66\" y1=\"186\" x2=\"66\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"90\" y1=\"186\" x2=\"90\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"114\" y1=\"186\" x2=\"114\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"138\" y1=\"186\" x2=\"138\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"162\" y1=\"186\" x2=\"162\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"186\" y1=\"186\" x2=\"186\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"210\" y1=\"186\" x2=\"210\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"234\" y1=\"186\" x2=\"234\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"186\" x2=\"234\" y2=\"186\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"162\" x2=\"234\" y2=\"162\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"138\" x2=\"234\" y2=\"138\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"114\" x2=\"234\" y2=\"114\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"90\" x2=\"234\" y2=\"90\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"66\" x2=\"234\" y2=\"66\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"42\" x2=\"234\" y2=\"42\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"18\" x2=\"234\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"114\" x2=\"244\" y2=\"114\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\"/><polygon points=\"0,0 -8,-3.5 -8,3.5\" transform=\"translate(246 114) rotate(0)\" fill=\"var(--text-main, #334155)\"/><line x1=\"114\" y1=\"186\" x2=\"114\" y2=\"8\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\"/><polygon points=\"0,0 -8,-3.5 -8,3.5\" transform=\"translate(114 6) rotate(-90)\" fill=\"var(--text-main, #334155)\"/><text x=\"18\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−4</text><text x=\"42\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−3</text><text x=\"66\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−2</text><text x=\"90\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−1</text><text x=\"138\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">1</text><text x=\"162\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">2</text><text x=\"186\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">3</text><text x=\"210\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">4</text><text x=\"234\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">5</text><text x=\"109\" y=\"189.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−3</text><text x=\"109\" y=\"165.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−2</text><text x=\"109\" y=\"141.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−1</text><text x=\"109\" y=\"93.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">1</text><text x=\"109\" y=\"69.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">2</text><text x=\"109\" y=\"45.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">3</text><text x=\"109\" y=\"21.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">4</text><text x=\"108\" y=\"127\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">0</text><path d=\"M 42 162 C 50 146 58 130 66 114 C 74 98 82 76.67 90 66 C 98 55.33 106 42 114 42 C 122 42 130 79.33 138 90 C 146 100.67 154 106 162 114 C 170 122 178 138 186 138 C 194 138 202 90 210 66\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.2\"/><circle cx=\"42\" cy=\"162\" r=\"3.2\" fill=\"#2563eb\"/><circle cx=\"210\" cy=\"66\" r=\"3.2\" fill=\"#2563eb\"/></svg></div>",
+        "steps": [
+          "**Étape 1 (ligne des $x$)** : on place les bornes de l'intervalle, $-3$ et $4$, ainsi que les abscisses où la courbe change de sens, $0$ et $3$.",
+          "**Étape 2 (ligne de $f(x)$)** : on lit les ordonnées des points correspondants : $f(-3) = -2$, $f(0) = 3$, $f(3) = -1$ et $f(4) = 2$.",
+          "**Étape 3 (flèches)** : de gauche à droite, la courbe monte sur $[-3 ; 0]$, descend sur $[0 ; 3]$ et remonte sur $[3 ; 4]$.",
+          "**Conclusion** : on obtient le tableau ci-dessous. Le maximum de $f$ est $3$, atteint en $x = 0$ ; le minimum est $-2$, atteint à la borne $x = -3$, car $f(-3) = -2 < f(3) = -1$.\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:0.6rem auto;\"><svg class=\"geo-svg-figure\" role=\"img\" aria-label=\"Tableau de variations de f. Ligne des x : -3, 0, 3, 4. Ligne de f(x) : -2, 3, -1, 2. Flèches : montante, descendante, montante.\" viewBox=\"0 0 370 118\" width=\"370\" height=\"118\" style=\"max-width:370px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"1\" y=\"1\" width=\"368\" height=\"116\" fill=\"none\" stroke=\"var(--text-main, #334155)\"/><line x1=\"1\" y1=\"30\" x2=\"369\" y2=\"30\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1\"/><line x1=\"38\" y1=\"1\" x2=\"38\" y2=\"117\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1\"/><text x=\"20\" y=\"21\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"700\" fill=\"var(--text-main, #334155)\">x</text><text x=\"20\" y=\"79\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"700\" fill=\"var(--text-main, #334155)\">f(x)</text><text x=\"62\" y=\"21\" text-anchor=\"middle\" font-size=\"12\" fill=\"var(--text-main, #334155)\">−3</text><text x=\"157.33\" y=\"21\" text-anchor=\"middle\" font-size=\"12\" fill=\"var(--text-main, #334155)\">0</text><text x=\"252.67\" y=\"21\" text-anchor=\"middle\" font-size=\"12\" fill=\"var(--text-main, #334155)\">3</text><text x=\"348\" y=\"21\" text-anchor=\"middle\" font-size=\"12\" fill=\"var(--text-main, #334155)\">4</text><text x=\"62\" y=\"108\" text-anchor=\"middle\" font-size=\"12\" fill=\"var(--text-main, #334155)\">−2</text><text x=\"157.33\" y=\"54\" text-anchor=\"middle\" font-size=\"12\" fill=\"var(--text-main, #334155)\">3</text><text x=\"252.67\" y=\"108\" text-anchor=\"middle\" font-size=\"12\" fill=\"var(--text-main, #334155)\">−1</text><text x=\"348\" y=\"54\" text-anchor=\"middle\" font-size=\"12\" fill=\"var(--text-main, #334155)\">2</text><line x1=\"75\" y1=\"95\" x2=\"144.33\" y2=\"55\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1\"/><polygon points=\"0,0 -8,-3.5 -8,3.5\" transform=\"translate(144.33 55) rotate(-29.98)\" fill=\"var(--text-main, #334155)\"/><line x1=\"170.33\" y1=\"55\" x2=\"239.67\" y2=\"95\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1\"/><polygon points=\"0,0 -8,-3.5 -8,3.5\" transform=\"translate(239.67 95) rotate(29.98)\" fill=\"var(--text-main, #334155)\"/><line x1=\"265.67\" y1=\"95\" x2=\"335\" y2=\"55\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1\"/><polygon points=\"0,0 -8,-3.5 -8,3.5\" transform=\"translate(335 55) rotate(-29.98)\" fill=\"var(--text-main, #334155)\"/></svg></div>"
+        ]
+      },
+      {
         "title": "Méthode : Exploiter un tableau de variations",
         "example": "$f$ est définie sur $[-4 ; 6]$ : elle croît de $f(-4) = 2$ à $f(-1) = 7$, décroît jusqu'à $f(3) = -2$, puis croît jusqu'à $f(6) = 4$ (sa courbe est tracée d'un seul tenant). Déterminer ses extremums et le nombre de solutions de $f(x) = 0$.",
         "steps": [
@@ -754,9 +767,9 @@ window.MATHS_COURSES_2NDE = {
       },
       {
         "title": "Méthode : Extremums d'une fonction de référence sur un intervalle",
-        "example": "Déterminer le minimum et le maximum de $f(x) = x^2$ sur l'intervalle $[-2 ; 3]$.",
+        "example": "On rappelle que la fonction carré est décroissante sur $]-\\infty ; 0]$ et croissante sur $[0 ; +\\infty[$ (résultat étudié au chapitre suivant). Déterminer le minimum et le maximum de $f(x) = x^2$ sur l'intervalle $[-2 ; 3]$.",
         "steps": [
-          "**Étape 1** : $f$ est décroissante sur $[-2 ; 0]$ et croissante sur $[0 ; 3]$.",
+          "**Étape 1** : d'après ce rappel, $f$ est décroissante sur $[-2 ; 0]$ et croissante sur $[0 ; 3]$.",
           "**Étape 2** : On calcule les valeurs utiles : $f(-2) = 4$, $f(0) = 0$, $f(3) = 9$.",
           "**Étape 3** : La plus petite valeur est $f(0) = 0$ ; la plus grande des valeurs aux bornes est $f(3) = 9$.",
           "**Conclusion** : sur $[-2 ; 3]$, le minimum de $f$ est $0$ (atteint en $0$) et son maximum est $9$ (atteint en $3$)."
@@ -812,7 +825,8 @@ window.MATHS_COURSES_2NDE = {
     "title": "2A3 : Fonctions de référence : valeur absolue, carré, inverse, racine carrée et cube",
     "domain": "Analyse et Fonctions",
     "objectives": [
-      "Connaître les définitions, courbes, signes et variations des fonctions valeur absolue $|x|$, carré $x^2$, inverse $\\frac{1}{x}$, racine carrée $\\sqrt{x}$ et cube $x^3$.",
+      "Connaître les définitions, courbes, signes et variations des fonctions valeur absolue $|x|$, carré $x^2$ et inverse $\\frac{1}{x}$.",
+      "Pour aller plus loin : définition et variations des fonctions racine carrée $\\sqrt{x}$ et cube $x^3$.",
       "Pour aller plus loin : notion de parité (fonction paire, fonction impaire).",
       "Résoudre des équations et inéquations du type $x^2 \\le k$ et $\\sqrt{x} \\ge k$.",
       "Étudier la position relative des courbes d'équations $y = x$, $y = x^2$ et $y = x^3$ pour $x \\ge 0$.",
@@ -824,7 +838,7 @@ window.MATHS_COURSES_2NDE = {
     "keyPoints": [
       {
         "title": "1. Synthèse des fonctions de référence",
-        "content": "• **Fonction carré ($x \\mapsto x^2$)** : Définie sur $\\mathbb{R}$, paire ($(-x)^2 = x^2$), décroissante sur $]-\\infty ; 0]$ et croissante sur $[0 ; +\\infty[$. Sa courbe est une **parabole** de sommet $(0 ; 0)$.\n• **Fonction inverse ($x \\mapsto \\frac{1}{x}$)** : Définie sur $\\mathbb{R}^*$, impaire ($\\frac{1}{-x} = -\\frac{1}{x}$), strictement décroissante sur $]-\\infty ; 0[$ et sur $]0 ; +\\infty[$. Sa courbe est une **hyperbole**.\n• **Fonction racine carrée ($x \\mapsto \\sqrt{x}$)** : Définie sur $[0 ; +\\infty[$, strictement croissante sur $[0 ; +\\infty[$.\n• **Fonction valeur absolue ($x \\mapsto |x|$)** : définie sur $\\mathbb{R}$, décroissante sur $]-\\infty ; 0]$ et croissante sur $[0 ; +\\infty[$ (voir le paragraphe 5).\n• **Fonction cube ($x \\mapsto x^3$)** : Définie sur $\\mathbb{R}$, impaire, strictement croissante sur $\\mathbb{R}$."
+        "content": "• **Fonction carré ($x \\mapsto x^2$)** : Définie sur $\\mathbb{R}$, décroissante sur $]-\\infty ; 0]$ et croissante sur $[0 ; +\\infty[$. Sa courbe est une **parabole** de sommet $(0 ; 0)$.\n• **Fonction inverse ($x \\mapsto \\frac{1}{x}$)** : Définie sur $\\mathbb{R}^*$, strictement décroissante sur $]-\\infty ; 0[$ et sur $]0 ; +\\infty[$. Sa courbe est une **hyperbole**.\n• **Fonction valeur absolue ($x \\mapsto |x|$)** : définie sur $\\mathbb{R}$, décroissante sur $]-\\infty ; 0]$ et croissante sur $[0 ; +\\infty[$ (voir le paragraphe 5).\n\n<div class=\"geo-figure-wrapper\" style=\"display:inline-block; vertical-align:top; width:240px; max-width:100%; text-align:center; margin:0.6rem;\"><svg class=\"geo-svg-figure\" role=\"img\" aria-label=\"Courbe en forme de U, de sommet l'origine, passant par les points (-3 ; 9), (-2 ; 4), (-1 ; 1), (0 ; 0), (1 ; 1), (2 ; 4) et (3 ; 9).\" viewBox=\"0 0 228 300\" width=\"228\" height=\"300\" style=\"max-width:330px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\"><line x1=\"18\" y1=\"282\" x2=\"18\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"42\" y1=\"282\" x2=\"42\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"66\" y1=\"282\" x2=\"66\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"90\" y1=\"282\" x2=\"90\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"114\" y1=\"282\" x2=\"114\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"138\" y1=\"282\" x2=\"138\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"162\" y1=\"282\" x2=\"162\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"186\" y1=\"282\" x2=\"186\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"210\" y1=\"282\" x2=\"210\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"282\" x2=\"210\" y2=\"282\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"258\" x2=\"210\" y2=\"258\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"234\" x2=\"210\" y2=\"234\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"210\" x2=\"210\" y2=\"210\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"186\" x2=\"210\" y2=\"186\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"162\" x2=\"210\" y2=\"162\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"138\" x2=\"210\" y2=\"138\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"114\" x2=\"210\" y2=\"114\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"90\" x2=\"210\" y2=\"90\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"66\" x2=\"210\" y2=\"66\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"42\" x2=\"210\" y2=\"42\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"18\" x2=\"210\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"258\" x2=\"220\" y2=\"258\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\"/><polygon points=\"0,0 -8,-3.5 -8,3.5\" transform=\"translate(222 258) rotate(0)\" fill=\"var(--text-main, #334155)\"/><line x1=\"114\" y1=\"282\" x2=\"114\" y2=\"8\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\"/><polygon points=\"0,0 -8,-3.5 -8,3.5\" transform=\"translate(114 6) rotate(-90)\" fill=\"var(--text-main, #334155)\"/><text x=\"18\" y=\"271\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−4</text><text x=\"42\" y=\"271\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−3</text><text x=\"66\" y=\"271\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−2</text><text x=\"90\" y=\"271\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−1</text><text x=\"138\" y=\"271\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">1</text><text x=\"162\" y=\"271\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">2</text><text x=\"186\" y=\"271\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">3</text><text x=\"210\" y=\"271\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">4</text><text x=\"109\" y=\"285.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−1</text><text x=\"109\" y=\"237.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">1</text><text x=\"109\" y=\"213.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">2</text><text x=\"109\" y=\"189.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">3</text><text x=\"109\" y=\"165.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">4</text><text x=\"109\" y=\"141.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">5</text><text x=\"109\" y=\"117.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">6</text><text x=\"109\" y=\"93.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">7</text><text x=\"109\" y=\"69.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">8</text><text x=\"109\" y=\"45.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">9</text><text x=\"109\" y=\"21.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">10</text><text x=\"108\" y=\"271\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">0</text><path d=\"M 38.4 19.86 L 39.6 27.36 L 40.8 34.74 L 42 42 L 43.2 49.14 L 44.4 56.16 L 45.6 63.06 L 46.8 69.84 L 48 76.5 L 49.2 83.04 L 50.4 89.46 L 51.6 95.76 L 52.8 101.94 L 54 108 L 55.2 113.94 L 56.4 119.76 L 57.6 125.46 L 58.8 131.04 L 60 136.5 L 61.2 141.84 L 62.4 147.06 L 63.6 152.16 L 64.8 157.14 L 66 162 L 67.2 166.74 L 68.4 171.36 L 69.6 175.86 L 70.8 180.24 L 72 184.5 L 73.2 188.64 L 74.4 192.66 L 75.6 196.56 L 76.8 200.34 L 78 204 L 79.2 207.54 L 80.4 210.96 L 81.6 214.26 L 82.8 217.44 L 84 220.5 L 85.2 223.44 L 86.4 226.26 L 87.6 228.96 L 88.8 231.54 L 90 234 L 91.2 236.34 L 92.4 238.56 L 93.6 240.66 L 94.8 242.64 L 96 244.5 L 97.2 246.24 L 98.4 247.86 L 99.6 249.36 L 100.8 250.74 L 102 252 L 103.2 253.14 L 104.4 254.16 L 105.6 255.06 L 106.8 255.84 L 108 256.5 L 109.2 257.04 L 110.4 257.46 L 111.6 257.76 L 112.8 257.94 L 114 258 L 115.2 257.94 L 116.4 257.76 L 117.6 257.46 L 118.8 257.04 L 120 256.5 L 121.2 255.84 L 122.4 255.06 L 123.6 254.16 L 124.8 253.14 L 126 252 L 127.2 250.74 L 128.4 249.36 L 129.6 247.86 L 130.8 246.24 L 132 244.5 L 133.2 242.64 L 134.4 240.66 L 135.6 238.56 L 136.8 236.34 L 138 234 L 139.2 231.54 L 140.4 228.96 L 141.6 226.26 L 142.8 223.44 L 144 220.5 L 145.2 217.44 L 146.4 214.26 L 147.6 210.96 L 148.8 207.54 L 150 204 L 151.2 200.34 L 152.4 196.56 L 153.6 192.66 L 154.8 188.64 L 156 184.5 L 157.2 180.24 L 158.4 175.86 L 159.6 171.36 L 160.8 166.74 L 162 162 L 163.2 157.14 L 164.4 152.16 L 165.6 147.06 L 166.8 141.84 L 168 136.5 L 169.2 131.04 L 170.4 125.46 L 171.6 119.76 L 172.8 113.94 L 174 108 L 175.2 101.94 L 176.4 95.76 L 177.6 89.46 L 178.8 83.04 L 180 76.5 L 181.2 69.84 L 182.4 63.06 L 183.6 56.16 L 184.8 49.14 L 186 42 L 187.2 34.74 L 188.4 27.36 L 189.6 19.86\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.2\"/></svg><div style=\"font-size:0.9em;\">Fonction carré</div></div>\n<div class=\"geo-figure-wrapper\" style=\"display:inline-block; vertical-align:top; width:240px; max-width:100%; text-align:center; margin:0.6rem;\"><svg class=\"geo-svg-figure\" role=\"img\" aria-label=\"Courbe formée de deux branches séparées par l'axe des ordonnées, passant par les points (-2 ; -0,5), (-1 ; -1), (1 ; 1) et (2 ; 0,5).\" viewBox=\"0 0 228 228\" width=\"228\" height=\"228\" style=\"max-width:330px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\"><line x1=\"18\" y1=\"210\" x2=\"18\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"42\" y1=\"210\" x2=\"42\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"66\" y1=\"210\" x2=\"66\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"90\" y1=\"210\" x2=\"90\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"114\" y1=\"210\" x2=\"114\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"138\" y1=\"210\" x2=\"138\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"162\" y1=\"210\" x2=\"162\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"186\" y1=\"210\" x2=\"186\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"210\" y1=\"210\" x2=\"210\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"210\" x2=\"210\" y2=\"210\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"186\" x2=\"210\" y2=\"186\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"162\" x2=\"210\" y2=\"162\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"138\" x2=\"210\" y2=\"138\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"114\" x2=\"210\" y2=\"114\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"90\" x2=\"210\" y2=\"90\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"66\" x2=\"210\" y2=\"66\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"42\" x2=\"210\" y2=\"42\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"18\" x2=\"210\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"114\" x2=\"220\" y2=\"114\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\"/><polygon points=\"0,0 -8,-3.5 -8,3.5\" transform=\"translate(222 114) rotate(0)\" fill=\"var(--text-main, #334155)\"/><line x1=\"114\" y1=\"210\" x2=\"114\" y2=\"8\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\"/><polygon points=\"0,0 -8,-3.5 -8,3.5\" transform=\"translate(114 6) rotate(-90)\" fill=\"var(--text-main, #334155)\"/><text x=\"18\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−4</text><text x=\"42\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−3</text><text x=\"66\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−2</text><text x=\"90\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−1</text><text x=\"138\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">1</text><text x=\"162\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">2</text><text x=\"186\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">3</text><text x=\"210\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">4</text><text x=\"109\" y=\"213.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−4</text><text x=\"109\" y=\"189.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−3</text><text x=\"109\" y=\"165.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−2</text><text x=\"109\" y=\"141.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−1</text><text x=\"109\" y=\"93.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">1</text><text x=\"109\" y=\"69.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">2</text><text x=\"109\" y=\"45.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">3</text><text x=\"109\" y=\"21.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">4</text><text x=\"108\" y=\"127\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">0</text><path d=\"M 18 120 L 19.2 120.08 L 20.4 120.15 L 21.6 120.23 L 22.8 120.32 L 24 120.4 L 25.2 120.49 L 26.4 120.58 L 27.6 120.67 L 28.8 120.76 L 30 120.86 L 31.2 120.96 L 32.4 121.06 L 33.6 121.16 L 34.8 121.27 L 36 121.38 L 37.2 121.5 L 38.4 121.62 L 39.6 121.74 L 40.8 121.87 L 42 122 L 43.2 122.14 L 44.4 122.28 L 45.6 122.42 L 46.8 122.57 L 48 122.73 L 49.2 122.89 L 50.4 123.06 L 51.6 123.23 L 52.8 123.41 L 54 123.6 L 55.2 123.8 L 56.4 124 L 57.6 124.21 L 58.8 124.43 L 60 124.67 L 61.2 124.91 L 62.4 125.16 L 63.6 125.43 L 64.8 125.71 L 66 126 L 67.2 126.31 L 68.4 126.63 L 69.6 126.97 L 70.8 127.33 L 72 127.71 L 73.2 128.12 L 74.4 128.55 L 75.6 129 L 76.8 129.48 L 78 130 L 79.2 130.55 L 80.4 131.14 L 81.6 131.78 L 82.8 132.46 L 84 133.2 L 85.2 134 L 86.4 134.87 L 87.6 135.82 L 88.8 136.86 L 90 138 L 91.2 139.26 L 92.4 140.67 L 93.6 142.24 L 94.8 144 L 96 146 L 97.2 148.29 L 98.4 150.92 L 99.6 154 L 100.8 157.64 L 102 162 L 103.2 167.33 L 104.4 174 L 105.6 182.57 L 106.8 194 L 108 210 M 120 18 L 121.2 34 L 122.4 45.43 L 123.6 54 L 124.8 60.67 L 126 66 L 127.2 70.36 L 128.4 74 L 129.6 77.08 L 130.8 79.71 L 132 82 L 133.2 84 L 134.4 85.76 L 135.6 87.33 L 136.8 88.74 L 138 90 L 139.2 91.14 L 140.4 92.18 L 141.6 93.13 L 142.8 94 L 144 94.8 L 145.2 95.54 L 146.4 96.22 L 147.6 96.86 L 148.8 97.45 L 150 98 L 151.2 98.52 L 152.4 99 L 153.6 99.45 L 154.8 99.88 L 156 100.29 L 157.2 100.67 L 158.4 101.03 L 159.6 101.37 L 160.8 101.69 L 162 102 L 163.2 102.29 L 164.4 102.57 L 165.6 102.84 L 166.8 103.09 L 168 103.33 L 169.2 103.57 L 170.4 103.79 L 171.6 104 L 172.8 104.2 L 174 104.4 L 175.2 104.59 L 176.4 104.77 L 177.6 104.94 L 178.8 105.11 L 180 105.27 L 181.2 105.43 L 182.4 105.58 L 183.6 105.72 L 184.8 105.86 L 186 106 L 187.2 106.13 L 188.4 106.26 L 189.6 106.38 L 190.8 106.5 L 192 106.62 L 193.2 106.73 L 194.4 106.84 L 195.6 106.94 L 196.8 107.04 L 198 107.14 L 199.2 107.24 L 200.4 107.33 L 201.6 107.42 L 202.8 107.51 L 204 107.6 L 205.2 107.68 L 206.4 107.77 L 207.6 107.85 L 208.8 107.92 L 210 108\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.2\"/></svg><div style=\"font-size:0.9em;\">Fonction inverse</div></div>\n<div class=\"geo-figure-wrapper\" style=\"display:inline-block; vertical-align:top; width:240px; max-width:100%; text-align:center; margin:0.6rem;\"><svg class=\"geo-svg-figure\" role=\"img\" aria-label=\"Courbe en forme de V, de sommet l'origine, passant par les points (-4 ; 4), (-2 ; 2), (0 ; 0), (2 ; 2) et (4 ; 4).\" viewBox=\"0 0 276 180\" width=\"276\" height=\"180\" style=\"max-width:330px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\"><line x1=\"18\" y1=\"162\" x2=\"18\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"42\" y1=\"162\" x2=\"42\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"66\" y1=\"162\" x2=\"66\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"90\" y1=\"162\" x2=\"90\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"114\" y1=\"162\" x2=\"114\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"138\" y1=\"162\" x2=\"138\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"162\" y1=\"162\" x2=\"162\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"186\" y1=\"162\" x2=\"186\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"210\" y1=\"162\" x2=\"210\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"234\" y1=\"162\" x2=\"234\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"258\" y1=\"162\" x2=\"258\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"162\" x2=\"258\" y2=\"162\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"138\" x2=\"258\" y2=\"138\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"114\" x2=\"258\" y2=\"114\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"90\" x2=\"258\" y2=\"90\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"66\" x2=\"258\" y2=\"66\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"42\" x2=\"258\" y2=\"42\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"18\" x2=\"258\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"138\" x2=\"268\" y2=\"138\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\"/><polygon points=\"0,0 -8,-3.5 -8,3.5\" transform=\"translate(270 138) rotate(0)\" fill=\"var(--text-main, #334155)\"/><line x1=\"138\" y1=\"162\" x2=\"138\" y2=\"8\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\"/><polygon points=\"0,0 -8,-3.5 -8,3.5\" transform=\"translate(138 6) rotate(-90)\" fill=\"var(--text-main, #334155)\"/><text x=\"18\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−5</text><text x=\"42\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−4</text><text x=\"66\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−3</text><text x=\"90\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−2</text><text x=\"114\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−1</text><text x=\"162\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">1</text><text x=\"186\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">2</text><text x=\"210\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">3</text><text x=\"234\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">4</text><text x=\"258\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">5</text><text x=\"133\" y=\"165.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−1</text><text x=\"133\" y=\"117.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">1</text><text x=\"133\" y=\"93.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">2</text><text x=\"133\" y=\"69.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">3</text><text x=\"133\" y=\"45.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">4</text><text x=\"133\" y=\"21.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">5</text><text x=\"132\" y=\"151\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">0</text><path d=\"M 18 18 L 19.2 19.2 L 20.4 20.4 L 21.6 21.6 L 22.8 22.8 L 24 24 L 25.2 25.2 L 26.4 26.4 L 27.6 27.6 L 28.8 28.8 L 30 30 L 31.2 31.2 L 32.4 32.4 L 33.6 33.6 L 34.8 34.8 L 36 36 L 37.2 37.2 L 38.4 38.4 L 39.6 39.6 L 40.8 40.8 L 42 42 L 43.2 43.2 L 44.4 44.4 L 45.6 45.6 L 46.8 46.8 L 48 48 L 49.2 49.2 L 50.4 50.4 L 51.6 51.6 L 52.8 52.8 L 54 54 L 55.2 55.2 L 56.4 56.4 L 57.6 57.6 L 58.8 58.8 L 60 60 L 61.2 61.2 L 62.4 62.4 L 63.6 63.6 L 64.8 64.8 L 66 66 L 67.2 67.2 L 68.4 68.4 L 69.6 69.6 L 70.8 70.8 L 72 72 L 73.2 73.2 L 74.4 74.4 L 75.6 75.6 L 76.8 76.8 L 78 78 L 79.2 79.2 L 80.4 80.4 L 81.6 81.6 L 82.8 82.8 L 84 84 L 85.2 85.2 L 86.4 86.4 L 87.6 87.6 L 88.8 88.8 L 90 90 L 91.2 91.2 L 92.4 92.4 L 93.6 93.6 L 94.8 94.8 L 96 96 L 97.2 97.2 L 98.4 98.4 L 99.6 99.6 L 100.8 100.8 L 102 102 L 103.2 103.2 L 104.4 104.4 L 105.6 105.6 L 106.8 106.8 L 108 108 L 109.2 109.2 L 110.4 110.4 L 111.6 111.6 L 112.8 112.8 L 114 114 L 115.2 115.2 L 116.4 116.4 L 117.6 117.6 L 118.8 118.8 L 120 120 L 121.2 121.2 L 122.4 122.4 L 123.6 123.6 L 124.8 124.8 L 126 126 L 127.2 127.2 L 128.4 128.4 L 129.6 129.6 L 130.8 130.8 L 132 132 L 133.2 133.2 L 134.4 134.4 L 135.6 135.6 L 136.8 136.8 L 138 138 L 139.2 136.8 L 140.4 135.6 L 141.6 134.4 L 142.8 133.2 L 144 132 L 145.2 130.8 L 146.4 129.6 L 147.6 128.4 L 148.8 127.2 L 150 126 L 151.2 124.8 L 152.4 123.6 L 153.6 122.4 L 154.8 121.2 L 156 120 L 157.2 118.8 L 158.4 117.6 L 159.6 116.4 L 160.8 115.2 L 162 114 L 163.2 112.8 L 164.4 111.6 L 165.6 110.4 L 166.8 109.2 L 168 108 L 169.2 106.8 L 170.4 105.6 L 171.6 104.4 L 172.8 103.2 L 174 102 L 175.2 100.8 L 176.4 99.6 L 177.6 98.4 L 178.8 97.2 L 180 96 L 181.2 94.8 L 182.4 93.6 L 183.6 92.4 L 184.8 91.2 L 186 90 L 187.2 88.8 L 188.4 87.6 L 189.6 86.4 L 190.8 85.2 L 192 84 L 193.2 82.8 L 194.4 81.6 L 195.6 80.4 L 196.8 79.2 L 198 78 L 199.2 76.8 L 200.4 75.6 L 201.6 74.4 L 202.8 73.2 L 204 72 L 205.2 70.8 L 206.4 69.6 L 207.6 68.4 L 208.8 67.2 L 210 66 L 211.2 64.8 L 212.4 63.6 L 213.6 62.4 L 214.8 61.2 L 216 60 L 217.2 58.8 L 218.4 57.6 L 219.6 56.4 L 220.8 55.2 L 222 54 L 223.2 52.8 L 224.4 51.6 L 225.6 50.4 L 226.8 49.2 L 228 48 L 229.2 46.8 L 230.4 45.6 L 231.6 44.4 L 232.8 43.2 L 234 42 L 235.2 40.8 L 236.4 39.6 L 237.6 38.4 L 238.8 37.2 L 240 36 L 241.2 34.8 L 242.4 33.6 L 243.6 32.4 L 244.8 31.2 L 246 30 L 247.2 28.8 L 248.4 27.6 L 249.6 26.4 L 250.8 25.2 L 252 24 L 253.2 22.8 L 254.4 21.6 L 255.6 20.4 L 256.8 19.2 L 258 18\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.2\"/></svg><div style=\"font-size:0.9em;\">Fonction valeur absolue</div></div>\n\n**Pour aller plus loin** (ces résultats servent à résoudre $\\sqrt{x} = k$ ou $x^3 = k$ au paragraphe 4 et à lire les symétries des courbes) :\n• **Fonction racine carrée ($x \\mapsto \\sqrt{x}$)** : définie sur $[0 ; +\\infty[$, strictement croissante sur $[0 ; +\\infty[$.\n• **Fonction cube ($x \\mapsto x^3$)** : définie sur $\\mathbb{R}$, strictement croissante sur $\\mathbb{R}$.\n\n<div class=\"geo-figure-wrapper\" style=\"display:inline-block; vertical-align:top; width:240px; max-width:100%; text-align:center; margin:0.6rem;\"><svg class=\"geo-svg-figure\" role=\"img\" aria-label=\"Courbe partant de l'origine et toujours croissante, passant par les points (0 ; 0), (1 ; 1), (4 ; 2) et (9 ; 3).\" viewBox=\"0 0 276 156\" width=\"276\" height=\"156\" style=\"max-width:330px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\"><line x1=\"18\" y1=\"138\" x2=\"18\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"42\" y1=\"138\" x2=\"42\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"66\" y1=\"138\" x2=\"66\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"90\" y1=\"138\" x2=\"90\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"114\" y1=\"138\" x2=\"114\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"138\" y1=\"138\" x2=\"138\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"162\" y1=\"138\" x2=\"162\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"186\" y1=\"138\" x2=\"186\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"210\" y1=\"138\" x2=\"210\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"234\" y1=\"138\" x2=\"234\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"258\" y1=\"138\" x2=\"258\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"138\" x2=\"258\" y2=\"138\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"114\" x2=\"258\" y2=\"114\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"90\" x2=\"258\" y2=\"90\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"66\" x2=\"258\" y2=\"66\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"42\" x2=\"258\" y2=\"42\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"18\" x2=\"258\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"114\" x2=\"268\" y2=\"114\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\"/><polygon points=\"0,0 -8,-3.5 -8,3.5\" transform=\"translate(270 114) rotate(0)\" fill=\"var(--text-main, #334155)\"/><line x1=\"42\" y1=\"138\" x2=\"42\" y2=\"8\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\"/><polygon points=\"0,0 -8,-3.5 -8,3.5\" transform=\"translate(42 6) rotate(-90)\" fill=\"var(--text-main, #334155)\"/><text x=\"18\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−1</text><text x=\"66\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">1</text><text x=\"90\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">2</text><text x=\"114\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">3</text><text x=\"138\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">4</text><text x=\"162\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">5</text><text x=\"186\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">6</text><text x=\"210\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">7</text><text x=\"234\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">8</text><text x=\"258\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">9</text><text x=\"37\" y=\"141.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−1</text><text x=\"37\" y=\"93.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">1</text><text x=\"37\" y=\"69.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">2</text><text x=\"37\" y=\"45.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">3</text><text x=\"37\" y=\"21.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">4</text><text x=\"36\" y=\"127\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">0</text><path d=\"M 42 114 L 43.2 108.63 L 44.4 106.41 L 45.6 104.7 L 46.8 103.27 L 48 102 L 49.2 100.85 L 50.4 99.8 L 51.6 98.82 L 52.8 97.9 L 54 97.03 L 55.2 96.2 L 56.4 95.41 L 57.6 94.65 L 58.8 93.92 L 60 93.22 L 61.2 92.53 L 62.4 91.87 L 63.6 91.23 L 64.8 90.61 L 66 90 L 67.2 89.41 L 68.4 88.83 L 69.6 88.26 L 70.8 87.71 L 72 87.17 L 73.2 86.64 L 74.4 86.11 L 75.6 85.6 L 76.8 85.1 L 78 84.61 L 79.2 84.12 L 80.4 83.64 L 81.6 83.17 L 82.8 82.71 L 84 82.25 L 85.2 81.8 L 86.4 81.36 L 87.6 80.92 L 88.8 80.49 L 90 80.06 L 91.2 79.64 L 92.4 79.22 L 93.6 78.81 L 94.8 78.4 L 96 78 L 97.2 77.6 L 98.4 77.21 L 99.6 76.82 L 100.8 76.43 L 102 76.05 L 103.2 75.68 L 104.4 75.3 L 105.6 74.93 L 106.8 74.56 L 108 74.2 L 109.2 73.84 L 110.4 73.48 L 111.6 73.13 L 112.8 72.78 L 114 72.43 L 115.2 72.09 L 116.4 71.74 L 117.6 71.4 L 118.8 71.07 L 120 70.73 L 121.2 70.4 L 122.4 70.07 L 123.6 69.75 L 124.8 69.42 L 126 69.1 L 127.2 68.78 L 128.4 68.46 L 129.6 68.15 L 130.8 67.84 L 132 67.52 L 133.2 67.22 L 134.4 66.91 L 135.6 66.6 L 136.8 66.3 L 138 66 L 139.2 65.7 L 140.4 65.4 L 141.6 65.11 L 142.8 64.81 L 144 64.52 L 145.2 64.23 L 146.4 63.94 L 147.6 63.66 L 148.8 63.37 L 150 63.09 L 151.2 62.81 L 152.4 62.53 L 153.6 62.25 L 154.8 61.97 L 156 61.69 L 157.2 61.42 L 158.4 61.15 L 159.6 60.87 L 160.8 60.6 L 162 60.33 L 163.2 60.07 L 164.4 59.8 L 165.6 59.54 L 166.8 59.27 L 168 59.01 L 169.2 58.75 L 170.4 58.49 L 171.6 58.23 L 172.8 57.97 L 174 57.72 L 175.2 57.46 L 176.4 57.21 L 177.6 56.95 L 178.8 56.7 L 180 56.45 L 181.2 56.2 L 182.4 55.95 L 183.6 55.7 L 184.8 55.46 L 186 55.21 L 187.2 54.97 L 188.4 54.72 L 189.6 54.48 L 190.8 54.24 L 192 54 L 193.2 53.76 L 194.4 53.52 L 195.6 53.28 L 196.8 53.05 L 198 52.81 L 199.2 52.58 L 200.4 52.34 L 201.6 52.11 L 202.8 51.88 L 204 51.65 L 205.2 51.42 L 206.4 51.19 L 207.6 50.96 L 208.8 50.73 L 210 50.5 L 211.2 50.28 L 212.4 50.05 L 213.6 49.83 L 214.8 49.6 L 216 49.38 L 217.2 49.16 L 218.4 48.93 L 219.6 48.71 L 220.8 48.49 L 222 48.27 L 223.2 48.05 L 224.4 47.84 L 225.6 47.62 L 226.8 47.4 L 228 47.19 L 229.2 46.97 L 230.4 46.76 L 231.6 46.54 L 232.8 46.33 L 234 46.12 L 235.2 45.91 L 236.4 45.69 L 237.6 45.48 L 238.8 45.27 L 240 45.07 L 241.2 44.86 L 242.4 44.65 L 243.6 44.44 L 244.8 44.23 L 246 44.03 L 247.2 43.82 L 248.4 43.62 L 249.6 43.41 L 250.8 43.21 L 252 43.01 L 253.2 42.8 L 254.4 42.6 L 255.6 42.4 L 256.8 42.2 L 258 42\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.2\"/></svg><div style=\"font-size:0.9em;\">Fonction racine carrée</div></div>\n<div class=\"geo-figure-wrapper\" style=\"display:inline-block; vertical-align:top; width:240px; max-width:100%; text-align:center; margin:0.6rem;\"><svg class=\"geo-svg-figure\" role=\"img\" aria-label=\"Courbe toujours croissante, symétrique par rapport à l'origine, passant par les points (-1 ; -1), (0 ; 0) et (1 ; 1).\" viewBox=\"0 0 180 276\" width=\"180\" height=\"276\" style=\"max-width:330px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\"><line x1=\"18\" y1=\"258\" x2=\"18\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"42\" y1=\"258\" x2=\"42\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"66\" y1=\"258\" x2=\"66\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"90\" y1=\"258\" x2=\"90\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"114\" y1=\"258\" x2=\"114\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"138\" y1=\"258\" x2=\"138\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"162\" y1=\"258\" x2=\"162\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"258\" x2=\"162\" y2=\"258\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"234\" x2=\"162\" y2=\"234\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"210\" x2=\"162\" y2=\"210\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"186\" x2=\"162\" y2=\"186\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"162\" x2=\"162\" y2=\"162\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"138\" x2=\"162\" y2=\"138\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"114\" x2=\"162\" y2=\"114\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"90\" x2=\"162\" y2=\"90\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"66\" x2=\"162\" y2=\"66\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"42\" x2=\"162\" y2=\"42\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"18\" x2=\"162\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"138\" x2=\"172\" y2=\"138\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\"/><polygon points=\"0,0 -8,-3.5 -8,3.5\" transform=\"translate(174 138) rotate(0)\" fill=\"var(--text-main, #334155)\"/><line x1=\"90\" y1=\"258\" x2=\"90\" y2=\"8\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\"/><polygon points=\"0,0 -8,-3.5 -8,3.5\" transform=\"translate(90 6) rotate(-90)\" fill=\"var(--text-main, #334155)\"/><text x=\"18\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−3</text><text x=\"42\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−2</text><text x=\"66\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−1</text><text x=\"114\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">1</text><text x=\"138\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">2</text><text x=\"162\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">3</text><text x=\"85\" y=\"261.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−5</text><text x=\"85\" y=\"237.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−4</text><text x=\"85\" y=\"213.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−3</text><text x=\"85\" y=\"189.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−2</text><text x=\"85\" y=\"165.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−1</text><text x=\"85\" y=\"117.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">1</text><text x=\"85\" y=\"93.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">2</text><text x=\"85\" y=\"69.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">3</text><text x=\"85\" y=\"45.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">4</text><text x=\"85\" y=\"21.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">5</text><text x=\"84\" y=\"151\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">0</text><path d=\"M 49.2 255.91 L 50.4 245.81 L 51.6 236.3 L 52.8 227.37 L 54 219 L 55.2 211.17 L 56.4 203.86 L 57.6 197.05 L 58.8 190.73 L 60 184.88 L 61.2 179.47 L 62.4 174.5 L 63.6 169.94 L 64.8 165.78 L 66 162 L 67.2 158.58 L 68.4 155.5 L 69.6 152.74 L 70.8 150.29 L 72 148.13 L 73.2 146.23 L 74.4 144.59 L 75.6 143.18 L 76.8 141.99 L 78 141 L 79.2 140.19 L 80.4 139.54 L 81.6 139.03 L 82.8 138.65 L 84 138.38 L 85.2 138.19 L 86.4 138.08 L 87.6 138.02 L 88.8 138 L 90 138 L 91.2 138 L 92.4 137.98 L 93.6 137.92 L 94.8 137.81 L 96 137.63 L 97.2 137.35 L 98.4 136.97 L 99.6 136.46 L 100.8 135.81 L 102 135 L 103.2 134.01 L 104.4 132.82 L 105.6 131.41 L 106.8 129.77 L 108 127.88 L 109.2 125.71 L 110.4 123.26 L 111.6 120.5 L 112.8 117.42 L 114 114 L 115.2 110.22 L 116.4 106.06 L 117.6 101.5 L 118.8 96.53 L 120 91.13 L 121.2 85.27 L 122.4 78.95 L 123.6 72.14 L 124.8 64.83 L 126 57 L 127.2 48.63 L 128.4 39.7 L 129.6 30.19 L 130.8 20.09\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.2\"/></svg><div style=\"font-size:0.9em;\">Fonction cube</div></div>\n\n• **Parité** (voir le paragraphe 2) : les fonctions carré et valeur absolue sont paires ($(-x)^2 = x^2$ et $|-x| = |x|$) ; les fonctions inverse et cube sont impaires ($\\frac{1}{-x} = -\\frac{1}{x}$ et $(-x)^3 = -x^3$)."
       },
       {
         "title": "2. Pour aller plus loin : parité",
@@ -864,7 +878,7 @@ window.MATHS_COURSES_2NDE = {
         "title": "Méthode : Résoudre $x^2 \\le a$ ($a > 0$)",
         "example": "Résoudre dans $\\mathbb{R}$ l'inéquation $x^2 \\le 9$.",
         "steps": [
-          "**Étape 1** : On utilise la parité et les variations de la fonction carré : $x^2 \\le 9 \\iff -\\sqrt{9} \\le x \\le \\sqrt{9}$.",
+          "**Étape 1** : La fonction carré est décroissante sur $]-\\infty ; 0]$, croissante sur $[0 ; +\\infty[$, et $(-3)^2 = 3^2 = 9$ : on en déduit $x^2 \\le 9 \\iff -\\sqrt{9} \\le x \\le \\sqrt{9}$.",
           "**Étape 2** : On conclut : $S = [-3 ; 3]$."
         ]
       },
@@ -919,7 +933,7 @@ window.MATHS_COURSES_2NDE = {
     ],
     "flashcards": [
       {
-        "q": "Quelle symétrie présente la courbe d'une fonction paire ?",
+        "q": "Pour aller plus loin : quelle symétrie présente la courbe d'une fonction paire ?",
         "a": "Une symétrie axiale par rapport à l'axe des ordonnées $(Oy)$."
       },
       {
@@ -1076,9 +1090,11 @@ window.MATHS_COURSES_2NDE = {
     "title": "2G2 : Vecteurs du plan, translation et déterminant (colinéarité)",
     "domain": "Géométrie",
     "objectives": [
-      "Définir un vecteur par sa direction, son sens et sa norme.",
-      "Appliquer la relation de Chasles $\\vec{AB} + \\vec{BC} = \\vec{AC}$ et la règle du parallélogramme.",
-      "Calculer les coordonnées d'un vecteur $\\vec{AB}(x_B - x_A ; y_B - y_A)$ et sa norme.",
+      "Définir un vecteur par sa direction, son sens et sa norme ; connaître le vecteur nul.",
+      "Reconnaître des vecteurs égaux et construire des représentants d'un vecteur.",
+      "Appliquer la relation de Chasles $\\overrightarrow{AB} + \\overrightarrow{BC} = \\overrightarrow{AC}$ et la règle du parallélogramme.",
+      "Connaître la direction, le sens et la norme du vecteur $k\\vec{u}$.",
+      "Calculer les coordonnées d'un vecteur $\\overrightarrow{AB}\\begin{pmatrix} x_B - x_A \\\\ y_B - y_A \\end{pmatrix}$ et sa norme.",
       "Utiliser le déterminant $\\det(\\vec{u}, \\vec{v}) = xy' - yx' = 0$ pour tester la colinéarité et prouver l'alignement ou le parallélisme.",
       "Calculer les coordonnées d'une somme de vecteurs et du produit d'un vecteur par un réel.",
       "Caractériser un parallélogramme par une égalité vectorielle.",
@@ -1087,51 +1103,85 @@ window.MATHS_COURSES_2NDE = {
     ],
     "keyPoints": [
       {
-        "title": "1. Coordonnées et déterminant de deux vecteurs",
-        "content": "Dans un repère cartésien :\n• Pour $A(x_A ; y_A)$ et $B(x_B ; y_B)$ : $$\\vec{AB}\\begin{pmatrix} x_B - x_A \\\\ y_B - y_A \\end{pmatrix}$$\n• Norme dans un repère orthonormé : $||\\vec{u}|| = \\sqrt{x^2 + y^2}$.\n• **Critère de colinéarité (Déterminant)** : Deux vecteurs $\\vec{u}(x ; y)$ et $\\vec{v}(x' ; y')$ sont colinéaires si et seulement si :\n$$\\det(\\vec{u}, \\vec{v}) = xy' - yx' = 0$$"
+        "title": "1. Translation et vecteur",
+        "content": "La **translation** qui transforme $A$ en $B$ associe à tout point $M$ l'unique point $M'$ tel que $ABM'M$ soit un parallélogramme (éventuellement aplati). On dit que $M'$ est l'image de $M$ par la translation de vecteur $\\overrightarrow{AB}$.\nPour $A \\neq B$, le vecteur $\\overrightarrow{AB}$ est caractérisé par :\n• sa **direction** (celle de la droite $(AB)$) ;\n• son **sens** (de $A$ vers $B$) ;\n• sa **norme** $\\|\\overrightarrow{AB}\\| = AB$.\n• **Vecteur nul** : si $A = B$, la translation laisse chaque point à sa place. Le vecteur $\\overrightarrow{AA}$ est le **vecteur nul**, noté $\\vec{0}$ : sa norme vaut $0$ et il n'a ni direction ni sens."
       },
       {
-        "title": "2. Translation et vecteur",
-        "content": "La **translation** qui transforme $A$ en $B$ associe à tout point $M$ l'unique point $M'$ tel que $ABM'M$ soit un parallélogramme (éventuellement aplati). On dit que $M'$ est l'image de $M$ par la translation de vecteur $\\vec{AB}$.\nLe vecteur $\\vec{AB}$ est caractérisé par :\n• sa **direction** (celle de la droite $(AB)$) ;\n• son **sens** (de $A$ vers $B$) ;\n• sa **norme** $\\|\\vec{AB}\\| = AB$.\n• **Propriété** : $\\vec{AB} = \\vec{DC} \\iff ABCD$ est un parallélogramme (éventuellement aplati)."
+        "title": "2. Égalité de vecteurs et représentants",
+        "content": "• Deux vecteurs non nuls sont **égaux** lorsqu'ils ont la même direction, le même sens et la même norme.\n• **Propriété** : $\\overrightarrow{AB} = \\overrightarrow{DC} \\iff ABCD$ est un parallélogramme (éventuellement aplati).\n• Un même vecteur $\\vec{u}$ peut être tracé à partir de n'importe quel point : chaque flèche qui le dessine est un **représentant** de $\\vec{u}$. Pour tout point $M$, il existe un unique point $N$ tel que $\\overrightarrow{MN} = \\vec{u}$ : c'est l'image de $M$ par la translation de vecteur $\\vec{u}$.\n*Exemple* : dans un parallélogramme $ABCD$, $\\overrightarrow{AB}$ et $\\overrightarrow{DC}$ sont deux représentants d'un même vecteur.\n• Le vecteur **opposé** de $\\overrightarrow{AB}$ est $-\\overrightarrow{AB} = \\overrightarrow{BA}$ : même direction, même norme, sens contraire."
       },
       {
-        "title": "3. Opérations sur les vecteurs en coordonnées",
-        "content": "Pour $\\vec{u}\\begin{pmatrix} x \\\\ y \\end{pmatrix}$, $\\vec{v}\\begin{pmatrix} x' \\\\ y' \\end{pmatrix}$ et un réel $k$ :\n$$\\vec{u} + \\vec{v}\\begin{pmatrix} x + x' \\\\ y + y' \\end{pmatrix} \\qquad k\\vec{u}\\begin{pmatrix} kx \\\\ ky \\end{pmatrix}$$\n• Le vecteur **opposé** de $\\vec{AB}$ est $-\\vec{AB} = \\vec{BA}$.\n• $\\vec{u}$ et $\\vec{v}$ sont **colinéaires** s'il existe un réel $k$ tel que $\\vec{v} = k\\vec{u}$ (ou si $\\vec{u} = \\vec{0}$).\n• **Caractérisation vectorielle du milieu** : $I$ est le milieu de $[AB]$ si et seulement si $\\vec{AI} = \\vec{IB}$ (ou encore $\\vec{AI} = \\frac{1}{2}\\vec{AB}$).\n• *Pour aller plus loin* : en coordonnées, $\\vec{AI} = \\vec{IB}$ donne $x_I - x_A = x_B - x_I$, soit $x_I = \\frac{x_A + x_B}{2}$ (et de même pour $y_I$) : on retrouve la formule du milieu."
+        "title": "3. Somme de vecteurs : relation de Chasles et règle du parallélogramme",
+        "content": "• La **somme** $\\vec{u} + \\vec{v}$ est le vecteur de la translation obtenue en enchaînant la translation de vecteur $\\vec{u}$, puis celle de vecteur $\\vec{v}$.\n• **Relation de Chasles** (vecteurs bout à bout) : pour tous points $A$, $B$, $C$ : $\\overrightarrow{AB} + \\overrightarrow{BC} = \\overrightarrow{AC}$.\n*Exemple* : $\\overrightarrow{MA} + \\overrightarrow{AN} = \\overrightarrow{MN}$ ; on « intercale » un point. En particulier, $\\overrightarrow{AB} + \\overrightarrow{BA} = \\overrightarrow{AA} = \\vec{0}$.\n• **Règle du parallélogramme** (vecteurs de même origine) : $\\overrightarrow{AB} + \\overrightarrow{AD} = \\overrightarrow{AC}$ si et seulement si $ABCD$ est un parallélogramme (éventuellement aplati).\n• **Différence** : $\\vec{u} - \\vec{v} = \\vec{u} + (-\\vec{v})$.\n*Exemple* : $\\overrightarrow{AC} - \\overrightarrow{AB} = \\overrightarrow{AC} + \\overrightarrow{BA} = \\overrightarrow{BA} + \\overrightarrow{AC} = \\overrightarrow{BC}$."
       },
       {
-        "title": "4. Relation de Chasles et règle du parallélogramme",
-        "content": "• **Relation de Chasles** : pour tous points $A$, $B$, $C$ : $\\vec{AB} + \\vec{BC} = \\vec{AC}$.\n*Exemple* : $\\vec{MA} + \\vec{AN} = \\vec{MN}$ ; on « intercale » un point.\n• **Règle du parallélogramme** : $\\vec{AB} + \\vec{AD} = \\vec{AC}$ si et seulement si $ABCD$ est un parallélogramme."
+        "title": "4. Produit d'un vecteur par un réel et colinéarité",
+        "content": "Soient $\\vec{u}$ un vecteur non nul et $k$ un réel non nul. Le vecteur $k\\vec{u}$ :\n• a la même direction que $\\vec{u}$ ;\n• a le même sens que $\\vec{u}$ si $k > 0$, et le sens contraire si $k < 0$ ;\n• a pour norme $|k| \\times \\|\\vec{u}\\|$.\nSi $k = 0$ ou si $\\vec{u} = \\vec{0}$, alors $k\\vec{u} = \\vec{0}$.\n*Exemple* : $-2\\vec{u}$ a la même direction que $\\vec{u}$, le sens contraire et une norme deux fois plus grande.\n• $\\vec{u}$ et $\\vec{v}$ sont **colinéaires** s'il existe un réel $k$ tel que $\\vec{v} = k\\vec{u}$ (ou si $\\vec{u} = \\vec{0}$). Deux vecteurs non nuls sont colinéaires lorsqu'ils ont la même direction.\n• **Caractérisation vectorielle du milieu** : $I$ est le milieu de $[AB]$ si et seulement si $\\overrightarrow{AI} = \\overrightarrow{IB}$ (ou encore $\\overrightarrow{AI} = \\frac{1}{2}\\overrightarrow{AB}$)."
       },
       {
-        "title": "5. Base orthonormée et décomposition d'un vecteur",
-        "content": "• Un repère $(O ; \\vec{i}, \\vec{j})$ est **orthonormé** si $\\vec{i}$ et $\\vec{j}$ ont des directions perpendiculaires et une norme égale à $1$ : on dit que $(\\vec{i}, \\vec{j})$ est une **base orthonormée**.\n• Dire que $\\vec{u}$ a pour coordonnées $(x ; y)$ signifie que\n$$\\vec{u} = x\\vec{i} + y\\vec{j}$$\n*Exemple* : $\\vec{u} = 3\\vec{i} - 2\\vec{j}$ a pour coordonnées $(3 ; -2)$.\n• Plus généralement, si $\\vec{a}$ et $\\vec{b}$ ne sont pas colinéaires, tout vecteur du plan s'écrit de façon unique $\\vec{u} = \\alpha\\vec{a} + \\beta\\vec{b}$ (propriété admise).\n• En physique, $\\vec{AB}$ est le **vecteur déplacement** de $A$ à $B$ ; si $O$ est l'origine, $\\vec{OM}$ est le **vecteur position** de $M$, et ses coordonnées sont celles du point $M$."
+        "title": "5. Base orthonormée et coordonnées d'un vecteur",
+        "content": "• Un repère $(O ; \\vec{i}, \\vec{j})$ est **orthonormé** si $\\vec{i}$ et $\\vec{j}$ ont des directions perpendiculaires et une norme égale à $1$ : on dit que $(\\vec{i}, \\vec{j})$ est une **base orthonormée**.\n• Dire que $\\vec{u}$ a pour coordonnées $(x ; y)$ signifie que\n$$\\vec{u} = x\\vec{i} + y\\vec{j}$$\n*Exemple* : $\\vec{u} = 3\\vec{i} - 2\\vec{j}$ a pour coordonnées $(3 ; -2)$.\n• Pour $A(x_A ; y_A)$ et $B(x_B ; y_B)$ : $$\\overrightarrow{AB}\\begin{pmatrix} x_B - x_A \\\\ y_B - y_A \\end{pmatrix}$$\n• Norme dans un repère orthonormé : $||\\vec{u}|| = \\sqrt{x^2 + y^2}$.\n• Plus généralement, si $\\vec{a}$ et $\\vec{b}$ ne sont pas colinéaires, tout vecteur du plan s'écrit de façon unique $\\vec{u} = \\alpha\\vec{a} + \\beta\\vec{b}$ (propriété admise).\n• En physique, $\\overrightarrow{AB}$ est le **vecteur déplacement** de $A$ à $B$ ; si $O$ est l'origine, $\\overrightarrow{OM}$ est le **vecteur position** de $M$, et ses coordonnées sont celles du point $M$."
       },
       {
-        "title": "6. Démonstration : caractérisations de la colinéarité",
-        "content": "Soient $\\vec{u}(x ; y)$ et $\\vec{v}(x' ; y')$ deux vecteurs **non nuls**. Les trois propriétés suivantes sont équivalentes :\n**(1)** $\\vec{u}$ et $\\vec{v}$ sont colinéaires ; **(2)** leurs coordonnées sont proportionnelles : il existe un réel $k$ tel que $x' = kx$ et $y' = ky$ ; **(3)** $\\det(\\vec{u}, \\vec{v}) = xy' - yx' = 0$.\n• **(1) $\\iff$ (2)** : c'est la traduction en coordonnées de $\\vec{v} = k\\vec{u}$.\n• **(2) $\\implies$ (3)** : si $x' = kx$ et $y' = ky$, alors $xy' - yx' = x(ky) - y(kx) = 0$.\n• **(3) $\\implies$ (2)** : supposons $xy' = yx'$. Comme $\\vec{u} \\neq \\vec{0}$, $x \\neq 0$ ou $y \\neq 0$.\n– Si $x \\neq 0$, posons $k = \\frac{x'}{x}$ : alors $x' = kx$ et $y' = \\frac{yx'}{x} = ky$.\n– Si $x = 0$, alors $y \\neq 0$ et l'égalité donne $0 = yx'$, donc $x' = 0$. Avec $k = \\frac{y'}{y}$, on a $x' = 0 = kx$ et $y' = ky$.\nDans tous les cas, $\\vec{v} = k\\vec{u}$."
+        "title": "6. Opérations en coordonnées et déterminant",
+        "content": "Pour $\\vec{u}\\begin{pmatrix} x \\\\ y \\end{pmatrix}$, $\\vec{v}\\begin{pmatrix} x' \\\\ y' \\end{pmatrix}$ et un réel $k$ :\n$$\\vec{u} + \\vec{v}\\begin{pmatrix} x + x' \\\\ y + y' \\end{pmatrix} \\qquad k\\vec{u}\\begin{pmatrix} kx \\\\ ky \\end{pmatrix}$$\n• *Pour aller plus loin* : en coordonnées, $\\overrightarrow{AI} = \\overrightarrow{IB}$ donne $x_I - x_A = x_B - x_I$, soit $x_I = \\frac{x_A + x_B}{2}$ (et de même pour $y_I$) : on retrouve la formule du milieu.\n• On rencontre aussi l'écriture des coordonnées en ligne, $\\vec{u}(x ; y)$ : elle désigne les mêmes coordonnées (abscisse puis ordonnée) que $\\vec{u}\\begin{pmatrix} x \\\\ y \\end{pmatrix}$.\n• **Critère de colinéarité (Déterminant)** : Deux vecteurs $\\vec{u}\\begin{pmatrix} x \\\\ y \\end{pmatrix}$ et $\\vec{v}\\begin{pmatrix} x' \\\\ y' \\end{pmatrix}$ sont colinéaires si et seulement si :\n$$\\det(\\vec{u}, \\vec{v}) = xy' - yx' = 0$$"
       },
       {
-        "title": "7. Algorithme : tester l'alignement de trois points",
-        "content": "$A$, $B$, $C$ sont alignés si et seulement si $\\det(\\vec{AB}, \\vec{AC}) = 0$.\n```python\ndef alignes(xA, yA, xB, yB, xC, yC):\n    d = (xB - xA) * (yC - yA) - (yB - yA) * (xC - xA)\n    return d == 0\n\nprint(alignes(-2, 1, 2, 3, 6, 5))   # affiche True\n```\nAvec des coordonnées non entières, les calculs en flottants peuvent produire de minuscules erreurs : on teste alors `abs(d) < 1e-9` plutôt que `d == 0`."
+        "title": "7. Démonstration : caractérisations de la colinéarité",
+        "content": "Soient $\\vec{u}\\begin{pmatrix} x \\\\ y \\end{pmatrix}$ et $\\vec{v}\\begin{pmatrix} x' \\\\ y' \\end{pmatrix}$ deux vecteurs **non nuls**. Les trois propriétés suivantes sont équivalentes :\n**(1)** $\\vec{u}$ et $\\vec{v}$ sont colinéaires ; **(2)** leurs coordonnées sont proportionnelles : il existe un réel $k$ tel que $x' = kx$ et $y' = ky$ ; **(3)** $\\det(\\vec{u}, \\vec{v}) = xy' - yx' = 0$.\n• **(1) $\\iff$ (2)** : c'est la traduction en coordonnées de $\\vec{v} = k\\vec{u}$.\n• **(2) $\\implies$ (3)** : si $x' = kx$ et $y' = ky$, alors $xy' - yx' = x(ky) - y(kx) = 0$.\n• **(3) $\\implies$ (2)** : supposons $xy' = yx'$. Comme $\\vec{u} \\neq \\vec{0}$, $x \\neq 0$ ou $y \\neq 0$.\n– Si $x \\neq 0$, posons $k = \\frac{x'}{x}$ : alors $x' = kx$ et $y' = \\frac{yx'}{x} = ky$.\n– Si $x = 0$, alors $y \\neq 0$ et l'égalité donne $0 = yx'$, donc $x' = 0$. Avec $k = \\frac{y'}{y}$, on a $x' = 0 = kx$ et $y' = ky$.\nDans tous les cas, $\\vec{v} = k\\vec{u}$."
+      },
+      {
+        "title": "8. Algorithme : tester l'alignement de trois points",
+        "content": "$A$, $B$, $C$ sont alignés si et seulement si $\\det(\\overrightarrow{AB}, \\overrightarrow{AC}) = 0$.\n```python\ndef alignes(xA, yA, xB, yB, xC, yC):\n    d = (xB - xA) * (yC - yA) - (yB - yA) * (xC - xA)\n    return d == 0\n\nprint(alignes(-2, 1, 2, 3, 6, 5))   # affiche True\n```\nAvec des coordonnées non entières, les calculs en flottants peuvent produire de minuscules erreurs : on teste alors `abs(d) < 1e-9` plutôt que `d == 0`."
       }
     ],
     "methods": [
       {
+        "title": "Méthode : Simplifier une somme avec la relation de Chasles",
+        "example": "Simplifier l'expression $\\overrightarrow{AB} + \\overrightarrow{CA} - \\overrightarrow{CB}$.",
+        "steps": [
+          "**Étape 1** : On transforme la soustraction avec le vecteur opposé : $-\\overrightarrow{CB} = \\overrightarrow{BC}$. L'expression devient $\\overrightarrow{AB} + \\overrightarrow{CA} + \\overrightarrow{BC}$.",
+          "**Étape 2** : L'ordre d'une somme ne compte pas : on place les vecteurs bout à bout, $\\overrightarrow{CA} + \\overrightarrow{AB} + \\overrightarrow{BC}$.",
+          "**Étape 3** : On applique la relation de Chasles : $\\overrightarrow{CA} + \\overrightarrow{AB} = \\overrightarrow{CB}$, puis $\\overrightarrow{CB} + \\overrightarrow{BC} = \\overrightarrow{CC} = \\vec{0}$.",
+          "**Conclusion** : $\\overrightarrow{AB} + \\overrightarrow{CA} - \\overrightarrow{CB} = \\vec{0}$."
+        ]
+      },
+      {
+        "title": "Méthode : Construire un représentant d'un vecteur sur un quadrillage",
+        "example": "Sur un quadrillage, la flèche de $\\vec{u}$ se déplace de 3 carreaux vers la droite et de 1 carreau vers le haut. Construire le représentant de $\\vec{u}$ d'origine $M$.",
+        "steps": [
+          "**Étape 1** : On lit le déplacement de la flèche de $\\vec{u}$, de son origine à son extrémité.",
+          "**Étape 2** : À partir de $M$, on effectue le même déplacement (3 carreaux vers la droite, 1 vers le haut) : on arrive au point $N$.",
+          "**Étape 3** : On trace la flèche de $M$ à $N$.",
+          "**Conclusion** : $\\overrightarrow{MN} = \\vec{u}$ : $N$ est l'image de $M$ par la translation de vecteur $\\vec{u}$."
+        ]
+      },
+      {
+        "title": "Méthode : Construire la somme de deux vecteurs sur un quadrillage",
+        "example": "Sur un quadrillage, la flèche de $\\vec{u}$ se déplace de 3 carreaux vers la droite et de 1 carreau vers le haut, celle de $\\vec{v}$ de 1 carreau vers la droite et de 2 carreaux vers le bas. Construire un représentant de $\\vec{u} + \\vec{v}$ d'origine $M$.",
+        "steps": [
+          "**Étape 1** : À partir de $M$, on effectue le déplacement de $\\vec{u}$ : on arrive au point $N$, et $\\overrightarrow{MN} = \\vec{u}$.",
+          "**Étape 2** : À partir de $N$, on effectue le déplacement de $\\vec{v}$ : on arrive au point $P$, et $\\overrightarrow{NP} = \\vec{v}$.",
+          "**Étape 3** : D'après la relation de Chasles, $\\overrightarrow{MN} + \\overrightarrow{NP} = \\overrightarrow{MP}$, donc $\\overrightarrow{MP} = \\vec{u} + \\vec{v}$.",
+          "**Conclusion** : on trace la flèche de $M$ à $P$ : au total, elle se déplace de 4 carreaux vers la droite et de 1 carreau vers le bas."
+        ]
+      },
+      {
         "title": "Méthode : Démontrer l'alignement de trois points avec la colinéarité",
         "example": "Soient $A(-2 ; 1)$, $B(2 ; 3)$ et $C(6 ; 5)$. Les points $A, B, C$ sont-ils alignés ?",
         "steps": [
-          "**Étape 1** : On calcule les coordonnées des vecteurs $\\vec{AB}$ et $\\vec{AC}$ :\n$\\vec{AB}\\begin{pmatrix} 2 - (-2) \\\\ 3 - 1 \\end{pmatrix} = \\begin{pmatrix} 4 \\\\ 2 \\end{pmatrix}$ et $\\vec{AC}\\begin{pmatrix} 6 - (-2) \\\\ 5 - 1 \\end{pmatrix} = \\begin{pmatrix} 8 \\\\ 4 \\end{pmatrix}$.",
-          "**Étape 2** : On calcule le déterminant : $\\det(\\vec{AB}, \\vec{AC}) = 4 \\times 4 - 2 \\times 8 = 16 - 16 = 0$.",
-          "**Étape 3** : Le déterminant est nul, donc les vecteurs $\\vec{AB}$ et $\\vec{AC}$ sont colinéaires. Ayant le point $A$ en commun, les points $A, B, C$ sont alignés."
+          "**Étape 1** : On calcule les coordonnées des vecteurs $\\overrightarrow{AB}$ et $\\overrightarrow{AC}$ :\n$\\overrightarrow{AB}\\begin{pmatrix} 2 - (-2) \\\\ 3 - 1 \\end{pmatrix} = \\begin{pmatrix} 4 \\\\ 2 \\end{pmatrix}$ et $\\overrightarrow{AC}\\begin{pmatrix} 6 - (-2) \\\\ 5 - 1 \\end{pmatrix} = \\begin{pmatrix} 8 \\\\ 4 \\end{pmatrix}$.",
+          "**Étape 2** : On calcule le déterminant : $\\det(\\overrightarrow{AB}, \\overrightarrow{AC}) = 4 \\times 4 - 2 \\times 8 = 16 - 16 = 0$.",
+          "**Étape 3** : Le déterminant est nul, donc les vecteurs $\\overrightarrow{AB}$ et $\\overrightarrow{AC}$ sont colinéaires. Ayant le point $A$ en commun, les points $A, B, C$ sont alignés."
         ]
       },
       {
         "title": "Méthode : Calculer les coordonnées d'un point défini par une égalité vectorielle",
-        "example": "Soient $A(1 ; 2)$, $B(4 ; -1)$ et $C(-2 ; 3)$. Déterminer les coordonnées du point $D$ tel que $\\vec{AD} = \\vec{AB} + 2\\vec{AC}$.",
+        "example": "Soient $A(1 ; 2)$, $B(4 ; -1)$ et $C(-2 ; 3)$. Déterminer les coordonnées du point $D$ tel que $\\overrightarrow{AD} = \\overrightarrow{AB} + 2\\overrightarrow{AC}$.",
         "steps": [
-          "**Étape 1** : $\\vec{AB}\\begin{pmatrix} 4 - 1 \\\\ -1 - 2 \\end{pmatrix} = \\begin{pmatrix} 3 \\\\ -3 \\end{pmatrix}$ et $\\vec{AC}\\begin{pmatrix} -2 - 1 \\\\ 3 - 2 \\end{pmatrix} = \\begin{pmatrix} -3 \\\\ 1 \\end{pmatrix}$.",
-          "**Étape 2** : $\\vec{AB} + 2\\vec{AC}\\begin{pmatrix} 3 + 2 \\times (-3) \\\\ -3 + 2 \\times 1 \\end{pmatrix} = \\begin{pmatrix} -3 \\\\ -1 \\end{pmatrix}$.",
-          "**Étape 3** : $\\vec{AD}\\begin{pmatrix} x_D - 1 \\\\ y_D - 2 \\end{pmatrix}$, donc $x_D - 1 = -3$ et $y_D - 2 = -1$.",
+          "**Étape 1** : $\\overrightarrow{AB}\\begin{pmatrix} 4 - 1 \\\\ -1 - 2 \\end{pmatrix} = \\begin{pmatrix} 3 \\\\ -3 \\end{pmatrix}$ et $\\overrightarrow{AC}\\begin{pmatrix} -2 - 1 \\\\ 3 - 2 \\end{pmatrix} = \\begin{pmatrix} -3 \\\\ 1 \\end{pmatrix}$.",
+          "**Étape 2** : $\\overrightarrow{AB} + 2\\overrightarrow{AC}\\begin{pmatrix} 3 + 2 \\times (-3) \\\\ -3 + 2 \\times 1 \\end{pmatrix} = \\begin{pmatrix} -3 \\\\ -1 \\end{pmatrix}$.",
+          "**Étape 3** : $\\overrightarrow{AD}\\begin{pmatrix} x_D - 1 \\\\ y_D - 2 \\end{pmatrix}$, donc $x_D - 1 = -3$ et $y_D - 2 = -1$.",
           "**Conclusion** : $x_D = -2$ et $y_D = 1$, soit $D(-2 ; 1)$."
         ]
       },
@@ -1139,44 +1189,45 @@ window.MATHS_COURSES_2NDE = {
         "title": "Méthode : Démontrer que deux droites sont parallèles",
         "example": "Soient $A(0 ; 3)$, $B(2 ; 7)$, $C(-1 ; -2)$ et $D(3 ; 6)$. Les droites $(AB)$ et $(CD)$ sont-elles parallèles ?",
         "steps": [
-          "**Étape 1** : $\\vec{AB}\\begin{pmatrix} 2 \\\\ 4 \\end{pmatrix}$ et $\\vec{CD}\\begin{pmatrix} 3 - (-1) \\\\ 6 - (-2) \\end{pmatrix} = \\begin{pmatrix} 4 \\\\ 8 \\end{pmatrix}$.",
-          "**Étape 2** : $\\det(\\vec{AB}, \\vec{CD}) = 2 \\times 8 - 4 \\times 4 = 16 - 16 = 0$ : les vecteurs sont colinéaires, donc $(AB) \\parallel (CD)$.",
-          "**Étape 3 (Droites confondues ?)** : $\\vec{AC}\\begin{pmatrix} -1 \\\\ -5 \\end{pmatrix}$ et $\\det(\\vec{AB}, \\vec{AC}) = 2 \\times (-5) - 4 \\times (-1) = -10 + 4 = -6 \\neq 0$, donc $C \\notin (AB)$.",
+          "**Étape 1** : $\\overrightarrow{AB}\\begin{pmatrix} 2 \\\\ 4 \\end{pmatrix}$ et $\\overrightarrow{CD}\\begin{pmatrix} 3 - (-1) \\\\ 6 - (-2) \\end{pmatrix} = \\begin{pmatrix} 4 \\\\ 8 \\end{pmatrix}$.",
+          "**Étape 2** : $\\det(\\overrightarrow{AB}, \\overrightarrow{CD}) = 2 \\times 8 - 4 \\times 4 = 16 - 16 = 0$ : les vecteurs sont colinéaires, donc $(AB) \\parallel (CD)$.",
+          "**Étape 3 (Droites confondues ?)** : $\\overrightarrow{AC}\\begin{pmatrix} -1 \\\\ -5 \\end{pmatrix}$ et $\\det(\\overrightarrow{AB}, \\overrightarrow{AC}) = 2 \\times (-5) - 4 \\times (-1) = -10 + 4 = -6 \\neq 0$, donc $C \\notin (AB)$.",
           "**Conclusion** : les droites $(AB)$ et $(CD)$ sont **strictement parallèles**."
         ]
       }
     ],
     "traps": [
+      "⚠️ La relation de Chasles s'applique lorsque l'extrémité du premier vecteur est l'origine du second : $\\overrightarrow{AB} + \\overrightarrow{AC}$ n'est pas égal à $\\overrightarrow{BC}$.",
       "⚠️ Attention à l'ordre des coordonnées du vecteur : c'est toujours l'extrémité moins l'origine ($x_B - x_A$).",
-      "⚠️ Deux droites $(AB)$ et $(CD)$ sont parallèles ssi $\\vec{AB}$ et $\\vec{CD}$ sont colinéaires.",
-      "⚠️ $ABCD$ est un parallélogramme si et seulement si $\\vec{AB} = \\vec{DC}$, et non $\\vec{AB} = \\vec{CD}$ (vecteurs de sens contraires).",
+      "⚠️ Deux droites $(AB)$ et $(CD)$ sont parallèles ssi $\\overrightarrow{AB}$ et $\\overrightarrow{CD}$ sont colinéaires.",
+      "⚠️ $ABCD$ est un parallélogramme si et seulement si $\\overrightarrow{AB} = \\overrightarrow{DC}$, et non $\\overrightarrow{AB} = \\overrightarrow{CD}$ (vecteurs de sens contraires).",
       "⚠️ La norme d'une somme n'est pas la somme des normes : en général $\\|\\vec{u} + \\vec{v}\\| \\neq \\|\\vec{u}\\| + \\|\\vec{v}\\|$ (on a seulement $\\|\\vec{u} + \\vec{v}\\| \\le \\|\\vec{u}\\| + \\|\\vec{v}\\|$).",
       "⚠️ Deux vecteurs colinéaires n'ont pas forcément le même sens : $-2\\vec{u}$ est colinéaire à $\\vec{u}$ mais de sens contraire."
     ],
     "flashcards": [
       {
-        "q": "Quelle est la condition nécessaire et suffisante pour que $\\vec{u}(x ; y)$ et $\\vec{v}(x' ; y')$ soient colinéaires ?",
+        "q": "Quelle est la condition nécessaire et suffisante pour que $\\vec{u}\\begin{pmatrix} x \\\\ y \\end{pmatrix}$ et $\\vec{v}\\begin{pmatrix} x' \\\\ y' \\end{pmatrix}$ soient colinéaires ?",
         "a": "$xy' - yx' = 0$ (déterminant nul)."
       },
       {
         "q": "Énoncer la relation de Chasles pour les vecteurs.",
-        "a": "$\\vec{AB} + \\vec{BC} = \\vec{AC}$."
+        "a": "$\\overrightarrow{AB} + \\overrightarrow{BC} = \\overrightarrow{AC}$."
       },
       {
-        "q": "$\\vec{u}(3 ; -1)$ et $\\vec{v}(-2 ; 5)$. Coordonnées de $2\\vec{u} - \\vec{v}$ ?",
+        "q": "$\\vec{u}\\begin{pmatrix} 3 \\\\ -1 \\end{pmatrix}$ et $\\vec{v}\\begin{pmatrix} -2 \\\\ 5 \\end{pmatrix}$. Coordonnées de $2\\vec{u} - \\vec{v}$ ?",
         "a": "$(2 \\times 3 - (-2) ; 2 \\times (-1) - 5) = (8 ; -7)$."
       },
       {
-        "q": "Les vecteurs $\\vec{u}(6 ; -4)$ et $\\vec{v}(-9 ; 6)$ sont-ils colinéaires ?",
+        "q": "Les vecteurs $\\vec{u}\\begin{pmatrix} 6 \\\\ -4 \\end{pmatrix}$ et $\\vec{v}\\begin{pmatrix} -9 \\\\ 6 \\end{pmatrix}$ sont-ils colinéaires ?",
         "a": "Oui : $\\det(\\vec{u}, \\vec{v}) = 6 \\times 6 - (-4) \\times (-9) = 36 - 36 = 0$ (et $\\vec{v} = -1{,}5\\,\\vec{u}$)."
       },
       {
-        "q": "Dans un repère orthonormé, norme de $\\vec{u}(-5 ; 12)$ ?",
+        "q": "Dans un repère orthonormé, norme de $\\vec{u}\\begin{pmatrix} -5 \\\\ 12 \\end{pmatrix}$ ?",
         "a": "$\\|\\vec{u}\\| = \\sqrt{25 + 144} = \\sqrt{169} = 13$."
       },
       {
         "q": "Quelles sont les coordonnées de $\\vec{u} = -\\vec{i} + 4\\vec{j}$ ?",
-        "a": "$\\vec{u}(-1 ; 4)$."
+        "a": "$\\vec{u}\\begin{pmatrix} -1 \\\\ 4 \\end{pmatrix}$."
       },
       {
         "q": "Pourquoi la proportionnalité des coordonnées entraîne-t-elle un déterminant nul ?",
@@ -1189,8 +1240,9 @@ window.MATHS_COURSES_2NDE = {
     "title": "2G3 : Droites du plan, équations cartésiennes et réduites",
     "domain": "Géométrie",
     "objectives": [
-      "Déterminer et utiliser l'équation cartésienne d'une droite $ax + by + c = 0$ et son vecteur directeur $\\vec{u}(-b ; a)$.",
+      "Déterminer et utiliser l'équation cartésienne d'une droite $ax + by + c = 0$ et son vecteur directeur $\\vec{u}\\begin{pmatrix} -b \\\\ a \\end{pmatrix}$.",
       "Déterminer l'équation réduite $y = mx + p$ (si la droite n'est pas verticale) avec le coefficient directeur $m = \\frac{y_B - y_A}{x_B - x_A}$.",
+      "Connaître la définition d'un vecteur directeur et tracer une droite à partir de son équation.",
       "Caractériser le parallélisme de deux droites par l'égalité de leurs coefficients directeurs.",
       "Calculer les coordonnées du point d'intersection de deux droites sécantes données par leurs équations réduites.",
       "Déterminer une équation de droite à partir d'un point et d'un vecteur directeur.",
@@ -1201,7 +1253,7 @@ window.MATHS_COURSES_2NDE = {
     "keyPoints": [
       {
         "title": "1. Équation cartésienne et réduite d'une droite",
-        "content": "• **Équation cartésienne** : Toute droite du plan admet une équation de la forme $ax + by + c = 0$ avec $(a, b) \\neq (0, 0)$. Un **vecteur directeur** de cette droite est $\\vec{u}\\begin{pmatrix} -b \\\\ a \\end{pmatrix}$.\n• **Équation réduite** :\n- Si la droite n'est pas verticale ($b \\neq 0$) : $y = mx + p$ où $m$ est le **coefficient directeur** (la pente) et $p$ est l'**ordonnée à l'origine**. Le vecteur $\\vec{u}(1 ; m)$ est un vecteur directeur.\n- Si la droite est verticale ($b = 0$) : $x = k$. Elle n'a pas de coefficient directeur."
+        "content": "• **Vecteur directeur** : soient $A$ et $B$ deux points distincts d'une droite $d$. On appelle **vecteur directeur** de $d$ tout vecteur **non nul** colinéaire à $\\overrightarrow{AB}$ ($\\overrightarrow{AB}$ lui-même, par exemple). Une droite admet donc une infinité de vecteurs directeurs, tous colinéaires entre eux.\n• **Équation cartésienne** : Toute droite du plan admet une équation de la forme $ax + by + c = 0$ avec $(a, b) \\neq (0, 0)$. Un **vecteur directeur** de cette droite est $\\vec{u}\\begin{pmatrix} -b \\\\ a \\end{pmatrix}$.\n• **Équation réduite** :\n- Si la droite n'est pas verticale ($b \\neq 0$) : $y = mx + p$ où $m$ est le **coefficient directeur** (la pente) et $p$ est l'**ordonnée à l'origine**. Le vecteur $\\vec{u}\\begin{pmatrix} 1 \\\\ m \\end{pmatrix}$ est un vecteur directeur.\n- Si la droite est verticale ($b = 0$) : $x = k$. Elle n'a pas de coefficient directeur.\n*Au collège, on écrivait $y = ax + b$ : ici, $m$ joue le rôle de $a$ et $p$ celui de $b$. Attention : dans l'équation cartésienne $ax + by + c = 0$, la lettre $a$ n'a pas ce sens (si $b \\neq 0$, le coefficient directeur y vaut $-\\frac{a}{b}$).*"
       },
       {
         "title": "2. Équation et appartenance d'un point",
@@ -1212,12 +1264,12 @@ window.MATHS_COURSES_2NDE = {
         "content": "• Si $b \\neq 0$, l'équation $ax + by + c = 0$ équivaut à $y = -\\frac{a}{b}x - \\frac{c}{b}$ : le coefficient directeur est $m = -\\frac{a}{b}$.\n• Si $\\vec{u}\\begin{pmatrix} \\alpha \\\\ \\beta \\end{pmatrix}$ est un vecteur directeur avec $\\alpha \\neq 0$, alors $m = \\frac{\\beta}{\\alpha}$.\n• **Interprétation** : quand $x$ augmente de $1$, $y$ varie de $m$."
       },
       {
-        "title": "4. Positions relatives de deux droites et systèmes",
-        "content": "Soient $d : ax + by + c = 0$ et $d' : a'x + b'y + c' = 0$.\n• $d \\parallel d' \\iff$ leurs vecteurs directeurs $(-b ; a)$ et $(-b' ; a')$ sont colinéaires $\\iff ab' - a'b = 0$.\n• Sinon, $d$ et $d'$ sont **sécantes** en un unique point.\nLe système formé par les deux équations a donc :\n• **une** solution si les droites sont sécantes ;\n• **aucune** solution si elles sont strictement parallèles ;\n• une **infinité** de solutions si elles sont confondues."
+        "title": "4. Positions relatives de deux droites",
+        "content": "Soient $d : ax + by + c = 0$ et $d' : a'x + b'y + c' = 0$.\n• $d \\parallel d' \\iff$ leurs vecteurs directeurs $\\vec{u}\\begin{pmatrix} -b \\\\ a \\end{pmatrix}$ et $\\vec{u}'\\begin{pmatrix} -b' \\\\ a' \\end{pmatrix}$ sont colinéaires $\\iff ab' - a'b = 0$.\n• Sinon, $d$ et $d'$ sont **sécantes** en un unique point.\n**Pour aller plus loin** (les systèmes ne sont pas au programme de seconde) : le système formé par les deux équations a donc :\n• **une** solution si les droites sont sécantes ;\n• **aucune** solution si elles sont strictement parallèles ;\n• une **infinité** de solutions si elles sont confondues."
       },
       {
         "title": "5. Démonstration : forme générale d'une équation de droite",
-        "content": "**Toute droite a une équation de la forme $ax + by + c = 0$.** Soit $d$ la droite passant par $A(x_A ; y_A)$ et de vecteur directeur $\\vec{u}(\\alpha ; \\beta) \\neq \\vec{0}$. Pour tout point $M(x ; y)$ :\n$$M \\in d \\iff \\vec{AM} \\text{ et } \\vec{u} \\text{ colinéaires} \\iff (x - x_A)\\beta - (y - y_A)\\alpha = 0 \\iff \\beta x - \\alpha y + (\\alpha y_A - \\beta x_A) = 0$$\nEn posant $a = \\beta$, $b = -\\alpha$ et $c = \\alpha y_A - \\beta x_A$, on obtient $ax + by + c = 0$ avec $(a ; b) \\neq (0 ; 0)$ puisque $\\vec{u} \\neq \\vec{0}$.\n**Réciproquement**, soit $a$, $b$, $c$ avec $(a ; b) \\neq (0 ; 0)$. L'ensemble des points vérifiant $ax + by + c = 0$ contient un point $A(x_A ; y_A)$ (par exemple $A\\left(0 ; -\\frac{c}{b}\\right)$ si $b \\neq 0$, ou $A\\left(-\\frac{c}{a} ; 0\\right)$ si $b = 0$). Comme $ax_A + by_A + c = 0$ :\n$$ax + by + c = 0 \\iff a(x - x_A) + b(y - y_A) = 0 \\iff \\det(\\vec{AM}, \\vec{u}) = 0 \\text{ avec } \\vec{u}(-b ; a)$$\nC'est donc la droite passant par $A$ et de vecteur directeur $\\vec{u}(-b ; a)$."
+        "content": "**Toute droite a une équation de la forme $ax + by + c = 0$.** Soit $d$ la droite passant par $A(x_A ; y_A)$ et de vecteur directeur $\\vec{u}\\begin{pmatrix} \\alpha \\\\ \\beta \\end{pmatrix} \\neq \\vec{0}$. Pour tout point $M(x ; y)$ :\n$$M \\in d \\iff \\overrightarrow{AM} \\text{ et } \\vec{u} \\text{ colinéaires} \\iff (x - x_A)\\beta - (y - y_A)\\alpha = 0 \\iff \\beta x - \\alpha y + (\\alpha y_A - \\beta x_A) = 0$$\nEn posant $a = \\beta$, $b = -\\alpha$ et $c = \\alpha y_A - \\beta x_A$, on obtient $ax + by + c = 0$ avec $(a ; b) \\neq (0 ; 0)$ puisque $\\vec{u} \\neq \\vec{0}$.\n**Réciproquement**, soit $a$, $b$, $c$ avec $(a ; b) \\neq (0 ; 0)$. L'ensemble des points vérifiant $ax + by + c = 0$ contient un point $A(x_A ; y_A)$ (par exemple $A\\left(0 ; -\\frac{c}{b}\\right)$ si $b \\neq 0$, ou $A\\left(-\\frac{c}{a} ; 0\\right)$ si $b = 0$). Comme $ax_A + by_A + c = 0$ :\n$$ax + by + c = 0 \\iff a(x - x_A) + b(y - y_A) = 0 \\iff \\det(\\overrightarrow{AM}, \\vec{u}) = 0 \\text{ avec } \\vec{u}\\begin{pmatrix} -b \\\\ a \\end{pmatrix}$$\nC'est donc la droite passant par $A$ et de vecteur directeur $\\vec{u}\\begin{pmatrix} -b \\\\ a \\end{pmatrix}$."
       },
       {
         "title": "6. Algorithme : équation réduite d'une droite passant par deux points",
@@ -1238,10 +1290,21 @@ window.MATHS_COURSES_2NDE = {
         "title": "Méthode : Équation cartésienne avec un point et un vecteur directeur",
         "example": "Déterminer une équation cartésienne de la droite $d$ passant par $A(2 ; -1)$ et de vecteur directeur $\\vec{u}\\begin{pmatrix} 3 \\\\ 4 \\end{pmatrix}$.",
         "steps": [
-          "**Étape 1** : $M(x ; y) \\in d \\iff \\vec{AM}\\begin{pmatrix} x - 2 \\\\ y + 1 \\end{pmatrix}$ et $\\vec{u}$ sont colinéaires $\\iff \\det(\\vec{AM}, \\vec{u}) = 0$.",
-          "**Étape 2** : $\\det(\\vec{AM}, \\vec{u}) = (x - 2) \\times 4 - (y + 1) \\times 3 = 4x - 8 - 3y - 3$.",
+          "**Étape 1** : $M(x ; y) \\in d \\iff \\overrightarrow{AM}\\begin{pmatrix} x - 2 \\\\ y + 1 \\end{pmatrix}$ et $\\vec{u}$ sont colinéaires $\\iff \\det(\\overrightarrow{AM}, \\vec{u}) = 0$.",
+          "**Étape 2** : $\\det(\\overrightarrow{AM}, \\vec{u}) = (x - 2) \\times 4 - (y + 1) \\times 3 = 4x - 8 - 3y - 3$.",
           "**Étape 3** : $M \\in d \\iff 4x - 3y - 11 = 0$.",
           "**Conclusion** : $d : 4x - 3y - 11 = 0$. Contrôles : $A$ vérifie $8 + 3 - 11 = 0$, et le vecteur $(-b ; a) = (3 ; 4)$ est bien $\\vec{u}$."
+        ]
+      },
+      {
+        "title": "Méthode : Tracer une droite à partir d'une équation",
+        "example": "Dans un repère, tracer les droites $d_1 : y = 2x - 3$, $d_2 : 3x + 2y - 6 = 0$ et $d_3 : x = -2$.",
+        "steps": [
+          "**Principe** : deux points distincts suffisent pour tracer une droite. On choisit des valeurs simples, on calcule les coordonnées des deux points, on les place et on trace la droite qui les joint.",
+          "**Équation réduite** $d_1 : y = 2x - 3$ : pour $x = 0$, $y = -3$, d'où $A(0 ; -3)$, le point de l'axe des ordonnées. Pour $x = 2$, $y = 2 \\times 2 - 3 = 1$, d'où $B(2 ; 1)$. On peut aussi partir de $A$ et utiliser la pente $m = 2$ : quand on avance de $1$ en abscisse, on monte de $2$ en ordonnée.",
+          "**Équation cartésienne** $d_2 : 3x + 2y - 6 = 0$ : pour $x = 0$, $2y - 6 = 0$, soit $y = 3$, d'où $C(0 ; 3)$. Pour $y = 0$, $3x - 6 = 0$, soit $x = 2$, d'où $D(2 ; 0)$.",
+          "**Droites parallèles aux axes** : $d_3 : x = -2$ est la droite verticale formée des points d'abscisse $-2$, qui passe par $(-2 ; 0)$. De même, $y = k$ est la droite horizontale formée des points d'ordonnée $k$, qui passe par $(0 ; k)$.",
+          "**Contrôle** : on calcule un troisième point. Pour $d_1$ et $x = 1$, $y = -1$ : le point $(1 ; -1)$ doit se trouver sur le tracé."
         ]
       },
       {
@@ -1280,7 +1343,7 @@ window.MATHS_COURSES_2NDE = {
       "⚠️ Un vecteur directeur de $ax + by + c = 0$ a pour coordonnées $(-b ; a)$, attention au signe moins sur $b$.",
       "⚠️ Pour tester si un point est sur une droite, on remplace $x$ **et** $y$ par ses coordonnées et on vérifie l'égalité.",
       "⚠️ Une droite verticale $x = k$ n'a pas d'équation réduite de la forme $y = mx + p$ : elle n'a pas de coefficient directeur.",
-      "⚠️ Des équations cartésiennes différentes peuvent représenter la même droite : pour comparer deux droites, on compare leurs **équations réduites**."
+      "⚠️ Des équations cartésiennes différentes peuvent représenter la même droite : pour comparer deux droites non verticales, on compare leurs **équations réduites**. Une droite verticale n'a pas d'équation réduite : deux droites verticales $x = k$ et $x = k'$ sont confondues si et seulement si $k = k'$, et une droite verticale n'est jamais confondue avec une droite non verticale."
     ],
     "flashcards": [
       {
@@ -1300,7 +1363,7 @@ window.MATHS_COURSES_2NDE = {
         "a": "Oui : $3 \\times 1 + 1 = 4$."
       },
       {
-        "q": "Combien de solutions a un système dont les deux droites associées sont strictement parallèles ?",
+        "q": "(Pour aller plus loin) Combien de solutions a un système dont les deux droites associées sont strictement parallèles ?",
         "a": "Aucune : les droites n'ont pas de point commun."
       },
       {
@@ -1318,32 +1381,34 @@ window.MATHS_COURSES_2NDE = {
       "Déterminer la médiane $Me$, le premier quartile $Q_1$ et le troisième quartile $Q_3$.",
       "Calculer l'écart interquartile $Q_3 - Q_1$ et l'étendue pour mesurer la dispersion.",
       "Construire et analyser un diagramme en boîte (boîte à moustaches).",
-      "Calculer et interpréter l'écart-type d'une série statistique.",
-      "Choisir des indicateurs adaptés : (moyenne ; écart-type) ou (médiane ; écart interquartile).",
-      "Pour une série regroupée en classes : histogramme, moyenne avec les centres de classes, classe médiane et estimation de la médiane.",
+      "Calculer et interpréter l'écart type d'une série statistique.",
+      "Choisir des indicateurs adaptés : (moyenne ; écart type) ou (médiane ; écart interquartile).",
+      "Comparer deux séries à l'aide de leurs indicateurs ou de leurs diagrammes en boîte.",
+      "Pour une série regroupée en classes : histogramme, polygone des fréquences cumulées, moyenne avec les centres de classes, classe médiane et estimation de la médiane.",
       "Mesurer l'influence de l'ajout ou de la suppression d'une valeur sur la moyenne et la médiane.",
-      "Croiser deux variables qualitatives : tableau croisé d'effectifs, fréquences marginales et conditionnelles."
+      "Distinguer variables quantitatives et variables qualitatives, nominales ou ordinales.",
+      "Croiser deux variables qualitatives : tableau croisé d'effectifs, fréquences marginales et conditionnelles, y compris à partir d'un fichier de données."
     ],
     "keyPoints": [
       {
         "title": "1. Indicateurs de position et de dispersion",
-        "content": "Pour une série statistique ordonnée d'effectif total $N$ :\n• **Médiane ($Me$)** : Valeur qui partage la série ordonnée en deux groupes de même effectif (au moins 50% des valeurs sont $\\le Me$).\n• **Premier quartile ($Q_1$)** : Plus petite valeur de la série telle qu'au moins 25% des données soient inférieures ou égales à $Q_1$ (rang : $\\lceil 0{,}25 N \\rceil$).\n• **Troisième quartile ($Q_3$)** : Plus petite valeur telle qu'au moins 75% des données soient inférieures ou égales à $Q_3$ (rang : $\\lceil 0{,}75 N \\rceil$).\n• **Écart interquartile** : $I = Q_3 - Q_1$ (mesure robuste de dispersion, non sensible aux valeurs extrêmes)."
+        "content": "Pour une série statistique ordonnée d'effectif total $N$ :\n• **Médiane ($Me$)** : Valeur qui partage la série ordonnée en deux groupes de même effectif (au moins 50% des valeurs sont $\\le Me$).\n• **Premier quartile ($Q_1$)** : Plus petite valeur de la série telle qu'au moins 25% des données soient inférieures ou égales à $Q_1$ (son rang est le plus petit entier supérieur ou égal à $0{,}25 N$).\n• **Troisième quartile ($Q_3$)** : Plus petite valeur telle qu'au moins 75% des données soient inférieures ou égales à $Q_3$ (son rang est le plus petit entier supérieur ou égal à $0{,}75 N$).\n• **Écart interquartile** : $I = Q_3 - Q_1$ (mesure robuste de dispersion, non sensible aux valeurs extrêmes)."
       },
       {
         "title": "2. Moyenne et propriété de linéarité",
         "content": "Pour une série de valeurs $x_1, \\dots, x_p$ d'effectifs $n_1, \\dots, n_p$ et d'effectif total $N$ :\n$$\\overline{x} = \\frac{n_1 x_1 + n_2 x_2 + \\dots + n_p x_p}{N}$$\nAvec les fréquences $f_i = \\frac{n_i}{N}$ : $\\overline{x} = f_1 x_1 + \\dots + f_p x_p$.\n• **Linéarité** : si on transforme chaque valeur par $y_i = a x_i + b$, alors $\\overline{y} = a\\overline{x} + b$. Par exemple, ajouter 2 points à toutes les notes augmente la moyenne de 2."
       },
       {
-        "title": "3. Variance et écart-type",
-        "content": "• La **variance** est la moyenne des carrés des écarts à la moyenne :\n$$V = \\frac{n_1(x_1 - \\overline{x})^2 + \\dots + n_p(x_p - \\overline{x})^2}{N}$$\n• L'**écart-type** est $\\sigma = \\sqrt{V}$ (on le note aussi $s$). Il s'exprime dans la même unité que les valeurs.\n• Plus $\\sigma$ est grand, plus les valeurs sont **dispersées** autour de la moyenne. Ajouter une même constante à toutes les valeurs ne change pas l'écart-type.\n• En pratique, on le calcule avec la calculatrice ou un tableur."
+        "title": "3. Variance et écart type",
+        "content": "• La **variance** est la moyenne des carrés des écarts à la moyenne :\n$$V = \\frac{n_1(x_1 - \\overline{x})^2 + \\dots + n_p(x_p - \\overline{x})^2}{N}$$\n• L'**écart type** est $\\sigma = \\sqrt{V}$ (on le note aussi $s$). Il s'exprime dans la même unité que les valeurs.\n• Plus $\\sigma$ est grand, plus les valeurs sont **dispersées** autour de la moyenne. Ajouter une même constante à toutes les valeurs ne change pas l'écart type.\n• En pratique, on le calcule avec la calculatrice ou un tableur."
       },
       {
         "title": "4. Diagramme en boîte et choix des indicateurs",
-        "content": "• Le **diagramme en boîte** représente, sur un axe gradué : le minimum, $Q_1$, la médiane, $Q_3$ et le maximum. La boîte (de $Q_1$ à $Q_3$) contient environ la moitié centrale des données.\n• Le couple **(moyenne ; écart-type)** utilise toutes les valeurs mais est sensible aux valeurs extrêmes.\n• Le couple **(médiane ; écart interquartile)** est robuste face aux valeurs extrêmes.\n• En Python, une moyenne se calcule avec une boucle :\n```python\ndef moyenne(L):\n    s = 0\n    for x in L:\n        s = s + x\n    return s / len(L)\n```"
+        "content": "• Le **diagramme en boîte** représente, sur un axe gradué : le minimum, $Q_1$, la médiane, $Q_3$ et le maximum. La boîte (de $Q_1$ à $Q_3$) contient environ la moitié centrale des données.\n• Le couple **(moyenne ; écart type)** utilise toutes les valeurs mais est sensible aux valeurs extrêmes.\n• Le couple **(médiane ; écart interquartile)** est robuste face aux valeurs extrêmes.\n• **Comparer deux séries** : on utilise le même couple d'indicateurs pour les deux séries. On compare d'abord leur position (moyennes ou médianes), puis leur dispersion (écarts types ou écarts interquartiles). La série la plus **homogène** est celle dont l'indicateur de dispersion est le plus petit. Deux diagrammes en boîte tracés sur un même axe permettent de comparer directement médianes, quartiles et étendues ; ils ne donnent pas la moyenne.\n• En Python, une moyenne se calcule avec une boucle (`L` désigne ici la série de valeurs ; aucune connaissance sur les listes n'est attendue en seconde : il suffit de comprendre que `for x in L` prend les valeurs une à une et que `len(L)` donne l'effectif total) :\n```python\ndef moyenne(L):\n    s = 0\n    for x in L:\n        s = s + x\n    return s / len(L)\n```"
       },
       {
         "title": "5. Séries regroupées en classes",
-        "content": "Lorsque les données sont regroupées en classes **de même amplitude** :\n• **Histogramme** : chaque classe est représentée par un rectangle dont la hauteur est proportionnelle à l'effectif (les bases ayant la même longueur, l'aire est aussi proportionnelle à l'effectif).\n• **Polygone des fréquences cumulées croissantes** : on relie les points dont l'abscisse est la borne supérieure d'une classe et l'ordonnée la fréquence cumulée correspondante.\n• **Moyenne** : si on suppose les valeurs **uniformément réparties** dans chaque classe, on remplace chaque classe par son **centre** et on calcule une moyenne pondérée par les effectifs. Si on connaît la moyenne de chaque classe, on utilise ces moyennes à la place des centres.\n• **Classe médiane** : classe dans laquelle l'effectif cumulé atteint ou dépasse $\\frac{N}{2}$. En supposant la répartition uniforme dans cette classe, on estime la médiane par proportionnalité."
+        "content": "Lorsque les données sont regroupées en classes **de même amplitude** :\n• **Histogramme** : chaque classe est représentée par un rectangle dont la hauteur est proportionnelle à l'effectif (les bases ayant la même longueur, l'aire est aussi proportionnelle à l'effectif).\n• **Polygone des fréquences cumulées croissantes** : on relie les points dont l'abscisse est la borne supérieure d'une classe et l'ordonnée la fréquence cumulée correspondante, en partant du point d'abscisse la borne inférieure de la première classe et d'ordonnée $0$. L'ordonnée du point d'abscisse une borne $x$ donne le pourcentage de valeurs strictement inférieures à $x$, et l'abscisse du point d'ordonnée $50\\,\\%$ donne une estimation de la médiane.\n• **Moyenne** : si on suppose les valeurs **uniformément réparties** dans chaque classe, on remplace chaque classe par son **centre** et on calcule une moyenne pondérée par les effectifs. Si on connaît la moyenne de chaque classe, on utilise ces moyennes à la place des centres.\n• **Classe médiane** : classe dans laquelle l'effectif cumulé atteint ou dépasse $\\frac{N}{2}$. En supposant la répartition uniforme dans cette classe, on estime la médiane par proportionnalité."
       },
       {
         "title": "6. Influence de l'ajout ou de la suppression d'une valeur",
@@ -1351,15 +1416,15 @@ window.MATHS_COURSES_2NDE = {
       },
       {
         "title": "7. Croisement de deux variables qualitatives",
-        "content": "On étudie deux caractères (qualitatifs) sur une même population, par exemple le **régime** (interne ou externe) et le **genre** de $200$ élèves. On les résume dans un **tableau croisé d'effectifs** :\n\n| | Filles | Garçons | Total |\n|---|---|---|---|\n| Internes | $30$ | $40$ | $70$ |\n| Externes | $80$ | $50$ | $130$ |\n| Total | $110$ | $90$ | $200$ |\n\n• **Fréquence marginale** : on divise un total de ligne ou de colonne par l'effectif total. La fréquence des internes est $\\frac{70}{200} = 0{,}35$.\n• **Fréquence conditionnelle** : on se restreint à une sous-population. Parmi les internes, la fréquence des filles est $\\frac{30}{70} \\approx 0{,}43$ ; parmi les filles, la fréquence des internes est $\\frac{30}{110} \\approx 0{,}27$.\n• Ces deux fréquences conditionnelles **ne sont pas égales** : « la proportion de filles parmi les internes » et « la proportion d'internes parmi les filles » sont deux informations différentes ; il faut toujours repérer la population de référence (le mot « parmi »)."
+        "content": "Une variable statistique est **quantitative** si ses valeurs sont des nombres sur lesquels les calculs ont un sens (taille, temps de trajet). Sinon, elle est **qualitative** et ses valeurs s'appellent des **modalités**. Une variable qualitative est **nominale** si ses modalités n'ont pas d'ordre naturel (régime, sport pratiqué, couleur des yeux) et **ordinale** si elles se rangent naturellement (mention à un examen, niveau de satisfaction).\n\nOn étudie deux variables qualitatives sur une même population, par exemple le **régime** (interne ou externe) et le **genre** de $200$ élèves. On les résume dans un **tableau croisé d'effectifs** :\n\n| | Filles | Garçons | Total |\n|---|---|---|---|\n| Internes | $30$ | $40$ | $70$ |\n| Externes | $80$ | $50$ | $130$ |\n| Total | $110$ | $90$ | $200$ |\n\n• **Fréquence marginale** : on divise un total de ligne ou de colonne par l'effectif total. La fréquence des internes est $\\frac{70}{200} = 0{,}35$.\n• **Fréquence conditionnelle** : on se restreint à une sous-population. Parmi les internes, la fréquence des filles est $\\frac{30}{70} \\approx 0{,}43$ ; parmi les filles, la fréquence des internes est $\\frac{30}{110} \\approx 0{,}27$.\n• Ces deux fréquences conditionnelles **ne sont pas égales** : « la proportion de filles parmi les internes » et « la proportion d'internes parmi les filles » sont deux informations différentes ; il faut toujours repérer la population de référence (le mot « parmi »)."
       },
       {
         "title": "8. Statistiques en Python",
-        "content": "• **Lire et comprendre** une fonction qui calcule un écart-type (ici `L` est une liste de valeurs, effectifs tous égaux à $1$) :\n```python\nfrom math import sqrt\n\ndef ecart_type(L):\n    n = len(L)\n    m = sum(L) / n\n    s = 0\n    for x in L:\n        s = s + (x - m) ** 2\n    return sqrt(s / n)\n```\n• **Filtrer des individus** à partir de deux caractères, avec les connecteurs `and`, `or`, `not` :\n```python\ngenre = [\"F\", \"G\", \"F\", \"F\", \"G\"]\nregime = [\"interne\", \"externe\", \"externe\", \"interne\", \"interne\"]\nn = 0\nfor i in range(len(genre)):\n    if genre[i] == \"F\" and regime[i] == \"interne\":\n        n = n + 1\nprint(n)   # affiche 2 : deux filles internes\n```"
+        "content": "• **Lire et comprendre** une fonction qui calcule un écart type (ici `L` désigne la série de valeurs, effectifs tous égaux à $1$ ; `len(L)` donne l'effectif total et `sum(L)` la somme des valeurs) :\n```python\nfrom math import sqrt\n\ndef ecart_type(L):\n    n = len(L)\n    m = sum(L) / n\n    s = 0\n    for x in L:\n        s = s + (x - m) ** 2\n    return sqrt(s / n)\n```\n• **Filtrer des individus** à partir de deux caractères, avec les connecteurs `and`, `or`, `not`. La fonction suivante teste si un individu, décrit par son genre et son régime, vérifie les deux critères :\n```python\ndef fille_interne(genre, regime):\n    return genre == \"F\" and regime == \"interne\"\n\nprint(fille_interne(\"F\", \"interne\"))   # affiche True\nprint(fille_interne(\"G\", \"interne\"))   # affiche False\n```\nOn change de filtre en changeant la condition : `genre == \"F\" or regime == \"interne\"` retient les individus vérifiant au moins un des deux critères, `genre == \"F\" and not (regime == \"interne\")` les filles qui ne sont pas internes."
       },
       {
         "title": "9. Algorithme : tableau croisé et fréquence conditionnelle",
-        "content": "On reprend les deux listes `genre` et `regime` du paragraphe 8 (cinq élèves). La fonction suivante compte les individus vérifiant **à la fois** deux critères ; on en déduit le tableau croisé, puis des fréquences.\n```python\ndef effectif(L1, L2, a, b):\n    n = 0\n    for i in range(len(L1)):\n        if L1[i] == a and L2[i] == b:\n            n = n + 1\n    return n\n\nfor g in [\"F\", \"G\"]:\n    for r in [\"interne\", \"externe\"]:\n        print(g, r, effectif(genre, regime, g, r))\n\nnF = effectif(genre, regime, \"F\", \"interne\") + effectif(genre, regime, \"F\", \"externe\")\nprint(effectif(genre, regime, \"F\", \"interne\") / nF)\n```\nLe programme affiche les effectifs $2$ (filles internes), $1$ (filles externes), $1$ (garçons internes), $1$ (garçons externes), puis la **fréquence conditionnelle** des internes parmi les filles : $\\frac{2}{3} \\approx 0{,}67$. La **fréquence marginale** des filles est $\\frac{3}{5} = 0{,}6$."
+        "content": "En pratique, les données sont rangées dans un fichier, avec une ligne par individu et les valeurs des variables séparées par un point-virgule : c'est le format CSV. Le fichier `eleves.csv` contient ici les cinq lignes `F;interne`, `G;externe`, `F;externe`, `F;interne` et `G;interne`. La fonction suivante lit le fichier ligne par ligne et compte les individus vérifiant **à la fois** deux critères ; on en déduit le tableau croisé, puis des fréquences.\n```python\ndef effectif(a, b):\n    n = 0\n    fichier = open(\"eleves.csv\", \"r\")\n    for ligne in fichier:\n        genre, regime = ligne.strip().split(\";\")\n        if genre == a and regime == b:\n            n = n + 1\n    fichier.close()\n    return n\n\nprint(\"F interne\", effectif(\"F\", \"interne\"))\nprint(\"F externe\", effectif(\"F\", \"externe\"))\nprint(\"G interne\", effectif(\"G\", \"interne\"))\nprint(\"G externe\", effectif(\"G\", \"externe\"))\n\nnF = effectif(\"F\", \"interne\") + effectif(\"F\", \"externe\")\nprint(effectif(\"F\", \"interne\") / nF)\n```\nLe programme affiche les effectifs $2$ (filles internes), $1$ (filles externes), $1$ (garçons internes), $1$ (garçons externes), puis la **fréquence conditionnelle** des internes parmi les filles : $\\frac{2}{3} \\approx 0{,}67$. La **fréquence marginale** des filles est $\\frac{3}{5} = 0{,}6$.\n\nIci, le genre et le régime sont deux variables qualitatives nominales. À chaque ligne, l'instruction `genre, regime = ligne.strip().split(\";\")` range dans `genre` et `regime` les deux valeurs de la ligne. Les instructions de lecture du fichier sont fournies quand on en a besoin : il s'agit de comprendre leur rôle, pas de les retenir."
       },
       {
         "title": "10. Automatismes : graphiques et indicateurs",
@@ -1378,8 +1443,8 @@ window.MATHS_COURSES_2NDE = {
         ]
       },
       {
-        "title": "Méthode : Calculer la moyenne et l'écart-type d'une série",
-        "example": "Les notes de 10 élèves : la note 8 obtenue 2 fois, la note 10 3 fois, la note 12 4 fois et la note 15 une fois. Calculer la moyenne et l'écart-type.",
+        "title": "Méthode : Calculer la moyenne et l'écart type d'une série",
+        "example": "Les notes de 10 élèves : la note 8 obtenue 2 fois, la note 10 3 fois, la note 12 4 fois et la note 15 une fois. Calculer la moyenne et l'écart type.",
         "steps": [
           "**Étape 1 (Moyenne)** : $N = 2 + 3 + 4 + 1 = 10$ et $\\overline{x} = \\frac{2 \\times 8 + 3 \\times 10 + 4 \\times 12 + 1 \\times 15}{10} = \\frac{16 + 30 + 48 + 15}{10} = \\frac{109}{10} = 10{,}9$.",
           "**Étape 2 (Écarts au carré)** : $(8 - 10{,}9)^2 = 8{,}41$ ; $(10 - 10{,}9)^2 = 0{,}81$ ; $(12 - 10{,}9)^2 = 1{,}21$ ; $(15 - 10{,}9)^2 = 16{,}81$.",
@@ -1427,16 +1492,38 @@ window.MATHS_COURSES_2NDE = {
           "**Étape 3 (Fréquence marginale)** : $\\frac{330}{500} = 0{,}66$, soit $66\\,\\%$ de clients satisfaits.",
           "**Conclusion (Fréquence conditionnelle)** : parmi les $330$ satisfaits, la proportion de nouveaux clients est $\\frac{90}{330} = \\frac{3}{11} \\approx 27\\,\\%$ (à ne pas confondre avec les $45\\,\\%$ de satisfaits parmi les nouveaux)."
         ]
+      },
+      {
+        "title": "Méthode : Lire un polygone des fréquences cumulées",
+        "example": "Le polygone des fréquences cumulées croissantes des durées de trajet (en min) de $40$ élèves joint les points $(0 ; 0)$, $(10 ; 15)$, $(20 ; 40)$, $(30 ; 75)$, $(40 ; 95)$ et $(50 ; 100)$, les ordonnées étant en pourcentage. Quel pourcentage des élèves a un trajet strictement inférieur à $30$ min ? Combien d'élèves ont un trajet d'au moins $40$ min ? Estimer la médiane.",
+        "steps": [
+          "**Étape 1 (Lecture)** : le point d'abscisse $30$ a pour ordonnée $75$ : $75\\,\\%$ des élèves ont un trajet strictement inférieur à $30$ min.",
+          "**Étape 2 (Complément)** : le point d'abscisse $40$ a pour ordonnée $95$, donc $100 - 95 = 5\\,\\%$ des élèves ont un trajet d'au moins $40$ min, soit $0{,}05 \\times 40 = 2$ élèves.",
+          "**Étape 3 (Segment utile)** : l'ordonnée $50$ est atteinte entre les points $(20 ; 40)$ et $(30 ; 75)$.",
+          "**Conclusion (Proportionnalité)** : $Me \\approx 20 + 10 \\times \\frac{50 - 40}{75 - 40} = 20 + 10 \\times \\frac{10}{35} \\approx 22{,}9$ min."
+        ]
+      },
+      {
+        "title": "Méthode : Comparer deux séries",
+        "example": "À un même contrôle, la classe A a pour moyenne $11{,}2$ et pour écart type $1{,}8$ ; la classe B a pour moyenne $12{,}1$ et pour écart type $4{,}3$. Comparer les résultats des deux classes.",
+        "steps": [
+          "**Étape 1 (Même couple d'indicateurs)** : on dispose pour chaque classe du couple (moyenne ; écart type), la comparaison est donc possible.",
+          "**Étape 2 (Position)** : $12{,}1 > 11{,}2$ : en moyenne, la classe B a de meilleurs résultats.",
+          "**Étape 3 (Dispersion)** : $1{,}8 < 4{,}3$ : les notes de la classe A sont moins dispersées autour de la moyenne.",
+          "**Conclusion** : la classe B réussit mieux en moyenne, mais la classe A est plus homogène. Il faut donner les deux informations."
+        ]
       }
     ],
     "traps": [
       "⚠️ Toujours ordonner la série statistique par ordre croissant avant de chercher médiane et quartiles !",
       "⚠️ Contrairement à la médiane, la moyenne est très sensible aux valeurs extrêmes.",
       "⚠️ La moyenne de deux moyennes n'est égale à la moyenne globale que si les deux groupes ont le **même effectif**.",
-      "⚠️ Dans le calcul de la variance, chaque carré d'écart est multiplié par son **effectif** ; on n'oublie pas ensuite de prendre la **racine carrée** pour obtenir l'écart-type.",
+      "⚠️ Dans le calcul de la variance, chaque carré d'écart est multiplié par son **effectif** ; on n'oublie pas ensuite de prendre la **racine carrée** pour obtenir l'écart type.",
       "⚠️ Avec la définition du cours, $Q_1$ et $Q_3$ sont toujours des **valeurs de la série** : on ne fait jamais de demi-somme pour les quartiles (contrairement à la médiane quand $N$ est pair).",
       "⚠️ « La proportion de $A$ parmi $B$ » n'est pas « la proportion de $B$ parmi $A$ » : on divise toujours par l'effectif de la population de **référence** (celle qui suit le mot « parmi »).",
-      "⚠️ Pour une série regroupée en classes, la moyenne calculée avec les centres n'est qu'une **estimation** (on suppose la répartition uniforme dans chaque classe)."
+      "⚠️ Pour une série regroupée en classes, la moyenne calculée avec les centres n'est qu'une **estimation** (on suppose la répartition uniforme dans chaque classe).",
+      "⚠️ Le polygone des fréquences cumulées croissantes se construit avec les **bornes supérieures** des classes, pas avec leurs centres.",
+      "⚠️ Un diagramme en boîte ne permet pas de connaître la moyenne : pour comparer deux moyennes, il faut d'autres données."
     ],
     "flashcards": [
       {
@@ -1448,11 +1535,11 @@ window.MATHS_COURSES_2NDE = {
         "a": "$Q_3 - Q_1$."
       },
       {
-        "q": "On ajoute 2 points à toutes les notes d'une série. Que deviennent la moyenne et l'écart-type ?",
-        "a": "La moyenne augmente de 2 ; l'écart-type ne change pas."
+        "q": "On ajoute 2 points à toutes les notes d'une série. Que deviennent la moyenne et l'écart type ?",
+        "a": "La moyenne augmente de 2 ; l'écart type ne change pas."
       },
       {
-        "q": "Quelle est la définition de l'écart-type $\\sigma$ ?",
+        "q": "Quelle est la définition de l'écart type $\\sigma$ ?",
         "a": "La racine carrée de la variance, moyenne des carrés des écarts à la moyenne : $\\sigma = \\sqrt{V}$."
       },
       {
@@ -1503,11 +1590,11 @@ window.MATHS_COURSES_2NDE = {
       },
       {
         "title": "4. Dénombrer avec un tableau ou un arbre",
-        "content": "• **Tableau à double entrée** : pour le lancer de deux dés équilibrés, on obtient $6 \\times 6 = 36$ couples équiprobables.\n*Exemple* : la somme vaut $7$ pour $(1;6), (2;5), (3;4), (4;3), (5;2), (6;1)$, donc $P(\\text{somme} = 7) = \\frac{6}{36} = \\frac{1}{6}$.\n• **Arbre** : pour des expériences successives, chaque chemin complet représente une issue ; on compte les chemins qui réalisent l'événement."
+        "content": "• **Tableau à double entrée** : pour le lancer de deux dés équilibrés, on obtient $6 \\times 6 = 36$ couples équiprobables.\n*Exemple* : la somme vaut $7$ pour $(1;6), (2;5), (3;4), (4;3), (5;2), (6;1)$, donc $P(\\text{somme} = 7) = \\frac{6}{36} = \\frac{1}{6}$.\n• **Arbre** : pour des expériences successives, chaque chemin complet représente une issue. **Lorsque ces issues sont équiprobables** (pièce ou dé équilibrés, tirage au hasard de boules **numérotées**, une branche par boule…), on compte les chemins qui réalisent l'événement et on divise par le nombre total de chemins. Sinon, on utilise les probabilités portées par les branches (voir le paragraphe 6).\n⚠️ Dans un arbre dont les branches portent des **couleurs**, les chemins ne sont en général pas équiprobables : avec une urne de $3$ boules rouges et $2$ blanches et deux tirages sans remise, le chemin « rouge puis rouge » a pour probabilité $\\frac{3}{5} \\times \\frac{2}{4} = \\frac{3}{10}$ (produit des probabilités des branches, voir le paragraphe 6), et non $\\frac{1}{4}$."
       },
       {
         "title": "5. Probabilité conditionnelle",
-        "content": "Soit $A$ un événement de probabilité **non nulle**. La **probabilité de $B$ sachant $A$** est\n$$P_A(B) = \\frac{P(A \\cap B)}{P(A)}$$\nC'est la probabilité que $B$ soit réalisé lorsqu'on **sait** que $A$ est réalisé. On en déduit $P(A \\cap B) = P(A) \\times P_A(B)$.\n• **Lien avec les fréquences conditionnelles** : si on choisit un individu au hasard (équiprobabilité) dans une population,\n$$P(A) = \\frac{\\text{Card}(A)}{\\text{Card}(\\Omega)} \\qquad P_B(A) = \\frac{\\text{Card}(A \\cap B)}{\\text{Card}(B)}$$\n*Exemple* (tableau croisé des $200$ élèves du chapitre de statistiques : $70$ internes dont $30$ filles, $110$ filles) : on choisit un élève au hasard. Avec $I$ = « interne » et $F$ = « fille » : $P_I(F) = \\frac{30}{70} = \\frac{3}{7}$ alors que $P_F(I) = \\frac{30}{110} = \\frac{3}{11}$.\n• En général $P_A(B) \\neq P_B(A)$ : c'est le problème de l'**inversion des conditionnements**."
+        "content": "Soit $A$ un événement de probabilité **non nulle**. La **probabilité de $B$ sachant $A$** est\n$$P_A(B) = \\frac{P(A \\cap B)}{P(A)}$$\nC'est la probabilité que $B$ soit réalisé lorsqu'on **sait** que $A$ est réalisé. On en déduit $P(A \\cap B) = P(A) \\times P_A(B)$.\n• **Lien avec les fréquences conditionnelles** : si on choisit un individu au hasard (équiprobabilité) dans une population,\n$$P(A) = \\frac{\\text{Card}(A)}{\\text{Card}(\\Omega)} \\qquad P_B(A) = \\frac{\\text{Card}(A \\cap B)}{\\text{Card}(B)}$$\n*Exemple* (tableau croisé des $200$ élèves du chapitre de statistiques : $70$ internes dont $30$ filles, $110$ filles) : on choisit un élève au hasard. Avec $I$ = « interne » et $F$ = « fille » : $P_I(F) = \\frac{30}{70} = \\frac{3}{7}$ alors que $P_F(I) = \\frac{30}{110} = \\frac{3}{11}$.\n• En général $P_A(B) \\neq P_B(A)$ : c'est le problème de l'**inversion des conditionnements**.\n• **Test de dépistage** : on note $M$ l'événement « la personne est malade » et $T$ l'événement « le test est positif ». La **sensibilité** est $P_M(T)$ (proportion de malades dont le test est positif) et la **spécificité** est $P_{\\overline{M}}(\\overline{T})$ (proportion de non-malades dont le test est négatif). Un **faux positif** est une personne non malade dont le test est positif ; un **faux négatif** est une personne malade dont le test est négatif."
       },
       {
         "title": "6. Arbres pondérés",
@@ -1570,7 +1657,7 @@ window.MATHS_COURSES_2NDE = {
       },
       {
         "title": "Méthode : Test de dépistage et faux positifs",
-        "example": "Une maladie touche $2\\,\\%$ d'une population. Un test détecte $95\\,\\%$ des malades (sensibilité) et donne un résultat négatif pour $90\\,\\%$ des non-malades (spécificité). Une personne a un test positif : quelle est la probabilité qu'elle soit malade ?",
+        "example": "Une maladie touche $2\\,\\%$ d'une population. Un test détecte $95\\,\\%$ des malades (sensibilité) et donne un résultat négatif pour $90\\,\\%$ des non-malades (spécificité). On note $M$ l'événement « la personne est malade » et $T$ l'événement « le test est positif ». Une personne a un test positif : quelle est la probabilité qu'elle soit malade ?",
         "steps": [
           "**Étape 1 (Population fictive de $10\\,000$ personnes)** : $200$ malades et $9\\,800$ non-malades.",
           "**Étape 2 (Tableau croisé)** : parmi les malades, $0{,}95 \\times 200 = 190$ tests positifs et $10$ négatifs (**faux négatifs**). Parmi les non-malades, $0{,}9 \\times 9\\,800 = 8\\,820$ négatifs et $980$ positifs (**faux positifs**). Total des positifs : $190 + 980 = 1\\,170$.",
@@ -1632,26 +1719,26 @@ window.MATHS_COURSES_2NDE = {
       "Pour aller plus loin : connaître le critère $|f - p| \\le \\frac{1}{\\sqrt{n}}$, vérifié par environ $95\\,\\%$ des échantillons de taille $n$.",
       "Lire et écrire un script Python simulant une expérience aléatoire (module `random`).",
       "Pour aller plus loin : prendre une décision sur une proportion $p$ à l'aide d'un échantillon.",
-      "Simuler $N$ échantillons de taille $n$ en Python et observer la proportion de ceux pour lesquels $|f - p| \\le \\frac{1}{\\sqrt{n}}$.",
+      "Pour aller plus loin : simuler $N$ échantillons de taille $n$ en Python et observer la proportion de ceux pour lesquels $|f - p| \\le \\frac{1}{\\sqrt{n}}$.",
       "Pour aller plus loin : déterminer une taille d'échantillon permettant d'obtenir une précision donnée.",
       "Écrire une fonction Python renvoyant le résultat d'une expérience aléatoire et observer la loi des grands nombres par simulation."
     ],
     "keyPoints": [
       {
         "title": "1. Échantillon, fréquence et loi des grands nombres",
-        "content": "• Un **échantillon de taille $n$** est obtenu en répétant $n$ fois, de façon indépendante, une même expérience aléatoire à deux issues (succès de probabilité $p$, ou échec).\n• Si $k$ est le nombre de succès, la **fréquence observée** est $f = \\frac{k}{n}$.\n• **Loi des grands nombres** (version vulgarisée) : « lorsque $n$ est grand, sauf exception, la fréquence observée est proche de la probabilité ».\n• Le choix d'une loi de probabilité (par exemple l'équiprobabilité pour un dé équilibré) est une **hypothèse de modèle** : elle ne se démontre pas. Pour un phénomène réel (lancer d'une punaise), on peut construire le modèle à partir des fréquences observées sur un grand nombre d'essais."
+        "content": "• Un **échantillon de taille $n$** est obtenu en répétant $n$ fois, de façon indépendante, une même expérience aléatoire à deux issues (succès de probabilité $p$, ou échec).\n• Si $k$ est le nombre de succès, la **fréquence observée** est $f = \\frac{k}{n}$.\n• D'un échantillon à l'autre, la fréquence observée varie, même si l'expérience est la même : c'est la **fluctuation d'échantillonnage**. Cette fluctuation est en général d'autant plus faible que $n$ est grand.\n• **Loi des grands nombres** (version vulgarisée) : « lorsque $n$ est grand, sauf exception, la fréquence observée est proche de la probabilité ».\n• Le choix d'une loi de probabilité (par exemple l'équiprobabilité pour un dé équilibré) est une **hypothèse de modèle** : elle ne se démontre pas. Pour un phénomène réel (lancer d'une punaise), on peut construire le modèle à partir des fréquences observées sur un grand nombre d'essais."
       },
       {
         "title": "2. Algorithmique en Python : simulation d'échantillons",
-        "content": "En Python, on utilise la bibliothèque `random` :\n```python\nimport random\n\ndef frequence_pile(n):\n    nb_pile = 0\n    for i in range(n):\n        if random.random() < 0.5:\n            nb_pile += 1\n    return nb_pile / n\n```"
+        "content": "En Python, on utilise la bibliothèque `random` :\n```python\nfrom random import random\n\ndef frequence_pile(n):\n    nb_pile = 0\n    for i in range(n):\n        if random() < 0.5:\n            nb_pile = nb_pile + 1\n    return nb_pile / n\n```"
       },
       {
         "title": "3. Fonction renvoyant un nombre aléatoire et loi des grands nombres",
-        "content": "• `randint(a, b)` (module `random`) renvoie un entier aléatoire entre $a$ et $b$ **inclus** ; `random()` renvoie un nombre aléatoire de $[0 ; 1[$.\n• En appelant plusieurs fois une telle fonction, on obtient une **série statistique** dont on peut calculer la fréquence d'une issue :\n```python\nfrom random import randint\n\ndef lancer_de():\n    return randint(1, 6)\n\ndef frequence_six(n):\n    nb = 0\n    for i in range(n):\n        if lancer_de() == 6:\n            nb = nb + 1\n    return nb / n\n\nfor n in [10, 100, 10000]:\n    print(n, frequence_six(n))\n```\n• Les résultats changent à chaque exécution. Avec $n = 10$ la fréquence peut être très éloignée de $\\frac{1}{6} \\approx 0{,}167$ (par exemple $0{,}3$) ; avec $n = 10\\,000$ elle est presque toujours très proche de $0{,}167$ : on **observe** la loi des grands nombres."
+        "content": "• `randint(a, b)` (module `random`) renvoie un entier aléatoire entre $a$ et $b$ **inclus** ; `random()` renvoie un nombre aléatoire de $[0 ; 1[$.\n• En appelant plusieurs fois une telle fonction, on obtient une **série statistique** dont on peut calculer la fréquence d'une issue :\n```python\nfrom random import randint\n\ndef lancer_de():\n    return randint(1, 6)\n\ndef frequence_six(n):\n    nb = 0\n    for i in range(n):\n        if lancer_de() == 6:\n            nb = nb + 1\n    return nb / n\n\nprint(10, frequence_six(10))\nprint(100, frequence_six(100))\nprint(10000, frequence_six(10000))\n```\n• Les résultats changent à chaque exécution. Avec $n = 10$ la fréquence peut être très éloignée de $\\frac{1}{6} \\approx 0{,}167$ (par exemple $0{,}3$) ; avec $n = 10\\,000$ elle est presque toujours très proche de $0{,}167$ : on **observe** la loi des grands nombres."
       },
       {
         "title": "4. Pour aller plus loin : fluctuation et critère $\\frac{1}{\\sqrt{n}}$",
-        "content": "*Ce critère n'est pas un attendu du programme de seconde : le programme demande d'observer la fluctuation d'échantillonnage et la loi des grands nombres par simulation (voir les paragraphes 1 et 3).*\nSoit $p$ la proportion d'un caractère dans une population générale. Lorsqu'on prélève au hasard un échantillon de taille $n$ (avec $n$ assez grand ; à titre indicatif $n \\ge 25$ et $0{,}2 \\le p \\le 0{,}8$) :\n• La fréquence observée $f$ varie d'un échantillon à un autre : c'est la **fluctuation d'échantillonnage**.\n• L'**intervalle de fluctuation à 95%** est :\n$$I = \\left[p - \\frac{1}{\\sqrt{n}} ; p + \\frac{1}{\\sqrt{n}}\\right]$$\nPour $n$ assez grand, dans environ 95 % (au moins) des échantillons de taille $n$, la fréquence observée $f$ appartient à cet intervalle."
+        "content": "*Ce critère n'est pas un attendu du programme de seconde : le programme demande d'observer la fluctuation d'échantillonnage et la loi des grands nombres par simulation (voir les paragraphes 1 et 3).*\nSoit $p$ la proportion d'un caractère dans une population générale. Lorsqu'on prélève au hasard un échantillon de taille $n$ (avec $n$ assez grand ; à titre indicatif $n \\ge 25$ et $0{,}2 \\le p \\le 0{,}8$) :\n• La fréquence observée $f$ varie d'un échantillon à un autre : c'est la **fluctuation d'échantillonnage** (voir le paragraphe 1).\n• L'**intervalle de fluctuation à 95%** est :\n$$I = \\left[p - \\frac{1}{\\sqrt{n}} ; p + \\frac{1}{\\sqrt{n}}\\right]$$\nPour $n$ assez grand, dans environ 95 % (au moins) des échantillons de taille $n$, la fréquence observée $f$ appartient à cet intervalle."
       },
       {
         "title": "5. Pour aller plus loin : écart entre fréquence et probabilité",
@@ -1685,12 +1772,12 @@ window.MATHS_COURSES_2NDE = {
       },
       {
         "title": "Pour aller plus loin — Méthode : Vérifier la conformité d'un échantillon",
-        "example": "Un fabricant affirme que $90\\,\\%$ de ses ampoules fonctionnent plus de 1000 heures. Sur un échantillon de $400$ ampoules, $348$ dépassent 1000 heures. Ce résultat remet-il en cause l'affirmation ?",
+        "example": "Un fabricant affirme que $80\\,\\%$ de ses ampoules fonctionnent plus de 1000 heures. Sur un échantillon de $400$ ampoules, $328$ dépassent 1000 heures. Ce résultat remet-il en cause l'affirmation ?",
         "steps": [
-          "**Étape 1 (Données)** : $p = 0{,}9$ et $n = 400$. On a $\\frac{1}{\\sqrt{400}} = \\frac{1}{20} = 0{,}05$.",
-          "**Étape 2 (Intervalle)** : $I = [0{,}9 - 0{,}05 ; 0{,}9 + 0{,}05] = [0{,}85 ; 0{,}95]$.",
-          "**Étape 3 (Fréquence observée)** : $f = \\frac{348}{400} = 0{,}87$, et $0{,}87 \\in [0{,}85 ; 0{,}95]$.",
-          "**Conclusion** : la fréquence observée est compatible avec $p = 0{,}9$ : l'échantillon ne permet pas de remettre en cause l'affirmation du fabricant."
+          "**Étape 1 (Données)** : $p = 0{,}8$ (compris entre $0{,}2$ et $0{,}8$) et $n = 400 \\ge 25$ : le critère s'applique. On a $\\frac{1}{\\sqrt{400}} = \\frac{1}{20} = 0{,}05$.",
+          "**Étape 2 (Intervalle)** : $I = [0{,}8 - 0{,}05 ; 0{,}8 + 0{,}05] = [0{,}75 ; 0{,}85]$.",
+          "**Étape 3 (Fréquence observée)** : $f = \\frac{328}{400} = 0{,}82$, et $0{,}82 \\in [0{,}75 ; 0{,}85]$.",
+          "**Conclusion** : la fréquence observée est compatible avec $p = 0{,}8$ : l'échantillon ne permet pas de remettre en cause l'affirmation du fabricant."
         ]
       },
       {
@@ -1705,10 +1792,10 @@ window.MATHS_COURSES_2NDE = {
       }
     ],
     "traps": [
-      "⚠️ L'amplitude de l'intervalle est de $\\frac{2}{\\sqrt{n}}$ : pour diviser la marge d'erreur par 2, il faut **quadrupler** la taille de l'échantillon !",
+      "⚠️ (Pour aller plus loin) L'amplitude de l'intervalle est de $\\frac{2}{\\sqrt{n}}$ : pour diviser la marge d'erreur par 2, il faut **quadrupler** la taille de l'échantillon !",
       "⚠️ Ne pas confondre la proportion théorique $p$ (fixe dans la population) et la fréquence observée $f$ (qui fluctue selon l'échantillon).",
-      "⚠️ Une fréquence située dans l'intervalle ne **prouve** pas que la proportion vaut $p$ : on dit seulement que l'échantillon ne permet pas de rejeter cette hypothèse.",
-      "⚠️ Même si l'hypothèse est vraie, environ $5\\,\\%$ des échantillons tombent en dehors de l'intervalle : une décision de rejet comporte donc un **risque d'erreur**.",
+      "⚠️ (Pour aller plus loin) Une fréquence située dans l'intervalle ne **prouve** pas que la proportion vaut $p$ : on dit seulement que l'échantillon ne permet pas de rejeter cette hypothèse.",
+      "⚠️ (Pour aller plus loin) Même si l'hypothèse est vraie, environ $5\\,\\%$ des échantillons tombent en dehors de l'intervalle : une décision de rejet comporte donc un **risque d'erreur**.",
       "⚠️ En Python, `randint(1, 6)` peut renvoyer $1$ comme $6$ (bornes incluses), alors que `range(1, 6)` s'arrête à $5$."
     ],
     "flashcards": [
@@ -1721,7 +1808,7 @@ window.MATHS_COURSES_2NDE = {
         "a": "Par $\\sqrt{4} = 2$ (elle est divisée par 2)."
       },
       {
-        "q": "Pour $n = 400$ et $p = 0{,}3$, donner l'intervalle $\\left[p - \\frac{1}{\\sqrt{n}} ; p + \\frac{1}{\\sqrt{n}}\\right]$.",
+        "q": "(Pour aller plus loin) Pour $n = 400$ et $p = 0{,}3$, donner l'intervalle $\\left[p - \\frac{1}{\\sqrt{n}} ; p + \\frac{1}{\\sqrt{n}}\\right]$.",
         "a": "$\\frac{1}{\\sqrt{400}} = 0{,}05$, d'où $[0{,}25 ; 0{,}35]$."
       },
       {
@@ -1729,7 +1816,7 @@ window.MATHS_COURSES_2NDE = {
         "a": "Un nombre décimal aléatoire de l'intervalle $[0 ; 1[$."
       },
       {
-        "q": "Quelle taille minimale d'échantillon donne un intervalle d'amplitude au plus $0{,}1$ ?",
+        "q": "(Pour aller plus loin) Quelle taille minimale d'échantillon donne un intervalle d'amplitude au plus $0{,}1$ ?",
         "a": "$\\frac{2}{\\sqrt{n}} \\le 0{,}1 \\iff \\sqrt{n} \\ge 20 \\iff n \\ge 400$."
       },
       {
@@ -1778,7 +1865,7 @@ window.MATHS_COURSES_2NDE = {
       },
       {
         "title": "6. Retrouver une valeur initiale et programmer un calcul d'évolutions",
-        "content": "• Si l'on connaît la valeur d'arrivée et le taux, on **divise** par le coefficient multiplicateur : $V_D = \\frac{V_A}{1 + t}$.\n**Exemple** : un article coûte $68$ € après une remise de $15\\,\\%$ : son prix initial était $\\frac{68}{0{,}85} = 80$ €.\n• En Python, on peut calculer le coefficient global de plusieurs évolutions données en pourcentage :\n```python\ndef coefficient_global(taux):\n    cm = 1\n    for t in taux:\n        cm = cm * (1 + t / 100)\n    return cm\n\nprint(coefficient_global([20, -20]))   # affiche 0.96 (aux arrondis près)\n```"
+        "content": "• Si l'on connaît la valeur d'arrivée et le taux, on **divise** par le coefficient multiplicateur : $V_D = \\frac{V_A}{1 + t}$.\n**Exemple** : un article coûte $68$ € après une remise de $15\\,\\%$ : son prix initial était $\\frac{68}{0{,}85} = 80$ €.\n• En Python, on peut calculer le coefficient global de deux évolutions successives données en pourcentage :\n```python\ndef coefficient_global(t1, t2):\n    cm1 = 1 + t1 / 100\n    cm2 = 1 + t2 / 100\n    return cm1 * cm2\n\nprint(coefficient_global(20, -20))   # affiche 0.96 (aux arrondis près)\n```\nPour $n$ évolutions successives au même taux $t$, on répète la multiplication avec une boucle : `for k in range(n):` puis `cm = cm * (1 + t / 100)`, en partant de `cm = 1`."
       },
       {
         "title": "7. Variation absolue, variation relative et points de pourcentage",
@@ -1890,7 +1977,7 @@ window.MATHS_COURSES_2NDE = {
     "keyPoints": [
       {
         "title": "1. Variables, types et affectation",
-        "content": "Une **variable** est un nom associé à une valeur stockée en mémoire. L'**affectation** `x = 5` range la valeur $5$ dans la variable `x` (le signe `=` n'est pas une égalité mathématique : il se lit « prend la valeur »).\n• `int` : nombre entier (`7`, `-3`) ;\n• `float` : nombre à virgule flottante, écrit avec un **point** (`2.5`, `0.1`) ;\n• `str` : chaîne de caractères entre guillemets (`\"Bonjour\"`) ;\n• `bool` : booléen, `True` ou `False` (résultat d'une comparaison comme `3 < 5`).\nOpérations utiles : `+`, `-`, `*`, `/` (division décimale, résultat flottant : `7 / 2` vaut $3{,}5$), `//` (quotient entier : `7 // 2` vaut $3$), `%` (reste : `7 % 2` vaut $1$), `**` (puissance : `2 ** 5` vaut $32$).\n```python\na = 7\nb = 2\nq = a // b    # 3\nr = a % b     # 1\nprint(q, r)   # affiche 3 1\n```"
+        "content": "Une **variable** est un nom associé à une valeur stockée en mémoire. L'**affectation** `x = 5` range la valeur $5$ dans la variable `x` (le signe `=` n'est pas une égalité mathématique : il se lit « prend la valeur »).\n• `int` : nombre entier (`7`, `-3`) ;\n• `float` : nombre à virgule flottante, écrit avec un **point** (`2.5`, `0.1`) ;\n• `str` : chaîne de caractères entre guillemets (`\"Bonjour\"`) ;\n• `bool` : booléen, `True` ou `False` (résultat d'une comparaison comme `3 < 5`).\nOpérations utiles : `+`, `-`, `*`, `/` (division décimale, résultat flottant : `7 / 2` vaut $3{,}5$), `//` (quotient entier : `7 // 2` vaut $3$), `%` (reste : `7 % 2` vaut $1$), `**` (puissance : `2 ** 5` vaut $32$).\n```python\na = 7\nb = 2\nq = a // b    # 3\nr = a % b     # 1\nprint(q, r)   # affiche 3 1\n```\n**Conversions** : `int(\"12\")` transforme la chaîne `\"12\"` en l'entier $12$, et `str(12)` transforme l'entier $12$ en la chaîne `\"12\"`. Le signe `+` additionne deux nombres, mais il met deux chaînes **bout à bout** : `\"1\" + \"2\"` vaut `\"12\"`, alors que `1 + 2` vaut $3$."
       },
       {
         "title": "2. Exécuter un programme à la main",
@@ -1898,11 +1985,11 @@ window.MATHS_COURSES_2NDE = {
       },
       {
         "title": "3. Instructions conditionnelles",
-        "content": "Une **instruction conditionnelle** exécute un bloc seulement si une condition est vraie. Les blocs sont délimités par l'**indentation** (4 espaces) et la ligne de test se termine par `:`.\n```python\nif delta > 0:\n    nb = 2\nelif delta == 0:\n    nb = 1\nelse:\n    nb = 0\n```\n• Comparaisons : `==` (égal), `!=` (différent), `<`, `<=`, `>`, `>=`.\n• Connecteurs logiques : `and` (les deux conditions), `or` (au moins l'une), `not` (négation).\n• Tester la parité : `n % 2 == 0` est vrai si et seulement si $n$ est pair."
+        "content": "Une **instruction conditionnelle** exécute un bloc seulement si une condition est vraie. Les blocs sont délimités par l'**indentation** (4 espaces) et la ligne de test se termine par `:`.\nExemple : pour comparer deux nombres `a` et `b`, on étudie le signe de leur différence `d = a - b`.\n```python\na = 7\nb = 4.5\nd = a - b\nif d > 0:\n    print(\"a est plus grand que b\")\nelif d == 0:\n    print(\"a et b sont égaux\")\nelse:\n    print(\"a est plus petit que b\")\n```\nIci, `d` vaut $2{,}5$ : le test `d > 0` est vrai, le programme affiche donc « a est plus grand que b » et les autres blocs ne sont pas exécutés.\n• Comparaisons : `==` (égal), `!=` (différent), `<`, `<=`, `>`, `>=`.\n• Connecteurs logiques : `and` (les deux conditions), `or` (au moins l'une), `not` (négation).\n• Tester la parité : `n % 2 == 0` est vrai si et seulement si $n$ est pair."
       },
       {
         "title": "4. Boucle bornée `for`",
-        "content": "On utilise une **boucle bornée** quand on connaît **à l'avance** le nombre de répétitions.\n• `range(n)` parcourt $0, 1, \\dots, n - 1$ ($n$ valeurs) ;\n• `range(a, b)` parcourt $a, a + 1, \\dots, b - 1$ (la borne $b$ est **exclue**) ;\n• `range(a, b, p)` avance avec un pas $p$.\nExemple : calcul de $1 + 2 + \\dots + 100$ avec un **accumulateur** `s`.\n```python\ns = 0\nfor i in range(1, 101):\n    s = s + i\nprint(s)      # affiche 5050\n```"
+        "content": "On utilise une **boucle bornée** quand on connaît **à l'avance** le nombre de répétitions.\n• `range(n)` parcourt $0, 1, \\dots, n - 1$ ($n$ valeurs) ;\n• `range(a, b)` parcourt $a, a + 1, \\dots, b - 1$ (la borne $b$ est **exclue**) ;\n• `range(a, b, p)` avance avec un pas $p$.\nExemple : calcul de $1 + 2 + \\dots + 100$ avec un **accumulateur** `s`.\n```python\ns = 0\nfor i in range(1, 101):\n    s = s + i\nprint(s)      # affiche 5050\n```\nUne boucle `for` peut aussi parcourir une **chaîne de caractères** : dans `for c in \"abc\":`, la variable `c` prend successivement les valeurs `\"a\"`, `\"b\"` puis `\"c\"`."
       },
       {
         "title": "5. Boucle non bornée `while`",
@@ -2025,7 +2112,7 @@ window.MATHS_EXERCISES_2NDE = {
       "tier": 2,
       "type": "mcq",
       "title": "Simplification de racines carrées",
-      "skill": "Décomposition en facteurs premiers",
+      "skill": "Simplifier une racine carrée",
       "statement": "Écrire $\\sqrt{108}$ sous la forme $a\\sqrt{b}$, où $a$ et $b$ sont des entiers naturels et $b$ est le plus petit possible.",
       "options": [
         "$3\\sqrt{12}$",
@@ -2045,7 +2132,7 @@ window.MATHS_EXERCISES_2NDE = {
       "type": "mcq",
       "title": "Nombres décimaux et fractions",
       "skill": "Caractériser les nombres décimaux",
-      "statement": "Laquelle de ces fractions représente un nombre décimal (élément de $\\mathbb{D}$) ?",
+      "statement": "**Pour aller plus loin** (section 6 du cours) : laquelle de ces fractions représente un nombre décimal (élément de $\\mathbb{D}$) ?",
       "options": [
         "$\\frac{7}{12}$",
         "$\\frac{9}{40}$",
@@ -2062,9 +2149,9 @@ window.MATHS_EXERCISES_2NDE = {
       "id": "2N1-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Irrationnalité et parité",
+      "title": "Irrationalité et parité",
       "skill": "Raisonnement par l'absurde sur les réels",
-      "statement": "Soit $p$ et $q$ deux entiers non nuls tels que $(p/q)^2 = 2$. Que peut-on déduire immédiatement sur la parité de $p$ ?",
+      "statement": "On suppose par l'absurde qu'il existe deux entiers $p$ et $q$ non nuls tels que $(p/q)^2 = 2$. Que peut-on déduire immédiatement sur la parité de $p$ ?",
       "options": [
         "$p$ est obligatoirement pair",
         "$p$ est obligatoirement impair",
@@ -2142,18 +2229,18 @@ window.MATHS_EXERCISES_2NDE = {
       "type": "mcq",
       "title": "Calcul sur les puissances",
       "skill": "Règles de calcul sur les puissances",
-      "statement": "Écrire $A = \\frac{2^5 \\times 2^{-3}}{2^{-1}}$ sous la forme d'un entier.",
+      "statement": "Écrire $A = \\frac{6^3 \\times 2^{-2}}{3^4 \\times 9^{-1}}$ sous la forme d'un entier.",
       "options": [
-        "$8$",
+        "$6$",
+        "$18$",
         "$2$",
-        "$\\frac{1}{2}$",
-        "$16$"
+        "$\\frac{3}{2}$"
       ],
       "correctIndex": 0,
-      "answer": "$8$",
-      "hint1": "Utilise $a^n \\times a^m = a^{n+m}$ puis $\\frac{a^n}{a^m} = a^{n-m}$.",
-      "hint2": "Numérateur : $2^{5 + (-3)} = 2^2$. Puis $\\frac{2^2}{2^{-1}} = 2^{2 - (-1)}$.",
-      "solution": "$2^5 \\times 2^{-3} = 2^{2}$, puis $\\frac{2^2}{2^{-1}} = 2^{2 + 1} = 2^3 = 8$."
+      "answer": "$6$",
+      "hint1": "Écris $6 = 2 \\times 3$ et $9 = 3^2$, puis utilise $(ab)^n = a^n b^n$, $(a^n)^m = a^{nm}$, $a^n \\times a^m = a^{n+m}$ et $\\frac{a^n}{a^m} = a^{n-m}$.",
+      "hint2": "Numérateur : $2^3 \\times 3^3 \\times 2^{-2}$. Dénominateur : $3^4 \\times 3^{-2}$. Regroupe les puissances de même base.",
+      "solution": "Numérateur : $6^3 \\times 2^{-2} = 2^3 \\times 3^3 \\times 2^{-2} = 2 \\times 3^3$. Dénominateur : $3^4 \\times 9^{-1} = 3^4 \\times 3^{-2} = 3^2$. Donc $A = \\frac{2 \\times 3^3}{3^2} = 2 \\times 3 = 6$."
     }
   ],
   "2N3": [
@@ -2210,9 +2297,9 @@ window.MATHS_EXERCISES_2NDE = {
       ],
       "correctIndex": 0,
       "answer": "$\\left[\\frac{1}{5} ; \\frac{1}{2}\\right]$",
-      "hint1": "La fonction inverse $x \\mapsto 1/x$ est strictement décroissante sur $]0 ; +\\infty[$.",
-      "hint2": "Elle inverse donc le sens des inégalités : $2 \\le x \\le 5 \\implies 1/5 \\le 1/x \\le 1/2$.",
-      "solution": "Comme la fonction inverse est strictement décroissante sur $]0 ; +\\infty[$, $2 \\le x \\le 5 \\iff \\frac{1}{5} \\le \\frac{1}{x} \\le \\frac{1}{2}$."
+      "hint1": "Ici $x > 0$. Diviser les deux membres d'une inégalité par un nombre strictement positif conserve son sens.",
+      "hint2": "Divise $2 \\le x$ par $2x > 0$ : tu obtiens $\\frac{1}{x} \\le \\frac{1}{2}$. Fais de même avec $x \\le 5$, en divisant par $5x > 0$.",
+      "solution": "Comme $x \\ge 2$, on a $2x > 0$ et $5x > 0$. En divisant $2 \\le x$ par $2x$, on obtient $\\frac{1}{x} \\le \\frac{1}{2}$ ; en divisant $x \\le 5$ par $5x$, on obtient $\\frac{1}{5} \\le \\frac{1}{x}$. Donc $\\frac{1}{5} \\le \\frac{1}{x} \\le \\frac{1}{2}$, soit $\\frac{1}{x} \\in \\left[\\frac{1}{5} ; \\frac{1}{2}\\right]$. Ce résultat sera repris au chapitre 2A3 : la fonction inverse est strictement décroissante sur $]0 ; +\\infty[$."
     },
     {
       "id": "2N3-4",
@@ -2452,7 +2539,7 @@ window.MATHS_EXERCISES_2NDE = {
       "id": "2A2-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Maximum d'une fonction écrite sous forme canonique",
+      "title": "Maximum d'une fonction écrite avec un carré",
       "skill": "Démontrer qu'un réel est un maximum",
       "statement": "On considère la fonction $f$ définie sur $\\mathbb{R}$ par $f(x) = 5 - 2(x - 3)^2$. Que peut-on affirmer ?",
       "options": [
@@ -2591,7 +2678,7 @@ window.MATHS_EXERCISES_2NDE = {
       "type": "mcq",
       "title": "Nature d'un triangle par les longueurs",
       "skill": "Appliquer la réciproque de Pythagore dans un repère",
-      "statement": "Soit $A(1 ; 2)$, $B(4 ; 6)$ et $C(-3 ; 5)$. Quelle est la nature exacte du triangle $ABC$ ?",
+      "statement": "Dans un repère orthonormé, on donne $A(1 ; 2)$, $B(4 ; 6)$ et $C(-3 ; 5)$. Quelle est la nature exacte du triangle $ABC$ ?",
       "options": [
         "Rectangle en $A$",
         "Rectangle en $B$",
@@ -2631,18 +2718,18 @@ window.MATHS_EXERCISES_2NDE = {
       "type": "mcq",
       "title": "Coordonnées d'un vecteur",
       "skill": "Calculer les coordonnées du vecteur AB",
-      "statement": "Soit $A(3 ; -2)$ et $B(-1 ; 5)$. Quelles sont les coordonnées de $\\vec{AB}$ ?",
+      "statement": "Soit $A(3 ; -2)$ et $B(-1 ; 5)$. Quelles sont les coordonnées de $\\overrightarrow{AB}$ ?",
       "options": [
-        "$\\vec{AB}(-4 ; 7)$",
-        "$\\vec{AB}(2 ; 3)$",
-        "$\\vec{AB}(4 ; -7)$",
-        "$\\vec{AB}(-4 ; 3)$"
+        "$\\overrightarrow{AB}\\begin{pmatrix} -4 \\\\ 7 \\end{pmatrix}$",
+        "$\\overrightarrow{AB}\\begin{pmatrix} 2 \\\\ 3 \\end{pmatrix}$",
+        "$\\overrightarrow{AB}\\begin{pmatrix} 4 \\\\ -7 \\end{pmatrix}$",
+        "$\\overrightarrow{AB}\\begin{pmatrix} -4 \\\\ 3 \\end{pmatrix}$"
       ],
       "correctIndex": 0,
-      "answer": "$\\vec{AB}(-4 ; 7)$",
-      "hint1": "$\\vec{AB}(x_B - x_A ; y_B - y_A)$.",
+      "answer": "$\\overrightarrow{AB}\\begin{pmatrix} -4 \\\\ 7 \\end{pmatrix}$",
+      "hint1": "$\\overrightarrow{AB}\\begin{pmatrix} x_B - x_A \\\\ y_B - y_A \\end{pmatrix}$.",
       "hint2": "$x_B - x_A = -1 - 3 = -4$ et $y_B - y_A = 5 - (-2) = 7$.",
-      "solution": "$\\vec{AB}(-1 - 3 ; 5 - (-2)) = \\vec{AB}(-4 ; 7)$."
+      "solution": "$\\overrightarrow{AB}\\begin{pmatrix} -1 - 3 \\\\ 5 - (-2) \\end{pmatrix} = \\overrightarrow{AB}\\begin{pmatrix} -4 \\\\ 7 \\end{pmatrix}$."
     },
     {
       "id": "2G2-2",
@@ -2650,7 +2737,7 @@ window.MATHS_EXERCISES_2NDE = {
       "type": "mcq",
       "title": "Colinéarité de deux vecteurs",
       "skill": "Appliquer la condition de colinéarité $xy' - x'y = 0$",
-      "statement": "Les vecteurs $\\vec{u}(4 ; -6)$ et $\\vec{v}(k ; 9)$ sont colinéaires. Quelle est la valeur de $k$ ?",
+      "statement": "Les vecteurs $\\vec{u}\\begin{pmatrix} 4 \\\\ -6 \\end{pmatrix}$ et $\\vec{v}\\begin{pmatrix} k \\\\ 9 \\end{pmatrix}$ sont colinéaires. Quelle est la valeur de $k$ ?",
       "options": [
         "$k = -6$",
         "$k = 6$",
@@ -2669,18 +2756,18 @@ window.MATHS_EXERCISES_2NDE = {
       "type": "mcq",
       "title": "Combinaison linéaire de vecteurs",
       "skill": "Calculer les coordonnées de a.u + b.v",
-      "statement": "On donne $\\vec{u}(2 ; -1)$ et $\\vec{v}(-3 ; 4)$. Quelles sont les coordonnées du vecteur $\\vec{w} = 3\\vec{u} - 2\\vec{v}$ ?",
+      "statement": "On donne $\\vec{u}\\begin{pmatrix} 2 \\\\ -1 \\end{pmatrix}$ et $\\vec{v}\\begin{pmatrix} -3 \\\\ 4 \\end{pmatrix}$. Quelles sont les coordonnées du vecteur $\\vec{w} = 3\\vec{u} - 2\\vec{v}$ ?",
       "options": [
-        "$\\vec{w}(12 ; -11)$",
-        "$\\vec{w}(0 ; 5)$",
-        "$\\vec{w}(12 ; 5)$",
-        "$\\vec{w}(-12 ; 11)$"
+        "$\\vec{w}\\begin{pmatrix} 12 \\\\ -11 \\end{pmatrix}$",
+        "$\\vec{w}\\begin{pmatrix} 0 \\\\ 5 \\end{pmatrix}$",
+        "$\\vec{w}\\begin{pmatrix} 12 \\\\ 5 \\end{pmatrix}$",
+        "$\\vec{w}\\begin{pmatrix} -12 \\\\ 11 \\end{pmatrix}$"
       ],
       "correctIndex": 0,
-      "answer": "$\\vec{w}(12 ; -11)$",
+      "answer": "$\\vec{w}\\begin{pmatrix} 12 \\\\ -11 \\end{pmatrix}$",
       "hint1": "$x_w = 3(2) - 2(-3)$ et $y_w = 3(-1) - 2(4)$.",
       "hint2": "$x_w = 6 + 6 = 12$ et $y_w = -3 - 8 = -11$.",
-      "solution": "$\\vec{w}(3 \\times 2 - 2(-3) ; 3(-1) - 2(4)) = \\vec{w}(6 + 6 ; -3 - 8) = \\vec{w}(12 ; -11)$."
+      "solution": "$\\vec{w}\\begin{pmatrix} 3 \\times 2 - 2(-3) \\\\ 3(-1) - 2(4) \\end{pmatrix} = \\vec{w}\\begin{pmatrix} 6 + 6 \\\\ -3 - 8 \\end{pmatrix} = \\vec{w}\\begin{pmatrix} 12 \\\\ -11 \\end{pmatrix}$."
     },
     {
       "id": "2G2-4",
@@ -2697,9 +2784,47 @@ window.MATHS_EXERCISES_2NDE = {
       ],
       "correctIndex": 0,
       "answer": "$y = 6$",
-      "hint1": "$A, B, C$ alignés $\\iff \\vec{AB}$ et $\\vec{AC}$ colinéaires.",
-      "hint2": "$\\vec{AB}(4 ; 2)$ et $\\vec{AC}(10 ; y - 1)$. On applique $xy' - x'y = 0$.",
-      "solution": "$\\vec{AB}(4 ; 2)$ et $\\vec{AC}(10 ; y - 1)$. Colinéarité : $4(y - 1) - 2(10) = 0 \\iff 4y - 4 - 20 = 0 \\iff 4y = 24 \\iff y = 6$."
+      "hint1": "$A, B, C$ alignés $\\iff \\overrightarrow{AB}$ et $\\overrightarrow{AC}$ colinéaires.",
+      "hint2": "$\\overrightarrow{AB}\\begin{pmatrix} 4 \\\\ 2 \\end{pmatrix}$ et $\\overrightarrow{AC}\\begin{pmatrix} 10 \\\\ y - 1 \\end{pmatrix}$. On applique $xy' - x'y = 0$.",
+      "solution": "$\\overrightarrow{AB}\\begin{pmatrix} 4 \\\\ 2 \\end{pmatrix}$ et $\\overrightarrow{AC}\\begin{pmatrix} 10 \\\\ y - 1 \\end{pmatrix}$. Colinéarité : $4(y - 1) - 2(10) = 0 \\iff 4y - 4 - 20 = 0 \\iff 4y = 24 \\iff y = 6$."
+    },
+    {
+      "id": "2G2-5",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Relation de Chasles",
+      "skill": "Simplifier une somme de vecteurs avec la relation de Chasles",
+      "statement": "Simplifier la somme $\\overrightarrow{AB} + \\overrightarrow{CA}$.",
+      "options": [
+        "$\\overrightarrow{CB}$",
+        "$\\overrightarrow{BC}$",
+        "$\\overrightarrow{AC}$",
+        "$\\vec{0}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\overrightarrow{CB}$",
+      "hint1": "La relation de Chasles s'applique quand l'extrémité d'un vecteur est l'origine du suivant. L'ordre d'une somme ne compte pas.",
+      "hint2": "Écris la somme sous la forme $\\overrightarrow{CA} + \\overrightarrow{AB}$ : le point $A$ est l'extrémité du premier vecteur et l'origine du second.",
+      "solution": "$\\overrightarrow{AB} + \\overrightarrow{CA} = \\overrightarrow{CA} + \\overrightarrow{AB} = \\overrightarrow{CB}$ d'après la relation de Chasles."
+    },
+    {
+      "id": "2G2-6",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Vecteurs égaux dans un parallélogramme",
+      "skill": "Reconnaître des vecteurs égaux dans un parallélogramme",
+      "statement": "$ABCD$ est un parallélogramme de centre $O$. Quel vecteur est égal à $\\overrightarrow{OA}$ ?",
+      "options": [
+        "$\\overrightarrow{CO}$",
+        "$\\overrightarrow{OC}$",
+        "$\\overrightarrow{DO}$",
+        "$\\overrightarrow{BO}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\overrightarrow{CO}$",
+      "hint1": "Les diagonales d'un parallélogramme se coupent en leur milieu : $O$ est le milieu de $[AC]$ et de $[BD]$.",
+      "hint2": "Un vecteur égal à $\\overrightarrow{OA}$ a la même direction que $(AC)$, le même sens (vers $A$) et la norme $OA$.",
+      "solution": "$O$ est le milieu de $[AC]$, donc $\\overrightarrow{AO} = \\overrightarrow{OC}$. En prenant les vecteurs opposés, $\\overrightarrow{OA} = \\overrightarrow{CO}$."
     }
   ],
   "2G3": [
@@ -2730,16 +2855,16 @@ window.MATHS_EXERCISES_2NDE = {
       "skill": "Lire un vecteur directeur de ax + by + c = 0",
       "statement": "Un vecteur directeur de la droite d'équation $3x - 5y + 7 = 0$ est :",
       "options": [
-        "$\\vec{u}(5 ; 3)$",
-        "$\\vec{u}(-5 ; 3)$",
-        "$\\vec{u}(3 ; -5)$",
-        "$\\vec{u}(3 ; 5)$"
+        "$\\vec{u}\\begin{pmatrix} 5 \\\\ 3 \\end{pmatrix}$",
+        "$\\vec{u}\\begin{pmatrix} -5 \\\\ 3 \\end{pmatrix}$",
+        "$\\vec{u}\\begin{pmatrix} 3 \\\\ -5 \\end{pmatrix}$",
+        "$\\vec{u}\\begin{pmatrix} 3 \\\\ 5 \\end{pmatrix}$"
       ],
       "correctIndex": 0,
-      "answer": "$\\vec{u}(5 ; 3)$",
-      "hint1": "Pour une droite $ax + by + c = 0$, un vecteur directeur est $\\vec{u}(-b ; a)$.",
+      "answer": "$\\vec{u}\\begin{pmatrix} 5 \\\\ 3 \\end{pmatrix}$",
+      "hint1": "Pour une droite $ax + by + c = 0$, un vecteur directeur est $\\vec{u}\\begin{pmatrix} -b \\\\ a \\end{pmatrix}$.",
       "hint2": "Ici $a = 3$ et $b = -5$, donc $-b = 5$ et $a = 3$.",
-      "solution": "Pour $ax + by + c = 0$, un vecteur directeur est $\\vec{u}(-b ; a) = \\vec{u}(5 ; 3)$."
+      "solution": "Pour $ax + by + c = 0$, un vecteur directeur est $\\vec{u}\\begin{pmatrix} -b \\\\ a \\end{pmatrix} = \\vec{u}\\begin{pmatrix} 5 \\\\ 3 \\end{pmatrix}$."
     },
     {
       "id": "2G3-3",
@@ -2839,6 +2964,42 @@ window.MATHS_EXERCISES_2NDE = {
       "solution": "$N/4 = 5$ donc $Q_1$ est la 5ème valeur ordonnée. $3N/4 = 15$ donc $Q_3$ est la 15ème valeur ordonnée."
     },
     {
+      "id": "2S1-5",
+      "tier": 2,
+      "type": "exact",
+      "title": "Moyenne d'une série regroupée en classes",
+      "skill": "Calculer la moyenne d'une série regroupée en classes",
+      "statement": "On a relevé le temps de trajet, en minutes, de $40$ élèves :\n\n| Temps de trajet | $[0 ; 10[$ | $[10 ; 20[$ | $[20 ; 30[$ | $[30 ; 40[$ |\n|---|---|---|---|---|\n| Effectif | $8$ | $20$ | $10$ | $2$ |\n\nEn remplaçant chaque classe par son centre, calculer la moyenne de cette série, en minutes.",
+      "answer": "16,5",
+      "hint1": "Le centre d'une classe est la demi-somme de ses bornes. Calcule ensuite une moyenne pondérée par les effectifs.",
+      "hint2": "Les centres sont $5$, $15$, $25$ et $35$. Le numérateur commence par $8 \\times 5 + 20 \\times 15$, et tu divises à la fin par l'effectif total.",
+      "solution": "Les centres des classes sont $5$, $15$, $25$ et $35$. La moyenne vaut\n$$\\overline{x} = \\frac{8 \\times 5 + 20 \\times 15 + 10 \\times 25 + 2 \\times 35}{40} = \\frac{40 + 300 + 250 + 70}{40} = \\frac{660}{40} = 16{,}5.$$\nLe temps de trajet moyen est estimé à $16{,}5$ minutes."
+    },
+    {
+      "id": "2S1-6",
+      "tier": 3,
+      "type": "exact",
+      "title": "Écart type d'une série",
+      "skill": "Calculer l'écart type d'une série",
+      "statement": "On considère la série statistique suivante :\n\n| Valeur | $2$ | $4$ | $5$ | $7$ | $9$ |\n|---|---|---|---|---|---|\n| Effectif | $1$ | $3$ | $2$ | $1$ | $1$ |\n\nCalculer son écart type $\\sigma$.",
+      "answer": "2",
+      "hint1": "Calcule d'abord la moyenne $\\overline{x}$, puis la variance $V$ : c'est la moyenne des carrés des écarts à la moyenne, pondérée par les effectifs. Enfin, $\\sigma = \\sqrt{V}$.",
+      "hint2": "L'effectif total est $8$ et la moyenne vaut $\\frac{40}{8} = 5$. Le numérateur de la variance commence par $1 \\times (2 - 5)^2 + 3 \\times (4 - 5)^2$.",
+      "solution": "L'effectif total est $N = 8$. La moyenne vaut\n$$\\overline{x} = \\frac{1 \\times 2 + 3 \\times 4 + 2 \\times 5 + 1 \\times 7 + 1 \\times 9}{8} = \\frac{40}{8} = 5.$$\nLa variance vaut\n$$V = \\frac{1 \\times (-3)^2 + 3 \\times (-1)^2 + 2 \\times 0^2 + 1 \\times 2^2 + 1 \\times 4^2}{8} = \\frac{9 + 3 + 0 + 4 + 16}{8} = \\frac{32}{8} = 4.$$\nDonc $\\sigma = \\sqrt{4} = 2$. (Attention : $4$ est la variance, pas l'écart type.)"
+    },
+    {
+      "id": "2S1-7",
+      "tier": 3,
+      "type": "exact",
+      "title": "Fréquence conditionnelle dans un tableau croisé",
+      "skill": "Compléter un tableau croisé et calculer une fréquence conditionnelle",
+      "statement": "Dans un lycée de $250$ élèves, on a recensé ceux qui pratiquent un sport en club. Certaines cases du tableau ne sont pas remplies :\n\n| | Sport en club | Pas de sport en club | Total |\n|---|---|---|---|\n| Filles | $60$ | $\\ldots$ | $150$ |\n| Garçons | $\\ldots$ | $\\ldots$ | $\\ldots$ |\n| Total | $130$ | $\\ldots$ | $250$ |\n\nCalculer la fréquence des élèves qui pratiquent un sport en club **parmi les garçons**. Donner le résultat sous forme décimale.",
+      "answer": "0,7",
+      "hint1": "Une fréquence conditionnelle se calcule à l'intérieur d'une sous-population : ici, le dénominateur est le nombre total de garçons, et non $250$.",
+      "hint2": "Le nombre de garçons est $250 - 150 = 100$. Utilise la colonne « Sport en club » pour trouver combien d'entre eux pratiquent un sport en club.",
+      "solution": "Le nombre de garçons est $250 - 150 = 100$. Le nombre de garçons pratiquant un sport en club est $130 - 60 = 70$. La fréquence cherchée est donc $\\frac{70}{100} = 0{,}7$."
+    },
+    {
       "id": "2S1-4",
       "tier": 4,
       "type": "mcq",
@@ -2901,8 +3062,8 @@ window.MATHS_EXERCISES_2NDE = {
       "id": "2S2-3",
       "tier": 3,
       "type": "mcq",
-      "title": "Tableau croisé d'effectifs et probabilités",
-      "skill": "Calculer des probabilités à partir d'un tableau à double entrée",
+      "title": "Réunion d'événements dans un club",
+      "skill": "Utiliser la formule de la réunion et l'événement contraire",
       "statement": "Dans un club de 100 membres, 60 font du tennis, 50 de la natation et 20 pratiquent les deux. Quelle est la probabilité qu'un membre choisi au hasard ne pratique aucun de ces deux sports ?",
       "options": [
         "$0{,}10$",
@@ -2915,6 +3076,30 @@ window.MATHS_EXERCISES_2NDE = {
       "hint1": "Calcule d'abord le nombre de membres qui pratiquent au moins un sport : $T \\cup N$.",
       "hint2": "$60 + 50 - 20 = 90$. Il reste donc $100 - 90 = 10$ membres.",
       "solution": "$P(T \\cup N) = \\frac{60 + 50 - 20}{100} = 0{,}90$. La probabilité de ne pratiquer aucun des deux est $1 - 0{,}90 = 0{,}10$."
+    },
+    {
+      "id": "2S2-5",
+      "tier": 3,
+      "type": "exact",
+      "title": "Probabilité conditionnelle dans un tableau croisé",
+      "skill": "Calculer une probabilité conditionnelle à partir d'un tableau croisé",
+      "statement": "Le tableau suivant répartit les $300$ élèves d'un lycée :\n\n| | Option théâtre | Pas d'option théâtre | Total |\n|---|---|---|---|\n| Internes | $30$ | $50$ | $80$ |\n| Externes | $90$ | $130$ | $220$ |\n| Total | $120$ | $180$ | $300$ |\n\nOn choisit un élève au hasard. On note $I$ l'événement « l'élève est interne » et $T$ l'événement « l'élève suit l'option théâtre ». Calculer $P_I(T)$. Donner le résultat sous forme décimale.",
+      "answer": "0,375",
+      "hint1": "$P_I(T)$ est la probabilité de $T$ sachant que $I$ est réalisé : on se restreint à la ligne des internes.",
+      "hint2": "Le dénominateur est le nombre d'internes, soit $80$. Cherche dans cette ligne le nombre d'élèves qui suivent l'option théâtre.",
+      "solution": "On se restreint aux $80$ internes, parmi lesquels $30$ suivent l'option théâtre :\n$$P_I(T) = \\frac{30}{80} = 0{,}375.$$\n(Attention : $\\frac{30}{120} = 0{,}25$ est $P_T(I)$, la proportion d'internes parmi les élèves de l'option.)"
+    },
+    {
+      "id": "2S2-6",
+      "tier": 4,
+      "type": "exact",
+      "title": "Inverser une probabilité conditionnelle",
+      "skill": "Distinguer P_A(B) et P_B(A)",
+      "statement": "Dans un lycée, on choisit un élève au hasard. On note $A$ l'événement « l'élève est inscrit à l'association sportive » et $B$ l'événement « l'élève fait du sport chaque semaine ». On sait que $P(A) = 0{,}4$, $P_A(B) = 0{,}75$ et $P(B) = 0{,}5$.\n\nCalculer $P_B(A)$. Donner le résultat sous forme décimale.",
+      "answer": "0,6",
+      "hint1": "$P_A(B)$ et $P_B(A)$ sont deux nombres différents. Passe par $P(A \\cap B)$, qui se calcule avec $P(A \\cap B) = P(A) \\times P_A(B)$.",
+      "hint2": "$P(A \\cap B) = 0{,}4 \\times 0{,}75 = 0{,}3$. Il te reste à appliquer la définition de $P_B(A)$.",
+      "solution": "On a $P(A \\cap B) = P(A) \\times P_A(B) = 0{,}4 \\times 0{,}75 = 0{,}3$. Donc\n$$P_B(A) = \\frac{P(A \\cap B)}{P(B)} = \\frac{0{,}3}{0{,}5} = 0{,}6.$$"
     },
     {
       "id": "2S2-4",
@@ -3175,7 +3360,7 @@ window.MATHS_EXERCISES_2NDE = {
       "type": "mcq",
       "title": "Fonction booléenne",
       "skill": "Comprendre une fonction renvoyant un booléen",
-      "statement": "On considère la fonction Python suivante.\n```python\ndef mystere(n):\n    for d in range(2, n):\n        if n % d == 0:\n            return False\n    return True\n```\nPour un entier $n \\ge 2$, que teste cette fonction ?",
+      "statement": "On considère la fonction Python suivante.\n```python\ndef mystere(n):\n    for d in range(2, n):\n        if n % d == 0:\n            return False\n    return True\n```\nPour aller plus loin (la notion de nombre premier est un rappel du collège). Pour un entier $n \\ge 2$, que teste cette fonction ?",
       "options": [
         "Si $n$ est un nombre premier",
         "Si $n$ est un nombre pair",
@@ -3186,7 +3371,7 @@ window.MATHS_EXERCISES_2NDE = {
       "answer": "Si $n$ est un nombre premier",
       "hint1": "`n % d == 0` signifie que $d$ divise $n$.",
       "hint2": "La fonction renvoie `False` dès qu'elle trouve un diviseur $d$ compris entre $2$ et $n - 1$.",
-      "solution": "La fonction cherche un diviseur de $n$ parmi $2, 3, \\dots, n - 1$. Si elle en trouve un, elle renvoie `False` ; sinon elle renvoie `True`. Elle renvoie donc `True` exactement lorsque $n$ n'a pas d'autre diviseur que $1$ et lui-même : elle teste si $n$ est premier."
+      "solution": "La fonction cherche un diviseur de $n$ parmi $2, 3, \\dots, n - 1$. Si elle en trouve un, elle renvoie `False` ; sinon elle renvoie `True`. Elle renvoie donc `True` exactement lorsque $n$ n'a pas d'autre diviseur que $1$ et lui-même : elle teste si $n$ est premier (rappel du collège : un nombre premier possède exactement deux diviseurs positifs, $1$ et lui-même)."
     },
     {
       "id": "2S4-5",
@@ -3206,6 +3391,82 @@ window.MATHS_EXERCISES_2NDE = {
       "hint1": "`range(1, n + 1)` parcourt les entiers de $1$ à $n$ inclus.",
       "hint2": "La variable `p` est multipliée successivement par $1$, $2$, $3$ et $4$.",
       "solution": "$p = 1 \\times 1 \\times 2 \\times 3 \\times 4 = 24$. La fonction calcule le produit des entiers de $1$ à $n$ (appelé factorielle de $n$, notée $n!$)."
+    },
+    {
+      "id": "2S4-6",
+      "tier": 1,
+      "type": "mcq",
+      "title": "Déterminer un type",
+      "skill": "Déterminer le type d'une variable",
+      "statement": "Quel est le type de la variable `x` après l'instruction suivante ?\n```python\nx = 6 / 2\n```",
+      "options": [
+        "`float`",
+        "`int`",
+        "`str`",
+        "`bool`"
+      ],
+      "correctIndex": 0,
+      "answer": "`float`",
+      "hint1": "Le type de `x` est celui de la valeur rangée à droite du signe `=` : regarde l'opérateur utilisé.",
+      "hint2": "Rappelle-toi la différence entre `/` et `//`, même lorsque la division tombe juste.",
+      "solution": "L'opérateur `/` donne toujours un flottant, même lorsque la division tombe juste : `6 / 2` vaut `3.0`. La variable `x` est donc de type `float`. Avec `6 // 2`, on aurait obtenu l'entier `3`, de type `int`."
+    },
+    {
+      "id": "2S4-7",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Écrire une condition",
+      "skill": "Écrire la condition d'une instruction if",
+      "statement": "On veut calculer la somme des entiers pairs de $1$ à $10$. Le programme doit afficher $30$.\nQuelle condition faut-il écrire à la place de `___` ?\n```python\ns = 0\nfor i in range(1, 11):\n    if ___:\n        s = s + i\nprint(s)\n```",
+      "options": [
+        "`i % 2 == 0`",
+        "`i % 2 == 1`",
+        "`i // 2 == 0`",
+        "`i / 2 == 0`"
+      ],
+      "correctIndex": 0,
+      "answer": "`i % 2 == 0`",
+      "hint1": "`i % 2` est le reste de la division de `i` par $2$.",
+      "hint2": "Quel est ce reste lorsque `i` est pair ?",
+      "solution": "Un entier est pair lorsque le reste de sa division par $2$ est nul : la condition est `i % 2 == 0`. On ajoute alors $2 + 4 + 6 + 8 + 10 = 30$. Avec `i % 2 == 1`, on ajouterait les entiers impairs (somme $25$) ; avec `i // 2 == 0`, seul $1$ serait ajouté ; avec `i / 2 == 0`, aucun entier ne conviendrait."
+    },
+    {
+      "id": "2S4-8",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Écrire la condition d'un while",
+      "skill": "Écrire la condition d'une boucle non bornée",
+      "statement": "On part de $1$ et on double le nombre `p` jusqu'à ce qu'il dépasse strictement $64$. Le programme compte les doublements et doit afficher $7$.\nQuelle condition faut-il écrire à la place de `___` ?\n```python\np = 1\nn = 0\nwhile ___:\n    p = 2 * p\n    n = n + 1\nprint(n)\n```",
+      "options": [
+        "`p <= 64`",
+        "`p < 64`",
+        "`p > 64`",
+        "`p == 64`"
+      ],
+      "correctIndex": 0,
+      "answer": "`p <= 64`",
+      "hint1": "La condition écrite après `while` est celle pour **continuer**, pas celle pour s'arrêter.",
+      "hint2": "Lorsque `p` vaut exactement $64$, le seuil est-il strictement dépassé ?",
+      "solution": "La boucle doit continuer tant que `p` n'a pas strictement dépassé $64$, c'est-à-dire tant que `p <= 64`. Les valeurs de `p` sont $2, 4, 8, 16, 32, 64, 128$ : il y a bien $7$ doublements. Avec `p < 64`, on s'arrêterait à $64$, soit $6$ doublements ; avec `p > 64` ou `p == 64`, la boucle ne démarrerait pas."
+    },
+    {
+      "id": "2S4-9",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Corriger une fonction",
+      "skill": "Corriger une erreur dans une fonction",
+      "statement": "Ce programme doit calculer le triple de $5$ augmenté de $1$. Il doit afficher $16$, mais il provoque une erreur.\nQuelle correction faut-il faire ?\n```python\ndef triple(x):\n    print(3 * x)\n\ny = triple(5) + 1\nprint(y)\n```",
+      "options": [
+        "Remplacer `print(3 * x)` par `return 3 * x`",
+        "Remplacer `print(3 * x)` par `return 3 + x`",
+        "Remplacer `print(3 * x)` par `print(3 * x + 1)`",
+        "Remplacer `y = triple(5) + 1` par `y = triple(5)`"
+      ],
+      "correctIndex": 0,
+      "answer": "Remplacer `print(3 * x)` par `return 3 * x`",
+      "hint1": "Suis ce que renvoie la fonction lors de l'appel, puis ce qu'en fait le programme.",
+      "hint2": "Une fonction qui se contente d'afficher ne renvoie aucune valeur utilisable dans un calcul.",
+      "solution": "`print` affiche la valeur mais ne la renvoie pas : `triple(5)` ne vaut rien et on ne peut pas lui ajouter $1$. Il faut renvoyer le résultat avec `return 3 * x`. Alors `triple(5)` vaut $15$, `y` vaut $16$ et le programme affiche $16$."
     }
   ]
 };
@@ -3227,7 +3488,7 @@ Pour chacun des nombres suivants, donner le plus petit ensemble auquel il appart
 
 ### Exercice 2 : Simplification de radicaux et fractions (4 points)
 1. Écrire le nombre $A = \\sqrt{75} - 2\\sqrt{48} + \\sqrt{300}$ sous la forme $k\\sqrt{3}$ où $k$ est un entier relatif.
-2. Décomposer 252 et 420 en produit de facteurs premiers, puis simplifier la fraction $\\frac{252}{420}$ pour la rendre irréductible.`,
+2. Pour aller plus loin (rappel du collège) : décomposer 252 et 420 en produit de facteurs premiers, puis simplifier la fraction $\\frac{252}{420}$ pour la rendre irréductible.`,
       "solution": `### Correction Exercice 1
 1. $a = -6 \\in \\mathbb{Z}$.
 2. $b = \\frac{3}{2^4} = \\frac{3 \\times 5^4}{10^4} = 0{,}1875 \\in \\mathbb{D}$.
@@ -3238,6 +3499,82 @@ Pour chacun des nombres suivants, donner le plus petit ensemble auquel il appart
 1. $A = \\sqrt{25 \\times 3} - 2\\sqrt{16 \\times 3} + \\sqrt{100 \\times 3} = 5\\sqrt{3} - 8\\sqrt{3} + 10\\sqrt{3} = 7\\sqrt{3}$.
 2. $252 = 2^2 \\times 3^2 \\times 7$ et $420 = 2^2 \\times 3 \\times 5 \\times 7$.
 On simplifie par le PGCD $= 2^2 \\times 3 \\times 7 = 84$ : $\\frac{252}{420} = \\frac{3}{5}$.`
+    }
+  ],
+  "2N4": [
+    {
+      "id": "2N4-fiche_td",
+      "title": "Fiche Seconde : Équations, inéquations et tableaux de signes",
+      "filename": "Fiche_2N4_Equations_Inequations.md",
+      "statement": `## Fiche d'entraînement 2N4 : Équations, inéquations et tableaux de signes
+
+### Exercice 1 : Premier degré (3 points)
+Résoudre dans $\\mathbb{R}$ :
+1. $5x - 7 = 3x + 9$
+2. $-4x + 6 > 18$ (donner l'ensemble des solutions sous forme d'intervalle)
+3. $\\frac{2x - 3}{4} = \\frac{x + 1}{3}$
+
+### Exercice 2 : Équations produit nul (4 points)
+Résoudre dans $\\mathbb{R}$, en factorisant complètement le membre de gauche quand c'est nécessaire :
+1. $(3x - 6)(x + 5) = 0$
+2. $x^2 - 7x = 0$
+3. $(x - 4)^2 - 25 = 0$
+
+### Exercice 3 : Tableau de signes d'un produit (5 points)
+1. Dresser le tableau de signes de $A(x) = (2x - 5)(-x + 3)$ sur $\\mathbb{R}$.
+2. En déduire les solutions de l'inéquation $(2x - 5)(-x + 3) \\ge 0$.
+
+### Exercice 4 : Quotients (4 points)
+1. Résoudre l'équation $\\frac{3x + 1}{x - 1} = 2$ après avoir précisé la valeur interdite.
+2. Résoudre l'inéquation $\\frac{x + 4}{x - 2} \\le 0$ à l'aide d'un tableau de signes.
+
+### Exercice 5 : Modéliser par une inéquation (4 points)
+Une piscine propose deux tarifs :
+- tarif A : $2{,}50$ € la séance, sans abonnement ;
+- tarif B : un abonnement annuel de $18$ €, puis $1{,}30$ € la séance.
+
+On note $n$ le nombre de séances dans l'année.
+1. Exprimer en fonction de $n$ le coût annuel avec chaque tarif.
+2. À partir de combien de séances le tarif B est-il strictement plus avantageux ? Justifier par une inéquation.`,
+      "solution": `### Correction Exercice 1
+1. $5x - 3x = 9 + 7 \\iff 2x = 16 \\iff x = 8$. $S = \\{8\\}$.
+2. $-4x > 18 - 6 \\iff -4x > 12 \\iff x < \\frac{12}{-4}$ : on divise par un nombre négatif, donc le sens de l'inégalité change. $x < -3$ et $S = ]-\\infty ; -3[$.
+3. On multiplie les deux membres par $12$ : $3(2x - 3) = 4(x + 1) \\iff 6x - 9 = 4x + 4 \\iff 2x = 13 \\iff x = \\frac{13}{2}$. $S = \\left\\{\\frac{13}{2}\\right\\}$.
+
+### Correction Exercice 2
+1. Un produit est nul si et seulement si l'un de ses facteurs est nul : $3x - 6 = 0$ ou $x + 5 = 0$, soit $x = 2$ ou $x = -5$. $S = \\{-5 ; 2\\}$.
+2. $x^2 - 7x = x(x - 7)$, donc $x = 0$ ou $x = 7$. $S = \\{0 ; 7\\}$.
+3. On reconnaît $a^2 - b^2$ avec $a = x - 4$ et $b = 5$ : $(x - 4)^2 - 25 = (x - 4 - 5)(x - 4 + 5) = (x - 9)(x + 1)$. Donc $x = 9$ ou $x = -1$. $S = \\{-1 ; 9\\}$.
+
+### Correction Exercice 3
+1. $2x - 5 = 0 \\iff x = \\frac{5}{2}$ et $2x - 5$ est positif pour $x > \\frac{5}{2}$ (coefficient $2 > 0$).
+$-x + 3 = 0 \\iff x = 3$ et $-x + 3$ est positif pour $x < 3$ (coefficient $-1 < 0$).
+
+| $x$ | $-\\infty$ | | $\\frac{5}{2}$ | | $3$ | | $+\\infty$ |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| $2x - 5$ | | $-$ | $0$ | $+$ | | $+$ | |
+| $-x + 3$ | | $+$ | | $+$ | $0$ | $-$ | |
+| $A(x)$ | | $-$ | $0$ | $+$ | $0$ | $-$ | |
+
+2. $A(x) \\ge 0$ entre les deux valeurs qui l'annulent, bornes comprises : $S = \\left[\\frac{5}{2} ; 3\\right]$.
+
+### Correction Exercice 4
+1. Valeur interdite : $x = 1$. Pour $x \\neq 1$ : $\\frac{3x + 1}{x - 1} = 2 \\iff 3x + 1 = 2(x - 1) \\iff 3x + 1 = 2x - 2 \\iff x = -3$. Comme $-3 \\neq 1$, $S = \\{-3\\}$.
+Vérification : $\\frac{3 \\times (-3) + 1}{-3 - 1} = \\frac{-8}{-4} = 2$.
+2. Valeur interdite : $x = 2$. Le numérateur s'annule en $x = -4$.
+
+| $x$ | $-\\infty$ | | $-4$ | | $2$ | | $+\\infty$ |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| $x + 4$ | | $-$ | $0$ | $+$ | | $+$ | |
+| $x - 2$ | | $-$ | | $-$ | $0$ | $+$ | |
+| $\\frac{x + 4}{x - 2}$ | | $+$ | $0$ | $-$ | ‖ | $+$ | |
+
+Le quotient est négatif ou nul pour $-4 \\le x < 2$ ; la valeur $2$ est exclue car interdite. $S = [-4 ; 2[$.
+
+### Correction Exercice 5
+1. Tarif A : $2{,}5n$ euros. Tarif B : $18 + 1{,}3n$ euros.
+2. Le tarif B est strictement plus avantageux lorsque $18 + 1{,}3n < 2{,}5n \\iff 18 < 1{,}2n \\iff n > \\frac{18}{1{,}2} = 15$.
+Pour $15$ séances, les deux tarifs coûtent $37{,}50$ € ; le tarif B devient strictement plus avantageux à partir de $16$ séances.`
     }
   ]
 };

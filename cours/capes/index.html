@@ -4,28 +4,29 @@
   <meta charset="UTF-8" />
   <!-- Content-Security-Policy : voir scripts/csp.js (style-src 'unsafe-inline' requis par les attributs style de KaTeX) -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://etabli-des-maths.goatcounter.com; font-src 'self' data:; connect-src 'self' https://etabli-des-maths.goatcounter.com; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'" />
-  <script src="../../js/themeInit.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Leçons d'oral du CAPES de maths : plans et démonstrations</title>
-  <meta name="description" content="17 leçons d'oral du CAPES de mathématiques : leçons avec plan (y compris sur les grands thèmes du secondaire : géométrie vectorielle, nombres complexes…" />
+  <title>CAPES de maths : leçons d'oral et compléments disciplinaires</title>
+  <meta name="description" content="5 leçons d'oral du CAPES de mathématiques et 10 compléments de niveau licence : plan détaillé, théorème clé démontré et développements." />
   <meta name="author" content="Loïc Delaporte, professeur de mathématiques" />
   <link rel="canonical" href="https://etabli-des-maths.fr/cours/capes/" />
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Leçons d'oral du CAPES de maths : plans et démonstrations" />
-  <meta property="og:description" content="17 leçons d'oral du CAPES de mathématiques : leçons avec plan (y compris sur les grands thèmes du secondaire : géométrie vectorielle, nombres complexes…" />
+  <meta property="og:title" content="CAPES de maths : leçons d'oral et compléments disciplinaires" />
+  <meta property="og:description" content="5 leçons d'oral du CAPES de mathématiques et 10 compléments de niveau licence : plan détaillé, théorème clé démontré et développements." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://etabli-des-maths.fr/cours/capes/" />
-  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
-  <meta property="og:image:alt" content="Leçons d'oral du CAPES de maths : plans et démonstrations" />
-  <meta name="twitter:card" content="summary" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/og/capes.png" />
+  <meta property="og:image:alt" content="L'Établi des Maths — CAPES" />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta property="og:locale" content="fr_FR" />
   <meta property="og:site_name" content="L'Établi des Maths" />
 
-  <link rel="stylesheet" href="../../css/style.css" />
-  <link rel="stylesheet" href="../../css/landing.css" />
-  <link rel="stylesheet" href="../../vendor/katex/katex.min.css" />
-  <link rel="stylesheet" href="../../css/cours.css" />
+  <link rel="stylesheet" href="../../css/style.css?v=141db07fda" />
+  <link rel="stylesheet" href="../../css/landing.css?v=9c24ff37f8" />
+  <link rel="stylesheet" href="../../vendor/katex/katex.min.css?v=1be2fd298c" />
+  <link rel="stylesheet" href="../../css/cours.css?v=85b541e52d" />
+  <!-- Après les feuilles de style : la CSP en meta désactive le préchargement, et ce script s'exécute quand même avant le premier rendu -->
+  <script src="../../js/themeInit.js?v=58d3835cf3"></script>
   <link rel="icon" href="../../favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32x32.png" />
   <link rel="apple-touch-icon" href="../../assets/favicon.png" />
@@ -35,11 +36,11 @@
   {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    "name": "Préparation au CAPES de mathématiques : leçons d’oral",
-    "description": "17 leçons d'oral du CAPES de mathématiques : leçons avec plan (y compris sur les grands thèmes du secondaire : géométrie vectorielle, nombres complexes…",
+    "name": "Préparation au CAPES de mathématiques : leçons d’oral et compléments",
+    "description": "5 leçons d'oral du CAPES de mathématiques et 10 compléments de niveau licence : plan détaillé, théorème clé démontré et développements.",
     "url": "https://etabli-des-maths.fr/cours/capes/",
     "inLanguage": "fr",
-    "educationalLevel": "Concours — CAPES et agrégation de mathématiques",
+    "educationalLevel": "Concours — CAPES de mathématiques",
     "isAccessibleForFree": true,
     "isPartOf": {
       "@type": "WebSite",
@@ -143,7 +144,7 @@
         {
           "@type": "ListItem",
           "position": 16,
-          "name": "Épreuve d'entretien : Éthique professionnelle, laïcité et valeurs de la République",
+          "name": "Épreuve d'entretien : éthique professionnelle, laïcité et valeurs de la République",
           "url": "https://etabli-des-maths.fr/cours/capes/epreuve-d-entretien.html"
         },
         {
@@ -166,7 +167,7 @@
         "name": "Que contient chaque leçon de CAPES ?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Chaque leçon propose des prérequis, un plan en trois parties, un théorème clé démontré, des développements possibles pour l'oral et les remarques fréquentes du jury. 17 leçons sont disponibles."
+          "text": "Chaque leçon propose des prérequis, un plan en trois parties, un théorème clé démontré, des développements possibles pour l'oral et les remarques fréquentes du jury. 5 leçons d'oral sont disponibles, ainsi que 10 compléments disciplinaires de niveau licence, construits sur le même modèle pour consolider les connaissances."
         }
       },
       {
@@ -213,7 +214,7 @@
   <!-- Header Uniformisé -->
   <header class="app-header">
     <div class="header-inner">
-      <a href="../../index.html" class="brand-container">
+      <a href="../../" class="brand-container">
         <img src="../../assets/logo-96.png" alt="" class="brand-logo-img" width="44" height="44" />
         <div class="brand-text">
           <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Cours</span></p>
@@ -223,7 +224,7 @@
 
       <!-- Navigation entre Portails -->
       <nav class="nav-portal-links" aria-label="Portails thématiques">
-        <a href="../../index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="../../" class="nav-portal-btn">🏠 Accueil</a>
         <a href="../../cours/" class="nav-portal-btn active" aria-current="true">📚 Cours</a>
         <a href="../../exercices-de-maths/" class="nav-portal-btn">✏️ Exercices</a>
         <a href="../../rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
@@ -238,7 +239,7 @@
   <main class="landing-wrapper cours-wrapper" id="contenu" tabindex="-1">
     <nav class="cours-breadcrumb" aria-label="Fil d'Ariane">
       <ol>
-        <li><a href="../../index.html">Accueil</a></li>
+        <li><a href="../../">Accueil</a></li>
         <li><a href="../">Cours</a></li>
         <li><span aria-current="page">CAPES</span></li>
       </ol>
@@ -246,34 +247,35 @@
 
     <header class="cours-hero">
       <p class="landing-tag">Concours · CAPES · 17 chapitres</p>
-      <h1 class="cours-title">Préparation au CAPES de mathématiques : leçons d’oral</h1>
-      <p class="cours-lead">Préparation aux oraux du CAPES de mathématiques : leçons avec plan (y compris sur les grands thèmes du secondaire : géométrie vectorielle, nombres complexes, probabilités, statistique, dénombrement), théorème clé démontré, développements possibles, remarques du jury, et épreuve d'entretien. Chaque chapitre contient le cours complet, des méthodes rédigées et des exercices corrigés.</p>
+      <h1 class="cours-title">Préparation au CAPES de mathématiques : leçons d’oral et compléments</h1>
+      <p class="cours-lead">Préparation aux oraux du CAPES de mathématiques : leçons d'oral avec plan (sur les grands thèmes du secondaire : géométrie vectorielle, nombres complexes, probabilités, statistique, dénombrement), compléments disciplinaires de niveau licence, théorème clé démontré, développements possibles, remarques du jury, et épreuve d'entretien. Chaque chapitre contient le cours complet, des méthodes rédigées et des exercices corrigés.</p>
       <div class="cours-cta">
         <a class="btn-primary cours-cta-main" href="../../index.html?level=capes">🎯 S'entraîner pour le CAPES</a>
       </div>
+      <p class="cours-note concours-notice" role="note">L'Établi des Maths est une aide complémentaire à la préparation et ne garantit pas la réussite au concours : les programmes et les attendus varient d'une université ou d'une formation à l'autre. Le programme officiel de chaque formation fait foi.</p>
     </header>
 
     <section class="cours-section" id="domaine-1" aria-labelledby="domaine-1-titre">
       <h2 id="domaine-1-titre">Analyse</h2>
       <ul class="cours-chapter-grid">
         <li><a class="cours-chapter-card" href="equations-differentielles-lineaires.html">
-          <span class="topic-num">Leçon 01</span>
-          <span class="cours-chapter-text"><strong>Équations différentielles linéaires : résolution, structure et modélisation</strong><span>I. Équations scalaires linéaires du premier ordre • II. Équations linéaires du second ordre à coefficients constants • III. Systèmes différentiels…</span></span>
+          <span class="topic-num">Compl. 01</span>
+          <span class="cours-chapter-text"><strong>Équations différentielles linéaires : résolution, structure et modélisation</strong><span>I. Équations scalaires du premier ordre : linéaires, puis à variables séparables • II. Équations linéaires du second ordre à coefficients constants •…</span></span>
         </a></li>
         <li><a class="cours-chapter-card" href="series-de-fourier.html">
-          <span class="topic-num">Leçon 03</span>
+          <span class="topic-num">Compl. 03</span>
           <span class="cours-chapter-text"><strong>Séries de Fourier : coefficients, convergence et formule de Parseval</strong><span>I. Coefficients de Fourier et système trigonométrique • II. Convergence ponctuelle et uniforme • III. Convergence en moyenne quadratique et formule…</span></span>
         </a></li>
         <li><a class="cours-chapter-card" href="integrale-de-riemann.html">
-          <span class="topic-num">Leçon 06</span>
-          <span class="cours-chapter-text"><strong>Intégrale de Riemann, primitives et intégrales à paramètres</strong><span>I. Intégrale de Riemann sur un segment • II. Primitives et techniques de calcul • III. Intégrales dépendant d'un paramètre</span></span>
+          <span class="topic-num">Compl. 06</span>
+          <span class="cours-chapter-text"><strong>Intégrale de Riemann, primitives et intégrales à paramètres</strong><span>I. Intégrale de Riemann sur un segment • II. Primitives et techniques de calcul • III. Intégrales généralisées • IV. Pour aller plus loin…</span></span>
         </a></li>
         <li><a class="cours-chapter-card" href="convexite-des-fonctions-reelles-d-une-variable-reelle.html">
-          <span class="topic-num">Leçon 08</span>
+          <span class="topic-num">Compl. 08</span>
           <span class="cours-chapter-text"><strong>Convexité des fonctions réelles d'une variable réelle et applications</strong><span>I. Définition et caractérisations géométriques • II. Caractérisations différentielles • III. Inégalités de convexité et optimisation</span></span>
         </a></li>
         <li><a class="cours-chapter-card" href="suites-et-series-numeriques.html">
-          <span class="topic-num">Leçon 09</span>
+          <span class="topic-num">Compl. 09</span>
           <span class="cours-chapter-text"><strong>Suites et séries numériques : convergence, sommabilité et critères</strong><span>I. Généralités et séries à termes positifs • II. Convergence absolue et séries semi-convergentes • III. Sommabilité, produit de Cauchy et applications</span></span>
         </a></li>
       </ul>
@@ -283,12 +285,12 @@
       <h2 id="domaine-2-titre">Algèbre</h2>
       <ul class="cours-chapter-grid">
         <li><a class="cours-chapter-card" href="reduction-des-endomorphismes.html">
-          <span class="topic-num">Leçon 02</span>
+          <span class="topic-num">Compl. 02</span>
           <span class="cours-chapter-text"><strong>Réduction des endomorphismes : éléments propres, diagonalisation et trigonalisation</strong><span>I. Éléments propres et sous-espaces stables • II. Polynôme caractéristique et diagonalisation • III. Polynômes d'endomorphismes et trigonalisation</span></span>
         </a></li>
         <li><a class="cours-chapter-card" href="groupe-symetrique.html">
-          <span class="topic-num">Leçon 07</span>
-          <span class="cours-chapter-text"><strong>Groupe symétrique, signature et applications aux déterminants</strong><span>I. Structure du groupe symétrique • II. Signature et groupe alterné • III. Formes multilinéaires alternées et déterminant</span></span>
+          <span class="topic-num">Compl. 07</span>
+          <span class="cours-chapter-text"><strong>Groupe symétrique, signature et applications aux déterminants</strong><span>I. Structure du groupe symétrique • II. Signature et groupe alterné • III. Formes multilinéaires alternées et déterminant • IV. Groupes laissant…</span></span>
         </a></li>
       </ul>
     </section>
@@ -297,8 +299,8 @@
       <h2 id="domaine-3-titre">Probabilités</h2>
       <ul class="cours-chapter-grid">
         <li><a class="cours-chapter-card" href="variables-aleatoires-reelles-discretes.html">
-          <span class="topic-num">Leçon 04</span>
-          <span class="cours-chapter-text"><strong>Variables aléatoires réelles discrètes : loi, espérance, variance et lois classiques</strong><span>I. Variables aléatoires discrètes et lois • II. Espérance, variance et inégalités • III. Lois usuelles et loi faible des grands nombres</span></span>
+          <span class="topic-num">Compl. 04</span>
+          <span class="cours-chapter-text"><strong>Variables aléatoires réelles discrètes : loi, espérance, variance et lois classiques</strong><span>I. Variables aléatoires discrètes et lois • II. Espérance, variance et inégalités • III. Lois usuelles et loi faible des grands nombres • IV…</span></span>
         </a></li>
         <li><a class="cours-chapter-card" href="probabilites-conditionnelles-et-independance.html">
           <span class="topic-num">Leçon 13</span>
@@ -311,8 +313,8 @@
       <h2 id="domaine-4-titre">Géométrie &amp; Algèbre</h2>
       <ul class="cours-chapter-grid">
         <li><a class="cours-chapter-card" href="espaces-prehilbertiens-reels.html">
-          <span class="topic-num">Leçon 05</span>
-          <span class="cours-chapter-text"><strong>Espaces préhilbertiens réels, orthogonalité et projections orthogonales</strong><span>I. Produit scalaire et norme euclidienne • II. Orthogonalité et bases orthonormées • III. Projection orthogonale et meilleure approximation</span></span>
+          <span class="topic-num">Compl. 05</span>
+          <span class="cours-chapter-text"><strong>Espaces préhilbertiens réels, orthogonalité et projections orthogonales</strong><span>I. Produit scalaire et norme euclidienne • II. Orthogonalité et bases orthonormées • III. Projection orthogonale et meilleure approximation • IV…</span></span>
         </a></li>
       </ul>
     </section>
@@ -321,7 +323,7 @@
       <h2 id="domaine-5-titre">Algèbre &amp; Arithmétique</h2>
       <ul class="cours-chapter-grid">
         <li><a class="cours-chapter-card" href="arithmetique-dans-z.html">
-          <span class="topic-num">Leçon 10</span>
+          <span class="topic-num">Compl. 10</span>
           <span class="cours-chapter-text"><strong>Arithmétique dans Z : divisibilité, pgcd, congruences et cryptographie RSA</strong><span>I. Divisibilité, PGCD et algorithme d'Euclide • II. Nombres premiers et décomposition • III. Congruences, anneaux Z/nZ et cryptographie</span></span>
         </a></li>
       </ul>
@@ -352,7 +354,7 @@
       <ul class="cours-chapter-grid">
         <li><a class="cours-chapter-card" href="statistique-descriptive-a-une-et-deux-variables.html">
           <span class="topic-num">Leçon 14</span>
-          <span class="cours-chapter-text"><strong>Statistique descriptive à une et deux variables : indicateurs de position, de dispersion et ajustement affine</strong><span>I. Séries à une variable : indicateurs de position • II. Indicateurs de dispersion • III. Séries à deux variables et ajustement affine</span></span>
+          <span class="cours-chapter-text"><strong>Statistique descriptive à une et deux variables : indicateurs de position, de dispersion et ajustement affine</strong><span>I. Séries à une variable : indicateurs de position • II. Indicateurs de dispersion • III. Séries à deux variables et ajustement affine</span></span>
         </a></li>
       </ul>
     </section>
@@ -372,7 +374,7 @@
       <ul class="cours-chapter-grid">
         <li><a class="cours-chapter-card" href="epreuve-d-entretien.html">
           <span class="topic-num">Oral 2</span>
-          <span class="cours-chapter-text"><strong>Épreuve d'entretien : Éthique professionnelle, laïcité et valeurs de la République</strong><span>I. Cadre institutionnel et principes républicains • II. Le professeur, fonctionnaire de l'État : droits, obligations, compétences • III. Mises…</span></span>
+          <span class="cours-chapter-text"><strong>Épreuve d'entretien : éthique professionnelle, laïcité et valeurs de la République</strong><span>I. Cadre institutionnel et principes républicains • II. Le professeur, fonctionnaire de l'État : droits, obligations, compétences • III. Mises…</span></span>
         </a></li>
         <li><a class="cours-chapter-card" href="epreuve-d-entretien-etudes-de-cas-en-trois-etapes.html">
           <span class="topic-num">Oral 2 – Cas</span>
@@ -386,14 +388,14 @@
     <section class="cours-section " id="faq" aria-labelledby="faq-titre">
       <h2 id="faq-titre">Questions fréquentes sur les maths en CAPES</h2>
       <div class="cours-faq">
-        <details class="cours-faq-item"><summary><h3>Que contient chaque leçon de CAPES ?</h3></summary><div><p>Chaque leçon propose des prérequis, un plan en trois parties, un théorème clé démontré, des développements possibles pour l'oral et les remarques fréquentes du jury. 17 leçons sont disponibles.</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Que contient chaque leçon de CAPES ?</h3></summary><div><p>Chaque leçon propose des prérequis, un plan en trois parties, un théorème clé démontré, des développements possibles pour l'oral et les remarques fréquentes du jury. 5 leçons d'oral sont disponibles, ainsi que 10 compléments disciplinaires de niveau licence, construits sur le même modèle pour consolider les connaissances.</p></div></details>
         <details class="cours-faq-item"><summary><h3>Les leçons de CAPES sont-elles gratuites ?</h3></summary><div><p>Oui, comme tout le site : sans inscription, sans publicité, sous licence libre CC BY-NC-SA.</p></div></details>
       </div>
     </section>
 
     <nav class="cours-related" aria-label="Autres ressources">
       <div><p class="cours-related-title">Autres classes</p><ul><li><a href="../">Tous les cours de maths</a></li></ul></div>
-      <div><p class="cours-related-title">Pages utiles</p><ul><li><a href="../../epreuve-d-entretien-capes/">Épreuve d’entretien du CAPES (oral 2)</a> : déroulé, attentes du jury, mises en situation</li><li><a href="../../exercices-de-maths/">Exercices de maths corrigés</a>, tous niveaux</li><li><a href="../../entrainement-maths/">Entraînement en ligne</a> : paliers, rituels, flashcards</li></ul></div>
+      <div><p class="cours-related-title">Pages utiles</p><ul><li><a href="../../preparer-le-capes-de-maths/">Préparer le CAPES de maths : voies et épreuves</a> : formats par voie, rôle de chaque fiche, méthode de l'exercice puis notion et de l'analyse de documents</li><li><a href="../../epreuve-d-entretien-capes/">Épreuve d’entretien du CAPES (oral 2)</a> : déroulé, attentes du jury, mises en situation</li><li><a href="../../exercices-de-maths/">Exercices de maths corrigés</a>, tous niveaux</li><li><a href="../../entrainement-maths/">Entraînement en ligne</a> : paliers, rituels, flashcards</li></ul></div>
     </nav>
 
     <nav class="cours-pager" aria-label="Autres niveaux">
@@ -403,6 +405,8 @@
       <a class="nav-portal-btn" href="../3e/">3e</a>
       <a class="nav-portal-btn" href="../seconde/">Seconde</a>
       <a class="nav-portal-btn" href="../premiere/">Première</a>
+      <a class="nav-portal-btn" href="../premiere-tronc-commun/">Première (tronc commun)</a>
+      <a class="nav-portal-btn" href="../premiere-technologique/">Première technologique</a>
       <a class="nav-portal-btn" href="../terminale/">Terminale</a>
       <a class="nav-portal-btn" href="../l1/">Licence 1</a>
       <a class="nav-portal-btn" href="../l2/">Licence 2</a>
@@ -418,7 +422,7 @@
   <footer class="cours-footer">
     <p>L'Établi des Maths — Conçu par Loïc Delaporte, professeur de mathématiques • 100 % gratuit, conforme aux programmes</p>
     <p><a href="../../cours/">Cours de maths</a> · <a href="../../exercices-de-maths/">Exercices corrigés</a> · <a href="../../entrainement-maths/">Entraînement en ligne</a> · <a href="../../reviser-le-brevet-de-maths/">Réviser le brevet</a> · <a href="../../reussir-le-bac-de-maths/">Réussir le bac</a> · <a href="../../epreuve-d-entretien-capes/">Oral 2 du CAPES</a></p>
-    <p><a href="../../index.html">Ouvrir l'application</a> · <a href="../../rituels.html">Rituels</a> · <a href="../../brevet.html">Brevet blanc</a> · <a href="../../bac.html">Devoir type bac</a> · <a href="../../a-propos.html">Qui suis-je ?</a> · <a href="../../mentions-legales.html">Mentions légales</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a></p>
+    <p><a href="../../">Ouvrir l'application</a> · <a href="../../rituels.html">Rituels</a> · <a href="../../brevet.html">Brevet blanc</a> · <a href="../../bac.html">Devoir type bac</a> · <a href="../../a-propos.html">Qui suis-je&#8239;?</a> · <a href="../../mentions-legales.html">Mentions légales</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a></p>
     <p>Contenus sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a></p>
   </footer>
   <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->

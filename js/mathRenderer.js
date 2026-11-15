@@ -50,6 +50,14 @@ window.MathsRenderer = {
     // 1. Blocs de code préformatés ```lang ... ```
     const codeBlocks = [];
     html = html.replace(/```([a-zA-Z0-9_-]*)\n?([\s\S]*?)```/g, (match, lang, code) => {
+      // Script Scratch (une instruction par ligne, imbrication par 4 espaces) : vrais blocs colorés si le moteur est chargé.
+      // On passe par le classement de renderScratchFences (événements, blocs personnalisés, mouvement, contrôle…,
+      // textes échappés), commun à tous les niveaux ; sans lui, le script reste en texte à chasse fixe.
+      const qg = (typeof window !== 'undefined' && window.MathsQuizGenerator) || null;
+      if (lang === 'scratch' && qg && typeof qg.renderScratchFences === 'function') {
+        codeBlocks.push(qg.renderScratchFences('```scratch\n' + code.replace(/\n?$/, '\n') + '```').replace(/\n\s*/g, ' '));
+        return `\n\n%%%MATH_CODE_BLOCK_${codeBlocks.length - 1}%%%\n\n`;
+      }
       const escaped = code
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
@@ -60,9 +68,20 @@ window.MathsRenderer = {
       return `\n\n%%%MATH_CODE_BLOCK_${codeBlocks.length - 1}%%%\n\n`;
     });
 
-    // 1 bis. Un « < » qui n'ouvre pas une balise HTML ou SVG connue est du texte : $\prod_{i<n}$,
-    // « si <condition> alors », $x<y$. Sans cela le navigateur y verrait une balise et masquerait la suite.
-    html = html.replace(/<(?!!--|\/?(?:a|b|i|u|p|br|hr|em|strong|small|sub|sup|span|div|code|pre|kbd|mark|img|ul|ol|li|table|thead|tbody|tr|td|th|h[1-6]|blockquote|details|summary|section|figure|figcaption|label|button|input|select|option|svg|g|text|tspan|line|polyline|polygon|path|rect|circle|ellipse|defs|marker|stop|linearGradient|radialGradient|pattern|clipPath|foreignObject|title|desc|use|symbol)(?=[\s>\/]))/g, '&lt;');
+    // 1 bis. Figures SVG, formules et code en ligne sont mis de côté jusqu'à la fin de l'étape 4 : ni cellule de tableau,
+    // ni titre, ni gras à l'intérieur ($e_1^*$, `2 ** 5`). « \$ » est consommé ici pour ne pas ouvrir de formule ;
+    // un « $ » isolé ne s'apparie pas par-delà une ligne vide (KaTeX non plus : ce sont deux paragraphes).
+    // Tout « < » de formule ou de code est du texte ($\prod_{i<n}$) ; KaTeX lit le nœud texte, donc reçoit bien « < ».
+    const kept = [];
+    html = html.replace(/<svg[\s\S]*?<\/svg>|\\\$|\$\$[\s\S]+?\$\$|\\\[[\s\S]+?\\\]|\\\([\s\S]+?\\\)|\$(?:(?!\n\s*\n)[^$])+?\$|`[^`\n]+`/g, (m) => {
+      if (m[0] === '`') kept.push(`<code class="math-inline-code">${m.slice(1, -1).replace(/</g, '&lt;')}</code>`);
+      else kept.push(m.startsWith('<svg') ? m : m.replace(/</g, '&lt;'));
+      return `\u0000${kept.length - 1}\u0000`;
+    });
+
+    // 1 ter. Hors de ces segments, un « < » qui n'ouvre pas une balise connue, sans attribut ou avec attr=…, et refermée
+    // est du texte (« si <condition> alors », « a <b donc », « a <b et c> d ») : sinon le navigateur y verrait une balise.
+    html = html.replace(/<(?!!--|\/?(?:a|b|i|u|p|br|hr|em|strong|small|sub|sup|span|div|code|pre|kbd|mark|img|ul|ol|li|table|thead|tbody|tr|td|th|h[1-6]|blockquote|details|summary|section|figure|figcaption|label|button|input|select|option)(?:\s*\/?|\s[^<>]*=[^<>]*)>)/g, '&lt;');
 
     // 2. Tableaux Markdown (| col 1 | col 2 | ... \n |:---|:---:|... \n | val 1 | val 2 | ...)
     const tableRegex = /((?:^[ \t]*\|[^\n]+\|[ \t]*(?:\n|$))+)/gm;
@@ -109,7 +128,8 @@ window.MathsRenderer = {
         tableHtml += '</tr>';
       }
       tableHtml += '</tbody></table></div>';
-      return tableHtml;
+      // Un tableau est un bloc : le texte qui l'entoure forme ses propres paragraphes
+      return `\n\n${tableHtml}\n\n`;
     });
 
     // 3. Headers markdown (de ##### à # pour éviter les conflits de préfixe)
@@ -120,20 +140,16 @@ window.MathsRenderer = {
     // Un titre « # » du contenu ne doit pas créer une seconde h1 dans la page (la h1 est le titre du site / du cours)
     html = html.replace(/^# (.*$)/gim, '<h2 class="math-h1">$1</h2>');
 
-    // 4. Gras **texte** et italique *texte*. Les formules ($…$, $$…$$, \(…\), \[…\]) et le code
-    // en ligne `…` (ainsi que les blocs de code et les figures SVG) sont mis de côté pendant ce passage : une étoile de formule ($e_1^*$, $\mathbb{N}^*$,
-    // $2*3$) ou de code (`4,2*10^5`) n'est jamais prise pour de l'italique.
-    const kept = [];
-    html = html.replace(/<pre[\s\S]*?<\/pre>|<svg[\s\S]*?<\/svg>|\$\$[\s\S]+?\$\$|\\\[[\s\S]+?\\\]|\\\([\s\S]+?\\\)|(?<!\\)\$[^$]+?\$|`[^`\n]+`/g, (m) => {
-      kept.push(m);
-      return `\u0000${kept.length - 1}\u0000`;
-    });
-    html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    html = html.replace(/(?<![*\w\\])\*(?=[^\s*])([^*\n]+?)\*(?![*\w])/g, '<em>$1</em>');
-    html = html.replace(/\u0000(\d+)\u0000/g, (m, i) => kept[+i]);
+    // Un titre est un bloc : le texte qui le suit forme son propre paragraphe
+    html = html.replace(/^(<h[1-5] class="math-h\d">.*<\/h[1-5]>)$/gm, '\n\n$1\n\n');
 
-    // Code en ligne `code`
-    html = html.replace(/(?<!`)`([^`\n]+)`(?!`)/g, '<code class="math-inline-code">$1</code>');
+    // Pas de coupure de ligne devant « : ; ! ? » (formules, code et balises exclus), comme frTypo de build_seo_pages.js
+    html = html.replace(/<[^<>]*>|[ \u00a0]+([:;!?])/g, (m, mark) => (!mark ? m : (mark === ':' ? '\u00a0' : '\u202f') + mark));
+
+    // 4. Gras **texte** et italique *texte* (l'étoile qui suit une lettre, une étoile ou « \ » n'ouvre rien : 2*3*4)
+    html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    html = html.replace(/(^|[^*\w\\])\*(?=[^\s*])([^*\n]+?)\*(?![*\w])/g, '$1<em>$2</em>');
+    html = html.replace(/\u0000(\d+)\u0000/g, (m, i) => kept[+i]);
 
     // 5. Séparateurs horizontaux ---
     html = html.replace(/^---$/gim, '<hr class="math-divider" />');

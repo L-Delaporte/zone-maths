@@ -106,7 +106,7 @@ Object.assign(window.MATHS_EXTRA_FLASHCARDS, {
     },
     {
       q: "Vrai ou faux : quand on multiplie un nombre, le résultat est toujours plus grand.",
-      a: "**Faux.** Multiplier par un nombre inférieur à $1$ donne un résultat plus petit : $8 \\times 0{,}5 = 4$."
+      a: "**Faux.** Pour un nombre positif non nul, multiplier par un nombre inférieur à $1$ donne un résultat plus petit : $8 \\times 0{,}5 = 4$."
     },
     {
       q: "Calculer $1{,}2 \\times 0{,}4$.",
@@ -135,12 +135,16 @@ Object.assign(window.MATHS_EXTRA_FLASHCARDS, {
       a: "**Faux.** Le reste $8$ n'est pas inférieur à $7$. La bonne égalité est $50 = 7 \\times 7 + 1$."
     },
     {
-      q: "$2\\,457$ est-il divisible par $3$ ?",
-      a: "Oui : $2 + 4 + 5 + 7 = 18$, et $18$ est un multiple de $3$ (c'est même un multiple de $9$)."
+      q: "$2\\,450$ est-il divisible par $2$ ? par $5$ ? par $10$ ?",
+      a: "Oui pour les trois : son chiffre des unités est $0$."
     },
     {
-      q: "Vrai ou faux : un nombre qui se termine par $3$ est divisible par $3$.",
-      a: "**Faux.** Par exemple $13$ ou $23$ ne sont pas divisibles par $3$. Pour $3$, on regarde la **somme des chiffres**."
+      q: "Vrai ou faux : un nombre qui commence par $5$ est divisible par $5$.",
+      a: "**Faux.** Par exemple $51$ ou $512$ ne sont pas divisibles par $5$. Pour $2$, $5$ et $10$, on regarde le **chiffre des unités**."
+    },
+    {
+      q: "Partage ou groupement : « on range $60$ livres sur des étagères de $12$ livres ; combien d'étagères ? »",
+      a: "**Groupement** : on connaît la taille d'une part ($12$ livres) et on cherche le nombre de parts : $60 \\div 12 = 5$ étagères."
     },
     {
       q: "Citer les multiples de $7$ compris entre $30$ et $50$.",
@@ -219,6 +223,10 @@ Object.assign(window.MATHS_EXTRA_FLASHCARDS, {
       a: "$28 \\div 4 = 7$, puis $7 \\times 3 = 21$."
     },
     {
+      q: "Calculer $\\frac{2}{5} - \\frac{1}{4}$.",
+      a: "Un multiple commun de $5$ et $4$ est $20$ : $\\frac{8}{20} - \\frac{5}{20} = \\frac{3}{20}$."
+    },
+    {
       q: "Léa mange $\\frac{1}{4}$ d'un gâteau et Tom $\\frac{3}{8}$. Quelle fraction du gâteau reste-t-il ?",
       a: "$\\frac{1}{4} + \\frac{3}{8} = \\frac{2}{8} + \\frac{3}{8} = \\frac{5}{8}$. Il reste $\\frac{8}{8} - \\frac{5}{8} = \\frac{3}{8}$ du gâteau."
     }
@@ -283,8 +291,16 @@ Object.assign(window.MATHS_EXTRA_FLASHCARDS, {
       a: "$10\\,\\%$ de $80$ font $8$, donc $20\\,\\%$ font $2 \\times 8 = 16$."
     },
     {
-      q: "Sur un plan à l'échelle $\\frac{1}{200}$, une pièce mesure $3\\text{ cm}$. Quelle est sa longueur réelle ?",
-      a: "$3 \\times 200 = 600\\text{ cm}$, soit $6\\text{ m}$."
+      q: "$6$ élèves sur $20$ font du judo. Quel pourcentage cela représente-t-il ?",
+      a: "$\\frac{6}{20} = \\frac{6 \\times 5}{20 \\times 5} = \\frac{30}{100}$, soit $30\\,\\%$."
+    },
+    {
+      q: "$2$ kg de pommes coûtent 5 €. Comment l'écrire avec une flèche, puis avec des parenthèses ?",
+      a: "Avec une flèche : $2$ kg $\\longrightarrow$ $5$ €. Avec des parenthèses : ($2$ kg ; $5$ €)."
+    },
+    {
+      q: "Sur un plan, l'échelle graphique indique que $1\\text{ cm}$ représente $2\\text{ m}$. Une pièce mesure $3\\text{ cm}$ sur ce plan. Quelle est sa longueur réelle ?",
+      a: "$3 \\times 2 = 6$ : sa longueur réelle est $6\\text{ m}$."
     }
   ],
   "6D1": [
@@ -315,6 +331,22 @@ Object.assign(window.MATHS_EXTRA_FLASHCARDS, {
     {
       q: "Comment construire un diagramme en barres ?",
       a: "On gradue régulièrement l'axe vertical, puis on trace pour chaque catégorie une barre de même largeur dont la hauteur correspond à l'effectif."
+    },
+    {
+      q: "Que faut-il décider avant de lancer une enquête ?",
+      a: "La **question** à poser (précise), les **personnes** à interroger (tout le groupe étudié) et la **façon de noter** les réponses."
+    },
+    {
+      q: "Pourquoi faire une série de mesures toujours dans les mêmes conditions ?",
+      a: "Pour que les résultats soient **comparables** : même heure, même endroit, même instrument. On note chaque mesure aussitôt."
+    },
+    {
+      q: "Que montre un diagramme circulaire ?",
+      a: "Les **parts d'un tout** : un demi-disque représente la moitié du total, un quart de disque en représente le quart."
+    },
+    {
+      q: "Comment lire une valeur sur une courbe ?",
+      a: "On repère le moment sur l'axe horizontal, on monte jusqu'au point, puis on lit sa hauteur sur l'axe vertical. Si la courbe monte, la grandeur augmente."
     }
   ],
   "6D2": [
@@ -349,6 +381,14 @@ Object.assign(window.MATHS_EXTRA_FLASHCARDS, {
     {
       q: "Sur $50$ lancers d'un dé, on obtient $12$ fois le $6$. Quelle est la fréquence de l'issue $6$ ?",
       a: "$\\frac{12}{50} = \\frac{24}{100} = 0{,}24$."
+    },
+    {
+      q: "Comment écrire « $3$ chances sur $10$ » avec une fraction ?",
+      a: "$\\frac{3}{10}$ : le nombre de chances au numérateur, le nombre total de cas au dénominateur."
+    },
+    {
+      q: "« $1$ chance sur $4$ » : quelle écriture décimale ? quel pourcentage ?",
+      a: "$\\frac{1}{4} = 0{,}25 = 25\\,\\%$."
     }
   ],
   "6A1": [
@@ -381,8 +421,12 @@ Object.assign(window.MATHS_EXTRA_FLASHCARDS, {
       a: "Un **triangle équilatéral** de côté $100$ pas."
     },
     {
-      q: "À quoi sert une variable dans Scratch ?",
+      q: "Pour aller plus loin : à quoi sert une variable dans Scratch ?",
       a: "À mémoriser un nombre qui peut changer pendant le programme (par exemple un score)."
+    },
+    {
+      q: "Un programme de calcul reçoit $4$ en entrée et applique « ajouter $6$ » puis « multiplier par $3$ ». Quelle est la sortie ?",
+      a: "$4 + 6 = 10$, puis $10 \\times 3 = 30$ : la sortie est $30$."
     }
   ],
   "6M1": [
@@ -392,7 +436,7 @@ Object.assign(window.MATHS_EXTRA_FLASHCARDS, {
     },
     {
       q: "Convertir $3\\,500\\text{ m}$ en kilomètres.",
-      a: "On divise par $1\\,000$ : $3\\,500\\text{ m} = 3{,}5\\text{ km}$."
+      a: "$1\\text{ km} = 1\\,000\\text{ m}$, donc on divise par $1\\,000$ : $3\\,500\\text{ m} = 3{,}5\\text{ km}$."
     },
     {
       q: "Vrai ou faux : $2\\text{ m} + 35\\text{ cm} = 37$.",
@@ -407,11 +451,11 @@ Object.assign(window.MATHS_EXTRA_FLASHCARDS, {
       a: "Longueur + largeur $= 20 \\div 2 = 10\\text{ cm}$, donc largeur $= 10 - 6 = 4\\text{ cm}$."
     },
     {
-      q: "Périmètre d'un cercle de **rayon** $3\\text{ cm}$ (avec $\\pi \\approx 3{,}14$) ?",
+      q: "Périmètre d'un disque de **rayon** $3\\text{ cm}$ (avec $\\pi \\approx 3{,}14$) ?",
       a: "Diamètre : $2 \\times 3 = 6\\text{ cm}$. $P = \\pi \\times 6 \\approx 18{,}84\\text{ cm}$. Piège : ne pas multiplier $\\pi$ par le rayon seul."
     },
     {
-      q: "Vrai ou faux : si on double le diamètre d'un cercle, son périmètre double aussi.",
+      q: "Vrai ou faux : si on double le diamètre d'un disque, son périmètre double aussi.",
       a: "**Vrai.** Le périmètre est proportionnel au diamètre ($P = \\pi \\times d$)."
     },
     {
@@ -422,15 +466,15 @@ Object.assign(window.MATHS_EXTRA_FLASHCARDS, {
   "6M2": [
     {
       q: "Vrai ou faux : $1\\text{ m}^2 = 100\\text{ cm}^2$.",
-      a: "**Faux.** $1\\text{ m}^2 = 100\\text{ dm}^2 = 10\\,000\\text{ cm}^2$ (un carré de $100\\text{ cm}$ sur $100\\text{ cm}$)."
+      a: "**Faux.** $1\\text{ m}^2 = 100\\text{ dm}^2$ et $1\\text{ dm}^2 = 100\\text{ cm}^2$, donc $1\\text{ m}^2 = 100 \\times 100 = 10\\,000\\text{ cm}^2$."
     },
     {
       q: "Convertir $3\\text{ m}^2$ en $\\text{dm}^2$.",
-      a: "Unités voisines : on multiplie par $100$. $3\\text{ m}^2 = 300\\text{ dm}^2$."
+      a: "Comme $1\\text{ m}^2 = 100\\text{ dm}^2$, on multiplie par $100$ : $3\\text{ m}^2 = 300\\text{ dm}^2$."
     },
     {
-      q: "Convertir $450\\text{ mm}^2$ en $\\text{cm}^2$.",
-      a: "On divise par $100$ : $450\\text{ mm}^2 = 4{,}5\\text{ cm}^2$."
+      q: "Convertir $450\\text{ cm}^2$ en $\\text{dm}^2$.",
+      a: "Comme $1\\text{ dm}^2 = 100\\text{ cm}^2$, on divise par $100$ : $450\\text{ cm}^2 = 4{,}5\\text{ dm}^2$."
     },
     {
       q: "Dans quelle sorte d'unité exprime-t-on une aire ? un périmètre ?",
@@ -451,16 +495,16 @@ Object.assign(window.MATHS_EXTRA_FLASHCARDS, {
   ],
   "6M3": [
     {
-      q: "Volume d'un pavé droit de $6\\text{ cm}$, $4\\text{ cm}$ et $2{,}5\\text{ cm}$ ?",
-      a: "$6 \\times 4 \\times 2{,}5 = 24 \\times 2{,}5 = 60\\text{ cm}^3$."
+      q: "Un pavé est formé de cubes de $1\\text{ cm}^3$ : $5$ cubes de long, $3$ de large et $4$ étages. Quel est son volume ?",
+      a: "Une couche : $5 \\times 3 = 15$ cubes. Quatre couches : $15 \\times 4 = 60$ cubes, soit $60\\text{ cm}^3$."
     },
     {
-      q: "Vrai ou faux : $1\\text{ dm}^3 = 10\\text{ cm}^3$.",
+      q: "(Pour aller plus loin) Vrai ou faux : $1\\text{ dm}^3 = 10\\text{ cm}^3$.",
       a: "**Faux.** Un cube de $10\\text{ cm}$ d'arête contient $10 \\times 10 \\times 10 = 1\\,000$ cubes de $1\\text{ cm}^3$ : $1\\text{ dm}^3 = 1\\,000\\text{ cm}^3$."
     },
     {
-      q: "Convertir $2{,}5\\text{ L}$ en $\\text{cm}^3$.",
-      a: "$1\\text{ L} = 1\\,000\\text{ cm}^3$, donc $2{,}5\\text{ L} = 2\\,500\\text{ cm}^3$."
+      q: "(Pour aller plus loin) Convertir $2{,}5\\text{ L}$ en $\\text{cm}^3$.",
+      a: "On admet que $1\\text{ L} = 1\\,000\\text{ cm}^3$ (programme de 5e), donc $2{,}5\\text{ L} = 2\\,500\\text{ cm}^3$."
     },
     {
       q: "Convertir $750\\text{ mL}$ en litres.",
@@ -471,8 +515,8 @@ Object.assign(window.MATHS_EXTRA_FLASHCARDS, {
       a: "Une couche : $5 \\times 4 = 20$ cubes. Trois couches : $3 \\times 20 = 60\\text{ cm}^3$."
     },
     {
-      q: "Un aquarium mesure $50\\text{ cm}$, $30\\text{ cm}$ et $20\\text{ cm}$. Quelle est sa contenance en litres ?",
-      a: "$50 \\times 30 \\times 20 = 30\\,000\\text{ cm}^3 = 30\\text{ dm}^3$, soit $30\\text{ L}$."
+      q: "(Pour aller plus loin) Un aquarium mesure $50\\text{ cm}$, $30\\text{ cm}$ et $20\\text{ cm}$. Quelle est sa contenance en litres ?",
+      a: "$50 \\times 30 \\times 20 = 30\\,000\\text{ cm}^3$. On admet que $1\\text{ L} = 1\\,000\\text{ cm}^3$ (programme de 5e) : la contenance est $30\\text{ L}$."
     },
     {
       q: "Vrai ou faux : deux pavés droits de même volume ont forcément la même forme.",
@@ -528,7 +572,7 @@ Object.assign(window.MATHS_EXTRA_FLASHCARDS, {
     },
     {
       q: "Quelle différence entre un cercle et un disque ?",
-      a: "Le **cercle** est la ligne (les points à la distance $r$ du centre). Le **disque** est la surface qu'il délimite, intérieur compris."
+      a: "Le **cercle** est la ligne : les points à la distance $r$ du centre. Le **disque** est formé de tous les points à une distance **inférieure ou égale à** $r$ du centre : le cercle et tout son intérieur."
     },
     {
       q: "Vrai ou faux : un diamètre est une corde du cercle.",
@@ -657,6 +701,18 @@ Object.assign(window.MATHS_EXTRA_FLASHCARDS, {
     {
       q: "Peut-on connaître le nombre de cubes d'un assemblage avec sa seule vue de dessus ?",
       a: "Non : la vue de dessus montre les colonnes occupées, pas leur hauteur. Il faut combiner plusieurs vues."
+    },
+    {
+      q: "Quelles sont les quatre vues d'un assemblage de cubes ?",
+      a: "De dessus, de face, de gauche et de droite."
+    },
+    {
+      q: "La vue de gauche d'un assemblage montre, de gauche à droite, des colonnes de $3$, $2$ et $1$ carrés. Que montre sa vue de droite ?",
+      a: "Des colonnes de $1$, $2$ et $3$ carrés : c'est le dessin symétrique."
+    },
+    {
+      q: "Sur un pavé droit dessiné en perspective cavalière, combien d'arêtes sont en pointillés ?",
+      a: "$3$ : ce sont les arêtes qui partent du seul sommet que l'on ne voit pas."
     },
     {
       q: "Vrai ou faux : $6$ carrés alignés forment un patron de cube.",

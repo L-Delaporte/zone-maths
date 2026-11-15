@@ -25,7 +25,7 @@
       ]),
     C('veto-02', 'VB-02', 'outils', 'Outils',
       'Trigonométrie, nombres complexes et polynômes', 'Complexes & polynômes', 'circle-dot', 'Maître des Racines', '#047857',
-      'Formules de trigonométrie, forme algébrique et forme exponentielle d\'un complexe, équations du second degré à coefficients réels, polynômes réels : degré, racines, factorisation, racines multiples.',
+      'Formules de trigonométrie, arccos et arcsin, forme algébrique et forme exponentielle d\'un complexe, équations du second degré à coefficients réels, polynômes : degré, racines, multiplicité, factorisation dans $\\mathbb{C}[X]$.',
       [
         'Passer de la forme algébrique à la forme exponentielle',
         'Résoudre une équation du second degré dans $\\mathbb{C}$',
@@ -33,7 +33,7 @@
       ]),
     C('veto-03', 'VB-03', 'analyse', 'Analyse',
       'Suites réelles et séries', 'Suites & séries', 'trending-up', 'Explorateur des Limites', '#0f766e',
-      'Suites arithmétiques, géométriques et arithmético-géométriques, récurrences linéaires d\'ordre 2, limites et théorèmes de convergence, suites adjacentes, séries géométriques et de Riemann, séries à termes positifs.',
+      'Suites arithmétiques, géométriques et arithmético-géométriques, récurrences linéaires d\'ordre 2, limites et théorèmes de convergence, suites adjacentes, séries géométriques, séries de référence (somme des 1/n² et série harmonique), séries à termes positifs.',
       [
         'Exprimer le terme général d\'une suite récurrente',
         'Étudier la convergence d\'une suite',
@@ -57,7 +57,7 @@
       ]),
     C('veto-06', 'VB-06', 'analyse', 'Analyse',
       'Équations différentielles', 'Équations différentielles', 'activity', 'Modélisateur du Vivant', '#1d4ed8',
-      'Équations linéaires du premier ordre, équations linéaires du second ordre à coefficients constants, équations autonomes d\'ordre 1 et modèles de dynamique des populations (croissance exponentielle, logistique).',
+      'Équations linéaires du premier ordre, équations linéaires du second ordre à coefficients constants, équations autonomes étudiées sur des exemples guidés, modèles de dynamique des populations (croissance exponentielle, logistique, Gompertz) et méthode d\'Euler.',
       [
         'Résoudre $y\' + a(x)y = b(x)$ avec condition initiale',
         'Résoudre $y\'\' + ay\' + by = c$ à coefficients constants',
@@ -65,7 +65,7 @@
       ]),
     C('veto-07', 'VB-07', 'analyse', 'Analyse',
       'Fonctions de deux variables réelles', 'Deux variables', 'box', 'Cartographe des Surfaces', '#1e40af',
-      'Fonctions de deux variables, lignes de niveau, continuité, dérivées partielles d\'ordre 1 et 2, gradient, points critiques et recherche d\'extremums.',
+      'Fonctions de deux variables, lignes de niveau, continuité, dérivées partielles d\'ordre 1 et 2, gradient, dérivée de $t \\mapsto f(x(t), y(t))$, points critiques et recherche d\'extremums.',
       [
         'Calculer des dérivées partielles et un gradient',
         'Déterminer les points critiques d\'une fonction',
@@ -97,7 +97,7 @@
       ]),
     C('veto-11', 'VB-11', 'probas', 'Probabilités et statistique',
       'Probabilités et variables aléatoires discrètes', 'Variables discrètes', 'dices', 'Stratège du Hasard', '#9d174d',
-      'Espaces probabilisés, probabilités conditionnelles, formule des probabilités totales et formule de Bayes, indépendance, variables aléatoires discrètes, espérance et variance, lois usuelles (Bernoulli, binomiale, géométrique, Poisson), couples et covariance.',
+      'Espaces probabilisés, probabilités conditionnelles, formule des probabilités totales et formule de Bayes, indépendance, variables aléatoires discrètes, espérance et variance, lois usuelles (Bernoulli, binomiale, géométrique, Poisson), couples, lois conditionnelles, somme, maximum et covariance.',
       [
         'Utiliser la formule des probabilités totales et la formule de Bayes',
         'Calculer l\'espérance et la variance d\'une loi usuelle',
@@ -105,7 +105,7 @@
       ]),
     C('veto-12', 'VB-12', 'probas', 'Probabilités et statistique',
       'Variables à densité et théorèmes limites', 'Densités & limites', 'bell', 'Maître des Lois', '#be123c',
-      'Densité et fonction de répartition, espérance et variance, lois uniforme, exponentielle et normale, sommes de variables indépendantes, inégalité de Bienaymé-Tchebychev, loi faible des grands nombres et convergence en loi.',
+      'Densité et fonction de répartition, espérance et variance, lois uniforme, exponentielle et normale, sommes de variables indépendantes, inégalité de Bienaymé-Tchebychev, loi faible des grands nombres, convergence en loi, théorème central limite, théorème de Moivre-Laplace et test de conformité à la moyenne.',
       [
         'Vérifier qu\'une fonction est une densité et calculer une probabilité',
         'Utiliser les lois exponentielle et normale',
@@ -113,7 +113,7 @@
       ]),
     C('veto-13', 'VB-13', 'probas', 'Probabilités et statistique',
       'Statistique descriptive univariée et bivariée', 'Statistique', 'bar-chart-3', 'Biostatisticien', '#c2410c',
-      'Moyenne, médiane, quartiles, variance et écart type, séries bivariées, covariance, coefficient de corrélation linéaire, droite de régression par la méthode des moindres carrés, ajustements après changement de variable.',
+      'Moyenne, médiane, quartiles, déciles, variance et écart type, séries bivariées, covariance, coefficient de corrélation linéaire, droite de régression par la méthode des moindres carrés, ajustements après changement de variable.',
       [
         'Calculer les indicateurs d\'une série statistique',
         'Calculer une covariance et un coefficient de corrélation',

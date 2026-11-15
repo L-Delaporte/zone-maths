@@ -7,14 +7,16 @@
  * par chapitre (cours complet, exercices corrigés, formules rendues par KaTeX côté serveur),
  * lisible sans JavaScript, qui renvoie vers l'application pour s'entraîner.
  *
- * USAGE (depuis la racine du dépôt, Node ≥ 16, aucune dépendance externe) :
+ * USAGE (depuis la racine du dépôt, Node ≥ 22, aucune dépendance externe) :
  *
- *     node scripts/build_seo_pages.js
+ *     node scripts/build_seo_pages.js            génère les pages
+ *     node scripts/build_seo_pages.js --check    génère en mémoire, compare au disque, n'écrit rien (exit 1 si écart)
  *
  *   - Supprime puis régénère entièrement le dossier cours/ (idempotent, relançable à volonté).
  *   - Réécrit sitemap.xml (pages racine + toutes les pages cours/). Dates de modification stables :
- *     une page générée garde sa date précédente (lastmod du sitemap, dateModified du JSON-LD) si son
- *     contenu n'a pas changé ; sinon elle prend la date du jour (ou BUILD_DATE=2026-10-30 node scripts/…).
+ *     une page générée garde sa date précédente (lastmod du sitemap, dateModified du JSON-LD, date
+ *     visible) si le texte de son <main> n'a pas changé : un changement de gabarit (en-tête, pied de
+ *     page, CSP, empreintes ?v=) ne la redate pas. Sinon elle prend la date du jour (ou BUILD_DATE=2026-10-30 node scripts/…).
  *     Les pages racine écrites à la main prennent la date de leur dernier commit.
  *     Google ignore un lastmod qui change partout à chaque génération : ne pas revenir en arrière.
  *   - Vérifie que robots.txt déclare le sitemap (l'ajoute sinon).
@@ -22,7 +24,7 @@
  *
  * À relancer après chaque modification des contenus (js/data/*.js), puis committer cours/ et sitemap.xml.
  *
- * Sources lues (jamais modifiées) : js/data/chapters*.js, courses.js, exercises.js, data_*.js,
+ * Sources lues (jamais modifiées) : les fichiers js/data/ déclarés dans index.html (scripts/tests/load_site.js),
  * js/mathRenderer.js (markdownToHtml réutilisé tel quel), vendor/katex/katex.min.js.
  * Feuille de style des pages générées : css/cours.css (+ css/style.css et css/landing.css).
  *
@@ -35,7 +37,9 @@
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
+const crypto = require('crypto');
 const { CSP_META } = require('./csp.js');
+const { loadSiteData } = require('./tests/load_site.js');
 
 const ROOT = path.resolve(__dirname, '..');
 const OUT = path.join(ROOT, 'cours');
@@ -48,15 +52,38 @@ const BRAND = "L'Établi des Maths";
 const URL_REGISTRY = path.join(__dirname, 'cours_urls.json');
 const REDIRECTS = {};
 const AUTHOR = 'Loïc Delaporte';
+const AUTHOR_PAGE = `${SITE}/a-propos.html`;
+const AUTHOR_LD = { '@type': 'Person', '@id': `${AUTHOR_PAGE}#auteur`, name: AUTHOR, jobTitle: 'Professeur de mathématiques', url: AUTHOR_PAGE };
+const PUBLISHER_LD = { '@type': 'Organization', '@id': `${SITE}/#organisation`, name: BRAND, url: `${SITE}/`, logo: `${SITE}/assets/logo-192.png` };
 const BUILD_DATE = process.env.BUILD_DATE || new Date().toISOString().slice(0, 10);
+const CHECK_ONLY = process.argv.includes('--check');
+
+// Tout ce que le script produit passe par emit() : écrit sur le disque, ou seulement comparé avec --check.
+const outputs = new Map(); // chemin absolu → contenu produit
+function emit(file, content) {
+  outputs.set(file, content);
+  if (CHECK_ONLY) return;
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, content);
+}
+
+// Même empreinte que scripts/build_versions.js : l'application et les cours partagent le cache du service worker.
+const assetVersions = new Map();
+function versioned(rel) {
+  if (!assetVersions.has(rel)) {
+    assetVersions.set(rel, crypto.createHash('sha1').update(fs.readFileSync(path.join(ROOT, rel))).digest('hex').slice(0, 10));
+  }
+  return `${rel}?v=${assetVersions.get(rel)}`;
+}
 
 // ---------------------------------------------------------------------------
 // Dates de modification stables
 // ---------------------------------------------------------------------------
-// Les pages sont produites avec DATE_TOKEN à la place de leur date ; writeStable() compare le
-// résultat à la version précédente (dates neutralisées) et ne date du jour que les pages modifiées.
+// Les pages sont produites avec DATE_TOKEN (JSON-LD, datetime) et DATE_TOKEN_FR (date affichée) à la
+// place de leur date ; writeStable() compare le texte du <main> à la version précédente et ne date du
+// jour que les pages dont le contenu a changé.
 const DATE_TOKEN = '__DATE_MODIFIED__';
-const DATE_RE = /"dateModified": "\d{4}-\d{2}-\d{2}"/g;
+const DATE_TOKEN_FR = '__DATE_AFFICHEE__';
 const PREV = { files: new Map(), lastmod: new Map() };
 const pageDates = new Map(); // chemin du sitemap (ex. /cours/3e/) → AAAA-MM-JJ
 
@@ -77,14 +104,20 @@ function snapshotPrevious() {
   }
 }
 
+/** Texte du <main> sans la ligne de date : seul ce contenu décide de la date de la page. */
+function contentPrint(html) {
+  const main = (html.match(/<main\b[\s\S]*<\/main>/) || [html])[0];
+  return main.replace(/<p class="cours-byline">[\s\S]*?<\/p>/, '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
 function writeStable(file, html, loc) {
   const prev = PREV.files.has(file) ? PREV.files.get(file) : (fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : null);
   let date = BUILD_DATE;
-  if (prev != null && prev.replace(DATE_RE, `"dateModified": "${DATE_TOKEN}"`) === html) {
+  if (prev != null && contentPrint(prev) === contentPrint(html)) {
     const m = prev.match(/"dateModified": "(\d{4}-\d{2}-\d{2})"/);
     date = (m && m[1]) || PREV.lastmod.get(loc) || BUILD_DATE;
   }
-  fs.writeFileSync(file, html.split(DATE_TOKEN).join(date));
+  emit(file, html.split(DATE_TOKEN).join(date).split(DATE_TOKEN_FR).join(date.split('-').reverse().join('/')));
   if (loc) pageDates.set(loc, date);
 }
 
@@ -101,37 +134,16 @@ function gitDate(rel) {
 }
 const NB = '\u00a0';   // espace insécable
 const NNB = '\u202f';  // espace fine insécable
+/** Mention portée par toutes les pages des concours (app : #concours-notice dans index.html). */
+const CONCOURS_NOTICE_HTML = `<p class="cours-note concours-notice" role="note">L'Établi des Maths est une aide complémentaire à la préparation et ne garantit pas la réussite au concours${NB}: les programmes et les attendus varient d'une université ou d'une formation à l'autre. Le programme officiel de chaque formation fait foi.</p>`;
 
 // ---------------------------------------------------------------------------
 // 1. Chargement des données dans un contexte « navigateur » minimal
 // ---------------------------------------------------------------------------
-const DATA_FILES = [
-  'chapters.js', 'chapters_lycee.js', 'chapters_licence.js', 'courses.js', 'exercises.js',
-  'data_6eme.js', 'data_5eme.js', 'data_4eme.js', 'data_2nde.js', 'data_1ere.js', 'data_terminale.js',
-  'data_l1.js', 'data_l2.js', 'data_l3.js', 'data_capes.js', 'data_proofs.js',
-  'chapters_crpe.js', 'data_crpe.js', 'exercises_crpe.js',
-  'chapters_sante.js', 'data_sante.js', 'exercises_sante.js', 'data_pass.js', 'exercises_pass.js',
-  'chapters_veto.js', 'data_veto.js', 'exercises_veto.js', 'exercises_veto_b.js'
-];
-
 function loadData() {
-  const sandbox = { console };
-  sandbox.window = sandbox;
-  sandbox.self = sandbox;
-  sandbox.document = {
-    addEventListener() {}, querySelector() { return null; }, querySelectorAll() { return []; },
-    getElementById() { return null; }, createElement() { return { style: {}, setAttribute() {}, appendChild() {} }; }
-  };
-  sandbox.localStorage = { getItem() { return null; }, setItem() {}, removeItem() {} };
-  const ctx = vm.createContext(sandbox);
-  const missing = [];
-  for (const f of DATA_FILES) {
-    const p = path.join(ROOT, 'js', 'data', f);
-    if (!fs.existsSync(p)) { missing.push(f); continue; }
-    vm.runInContext(fs.readFileSync(p, 'utf8'), ctx, { filename: f });
-  }
-  vm.runInContext(fs.readFileSync(path.join(ROOT, 'js', 'mathRenderer.js'), 'utf8'), ctx, { filename: 'mathRenderer.js' });
-  return { win: sandbox, missing };
+  const { win } = loadSiteData();
+  vm.runInContext(fs.readFileSync(path.join(ROOT, 'js', 'mathRenderer.js'), 'utf8'), win, { filename: 'mathRenderer.js' });
+  return win;
 }
 
 const katex = require(path.join(ROOT, 'vendor', 'katex', 'katex.min.js'));
@@ -152,6 +164,10 @@ const LEVELS = [
     intro: "Le programme de mathématiques de seconde : nombres réels, calcul littéral, fonctions de référence, vecteurs, géométrie repérée, statistiques et probabilités." },
   { code: '1ere', slug: 'premiere', label: 'Première', de: 'de première', cycle: 'lycee', app: '1ere', edu: 'Lycée — première, spécialité mathématiques',
     intro: "La spécialité mathématiques de première : second degré, suites, dérivation, exponentielle, trigonométrie, produit scalaire, probabilités conditionnelles et variables aléatoires." },
+  { code: '1tc', slug: 'premiere-tronc-commun', titleTag: 'Maths en première, tronc commun : cours et exercices corrigés', label: 'Première (tronc commun)', de: 'de première tronc commun', cycle: 'lycee', app: '1tc', edu: 'Lycée — première générale, enseignement de mathématiques du tronc commun',
+    intro: "Les mathématiques du tronc commun de première générale, pour les élèves qui ne suivent pas la spécialité : automatismes, proportions et évolutions, information chiffrée, probabilités conditionnelles, croissance linéaire, modèles quadratiques et croissance exponentielle, avec la préparation de l'épreuve anticipée." },
+  { code: '1techno', slug: 'premiere-technologique', titleTag: 'Maths en première techno : cours et exercices corrigés', label: 'Première technologique', de: 'de première technologique', cycle: 'lycee', app: '1techno', edu: 'Lycée — première technologique, enseignement commun de mathématiques',
+    intro: "Les mathématiques de première technologique : automatismes, ensembles et logique, algorithmique en Python, suites, fonctions et second degré, dérivation, statistiques à deux variables et probabilités, avec la préparation de l'épreuve anticipée." },
   { code: 'tale', slug: 'terminale', label: 'Terminale', de: 'de terminale', cycle: 'lycee', app: 'tale', edu: 'Lycée — terminale, spécialité mathématiques et mathématiques expertes',
     intro: "La spécialité mathématiques de terminale et l'option mathématiques expertes : limites, continuité, logarithme, intégration, géométrie dans l'espace, lois de probabilité, arithmétique, complexes et matrices." },
   { code: 'L1', slug: 'l1', label: 'Licence 1', de: 'de L1', cycle: 'licence', app: 'L1', edu: 'Université — licence de mathématiques, 1re année (L1)',
@@ -160,8 +176,8 @@ const LEVELS = [
     intro: "Deuxième année de licence : déterminants, réduction des endomorphismes, espaces euclidiens, séries numériques, intégrales généralisées, équations différentielles, calcul différentiel et probabilités." },
   { code: 'L3', slug: 'l3', label: 'Licence 3', de: 'de L3', cycle: 'licence', app: 'L3', edu: 'Université — licence de mathématiques, 3e année (L3)',
     intro: "Troisième année de licence : théorie des groupes, anneaux, topologie des espaces métriques, espaces de Banach, séries de Fourier, théorie de la mesure, probabilités et analyse numérique." },
-  { code: 'capes', slug: 'capes', label: 'CAPES', de: 'CAPES', cycle: 'concours', app: 'capes', edu: 'Concours — CAPES et agrégation de mathématiques',
-    intro: "Préparation aux oraux du CAPES de mathématiques : leçons avec plan (y compris sur les grands thèmes du secondaire : géométrie vectorielle, nombres complexes, probabilités, statistique, dénombrement), théorème clé démontré, développements possibles, remarques du jury, et épreuve d'entretien." },
+  { code: 'capes', slug: 'capes', label: 'CAPES', de: 'CAPES', cycle: 'concours', app: 'capes', edu: 'Concours — CAPES de mathématiques',
+    intro: "Préparation aux oraux du CAPES de mathématiques : leçons d'oral avec plan (sur les grands thèmes du secondaire : géométrie vectorielle, nombres complexes, probabilités, statistique, dénombrement), compléments disciplinaires de niveau licence, théorème clé démontré, développements possibles, remarques du jury, et épreuve d'entretien." },
   { code: 'crpe', slug: 'professeur-des-ecoles', label: 'Professeur des écoles', de: 'du CRPE', cycle: 'concours', app: 'crpe', edu: 'Concours — concours de recrutement de professeurs des écoles (CRPE)',
     intro: "Les mathématiques du concours de professeur des écoles (programme du cycle 4) : nombres et calculs, proportionnalité et fonctions, statistiques et probabilités, grandeurs et mesures, géométrie, algorithmique, avec analyses d'erreurs d'élèves." },
   { code: 'sante', slug: 'prepa-sante', label: 'Prépa santé', de: 'de prépa santé', cycle: 'concours', app: 'sante', edu: 'Lycée — terminale, préparation aux études de santé (PASS, L.AS)',
@@ -172,11 +188,13 @@ const LEVELS = [
     intro: "Les mathématiques de la classe préparatoire BCPST, voie principale du concours vétérinaire : logique et dénombrement, nombres complexes et polynômes, suites et séries, fonctions et développements limités, intégration, équations différentielles, fonctions de deux variables, algèbre linéaire et diagonalisation, géométrie, probabilités discrètes et à densité, statistique." }
 ];
 /** Libellé court du niveau dans les titres (« Pythagore en 4e », « Maths en terminale »). */
-const SHORT = { '6eme': '6e', '5eme': '5e', '4eme': '4e', '3eme': '3e', '2nde': 'seconde', '1ere': 'première', tale: 'terminale',
+const SHORT = { '6eme': '6e', '5eme': '5e', '4eme': '4e', '3eme': '3e', '2nde': 'seconde', '1ere': 'première', '1tc': 'première (tronc commun)', '1techno': 'première technologique', tale: 'terminale',
   L1: 'L1', L2: 'L2', L3: 'L3', capes: 'CAPES', crpe: 'CRPE', sante: 'prépa santé', pass: 'PASS / L.AS', veto: 'prépa BCPST' };
 for (const l of LEVELS) { l.short = SHORT[l.code]; l.en = `en ${l.short}`; }
 LEVELS.find((l) => l.code === 'crpe').en = 'pour le CRPE';
 const SCHOOL_ORDER = ['6eme', '5eme', '4eme', '3eme', '2nde', '1ere', 'tale'];
+/** Niveaux scolaires (collège, lycée), y compris les voies de première hors spécialité. */
+const SCHOOL_LEVELS = [...SCHOOL_ORDER, '1tc', '1techno'];
 /** Noms des paliers affichés par l'application (js/adaptiveEngine.js, getTierDisplayName). */
 function tierNames(code) {
   const base = ['Socle et automatismes', 'Entraînement guidé'];
@@ -185,9 +203,9 @@ function tierNames(code) {
   if (code === 'veto') return ['Socle et automatismes', 'Entraînement et méthodes', 'Niveau concours (écrit)', 'Problèmes et démonstrations'];
   if (code === 'crpe') return ['Socle et automatismes', 'Entraînement et méthodes', 'Niveau concours (écrit)', 'Problèmes, justifications et erreurs d\u2019élèves'];
   if (['L1', 'L2', 'L3'].includes(code)) return ['Socle et définitions', 'Entraînement et méthodes', 'Niveau examen', 'Démonstrations et rigueur'];
-  if (code === '1ere' || code === 'tale') return base.concat(['Objectif bac', 'Défi et approfondissement']);
+  if (['1ere', '1tc', '1techno', 'tale'].includes(code)) return base.concat(['Objectif bac', 'Défi et approfondissement']);
   if (code === '3eme') return base.concat(['Objectif brevet', 'Défi seconde']);
-  const next = { '6eme': 'Défi 5e', '5eme': 'Défi 4e', '4eme': 'Défi 3e', '2nde': 'Défi première spécialité' };
+  const next = { '5eme': 'Défi', '4eme': 'Défi', '2nde': 'Défi première spécialité' };
   return base.concat(['Approfondissement', next[code] || 'Défi']);
 }
 
@@ -196,8 +214,11 @@ const HUBS = {
   exercices: { dir: 'exercices-de-maths', name: 'Exercices de maths corrigés' },
   brevet: { dir: 'reviser-le-brevet-de-maths', name: 'Réviser le brevet de maths' },
   bac: { dir: 'reussir-le-bac-de-maths', name: 'Réussir le bac de maths' },
+  ea: { dir: 'epreuve-anticipee-de-maths', name: 'Épreuve anticipée de maths (1re)' },
+  complementaires: { dir: 'maths-complementaires', name: 'Maths complémentaires : les chapitres utiles' },
   entrainement: { dir: 'entrainement-maths', name: 'Entraînement maths en ligne' },
-  oral2: { dir: 'epreuve-d-entretien-capes', name: 'Épreuve d’entretien du CAPES (oral 2)' }
+  oral2: { dir: 'epreuve-d-entretien-capes', name: 'Épreuve d’entretien du CAPES (oral 2)' },
+  preparer: { dir: 'preparer-le-capes-de-maths', name: 'Préparer le CAPES de maths : voies et épreuves' }
 };
 /** Fiche de l'oral 2 du CAPES : épreuve commune à toutes les disciplines, titre et résumé dédiés. */
 const ORAL2_ID = 'capes-oral2';
@@ -270,6 +291,11 @@ function frTypo(s) {
     .replace(/[ \u00a0]*»/g, NB + '»');
 }
 
+/** frTypo sur le texte seul d'un fragment HTML : ni les balises, ni le code, ni les figures, ni la source des formules. */
+function frTypoHtml(html) {
+  return String(html).replace(/<(code|pre|svg|annotation|textarea|script|style)\b[\s\S]*?<\/\1>|<[^<>]*>|[^<]+/g, (m) => (m[0] === '<' ? m : frTypo(m)));
+}
+
 function slugify(s) {
   return String(s).normalize('NFD').replace(/[\u0300-\u036f]/g, '')
     .replace(/œ/g, 'oe').replace(/æ/g, 'ae').replace(/[ß]/g, 'ss')
@@ -296,19 +322,28 @@ const TEX_SYMBOLS = {
 };
 const BB = { N: 'ℕ', Z: 'ℤ', D: 'D', Q: 'ℚ', R: 'ℝ', C: 'ℂ', K: 'K' };
 const SUP = { '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴', '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹', 'n': 'ⁿ', '-': '⁻', '+': '⁺' };
+const SUB = { '0': '₀', '1': '₁', '2': '₂', '3': '₃', '4': '₄', '5': '₅', '6': '₆', '7': '₇', '8': '₈', '9': '₉', 'n': 'ₙ', '+': '₊', '-': '₋' };
 
 /** Conversion approximative LaTeX → texte (pour <title>, meta description, JSON-LD). */
 function texToText(tex) {
   let s = tex;
   s = s.replace(/\\mathbb\{(\w)\}/g, (m, l) => BB[l] || l);
+  // Indices et exposants d'abord : leurs accolades empêcheraient de reconnaître \frac{u_{n+1}}{u_n}
+  s = s.replace(/_\{([0-9n+-]+)\}/g, (m, c) => [...c].map((x) => SUB[x]).join(''));
+  s = s.replace(/\^\{([0-9n+-]+)\}/g, (m, c) => [...c].map((x) => SUP[x]).join(''));
+  s = s.replace(/\\(?:bar|overline)\{(\w)\}/g, '$1\u0304');
+  const term = (x) => (/[-+]/.test(x) ? `(${x})` : x);
   for (let i = 0; i < 3; i++) {
-    s = s.replace(/\\[dt]?frac\{([^{}]*)\}\{([^{}]*)\}/g, '$1/$2');
+    s = s.replace(/\\[dt]?frac\{([^{}]*)\}\{([^{}]*)\}/g, (m, a, b) => `${term(a)}/${term(b)}`);
+    s = s.replace(/\\binom\{([^{}]*)\}\{([^{}]*)\}/g, 'C($1, $2)');
     s = s.replace(/\\sqrt\{([^{}]*)\}/g, '√$1');
     s = s.replace(/\\(?:text|textbf|mathrm|mathbf|mathcal|operatorname|overrightarrow|vec|widehat|hat|overline|left|right)\s*\{([^{}]*)\}/g, '$1');
   }
   s = s.replace(/\\(left|right|big|Big|bigg|displaystyle)\b/g, '');
   s = s.replace(/\\([a-zA-Z]+|[,;! {}%])/g, (m, c) => (c in TEX_SYMBOLS ? TEX_SYMBOLS[c] : (/^[a-z]+$/.test(c) && c.length <= 4 ? c : '')));
   s = s.replace(/\^\{?([0-9n+-])\}?/g, (m, c) => SUP[c] || c);
+  s = s.replace(/_\{([0-9n+-]+)\}/g, (m, c) => [...c].map((x) => SUB[x]).join(''));
+  s = s.replace(/_\{?([0-9n])\}?(?![0-9+a-z])/g, (m, c) => SUB[c]); // sinon u_n deviendrait « un »
   s = s.replace(/[_^]\{([^{}]*)\}/g, '$1').replace(/[_^]/g, '');
   s = s.replace(/[{}]/g, '').replace(/\s+/g, ' ').trim();
   return s;
@@ -395,6 +430,8 @@ function inline(text) {
     .replace(/(?<![*\w])\*([^*\n]+)\*(?![*\w])/g, '<em>$1</em>')
     .replace(/`([^`\n]+)`/g, '<code>$1</code>')
     .replace(/\n/g, '<br />');
+  // Espaces insécables sur le texte seul : ni le code, ni les balises (les formules sont encore des jetons)
+  h = frTypoHtml(h);
   return restoreMath(h, store, svgs);
 }
 
@@ -405,8 +442,18 @@ function jsonLd(obj) {
   return `<script type="application/ld+json">\n${JSON.stringify(obj, null, 2).replace(/</g, '\\u003c')}\n</script>`;
 }
 
-function layout({ depth, title, description, canonical, ogType = 'website', jsonld, body, extraHead = '', active = 'cours', tag = 'Cours', ogImage = `${SITE}/assets/logo.jpg` }) {
+/** Image de partage du niveau (assets/og/<slug>.png, 1200×630) ; sans elle, layout() garde le logo. */
+function levelOg(lvl) {
+  const rel = `assets/og/${lvl.slug}.png`;
+  return fs.existsSync(path.join(ROOT, rel)) ? { ogImage: `${SITE}/${rel}`, ogAlt: `${BRAND} — ${lvl.label}` } : {};
+}
+
+function layout({ depth, title, description, canonical, ogType = 'website', jsonld, body, extraHead = '', active = 'cours', tag = 'Cours', ogImage = `${SITE}/assets/logo.jpg`, ogAlt = title }) {
   const up = '../'.repeat(depth);
+  // Polices des formules préchargées sur les pages qui en affichent : le texte ne saute pas quand elles arrivent.
+  const fontPreloads = body.includes('class="katex"')
+    ? ['KaTeX_Main-Regular', 'KaTeX_Math-Italic'].map((f) => `  <link rel="preload" as="font" type="font/woff2" crossorigin href="${up}vendor/katex/fonts/${f}.woff2" />\n`).join('')
+    : '';
   const cur = (key) => (key === active ? ` active" aria-current="${canonical.endsWith('/') && depth <= 1 ? 'page' : 'true'}` : '');
   return `<!DOCTYPE html>
 <html lang="fr" data-theme="light">
@@ -414,7 +461,6 @@ function layout({ depth, title, description, canonical, ogType = 'website', json
   <meta charset="UTF-8" />
   <!-- Content-Security-Policy : voir scripts/csp.js (style-src 'unsafe-inline' requis par les attributs style de KaTeX) -->
   ${CSP_META}
-  <script src="${up}js/themeInit.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(description)}" />
@@ -427,15 +473,17 @@ function layout({ depth, title, description, canonical, ogType = 'website', json
   <meta property="og:type" content="${ogType}" />
   <meta property="og:url" content="${canonical}" />
   <meta property="og:image" content="${ogImage}" />
-  <meta property="og:image:alt" content="${esc(title)}" />
+  <meta property="og:image:alt" content="${ogImage.endsWith('logo.jpg') ? `Logo de ${esc(BRAND)}` : esc(ogAlt)}" />
   <meta name="twitter:card" content="${ogImage.endsWith('logo.jpg') ? 'summary' : 'summary_large_image'}" />
   <meta property="og:locale" content="fr_FR" />
   <meta property="og:site_name" content="${esc(BRAND)}" />
 
-  <link rel="stylesheet" href="${up}css/style.css" />
-  <link rel="stylesheet" href="${up}css/landing.css" />
-  <link rel="stylesheet" href="${up}vendor/katex/katex.min.css" />
-  <link rel="stylesheet" href="${up}css/cours.css" />
+${fontPreloads}  <link rel="stylesheet" href="${up}${versioned('css/style.css')}" />
+  <link rel="stylesheet" href="${up}${versioned('css/landing.css')}" />
+  <link rel="stylesheet" href="${up}${versioned('vendor/katex/katex.min.css')}" />
+  <link rel="stylesheet" href="${up}${versioned('css/cours.css')}" />
+  <!-- Après les feuilles de style : la CSP en meta désactive le préchargement, et ce script s'exécute quand même avant le premier rendu -->
+  <script src="${up}${versioned('js/themeInit.js')}"></script>
   <link rel="icon" href="${up}favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="32x32" href="${up}assets/favicon-32x32.png" />
   <link rel="apple-touch-icon" href="${up}assets/favicon.png" />
@@ -449,7 +497,7 @@ ${extraHead}${jsonld.map((j) => '  ' + jsonLd(j).replace(/\n/g, '\n  ')).join('\
   <!-- Header Uniformisé -->
   <header class="app-header">
     <div class="header-inner">
-      <a href="${up}index.html" class="brand-container">
+      <a href="${up}" class="brand-container">
         <img src="${up}assets/logo-96.png" alt="" class="brand-logo-img" width="44" height="44" />
         <div class="brand-text">
           <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">${esc(tag)}</span></p>
@@ -459,7 +507,7 @@ ${extraHead}${jsonld.map((j) => '  ' + jsonLd(j).replace(/\n/g, '\n  ')).join('\
 
       <!-- Navigation entre Portails -->
       <nav class="nav-portal-links" aria-label="Portails thématiques">
-        <a href="${up}index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="${up}" class="nav-portal-btn">🏠 Accueil</a>
         <a href="${up}cours/" class="nav-portal-btn${cur('cours')}">📚 Cours</a>
         <a href="${up}${HUBS.exercices.dir}/" class="nav-portal-btn${cur('exercices')}">✏️ Exercices</a>
         <a href="${up}rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
@@ -472,13 +520,13 @@ ${extraHead}${jsonld.map((j) => '  ' + jsonLd(j).replace(/\n/g, '\n  ')).join('\
   </header>
 
   <main class="landing-wrapper cours-wrapper" id="contenu" tabindex="-1">
-${body}
+${frTypoHtml(body)}
   </main>
 
   <footer class="cours-footer">
     <p>${esc(BRAND)} — Conçu par ${AUTHOR}, professeur de mathématiques • 100${NNB}% gratuit, conforme aux programmes</p>
     <p><a href="${up}cours/">Cours de maths</a> · <a href="${up}${HUBS.exercices.dir}/">Exercices corrigés</a> · <a href="${up}${HUBS.entrainement.dir}/">Entraînement en ligne</a> · <a href="${up}${HUBS.brevet.dir}/">Réviser le brevet</a> · <a href="${up}${HUBS.bac.dir}/">Réussir le bac</a> · <a href="${up}${HUBS.oral2.dir}/">Oral 2 du CAPES</a></p>
-    <p><a href="${up}index.html">Ouvrir l'application</a> · <a href="${up}rituels.html">Rituels</a> · <a href="${up}brevet.html">Brevet blanc</a> · <a href="${up}bac.html">Devoir type bac</a> · <a href="${up}a-propos.html">Qui suis-je ?</a> · <a href="${up}mentions-legales.html">Mentions légales</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a></p>
+    <p><a href="${up}">Ouvrir l'application</a> · <a href="${up}rituels.html">Rituels</a> · <a href="${up}brevet.html">Brevet blanc</a> · <a href="${up}bac.html">Devoir type bac</a> · <a href="${up}a-propos.html">Qui suis-je&#8239;?</a> · <a href="${up}mentions-legales.html">Mentions légales</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a></p>
     <p>Contenus sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a></p>
   </footer>
   <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
@@ -533,9 +581,9 @@ function courseSections(ch, course, capes) {
         html: `<article class="cours-card cours-theorem"><h3>${inline(k.title)}</h3>${rich(k.statement)}
 <h4 class="cours-subhead">${oral2 ? 'Fondements juridiques' : 'Démonstration'}</h4>${rich(k.proof)}</article>` });
     }
-    if ((capes.developments || []).length) out.push({ id: 'developpements', title: oral2 ? 'Études de cas' : 'Développements possibles pour l\u2019oral',
+    if ((capes.developments || []).length) out.push({ id: 'developpements', title: oral2 ? 'Études de cas' : capes.complement ? 'Développements possibles' : 'Développements possibles pour l\u2019oral',
       html: `<ul class="cours-list">${capes.developments.map((d) => `<li>${inline(d)}</li>`).join('')}</ul>` });
-    if ((capes.juryTips || []).length) out.push({ id: 'pieges', title: 'Remarques et questions du jury',
+    if ((capes.juryTips || []).length) out.push({ id: 'pieges', title: capes.complement ? 'Points de vigilance' : 'Remarques et questions du jury',
       html: `<ul class="cours-list cours-traps">${capes.juryTips.map((d) => `<li>${inline(d)}</li>`).join('')}</ul>` });
     return out;
   }
@@ -574,20 +622,50 @@ function pickExercises(list) {
 }
 const TIER_NAMES = { 1: 'Palier 1 · découverte', 2: 'Palier 2 · application', 3: 'Palier 3 · approfondissement', 4: 'Palier 4 · défi' };
 
+/** Encadré commun aux pages de 6e : le texte reste général, il ne dépend pas du chapitre. */
+const PARENTS_6E = `    <aside class="cours-parents" aria-label="Pour les parents">
+      <p class="cours-parents-title">Pour les parents</p>
+      <p>En 6e, de courtes séances régulières valent mieux qu'une longue révision. Vous pouvez demander à votre enfant d'expliquer la méthode avec ses mots, de refaire seul un exemple, puis de chercher un exercice avant d'ouvrir la correction. Nul besoin de maîtriser le chapitre${NB}: écouter et poser des questions suffit. <a href="../../parents.html">D'autres conseils pour l'accompagner</a>.</p>
+    </aside>`;
+
+/** Ordre d'affichage des options : mélange stable d'une génération à l'autre, la graine étant l'identifiant de l'exercice. */
+function optionOrder(n, seed) {
+  const order = Array.from({ length: n }, (_, i) => i);
+  let h = 0x811c9dc5; // FNV-1a
+  for (let i = 0; i < seed.length; i++) h = Math.imul(h ^ seed.charCodeAt(i), 0x01000193);
+  const next = () => { // mulberry32
+    h = (h + 0x6d2b79f5) | 0;
+    let t = Math.imul(h ^ (h >>> 15), 1 | h);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+  for (let i = n - 1; i > 0; i--) {
+    const j = Math.floor(next() * (i + 1));
+    [order[i], order[j]] = [order[j], order[i]];
+  }
+  return order;
+}
+const optionsHtml = (options, order) => `<ol class="cours-mcq" type="A">${order.map((k) => `<li>${inline(options[k])}</li>`).join('')}</ol>`;
+/** « B. texte de l'option » pour l'option d'indice ci, à la place qu'elle occupe une fois mélangée. */
+const correctLabel = (options, order, ci) => `${String.fromCharCode(65 + order.indexOf(ci))}. ${inline(options[ci])}`;
+
 function exercisesHtml(exos) {
   return exos.map((e, i) => {
     let options = '';
     let answer = '';
     if (e.type === 'case3' && Array.isArray(e.steps)) {
+      const seed = String(e.id || e.title || e.statement);
+      const orders = e.steps.map((st, k) => optionOrder(st.options.length, `${seed}#${k}`));
       options = e.steps.map((st, k) => `<h4 class="cours-subhead">Étape ${k + 1}${NB}: ${inline(st.label)}</h4>
-${st.question ? `<p>${inline(st.question)}</p>` : ''}<ol class="cours-mcq" type="A">${st.options.map((o) => `<li>${inline(o)}</li>`).join('')}</ol>`).join('\n');
-      answer = e.steps.map((st, k) => `<p class="cours-answer"><strong>Étape ${k + 1}, ${inline(lcFirst(st.label))}${NB}:</strong> ${String.fromCharCode(65 + st.correctIndex)}. ${inline(st.options[st.correctIndex])}</p>${st.explanation ? rich(st.explanation) : ''}`).join('\n');
+${st.question ? `<p>${inline(st.question)}</p>` : ''}${optionsHtml(st.options, orders[k])}`).join('\n');
+      answer = e.steps.map((st, k) => `<p class="cours-answer"><strong>Étape ${k + 1}, ${inline(lcFirst(st.label))}${NB}:</strong> ${correctLabel(st.options, orders[k], st.correctIndex)}</p>${st.explanation ? rich(st.explanation) : ''}`).join('\n');
     } else if (e.type === 'mcq' && Array.isArray(e.options)) {
-      let ci = typeof e.correctIndex === 'number' ? e.correctIndex : e.options.indexOf(e.answer);
-      options = `<ol class="cours-mcq" type="A">${e.options.map((o) => `<li>${inline(o)}</li>`).join('')}</ol>`;
+      const ci = typeof e.correctIndex === 'number' ? e.correctIndex : e.options.indexOf(e.answer);
+      const order = optionOrder(e.options.length, String(e.id || e.title || e.statement));
+      options = optionsHtml(e.options, order);
       if (ci >= 0) {
         const expl = Array.isArray(e.explanations) && e.explanations[ci] ? `<div>${rich(e.explanations[ci])}</div>` : '';
-        answer = `<p class="cours-answer"><strong>Bonne réponse${NB}:</strong> ${String.fromCharCode(65 + ci)}. ${inline(e.options[ci])}</p>${expl}`;
+        answer = `<p class="cours-answer"><strong>Bonne réponse${NB}:</strong> ${correctLabel(e.options, order, ci)}</p>${expl}`;
       }
     } else if (e.answer != null && String(e.answer).trim()) {
       const a = String(e.answer);
@@ -618,15 +696,71 @@ function headOf(title) {
   return head.split(/\s+/).length >= 2 && head.length >= 10 ? head : title.replace(/\s*\([^)]*\)/g, '').trim();
 }
 const TITLE_MAX = 62;
+const DESC_MIN = 110;
+const DESC_TARGET = 120;
+const DESC_MAX = 155;
 /** Sujet du chapitre sans article initial : « Le raisonnement par récurrence » → « Raisonnement par récurrence ». */
 const noArticle = (s) => ucFirst(String(s).replace(/^(le|la|les)\s+/i, '').replace(/^l['’]\s*/i, ''));
+/** Majuscules de milieu d'intitulé héritées des données (« Puissances et Notation scientifique ») ; les noms propres restent. */
+const MID_CAPS = /(?<=[\s(])(Notation|Résolution|Nombres|Propriétés|Réciproque|Effets|Boule|Repérage|Sections|Transformations|Analyse|Expériences|Tableur|Théorème|Rang|Valeurs|Intermédiaires|Diagonalisation|Trigonalisation|Préhilbertiens|Euclidiens|Orthogonalité|Spectral|Groupes|Morphismes|Actions|Anneaux|Corps|Espaces|Ouverts|Point|Fixe|Connexité|Convergences|Formes|Conditionnement|Simplexe|Mesure|Intégration|Central|Limite|Éthique)(?!\p{L})/gu;
+const midCase = (s) => String(s).replace(MID_CAPS, (m) => m.toLowerCase());
+/** Titres écrits à la main quand la règle automatique perdrait le mot-clé principal (l'URL reste dérivée de ch.title). */
+const SEO_TITLES = {
+  '6N2': 'Comparer, ranger, arrondir des décimaux en 6e : cours',
+  '6N5': 'Division euclidienne, multiples et diviseurs en 6e : cours',
+  '6M2': 'Aire du carré et du rectangle en 6e : cours et exercices',
+  '6M3': 'Volume du cube et du pavé en 6e : cours et exercices',
+  '6G3': 'Angles et bissectrice en 6e : cours et exercices corrigés',
+  '6G4': 'Triangles et somme des angles en 6e : cours et exercices',
+  '5N1': 'Priorités opératoires en 5e : cours et exercices corrigés',
+  '5G4': 'Triangles et droites remarquables en 5e : cours et exercices',
+  '5G6': 'Prismes, cylindres et volumes en 5e : cours et exercices',
+  '5P1': 'Proportionnalité et pourcentages en 5e : cours et exercices',
+  '5A1': 'Algorithmique et Scratch en 5e : cours et exercices corrigés',
+  '4N5': 'Calcul littéral et équations en 4e : cours et exercices',
+  '4G2': 'Triangle rectangle et droite des milieux en 4e : cours',
+  '4G4': 'Pyramides, cônes et volumes en 4e : cours et exercices',
+  '4D1': 'Statistiques, moyenne et médiane en 4e : cours et exercices',
+  '4A1': 'Algorithmique et Scratch en 4e : cours et exercices corrigés',
+  G2bis: 'Pythagore, Thalès ou trigonométrie en 3e : cours et exercices',
+  '2N2': 'Calcul littéral et identités remarquables en seconde : cours',
+  '1A6': 'Suites arithmétiques et géométriques en première : cours',
+  '1G3': 'Produit scalaire et Al-Kashi en première : cours et exercices',
+  TA3: 'Limites de fonctions, continuité, TVI en terminale : cours',
+  TA4: 'Convexité et concavité en terminale : cours et exercices',
+  TA6: 'Primitives et équations différentielles en terminale : cours',
+  TS1: 'Loi binomiale et schéma de Bernoulli en terminale : cours',
+  TX1: 'Nombres complexes, forme algébrique : cours de maths expertes',
+  TX2: 'Nombres complexes et géométrie : cours de maths expertes',
+  TX3: 'Arithmétique dans Z et congruences : cours de maths expertes',
+  TX4: 'Théorèmes de Bézout et de Gauss : cours de maths expertes',
+  TX5: 'Matrices, graphes, chaînes de Markov : cours de maths expertes',
+  'L1-CMP': 'Nombres complexes et polynômes en L1 : cours et exercices',
+  'L1-MAT': 'Matrices, systèmes linéaires, pivot de Gauss en L1 : cours',
+  'L1-APP': 'Applications linéaires et théorème du rang en L1 : cours',
+  'L1-TAY': 'Formules de Taylor et développements limités en L1 : cours',
+  'L2-DET': 'Déterminants et formes multilinéaires en L2 : cours',
+  'L2-RED1': 'Réduction des endomorphismes et diagonalisation en L2 : cours',
+  'L2-RED2': 'Trigonalisation et Cayley-Hamilton en L2 : cours et exercices',
+  'L2-ING': 'Intégrales généralisées en L2 : cours et exercices corrigés',
+  'L2-MUL': 'Intégrales multiples et théorème de Fubini en L2 : cours',
+  'L3-BAN': 'Complétude, espaces de Banach, point fixe en L3 : cours',
+  'L3-GRP2': 'Actions de groupes et théorèmes de Sylow en L3 : cours',
+  'L3-GPR': 'Géométrie affine et projective en L3 : cours et exercices',
+  'L3-PRC': 'Probabilités continues et vecteurs gaussiens en L3 : cours',
+  'capes-08': 'Convexité des fonctions réelles — complément pour le CAPES',
+  'capes-14': "Statistique à une et deux variables — leçon d'oral du CAPES"
+};
 function chapterTitleTag(ch, lvl) {
-  const t = noArticle(plain(ch.title));
+  if (SEO_TITLES[ch.id]) return frTypo(SEO_TITLES[ch.id]);
+  const t = noArticle(midCase(plain(ch.title)));
   if (ch.id === ORAL2_ID) return frTypo('Oral 2 du CAPES : épreuve d’entretien et mises en situation');
   if (ch.id === ORAL2_CAS_ID) return frTypo('Oral 2 du CAPES : études de cas en trois étapes');
   if (lvl.code === 'capes') {
-    const cands = [`${t} — leçon d'oral du CAPES`, `${headOf(t)} — leçon d'oral du CAPES`, `${headOf(t)} — oral du CAPES`];
-    let title = cands.find((c) => c.length <= TITLE_MAX) || `${truncate(headOf(t), TITLE_MAX - 18)} — oral du CAPES`;
+    const long = ch.complement ? ' — complément pour le CAPES' : " — leçon d'oral du CAPES";
+    const brief = ch.complement ? ' — complément CAPES' : ' — oral du CAPES';
+    const cands = [`${t}${long}`, `${t}${brief}`, `${headOf(t)}${long}`, `${headOf(t)}${brief}`];
+    let title = cands.find((c) => c.length <= TITLE_MAX) || `${truncate(headOf(t), TITLE_MAX - brief.length - 2).replace(/…$/, '')}${brief}`;
     if (usedTitles.has(title)) title = title.replace(' — ', ` (${ch.num || ch.id}) — `);
     return frTypo(title);
   }
@@ -644,11 +778,12 @@ function chapterTitleTag(ch, lvl) {
     const short = plain(ch.shortTitle).replace(/\s*&\s*/g, ' et ').replace(/\btrigo\b/, 'trigonométrie');
     for (const subj of [tt, short]) for (const suffix of suffixes) cands.push(`${subj} ${lvl.en}${suffix}`);
   }
-  for (const suffix of suffixes) {
-    for (const subj of subjects) cands.push(`${subj} ${lvl.en}${suffix}`);
+  // Le sujet complet passe avant le suffixe long : perdre « corrigés » coûte moins que perdre un mot-clé.
+  for (const subj of subjects) {
+    for (const suffix of suffixes) cands.push(`${subj} ${lvl.en}${suffix}`);
   }
   let title = cands.find((c) => c.length <= TITLE_MAX && !usedTitles.has(frTypo(c)))
-    || `${truncate(head.replace(/\s*\([^)]*\)?/g, ''), TITLE_MAX - lvl.en.length - 9)} ${lvl.en} : cours`;
+    || `${truncate(head.replace(/\s*\([^)]*\)?/g, ''), TITLE_MAX - lvl.en.length - 9).replace(/…$/, '')} ${lvl.en} : cours`;
   if (usedTitles.has(frTypo(title))) title = title.replace(` ${lvl.en} :`, ` (${ch.num || ch.id}) ${lvl.en} :`);
   return frTypo(title);
 }
@@ -659,19 +794,59 @@ function chapterDescription(ch, lvl, course, capes) {
   else objs = (ch.skills || []).map(plain);
   objs = objs.map((o) => lcFirst(o.replace(/\.$/, '')));
   if (ch.id === ORAL2_CAS_ID) {
-    return frTypo('Oral 2 du CAPES : études de cas corrigées en trois étapes, règle de droit, réaction immédiate et action durable, sur la classe, la laïcité, les familles et la protection de l’élève.');
+    return frTypo('Oral 2 du CAPES : études de cas corrigées en trois étapes (règle de droit, réaction immédiate, action durable) sur la classe, la laïcité et les familles.');
   }
   if (ch.id === ORAL2_ID) {
     return frTypo('Épreuve d’entretien du CAPES (oral 2), toutes disciplines : déroulé, laïcité et valeurs de la République, mises en situation commentées, questions du jury.');
   }
-  const subj = noArticle(plain(ch.title));
-  const head = capes
-    ? `Leçon d'oral du CAPES de maths — ${subj}${NB}: plan détaillé, théorème clé démontré et remarques du jury. `
-    : `${subj} ${lvl.en}${NB}: cours, méthodes et exercices corrigés gratuits. `;
-  let d = head + (objs.length ? (capes ? 'Parties' : 'Objectifs') + `${NB}: ` + objs.join(', ') : plain(ch.description));
-  d = truncate(d, 155);
-  if (d.length < 110) d = truncate(`${d.replace(/…$/, '')} ${plain(ch.description)}`, 155);
-  return frTypo(d);
+  if (ch.id === 'G2bis') {
+    return frTypo('Pythagore, Thalès ou trigonométrie en 3e : choisir le bon outil selon la figure et enchaîner les théorèmes dans un problème. Cours et exercices corrigés.');
+  }
+  const subj = noArticle(midCase(plain(ch.title)));
+  // Un sujet qui contient déjà « : » n'en reçoit pas un second dans la même phrase.
+  const joined = (s, rest) => (s.includes(':') ? `${s}. ${ucFirst(rest)}` : `${s}${NB}: ${rest}`);
+  const heads = ch.complement
+    ? [`Complément disciplinaire pour le CAPES de maths (niveau licence) — ${joined(subj, 'plan détaillé et théorème clé démontré.')}`,
+      `Complément pour le CAPES (niveau licence) — ${joined(subj, 'plan détaillé et théorème clé démontré.')}`,
+      `Complément pour le CAPES — ${joined(noArticle(headOf(subj)), 'plan détaillé et théorème clé démontré.')}`]
+    : capes
+    ? [`Leçon d'oral du CAPES de maths — ${joined(subj, 'plan détaillé, théorème clé démontré et remarques du jury.')}`,
+      `Leçon d'oral du CAPES — ${joined(subj, 'plan détaillé et remarques du jury.')}`,
+      `Leçon d'oral du CAPES — ${joined(noArticle(headOf(subj)), 'plan détaillé et remarques du jury.')}`]
+    : [joined(`${subj} ${lvl.en}`, 'cours, méthodes et exercices corrigés gratuits.'),
+      joined(`${subj} ${lvl.en}`, 'cours et exercices corrigés gratuits.'),
+      joined(`${noArticle(headOf(subj))} ${lvl.en}`, 'cours et exercices corrigés gratuits.')];
+  const fits = (s) => frTypo(s).length <= DESC_MAX;
+  const withObjs = (h, list) => `${h} ${capes ? 'Partie' : 'Objectif'}${list.length > 1 ? 's' : ''}${NB}: ${list.join(', ')}.`;
+  const lead = ucFirst(plain(ch.description).replace(/\.?$/, '.'));
+  const short = `${noArticle(headOf(subj))} ${ch.complement ? 'pour le CAPES' : capes ? 'au CAPES' : lvl.en}`;
+  const tail = ch.complement ? 'Plan détaillé et théorème clé démontré.' : capes ? 'Plan détaillé et remarques du jury.' : 'Cours et exercices corrigés.';
+  const skills = (ch.skills || []).map((o) => lcFirst(plain(o).replace(/\.$/, '')));
+  // Phrases entières uniquement : on saute un objectif qui ne tient pas, on ne coupe jamais au milieu.
+  const fill = (h, list) => {
+    const kept = list.reduce((acc, o) => (fits(withObjs(h, [...acc, o])) ? [...acc, o] : acc), []);
+    return kept.length ? withObjs(h, kept) : h;
+  };
+  const options = [
+    ...heads.flatMap((h) => [fill(h, objs), `${h} ${lead}`, fill(h, skills)]),
+    ...objs.map((o) => `${short}${NB}: ${o}. ${tail}`),
+    `${lead} ${tail}`,
+    ...objs.map((o) => `${short}${NB}: ${o}.`),
+    heads[0].replace('cours, méthodes et', 'cours complet, méthodes rédigées et')
+  ].filter((d) => fits(d) && !/[_^\\{}]/.test(d)).map(frTypo); // pas de TeX brut (« u_n ») dans un extrait
+  return options.find((d) => d.length >= DESC_TARGET) || options.find((d) => d.length >= DESC_MIN)
+    || options.sort((a, b) => b.length - a.length)[0] || frTypo(heads[heads.length - 1]);
+}
+
+/** Phrase d'accroche + autant de thèmes entiers du niveau que la longueur le permet. */
+function levelDescription(head, introTail) {
+  // Virgules hors parenthèses : « exponentielle et logarithme (demi-vie, pH) » reste un seul thème.
+  const topics = introTail.replace(/\.$/, '').split(/,\s+(?![^()]*\))/);
+  const build = (list, label) => frTypo(`${head} ${label}${NB}: ${listFr(list)}.`);
+  if (build(topics, 'Au programme').length <= DESC_MAX) return build(topics, 'Au programme');
+  let kept = [];
+  for (const t of topics) if (build([...kept, t], 'Notamment').length <= DESC_MAX) kept = [...kept, t];
+  return kept.length ? build(kept, 'Notamment') : frTypo(head);
 }
 
 /** Mots-clés pour relier un chapitre aux chapitres voisins des autres niveaux (maillage interne). */
@@ -707,11 +882,18 @@ function trackMeta(title, desc, url) {
 }
 const listFr = (arr) => (arr.length <= 1 ? arr.join('') : `${arr.slice(0, -1).join(', ')} et ${arr[arr.length - 1]}`);
 
+/** Fiches du niveau CAPES : seules celles sans complement et hors oral 2 sont des leçons d'oral. */
+function capesCounts(items) {
+  const complements = items.filter((it) => it.ch.complement).length;
+  const oral2 = items.filter((it) => it.ch.id === ORAL2_ID || it.ch.id === ORAL2_CAS_ID).length;
+  return { lessons: items.length - complements - oral2, complements };
+}
+
 function levelFaqs(lvl, items, groups) {
   const short = (it) => lcFirst(noArticle(plain(it.ch.shortTitle || headOf(it.title))));
   const faqs = [];
   if (lvl.code === 'capes') {
-    faqs.push({ q: 'Que contient chaque leçon de CAPES ?', a: `Chaque leçon propose des prérequis, un plan en trois parties, un théorème clé démontré, des développements possibles pour l'oral et les remarques fréquentes du jury. ${items.length} leçons sont disponibles.` });
+    faqs.push({ q: 'Que contient chaque leçon de CAPES ?', a: `Chaque leçon propose des prérequis, un plan en trois parties, un théorème clé démontré, des développements possibles pour l'oral et les remarques fréquentes du jury. ${capesCounts(items).lessons} leçons d'oral sont disponibles, ainsi que ${capesCounts(items).complements} compléments disciplinaires de niveau licence, construits sur le même modèle pour consolider les connaissances.` });
     faqs.push({ q: 'Les leçons de CAPES sont-elles gratuites ?', a: 'Oui, comme tout le site : sans inscription, sans publicité, sous licence libre CC BY-NC-SA.' });
     return faqs;
   }
@@ -720,6 +902,7 @@ function levelFaqs(lvl, items, groups) {
     faqs.push({ q: pass ? 'Quel est le programme de mathématiques en PASS et en L.AS ?' : 'Quelles mathématiques réviser avant des études de santé ?',
       a: `Il n'existe pas de programme national commun : chaque université fixe le contenu et les épreuves de ses unités d'enseignement. ${pass ? 'On y retrouve presque toujours la biostatistique (probabilités, lois, estimation, tests) et des outils d\u2019analyse.' : 'Les notions de terminale les plus utilisées sont les calculs de dosage, l\u2019exponentielle et le logarithme, les probabilités conditionnelles et la loi binomiale.'} Le site les couvre en ${items.length} chapitres : ${groups.map((g) => plain(g.name).toLowerCase()).join(', ')}.` });
     faqs.push({ q: pass ? 'Comment s\u2019entraîner en biostatistique ?' : 'Comment s\u2019entraîner pour les études de santé ?', a: `Choisissez un chapitre puis « S'entraîner » : exercices générés à chaque tirage et problèmes en contexte médical, corrigés immédiatement, en quatre paliers (${tierNames(lvl.code).map((n, i) => `${i + 1}. ${n}`).join(', ')}).` });
+    faqs.push({ q: 'Les études de santé changent-elles en 2027 ?', a: 'Oui (repère de novembre 2026). En 2026-2027, l’accès se fait encore par le PASS ou par une L.AS. Le décret n° 2026-988 du 23 octobre 2026 crée une licence portail santé à partir de la rentrée 2027, dont la première année est organisée par chaque université ; les parcours actuels sont maintenus à titre transitoire jusqu’à la fin de l’année 2028-2029. Les mathématiques travaillées ici restent utiles, mais vérifiez les modalités auprès de l’université visée.' });
     faqs.push({ q: 'Ces contenus sont-ils gratuits ?', a: 'Oui, comme tout le site : sans inscription, sans publicité, sous licence libre CC BY-NC-SA.' });
     return faqs;
   }
@@ -746,12 +929,14 @@ function levelFaqs(lvl, items, groups) {
     '4eme': { q: 'Quels chapitres de 4e sont importants pour le brevet ?', a: `Le théorème de Pythagore, les puissances, le calcul littéral et les équations, les fractions et les pourcentages reviennent très souvent au brevet. Ils sont repris en 3e, mais les maîtriser dès la 4e allège beaucoup les révisions. Voir <a href="../../${HUBS.brevet.dir}/">Réviser le brevet de maths</a>.` },
     '3eme': { q: 'Comment réviser le brevet de maths en 3e ?', a: `Commence tôt par les automatismes (calcul, fractions, pourcentages, équations), puis travaille les chapitres qui tombent souvent : Pythagore, Thalès, trigonométrie, fonctions, probabilités et statistiques. Termine par des devoirs blancs en temps limité. Méthode et planning détaillés : <a href="../../${HUBS.brevet.dir}/">Réviser le brevet de maths</a>.` },
     '2nde': { q: 'Comment préparer la spécialité maths de première en seconde ?', a: `La spécialité s'appuie surtout sur le calcul littéral (identités remarquables, factorisation), les fonctions de référence et leurs variations, les équations et inéquations, et les vecteurs. Ce sont les chapitres de seconde à maîtriser en priorité avant d'aborder les <a href="../premiere/">cours de première</a>.` },
-    '1ere': { q: 'Quelles épreuves de maths passe-t-on en première ?', a: `Depuis la session 2026, les élèves de première générale et technologique passent une épreuve anticipée de mathématiques (2 heures, sans calculatrice) : une partie d'automatismes sous forme de QCM puis des exercices. La spécialité maths, elle, est évaluée à l'écrit en terminale. Détails : <a href="../../${HUBS.bac.dir}/">Réussir le bac de maths</a>.` },
+    '1ere': { q: 'Quelles épreuves de maths passe-t-on en première ?', a: `Depuis juin 2026, les élèves de première générale et technologique passent une épreuve anticipée de mathématiques (2 heures, sans calculatrice) : une partie d'automatismes en questions à réponses courtes, sans QCM à partir de juin 2027, puis des exercices. La spécialité maths, elle, est évaluée à l'écrit en terminale. Détails : <a href="../../${HUBS.bac.dir}/">Réussir le bac de maths</a>.` },
+    '1tc': { q: 'Quelle épreuve de maths passe-t-on en première sans la spécialité ?', a: `Les élèves de première générale qui ne suivent pas la spécialité passent eux aussi l'épreuve anticipée de mathématiques (2 heures, sans calculatrice) : des automatismes en questions à réponses courtes, puis des exercices sur le programme du tronc commun (proportions et évolutions, information chiffrée, probabilités, modèles de croissance). Format et sujet blanc : <a href="../../${HUBS.ea.dir}/">Préparer l'épreuve anticipée de maths</a>.` },
+    '1techno': { q: 'Quelle épreuve de maths passe-t-on en première technologique ?', a: `En première technologique, l'épreuve anticipée de mathématiques (2 heures, sans calculatrice) comporte une partie d'automatismes en questions à réponses courtes, puis des exercices sur le programme de la voie technologique (suites, fonctions, dérivation, statistiques et probabilités). Format et sujet blanc : <a href="../../${HUBS.ea.dir}/">Préparer l'épreuve anticipée de maths</a>.` },
     tale: { q: 'Comment réviser le bac de maths en terminale ?', a: `L'épreuve écrite de spécialité dure 4 heures et porte sur tout le programme de terminale (en s'appuyant sur celui de première) : suites, fonctions et logarithme, intégration, géométrie dans l'espace, probabilités. Révise chapitre par chapitre, puis entraîne-toi sur des sujets complets en temps limité. Méthode détaillée : <a href="../../${HUBS.bac.dir}/">Réussir le bac de maths</a>.` }
   }[lvl.code];
   if (exam) faqs.push(exam);
   faqs.push({ q: `Les cours et exercices de maths ${lvl.de} sont-ils gratuits ?`,
-    a: 'Oui : tout est gratuit, sans inscription et sans publicité. La progression est enregistrée uniquement sur ton appareil, aucune donnée personnelle n’est collectée.' });
+    a: 'Oui : tout est gratuit, sans inscription et sans publicité. La progression est enregistrée uniquement sur ton appareil, aucune donnée personnelle n’est demandée.' });
   return faqs;
 }
 
@@ -782,7 +967,8 @@ function relatedHtml(it, lvl, items, levelsData) {
     `<li><a href="../../${HUBS.entrainement.dir}/">S'entraîner en ligne par paliers</a></li>`];
   if (lvl.code === '3eme' || lvl.code === '4eme') hubs.unshift(`<li><a href="../../${HUBS.brevet.dir}/">Réviser le brevet de maths</a></li>`);
   if (lvl.code === '1ere' || lvl.code === 'tale') hubs.unshift(`<li><a href="../../${HUBS.bac.dir}/">Réussir le bac de maths</a></li>`);
-  if (lvl.code === 'capes') hubs.unshift(`<li><a href="../../${HUBS.oral2.dir}/">${esc(HUBS.oral2.name)}${NB}: déroulé, attentes du jury, méthode</a></li>`);
+  if (['1ere', '1tc', '1techno'].includes(lvl.code)) hubs.unshift(`<li><a href="../../${HUBS.ea.dir}/">Préparer l'épreuve anticipée de maths</a></li>`);
+  if (lvl.code === 'capes') hubs.unshift(`<li><a href="../../${HUBS.preparer.dir}/">${esc(HUBS.preparer.name)}</a></li>`, `<li><a href="../../${HUBS.oral2.dir}/">${esc(HUBS.oral2.name)}${NB}: déroulé, attentes du jury, méthode</a></li>`);
   const li = (x, l) => `<li><a href="${l === lvl ? '' : `../${l.slug}/`}${x.slug}.html">${esc(frTypo(x.title))}</a>${l === lvl ? '' : ` <span class="cours-related-lvl">${esc(l.label)}</span>`}</li>`;
   const cols = [];
   if (same.length) cols.push(`<div><p class="cours-related-title">Même thème ${esc(lvl.en)}</p><ul>${same.map((x) => li(x, lvl)).join('')}</ul></div>`);
@@ -821,14 +1007,14 @@ function registryRedirects(currentPaths) {
   }
   if (changed) {
     const sorted = Object.fromEntries(Object.keys(registry).sort().map((k) => [k, registry[k]]));
-    fs.writeFileSync(URL_REGISTRY, JSON.stringify(sorted, null, 1) + '\n');
-    console.log('Registre des URL de cours mis à jour (scripts/cours_urls.json) : à committer avec cours/.');
+    emit(URL_REGISTRY, JSON.stringify(sorted, null, 1) + '\n');
+    if (!CHECK_ONLY) console.log('Registre des URL de cours mis à jour (scripts/cours_urls.json) : à committer avec cours/.');
   }
   return out;
 }
 
 function main() {
-  const { win, missing } = loadData();
+  const win = loadData();
   MD = win.MathsRenderer.markdownToHtml.bind(win.MathsRenderer);
   const CH = win.MATHS_CHAPTERS || [];
   const COURSES = win.MATHS_COURSES || {};
@@ -836,8 +1022,10 @@ function main() {
   const CAPES = win.CAPES_LESSONS || [];
 
   snapshotPrevious();
-  fs.rmSync(OUT, { recursive: true, force: true });
-  fs.mkdirSync(OUT, { recursive: true });
+  if (!CHECK_ONLY) {
+    fs.rmSync(OUT, { recursive: true, force: true });
+    fs.mkdirSync(OUT, { recursive: true });
+  }
 
   const pages = []; // chemins relatifs à la racine (pour le sitemap)
   const currentPaths = {}; // id de chapitre → chemin relatif à cours/
@@ -855,7 +1043,7 @@ function main() {
       if (used.has(slug)) slug = `${slug}-${slugify(ch.id)}`;
       used.add(slug);
       currentPaths[ch.id] = `${lvl.slug}/${slug}.html`;
-      return { ch, slug, title };
+      return { ch, slug, title: midCase(title) };
     });
     levelsData.push({ lvl, items });
   }
@@ -863,7 +1051,6 @@ function main() {
   // Pages chapitre
   for (const { lvl, items } of levelsData) {
     const lvlDir = path.join(OUT, lvl.slug);
-    fs.mkdirSync(lvlDir, { recursive: true });
     items.forEach((it, idx) => {
       const { ch, slug, title } = it;
       currentPage = `${lvl.slug}/${slug}`;
@@ -873,8 +1060,8 @@ function main() {
       const h1 = (ch.id === ORAL2_ID || ch.id === ORAL2_CAS_ID)
         ? `<span class="cours-title-kicker">Oral 2 du CAPES, toutes disciplines${NB}:</span> ${esc(frTypo(title))}`
         : lvl.code === 'capes'
-        ? `<span class="cours-title-kicker">Leçon d'oral du CAPES${NB}:</span> ${esc(frTypo(title))}`
-        : `<span class="cours-title-kicker">Cours et exercices corrigés ${esc(lvl.de)}${NB}:</span> ${esc(frTypo(title))}`;
+        ? `<span class="cours-title-kicker">${ch.complement ? 'Complément disciplinaire (niveau licence)' : "Leçon d'oral du CAPES"}${NB}:</span> ${esc(frTypo(title))}`
+        : `<span class="cours-title-kicker">Cours et exercices corrigés ${ch.domainName === 'Mathématiques Expertes' ? 'de maths expertes (terminale)' : esc(lvl.de)}${NB}:</span> ${esc(frTypo(title))}`;
       const titleTag = chapterTitleTag(ch, lvl);
       const desc = chapterDescription(ch, lvl, course, capes);
       it.titleTag = titleTag; it.desc = desc; it.url = url;
@@ -896,7 +1083,7 @@ function main() {
 ${isSchool ? `        <a class="btn-secondary cours-cta-alt" href="../../index.html?mode=rituel&amp;chapitre=${encodeURIComponent(ch.id)}">⏱️ Rituel flash</a>\n` : ''}${hasFlash ? `        <a class="btn-secondary cours-cta-alt" href="../../index.html?mode=flashcards&amp;chapitre=${encodeURIComponent(ch.id)}">🗂️ Flashcards</a>\n` : ''}      </div>`;
 
       const crumbs = [
-        { name: 'Accueil', href: '../../index.html', url: `${SITE}/` },
+        { name: 'Accueil', href: '../../', url: `${SITE}/` },
         { name: 'Cours', href: '../', url: `${SITE}/cours/` },
         { name: lvl.label, href: './', url: `${SITE}/cours/${lvl.slug}/` },
         { name: plain(ch.shortTitle || title), url }
@@ -910,9 +1097,10 @@ ${isSchool ? `        <a class="btn-secondary cours-cta-alt" href="../../index.h
     <header class="cours-hero">
       <p class="landing-tag">${esc(lvl.label)} · ${esc(ch.domainName || ch.domain || 'Mathématiques')} · ${esc(ch.num || ch.id)}</p>
       <h1 class="cours-title">${h1}</h1>
+      <p class="cours-byline">Par <a href="../../a-propos.html">${AUTHOR}</a>, professeur de mathématiques · mis à jour le <time datetime="${DATE_TOKEN}">${DATE_TOKEN_FR}</time></p>
       <p class="cours-lead">${inline(ch.description)}</p>
 ${ctas}
-    </header>
+${lvl.cycle === 'concours' ? `      ${CONCOURS_NOTICE_HTML}\n` : ''}    </header>
 
     <nav class="cours-toc" aria-label="Sommaire du chapitre">
       <p class="cours-toc-title">Sommaire</p>
@@ -921,7 +1109,7 @@ ${ctas}
 
 ${secs.map((s) => section(s.id, s.title, s.html)).join('\n\n')}
 
-    <aside class="cours-cta-box" aria-label="Entraînement">
+${lvl.code === '6eme' ? `${PARENTS_6E}\n\n` : ''}    <aside class="cours-cta-box" aria-label="Entraînement">
       <p class="cours-cta-box-title">Prêt à t'entraîner${NNB}?</p>
       <p>Exercices générés à l'infini, corrigés pas à pas et classés en quatre paliers de difficulté, gratuitement et sans inscription.</p>
 ${ctas}
@@ -940,7 +1128,7 @@ ${relatedHtml(it, lvl, items, levelsData)}
       const ld = {
         '@context': 'https://schema.org',
         '@type': 'LearningResource',
-        name: `${title} — ${lvl.code === 'capes' ? 'leçon de CAPES' : 'cours et exercices corrigés ' + lvl.de}`,
+        name: `${title} — ${lvl.code === 'capes' ? (ch.complement ? 'complément de CAPES' : 'leçon de CAPES') : 'cours et exercices corrigés ' + lvl.de}`,
         headline: title,
         description: desc,
         url,
@@ -951,13 +1139,13 @@ ${relatedHtml(it, lvl, items, levelsData)}
         about: { '@type': 'Thing', name: plain(ch.domainName || ch.domain || 'Mathématiques') },
         isAccessibleForFree: true,
         dateModified: DATE_TOKEN,
-        author: { '@type': 'Person', name: AUTHOR, jobTitle: 'Professeur de mathématiques' },
-        publisher: { '@type': 'Organization', name: BRAND, url: `${SITE}/`, logo: `${SITE}/assets/logo.png` },
+        author: AUTHOR_LD,
+        publisher: PUBLISHER_LD,
         isPartOf: { '@type': 'WebSite', name: BRAND, url: `${SITE}/` }
       };
-      const html = layout({ depth: 2, title: titleTag, description: desc, canonical: url, ogType: 'article', jsonld: [ld, breadcrumbLd(crumbs)], body });
+      const html = layout({ depth: 2, title: titleTag, description: desc, canonical: url, ogType: 'article', jsonld: [ld, breadcrumbLd(crumbs)], body, ...levelOg(lvl) });
       writeStable(path.join(lvlDir, `${slug}.html`), html, `/cours/${lvl.slug}/${slug}.html`);
-      pages.push({ loc: `/cours/${lvl.slug}/${slug}.html`, priority: '0.7' });
+      pages.push(`/cours/${lvl.slug}/${slug}.html`);
     });
   }
 
@@ -966,12 +1154,12 @@ ${relatedHtml(it, lvl, items, levelsData)}
     currentPage = `${lvl.slug}/index`;
     const url = `${SITE}/cours/${lvl.slug}/`;
     const isCapes = lvl.code === 'capes';
-    const h1 = isCapes ? 'Préparation au CAPES de mathématiques : leçons d’oral' : `Cours et exercices de maths ${lvl.en}, gratuits et corrigés`;
-    const titleTag = frTypo(isCapes ? 'Leçons d\'oral du CAPES de maths : plans et démonstrations' : `Maths ${lvl.en} : cours et exercices corrigés gratuits`);
+    const h1 = isCapes ? 'Préparation au CAPES de mathématiques : leçons d’oral et compléments' : `Cours et exercices de maths ${lvl.en}, gratuits et corrigés`;
+    const titleTag = frTypo(isCapes ? 'CAPES de maths : leçons d\'oral et compléments disciplinaires' : (lvl.titleTag || `Maths ${lvl.en} : cours et exercices corrigés gratuits`));
     const introTail = lvl.intro.replace(/^[^:]*:\s*/, '');
-    const desc = frTypo(truncate(isCapes
-      ? `${items.length} leçons d'oral du CAPES de mathématiques : ${introTail}`
-      : `Maths ${lvl.en} : ${items.length} chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. ${ucFirst(introTail)}`, 155));
+    const desc = isCapes
+      ? frTypo(`${capesCounts(items).lessons} leçons d'oral du CAPES de mathématiques et ${capesCounts(items).complements} compléments de niveau licence : plan détaillé, théorème clé démontré et développements.`)
+      : levelDescription(`Maths ${lvl.en} : ${items.length} chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription.`, introTail);
     const groups = [];
     for (const it of items) {
       const g = it.ch.domainName || it.ch.domain || 'Mathématiques';
@@ -980,7 +1168,7 @@ ${relatedHtml(it, lvl, items, levelsData)}
       grp.items.push(it);
     }
     const crumbs = [
-      { name: 'Accueil', href: '../../index.html', url: `${SITE}/` },
+      { name: 'Accueil', href: '../../', url: `${SITE}/` },
       { name: 'Cours', href: '../', url: `${SITE}/cours/` },
       { name: lvl.label, url }
     ];
@@ -989,8 +1177,10 @@ ${relatedHtml(it, lvl, items, levelsData)}
     const prevL = li > 0 ? levelsData.find((d) => d.lvl.code === SCHOOL_ORDER[li - 1]) : null;
     const nextL = li >= 0 && li < SCHOOL_ORDER.length - 1 ? levelsData.find((d) => d.lvl.code === SCHOOL_ORDER[li + 1]) : null;
     const examLink = ['3eme', '4eme', '5eme'].includes(lvl.code) ? `<li><a href="../../${HUBS.brevet.dir}/">Réviser le brevet de maths</a> : méthode, programme, planning</li>`
-      : (lvl.code === '1ere' || lvl.code === 'tale') ? `<li><a href="../../${HUBS.bac.dir}/">Réussir le bac de maths</a> : épreuves, chapitres clés, méthode</li>`
-      : lvl.code === 'capes' ? `<li><a href="../../${HUBS.oral2.dir}/">${esc(HUBS.oral2.name)}</a> : déroulé, attentes du jury, mises en situation</li>` : '';
+      : lvl.code === '1ere' ? `<li><a href="../../${HUBS.ea.dir}/">Épreuve anticipée de maths</a> : format, automatismes, sujet blanc</li><li><a href="../../${HUBS.bac.dir}/">Réussir le bac de maths</a> : épreuves, chapitres clés, méthode</li><li><a href="../premiere-tronc-commun/">Première, tronc commun</a> (sans la spécialité)</li><li><a href="../premiere-technologique/">Première technologique</a></li>`
+      : ['1tc', '1techno'].includes(lvl.code) ? `<li><a href="../../${HUBS.ea.dir}/">Épreuve anticipée de maths</a> : format, automatismes, sujet blanc</li><li><a href="../premiere/">Cours de première, spécialité mathématiques</a></li>`
+      : lvl.code === 'tale' ? `<li><a href="../../${HUBS.bac.dir}/">Réussir le bac de maths</a> : épreuves, chapitres clés, méthode</li>`
+      : lvl.code === 'capes' ? `<li><a href="../../${HUBS.preparer.dir}/">${esc(HUBS.preparer.name)}</a> : formats par voie, rôle de chaque fiche, méthode de l'exercice puis notion et de l'analyse de documents</li><li><a href="../../${HUBS.oral2.dir}/">${esc(HUBS.oral2.name)}</a> : déroulé, attentes du jury, mises en situation</li>` : '';
     const body = `${breadcrumbHtml(crumbs)}
 
     <header class="cours-hero">
@@ -1000,7 +1190,7 @@ ${relatedHtml(it, lvl, items, levelsData)}
       <div class="cours-cta">
         <a class="btn-primary cours-cta-main" href="../../index.html?level=${encodeURIComponent(lvl.app)}">🎯 S'entraîner ${isCapes ? 'pour le CAPES' : esc(lvl.en)}</a>
 ${lvl.cycle === 'college' || lvl.cycle === 'lycee' ? `        <a class="btn-secondary cours-cta-alt" href="../../index.html?mode=rituel&amp;level=${encodeURIComponent(lvl.app)}">⏱️ Questions flash</a>\n` : ''}      </div>
-    </header>
+${lvl.cycle === 'concours' ? `      ${CONCOURS_NOTICE_HTML}\n` : ''}    </header>
 
 ${groups.map((g, gi) => `    <section class="cours-section" id="domaine-${gi + 1}" aria-labelledby="domaine-${gi + 1}-titre">
       <h2 id="domaine-${gi + 1}-titre">${esc(frTypo(g.name))}</h2>
@@ -1047,20 +1237,20 @@ ${LEVELS.filter((l) => levelsData.some((d) => d.lvl === l)).map((l) => `      <a
     };
     trackMeta(titleTag, desc, url);
     writeStable(path.join(OUT, lvl.slug, 'index.html'),
-      layout({ depth: 2, title: titleTag, description: desc, canonical: url, jsonld: [ld, faqLd(faqs), breadcrumbLd(crumbs)], body }), `/cours/${lvl.slug}/`);
-    pages.push({ loc: `/cours/${lvl.slug}/`, priority: '0.8' });
+      layout({ depth: 2, title: titleTag, description: desc, canonical: url, jsonld: [ld, faqLd(faqs), breadcrumbLd(crumbs)], body, ...levelOg(lvl) }), `/cours/${lvl.slug}/`);
+    pages.push(`/cours/${lvl.slug}/`);
   }
 
   // Page d'accueil des cours (pilier « cours de maths »)
   {
     currentPage = 'index';
     const total = levelsData.reduce((n, d) => n + d.items.length, 0);
-    const school = levelsData.filter((d) => SCHOOL_ORDER.includes(d.lvl.code));
+    const school = levelsData.filter((d) => SCHOOL_LEVELS.includes(d.lvl.code));
     const nSchool = school.reduce((n, d) => n + d.items.length, 0);
     const url = `${SITE}/cours/`;
     const titleTag = frTypo('Cours de maths gratuits en ligne, de la 6e à la licence');
     const desc = frTypo(`${total} cours de maths gratuits, du collège au lycée, à la licence et au CAPES : leçons complètes, méthodes rédigées et exercices corrigés.`);
-    const crumbs = [{ name: 'Accueil', href: '../index.html', url: `${SITE}/` }, { name: 'Cours', url }];
+    const crumbs = [{ name: 'Accueil', href: '../', url: `${SITE}/` }, { name: 'Cours', url }];
     const faqs = [
       { q: 'Les cours de maths sont-ils vraiment gratuits ?', a: `Oui. Les ${total} cours, les exercices corrigés et l'application d'entraînement sont gratuits, sans publicité et sans inscription. Ils sont conçus par un professeur de mathématiques et publiés sous licence libre CC BY-NC-SA.` },
       { q: 'Les cours sont-ils conformes aux programmes officiels ?', a: `Chaque chapitre suit le programme de sa classe : cycle 3 pour la 6e (nouveau programme), cycle 4 de la 5e à la 3e, programmes de seconde et de spécialité mathématiques en première et terminale, avec l'option mathématiques expertes.` },
@@ -1074,7 +1264,7 @@ ${LEVELS.filter((l) => levelsData.some((d) => d.lvl === l)).map((l) => `      <a
       <h1 class="cours-title">Cours de maths gratuits, de la 6e à la licence</h1>
       <p class="cours-lead">${nSchool} cours de mathématiques pour le collège et le lycée, et ${total - nSchool} pour la licence et le CAPES. Chaque leçon réunit le cours complet, des méthodes rédigées pas à pas, les pièges à éviter et des exercices corrigés. Pour s'entraîner ensuite, chaque page renvoie vers des exercices interactifs qui se renouvellent à chaque tirage.</p>
       <div class="cours-cta">
-        <a class="btn-primary cours-cta-main" href="../index.html">🎯 Ouvrir l'application</a>
+        <a class="btn-primary cours-cta-main" href="../">🎯 Ouvrir l'application</a>
         <a class="btn-secondary cours-cta-alt" href="../${HUBS.exercices.dir}/">✏️ Exercices corrigés</a>
       </div>
     </header>
@@ -1090,7 +1280,7 @@ ${CYCLES.map((cy) => {
     return `    <section class="cours-section" id="${cy.id}" aria-labelledby="${cy.id}-titre">
       <h2 id="${cy.id}-titre">${cy.id === 'concours' ? esc(cy.name) : `Cours de maths ${cy.id === 'licence' ? 'en licence' : 'au ' + esc(cy.name.toLowerCase())}`}</h2>
       <p class="cours-note">${esc(frTypo(cy.desc))}</p>
-      <div class="cours-level-grid">
+${cy.id === 'concours' ? `      ${CONCOURS_NOTICE_HTML}\n` : ''}      <div class="cours-level-grid">
 ${lv.map(({ lvl, items }) => `        <article class="cours-level-card">
           <h3><a href="${lvl.slug}/">${lvl.code === 'capes' ? 'CAPES de mathématiques' : esc(lvl.label)}</a> <span class="cours-count">${items.length} chapitres</span></h3>
 ${(lvl.cycle === 'college' ? CATEGORIES_COLLEGE : CATEGORIES).map((cat) => {
@@ -1109,8 +1299,10 @@ ${list.map((it) => `            <li><a href="${lvl.slug}/${it.slug}.html">${esc(
 ${section('aussi', 'Réviser un examen, s’entraîner', `      <ul class="cours-list">
         <li><a href="../${HUBS.brevet.dir}/">Réviser le brevet de maths</a> : l'épreuve, les automatismes, les chapitres clés et un planning de révision.</li>
         <li><a href="../${HUBS.bac.dir}/">Réussir le bac de maths</a> : l'épreuve de spécialité, l'épreuve anticipée de première et la méthode.</li>
+        <li><a href="../${HUBS.ea.dir}/">Épreuve anticipée de maths</a> : le format de l'épreuve de première, les automatismes, un planning et un sujet blanc.</li>
         <li><a href="../${HUBS.exercices.dir}/">Exercices de maths corrigés</a> : des exemples par classe et des liens vers chaque chapitre.</li>
         <li><a href="../${HUBS.entrainement.dir}/">Entraînement maths en ligne</a> : paliers de difficulté, questions flash et flashcards.</li>
+        <li><a href="../${HUBS.preparer.dir}/">${esc(HUBS.preparer.name)}</a> : les épreuves de chaque voie, le rôle de chaque fiche et la méthode des épreuves propres aux maths.</li>
         <li><a href="../${HUBS.oral2.dir}/">${esc(HUBS.oral2.name)}</a> : l'oral commun à toutes les disciplines, laïcité, valeurs de la République et mises en situation.</li>
       </ul>`)}
 
@@ -1133,7 +1325,7 @@ ${section('faq', 'Questions fréquentes', faqHtml(faqs))}`;
     trackMeta(titleTag, desc, url);
     writeStable(path.join(OUT, 'index.html'),
       layout({ depth: 1, title: titleTag, description: desc, canonical: url, jsonld: [ld, faqLd(faqs), breadcrumbLd(crumbs)], body }), '/cours/');
-    pages.unshift({ loc: '/cours/', priority: '0.9' });
+    pages.unshift('/cours/');
   }
 
   // Pages piliers
@@ -1142,11 +1334,10 @@ ${section('faq', 'Questions fréquentes', faqHtml(faqs))}`;
   // Pages relais des anciennes URL (hors sitemap)
   const redirects = { ...registryRedirects(currentPaths), ...REDIRECTS };
   for (const [from, to] of Object.entries(redirects)) {
-    if (!fs.existsSync(path.join(OUT, to))) { warnings.push(`Redirection ${from} : cible absente ${to}`); continue; }
-    if (fs.existsSync(path.join(OUT, from))) { warnings.push(`Redirection ${from} : l'ancienne URL est de nouveau une page`); continue; }
+    if (!outputs.has(path.join(OUT, to))) { warnings.push(`Redirection ${from} : cible absente ${to}`); continue; }
+    if (outputs.has(path.join(OUT, from))) { warnings.push(`Redirection ${from} : l'ancienne URL est de nouveau une page`); continue; }
     const url = `${SITE}/cours/${to.replace(/index\.html$/, '')}`;
-    fs.mkdirSync(path.dirname(path.join(OUT, from)), { recursive: true });
-    fs.writeFileSync(path.join(OUT, from), `<!DOCTYPE html>
+    emit(path.join(OUT, from), `<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="utf-8">
@@ -1157,43 +1348,31 @@ ${CSP_META}
 <meta http-equiv="refresh" content="0; url=${url}">
 </head>
 <body>
-<p>Cette page a été déplacée : <a href="${url}">${url}</a>.</p>
+<p>Cette page a été déplacée&nbsp;: <a href="${url}">${url}</a>.</p>
 </body>
 </html>
 `);
   }
 
   // Sitemap
-  const rootPages = [
-    { loc: '/', changefreq: 'weekly', priority: '1.0' },
-    { loc: '/rituels.html', changefreq: 'monthly', priority: '0.9' },
-    { loc: '/brevet.html', changefreq: 'monthly', priority: '0.9' },
-    { loc: '/bac.html', changefreq: 'monthly', priority: '0.9' },
-    { loc: '/enseignants.html', changefreq: 'monthly', priority: '0.85' },
-    { loc: '/parents.html', changefreq: 'monthly', priority: '0.85' },
-    { loc: '/a-propos.html', changefreq: 'yearly', priority: '0.5' },
-    { loc: '/mentions-legales.html', changefreq: 'yearly', priority: '0.3' }
-  ];
-  const all = rootPages.slice(0, 1).concat(hubPages.map((loc) => ({ loc, changefreq: 'monthly', priority: '0.9' })), rootPages.slice(1),
-    pages.map((p) => ({ ...p, changefreq: 'monthly' })));
+  const rootPages = ['/', '/rituels.html', '/brevet.html', '/bac.html', '/enseignants.html', '/parents.html', '/a-propos.html', '/mentions-legales.html'];
+  const all = rootPages.slice(0, 1).concat(hubPages, rootPages.slice(1), pages);
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <!-- Généré par scripts/build_seo_pages.js — ne pas modifier à la main, relancer le script. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${all.map((p) => `  <url>
-    <loc>${SITE}${p.loc}</loc>
-    <lastmod>${pageDates.get(p.loc) || gitDate(p.loc === '/' ? 'index.html' : p.loc.slice(1))}</lastmod>
-    <changefreq>${p.changefreq}</changefreq>
-    <priority>${p.priority}</priority>
+${all.map((loc) => `  <url>
+    <loc>${SITE}${loc}</loc>
+    <lastmod>${pageDates.get(loc) || gitDate(loc === '/' ? 'index.html' : loc.slice(1))}</lastmod>
   </url>`).join('\n')}
 </urlset>
 `;
-  fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), sitemap);
+  emit(path.join(ROOT, 'sitemap.xml'), sitemap);
 
   // robots.txt
   const robotsPath = path.join(ROOT, 'robots.txt');
   const robots = fs.existsSync(robotsPath) ? fs.readFileSync(robotsPath, 'utf8') : 'User-agent: *\nAllow: /\n';
   if (!/^Sitemap:\s*https:\/\/etabli-des-maths\.fr\/sitemap\.xml/m.test(robots)) {
-    fs.writeFileSync(robotsPath, robots.replace(/\s*$/, '\n') + `\nSitemap: ${SITE}/sitemap.xml\n`);
+    emit(robotsPath, robots.replace(/\s*$/, '\n') + `\nSitemap: ${SITE}/sitemap.xml\n`);
   }
 
   // Résumé
@@ -1202,7 +1381,6 @@ ${all.map((p) => `  <url>
   const longDescs = [...usedDescs.keys()].filter((d) => d.length > 155);
   if (longDescs.length) console.log(`descriptions > 155 caractères : ${longDescs.length}`), longDescs.forEach((d) => console.log(`  - (${d.length}) ${d}`));
   console.log(`\n=== build_seo_pages.js — ${BUILD_DATE} ===`);
-  if (missing.length) console.log(`Fichiers de données absents (ignorés) : ${missing.join(', ')}`);
   for (const { lvl, items } of levelsData) console.log(`  ${lvl.slug.padEnd(10)} ${String(items.length).padStart(3)} chapitres`);
   console.log(`Pages générées : ${pages.length} (1 sommaire + ${levelsData.length} niveaux + ${nChap} chapitres) + ${hubPages.length} pages piliers`);
   console.log(`sitemap.xml : ${all.length} URL`);
@@ -1210,6 +1388,28 @@ ${all.map((p) => `  <url>
   katexErrors.slice(0, 40).forEach((e) => console.log(`  - [${e.page}] ${e.tex}${e.err ? ' — ' + e.err : ''}`));
   if (longTitles.length) console.log(`<title> > ${TITLE_MAX} caractères : ${longTitles.length}`), longTitles.forEach((t) => console.log(`  - (${t.length}) ${t}`));
   if (warnings.length) console.log(`Avertissements : ${warnings.length}`), warnings.forEach((w) => console.log(`  - ${w}`));
+  if (CHECK_ONLY) compareToDisk();
+}
+
+/** --check : compare ce qui vient d'être produit en mémoire aux fichiers du dépôt ; exit 1 au moindre écart. */
+function compareToDisk() {
+  // Le lastmod des pages racine dépend de l'état git du moment : il ne dit rien de la synchronisation.
+  const neutral = (file, s) => (file.endsWith('sitemap.xml') ? s.replace(/<lastmod>[^<]*<\/lastmod>/g, '') : s);
+  const rel = (file) => path.relative(ROOT, file);
+  const diffs = [];
+  for (const [file, content] of outputs) {
+    if (!fs.existsSync(file)) diffs.push(`absent : ${rel(file)}`);
+    else if (neutral(file, fs.readFileSync(file, 'utf8')) !== neutral(file, content)) diffs.push(`périmé : ${rel(file)}`);
+  }
+  for (const file of PREV.files.keys()) if (!outputs.has(file)) diffs.push(`en trop : ${rel(file)}`);
+  if (!diffs.length) {
+    console.log(`\n✓ ${outputs.size} fichiers générés à jour.`);
+    return;
+  }
+  console.error(`\n✖ ${diffs.length} fichier(s) à régénérer (node scripts/build_seo_pages.js) :`);
+  diffs.slice(0, 30).forEach((d) => console.error(`  - ${d}`));
+  if (diffs.length > 30) console.error(`  … et ${diffs.length - 30} autres`);
+  process.exitCode = 1;
 }
 
 // ---------------------------------------------------------------------------
@@ -1231,8 +1431,8 @@ function buildHubs({ levelsData, EXOS }) {
   const name = (id) => esc(frTypo(ref(id).it.title));
   const shortName = (id) => esc(frTypo(noArticle(plain(ref(id).it.ch.shortTitle || headOf(ref(id).it.title)))));
   const link = (id, text) => `<a href="${href(id)}">${text || name(id)}</a>`;
-  const school = levelsData.filter((d) => SCHOOL_ORDER.includes(d.lvl.code));
-  const higher = levelsData.filter((d) => !SCHOOL_ORDER.includes(d.lvl.code));
+  const school = levelsData.filter((d) => SCHOOL_LEVELS.includes(d.lvl.code));
+  const higher = levelsData.filter((d) => !SCHOOL_LEVELS.includes(d.lvl.code));
 
   // Exercices d'exemple : de préférence absents de la page du chapitre (pas de contenu dupliqué).
   const usedExos = new Set();
@@ -1252,12 +1452,22 @@ function buildHubs({ levelsData, EXOS }) {
       `Chapitre${NB}: ${link(id)} · <a href="${app(id)}">s'entraîner sur des exercices du même type</a>`);
   };
   const chapterList = (ids) => `<ul class="hub-chapters">${ids.map((id) => `<li>${link(id)}<a class="hub-train" href="${app(id)}" aria-label="S'entraîner : ${shortName(id)}">S'entraîner</a></li>`).join('')}</ul>`;
-  const table = (head, rows, caption) => `<div class="hub-table-wrap"><table class="hub-table">${caption ? `<caption>${caption}</caption>` : ''}<thead><tr>${head.map((h) => `<th scope="col">${h}</th>`).join('')}</tr></thead><tbody>${rows.map((r) => `<tr>${r.map((c, i) => (i === 0 ? `<th scope="row">${c}</th>` : `<td>${c}</td>`)).join('')}</tr>`).join('')}</tbody></table></div>`;
+  const table = (head, rows, caption) => `<div class="hub-table-wrap" tabindex="0" role="region" aria-label="${esc((caption || `Tableau : ${head.filter(Boolean).join(', ')}`).replace(/<[^>]+>/g, ''))}"><table class="hub-table">${caption ? `<caption>${caption}</caption>` : ''}<thead><tr>${head.map((h) => `<th scope="col">${h}</th>`).join('')}</tr></thead><tbody>${rows.map((r) => `<tr>${r.map((c, i) => (i === 0 ? `<th scope="row">${c}</th>` : `<td>${c}</td>`)).join('')}</tr>`).join('')}</tbody></table></div>`;
   const card = (title, html) => `<article class="cours-card"><h3>${title}</h3>${html}</article>`;
+  const domainGroups = (items) => {
+    const groups = [];
+    for (const it of items) {
+      const g = it.ch.domainName || it.ch.domain;
+      let grp = groups.find((x) => x.name === g);
+      if (!grp) groups.push(grp = { name: g, ids: [] });
+      grp.ids.push(it.ch.id);
+    }
+    return groups;
+  };
 
   function writeHub(h) {
     const url = `${SITE}/${h.dir}/`;
-    const crumbs = [{ name: 'Accueil', href: '../index.html', url: `${SITE}/` }, { name: h.crumb, url }];
+    const crumbs = [{ name: 'Accueil', href: '../', url: `${SITE}/` }, { name: h.crumb, url }];
     trackMeta(h.title, h.desc, url);
     const toc = h.sections.map((s) => `<li><a href="#${s.id}">${s.title}</a></li>`).join('') + '<li><a href="#faq">Questions fréquentes</a></li>';
     const body = `${breadcrumbHtml(crumbs)}
@@ -1269,7 +1479,7 @@ function buildHubs({ levelsData, EXOS }) {
       <div class="cours-cta">
 ${h.ctas.map((c, i) => `        <a class="${i === 0 ? 'btn-primary cours-cta-main' : 'btn-secondary cours-cta-alt'}" href="${c[1]}">${c[0]}</a>`).join('\n')}
       </div>
-${h.facts ? `      <ul class="hub-facts">${h.facts.map((f) => `<li><strong>${f[0]}</strong><span>${f[1]}</span></li>`).join('')}</ul>\n` : ''}    </header>
+${h.facts ? `      <ul class="hub-facts">${h.facts.map((f) => `<li><strong>${f[0]}</strong><span>${f[1]}</span></li>`).join('')}</ul>\n` : ''}${h.concours ? `      ${CONCOURS_NOTICE_HTML}\n` : ''}    </header>
 
     <nav class="cours-toc" aria-label="Sommaire de la page">
       <p class="cours-toc-title">Sommaire</p>
@@ -1301,11 +1511,10 @@ ${h.ctas.slice(0, 2).map((c, i) => `        <a class="${i === 0 ? 'btn-primary c
       inLanguage: 'fr',
       isAccessibleForFree: true,
       dateModified: DATE_TOKEN,
-      author: { '@type': 'Person', name: AUTHOR, jobTitle: 'Professeur de mathématiques' },
-      publisher: { '@type': 'Organization', name: BRAND, url: `${SITE}/`, logo: `${SITE}/assets/logo.png` },
+      author: AUTHOR_LD,
+      publisher: PUBLISHER_LD,
       isPartOf: { '@type': 'WebSite', name: BRAND, url: `${SITE}/` }
     }, h.ld || {});
-    fs.mkdirSync(path.join(ROOT, h.dir), { recursive: true });
     const og = fs.existsSync(path.join(ROOT, h.dir, 'og.png')) ? `${url}og.png` : undefined;
     writeStable(path.join(ROOT, h.dir, 'index.html'), layout({ depth: 1, title: h.title, description: h.desc, canonical: url,
       jsonld: [ld, faqLd(h.faqs), breadcrumbLd(crumbs)], body, active: h.key, tag: h.tag, ogImage: og }), `/${h.dir}/`);
@@ -1315,7 +1524,7 @@ ${h.ctas.slice(0, 2).map((c, i) => `        <a class="${i === 0 ? 'btn-primary c
   // ---- 9.1 Exercices de maths corrigés ---------------------------------------------------
   {
     const samples = { '6eme': ['6N7', [3, 2]], '5eme': ['5N5', [3, 2]], '4eme': ['4G1', [4, 3]], '3eme': ['N1', [3, 2]],
-      '2nde': ['2N5', [3, 2]], '1ere': ['1A6', [3, 2]], tale: ['TA3', [3, 2]] };
+      '2nde': ['2N5', [3, 2]], '1ere': ['1A6', [3, 2]], '1tc': ['1TC1', [2, 1]], '1techno': ['1T3', [2, 1]], tale: ['TA3', [3, 2]] };
     const nChap = school.reduce((n, d) => n + d.items.length, 0);
     const levelSections = school.map(({ lvl, items }) => {
       const [sid, tiers] = samples[lvl.code];
@@ -1330,7 +1539,7 @@ ${h.ctas.slice(0, 2).map((c, i) => `        <a class="${i === 0 ? 'btn-primary c
       kicker: '✏️ De la 6e à la terminale · corrigés',
       h1: 'Exercices de maths corrigés, de la 6e à la terminale',
       lead: `Pour chaque chapitre du collège et du lycée${NB}: des exercices corrigés rédigés par un professeur, puis des exercices interactifs qui se renouvellent à chaque tirage, avec correction immédiate. ${nChap} chapitres, quatre niveaux de difficulté, aucun compte à créer.`,
-      ctas: [['🎯 S’entraîner maintenant', '../index.html'], ['📚 Voir les cours', '../cours/'], ['📝 Brevet blanc', '../brevet.html']],
+      ctas: [['🎯 S’entraîner maintenant', '../'], ['📚 Voir les cours', '../cours/'], ['📝 Brevet blanc', '../brevet.html']],
       facts: [[String(nChap), 'chapitres du collège et du lycée'], ['4', 'paliers de difficulté'], ['∞', 'exercices générés'], ['0' + NB + '€', 'sans compte ni pub']],
       sections: [
         { id: 'principe', title: 'Deux façons de travailler les exercices', html: `      <div class="hub-grid">
@@ -1438,13 +1647,7 @@ ${h.ctas.slice(0, 2).map((c, i) => `        <a class="${i === 0 ? 'btn-primary c
   // ---- 9.3 Réussir le bac de maths -------------------------------------------------------
   {
     const tale = levelsData.find((d) => d.lvl.code === 'tale');
-    const groups = [];
-    for (const it of tale.items) {
-      const g = it.ch.domainName || it.ch.domain;
-      let grp = groups.find((x) => x.name === g);
-      if (!grp) groups.push(grp = { name: g, ids: [] });
-      grp.ids.push(it.ch.id);
-    }
+    const groups = domainGroups(tale.items);
     writeHub({
       key: 'bac', dir: HUBS.bac.dir, crumb: 'Réussir le bac de maths', tag: 'Bac',
       title: frTypo('Réussir le bac de maths : spécialité et épreuve anticipée'),
@@ -1456,14 +1659,14 @@ ${h.ctas.slice(0, 2).map((c, i) => `        <a class="${i === 0 ? 'btn-primary c
       facts: [['4' + NB + 'h', 'écrit de spécialité'], ['coef.' + NB + '16', 'spécialité maths'], ['2' + NB + 'h', 'épreuve anticipée de 1re'], [String(tale.items.length), 'chapitres de terminale']],
       sections: [
         { id: 'epreuves', title: 'Les épreuves de maths au bac', html: `      <div class="hub-grid">
-        ${card('Spécialité mathématiques (terminale)', `<ul class="cours-list"><li>Épreuve écrite de <strong>4 heures</strong>, en juin, <strong>coefficient 16</strong>.</li><li>Plusieurs exercices indépendants couvrant tout le programme de terminale, qui s'appuie sur celui de première.</li><li>Calculatrice autorisée en mode examen.</li><li>Les mathématiques expertes et les mathématiques complémentaires sont évaluées en contrôle continu.</li></ul>`)}
-        ${card('Épreuve anticipée de mathématiques (première)', `<ul class="cours-list"><li>Depuis la session 2026, en fin de première, pour les voies générale et technologique.</li><li><strong>2 heures, sans calculatrice</strong>, notée sur 20, coefficient 2.</li><li>Une première partie d'<strong>automatismes</strong> sous forme de QCM (6 points), puis des exercices (14 points) adaptés au parcours de l'élève (avec ou sans spécialité).</li></ul>`)}
+        ${card('Spécialité mathématiques (terminale)', `<ul class="cours-list"><li>Épreuve écrite de <strong>4 heures</strong>, en juin, <strong>coefficient 16</strong>.</li><li>Plusieurs exercices indépendants couvrant tout le programme de terminale, qui s'appuie sur celui de première.</li><li>Calculatrice autorisée en mode examen.</li><li>Les mathématiques expertes et les <a href="../${HUBS.complementaires.dir}/">mathématiques complémentaires</a> sont évaluées en contrôle continu.</li></ul>`)}
+        ${card('Épreuve anticipée de mathématiques (première)', `<ul class="cours-list"><li>Depuis juin 2026, en fin de première, pour les voies générale et technologique.</li><li><strong>2 heures, sans calculatrice</strong>, notée sur 20, coefficient 2.</li><li>Une première partie d'<strong>automatismes</strong> en questions à réponses courtes (6 points, sans QCM à partir de juin 2027), puis des exercices (14 points) propres au programme suivi (spécialité, tronc commun ou voie technologique).</li><li><a href="../${HUBS.ea.dir}/">Format, automatismes, planning et sujet blanc</a>.</li></ul>`)}
       </div>
       <p class="cours-note">Ces modalités sont fixées par les textes officiels et peuvent être ajustées${NB}: vérifie la note de service de ta session sur le site du ministère de l'Éducation nationale.</p>` },
         { id: 'terminale', title: 'Les chapitres de terminale à maîtriser', html: `      <p>Les suites, l'étude de fonctions (logarithme, exponentielle, convexité), le calcul intégral, la géométrie dans l'espace et la loi binomiale sont au cœur des sujets de spécialité.</p>
       <div class="hub-grid">${groups.map((g) => card(esc(frTypo(g.name)), chapterList(g.ids))).join('')}</div>` },
         { id: 'premiere', title: 'Ce qu’il faut savoir de première', html: `      <p>L'épreuve de terminale réutilise sans le redire tout le programme de première${NB}: ${link('1A1', 'second degré')}, ${link('1A3', 'dérivation et variations')}, ${link('1A4', 'fonction exponentielle')}, ${link('1A6', 'suites arithmétiques et géométriques')}, ${link('1S1', 'probabilités conditionnelles')} et ${link('1G2', 'produit scalaire')}. Ce sont aussi les bases de l'épreuve anticipée.</p>
-      <p class="cours-note">Pour les automatismes de l'épreuve anticipée (calcul, pourcentages, lecture graphique, équations), les <a href="../index.html?mode=rituel&amp;level=1ere">questions flash de première</a> et les chapitres de <a href="../cours/seconde/">seconde</a> sont la meilleure révision. Voir <a href="../cours/premiere/">tous les cours de première</a>.</p>` },
+      <p class="cours-note">Pour les automatismes de l'épreuve anticipée (calcul, pourcentages, lecture graphique, équations), les <a href="../index.html?mode=rituel&amp;level=1ere">questions flash de première</a> et les chapitres de <a href="../cours/seconde/">seconde</a> sont la meilleure révision. Voir <a href="../${HUBS.ea.dir}/">la page dédiée à l'épreuve anticipée</a> et <a href="../cours/premiere/">tous les cours de première</a>.</p>` },
         { id: 'methode', title: 'Méthode de révision', html: `      <ol class="hub-steps">
         <li><strong>Connaître le cours par cœur.</strong> Définitions, théorèmes et formules (limites usuelles, dérivées, primitives, loi binomiale)${NB}: les flashcards de chaque chapitre servent à ça.</li>
         <li><strong>Maîtriser les méthodes types.</strong> Récurrence, théorème des valeurs intermédiaires, étude de convexité, équation de plan, intégration par parties${NB}: chaque page de cours les rédige pas à pas.</li>
@@ -1484,7 +1687,7 @@ ${h.ctas.slice(0, 2).map((c, i) => `        <a class="${i === 0 ? 'btn-primary c
       ],
       faqs: [
         { q: 'Combien de temps dure l’épreuve de spécialité maths au bac ?', a: 'L’épreuve écrite de spécialité mathématiques dure 4 heures, en terminale. Elle compte avec le coefficient 16.' },
-        { q: 'Qu’est-ce que l’épreuve anticipée de mathématiques ?', a: 'Une épreuve écrite de 2 heures, sans calculatrice, passée en fin de première par les élèves des voies générale et technologique depuis la session 2026 : un QCM d’automatismes puis des exercices, pour une note sur 20 (coefficient 2).' },
+        { q: 'Qu’est-ce que l’épreuve anticipée de mathématiques ?', a: 'Une épreuve écrite de 2 heures, sans calculatrice, passée en fin de première par les élèves des voies générale et technologique depuis juin 2026 : des automatismes en questions à réponses courtes puis des exercices, pour une note sur 20 (coefficient 2). Détails sur la page <a href="../epreuve-anticipee-de-maths/">Épreuve anticipée de maths</a>.' },
         { q: 'Quels chapitres tombent le plus au bac de maths ?', a: 'Les suites (avec la récurrence), l’étude de fonctions avec l’exponentielle et le logarithme, la convexité, le calcul intégral, la géométrie dans l’espace et la loi binomiale reviennent très souvent.' },
         { q: 'Comment s’entraîner sur des sujets type bac ?', a: 'La page <a href="../bac.html">Sujet type bac de maths</a> génère un sujet de spécialité complet avec son corrigé. Chaque chapitre propose aussi un palier « Objectif bac » dans l’application.' },
         { q: 'Comment passer de 10 à 14 en maths au bac ?', a: 'En sécurisant les questions de cours et de méthode (définitions, dérivées, limites usuelles), en rédigeant chaque justification et en travaillant régulièrement des sujets complets en temps limité plutôt que des exercices isolés.' }
@@ -1492,6 +1695,145 @@ ${h.ctas.slice(0, 2).map((c, i) => `        <a class="${i === 0 ? 'btn-primary c
       boxTitle: 'Teste-toi sur un sujet type bac',
       ld: { '@type': 'LearningResource', educationalLevel: 'Lycée — première et terminale, spécialité mathématiques', learningResourceType: ['Méthode de révision', 'Exercices corrigés'],
         teaches: ['Préparation à l’épreuve de spécialité mathématiques du baccalauréat', 'Préparation à l’épreuve anticipée de mathématiques'], about: { '@type': 'Thing', name: 'Baccalauréat — mathématiques' } }
+    });
+  }
+
+  // ---- 9.3 bis Épreuve anticipée de maths (première) ------------------------------------
+  {
+    const premiere = levelsData.find((d) => d.lvl.code === '1ere');
+    const sujetBlanc = '../index.html?mode=quiz&amp;level=1ere';
+    const flash = '../index.html?mode=rituel&amp;level=1ere';
+    writeHub({
+      key: 'ea', dir: HUBS.ea.dir, crumb: 'Épreuve anticipée de maths', tag: 'Bac',
+      title: frTypo('Épreuve anticipée de maths en 1re : format et sujet blanc'),
+      desc: frTypo('Épreuve anticipée de maths en 1re : format, automatismes, notions à réviser selon le parcours et sujets blancs corrigés, gratuit et sans compte.'),
+      kicker: '🎓 Baccalauréat · fin de première',
+      h1: 'Épreuve anticipée de maths en première : format, révisions et sujet blanc',
+      lead: `Le format de l'épreuve de mathématiques passée en fin de première, une méthode pour les automatismes, et pour chaque parcours un sujet blanc corrigé et la liste des notions à réviser${NB}: spécialité, tronc commun de la voie générale, voie technologique.`,
+      ctas: [['🎓 Générer un sujet blanc', sujetBlanc], ['⏱️ Questions flash de première', flash], ['📚 Cours de première', '../cours/premiere/'], ['📘 Tronc commun', '../cours/premiere-tronc-commun/'], ['📗 Voie technologique', '../cours/premiere-technologique/']],
+      facts: [['2' + NB + 'h', 'sans calculatrice'], ['6' + NB + 'pts', 'd’automatismes (réponses courtes)'], ['14' + NB + 'pts', 'd’exercices'], ['coef.' + NB + '2', 'note sur 20']],
+      sections: [
+        { id: 'format', title: 'Le format de l’épreuve', html: `      <p>L'épreuve anticipée de mathématiques est une épreuve écrite passée en fin de première, depuis juin 2026, dans les voies générale et technologique. Elle dure <strong>2 heures, sans calculatrice</strong>, est notée sur 20 et compte avec le coefficient 2. Il existe un sujet par programme${NB}: spécialité, tronc commun (élèves qui ne suivent pas la spécialité) et voie technologique.</p>
+      ${table(['Partie', 'Forme', 'Points'], [
+        ['Automatismes', 'Questions à réponses courtes, sans QCM à partir de l’épreuve de juin 2027 (session 2028 du baccalauréat)', '6'],
+        ['Exercices', 'Deux ou trois exercices indépendants, propres au programme suivi', '14'],
+        ['Maîtrise de la langue', 'Orthographe, syntaxe, vocabulaire juste, formulation du raisonnement', '2, compris dans les 20']
+      ], 'Les deux parties de l’épreuve anticipée et la part de la maîtrise de la langue')}
+      <p>L'épreuve a aussi un <strong>oral de contrôle</strong>, au second groupe du baccalauréat${NB}: 20 minutes de préparation puis 20 minutes d'entretien, sans calculatrice, sur le même programme que l'écrit, avec au moins deux exercices portant sur des parties différentes. L'examinateur peut fournir des formules.</p>
+      <p class="cours-note">À l'épreuve de juin 2026 (session 2027 du baccalauréat), la première partie était un QCM. Ces modalités sont fixées par les textes officiels et peuvent être ajustées${NB}: vérifie la note de service de ta session sur le site du ministère de l'Éducation nationale.</p>` },
+        { id: 'couverture', title: 'Ce que le site propose pour chaque parcours', html: `      <div class="hub-grid">
+        ${card('Spécialité de première', `<ul class="cours-list"><li>Les ${premiere.items.length} chapitres de spécialité, avec cours et exercices corrigés.</li><li>Des blocs «${NB}Automatismes pour l'épreuve anticipée${NB}» dans plusieurs chapitres.</li><li>Un sujet blanc corrigé au format de l'épreuve.</li></ul>`)}
+        ${card('Tronc commun de la voie générale', `<ul class="cours-list"><li>Un sujet blanc corrigé sur le programme de ce parcours, renouvelé à chaque tirage.</li><li>La liste des notions à réviser, ci-dessous.</li><li>Des <a href="../cours/premiere-tronc-commun/">chapitres de cours dédiés au tronc commun</a>, avec exercices corrigés.</li></ul>`)}
+        ${card('Voie technologique', `<ul class="cours-list"><li>Un sujet blanc corrigé sur le programme de cette voie, renouvelé à chaque tirage.</li><li>La liste des notions à réviser, ci-dessous.</li><li>Des <a href="../cours/premiere-technologique/">chapitres de cours dédiés à la voie technologique</a>, avec exercices corrigés.</li></ul>`)}
+      </div>` },
+        { id: 'a-reviser', title: 'Les notions à réviser selon ton parcours', html: `      <h3>Tronc commun de la voie générale</h3>
+      ${table(['Thème', 'À savoir faire', 'Sur le site'], [
+        ['Information chiffrée', 'Lire un tableau croisé et des diagrammes. Avec deux caractères quantitatifs' + NB + ': nuage de points, point moyen, ajustement affine, interpolation et extrapolation.', `${link('1TC2', 'information chiffrée')}, ${link('2S1', 'statistiques')}`],
+        ['Phénomènes aléatoires', 'Probabilité conditionnelle, indépendance, répétition d’épreuves de Bernoulli avec un arbre (au plus quatre épreuves), interprétation d’un test médical.', `${link('1TC3', 'probabilités du tronc commun')}, ${link('2S2', 'probabilités de seconde')}`],
+        ['Variation linéaire', 'Suites arithmétiques, avec la notation u(n)' + NB + ': relation de récurrence, terme de rang n, sens de variation, représentation, recherche d’un seuil. Fonctions affines.', `${link('1TC4', 'croissance linéaire')}, ${link('2G3', 'droites')}`],
+        ['Modélisation quadratique', 'Polynômes de degré 2' + NB + ': allure, axe, sommet par symétrie, tableau de variation, racines et signe sur la forme factorisée. Le discriminant n’est pas au programme de ce parcours.', `${link('1TC5', 'modèles quadratiques')}, ${link('2N4', 'tableaux de signes')}`],
+        ['Variation exponentielle', 'Suites géométriques à termes strictement positifs, fonctions x ↦ a<sup>x</sup>, exposant 1/n, taux moyen, recherche d’un seuil, intérêts composés.', `${link('1TC6', 'croissance exponentielle')}, ${link('1TC1', 'proportions et évolutions')}`]
+      ], 'Notions à réviser pour le tronc commun de la voie générale')}
+      <h3>Voie technologique</h3>
+      ${table(['Thème', 'À savoir faire', 'Sur le site'], [
+        ['Suites', 'Suites arithmétiques et géométriques à termes strictement positifs' + NB + ': relation de récurrence, sens de variation selon la raison, représentation, terme de rang n, reconnaître et démontrer la nature d’une suite.', `${link('1T3', 'suites arithmétiques et géométriques')}`],
+        ['Second degré', 'Polynômes de degré 2' + NB + ': allure, axe de symétrie, sommet, tableau de variation. L’axe se trouve à partir de deux points de même ordonnée, sans formule.', link('1T4', 'fonctions et second degré')],
+        ['Dérivation', 'Tangente, nombre dérivé, équation réduite de la tangente. Dérivée d’un polynôme de degré au plus 3, variations, extremums.', link('1T5', 'dérivation')],
+        ['Deux variables quantitatives', 'Nuage de points, point moyen, ajustement affine, interpolation, extrapolation.', link('1T6', 'statistiques à deux variables')],
+        ['Probabilités', 'Probabilité conditionnelle, indépendance, probabilités totales dans des cas simples, deux épreuves indépendantes, épreuves de Bernoulli avec un arbre (au plus quatre épreuves). Variable aléatoire discrète, loi, espérance.', link('1T7', 'probabilités')]
+      ], 'Notions à réviser pour la voie technologique')}
+      <p class="cours-note">Ces listes résument les grands attendus de chaque programme sans les reproduire${NB}: ton professeur et le programme officiel font foi. Les chapitres indiqués sont d'abord ceux de ton parcours${NB}; quelques liens renvoient vers la seconde pour reprendre une base.</p>` },
+        { id: 'automatismes', title: 'Travailler les automatismes', html: `      <p>La première partie porte sur des gestes qui doivent devenir rapides sans calculatrice. La liste des automatismes est commune aux trois programmes${NB}:</p>
+      <ul class="cours-list">
+        <li><strong>Évolutions${NB}:</strong> appliquer un taux, retrouver une valeur initiale, calculer un taux d'évolution, un taux global ou un taux réciproque.</li>
+        <li><strong>Calcul${NB}:</strong> équation produit nul, signe d'une expression du premier degré ou factorisée du second degré, développer, factoriser, réduire.</li>
+        <li><strong>Fonctions et droites${NB}:</strong> résoudre graphiquement f(x)${NB}=${NB}k ou f(x)${NB}&lt;${NB}k, lire un signe sur un graphique ou un tableau de variations, tracer une droite, lire son équation réduite, calculer un coefficient directeur.</li>
+        <li><strong>Statistiques${NB}:</strong> lire un diagramme en barres, un histogramme, un diagramme circulaire ou une boîte à moustaches, passer du graphique aux données, calculer des indicateurs.</li>
+        <li><strong>Probabilités${NB}:</strong> probabilités conditionnelles avec un tableau croisé ou un arbre, distinguer P(A${NB}∩${NB}B), P<sub>A</sub>(B) et P<sub>B</sub>(A).</li>
+      </ul>
+      <ol class="hub-steps">
+        <li><strong>Quelques minutes par jour.</strong> Les <a href="${flash}">questions flash de première</a> se font de tête, sur des séries courtes.</li>
+        <li><strong>Reprendre chapitre par chapitre.</strong> Un bloc «${NB}Automatismes pour l'épreuve anticipée${NB}» figure dans les cours suivants${NB}: ${['1A1', '1A2', '1A3', '1A4', '1A5', '1A6', '1S1', '1S2'].map((id) => link(id, shortName(id))).join(', ')}.</li>
+        <li><strong>Combler les manques.</strong> Une base fragile se reprend dans les <a href="../cours/seconde/">chapitres de seconde</a>.</li>
+      </ol>` },
+        { id: 'chapitres', title: 'Les chapitres de spécialité de première', html: `      <p>Priorité aux bases de l'épreuve${NB}: ${link('1A1', 'second degré')}, ${link('1A3', 'dérivation et variations')}, ${link('1A4', 'fonction exponentielle')}, ${link('1A6', 'suites arithmétiques et géométriques')}, ${link('1S1', 'probabilités conditionnelles')} et ${link('1G2', 'produit scalaire')}.</p>
+      <div class="hub-grid">${domainGroups(premiere.items).map((g) => card(esc(frTypo(g.name)), chapterList(g.ids))).join('')}</div>` },
+        { id: 'sujet-blanc', title: 'Un sujet blanc au même format', html: `      <p>Le générateur de devoirs propose en première un sujet sur 20 points pour chaque parcours${NB}: choisis dans la liste la spécialité, le tronc commun ou la voie technologique. Chaque sujet comporte <strong>12 questions d'automatismes</strong> à réponses courtes (6 points), puis <strong>3 exercices</strong> rédigés sur le programme choisi (14 points), à traiter sans calculatrice. Il s'imprime, et le corrigé reste masqué tant que tu ne l'affiches pas.</p>
+      <p class="cours-note">Le sujet est généré aléatoirement à partir des contenus du site, et son nombre de questions lui est propre${NB}: ce n'est pas un sujet officiel.</p>
+      <p><a class="btn-secondary cours-cta-alt" href="${sujetBlanc}">🎓 Générer un sujet blanc</a></p>
+      ${sampleCard('1S1', [2, 3], 'Exemple corrigé · probabilités conditionnelles')}` },
+        { id: 'planning', title: 'Planning sur six semaines', html: `      <p>Chaque jour, quelques minutes de <a href="${flash}">questions flash</a> en plus du thème de la semaine. Ce planning suit la spécialité${NB}: en tronc commun ou en voie technologique, reprends la liste de ton parcours, un thème par semaine, et garde la dernière semaine pour les sujets blancs.</p>
+      ${table(['Semaine', 'Contenu', 'Liens'], [
+        ['1', 'Second degré', link('1A1', 'second degré')],
+        ['2', 'Nombre dérivé, dérivation et variations', `${link('1A2', 'nombre dérivé')}, ${link('1A3', 'fonction dérivée')}`],
+        ['3', 'Fonction exponentielle', link('1A4', 'exponentielle')],
+        ['4', 'Suites', `${link('1A5', 'généralités')}, ${link('1A6', 'arithmétiques et géométriques')}`],
+        ['5', 'Probabilités et produit scalaire', `${link('1S1', 'probabilités conditionnelles')}, ${link('1S2', 'variables aléatoires')}, ${link('1G2', 'produit scalaire')}`],
+        ['6', 'Sujets blancs complets en 2 h, sans calculatrice, et reprise des erreurs', `<a href="${sujetBlanc}">Sujet blanc</a>`]
+      ])}` }
+      ],
+      faqs: [
+        { q: 'Qui passe l’épreuve anticipée de maths ?', a: 'Les élèves de première des voies générale et technologique, depuis juin 2026. Elle a lieu en fin de première.' },
+        { q: 'La calculatrice est-elle autorisée à l’épreuve anticipée ?', a: 'Non : l’épreuve de 2 heures se passe sans calculatrice. Les automatismes et les calculs des exercices se travaillent donc à la main.' },
+        { q: 'Combien de points valent les automatismes ?', a: '6 points sur 20, en questions à réponses courtes à partir de l’épreuve de juin 2027 (session 2028 du baccalauréat) : il n’y a plus de QCM. Les 14 autres points portent sur des exercices propres au programme suivi.' },
+        { q: 'Le site prépare-t-il les élèves sans spécialité ou de la voie technologique ?', a: 'Pour l’épreuve, oui : le générateur propose un sujet blanc corrigé pour chaque parcours, et cette page liste les notions à réviser. Il n’y a pas encore de chapitres de cours dédiés à ces deux parcours.' },
+        { q: 'Les sujets blancs du site sont-ils des sujets officiels ?', a: 'Non : ils sont générés aléatoirement à partir des contenus du site, sur le format de l’épreuve. Ils servent à s’entraîner dans les conditions de temps, sans calculatrice.' }
+      ],
+      boxTitle: 'Teste-toi sur un sujet blanc',
+      ld: { '@type': 'LearningResource', educationalLevel: 'Lycée — classe de première, voies générale et technologique', learningResourceType: ['Méthode de révision', 'Exercices corrigés'],
+        teaches: ['Préparation à l’épreuve anticipée de mathématiques'], about: { '@type': 'Thing', name: 'Épreuve anticipée de mathématiques' } }
+    });
+  }
+
+  // ---- 9.3 ter Maths complémentaires : le programme officiel, notion par notion -----------
+  {
+    const NON_TRAITE = 'Pas de chapitre de lycée sur le site';
+    const programme = [
+      ['Suites', 'Limite d’une suite, opérations sur les limites, théorème des gendarmes, limite d’une suite géométrique de raison positive', link('TA2', 'limites de suites')],
+      ['Suites', 'Somme des termes d’une suite géométrique et sa limite (raison positive strictement inférieure à 1)', `${link('1A6', 'suites arithmétiques et géométriques')} pour la somme, ${link('TA2', 'limites de suites')} pour sa limite (méthode du cours)`],
+      ['Suites', 'Suites arithmético-géométriques, représentation d’une suite définie par u(n' + NB + '+' + NB + '1)' + NB + '=' + NB + 'f(u(n))', `${link('1A6', 'suites arithmétiques et géométriques')} (méthode « pour aller plus loin » avec une suite auxiliaire), sujets de DS de ${link('TA2', 'limites de suites')} et de ${link('TS4', 'algorithmique de terminale')}, ${link('1A5', 'généralités sur les suites')} pour la représentation`],
+      ['Fonctions', 'Limites de fonctions, asymptotes, théorème des valeurs intermédiaires (admis)', link('TA3', 'limites et continuité')],
+      ['Fonctions', 'Fonction réciproque, logarithme népérien, relation ln(q<sup>n</sup>)' + NB + '=' + NB + 'n' + NB + 'ln(q)', link('TA5', 'logarithme népérien')],
+      ['Fonctions', 'Dérivées de f(ax' + NB + '+' + NB + 'b), e<sup>u</sup>, ln(u) et u²', link('TA8', 'compléments de dérivation')],
+      ['Primitives', 'Primitives, équation y′' + NB + '=' + NB + 'f, formes usuelles, équation y′' + NB + '=' + NB + 'ay' + NB + '+' + NB + 'b', link('TA6', 'primitives et équations différentielles')],
+      ['Convexité', 'Fonctions convexes, point d’inflexion', link('TA4', 'convexité')],
+      ['Intégration', 'Intégrale, aire sous une courbe, primitives', link('TA7', 'calcul intégral')],
+      ['Probabilités', 'Lois discrètes uniforme, de Bernoulli et binomiale', `${link('1S2', 'variables aléatoires')} (la loi uniforme n’y est pas nommée, elle s’y traite comme toute loi discrète), ${link('TS1', 'loi binomiale')}`],
+      ['Probabilités', 'Loi géométrique et absence de mémoire', NON_TRAITE],
+      ['Probabilités', 'Lois à densité (uniforme, exponentielle)', NON_TRAITE],
+      ['Statistiques', 'Deux variables quantitatives' + NB + ': point moyen, droite des moindres carrés, corrélation, changement de variable, interpolation et extrapolation', `${NON_TRAITE} (le nuage de points est abordé en ${link('2S1', 'seconde')})`],
+      ['Algorithmique', 'Programmation en Python', `${link('1S3', 'algorithmique de première')}, ${link('TS4', 'algorithmique de terminale')}`]
+    ];
+    const themes = ['Modèles définis par une fonction', 'Modèles d’évolution', 'Approche historique du logarithme', 'Calculs d’aires', 'Répartition des richesses, courbe de Lorenz, indice de Gini', 'Inférence bayésienne', 'Répétition d’expériences, échantillonnage', 'Temps d’attente', 'Corrélation et causalité'];
+    const TEXTE_2019 = 'https://cache.media.education.gouv.fr/file/SPE8_MENJ_25_7_2019/13/4/spe265_annexe_1159134.pdf';
+    const TEXTE_2026 = 'https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000053723259';
+    writeHub({
+      key: 'complementaires', dir: HUBS.complementaires.dir, crumb: 'Maths complémentaires', tag: 'Terminale',
+      title: frTypo('Maths complémentaires : programme et chapitres du site'),
+      desc: frTypo('Maths complémentaires en terminale : le programme officiel notion par notion, les chapitres du site à utiliser et ce qui n’est pas couvert.'),
+      kicker: '🧭 Terminale · mathématiques complémentaires',
+      h1: 'Maths complémentaires : le programme et les chapitres à utiliser',
+      lead: `Le site n'a pas de parcours dédié aux mathématiques complémentaires. Cette page suit le programme officiel de l'option${NB}: pour chaque contenu, elle indique le chapitre de spécialité à utiliser, ou signale qu'il n'est pas traité.`,
+      ctas: [['📚 Cours de terminale', '../cours/terminale/'], ['🎯 S’entraîner en terminale', '../index.html?level=tale']],
+      sections: [
+        { id: 'a-savoir', title: 'À savoir avant de commencer', html: `      <div class="hub-grid">
+        ${card('Le texte de référence', `<ul class="cours-list"><li>En 2026-2027${NB}: <a href="${TEXTE_2019}" rel="noopener">programme publié par l'arrêté du 19 juillet 2019</a>.</li><li>À partir de la rentrée 2027${NB}: <a href="${TEXTE_2026}" rel="noopener">arrêté du 26 février 2026</a>, aux contenus très proches, avec au moins six thèmes d'étude à traiter au lieu de la totalité.</li></ul>`)}
+        ${card('Ce que cette page propose', `<ul class="cours-list"><li>Les contenus du programme, avec pour chacun le chapitre du site à utiliser.</li><li>Une indication claire de ce qui n'est pas traité.</li></ul>`)}
+        ${card('Ce qu’elle ne propose pas', `<ul class="cours-list"><li>Pas de cours écrit pour cette option${NB}: les chapitres sont ceux de la spécialité, et certains passages vont plus loin.</li><li>Ton professeur reste la référence sur ce qui est attendu.</li></ul>`)}
+      </div>` },
+        { id: 'chapitres', title: 'Le programme, contenu par contenu', html: `      ${table(['Domaine', 'Contenu du programme', 'Sur le site'], programme, 'Contenus du programme de mathématiques complémentaires et chapitres correspondants')}` },
+        { id: 'themes', title: 'Les thèmes d’étude', html: `      <p>Le programme s'organise autour de neuf thèmes d'étude, qui donnent leur sens aux notions. Le site ne les traite pas en tant que tels${NB}:</p>
+      <ol class="cours-list">${themes.map((t) => `<li>${t}</li>`).join('')}</ol>` },
+        { id: 'non-couvert', title: 'Ce qui n’est pas couvert', html: `      <p>Le site n'a pas de chapitre de lycée sur la loi géométrique, les lois à densité ni les statistiques à deux variables quantitatives (droite des moindres carrés, corrélation), et il ne propose pas les thèmes d'étude propres à cet enseignement.</p>
+      <p class="cours-note">Les sujets type bac du site suivent l'épreuve de spécialité${NB}: ils ne correspondent pas à cette option, évaluée en contrôle continu.</p>` }
+      ],
+      faqs: [
+        { q: 'Le site propose-t-il un cours de maths complémentaires ?', a: 'Non : il n’y a pas de parcours dédié. Cette page suit le programme officiel et indique, pour chaque contenu, le chapitre de spécialité à utiliser ou l’absence de chapitre.' },
+        { q: 'Comment sont évaluées les maths complémentaires ?', a: 'En contrôle continu, comme les mathématiques expertes.' },
+        { q: 'Les sujets type bac du site conviennent-ils en maths complémentaires ?', a: 'Non : ils suivent l’épreuve écrite de spécialité. Les exercices des chapitres listés ici sont plus adaptés, à condition de choisir ceux qui portent sur des notions vues en classe.' }
+      ],
+      boxTitle: 'Reprendre un chapitre',
+      ld: { '@type': 'WebPage', about: { '@type': 'Thing', name: 'Mathématiques complémentaires en terminale' } }
     });
   }
 
@@ -1504,7 +1846,7 @@ ${h.ctas.slice(0, 2).map((c, i) => `        <a class="${i === 0 ? 'btn-primary c
       kicker: '🎯 Gratuit · sans compte · de la 6e à la licence',
       h1: 'Entraînement maths en ligne, gratuit et par paliers',
       lead: `Des exercices de mathématiques qui se renouvellent à chaque tirage, corrigés immédiatement et rangés en quatre paliers de difficulté. On choisit sa classe et son chapitre, on progresse à son rythme${NB}: pas d'inscription, pas de publicité, la progression reste sur l'appareil.`,
-      ctas: [['🎯 Commencer l’entraînement', '../index.html'], ['⏱️ Questions flash', '../rituels.html'], ['✏️ Exercices corrigés', `../${HUBS.exercices.dir}/`]],
+      ctas: [['🎯 Commencer l’entraînement', '../'], ['⏱️ Questions flash', '../rituels.html'], ['✏️ Exercices corrigés', `../${HUBS.exercices.dir}/`]],
       facts: [['4', 'paliers par chapitre'], ['∞', 'exercices renouvelés'], [String(levelsData.reduce((n, d) => n + d.items.length, 0)), 'chapitres'], ['0', 'compte à créer']],
       sections: [
         { id: 'fonctionnement', title: 'Comment fonctionne l’entraînement', html: `      <ol class="hub-steps">
@@ -1528,7 +1870,7 @@ ${h.ctas.slice(0, 2).map((c, i) => `        <a class="${i === 0 ? 'btn-primary c
       <p class="cours-note">Besoin de revoir le cours d'abord${NB}? <a href="../cours/">Tous les cours de maths</a>.</p>` }
       ],
       faqs: [
-        { q: 'L’entraînement est-il vraiment gratuit et sans inscription ?', a: 'Oui. Aucun compte n’est nécessaire et il n’y a pas de publicité. La progression est enregistrée dans le navigateur de ton appareil ; aucune donnée personnelle n’est envoyée.' },
+        { q: 'L’entraînement est-il vraiment gratuit et sans inscription ?', a: 'Oui. Aucun compte n’est nécessaire et il n’y a pas de publicité. La progression est enregistrée dans le navigateur de ton appareil ; aucune donnée personnelle n’est demandée.' },
         { q: 'Les exercices changent-ils à chaque fois ?', a: 'Oui : les nombres, les figures et les situations sont générés à chaque tirage. On peut s’entraîner longtemps sur un même chapitre sans retomber sur le même énoncé.' },
         { q: 'Comment débloquer les paliers ?', a: 'Le palier 1 est ouvert d’office. Les bonnes réponses font monter la maîtrise du chapitre : le palier 2 s’ouvre à 25 %, le palier 3 à 50 % et le palier 4 à 75 %.' },
         { q: 'Peut-on utiliser l’entraînement sur téléphone ?', a: 'Oui, le site s’adapte au téléphone et à la tablette, et peut être installé comme une application depuis le navigateur pour y accéder plus vite.' },
@@ -1540,6 +1882,71 @@ ${h.ctas.slice(0, 2).map((c, i) => `        <a class="${i === 0 ? 'btn-primary c
           offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' } } }
     });
   }
+  // ---- 9.4 Préparer le CAPES de maths : voies, formats, rôle des fiches --------------------
+  {
+    const bac3 = 'bac' + NB + '+' + NB + '3';
+    const bac5 = 'bac' + NB + '+' + NB + '5';
+    const lien = (id, label) => `<a href="${href(id)}">${label}</a>`;
+    writeHub({
+      key: 'preparer', dir: HUBS.preparer.dir, crumb: 'Préparer le CAPES de maths', tag: 'CAPES',
+      title: frTypo('Préparer le CAPES de maths : voies, épreuves et méthode'),
+      desc: frTypo('CAPES externe de mathématiques, session 2027 : les épreuves des voies bac + 3 et bac + 5 et du troisième concours, le rôle de chaque fiche, la méthode de l’exercice puis notion et de l’analyse de documents.'),
+      kicker: '🎓 Concours enseignants · mathématiques',
+      h1: 'Préparer le CAPES de maths',
+      concours: true,
+      lead: `À la session 2027, le CAPES externe de mathématiques existe en deux versions, ${bac3} et ${bac5}, dont les épreuves ne sont pas les mêmes. Cette page indique le format de chaque voie et à quoi sert chaque fiche du site selon celle que tu prépares.`,
+      ctas: [['📖 Toutes les fiches du CAPES', '../cours/capes/'], ['🧭 Fiche d’exemple : une leçon', href('capes-11')], ['⚖️ Oral 2 du CAPES', `../${HUBS.oral2.dir}/`]],
+      facts: [['2', 'voies externes à la session 2027'], ['4', 'épreuves par voie externe : deux écrits, deux oraux'], ['5', 'coefficient de la première épreuve orale'], ['0/20', 'note éliminatoire à l’oral']],
+      sections: [
+        { id: 'voies', title: 'Les épreuves de chaque voie', html: `      <p>La première session de la voie ${bac3} a eu lieu en 2026. La voie ${bac5} est maintenue à titre transitoire pour les sessions 2026 et 2027.</p>
+      ${table(['Épreuve', 'Voie ' + bac3, 'Voie ' + bac5], [
+        ['Premier écrit', '4 h, coefficient 3 : exercices ou problèmes', '5 h, coefficient 2 : épreuve disciplinaire'],
+        ['Second écrit', '4 h, coefficient 2 : analyse de plusieurs documents, à critiquer ou compléter, questions et exercices', '5 h, coefficient 2 : épreuve disciplinaire appliquée (dossier, productions d’élèves, séquence)'],
+        ['Premier oral', '2 h 30 de préparation, 1 h (exposé 20 min, échange 40 min), coefficient 5 : résolution d’un exercice, puis notion en jeu et notions connexes, avec le choix entre deux sujets', '2 h 30 de préparation, 1 h (plan 20 min, développement 10 min, entretien 30 min), coefficient 5 : leçon'],
+        ['Second oral', 'Entretien de 35 min (15 + 20), coefficient 3', 'Entretien de 35 min (15 + 20), coefficient 3'],
+        ['Notes éliminatoires', '5 ou moins à un écrit, 0 à un oral', '5 ou moins à un écrit, 0 à un oral']
+      ], 'Épreuves du CAPES externe de mathématiques selon la voie')}
+      <p>Le <strong>troisième concours</strong> comprend un écrit commun à la première épreuve du concours externe (4 h, coefficient 5), une leçon au même format que celle de la voie ${bac5} (coefficient 5) et l'entretien commun (coefficient 3).</p>
+      <p class="cours-note">Les programmes et les modalités sont fixés par arrêté et publiés pour chaque session. Vérifie la voie et la session qui te concernent dans les textes officiels avant de bâtir ton planning.</p>` },
+        { id: 'fiches', title: 'À quoi sert chaque fiche', html: `      ${table(['Fiches', 'Voie ' + bac3, 'Voie ' + bac5, 'Troisième concours'], [
+        ['Compléments 01 à 10 (niveau licence)', 'Premier écrit, et connaissances de licence utiles pour développer un exercice à l’oral', 'Épreuve disciplinaire, et recul sur les notions de la leçon', 'Écrit de 4 h commun au concours externe, et recul sur les notions de la leçon'],
+        ['Leçons 11 à 15', 'Premier oral : suivre dans chaque fiche la variante « exercice puis notion » ; le plan sert à organiser la notion en jeu', 'Leçon : plan, théorème clé, développements et questions du jury', 'Leçon, au même format qu’en voie ' + bac5 + ' : plan, théorème clé, développements et questions du jury'],
+        ['Dossiers « Analyse de documents » des devoirs', 'Second écrit', 'Épreuve disciplinaire appliquée', 'Pas d’épreuve correspondante : entraînement facultatif'],
+        ['Oral 2 et études de cas', 'Second oral', 'Second oral (deux mises en situation)', 'Entretien commun au concours externe']
+      ], 'Rôle des fiches du site selon la voie préparée')}
+      <p>Les programmes des écrits ne couvrent pas tout le contenu des compléments. Certaines parties, comme les séries de Fourier, sont des approfondissements${NB}: compare chaque fiche au programme de ta session avant d'y consacrer du temps. Chaque exercice de devoir indique une durée et le niveau visé.</p>` },
+        { id: 'exercice-notion', title: 'Premier oral en voie ' + bac3 + ' : de l’exercice à la notion', html: `      <p>Le candidat choisit entre deux sujets. L'exercice porte sur le cycle terminal, l'option mathématiques expertes et le programme des écrits${NB}; des connaissances de licence servent à développer et à illustrer.</p>
+      <ol class="hub-steps">
+        <li><strong>Résoudre.</strong> Rédiger une résolution complète et vérifier chaque résultat par un autre moyen (valeur particulière, cas limite, logiciel).</li>
+        <li><strong>Nommer la notion en jeu.</strong> Dire en une phrase ce que l'exercice met en œuvre, puis énoncer précisément la définition et le théorème utilisés.</li>
+        <li><strong>Relier les notions connexes.</strong> Citer ce qui précède et ce qui prolonge l'exercice, dans le programme du lycée et en licence.</li>
+        <li><strong>Préparer l'échange.</strong> Prévoir une démonstration du résultat central, un contre-exemple qui montre le rôle d'une hypothèse, une variante de l'exercice et les erreurs probables des élèves.</li>
+      </ol>
+      <p>Chaque fiche ${lien('capes-11', 'Leçon 11')}, ${lien('capes-12', '12')}, ${lien('capes-13', '13')}, ${lien('capes-14', '14')} et ${lien('capes-15', '15')} en donne un exemple complet.</p>` },
+        { id: 'analyse-documents', title: 'L’analyse de documents et de productions d’élèves', html: `      <p>Le second écrit des deux voies fait travailler sur des documents${NB}: extraits de manuels, productions d'élèves, éléments de séquence. Il faut relever ce qui est juste, ce qui est faux ou incomplet, et proposer mieux.</p>
+      <ol class="hub-steps">
+        <li><strong>Résoudre d'abord soi-même</strong> l'exercice donné aux élèves, pour disposer d'une référence.</li>
+        <li><strong>Lire chaque copie sans s'arrêter au résultat.</strong> Une réponse juste peut venir d'une méthode fausse, et une réponse fausse contenir une idée correcte.</li>
+        <li><strong>Formuler l'erreur et son origine probable</strong>${NB}: conception erronée, confusion entre deux notions, erreur de calcul isolée.</li>
+        <li><strong>Critiquer un document avec précision</strong>${NB}: citer le passage, dire ce qui ne va pas, donner un contre-exemple, proposer une rédaction corrigée.</li>
+        <li><strong>Proposer une remédiation qui se teste</strong>${NB}: un exercice court dont le résultat montre à l'élève où il s'est trompé.</li>
+      </ol>
+      <p>Pour t'entraîner, les devoirs de plusieurs fiches contiennent un dossier «${NB}Analyse de documents${NB}» dont le corrigé donne des critères d'évaluation${NB}: ${lien('capes-01', 'équations différentielles')}, ${lien('capes-08', 'convexité')}, ${lien('capes-10', 'arithmétique')}, ${lien('capes-11', 'produit scalaire')}, ${lien('capes-12', 'nombres complexes')}, ${lien('capes-13', 'probabilités conditionnelles')}, ${lien('capes-14', 'statistique')} et ${lien('capes-15', 'dénombrement')}. Les documents sont fictifs${NB}: ils ont été écrits pour l'entraînement.</p>` }
+      ],
+      faqs: [
+        { q: 'Quelle voie du CAPES de maths choisir ?', a: 'Elle dépend de ton diplôme et de ta situation. Les conditions d’inscription sont publiées par le ministère pour chaque session : c’est à cette source qu’il faut se fier.' },
+        { q: 'Les fiches du site suffisent-elles pour préparer le concours ?', a: 'Non. Elles complètent une préparation. Les fiches ne couvrent pas tout le programme des écrits, et le site ne garantit pas la réussite au concours.' },
+        { q: 'Que change la voie bac + 3 pour le premier oral ?', a: 'Le candidat ne construit pas un plan de leçon : il résout un exercice, puis présente la notion en jeu et les notions connexes. L’exposé dure 20 minutes et l’échange 40 minutes.' },
+        { q: 'Les compléments de niveau licence sont-ils tous au programme ?', a: 'Non. Compare chaque fiche au programme de ta session. Certaines parties, comme les séries de Fourier, sont des approfondissements qui donnent du recul.' }
+      ],
+      boxTitle: 'Continuer la préparation',
+      boxText: 'Fiches, exercices et devoirs corrigés. Gratuit et sans inscription.',
+      ldType: 'WebPage',
+      ld: { about: [{ '@type': 'Thing', name: 'CAPES de mathématiques' }],
+        audience: { '@type': 'EducationalAudience', educationalRole: 'Candidat aux concours de l’enseignement' }, learningResourceType: 'Guide de préparation' }
+    });
+  }
+
   // ---- 9.5 Épreuve d'entretien du CAPES (oral 2) -------------------------------------------
   {
     const fiche = href(ORAL2_ID);
@@ -1547,11 +1954,12 @@ ${h.ctas.slice(0, 2).map((c, i) => `        <a class="${i === 0 ? 'btn-primary c
     writeHub({
       key: 'oral2', dir: HUBS.oral2.dir, crumb: 'Oral 2 du CAPES', tag: 'CAPES',
       title: frTypo('Épreuve d’entretien du CAPES (oral 2) : préparer l’oral'),
-      desc: frTypo('Préparer l’épreuve d’entretien du CAPES (oral 2), toutes disciplines : déroulé, attentes du jury, laïcité, mises en situation corrigées et questions fréquentes.'),
+      desc: frTypo('Préparer l’oral 2 du CAPES, toutes disciplines : déroulé de l’épreuve, attentes du jury, laïcité, mises en situation corrigées et questions fréquentes.'),
       kicker: '🎓 Concours enseignants · toutes disciplines',
       h1: 'Épreuve d’entretien du CAPES (oral 2)',
+      concours: true,
       lead: `L'oral 2 du CAPES est un entretien de 35 minutes avec le jury, le même dans toutes les disciplines${NB}: on y parle de son parcours, de sa motivation et de situations concrètes de la vie d'un établissement. Cette page présente le déroulé de l'épreuve, ce que le jury évalue, une méthode pour les mises en situation et des cas commentés. La <a href="${fiche}">fiche complète</a> détaille les textes officiels et la jurisprudence.`,
-      ctas: [['📖 Lire la fiche complète', fiche], ['🎯 S’entraîner sur des mises en situation', app(ORAL2_ID)], ['🧭 Études de cas en trois étapes', app(ORAL2_CAS_ID)], ['🎓 Leçons d’oral du CAPES de maths', '../cours/capes/']],
+      ctas: [['📖 Lire la fiche complète', fiche], ['🎯 S’entraîner sur des mises en situation', app(ORAL2_ID)], ['🧭 Études de cas en trois étapes', app(ORAL2_CAS_ID)], ['🎓 Leçons et compléments du CAPES de maths', '../cours/capes/']],
       facts: [['35' + NB + 'min', 'd’entretien, sans préparation'], ['3', 'coefficient'], ['15 + 20', 'minutes : parcours, puis mises en situation'], ['0/20', 'note éliminatoire']],
       sections: [
         { id: 'deroule', title: 'Déroulé de l’épreuve', html: `      <p>L'épreuve d'entretien est la seconde épreuve d'admission du CAPES externe. Elle n'a pas de temps de préparation et se déroule en deux temps. Son format diffère légèrement entre le concours de niveau bac${NNB}+${NNB}5 et le nouveau concours de niveau bac${NNB}+${NNB}3, organisé à partir de la session 2026.</p>

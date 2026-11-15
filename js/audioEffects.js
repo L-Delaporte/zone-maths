@@ -12,7 +12,7 @@
     try { return localStorage.getItem(STORAGE_KEY) === 'true'; } catch (e) { return false; }
   }
   function writeMuted(val) {
-    try { localStorage.setItem(STORAGE_KEY, val ? 'true' : 'false'); } catch (e) {}
+    try { localStorage.setItem(STORAGE_KEY, val ? 'true' : 'false'); } catch (e) { /* stockage indisponible : le réglage n'est pas conservé */ }
   }
   let muted = readMuted();
 

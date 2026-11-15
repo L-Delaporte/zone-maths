@@ -4,11 +4,9 @@
   <meta charset="UTF-8" />
   <!-- Content-Security-Policy : voir scripts/csp.js (style-src 'unsafe-inline' requis par les attributs style de KaTeX et de l'application) -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://etabli-des-maths.goatcounter.com; font-src 'self' data:; connect-src 'self' https://etabli-des-maths.goatcounter.com; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'" />
-  <script src="js/themeInit.js?v=b22b407710"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="author" content="Loïc Delaporte, Professeur de Mathématiques" />
   <meta name="description" content="Sujet type bac de maths généré en un clic : épreuve de spécialité de terminale avec corrigé détaillé, entraînement par chapitre et flashcards, gratuit." />
-  <meta name="keywords" content="bac maths, baccalauréat spécialité maths, révisions bac maths terminale, devoir type bac maths, suites récurrence bac, dérivation exponentielle bac, géométrie espace bac, probabilités loi binomiale bac" />
   <link rel="canonical" href="https://etabli-des-maths.fr/bac.html" />
 
   <!-- Open Graph -->
@@ -19,11 +17,14 @@
   <meta property="og:locale" content="fr_FR" />
   <meta property="og:site_name" content="L'Établi des Maths" />
   <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
+  <meta property="og:image:alt" content="Logo de L'Établi des Maths" />
+  <meta name="twitter:card" content="summary" />
 
   <title>Sujet type bac de maths : spécialité, corrigé détaillé</title>
 
-  <link rel="stylesheet" href="css/style.css?v=a4e7161be9" />
-  <link rel="stylesheet" href="css/landing.css?v=4a78afe00c" />
+  <link rel="stylesheet" href="css/style.css?v=141db07fda" />
+  <link rel="stylesheet" href="css/landing.css?v=9c24ff37f8" />
+  <script src="js/themeInit.js?v=58d3835cf3"></script>
   <link rel="icon" href="favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
   <link rel="apple-touch-icon" href="assets/favicon.png" />
@@ -44,14 +45,17 @@
   },
   "author": {
     "@type": "Person",
+    "@id": "https://etabli-des-maths.fr/a-propos.html#auteur",
     "name": "Loïc Delaporte",
-    "jobTitle": "Professeur de mathématiques"
+    "jobTitle": "Professeur de mathématiques",
+    "url": "https://etabli-des-maths.fr/a-propos.html"
   },
   "publisher": {
     "@type": "Organization",
+    "@id": "https://etabli-des-maths.fr/#organisation",
     "name": "L'Établi des Maths",
     "url": "https://etabli-des-maths.fr/",
-    "logo": "https://etabli-des-maths.fr/assets/logo.png"
+    "logo": "https://etabli-des-maths.fr/assets/logo-192.png"
   },
   "educationalLevel": "Lycée — première et terminale, spécialité mathématiques",
   "teaches": [
@@ -91,7 +95,7 @@
   <!-- Header -->
   <header class="app-header">
     <div class="header-inner">
-      <a href="index.html" class="brand-container">
+      <a href="./" class="brand-container">
         <img src="assets/logo-96.png" alt="" class="brand-logo-img" width="44" height="44" />
         <div class="brand-text">
           <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Baccalauréat</span></p>
@@ -100,11 +104,12 @@
       </a>
 
       <nav class="nav-portal-links" aria-label="Portails thématiques">
-        <a href="index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="./" class="nav-portal-btn">🏠 Accueil</a>
         <a href="cours/" class="nav-portal-btn">📚 Cours</a>
+        <a href="exercices-de-maths/" class="nav-portal-btn">✏️ Exercices</a>
         <a href="rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
-        <a href="brevet.html" class="nav-portal-btn">📝 Brevet 3e</a>
-        <a href="bac.html" class="nav-portal-btn active" aria-current="page">🎓 Baccalauréat</a>
+        <a href="brevet.html" class="nav-portal-btn">📝 Brevet</a>
+        <a href="bac.html" class="nav-portal-btn active" aria-current="page">🎓 Bac</a>
         <a href="enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
         <a href="parents.html" class="nav-portal-btn">👪 Parents</a>
       </nav>
@@ -114,24 +119,24 @@
   <!-- Contenu Principal -->
   <main class="landing-wrapper" id="contenu" tabindex="-1">
     <section class="landing-hero">
-      <span class="landing-tag tag-bac">🎓 Épreuve de Spécialité Mathématiques</span>
+      <span class="landing-tag tag-bac">🎓 Baccalauréat de mathématiques</span>
       <h1 class="landing-title">Sujets type bac de maths, avec corrigé détaillé</h1>
       <p class="landing-subtitle">
-        Devoirs types Bac complets avec barème détaillé, fiches de révision et entraînement rigoureux sur l'ensemble des grands thèmes de Première et Terminale.
+        Sujets type bac de spécialité (terminale) et sujets blancs de l'épreuve anticipée (première), avec barème indicatif et corrigé détaillé, fiches de révision et entraînement par paliers.
       </p>
 
       <div class="landing-cta-grid">
         <a href="index.html?mode=quiz&level=tale" class="btn-primary landing-cta-btn cta-bac">
-          📝 Générer un Devoir Type Bac (Terminale)
+          📝 Générer un sujet type bac (terminale)
         </a>
         <a href="index.html?level=tale" class="btn-secondary landing-cta-btn">
-          🎯 Spécialité Terminale
+          🎯 S'entraîner en terminale
         </a>
         <a href="index.html?mode=quiz&level=1ere" class="btn-secondary landing-cta-btn">
           📝 Épreuve anticipée de 1re (sujet blanc)
         </a>
         <a href="index.html?mode=flashcards&level=tale" class="btn-secondary landing-cta-btn">
-          🗂️ Flashcards des Démonstrations
+          🗂️ Flashcards des démonstrations
         </a>
       </div>
     </section>
@@ -139,44 +144,48 @@
     <!-- Les Notions Piliers du Bac Spécialité -->
     <section>
       <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--text-main);">
-        Les Thèmes Majeurs de l'Épreuve Écrite
+        Les thèmes majeurs de l'épreuve écrite
       </h2>
       <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.25rem;">
-        Entraînez-vous sur les chapitres fondamentaux de l'épreuve écrite du Baccalauréat :
+        Entraînez-vous sur les chapitres fondamentaux de l'épreuve écrite du baccalauréat&nbsp;:
       </p>
 
       <div class="topics-grid-bac">
         <a href="index.html?chapitre=TA1" class="topic-pill-card-bac">
+          <span class="topic-num-bac">Récurrence</span>
+          <span>Raisonnement par récurrence</span>
+        </a>
+        <a href="index.html?chapitre=TA2" class="topic-pill-card-bac">
           <span class="topic-num-bac">Suites</span>
-          <span>Récurrence, Limites & Théorèmes</span>
+          <span>Limites de suites et convergence</span>
+        </a>
+        <a href="index.html?chapitre=TA3" class="topic-pill-card-bac">
+          <span class="topic-num-bac">Continuité</span>
+          <span>Limites de fonctions, continuité, TVI</span>
         </a>
         <a href="index.html?chapitre=TA4" class="topic-pill-card-bac">
-          <span class="topic-num-bac">Dérivation</span>
-          <span>Convexité, Point d'inflexion, TVI</span>
+          <span class="topic-num-bac">Convexité</span>
+          <span>Convexité, dérivée seconde, point d'inflexion</span>
         </a>
         <a href="index.html?chapitre=TA5" class="topic-pill-card-bac">
           <span class="topic-num-bac">Logarithme</span>
-          <span>Fonctions exponentielle & Logarithme</span>
+          <span>Logarithme népérien, croissances comparées</span>
+        </a>
+        <a href="index.html?chapitre=TA6" class="topic-pill-card-bac">
+          <span class="topic-num-bac">Équations diff.</span>
+          <span>Primitives et équations différentielles</span>
         </a>
         <a href="index.html?chapitre=TA7" class="topic-pill-card-bac">
           <span class="topic-num-bac">Intégration</span>
-          <span>Primitives, Calcul intégral & Aires</span>
+          <span>Calcul intégral, aires, valeur moyenne</span>
         </a>
         <a href="index.html?chapitre=TS1" class="topic-pill-card-bac">
           <span class="topic-num-bac">Probabilités</span>
-          <span>Loi binomiale, Schéma de Bernoulli</span>
+          <span>Loi binomiale, schéma de Bernoulli</span>
         </a>
         <a href="index.html?chapitre=TG2" class="topic-pill-card-bac">
           <span class="topic-num-bac">Espace</span>
-          <span>Produit scalaire, Plans, Droites 3D</span>
-        </a>
-        <a href="index.html?chapitre=TX1" class="topic-pill-card-bac">
-          <span class="topic-num-bac">Maths expertes</span>
-          <span>Complexes (option, hors épreuve de spécialité)</span>
-        </a>
-        <a href="index.html?chapitre=TA6" class="topic-pill-card-bac">
-          <span class="topic-num-bac">Équations Diff.</span>
-          <span>Équations linéaires et primitives</span>
+          <span>Produit scalaire et équations de plans</span>
         </a>
       </div>
     </section>
@@ -184,42 +193,117 @@
     <!-- Atouts Bac -->
     <section>
       <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 1rem; color: var(--text-main);">
-        Les Exigences de l'Épreuve du Baccalauréat
+        Les exigences de l'épreuve du baccalauréat
       </h2>
       <div class="landing-features-grid">
         <div class="landing-feature-card">
           <div class="landing-feature-icon">✍️</div>
-          <h3 class="landing-feature-title">Rigueur et Rédaction Mathématique</h3>
+          <h3 class="landing-feature-title">Rigueur et rédaction mathématique</h3>
           <p class="landing-feature-desc">
-            Au Bac, le résultat seul ne rapporte presque rien : tout réside dans la clarté du raisonnement (hypothèses du TVI vérifiées, initialisation et hérédité soignées pour la récurrence).
+            Au bac, le résultat seul ne rapporte presque rien&nbsp;: tout réside dans la clarté du raisonnement (hypothèses du TVI vérifiées, initialisation et hérédité soignées pour la récurrence).
           </p>
         </div>
         <div class="landing-feature-card">
           <div class="landing-feature-icon">🎲</div>
-          <h3 class="landing-feature-title">Devoirs Types Bac Renouvelables</h3>
+          <h3 class="landing-feature-title">Devoirs type bac renouvelables</h3>
           <p class="landing-feature-desc">
-            Chaque devoir généré propose 4 exercices complets conformes à la structure officielle du sujet de spécialité, accompagnés de leur corrigé détaillé.
+            Chaque devoir généré propose 4 exercices de 5 points, au format du sujet de spécialité (4 h, calculatrice autorisée), accompagnés de leur corrigé détaillé.
           </p>
         </div>
         <div class="landing-feature-card">
           <div class="landing-feature-icon">🧠</div>
-          <h3 class="landing-feature-title">Mémorisation Active des Formules</h3>
+          <h3 class="landing-feature-title">Mémorisation active des formules</h3>
           <p class="landing-feature-desc">
-            Formules de dérivation, propriétés de la fonction $\ln$, formules de probabilités : révisez vos réflexes avec les flashcards avant le jour J.
+            Formules de dérivation, propriétés de la fonction ln, formules de probabilités&nbsp;: révisez vos réflexes avec les flashcards avant le jour J.
+          </p>
+        </div>
+        <div class="landing-feature-card">
+          <div class="landing-feature-icon">📝</div>
+          <h3 class="landing-feature-title">Épreuve anticipée de première</h3>
+          <p class="landing-feature-desc">
+            En première, le sujet blanc reprend le format de l'épreuve anticipée&nbsp;: 2 h, sans calculatrice, sur 20 points, des automatismes puis des exercices. Il est généré pour s'entraîner et n'a rien d'un sujet officiel.
           </p>
         </div>
       </div>
     </section>
 
+    <!-- Exemple commenté : exercice original, sans KaTeX sur cette page -->
+    <section class="landing-links-box bac-exemple" aria-labelledby="bac-exemple-titre">
+      <h2 id="bac-exemple-titre">Un exercice de type bac commenté</h2>
+      <p>Cet exercice a été écrit pour le site&nbsp;: il ne provient pas d'un sujet officiel et son barème est indicatif.</p>
+
+      <h3>Énoncé (5 points)</h3>
+      <p>On considère la fonction <var>f</var> définie sur [0&nbsp;; +∞[ par <var>f</var>(<var>x</var>) = √(2<var>x</var> + 3) et la suite (<var>u<sub>n</sub></var>) définie par <var>u<sub>0</sub></var> = 0 et, pour tout entier naturel <var>n</var>, <var>u<sub>n+1</sub></var> = <var>f</var>(<var>u<sub>n</sub></var>).</p>
+      <ol>
+        <li><strong>(2 points)</strong> Démontrer par récurrence que, pour tout entier naturel <var>n</var>, 0 ≤ <var>u<sub>n</sub></var> ≤ <var>u<sub>n+1</sub></var> ≤ 3.</li>
+        <li><strong>(0,5 point)</strong> En déduire que la suite (<var>u<sub>n</sub></var>) converge.</li>
+        <li><strong>(1,5 point)</strong> Déterminer la limite de la suite (<var>u<sub>n</sub></var>).</li>
+        <li><strong>(1 point)</strong> Écrire en Python une fonction <code>seuil()</code> qui renvoie le plus petit entier <var>n</var> tel que 3 − <var>u<sub>n</sub></var> &lt; 0,001.</li>
+      </ol>
+
+      <h3>Corrigé et conseils de rédaction</h3>
+      <ol>
+        <li>
+          On note P(<var>n</var>) la propriété «&nbsp;0 ≤ <var>u<sub>n</sub></var> ≤ <var>u<sub>n+1</sub></var> ≤ 3&nbsp;».
+          <em>Initialisation</em>&nbsp;: <var>u<sub>0</sub></var> = 0 et <var>u<sub>1</sub></var> = √3, donc 0 ≤ <var>u<sub>0</sub></var> ≤ <var>u<sub>1</sub></var> ≤ 3&nbsp;: P(0) est vraie.
+          <em>Hérédité</em>&nbsp;: supposons P(<var>n</var>) vraie pour un entier naturel <var>n</var>. La fonction <var>f</var> est croissante sur [0&nbsp;; +∞[, donc <var>f</var>(0) ≤ <var>f</var>(<var>u<sub>n</sub></var>) ≤ <var>f</var>(<var>u<sub>n+1</sub></var>) ≤ <var>f</var>(3), c'est-à-dire √3 ≤ <var>u<sub>n+1</sub></var> ≤ <var>u<sub>n+2</sub></var> ≤ 3. Comme √3 ≥ 0, P(<var>n</var> + 1) est vraie.
+          <em>Conclusion</em>&nbsp;: P(<var>n</var>) est vraie pour tout entier naturel <var>n</var>.
+          <br /><strong>Conseil.</strong> Énoncez la propriété, signalez où sert l'hypothèse de récurrence et justifiez la croissance de <var>f</var>&nbsp;: c'est elle qui permet de conserver les inégalités.
+        </li>
+        <li>
+          D'après la question 1, la suite est croissante et majorée par 3. Or toute suite croissante et majorée converge&nbsp;: (<var>u<sub>n</sub></var>) converge.
+          <br /><strong>Conseil.</strong> Citez les deux hypothèses&nbsp;: une suite majorée, sans être croissante, peut ne pas converger.
+        </li>
+        <li>
+          Notons ℓ la limite de la suite. Pour tout <var>n</var>, <var>u<sub>n</sub></var> ≥ 0, donc ℓ ≥ 0. La fonction <var>f</var> étant continue sur [0&nbsp;; +∞[, le passage à la limite dans <var>u<sub>n+1</sub></var> = <var>f</var>(<var>u<sub>n</sub></var>) donne ℓ = <var>f</var>(ℓ). Ainsi ℓ² = 2ℓ + 3, soit (ℓ − 3)(ℓ + 1) = 0. Comme ℓ ≥ 0, on a ℓ = 3.
+          <br /><strong>Conseil.</strong> Mentionnez la continuité de <var>f</var> et expliquez pourquoi la valeur −1 est écartée.
+        </li>
+        <li>
+          <pre><code>from math import sqrt
+
+def seuil():
+    n = 0
+    u = 0
+    while 3 - u &gt;= 0.001:
+        u = sqrt(2 * u + 3)
+        n = n + 1
+    return n</code></pre>
+          La fonction renvoie 8&nbsp;: 3 − <var>u<sub>7</sub></var> ≈ 0,002 et 3 − <var>u<sub>8</sub></var> ≈ 0,0007.
+          <br /><strong>Conseil.</strong> La boucle se poursuit tant que la condition voulue n'est pas atteinte&nbsp;: la condition du <code>while</code> est la négation de 3 − <var>u<sub>n</sub></var> &lt; 0,001.
+        </li>
+      </ol>
+    </section>
+
+    <!-- Maths expertes : option, hors épreuve écrite de spécialité -->
+    <section class="landing-links-box" aria-labelledby="bac-expertes-titre">
+      <h2 id="bac-expertes-titre">Maths expertes (contrôle continu, hors épreuve écrite)</h2>
+      <p>L'option maths expertes n'est pas évaluée à l'épreuve écrite de spécialité. Ses cours restent disponibles&nbsp;:</p>
+      <ul>
+        <li><a href="cours/terminale/nombres-complexes.html">Nombres complexes</a></li>
+        <li><a href="cours/terminale/nombres-complexes-et-geometrie.html">Nombres complexes et géométrie</a></li>
+        <li><a href="cours/terminale/arithmetique-dans-z-et-congruences.html">Arithmétique dans Z et congruences</a></li>
+        <li><a href="cours/terminale/theoremes-de-bezout-et-de-gauss.html">Théorèmes de Bézout et de Gauss</a></li>
+        <li><a href="cours/terminale/calcul-matriciel.html">Calcul matriciel</a></li>
+      </ul>
+    </section>
+
     <!-- Maillage : révisions et cours du bac -->
     <section class="landing-links-box" aria-labelledby="bac-liens-titre">
       <h2 id="bac-liens-titre">Réviser le bac de maths chapitre par chapitre</h2>
-      <p>Pour l'organisation des révisions (épreuve de spécialité, épreuve anticipée de première, méthode et planning), voir <a href="reussir-le-bac-de-maths/">Réussir le bac de maths</a>. Les cours complets, avec exercices corrigés :</p>
+      <p>Pour l'organisation des révisions (épreuve de spécialité, épreuve anticipée de première, méthode et planning), voir <a href="reussir-le-bac-de-maths/">Réussir le bac de maths</a> et, pour la première, <a href="epreuve-anticipee-de-maths/">l'épreuve anticipée de maths</a>. Les cours complets, avec exercices corrigés&nbsp;:</p>
       <ul>
         <li><a href="cours/terminale/le-raisonnement-par-recurrence.html">Raisonnement par récurrence</a></li>
         <li><a href="cours/terminale/limites-de-suites-et-theoremes-de-convergence.html">Limites de suites</a></li>
+        <li><a href="cours/terminale/limites-de-fonctions.html">Limites de fonctions</a></li>
+        <li><a href="cours/terminale/complements-sur-la-derivation.html">Compléments sur la dérivation</a></li>
+        <li><a href="cours/terminale/convexite-concavite-et-points-d-inflexion.html">Convexité et points d'inflexion</a></li>
         <li><a href="cours/terminale/la-fonction-logarithme-neperien.html">Fonction logarithme népérien</a></li>
+        <li><a href="cours/terminale/primitives-et-equations-differentielles-lineaires.html">Primitives et équations différentielles</a></li>
         <li><a href="cours/terminale/calcul-integral.html">Calcul intégral</a></li>
+        <li><a href="cours/terminale/vecteurs-droites-et-plans-dans-l-espace.html">Vecteurs, droites et plans de l'espace</a></li>
+        <li><a href="cours/terminale/produit-scalaire-dans-l-espace-et-equations.html">Produit scalaire et équations de plans</a></li>
+        <li><a href="cours/terminale/epreuves-repetees.html">Épreuves répétées et loi binomiale</a></li>
+        <li><a href="cours/terminale/sommes-de-variables-aleatoires-et-loi-des-grands.html">Sommes de variables aléatoires</a></li>
         <li><a href="cours/terminale/">Tous les cours de terminale</a></li>
         <li><a href="cours/premiere/">Tous les cours de première</a></li>
         <li><a href="cours/seconde/">Les bases de seconde</a></li>
@@ -231,7 +315,7 @@
 
   <footer class="site-footer">
     <p>L'Établi des Maths — Conçu par Loïc Delaporte, Professeur de Mathématiques • 100 % gratuit, sans publicité & conforme aux programmes</p>
-    <p class="site-legal-links"><a href="a-propos.html">Qui suis-je ?</a> · <a href="mentions-legales.html">Mentions légales et confidentialité</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a> · Contenus sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a></p>
+    <p class="site-legal-links"><a href="a-propos.html">Qui suis-je&#8239;?</a> · <a href="mentions-legales.html">Mentions légales et confidentialité</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a> · Contenus sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a></p>
   </footer>
 
   <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->

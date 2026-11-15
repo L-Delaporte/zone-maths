@@ -14,21 +14,23 @@
  *                                            (images, scripts et feuilles de style KaTeX)
  *
  * Aucune évaluation de code : seules les méthodes des objets globaux de la liste blanche
- * ci-dessous peuvent être appelées (plus « print » pour window.print).
- * Ce fichier est chargé dans le <head>, avant toute ressource munie d'un repli.
+ * ci-dessous peuvent être appelées (plus « print » pour window.print et les actions de EXTRA_ACTIONS).
+ * Une page qui utilise data-fallback-* dans son HTML doit charger ce fichier avant ces ressources, sans defer.
  */
 (function () {
   'use strict';
 
   const TARGETS = [
     'MathsApp', 'MathsFlashcards', 'MathsDiaporama', 'MathsQuizGenerator',
-    'MathsPwa', 'MathsAudio', 'MathVisualizer', 'MathsStorage'
+    'MathsPwa', 'MathsAudio', 'MathVisualizer'
   ];
+  // Hors de la liste : un attribut data-click ne doit jamais atteindre resetAll ou importFromJson.
+  const EXTRA_ACTIONS = ['MathsStorage.exportToJson'];
 
   function resolve(name) {
     if (name === 'print') return { fn: window.print, ctx: window };
     const parts = String(name || '').split('.');
-    if (parts.length !== 2 || !TARGETS.includes(parts[0])) return null;
+    if (parts.length !== 2 || !(TARGETS.includes(parts[0]) || EXTRA_ACTIONS.includes(name))) return null;
     const target = window[parts[0]];
     const method = parts[1];
     if (!target || method in Object.prototype || typeof target[method] !== 'function') return null;
@@ -62,6 +64,8 @@
   document.addEventListener('click', e => {
     const start = e.target && e.target.nodeType === 1 ? e.target : e.target && e.target.parentElement;
     if (!start || !start.closest) return;
+    // Ctrl, Cmd ou Maj + clic sur un vrai lien : ouverture native dans un nouvel onglet
+    if ((e.ctrlKey || e.metaKey || e.shiftKey) && start.closest('a[href][data-click]:not([href^="#"])')) return;
     const chain = [];
     for (let el = start.closest('[data-click]'); el; el = el.parentElement && el.parentElement.closest('[data-click]')) {
       chain.push(el);

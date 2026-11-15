@@ -1,5 +1,6 @@
 /**
- * L'Établi des Maths — Kit enseignant et affiche (enseignants.html, affiche.html).
+ * L'Établi des Maths — Kit enseignant et affiche (enseignants.html, affiche.html),
+ * mentions-legales.html (refus de la mesure d'audience) et 404.html (lien d'évitement).
  * Boutons « Copier le message » (presse-papiers, repli par sélection du texte) et boutons d'impression.
  */
 (function () {
@@ -29,14 +30,21 @@
     var manual = function () {
       field.focus();
       field.select();
-      announce(statusEl, 'Texte sélectionné : copiez-le avec Ctrl + C (ou ⌘ + C).');
+      announce(statusEl, 'Texte sélectionné\u00a0: copiez-le avec Ctrl + C (ou ⌘ + C).');
     };
-    if (navigator.clipboard && window.isSecureContext) {
-      navigator.clipboard.writeText(text).then(ok, function () { if (legacyCopy(field)) ok(); else manual(); });
-    } else if (legacyCopy(field)) {
-      ok();
+    var copy = function () {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(ok, function () { if (legacyCopy(field)) ok(); else manual(); });
+      } else if (legacyCopy(field)) {
+        ok();
+      } else {
+        manual();
+      }
+    };
+    if (typeof navigator.share === 'function' && window.matchMedia('(pointer: coarse)').matches) {
+      navigator.share({ text: text }).catch(function (err) { if (err.name !== 'AbortError') copy(); });
     } else {
-      manual();
+      copy();
     }
   }
 
@@ -51,6 +59,44 @@
   });
 
   window.addEventListener('afterprint', function () { document.body.removeAttribute('data-print-only'); });
+
+  // Lien d'évitement de 404.html : avec <base href="/">, une ancre seule mènerait à l'accueil.
+  document.addEventListener('click', function (event) {
+    var skip = event.target.closest ? event.target.closest('[data-skip-to]') : null;
+    if (!skip) return;
+    var dest = document.getElementById(skip.getAttribute('data-skip-to'));
+    if (!dest) return;
+    event.preventDefault();
+    dest.focus();
+    dest.scrollIntoView();
+  });
+
+  // Mentions légales : refus de la mesure d'audience, reconnu par count.js et par js/analytics.js.
+  function isSkipped() {
+    try { return localStorage.getItem('skipgc') === 't'; } catch (e) { return null; }
+  }
+  function showOptOut(button) {
+    var statusEl = document.getElementById('gc-optout-status');
+    var skipped = isSkipped();
+    if (skipped === null) {
+      button.disabled = true;
+      statusEl.textContent = 'Ce navigateur bloque le stockage local\u00a0: le choix ne peut pas être enregistré.';
+      return;
+    }
+    button.textContent = skipped ? 'Être de nouveau compté sur cet appareil' : 'Ne plus être compté sur cet appareil';
+    statusEl.textContent = skipped ? 'Cet appareil n\'est plus compté dans la mesure d\'audience.' : 'Cet appareil est actuellement compté dans les statistiques globales.';
+  }
+  var optOutButton = document.querySelector('[data-gc-optout]');
+  if (optOutButton) {
+    showOptOut(optOutButton);
+    optOutButton.addEventListener('click', function () {
+      try {
+        if (localStorage.getItem('skipgc') === 't') localStorage.removeItem('skipgc');
+        else localStorage.setItem('skipgc', 't');
+      } catch (e) { /* stockage indisponible : le réglage n'est pas conservé */ }
+      showOptOut(optOutButton);
+    });
+  }
 
   // Arrivée par un lien ?src=… (message aux collègues, affiche) : GoatCounter lit la source dans
   // l'adresse au moment du comptage ; on retire ensuite les paramètres de suivi de la barre d'adresse.

@@ -39,7 +39,7 @@ Object.assign(window.MathsApp, {
 
   getSheetCycle(level = this.currentLevel) {
     if (['6eme', '5eme', '4eme', '3eme'].includes(level)) return 'college';
-    if (['2nde', '1ere', 'tale'].includes(level)) return 'lycee';
+    if (['2nde', '1ere', '1tc', '1techno', 'tale'].includes(level)) return 'lycee';
     return 'superieur';
   },
 
@@ -47,17 +47,34 @@ Object.assign(window.MathsApp, {
     const cycle = this.getSheetCycle(level);
     if (cycle === 'college') return '55 min';
     if (cycle === 'lycee') return '1 h';
-    if (level === 'crpe') return '1 h 30';
+    if (level === 'crpe') return '2 h';
     if (level === 'sante') return '1 h';
     if (level === 'pass') return '1 h 30';
     if (level === 'veto') return '2 h';
     return level === 'capes' ? '2 h' : '1 h 30';
   },
 
+  /** Épreuve dont le DS généré reprend le format (niveaux de concours) ; chaîne vide sinon */
+  getDsExamLabel(level = this.currentLevel) {
+    if (level === 'crpe') return 'Épreuve visée : partie mathématiques de l’écrit bac+3 (épreuve de 4 h partagée avec le français, soit environ 2 h pour les mathématiques ; l’écrit bac+5 de mathématiques dure 3 h)';
+    if (level === 'veto') return 'Épreuve visée : « Méthodes de calcul et raisonnement » (2 h, sans calculatrice)';
+    return '';
+  },
+
+  /** Clé du réglage « Calculatrice » : propre au niveau véto, dont l’épreuve visée interdit la calculatrice */
+  getSheetCalculatorKey(level = this.currentLevel) {
+    return level === 'veto' ? 'calculator_veto' : 'calculator';
+  },
+
+  getSheetCalculator(level = this.currentLevel) {
+    const opts = this.getSheetOptions();
+    return opts[this.getSheetCalculatorKey(level)] || (level === 'veto' ? 'interdite' : 'autorisée');
+  },
+
   getSheetOptions() {
     if (!this._sheetOptions) {
       let saved = {};
-      try { saved = JSON.parse(localStorage.getItem('etabli_sheet_options') || '{}') || {}; } catch (e) {}
+      try { saved = JSON.parse(localStorage.getItem('etabli_sheet_options') || '{}') || {}; } catch (e) { /* options absentes ou illisibles : réglages par défaut */ }
       this._sheetOptions = Object.assign({ calculator: 'autorisée' }, saved);
     }
     return this._sheetOptions;
@@ -65,7 +82,7 @@ Object.assign(window.MathsApp, {
 
   setSheetOption(key, value) {
     this.getSheetOptions()[key] = value;
-    try { localStorage.setItem('etabli_sheet_options', JSON.stringify(this._sheetOptions)); } catch (e) {}
+    try { localStorage.setItem('etabli_sheet_options', JSON.stringify(this._sheetOptions)); } catch (e) { /* stockage indisponible : le réglage n'est pas conservé */ }
     this.renderSheetsView();
   },
 
@@ -160,7 +177,7 @@ Object.assign(window.MathsApp, {
       '4N5': ['Définir l’inconnue et traduire la situation en équation si nécessaire.', 'Résoudre en effectuant la même opération des deux côtés.', 'Vérifier la solution dans l’équation de départ et conclure.'],
       Org2: ['Organiser les valeurs ou le tableau d’effectifs.', 'Choisir l’indicateur demandé et effectuer le calcul ou lire le rang utile.', 'Interpréter le résultat dans le contexte.'],
       '4D1': ['Organiser les valeurs ou le tableau d’effectifs.', 'Choisir l’indicateur demandé et effectuer le calcul ou lire le rang utile.', 'Interpréter le résultat dans le contexte.'],
-      Org4: ['Définir l’événement étudié et repérer les issues possibles.', 'Utiliser le dénombrement ou l’arbre adapté : multiplier sur un chemin, additionner les chemins concernés.', 'Simplifier la probabilité et vérifier qu’elle est comprise entre 0 et 1.'],
+      Org4: ['Définir l’événement étudié et repérer les issues possibles.', 'Pour deux épreuves, dresser un tableau à double entrée (diagonale barrée sans remise) et compter les cases favorables.', 'Simplifier la probabilité et vérifier qu’elle est comprise entre 0 et 1.'],
       '4D2': ['Définir l’événement étudié et repérer les issues possibles.', 'Utiliser le dénombrement ou l’arbre adapté : multiplier sur un chemin, additionner les chemins concernés.', 'Simplifier la probabilité et vérifier qu’elle est comprise entre 0 et 1.'],
       '5D2': ['Définir l’événement étudié et repérer les issues possibles.', 'Dénombrer les issues favorables et les issues possibles.', 'Simplifier la probabilité et vérifier qu’elle est comprise entre 0 et 1.']
     };
@@ -277,6 +294,7 @@ Object.assign(window.MathsApp, {
       chapterTitle: ch ? ch.title : chapterId,
       total: target,
       duration: this.getDsDuration(),
+      exam: this.getDsExamLabel(),
       parts,
       signature: parts.map(p => p.questions.map(q => q.ex.statement).join('|')).join('#')
     };
@@ -292,8 +310,13 @@ Object.assign(window.MathsApp, {
     if (!this.lastBankDs) this.lastBankDs = {};
     const previous = new Set(this.lastBankDs[chapterId] || []);
     const chosen = [];
+    // Les exercices signalés « Pour aller plus loin » dépassent le programme : le DS type n'y
+    // recourt que si aucun exercice du programme ne convient pour le créneau.
+    const isExtra = ex => /Pour aller plus loin/i.test(ex.title || '') || /^\s*\**\s*Pour aller plus loin/i.test(ex.statement || '');
     const pick = difficulties => {
-      const fits = bank.filter(ex => difficulties.includes(ex.difficulty) && !chosen.includes(ex));
+      const all = bank.filter(ex => difficulties.includes(ex.difficulty) && !chosen.includes(ex));
+      const core = all.filter(ex => !isExtra(ex));
+      const fits = core.length ? core : all;
       const fresh = fits.filter(ex => !previous.has(ex.id));
       const pool = fresh.length ? fresh : fits;
       return pool.length ? pool[Math.floor(Math.random() * pool.length)] : null;
@@ -303,7 +326,8 @@ Object.assign(window.MathsApp, {
       if (ex) chosen.push(ex);
     });
     while (chosen.length < Math.min(3, bank.length)) {
-      const rest = bank.filter(ex => !chosen.includes(ex));
+      const left = bank.filter(ex => !chosen.includes(ex));
+      const rest = left.some(ex => !isExtra(ex)) ? left.filter(ex => !isExtra(ex)) : left;
       chosen.push(rest[Math.floor(Math.random() * rest.length)]);
     }
     chosen.sort((a, b) => (a.difficulty || 1) - (b.difficulty || 1));
@@ -332,6 +356,7 @@ Object.assign(window.MathsApp, {
       chapterTitle: ch ? ch.title : chapterId,
       total: target,
       duration: this.getDsDuration(),
+      exam: this.getDsExamLabel(),
       parts,
       fromBank: true,
       bankSize: bank.length,
@@ -347,13 +372,21 @@ Object.assign(window.MathsApp, {
     return window.MathsRenderer.markdownToHtml(safe);
   },
 
+  // Rendu Markdown d'un fragment court (option de QCM) sans le paragraphe englobant,
+  // pour l'insérer dans une ligne de texte (code en ligne, gras…).
+  mdInline(text) {
+    const html = this.md(String(text == null ? '' : text)).trim();
+    const m = html.match(/^<p[^>]*>([\s\S]*)<\/p>$/);
+    return m && !/<\/?p[\s>]/.test(m[1]) ? m[1] : this.escapeSheetText(text);
+  },
+
   getChoices(ex) {
     const list = (ex && (ex.options || ex.choices)) || [];
     return Array.isArray(list) ? list.filter(o => o != null && String(o).trim()) : [];
   },
 
   renderQuestionStatement(ex, opts = {}) {
-    let html = `<div class="ws-q-text">${this.md(ex.statement)}</div>`;
+    let html = `<div class="ws-q-text">${this.md(window.MathsExamTools ? window.MathsExamTools.paperStatement(ex.statement) : ex.statement)}</div>`;
     const choices = this.getChoices(ex);
     if (choices.length > 1) {
       const instr = (ex.tier || 1) >= 3 || opts.justify ? 'Choisir la bonne réponse et justifier.' : 'Entourer la bonne réponse.';
@@ -368,11 +401,11 @@ Object.assign(window.MathsApp, {
     if (choices.length > 1) {
       let idx = choices.indexOf(ex.answer);
       if (idx < 0 && Number.isInteger(ex.correctIndex)) idx = ex.correctIndex;
-      if (idx >= 0 && idx < choices.length) answerLine = `<p class="ws-answer"><strong>Réponse ${String.fromCharCode(65 + idx)}</strong> : ${this.escapeSheetText(choices[idx])}</p>`;
+      if (idx >= 0 && idx < choices.length) answerLine = `<p class="ws-answer"><strong>Réponse ${String.fromCharCode(65 + idx)}</strong> : ${this.mdInline(choices[idx])}</p>`;
     }
     let raw = ex.solution || (ex.answer ? `Réponse attendue : **${ex.answer}**` : 'Voir le cours pour les étapes détaillées.');
     if (window.MathsAdaptiveEngine && typeof window.MathsAdaptiveEngine.formatSolutionWithInitialExpr === 'function') {
-      try { raw = window.MathsAdaptiveEngine.formatSolutionWithInitialExpr(ex.statement, raw); } catch (e) {}
+      try { raw = window.MathsAdaptiveEngine.formatSolutionWithInitialExpr(ex.statement, raw); } catch (e) { /* reprise de l'expression impossible : le corrigé reste tel quel */ }
     }
     if (!answerLine && ex.answer && !String(raw).includes(String(ex.answer))) {
       answerLine = `<p class="ws-answer"><strong>Réponse</strong> : ${this.escapeSheetText(ex.answer)}</p>`;
@@ -434,13 +467,13 @@ Object.assign(window.MathsApp, {
     const lvl = this.getLevelName(this.currentLevel);
     const chTitle = ch ? ch.title : sheet.chapterId;
     const isDs = sheet.type === 'ds_type';
-    const opts = this.getSheetOptions();
     const kicker = `L’Établi des Maths · ${this.escapeSheetText(lvl)} · ${this.escapeSheetText(ch && ch.num ? `${ch.num} — ` : '')}${this.escapeSheetText(chTitle)}`;
     const title = isSolution ? `Corrigé — ${this.escapeSheetText(sheet.title)}` : this.escapeSheetText(sheet.title);
     const infos = [];
     if (isDs) {
       infos.push(`Durée : ${sheet.duration}`);
-      infos.push(`Calculatrice : ${opts.calculator}`);
+      if (sheet.exam) infos.push(this.escapeSheetText(sheet.exam));
+      infos.push(`Calculatrice : ${this.getSheetCalculator()}`);
       infos.push(`Barème : ${sheet.total} points`);
     }
     const staticPts = !isDs && sheet.origin === 'static' ? this.sumStaticPoints(sheet.statement) : 0;
@@ -485,7 +518,7 @@ Object.assign(window.MathsApp, {
     const sheets = this.getChapterSheets(chapterId);
 
     if (!sheets.length) {
-      container.innerHTML = `<div class="ws-empty"><p>Aucune fiche n’est encore disponible pour ce chapitre. Entraînez-vous dans l’onglet <strong>S’entraîner</strong>.</p></div>`;
+      container.innerHTML = `<div class="ws-empty"><p>Aucune fiche n’est encore disponible pour ce chapitre. Entraîne-toi dans l’onglet <strong>S’entraîner</strong>.</p></div>`;
       return;
     }
 
@@ -493,7 +526,6 @@ Object.assign(window.MathsApp, {
     this.selectedSheetIndex = idx;
     const sheet = sheets[idx];
     const isGenerated = sheet.origin === 'generated';
-    const opts = this.getSheetOptions();
 
     const statementHtml = isGenerated ? this.renderGeneratedStatement(sheet) : this.md(sheet.statement);
     const solutionHtml = isGenerated ? this.renderGeneratedSolution(sheet) : (sheet.solution ? this.md(sheet.solution) : '');
@@ -511,8 +543,8 @@ Object.assign(window.MathsApp, {
         <div class="ws-actions">
           ${isGenerated ? `<button type="button" class="btn-secondary ws-btn" data-action="regenerate" data-click="MathsApp.regenerateSheet" title="Tirer de nouveaux exercices et le corrigé correspondant">🔀 Nouvelle version</button>` : ''}
           ${sheet.type === 'ds_type' ? `<label class="ws-option">Calculatrice
-            <select data-change="MathsApp.setSheetOption" data-args='["calculator", "$value"]'>
-              ${['autorisée', 'interdite', 'en mode examen'].map(v => `<option value="${v}"${opts.calculator === v ? ' selected' : ''}>${v}</option>`).join('')}
+            <select data-change="MathsApp.setSheetOption" data-args='["${this.getSheetCalculatorKey()}", "$value"]'>
+              ${['autorisée', 'interdite', 'en mode examen'].map(v => `<option value="${v}"${this.getSheetCalculator() === v ? ' selected' : ''}>${v}</option>`).join('')}
             </select></label>` : ''}
           <button type="button" class="btn-primary ws-btn print-btn" data-print="subject" data-click="MathsApp.printSheet" data-args='[false]'>🖨️ Imprimer le sujet</button>
           <button type="button" class="btn-secondary ws-btn" data-print="solution" data-click="MathsApp.printSheet" data-args='[true]' ${solutionHtml ? '' : 'disabled'}>🖨️ Sujet + corrigé</button>
@@ -619,10 +651,5 @@ Object.assign(window.MathsApp, {
     window.addEventListener('afterprint', cleanup);
     if (window.MathsBadges) { window.MathsBadges.recordEvent('paper'); window.MathsBadges.check(); }
     window.print();
-  },
-
-  toggleSheetSolution() {
-    const details = document.getElementById('sheet-solution-details');
-    if (details) details.open = !details.open;
   },
 });

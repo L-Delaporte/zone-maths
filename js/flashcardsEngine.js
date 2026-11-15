@@ -17,6 +17,15 @@
 
   const STORAGE_KEY = 'maths_flashcards_leitner_v1';
 
+  /** Mélange de Fisher-Yates, sur place. */
+  function shuffle(list) {
+    for (let i = list.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [list[i], list[j]] = [list[j], list[i]];
+    }
+    return list;
+  }
+
   window.MathsFlashcards = {
     // État persistant
     leitnerData: {},
@@ -118,8 +127,8 @@
           a: "$$a^3 = a \\times a \\times a$$ (le produit de 3 facteurs tous égaux à $a$)."
         },
         {
-          q: "Que vaut $10^5$ en écriture décimale ?",
-          a: "$$10^5 = 100\\,000$$ (le chiffre $1$ suivi de **5 zéros**)."
+          q: "Que vaut $10^3$ en écriture décimale ?",
+          a: "$$10^3 = 10 \\times 10 \\times 10 = 1\\,000$$ (le chiffre $1$ suivi de **3 zéros**)."
         }
       ],
       "5N5": [
@@ -164,8 +173,8 @@
       ],
       "5G4": [
         {
-          q: "Quelle condition doit être vérifiée pour qu'un triangle soit constructible (inégalité triangulaire) ?",
-          a: "La longueur du plus grand côté doit être **strictement inférieure** à la somme des deux autres : $$BC < AB + AC$$"
+          q: "Comment savoir si trois longueurs permettent de construire un triangle ?",
+          a: "On trace la plus grande longueur, puis deux arcs de cercle à ses extrémités : il faut que les arcs **se coupent**. Si les deux petites longueurs mises bout à bout sont trop courtes, c'est impossible."
         },
         {
           q: "Qu'est-ce que la médiatrice d'un segment ?",
@@ -262,8 +271,8 @@
       ],
       "4N3": [
         {
-          q: "Que vaut $a^{-n}$ pour un nombre $a \\neq 0$ ?",
-          a: "$$a^{-n} = \\frac{1}{a^n}$$ C'est l'**inverse** de $a^n$."
+          q: "Que vaut $10^{-n}$ pour un entier positif $n$ ?",
+          a: "$$10^{-n} = \\frac{1}{10^n}$$ C'est l'**inverse** de $10^n$ : par exemple, $10^{-3} = 0{,}001$."
         },
         {
           q: "Que vaut $a^0$ pour n'importe quel nombre $a \\neq 0$ ?",
@@ -282,12 +291,20 @@
       ],
       "4N5": [
         {
-          q: "Comment développe-t-on par double distributivité $(a + b)(c + d)$ ?",
+          q: "Pour aller plus loin : comment développe-t-on par double distributivité $(a + b)(c + d)$ ?",
           a: "$$(a + b)(c + d) = a \\times c + a \\times d + b \\times c + b \\times d$$"
         },
         {
           q: "Quelle règle applique-t-on pour résoudre l'équation $x + a = b$ ?",
           a: "On soustrait $a$ aux deux membres de l'égalité : $$x = b - a$$"
+        },
+        {
+          q: "Comment savoir si une expression est une somme ou un produit ?",
+          a: "On cherche la dernière opération à effectuer en respectant les priorités."
+        },
+        {
+          q: "Qu'est-ce qu'un contre-exemple à une égalité ?",
+          a: "Une valeur de la lettre pour laquelle les deux membres sont différents. Un seul suffit pour prouver que l'égalité n'est pas une identité."
         }
       ],
       "4G1": [
@@ -312,8 +329,8 @@
       ],
       "4G3": [
         {
-          q: "Quelles sont les 3 caractéristiques d'une translation qui transforme $A$ en $B$ ?",
-          a: "1) La **direction** (droite $(AB)$),\n2) Le **sens** (de $A$ vers $B$),\n3) La **longueur** (distance $AB$)."
+          q: "Comment se déplacent les points lors de la translation qui transforme $A$ en $B$ ?",
+          a: "Tous de la même façon : même **direction** (celle de $(AB)$), même **sens** (de $A$ vers $B$) et même **longueur** ($AB$)."
         },
         {
           q: "Quelles grandeurs géométriques sont conservées par une translation ?",
@@ -336,7 +353,7 @@
           a: "$$\\text{Moyenne} = \\frac{\\text{Somme de (chaque valeur } \\times \\text{ effectif)}}{\\text{Effectif total}}$$"
         },
         {
-          q: "Qu'est-ce que l'étendue d'une série statistique ?",
+          q: "(Pour aller plus loin) Qu'est-ce que l'étendue d'une série statistique ?",
           a: "$$\\text{Étendue} = \\text{Plus grande valeur} - \\text{Plus petite valeur}$$"
         }
       ],
@@ -346,7 +363,7 @@
           a: "$$P(\\bar{A}) = 1 - P(A)$$"
         },
         {
-          q: "Dans un arbre de probabilités, que vaut la somme des probabilités issues d'un même nœud ?",
+          q: "(Pour aller plus loin) Dans un arbre de probabilités, que vaut la somme des probabilités issues d'un même nœud ?",
           a: "La somme des probabilités des branches issues d'un même nœud est toujours égale à **$1$**."
         }
       ],
@@ -356,18 +373,18 @@
           a: "On partage en $2 + 3 = 5$ parts égales : la 1ère partie vaut $\\frac{2}{5}$ et la 2ème vaut $\\frac{3}{5}$."
         },
         {
-          q: "Quel est le coefficient multiplicateur associé à une hausse de $20\\%$ ?",
+          q: "(Pour aller plus loin) Quel est le coefficient multiplicateur associé à une hausse de $20\\%$ ?",
           a: "$$1 + \\frac{20}{100} = 1{,}20$$ (Pour une baisse de $20\\%$, ce serait $1 - 0{,}20 = 0{,}80$)."
         }
       ],
       "4P2": [
         {
-          q: "Si $f(x) = 3x - 5$, que signifie calculer « l'image de $4$ » ?",
+          q: "(Pour aller plus loin) Si $f(x) = 3x - 5$, que signifie calculer « l'image de $4$ » ?",
           a: "On remplace $x$ par $4$ : $$f(4) = 3 \\times 4 - 5 = 12 - 5 = 7$$ L'image de $4$ par $f$ est $7$."
         },
         {
-          q: "Si $f(2) = 8$, quel nombre est l'antécédent et quel nombre est l'image ?",
-          a: "**$2$ est l'antécédent** et **$8$ est l'image** (on note $x = 2 \\xrightarrow{f} 8$)."
+          q: "Dans un tableau de valeurs, une colonne contient $x = 2$ et, en dessous, $y = 8$. Quelle est la valeur de départ ? la valeur obtenue ? Quel point du graphique correspond à cette colonne ?",
+          a: "**$2$ est la valeur de départ** et **$8$ est la valeur obtenue**. Cette colonne correspond au point de coordonnées $(2 ; 8)$ : abscisse $2$, ordonnée $8$."
         }
       ],
       "4A1": [
@@ -386,6 +403,8 @@
      * Chargement des données Leitner depuis localStorage
      */
     loadStorage() {
+      // Stockage plein ou bloqué : la copie en mémoire est plus récente que ce qui reste lisible.
+      if (window.MathsStorage && window.MathsStorage.isSavingBlocked() && Object.keys(this.leitnerData).length) return;
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
         if (raw) {
@@ -484,7 +503,7 @@
 
       const currentLevel = (window.MathsApp && window.MathsApp.currentLevel) || '3eme';
       const allChapters = window.MATHS_CHAPTERS || [];
-      const chapters = allChapters.filter(c => (c.level || '3eme') === currentLevel);
+      const chapters = allChapters.filter(c => window.MathsChapterLevels.has(c, currentLevel));
 
       const defaultId = (preselectedChapterId && chapters.some(c => c.id === preselectedChapterId))
         ? preselectedChapterId
@@ -540,7 +559,7 @@
      */
     confirmClose() {
       if (this.sessionQueue.length > 0 && this.currentIndex < this.sessionQueue.length) {
-        if (confirm('Voulez-vous vraiment quitter la session de flashcards en cours ? Votre progression actuelle sera conservée.')) {
+        if (confirm('Veux-tu vraiment quitter la session de flashcards en cours ? Ta progression actuelle sera conservée.')) {
           this.closeModal();
         }
       } else {
@@ -592,6 +611,10 @@
         countsByBox[b]++;
       });
 
+      // Sans carte à réviser, « Démarrer » est désactivé et le message en donne la raison
+      const startBtn = document.querySelector('#flashcards-config-screen .modal-footer .btn-primary');
+      if (startBtn) startBtn.disabled = allCards.length === 0;
+
       const summaryEl = document.getElementById('fc-global-stats-summary');
       if (summaryEl) {
         summaryEl.innerHTML = `
@@ -603,10 +626,17 @@
             <span class="fc-box-pill b5" title="Boîte 5 : Mémoire à long terme (Validé !)">🏆 B5 : <strong>${countsByBox[5]}</strong></span>
           </div>
           <div class="fc-total-selected">
-            ${allCards.length} notion${allCards.length > 1 ? 's' : ''} disponible${allCards.length > 1 ? 's' : ''} dans les chapitres cochés
+            ${allCards.length ? `${allCards.length} notion${allCards.length > 1 ? 's' : ''} disponible${allCards.length > 1 ? 's' : ''} dans les chapitres cochés` : this.noCardsMessage(checkedBoxes)}
           </div>
         `;
       }
+    },
+
+    noCardsMessage(checkedChapters) {
+      const levelHasCards = Array.from(document.querySelectorAll('input[name="fc-chap"]')).some(cb => this.getCourseCards(cb.value).length > 0);
+      if (!levelHasCards) return 'Pas encore de flashcards pour ce niveau.';
+      if (!checkedChapters.length) return 'Coche au moins un chapitre pour réviser ses flashcards.';
+      return 'Aucune flashcard dans les chapitres cochés : choisis un chapitre dont le compteur n\'est pas à (0).';
     },
 
     /**
@@ -620,7 +650,7 @@
       } else {
         const checkedBoxes = Array.from(document.querySelectorAll('input[name="fc-chap"]:checked')).map(cb => cb.value);
         if (checkedBoxes.length === 0) {
-          alert('Veuillez cocher au moins un chapitre pour réviser ses flashcards.');
+          window.MathsApp.showToast('Coche au moins un chapitre pour réviser ses flashcards.');
           return;
         }
 
@@ -631,7 +661,7 @@
         });
 
         if (pool.length === 0) {
-          alert('Aucune flashcard trouvée pour les chapitres sélectionnés.');
+          window.MathsApp.showToast('Aucune flashcard trouvée pour les chapitres sélectionnés.');
           return;
         }
 
@@ -661,7 +691,7 @@
           });
         } else {
           // Mélange aléatoire complet
-          pool.sort(() => Math.random() - 0.5);
+          shuffle(pool);
         }
 
         if (this.sessionSize > 0 && pool.length > this.sessionSize) {
@@ -670,7 +700,7 @@
       }
 
       // Mélanger l'ordre initial
-      pool.sort(() => Math.random() - 0.5);
+      shuffle(pool);
 
       this.sessionQueue = pool.map(card => ({
         ...card,
@@ -934,9 +964,9 @@
         countsByBox[state.box]++;
       });
 
-      let motivationalMsg = "Super entraînement ! Votre mémoire à long terme se construit notion par notion.";
+      let motivationalMsg = "Super entraînement ! Ta mémoire à long terme se construit notion par notion.";
       if (pctFirstTry >= 80) {
-        motivationalMsg = "Impressionnant ! Vos notions de cours sont remarquablement bien maîtrisées.";
+        motivationalMsg = "Impressionnant ! Tes notions de cours sont remarquablement bien maîtrisées.";
       } else if (pctFirstTry < 50) {
         motivationalMsg = "Excellent travail d'apprentissage ! Les notions répétées aujourd'hui sont maintenant beaucoup plus solides.";
       }
@@ -967,7 +997,7 @@
         </div>
 
         <div class="fc-box-distribution-section">
-          <h4><span aria-hidden="true">📦</span> État actuel de vos boîtes de mémorisation (Chapitres révisés) :</h4>
+          <h4><span aria-hidden="true">📦</span> État actuel de tes boîtes de mémorisation (Chapitres révisés) :</h4>
           <div class="fc-boxes-strip large">
             <div class="fc-box-col b1">
               <span class="fc-box-num">${countsByBox[1]}</span>

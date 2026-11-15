@@ -1014,22 +1014,22 @@ La différence est de **$1{,}525$ kg**.`
 
 | | Colonne 1 | Colonne 2 | Colonne 3 |
 |:---|:---:|:---:|:---:|
-| **Ligne 1** | $2$ | $a$ | $4$ |
-| **Ligne 2** | $b$ | $3{,}5$ | $c$ |
-| **Ligne 3** | $3$ | $d$ | $e$ |
+| **Ligne 1** | $2$ | case A | $4$ |
+| **Ligne 2** | case B | $3{,}5$ | case C |
+| **Ligne 3** | $3$ | case D | case E |
 
 1. En utilisant la diagonale qui contient $4$, $3{,}5$ et $3$, calculer la somme magique.
-2. Calculer $a$, puis $b$ (justifier par un calcul).
-3. Calculer $c$, $d$ et $e$.
+2. Calculer le nombre de la case A, puis celui de la case B (justifier par un calcul).
+3. Calculer les nombres des cases C, D et E.
 4. Vérifier le résultat avec la colonne de droite et avec l'autre diagonale.`,
       solution: `**1.** $4 + 3{,}5 + 3 = 10{,}5$ : la somme magique est **$10{,}5$**.
 
-**2.** Première ligne : $2 + a + 4 = 10{,}5$, donc $a = 10{,}5 - 6 = 4{,}5$.
-Première colonne : $2 + b + 3 = 10{,}5$, donc $b = 10{,}5 - 5 = 5{,}5$.
+**2.** Première ligne : $2 + \\square + 4 = 10{,}5$, donc la case A contient $10{,}5 - 6 = 4{,}5$.
+Première colonne : $2 + \\square + 3 = 10{,}5$, donc la case B contient $10{,}5 - 5 = 5{,}5$.
 
-**3.** Deuxième ligne : $5{,}5 + 3{,}5 + c = 10{,}5$, donc $c = 10{,}5 - 9 = 1{,}5$.
-Deuxième colonne : $4{,}5 + 3{,}5 + d = 10{,}5$, donc $d = 10{,}5 - 8 = 2{,}5$.
-Troisième ligne : $3 + 2{,}5 + e = 10{,}5$, donc $e = 10{,}5 - 5{,}5 = 5$.
+**3.** Deuxième ligne : $5{,}5 + 3{,}5 + \\square = 10{,}5$, donc la case C contient $10{,}5 - 9 = 1{,}5$.
+Deuxième colonne : $4{,}5 + 3{,}5 + \\square = 10{,}5$, donc la case D contient $10{,}5 - 8 = 2{,}5$.
+Troisième ligne : $3 + 2{,}5 + \\square = 10{,}5$, donc la case E contient $10{,}5 - 5{,}5 = 5$.
 
 **4.** Colonne de droite : $4 + 1{,}5 + 5 = 10{,}5$. Diagonale : $2 + 3{,}5 + 5 = 10{,}5$. Le carré est bien magique.`
     },
@@ -1229,13 +1229,13 @@ Object.assign(window.MATHS_DS_BANK, {
    b) $362 \\times 0{,}01$
    c) $7{,}5 \\times 0{,}001$
 3. Compléter les égalités : $2{,}3 \\times \\ldots = 230$ ; $\\quad \\ldots \\times 0{,}1 = 0{,}48$.`,
-      solution: `Multiplier par 10, 100 ou 1 000, c'est rendre chaque chiffre 10, 100 ou 1 000 fois plus grand : la virgule se déplace de 1, 2 ou 3 rangs vers la droite. Multiplier par $0{,}1$, $0{,}01$ ou $0{,}001$, c'est diviser par 10, 100 ou 1 000 : la virgule se déplace vers la gauche.
+      solution: `Multiplier par 10, 100 ou 1 000, c'est rendre chaque chiffre 10, 100 ou 1 000 fois plus grand : les chiffres avancent de 1, 2 ou 3 rangs vers la gauche. Multiplier par $0{,}1$, $0{,}01$ ou $0{,}001$, c'est diviser par 10, 100 ou 1 000 : les chiffres reculent de 1, 2 ou 3 rangs vers la droite.
 
 **1.** a) $3{,}47 \\times 10 = 34{,}7$ ; b) $0{,}52 \\times 100 = 52$ ; c) $6{,}8 \\times 1\\,000 = 6\\,800$.
 
 **2.** a) $45 \\times 0{,}1 = 4{,}5$ ; b) $362 \\times 0{,}01 = 3{,}62$ ; c) $7{,}5 \\times 0{,}001 = 0{,}0075$.
 
-**3.** $2{,}3 \\times 100 = 230$ (la virgule s'est déplacée de deux rangs vers la droite).
+**3.** $2{,}3 \\times 100 = 230$ (les chiffres ont avancé de deux rangs vers la gauche).
 $4{,}8 \\times 0{,}1 = 0{,}48$ (multiplier par $0{,}1$ revient à diviser par 10, donc le nombre cherché est $0{,}48 \\times 10 = 4{,}8$).`
     },
     {
@@ -1442,7 +1442,7 @@ $$A = 45 \\times 0{,}8 \\qquad B = 45 \\times 1{,}2 \\qquad C = 2{,}5 \\times 0{
 3. Léa affirme : « $0{,}6 \\times 0{,}5$ est forcément plus grand que $0{,}6$, car une multiplication agrandit toujours. » Expliquer son erreur.
 4. Pendant les soldes, un magasin affiche : « Vous payez $0{,}7$ fois le prix initial. » Une veste coûte $64$ € avant les soldes. Combien coûte-t-elle pendant les soldes ? Quelle est l'économie réalisée ?
 5. Par quel nombre faut-il multiplier $8$ pour obtenir $6$ ? Justifier par un calcul.`,
-      solution: `**1.** Règle : multiplier par un nombre plus petit que $1$ donne un résultat plus petit que le nombre de départ ; multiplier par un nombre plus grand que $1$ donne un résultat plus grand ; multiplier par $1$ ne change rien.
+      solution: `**1.** Règle, pour un nombre de départ positif non nul : multiplier par un nombre plus petit que $1$ donne un résultat plus petit que ce nombre ; multiplier par un nombre plus grand que $1$ donne un résultat plus grand ; multiplier par $1$ ne change rien.
 - $A$ : $0{,}8 < 1$, donc $A < 45$.
 - $B$ : $1{,}2 > 1$, donc $B > 45$.
 - $C$ : $0{,}4 < 1$, donc $C < 2{,}5$.
@@ -1451,7 +1451,7 @@ $$A = 45 \\times 0{,}8 \\qquad B = 45 \\times 1{,}2 \\qquad C = 2{,}5 \\times 0{
 
 **2.** $A = 36$ ; $\\ B = 54$ ; $\\ C = 1$ ; $\\ D = 0{,}3$ ; $\\ E = 12$. Les résultats confirment la question 1.
 
-**3.** Multiplier par $0{,}5$, c'est prendre la moitié : $0{,}6 \\times 0{,}5 = 0{,}3$, qui est plus petit que $0{,}6$. Une multiplication n'agrandit que si l'on multiplie par un nombre plus grand que $1$.
+**3.** Multiplier par $0{,}5$, c'est prendre la moitié : $0{,}6 \\times 0{,}5 = 0{,}3$, qui est plus petit que $0{,}6$. Une multiplication n'agrandit un nombre positif non nul que si l'on multiplie par un nombre plus grand que $1$.
 
 **4.** $64 \\times 0{,}7 = 44{,}8$ : la veste coûte **$44{,}80$ €**. L'économie est de $64 - 44{,}80 = 19{,}20$ €.
 
@@ -1601,6 +1601,82 @@ b) $10 \\times 1{,}44 = 14{,}4$ cm : on retrouve bien le résultat de la questio
 
 **5.** Après l'agrandissement : $12$ cm. Après la réduction : $12 \\times 0{,}8 = 9{,}6$ cm.
 Comme $9{,}6 \\neq 10$, Mia **ne retrouve pas** la longueur de départ : réduire avec $0{,}8$ ne « défait » pas un agrandissement avec $1{,}2$ (en effet $1{,}2 \\times 0{,}8 = 0{,}96$, qui n'est pas égal à $1$).`
+    },
+    {
+      id: "6N4-ds-17",
+      title: "Un dixième d'un dixième",
+      difficulty: 1,
+      points: 4,
+      statement: `Sans calculatrice.
+
+1. Un carré a pour côté $0{,}1\\text{ dm}$.
+   a) Quelle est la longueur de son côté, en centimètres ?
+   b) Quelle est son aire en $\\text{cm}^2$, puis en $\\text{dm}^2$ ?
+   c) En déduire la valeur de $0{,}1 \\times 0{,}1$.
+2. On a : $0{,}4 \\times 0{,}3 = (4 \\times 3) \\times (0{,}1 \\times 0{,}1) = 12 \\times 0{,}01 = 0{,}12$. Calculer de la même façon :
+   a) $0{,}7 \\times 0{,}2$
+   b) $0{,}6 \\times 0{,}9$
+   c) $0{,}5 \\times 0{,}03$ (on utilisera $0{,}1 \\times 0{,}01 = 0{,}001$).`,
+      solution: `**1.** a) $0{,}1\\text{ dm} = 1\\text{ cm}$.
+b) Son aire est $1 \\times 1 = 1\\text{ cm}^2$. Comme $1\\text{ dm}^2 = 100\\text{ cm}^2$, on a $1\\text{ cm}^2 = 0{,}01\\text{ dm}^2$.
+c) En décimètres, l'aire du carré est aussi $0{,}1 \\times 0{,}1$. Donc $0{,}1 \\times 0{,}1 = 0{,}01$.
+
+**2.** a) $0{,}7 \\times 0{,}2 = (7 \\times 2) \\times (0{,}1 \\times 0{,}1) = 14 \\times 0{,}01 = 0{,}14$.
+b) $0{,}6 \\times 0{,}9 = (6 \\times 9) \\times (0{,}1 \\times 0{,}1) = 54 \\times 0{,}01 = 0{,}54$.
+c) $0{,}5 \\times 0{,}03 = (5 \\times 3) \\times (0{,}1 \\times 0{,}01) = 15 \\times 0{,}001 = 0{,}015$.`
+    },
+    {
+      id: "6N4-ds-18",
+      title: "Un produit lu dans une aire",
+      difficulty: 2,
+      points: 5,
+      statement: `Sans calculatrice.
+
+Un rectangle mesure $5{,}6\\text{ dm}$ de long et $3{,}2\\text{ dm}$ de large.
+
+1. Donner ses dimensions en centimètres.
+2. Calculer son aire en $\\text{cm}^2$.
+3. Combien y a-t-il de $\\text{cm}^2$ dans $1\\text{ dm}^2$ ? Donner l'aire du rectangle en $\\text{dm}^2$.
+4. En déduire la valeur de $5{,}6 \\times 3{,}2$.
+5. Par la même méthode, calculer $2{,}4 \\times 1{,}5$.`,
+      solution: `**1.** Le rectangle mesure $56\\text{ cm}$ sur $32\\text{ cm}$.
+
+**2.** Son aire est $56 \\times 32 = 1\\,792\\text{ cm}^2$.
+
+**3.** $1\\text{ dm}^2 = 100\\text{ cm}^2$. L'aire du rectangle est donc $1\\,792 \\div 100 = 17{,}92\\text{ dm}^2$.
+
+**4.** En décimètres, cette aire est aussi $5{,}6 \\times 3{,}2$. Donc $5{,}6 \\times 3{,}2 = 17{,}92$.
+
+**5.** Un rectangle de $2{,}4\\text{ dm}$ sur $1{,}5\\text{ dm}$ mesure $24\\text{ cm}$ sur $15\\text{ cm}$. Son aire est $24 \\times 15 = 360\\text{ cm}^2$, soit $3{,}6\\text{ dm}^2$. Donc $2{,}4 \\times 1{,}5 = 3{,}6$.`
+    },
+    {
+      id: "6N4-ds-19",
+      title: "Pourquoi la règle de la virgule fonctionne",
+      difficulty: 3,
+      points: 6,
+      statement: `Sans calculatrice.
+
+1. Compléter : $2{,}3 = 23 \\times \\ldots$ et $1{,}25 = 125 \\times \\ldots$
+2. Recopier et compléter, sachant que $0{,}1 \\times 0{,}01 = 0{,}001$ :
+$$2{,}3 \\times 1{,}25 = (23 \\times 125) \\times (\\ldots \\times \\ldots) = (23 \\times 125) \\times \\ldots$$
+3. On donne $23 \\times 125 = 2\\,875$. En déduire $2{,}3 \\times 1{,}25$.
+4. Noa écrit : « $0{,}3 \\times 0{,}2 = 0{,}6$, car $3 \\times 2 = 6$. » Expliquer son erreur en utilisant $0{,}1 \\times 0{,}1$, puis donner le bon résultat.
+5. On donne $47 \\times 36 = 1\\,692$. Donner, sans poser d'opération :
+   a) $4{,}7 \\times 3{,}6$
+   b) $0{,}47 \\times 3{,}6$
+   c) $0{,}47 \\times 0{,}036$`,
+      solution: `**1.** $2{,}3 = 23 \\times 0{,}1$ et $1{,}25 = 125 \\times 0{,}01$.
+
+**2.** $2{,}3 \\times 1{,}25 = (23 \\times 125) \\times (0{,}1 \\times 0{,}01) = (23 \\times 125) \\times 0{,}001$.
+
+**3.** $2{,}3 \\times 1{,}25 = 2\\,875 \\times 0{,}001 = 2{,}875$. On retrouve la règle : $1 + 2 = 3$ chiffres après la virgule.
+
+**4.** Noa oublie que le produit des deux dixièmes donne un centième : $0{,}3 \\times 0{,}2 = (3 \\times 2) \\times (0{,}1 \\times 0{,}1) = 6 \\times 0{,}01 = 0{,}06$. Le bon résultat est **$0{,}06$**.
+
+**5.** Chaque décimale d'un facteur correspond à une multiplication par $0{,}1$ :
+a) $1 + 1 = 2$ décimales : $4{,}7 \\times 3{,}6 = 16{,}92$.
+b) $2 + 1 = 3$ décimales : $0{,}47 \\times 3{,}6 = 1{,}692$.
+c) $2 + 3 = 5$ décimales : $0{,}47 \\times 0{,}036 = 0{,}01692$.`
     }
   ],
   "6N5": [
@@ -1628,20 +1704,17 @@ Comme $9{,}6 \\neq 10$, Mia **ne retrouve pas** la longueur de départ : réduir
       statement: `On considère les nombres : $120$ ; $235$ ; $342$ ; $4\\,581$ ; $7\\,290$.
 
 1. Lesquels sont divisibles par $2$ ? par $5$ ? par $10$ ? Justifier.
-2. Lesquels sont divisibles par $3$ ? par $9$ ? Justifier.
-3. Quel nombre de cette liste est divisible à la fois par $2$, $3$, $5$, $9$ et $10$ ?`,
+2. Lesquels sont divisibles à la fois par $2$ et par $5$ ? Comparer avec la liste des nombres divisibles par $10$.
+3. On considère le nombre $34\\square$, où $\\square$ désigne un chiffre. Quelles valeurs peut prendre ce chiffre pour que le nombre soit divisible par $5$ ? par $10$ ? par $2$ mais pas par $10$ ?`,
       solution: `**1.** Par 2 : le chiffre des unités est pair (0, 2, 4, 6, 8) : $120$, $342$, $7\\,290$.
 Par 5 : le chiffre des unités est 0 ou 5 : $120$, $235$, $7\\,290$.
 Par 10 : le chiffre des unités est 0 : $120$, $7\\,290$.
 
-**2.** On calcule la somme des chiffres :
-- $120$ : $1 + 2 + 0 = 3$ ; - $235$ : $2 + 3 + 5 = 10$ ; - $342$ : $3 + 4 + 2 = 9$ ;
-- $4\\,581$ : $4 + 5 + 8 + 1 = 18$ ; - $7\\,290$ : $7 + 2 + 9 + 0 = 18$.
+**2.** Les nombres présents à la fois dans la liste « par 2 » et dans la liste « par 5 » sont **$120$ et $7\\,290$**. Ce sont exactement les nombres divisibles par $10$ de la liste : un chiffre des unités qui est pair et qui vaut $0$ ou $5$ ne peut être que $0$.
 
-Divisibles par 3 (somme multiple de 3) : $120$, $342$, $4\\,581$, $7\\,290$.
-Divisibles par 9 (somme multiple de 9) : $342$, $4\\,581$, $7\\,290$.
-
-**3.** Seul **$7\\,290$** apparaît dans toutes les listes.`
+**3.** Divisible par $5$ : le chiffre des unités est $0$ ou $5$, donc le chiffre cherché est **$0$ ou $5$** ($340$ et $345$).
+Divisible par $10$ : le chiffre des unités est $0$, donc le chiffre cherché est **$0$** ($340$).
+Divisible par $2$ mais pas par $10$ : le chiffre des unités est pair sans être $0$, donc le chiffre cherché est **$2$, $4$, $6$ ou $8$** ($342$, $344$, $346$ et $348$).`
     },
     {
       id: "6N5-ds-03",
@@ -1754,15 +1827,16 @@ $195 = 15 \\times 13 + 0$ : chaque élève paie **13 €**. Vérification : $15 
 - s'il les range par $2$, il n'en reste aucun.
 
 1. Que peut-on dire du chiffre des unités de ce nombre ? Justifier.
-2. Que peut-on dire de la somme de ses chiffres ?
-3. Trouver le nombre de chocolats. Expliquer la démarche.
+2. Écrire la liste des nombres compris entre $300$ et $400$ qui ont ce chiffre des unités.
+3. À l'aide de divisions euclidiennes par $9$, trouver le nombre de chocolats. Expliquer la démarche.
 4. Il range finalement ses chocolats dans des boîtes de $12$. Combien de boîtes remplit-il ? Reste-t-il des chocolats ?`,
       solution: `**1.** Le nombre est divisible par 5 et par 2, donc son chiffre des unités est 0 ou 5, et il est pair : **le chiffre des unités est 0**.
 
-**2.** Le nombre est divisible par 9 : **la somme de ses chiffres est un multiple de 9**.
+**2.** Les nombres compris entre 300 et 400 qui se terminent par 0 sont : **300 ; 310 ; 320 ; 330 ; 340 ; 350 ; 360 ; 370 ; 380 ; 390 ; 400**.
 
-**3.** Le nombre s'écrit $3?0$ (entre 300 et 400, unités 0). La somme des chiffres vaut $3 + ? + 0$ ; elle doit être un multiple de 9 : $3 + ? = 9$, donc le chiffre des dizaines est 6 (la somme ne peut pas valoir 18 car $? \\leqslant 9$).
-Le chocolatier a **360 chocolats**. Vérification : $360 = 9 \\times 40 = 5 \\times 72 = 2 \\times 180$.
+**3.** Comme il n'en reste aucun quand on les range par 9, le reste de la division par 9 doit être nul. On teste chaque nombre de la liste :
+$300 = 9 \\times 33 + 3$ ; $310 = 9 \\times 34 + 4$ ; $320 = 9 \\times 35 + 5$ ; $330 = 9 \\times 36 + 6$ ; $340 = 9 \\times 37 + 7$ ; $350 = 9 \\times 38 + 8$ ; $360 = 9 \\times 40 + 0$ ; $370 = 9 \\times 41 + 1$ ; $380 = 9 \\times 42 + 2$ ; $390 = 9 \\times 43 + 3$ ; $400 = 9 \\times 44 + 4$.
+Seule la division de 360 tombe juste : le chocolatier a **360 chocolats**. Vérification : $360 = 9 \\times 40 = 5 \\times 72 = 2 \\times 180$.
 
 **4.** $360 = 12 \\times 30$ : il remplit **30 boîtes** et il ne reste aucun chocolat.`
     },
@@ -1777,7 +1851,7 @@ Le chocolatier a **360 chocolats**. Vérification : $360 = 9 \\times 40 = 5 \\ti
    c) $100$ est un … de $25$.
 2. Écrire la liste de tous les diviseurs de $30$.
 3. Écrire tous les multiples de $13$ compris entre $50$ et $120$.
-4. Le nombre $91$ est-il un multiple de $13$ ? Est-il divisible par $3$ ? Justifier.`,
+4. Le nombre $91$ est-il un multiple de $13$ ? Est-il divisible par $5$ ? Justifier.`,
       solution: `**1.** a) $84 = 7 \\times 12$ : $84$ est un **multiple** de $7$ (et $7$ est un diviseur de $84$).
 b) $54 = 6 \\times 9$ : $6$ est un **diviseur** de $54$.
 c) $100 = 25 \\times 4$ : $100$ est un **multiple** de $25$.
@@ -1788,7 +1862,7 @@ Les diviseurs de $30$ sont : $1$ ; $2$ ; $3$ ; $5$ ; $6$ ; $10$ ; $15$ ; $30$.
 **3.** Les multiples de $13$ sont $13$ ; $26$ ; $39$ ; $52$ ; $65$ ; … Entre $50$ et $120$ : $52$ ; $65$ ; $78$ ; $91$ ; $104$ ; $117$ (le suivant, $130$, dépasse $120$).
 
 **4.** $91 = 13 \\times 7$ : oui, $91$ est un multiple de $13$ (il apparaît dans la liste précédente).
-La somme de ses chiffres est $9 + 1 = 10$, qui n'est pas divisible par $3$ : $91$ **n'est pas** divisible par $3$.`
+Son chiffre des unités est $1$, qui n'est ni $0$ ni $5$ : $91$ **n'est pas** divisible par $5$.`
     },
     {
       id: "6N5-ds-10",
@@ -2355,6 +2429,45 @@ Zoé doit ajouter **$5$ petits morceaux** de $\\frac{1}{8}$ m.`
 **4.** a) Un sixième d'unité mesure $1$ cm, donc $9$ cm correspondent à $9$ sixièmes : l'abscisse de $E$ est $\\frac{9}{6}$.
 b) $\\frac{9}{6} = \\frac{3 \\times 3}{2 \\times 3} = \\frac{3}{2}$, et $\\frac{3}{2} = 3 \\div 2 = 1{,}5$.
 (Vérification : $1{,}5 \\times 6 = 9$ cm.)`
+    },
+    {
+      id: "6N6-ds-17",
+      title: "Arrondir un nombre qui n'est pas décimal",
+      difficulty: 2,
+      points: 5,
+      statement: `1. Poser la division de $1$ par $3$ jusqu'au troisième chiffre après la virgule. Que remarque-t-on ?
+2. Donner l'arrondi de $\\frac{1}{3}$ au dixième, puis au centième.
+3. Calculer $3 \\times 0{,}33$. Le nombre $0{,}33$ est-il égal à $\\frac{1}{3}$ ? Justifier.
+4. On admet que $\\pi = 3{,}14159\\ldots$ Donner l'arrondi de $\\pi$ au dixième, puis au centième.
+5. Donner l'arrondi de $\\frac{5}{7}$ au centième.`,
+      solution: `**1.** $1 \\div 3 = 0{,}333\\ldots$ : à chaque étape il reste $1$, donc le chiffre $3$ se répète et la division ne s'arrête jamais. $\\frac{1}{3}$ n'est pas un nombre décimal.
+
+**2.** Au dixième : le chiffre suivant est $3$, on garde la valeur inférieure, donc $\\frac{1}{3} \\approx 0{,}3$.
+Au centième : le chiffre suivant est encore $3$, donc $\\frac{1}{3} \\approx 0{,}33$.
+
+**3.** $3 \\times 0{,}33 = 0{,}99$. Or $3 \\times \\frac{1}{3} = 1$. Comme $0{,}99$ n'est pas égal à $1$, le nombre $0{,}33$ n'est pas égal à $\\frac{1}{3}$ : ce n'en est qu'une valeur approchée.
+
+**4.** Au dixième : le chiffre des centièmes est $4$, donc $\\pi \\approx 3{,}1$.
+Au centième : le chiffre des millièmes est $1$, donc $\\pi \\approx 3{,}14$.
+
+**5.** $5 \\div 7 = 0{,}714\\ldots$ Le chiffre des millièmes est $4$ : on garde la valeur inférieure, donc $\\frac{5}{7} \\approx 0{,}71$.`
+    },
+    {
+      id: "6N6-ds-18",
+      title: "Inventer un problème avec des fractions",
+      difficulty: 3,
+      points: 4,
+      statement: `1. Inventer un problème dans lequel on partage équitablement $7$ objets identiques entre $4$ personnes et dont la réponse est $\\frac{7}{4}$. Écrire l'énoncé, puis le résoudre.
+2. Inventer un problème dont la résolution demande de comparer les fractions $\\frac{2}{3}$ et $\\frac{5}{6}$. Écrire l'énoncé, puis le résoudre.`,
+      solution: `Plusieurs énoncés sont possibles ; en voici un exemple pour chaque question.
+
+**1.** *Quatre amis se partagent équitablement $7$ tablettes de chocolat. Quelle quantité de chocolat reçoit chacun ?*
+Chacun reçoit $7 \\div 4 = \\frac{7}{4}$ de tablette, soit $1{,}75$ tablette.
+Tout énoncé convient s'il s'agit bien de partager $7$ en $4$ parts égales.
+
+**2.** *Tom parcourt les $\\frac{2}{3}$ d'une piste et Nina les $\\frac{5}{6}$ de la même piste. Qui a parcouru la plus grande distance ?*
+On écrit $\\frac{2}{3}$ avec le dénominateur $6$ : $\\frac{2}{3} = \\frac{2 \\times 2}{3 \\times 2} = \\frac{4}{6}$.
+Comme $4 < 5$, on a $\\frac{4}{6} < \\frac{5}{6}$, donc $\\frac{2}{3} < \\frac{5}{6}$. C'est **Nina** qui a parcouru la plus grande distance.`
     }
   ],
   "6N7": [
@@ -2699,6 +2812,28 @@ Il ne reste alors plus de ruban (elle aura découpé $5 + 3 = 8$ morceaux en tou
 **5.** $\\frac{3}{8} = 3 \\div 8 = 0{,}375$ m, soit $0{,}375 \\times 100 = 37{,}5$ cm.`
     },
     {
+      id: "6N7-ds-17",
+      title: "Le terrain partagé",
+      difficulty: 3,
+      points: 5,
+      statement: `Un terrain est partagé en trois parties : un potager occupe $\\frac{1}{2}$ du terrain, une pelouse en occupe $\\frac{1}{3}$ et le reste est réservé à un poulailler.
+
+1. Écrire $\\frac{1}{2}$ et $\\frac{1}{3}$ avec le dénominateur $6$, puis calculer $\\frac{1}{2} + \\frac{1}{3}$.
+2. En déduire la fraction du terrain occupée par le poulailler.
+3. Le terrain a une aire de $120$ m². Calculer l'aire de chacune des trois parties.
+4. Dans un autre jardin, le potager occupait $\\frac{2}{3}$ du terrain. On l'a agrandi : il en occupe maintenant $\\frac{3}{4}$. De quelle fraction du terrain le potager a-t-il augmenté ?`,
+      solution: `**1.** $\\frac{1}{2} = \\frac{3}{6}$ et $\\frac{1}{3} = \\frac{2}{6}$, donc $\\frac{1}{2} + \\frac{1}{3} = \\frac{3}{6} + \\frac{2}{6} = \\frac{5}{6}$.
+
+**2.** Le terrain entier correspond à $\\frac{6}{6}$. Le poulailler occupe $\\frac{6}{6} - \\frac{5}{6} = \\frac{1}{6}$ du terrain.
+
+**3.** Potager : $120 \\div 2 = 60$ m². Pelouse : $120 \\div 3 = 40$ m². Poulailler : $120 \\div 6 = 20$ m².
+Vérification : $60 + 40 + 20 = 120$ m².
+
+**4.** $3$ et $4$ ne sont pas multiples l'un de l'autre. Un multiple commun est $3 \\times 4 = 12$ :
+$\\frac{2}{3} = \\frac{8}{12}$ et $\\frac{3}{4} = \\frac{9}{12}$.
+$\\frac{9}{12} - \\frac{8}{12} = \\frac{1}{12}$. Le potager a augmenté de $\\frac{1}{12}$ du terrain.`
+    },
+    {
       id: "6N7-ds-16",
       title: "Le jeu des cartes-fractions",
       difficulty: 4,
@@ -2727,6 +2862,27 @@ $\\quad 2 + 5 + 1 = 8$ : $\\frac{1}{4} + \\frac{5}{8} + \\frac{1}{8} = 1$.
 Or $2 = \\frac{16}{8}$ et $\\frac{15}{8} < \\frac{16}{8}$ : même avec toutes les cartes, on n'atteint pas $2$. La cible $2$ est impossible.
 
 **5.** Il manque $\\frac{16}{8} - \\frac{15}{8} = \\frac{1}{8}$ : il faudrait ajouter une deuxième carte $\\frac{1}{8}$.`
+    },
+    {
+      id: "6N7-ds-18",
+      title: "Inventer un problème à partir d'un calcul",
+      difficulty: 3,
+      points: 5,
+      statement: `1. Inventer un problème dont la réponse se calcule par $\\frac{3}{4} \\times 28$. Écrire l'énoncé, puis le résoudre.
+2. Inventer un problème dont la réponse se calcule par $\\frac{2}{7} + \\frac{3}{7}$. Écrire l'énoncé, puis le résoudre.
+3. Un élève propose, pour le calcul $\\frac{2}{5} \\times 30$, l'énoncé suivant : « Une classe compte $30$ élèves. Les $\\frac{2}{5}$ font du sport. Combien d'élèves ne font pas de sport ? »
+   a) Cet énoncé correspond-il au calcul ? Justifier.
+   b) Modifier la question pour qu'il corresponde au calcul.`,
+      solution: `Plusieurs énoncés sont possibles pour les questions 1 et 2 ; en voici un exemple.
+
+**1.** *Un album contient $28$ images ; les $\\frac{3}{4}$ sont en couleur. Combien d'images sont en couleur ?*
+$28 \\div 4 = 7$, puis $7 \\times 3 = 21$ : il y a **$21$ images** en couleur.
+
+**2.** *Une tarte est partagée en $7$ parts égales. Ali en mange $2$ et Mia en mange $3$. Quelle fraction de la tarte a été mangée ?*
+$\\frac{2}{7} + \\frac{3}{7} = \\frac{5}{7}$ : les **$\\frac{5}{7}$** de la tarte ont été mangés.
+
+**3.** a) Non. $\\frac{2}{5} \\times 30 = 12$ donne le nombre d'élèves qui font du sport. Le nombre d'élèves qui n'en font pas est $30 - 12 = 18$, ce qui demande un autre calcul.
+b) Il faut demander : « Combien d'élèves font du sport ? »`
     }
   ]
 });
@@ -3286,13 +3442,13 @@ Comme $\\frac{25}{100} = \\frac{1}{4}$, prendre $25\\,\\%$ revient à prendre le
       title: "Le plan de la maison",
       difficulty: 3,
       points: 5,
-      statement: `Le plan d'une maison est dessiné à l'échelle $\\frac{1}{200}$ : cela signifie que $1$ cm sur le plan représente $200$ cm en réalité.
+      statement: `Sur le plan d'une maison, l'échelle graphique indique que $1$ cm sur le plan représente $2$ m en réalité.
 
-1. Combien de mètres en réalité représente $1$ cm sur le plan ?
+1. Quelle longueur réelle représentent $3$ cm sur le plan ?
 2. Sur le plan, la chambre de Zoé est un rectangle de $2{,}5$ cm sur $1{,}8$ cm. Quelles sont ses dimensions réelles ?
 3. Le couloir mesure $7$ m de long en réalité. Quelle est sa longueur sur le plan ?
 4. Sur le plan, la maison mesure $6{,}5$ cm de long. Quelle est sa longueur réelle ?`,
-      solution: `**1.** $200$ cm $= 2$ m. Donc $1$ cm sur le plan représente $2$ m en réalité.
+      solution: `**1.** $1$ cm représente $2$ m, donc $3$ cm représentent $3 \\times 2 = 6$ m.
 
 **2.** Les longueurs réelles sont proportionnelles aux longueurs du plan, avec un coefficient de $2$ (en passant des cm du plan aux m réels) :
 $2{,}5 \\times 2 = 5$ et $1{,}8 \\times 2 = 3{,}6$.
@@ -3307,14 +3463,13 @@ La chambre mesure $5$ m sur $3{,}6$ m.
       title: "Randonnée sur une carte",
       difficulty: 3,
       points: 5,
-      statement: `Une carte de randonnée est à l'échelle $\\frac{1}{25\\,000}$.
+      statement: `Sur une carte de randonnée, l'échelle graphique indique que $1$ cm sur la carte représente $250$ m en réalité.
 
-1. Que signifie cette échelle ? Montrer que $1$ cm sur la carte représente $250$ m en réalité.
+1. Quelle distance réelle représentent $4$ cm sur la carte ? Donner le résultat en mètres, puis en kilomètres.
 2. Sur la carte, le chemin entre le parking et le lac mesure $8$ cm. Quelle est la distance réelle, en kilomètres ?
 3. Le refuge est à $3{,}5$ km du lac. À quelle distance du lac se trouve-t-il sur la carte ?
 4. La famille de Yanis marche à allure régulière : elle parcourt $1$ km en $15$ minutes. Combien de temps lui faut-il pour aller du parking au lac ?`,
-      solution: `**1.** L'échelle $\\frac{1}{25\\,000}$ signifie que $1$ cm sur la carte représente $25\\,000$ cm en réalité.
-$25\\,000$ cm $= 250$ m. Donc $1$ cm représente $250$ m.
+      solution: `**1.** $1$ cm représente $250$ m, donc $4$ cm représentent $4 \\times 250 = 1\\,000$ m, soit $1$ km.
 
 **2.** $8 \\times 250 = 2\\,000$ m, soit $2$ km. La distance réelle est de $2$ km.
 
@@ -3432,11 +3587,11 @@ b) $15$ g pour $100$ g, c'est $15\\,\\%$ de sucres. Comme $15\\,\\% < 20\\,\\%$,
       points: 5,
       statement: `Tom construit la maquette d'un voilier. Le vrai voilier mesure $12$ m de long et la maquette mesure $30$ cm de long. Toutes les longueurs de la maquette sont proportionnelles aux longueurs réelles.
 
-1. Exprimer $12$ m en centimètres. Par combien faut-il diviser une longueur réelle pour obtenir la longueur sur la maquette ? En déduire l'échelle de la maquette.
+1. Exprimer $12$ m en centimètres. Par combien faut-il diviser une longueur réelle pour obtenir la longueur sur la maquette ? En déduire la longueur réelle représentée par $1$ cm de la maquette.
 2. Le mât du vrai voilier mesure $16$ m. Quelle est la hauteur du mât de la maquette ?
 3. Sur la maquette, la largeur du voilier est de $9$ cm. Quelle est sa largeur réelle, en mètres ?
 4. Tom fabrique un petit personnage pour la maquette. Il veut représenter un marin de $1{,}80$ m. Quelle doit être la taille du personnage, en millimètres ?`,
-      solution: `**1.** $12$ m $= 1\\,200$ cm. $1\\,200 \\div 30 = 40$ : les longueurs de la maquette sont $40$ fois plus petites que les longueurs réelles. L'échelle de la maquette est $\\frac{1}{40}$ ($1$ cm sur la maquette représente $40$ cm en réalité).
+      solution: `**1.** $12$ m $= 1\\,200$ cm. $1\\,200 \\div 30 = 40$ : les longueurs de la maquette sont $40$ fois plus petites que les longueurs réelles. Ainsi, $1$ cm sur la maquette représente $40$ cm en réalité.
 
 **2.** $16$ m $= 1\\,600$ cm et $1\\,600 \\div 40 = 40$. Le mât de la maquette mesure $40$ cm.
 
@@ -3602,7 +3757,7 @@ On lui conseille le **tarif B** ; il économise $37{,}50 - 33 = 4{,}50$ €.`
    d) $650$ cm $= \\ldots$ m
 2. Convertir : a) $0{,}75$ m en mm ; b) $12$ hm en km.
 3. Ranger les longueurs suivantes dans l'ordre croissant : $1{,}2$ km ; $950$ m ; $13\\,000$ dm.`,
-      solution: `On utilise le tableau de conversion : km, hm, dam, m, dm, cm, mm (chaque unité vaut $10$ fois la suivante).
+      solution: `On s'appuie sur les relations entre les unités (dans l'ordre km, hm, dam, m, dm, cm, mm, chaque unité vaut $10$ fois la suivante).
 
 **1.** a) $1$ km $= 1\\,000$ m, donc $3{,}5$ km $= 3{,}5 \\times 1\\,000 = 3\\,500$ m.
 b) $1$ cm $= 10$ mm, donc $47$ mm $= 47 \\div 10 = 4{,}7$ cm.
@@ -3639,14 +3794,14 @@ Ordre croissant : $950$ m $< 1{,}2$ km $< 13\\,000$ dm.`
       points: 5,
       statement: `Dans cet exercice, on prend $3{,}14$ comme valeur approchée de $\\pi$.
 
-1. La roue du vélo de Jade a un diamètre de $70$ cm. Calculer la longueur du cercle formé par le pneu.
+1. La roue du vélo de Jade a un diamètre de $70$ cm. Calculer le périmètre de cette roue.
 2. Quelle distance Jade parcourt-elle lorsque la roue fait $100$ tours ? Donner le résultat en mètres.
-3. Un rond-point a la forme d'un cercle de rayon $15$ m. Calculer la longueur du tour de ce rond-point.`,
-      solution: `La longueur d'un cercle de diamètre $d$ est $P = \\pi \\times d$ (et $d = 2 \\times r$).
+3. Un rond-point a la forme d'un disque de rayon $15$ m. Calculer le périmètre de ce rond-point.`,
+      solution: `Le périmètre d'un disque de diamètre $d$ est $P = \\pi \\times d$ (et $d = 2 \\times r$).
 
-**1.** $P \\approx 3{,}14 \\times 70 = 219{,}8$. La longueur du cercle est environ $219{,}8$ cm.
+**1.** $P \\approx 3{,}14 \\times 70 = 219{,}8$. Le périmètre de la roue est environ $219{,}8$ cm.
 
-**2.** À chaque tour, le vélo avance de la longueur du cercle : $100 \\times 219{,}8 = 21\\,980$ cm.
+**2.** À chaque tour, le vélo avance d'une distance égale au périmètre de la roue : $100 \\times 219{,}8 = 21\\,980$ cm.
 $21\\,980$ cm $= 219{,}8$ m. Jade parcourt environ $219{,}8$ m.
 
 **3.** Le diamètre vaut $d = 2 \\times 15 = 30$ m, donc $P \\approx 3{,}14 \\times 30 = 94{,}2$.
@@ -3683,7 +3838,7 @@ Le tour du rond-point mesure environ $94{,}2$ m.`
 1. Calculer la longueur de l'arc formé par le demi-cercle.
 2. Calculer le périmètre de la fenêtre (le pointillé ne fait pas partie du contour).
 3. On pose un joint tout autour de la fenêtre. Le joint est vendu en rouleaux de $5$ m. Un rouleau suffit-il ? Justifier.`,
-      solution: `**1.** La longueur d'un cercle de diamètre $80$ cm est $3{,}14 \\times 80 = 251{,}2$ cm. Le demi-cercle mesure la moitié : $251{,}2 \\div 2 = 125{,}6$ cm.
+      solution: `**1.** Le périmètre d'un disque de diamètre $80$ cm est $\\pi \\times 80 \\approx 3{,}14 \\times 80 = 251{,}2$ cm. Le demi-cercle mesure la moitié, soit environ $251{,}2 \\div 2 = 125{,}6$ cm.
 
 **2.** Le contour est formé de trois côtés du rectangle (le côté du haut est remplacé par l'arc) :
 $P \\approx 120 + 80 + 120 + 125{,}6 = 445{,}6$ cm.
@@ -3702,9 +3857,9 @@ Le périmètre de la fenêtre est environ $445{,}6$ cm.
 2. Calculer la longueur d'un tour de piste.
 3. Rayan veut courir au moins $3$ km. Combien de tours complets doit-il faire au minimum ?`,
       solution: `**1.** Les deux demi-cercles ont le même diamètre : mis bout à bout, ils forment un cercle complet de diamètre $60$ m.
-Longueur des deux virages : $3{,}14 \\times 60 = 188{,}4$ m.
+Longueur des deux virages : $\\pi \\times 60 \\approx 3{,}14 \\times 60 = 188{,}4$ m.
 
-**2.** Un tour : $100 + 100 + 188{,}4 = 388{,}4$ m.
+**2.** Un tour mesure environ $100 + 100 + 188{,}4 = 388{,}4$ m.
 
 **3.** $3$ km $= 3\\,000$ m.
 $7$ tours : $7 \\times 388{,}4 = 2\\,718{,}8$ m, ce qui est moins que $3\\,000$ m.
@@ -3729,7 +3884,7 @@ Tom : $P = 4 \\times 200 = 800$ m.
 
 **3.** Sur $5$ tours : $5 \\times 15 = 75$ m (on peut vérifier : $5 \\times 800 = 4\\,000$ m et $5 \\times 785 = 3\\,925$ m, $4\\,000 - 3\\,925 = 75$ m). Tom parcourt $75$ m de plus que Lina.
 
-**4.** On cherche $d$ tel que $3{,}14 \\times d = 800$, donc $d = 800 \\div 3{,}14 \\approx 254{,}8$.
+**4.** On cherche $d$ tel que $3{,}14 \\times d \\approx 800$, donc $d \\approx 800 \\div 3{,}14 \\approx 254{,}8$.
 L'étang devrait avoir un diamètre d'environ $255$ m.`
     },
     {
@@ -3739,11 +3894,11 @@ L'étang devrait avoir un diamètre d'environ $255$ m.`
       points: 6,
       statement: `Pour un atelier, des élèves fabriquent des bracelets en fil. Chaque bracelet a la forme d'un cercle de $6{,}5$ cm de diamètre. Pour faire le nœud, on ajoute $3$ cm de fil à chaque bracelet. On prend $3{,}14$ comme valeur approchée de $\\pi$.
 
-1. Calculer la longueur du cercle d'un bracelet. Arrondir au millimètre (au dixième de centimètre).
+1. Calculer le périmètre d'un bracelet. Arrondir au millimètre (au dixième de centimètre).
 2. En déduire la longueur de fil utilisée pour un bracelet.
 3. Le fil est vendu en bobines de $5$ m. Combien de bracelets complets peut-on fabriquer avec une bobine ? Quelle longueur de fil reste-t-il ?
 4. On enfile sur le cercle des perles de $8$ mm de long, collées les unes aux autres. Combien de perles peut-on enfiler au maximum sur un bracelet ?`,
-      solution: `**1.** $3{,}14 \\times 6{,}5 = 20{,}41$. Arrondie au millimètre, la longueur du cercle est $20{,}4$ cm.
+      solution: `**1.** $\\pi \\times 6{,}5 \\approx 3{,}14 \\times 6{,}5 = 20{,}41$. Arrondi au millimètre, le périmètre du bracelet est environ $20{,}4$ cm.
 
 **2.** $20{,}4 + 3 = 23{,}4$. Il faut $23{,}4$ cm de fil par bracelet.
 
@@ -3782,14 +3937,14 @@ On peut enfiler au maximum $25$ perles sur un bracelet.`
 3. Quelle distance parcourt-elle en une journée de $24$ heures ? Donner le résultat en mètres, arrondi au centimètre.
 4. L'aiguille des heures fait un tour complet en $12$ heures. Quelle distance parcourt son extrémité en une journée ?`,
       solution: `**1.** L'extrémité décrit un cercle de rayon $12$ cm, donc de diamètre $2 \\times 12 = 24$ cm.
-Longueur du cercle : $3{,}14 \\times 24 = 75{,}36$ cm. En une heure, elle parcourt environ $75{,}36$ cm.
+Périmètre de ce cercle : $\\pi \\times 24 \\approx 3{,}14 \\times 24 = 75{,}36$ cm. En une heure, elle parcourt environ $75{,}36$ cm.
 
 **2.** $15$ minutes, c'est un quart d'heure : l'aiguille fait un quart de tour. $75{,}36 \\div 4 = 18{,}84$ cm.
 
 **3.** En $24$ heures, l'aiguille fait $24$ tours : $24 \\times 75{,}36 = 1\\,808{,}64$ cm, soit environ $18{,}09$ m.
 
 **4.** En une journée, l'aiguille des heures fait $24 \\div 12 = 2$ tours d'un cercle de diamètre $2 \\times 8 = 16$ cm.
-Un tour : $3{,}14 \\times 16 = 50{,}24$ cm ; deux tours : $2 \\times 50{,}24 = 100{,}48$ cm, soit environ $1$ m.`
+Un tour : $\\pi \\times 16 \\approx 3{,}14 \\times 16 = 50{,}24$ cm ; deux tours : $2 \\times 50{,}24 = 100{,}48$ cm, soit environ $1$ m.`
     },
     {
       id: "6M1-ds-11",
@@ -3802,7 +3957,7 @@ Un tour : $3{,}14 \\times 16 = 50{,}24$ cm ; deux tours : $2 \\times 50{,}24 = 1
 2. En déduire le périmètre de la rosace. Expliquer pourquoi on aurait pu calculer directement la longueur de deux cercles.
 3. La rosace a-t-elle un périmètre plus grand ou plus petit que celui du carré ? De combien ?
 4. On ne trace maintenant les demi-cercles que sur deux côtés opposés du carré. Calculer le périmètre de la nouvelle figure.`,
-      solution: `**1.** Un cercle de diamètre $10$ cm mesure $3{,}14 \\times 10 = 31{,}4$ cm. Un demi-cercle mesure $31{,}4 \\div 2 = 15{,}7$ cm.
+      solution: `**1.** Un cercle de diamètre $10$ cm mesure $\\pi \\times 10 \\approx 3{,}14 \\times 10 = 31{,}4$ cm. Un demi-cercle mesure environ $31{,}4 \\div 2 = 15{,}7$ cm.
 
 **2.** Périmètre de la rosace : $4 \\times 15{,}7 = 62{,}8$ cm.
 Quatre demi-cercles de même diamètre forment deux cercles entiers : $2 \\times 31{,}4 = 62{,}8$ cm.
@@ -3817,18 +3972,18 @@ $P \\approx 31{,}4 + 10 + 10 = 51{,}4$ cm.`
       title: "Les roues du tracteur",
       difficulty: 4,
       points: 6,
-      statement: `Les roues arrière d'un tracteur ont un diamètre de $1{,}5$ m et ses roues avant un diamètre de $0{,}75$ m. On prend $3{,}14$ comme valeur approchée de $\\pi$. Quand une roue fait un tour, le tracteur avance de la longueur du cercle de cette roue.
+      statement: `Les roues arrière d'un tracteur ont un diamètre de $1{,}5$ m et ses roues avant un diamètre de $0{,}75$ m. On prend $3{,}14$ comme valeur approchée de $\\pi$. Quand une roue fait un tour, le tracteur avance d'une distance égale au périmètre de cette roue.
 
-1. Calculer la longueur du cercle d'une roue arrière, puis celle d'une roue avant.
+1. Calculer le périmètre d'une roue arrière, puis celui d'une roue avant.
 2. Pendant un trajet, une roue arrière fait $200$ tours. Quelle distance le tracteur a-t-il parcourue ?
 3. Combien de tours une roue avant a-t-elle faits pendant ce même trajet ? Expliquer pourquoi ce résultat était prévisible en comparant les diamètres.
 4. Le fermier doit parcourir $3$ km pour rejoindre son champ. Combien de tours complets une roue arrière doit-elle faire, au minimum, pour qu'il ait parcouru au moins cette distance ?`,
-      solution: `**1.** Roue arrière : $3{,}14 \\times 1{,}5 = 4{,}71$ m. Roue avant : $3{,}14 \\times 0{,}75 = 2{,}355$ m.
+      solution: `**1.** Roue arrière : $\\pi \\times 1{,}5 \\approx 3{,}14 \\times 1{,}5 = 4{,}71$ m. Roue avant : $\\pi \\times 0{,}75 \\approx 3{,}14 \\times 0{,}75 = 2{,}355$ m.
 
 **2.** $200 \\times 4{,}71 = 942$. Le tracteur a parcouru environ $942$ m.
 
 **3.** $942 \\div 2{,}355 = 400$. Une roue avant a fait $400$ tours.
-C'était prévisible : le diamètre de la roue avant est la moitié de celui de la roue arrière ($1{,}5 \\div 2 = 0{,}75$), donc sa longueur de cercle est aussi deux fois plus petite. Pour parcourir la même distance, elle doit faire deux fois plus de tours : $2 \\times 200 = 400$.
+C'était prévisible : le diamètre de la roue avant est la moitié de celui de la roue arrière ($1{,}5 \\div 2 = 0{,}75$), donc son périmètre est aussi deux fois plus petit. Pour parcourir la même distance, elle doit faire deux fois plus de tours : $2 \\times 200 = 400$.
 
 **4.** $3$ km $= 3\\,000$ m.
 $636 \\times 4{,}71 = 2\\,995{,}56$ m : c'est moins que $3\\,000$ m.
@@ -3888,7 +4043,7 @@ Le côté vertical marqué « ? » : la hauteur totale à gauche est $7$ cm, et 
 4. Un élément coûte $12{,}50$ €. Calculer le prix de la bordure.`,
       solution: `**1.** Le diamètre est le double du rayon : $2 \\times 3{,}5 = 7$ m.
 
-**2.** La longueur d'un cercle est $\\pi \\times$ diamètre : $L \\approx 3{,}14 \\times 7 = 21{,}98$ m.
+**2.** Le périmètre d'un disque est égal à $\\pi \\times$ diamètre : $P \\approx 3{,}14 \\times 7 = 21{,}98$ m.
 
 **3.** $50$ cm $= 0{,}5$ m. Il faut $2$ éléments par mètre : $21{,}98 \\times 2 = 43{,}96$.
 $43$ éléments ne couvrent que $21{,}5$ m, ce qui ne suffit pas : il faut acheter **$44$ éléments** au minimum.
@@ -3914,17 +4069,46 @@ $43$ éléments ne couvrent que $21{,}5$ m, ce qui ne suffit pas : il faut achet
 3. Calculer la longueur du chemin 3.
 4. Que remarque-t-on ? Expliquer pourquoi, sans refaire de calcul, le résultat serait le même avec $6$ demi-cercles.
 5. Combien de mètres de plus que la ligne droite parcourt-on en suivant l'un de ces chemins ?`,
-      solution: `**1.** Un cercle de diamètre $12$ m mesure environ $3{,}14 \\times 12 = 37{,}68$ m. Le chemin 1 est un demi-cercle : $37{,}68 \\div 2 = 18{,}84$ m.
+      solution: `**1.** Un cercle de diamètre $12$ m mesure $\\pi \\times 12 \\approx 3{,}14 \\times 12 = 37{,}68$ m. Le chemin 1 est un demi-cercle, il mesure environ $37{,}68 \\div 2 = 18{,}84$ m.
 
 **2.** a) Les deux diamètres mis bout à bout font $12$ m : chaque diamètre mesure $12 \\div 2 = 6$ m.
-b) Un demi-cercle de diamètre $6$ m mesure $3{,}14 \\times 6 \\div 2 = 9{,}42$ m. Le chemin 2 mesure $2 \\times 9{,}42 = 18{,}84$ m.
+b) Un demi-cercle de diamètre $6$ m mesure $\\pi \\times 6 \\div 2 \\approx 3{,}14 \\times 6 \\div 2 = 9{,}42$ m. Le chemin 2 mesure environ $2 \\times 9{,}42 = 18{,}84$ m.
 
-**3.** Chaque diamètre mesure $12 \\div 4 = 3$ m. Un demi-cercle mesure $3{,}14 \\times 3 \\div 2 = 4{,}71$ m, et le chemin 3 mesure $4 \\times 4{,}71 = 18{,}84$ m.
+**3.** Chaque diamètre mesure $12 \\div 4 = 3$ m. Un demi-cercle mesure $\\pi \\times 3 \\div 2 \\approx 3{,}14 \\times 3 \\div 2 = 4{,}71$ m, et le chemin 3 mesure environ $4 \\times 4{,}71 = 18{,}84$ m.
 
 **4.** Les trois chemins ont **la même longueur**, environ $18{,}84$ m.
 Explication : la longueur d'un demi-cercle est la moitié de $\\pi \\times$ son diamètre. En additionnant les demi-cercles, on obtient la moitié de $\\pi \\times$ (somme des diamètres). Or la somme des diamètres vaut toujours $AB = 12$ m, quel que soit le nombre de demi-cercles. Avec $6$ demi-cercles, on trouverait donc aussi $18{,}84$ m.
 
 **5.** $18{,}84 - 12 = 6{,}84$ m de plus que la ligne droite.`
+    },
+    {
+      id: "6M1-ds-17",
+      title: "Mesurer le tour d'objets ronds",
+      difficulty: 2,
+      points: 5,
+      statement: `Des élèves entourent des objets ronds d'une ficelle pour mesurer leur tour $P$, puis ils mesurent leur diamètre $d$. Voici leurs résultats.
+
+| Objet | Tour $P$ (en cm) | Diamètre $d$ (en cm) |
+|:---|:---:|:---:|
+| Gobelet | $28$ | $9$ |
+| Couvercle | $44$ | $14$ |
+| Assiette | $72{,}5$ | $23$ |
+| Roue de trottinette | $157$ | $50$ |
+
+1. Pour chaque objet, calculer le quotient $P \\div d$, arrondi au centième.
+2. Que constate-t-on ? De quel nombre connu ces quotients sont-ils proches ?
+3. Compléter la phrase : « Le périmètre d'un disque vaut un peu plus de … fois son diamètre. »
+4. Une table ronde a un diamètre de $120$ cm. Sans utiliser la formule, donner deux nombres entre lesquels se trouve son périmètre.
+5. Calculer une valeur approchée du périmètre de cette table, en prenant $3{,}14$ comme valeur approchée de $\\pi$. Vérifier la cohérence avec la question 4.`,
+      solution: `**1.** Gobelet : $28 \\div 9 \\approx 3{,}11$. Couvercle : $44 \\div 14 \\approx 3{,}14$. Assiette : $72{,}5 \\div 23 \\approx 3{,}15$. Roue de trottinette : $157 \\div 50 = 3{,}14$.
+
+**2.** Les quotients sont presque égaux, quel que soit l'objet, et proches du nombre $\\pi$, qui vaut environ $3{,}14$. Les petits écarts viennent de la précision des mesures.
+
+**3.** Le périmètre d'un disque vaut un peu plus de **$3$** fois son diamètre.
+
+**4.** $3 \\times 120 = 360$ et $4 \\times 120 = 480$ : le périmètre de la table est compris entre $360$ cm et $480$ cm.
+
+**5.** $P = \\pi \\times 120 \\approx 3{,}14 \\times 120 = 376{,}8$ cm. Cette valeur est bien comprise entre $360$ cm et $480$ cm.`
     }
   ],
   "6M2": [
@@ -3953,19 +4137,19 @@ Le périmètre est une longueur (en m) et l'aire une surface (en m²) : ce ne so
       points: 4,
       statement: `1. Recopier et compléter :
    a) $5$ m² $= \\ldots$ dm²
-   b) $3$ cm² $= \\ldots$ mm²
-   c) $2\\,500$ cm² $= \\ldots$ m²
+   b) $3$ dm² $= \\ldots$ cm²
+   c) $2\\,500$ cm² $= \\ldots$ dm²
    d) $7$ dm² $= \\ldots$ m²
-2. Convertir $0{,}6$ m² en cm².
+2. Convertir $0{,}6$ m² en dm², puis convertir le résultat en cm².
 3. Expliquer pourquoi $1$ m² $= 100$ dm² et non $10$ dm².`,
-      solution: `Dans le tableau des unités d'aire, on passe d'une unité à la suivante en multipliant par $100$ (deux colonnes par unité).
+      solution: `On utilise les égalités $1$ m² $= 100$ dm² et $1$ dm² $= 100$ cm².
 
 **1.** a) $5$ m² $= 5 \\times 100 = 500$ dm².
-b) $3$ cm² $= 3 \\times 100 = 300$ mm².
-c) $1$ m² $= 10\\,000$ cm², donc $2\\,500$ cm² $= 2\\,500 \\div 10\\,000 = 0{,}25$ m².
+b) $3$ dm² $= 3 \\times 100 = 300$ cm².
+c) $2\\,500$ cm² $= 2\\,500 \\div 100 = 25$ dm².
 d) $7$ dm² $= 7 \\div 100 = 0{,}07$ m².
 
-**2.** $0{,}6$ m² $= 0{,}6 \\times 10\\,000 = 6\\,000$ cm².
+**2.** $0{,}6$ m² $= 0{,}6 \\times 100 = 60$ dm², puis $60$ dm² $= 60 \\times 100 = 6\\,000$ cm².
 
 **3.** Un carré de $1$ m de côté mesure $10$ dm de côté : on peut le paver avec $10$ rangées de $10$ carrés de $1$ dm de côté, soit $10 \\times 10 = 100$ dm².`
     },
@@ -4112,12 +4296,13 @@ $3 \\times 19{,}90 = 59{,}70$. Emma dépensera $59{,}70$ €.`
       points: 4,
       statement: `1. Un tapis rectangulaire mesure $1{,}2$ m de long et $80$ cm de large.
    a) Calculer son aire en cm².
-   b) Convertir cette aire en m².
+   b) Convertir cette aire en dm², puis en m².
 2. Une dalle carrée mesure $4{,}5$ dm de côté. Calculer son aire en dm², puis en cm².
 3. Ranger dans l'ordre croissant les aires suivantes : $0{,}5$ m² ; $4\\,800$ cm² ; $52$ dm².`,
       solution: `**1.** a) Il faut exprimer les deux dimensions dans la même unité : $1{,}2$ m $= 120$ cm.
 $\\mathcal{A} = 120 \\times 80 = 9\\,600$ cm².
-b) $1$ m² $= 10\\,000$ cm², donc $9\\,600$ cm² $= 9\\,600 \\div 10\\,000 = 0{,}96$ m².
+b) Comme $1$ dm² $= 100$ cm², $9\\,600$ cm² $= 9\\,600 \\div 100 = 96$ dm².
+Comme $1$ m² $= 100$ dm², $96$ dm² $= 96 \\div 100 = 0{,}96$ m².
 (Vérification : $1{,}2 \\times 0{,}8 = 0{,}96$ m².)
 
 **2.** $\\mathcal{A} = 4{,}5 \\times 4{,}5 = 20{,}25$ dm². Comme $1$ dm² $= 100$ cm², cela fait $2\\,025$ cm².
@@ -4220,7 +4405,7 @@ b) La figure $A$ recouvre toujours $12$ carreaux : $12 \\times 25 = 300$ mm².`
     },
     {
       id: "6M2-ds-14",
-      title: "Le champ de blé",
+      title: "Pour aller plus loin : le champ de blé (ares et hectares)",
       difficulty: 2,
       points: 5,
       statement: `On rappelle que $1$ a (are) $= 100$ m² et $1$ ha (hectare) $= 10\\,000$ m².
@@ -4311,25 +4496,52 @@ Le **partage 1** est le moins cher, de $960 - 720 = 240$ € (c'est le prix des 
 
 **6.** Périmètre de $P_1$ : $2 \\times (20 + 30) = 100$ m. Périmètre de $Q_1$ : $2 \\times (60 + 10) = 140$ m.
 Les deux parcelles ont la même aire ($600$ m²) mais pas le même périmètre : **non**, aire égale n'entraîne pas périmètre égal.`
+    },
+    {
+      id: "6M2-ds-17",
+      title: "Comparer des aires sans les mesurer",
+      difficulty: 2,
+      points: 5,
+      statement: `On découpe la figure 1, un carré de $4$ cm de côté, le long du pointillé. On recolle les deux morceaux, sans trou ni chevauchement, pour former la figure 2, un rectangle de $8$ cm sur $2$ cm.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:360px;"><svg class="geo-svg-figure" viewBox="0 0 320 120" width="320" height="120" style="width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img"><rect x="20" y="10" width="80" height="40" fill="#bfdbfe"/><rect x="20" y="50" width="80" height="40" fill="#bbf7d0"/><rect x="20" y="10" width="80" height="80" fill="none" stroke="#334155" stroke-width="2"/><line x1="20" y1="50" x2="100" y2="50" stroke="#334155" stroke-width="1.6" stroke-dasharray="5 4"/><rect x="140" y="50" width="80" height="40" fill="#bfdbfe"/><rect x="220" y="50" width="80" height="40" fill="#bbf7d0"/><rect x="140" y="50" width="160" height="40" fill="none" stroke="#334155" stroke-width="2"/><line x1="220" y1="50" x2="220" y2="90" stroke="#334155" stroke-width="1.6" stroke-dasharray="5 4"/><text x="60" y="110" text-anchor="middle" font-size="13" font-weight="700" fill="var(--text-main, #334155)">Figure 1</text><text x="220" y="110" text-anchor="middle" font-size="13" font-weight="700" fill="var(--text-main, #334155)">Figure 2</text></svg></div>
+
+1. Sans rien mesurer ni calculer, comparer les aires des figures 1 et 2. Justifier.
+2. Calculer le périmètre de chacune des deux figures. Que constate-t-on ?
+3. Vérifier la réponse à la question 1 en calculant l'aire de chaque figure.
+4. Un carré de $3$ cm de côté, posé sur la figure 1, tient entièrement à l'intérieur de celle-ci. Sans calculer, comparer son aire à celle de la figure 1.
+5. Léo affirme : « Si une figure a un plus grand périmètre qu'une autre, elle a aussi une plus grande aire. » Montrer qu'il a tort en comparant la figure 1 et un rectangle de $9$ cm sur $1$ cm.`,
+      solution: `**1.** Les figures 1 et 2 sont formées des mêmes morceaux, recollés sans trou ni chevauchement : elles ont **la même aire**.
+
+**2.** Figure 1 : $4 \\times 4 = 16$ cm. Figure 2 : $2 \\times (8 + 2) = 2 \\times 10 = 20$ cm.
+Les périmètres sont différents : découper et recoller conserve l'aire, mais pas toujours le périmètre.
+
+**3.** Figure 1 : $4 \\times 4 = 16$ cm². Figure 2 : $8 \\times 2 = 16$ cm². Les deux aires sont bien égales.
+
+**4.** Ce carré tient entièrement à l'intérieur de la figure 1 : son aire est **plus petite** que celle de la figure 1.
+
+**5.** Le rectangle de $9$ cm sur $1$ cm a pour périmètre $2 \\times (9 + 1) = 20$ cm, ce qui est plus grand que le périmètre de la figure 1 ($16$ cm). Pourtant, son aire vaut $9 \\times 1 = 9$ cm², ce qui est plus petit que l'aire de la figure 1 ($16$ cm²). Léo a donc tort.`
     }
   ],
   "6M3": [
     {
       id: "6M3-ds-01",
-      title: "Volumes de pavés et de cubes",
+      title: "Compter par couches",
       difficulty: 1,
       points: 4,
-      statement: `1. Calculer le volume d'un pavé droit de longueur $5$ cm, de largeur $3$ cm et de hauteur $4$ cm.
-2. Calculer le volume d'un cube d'arête $6$ cm.
-3. Calculer le volume d'une boîte en forme de pavé droit de $12$ cm sur $10$ cm sur $2{,}5$ cm.
-4. Un cube a un volume de $8$ cm³. Quelle est la longueur de son arête ?`,
-      solution: `**1.** Volume d'un pavé droit : $V = L \\times \\ell \\times h = 5 \\times 3 \\times 4 = 60$ cm³.
+      statement: `On construit des solides pleins avec des cubes de $1$ cm d'arête.
 
-**2.** Volume d'un cube : $V = c \\times c \\times c = 6 \\times 6 \\times 6 = 216$ cm³.
+1. Un pavé droit a $5$ cubes de long, $3$ cubes de large et $4$ cubes de haut. Quel est son volume ?
+2. Un cube a $6$ petits cubes sur chaque arête. Quel est son volume ?
+3. Un pavé droit est formé de $2$ couches identiques ; chaque couche compte $12$ rangées de $10$ cubes. Quel est son volume ?
+4. Un cube est construit avec $8$ petits cubes. Combien de petits cubes y a-t-il sur une arête ?`,
+      solution: `**1.** Une couche contient $5 \\times 3 = 15$ cubes. Il y a $4$ couches : $15 \\times 4 = 60$ cubes. Chaque cube a un volume de $1$ cm³, donc le volume du pavé est $60$ cm³.
 
-**3.** $V = 12 \\times 10 \\times 2{,}5 = 120 \\times 2{,}5 = 300$ cm³.
+**2.** Une couche contient $6 \\times 6 = 36$ petits cubes et il y a $6$ couches : $36 \\times 6 = 216$. Le volume du cube est $216$ cm³.
 
-**4.** On cherche un nombre $c$ tel que $c \\times c \\times c = 8$ : $2 \\times 2 \\times 2 = 8$. L'arête mesure $2$ cm.`
+**3.** Une couche contient $12 \\times 10 = 120$ cubes. Avec $2$ couches : $120 \\times 2 = 240$ cubes. Le volume est $240$ cm³.
+
+**4.** $2 \\times 2 \\times 2 = 8$ : il y a $2$ petits cubes sur chaque arête.`
     },
     {
       id: "6M3-ds-02",
@@ -4346,22 +4558,22 @@ Les deux parcelles ont la même aire ($600$ m²) mais pas le même périmètre :
 
 **2.** Avec $2$ couches : $2 \\times 12 = 24$ cubes.
 
-**3.** Chaque cube a un volume de $1$ cm³ (cube de $1$ cm d'arête). Le pavé a donc un volume de $24$ cm³. On retrouve $V = 4 \\times 3 \\times 2 = 24$ cm³.
+**3.** Chaque cube a un volume de $1$ cm³ (cube de $1$ cm d'arête). Le pavé a donc un volume de $24$ cm³. On retrouve $\\mathcal{V} = 4 \\times 3 \\times 2 = 24$ cm³.
 
 **4.** $3 \\times 12 = 36$. Le nouveau volume est de $36$ cm³.`
     },
     {
       id: "6M3-ds-03",
-      title: "Remplir un aquarium",
+      title: "Pour aller plus loin : remplir un aquarium",
       difficulty: 2,
       points: 5,
-      statement: `Un aquarium a la forme d'un pavé droit de $50$ cm de long, $30$ cm de large et $40$ cm de haut. On rappelle que $1$ L $= 1$ dm³ $= 1\\,000$ cm³.
+      statement: `Un aquarium a la forme d'un pavé droit de $50$ cm de long, $30$ cm de large et $40$ cm de haut. On admet que $1$ L $= 1\\,000$ cm³.
 
 1. Calculer le volume de l'aquarium en cm³.
 2. Exprimer ce volume en litres.
 3. On remplit l'aquarium d'eau jusqu'à une hauteur de $32$ cm. Quel volume d'eau, en litres, contient-il ?
 4. Quel volume d'eau faudrait-il ajouter pour le remplir à ras bord ?`,
-      solution: `**1.** $V = 50 \\times 30 \\times 40 = 60\\,000$ cm³.
+      solution: `**1.** $\\mathcal{V} = 50 \\times 30 \\times 40 = 60\\,000$ cm³.
 
 **2.** $60\\,000 \\div 1\\,000 = 60$. L'aquarium a une contenance de $60$ L.
 
@@ -4371,10 +4583,10 @@ Les deux parcelles ont la même aire ($600$ m²) mais pas le même périmètre :
     },
     {
       id: "6M3-ds-04",
-      title: "Litres et centimètres cubes",
+      title: "Pour aller plus loin : litres et centimètres cubes",
       difficulty: 2,
       points: 4,
-      statement: `On rappelle que $1$ L $= 1$ dm³ $= 1\\,000$ cm³ et que $1$ L $= 100$ cL.
+      statement: `On admet que $1$ L $= 1$ dm³ $= 1\\,000$ cm³, et on rappelle que $1$ L $= 100$ cL.
 
 1. Convertir : a) $2\\,500$ cm³ en L ; b) $0{,}75$ L en cm³ ; c) $3$ dm³ en L ; d) $20$ cL en cm³.
 2. Une brique de jus a la forme d'un pavé droit de $10$ cm sur $6$ cm sur $4$ cm. Calculer son volume.
@@ -4384,7 +4596,7 @@ b) $0{,}75$ L $= 0{,}75 \\times 1\\,000 = 750$ cm³.
 c) $1$ dm³ $= 1$ L, donc $3$ dm³ $= 3$ L.
 d) $20$ cL $= 0{,}2$ L $= 0{,}2 \\times 1\\,000 = 200$ cm³.
 
-**2.** $V = 10 \\times 6 \\times 4 = 240$ cm³.
+**2.** $\\mathcal{V} = 10 \\times 6 \\times 4 = 240$ cm³.
 
 **3.** $20$ cL $= 200$ cm³ et $200 < 240$. La brique peut contenir $20$ cL de jus.`
     },
@@ -4395,10 +4607,10 @@ d) $20$ cL $= 0{,}2$ L $= 0{,}2 \\times 1\\,000 = 200$ cm³.
       points: 5,
       statement: `Des morceaux de sucre ont la forme de pavés droits de $2$ cm de long, $1$ cm de large et $1$ cm de haut. On les range, tous dans le même sens, dans une boîte en forme de pavé droit de $12$ cm de long, $6$ cm de large et $4$ cm de haut, en plaçant la longueur des sucres dans la longueur de la boîte.
 
-1. Calculer le volume de la boîte et celui d'un morceau de sucre.
+1. En imaginant la boîte remplie de cubes de $1$ cm d'arête, calculer son volume en cm³. Quel est le volume d'un morceau de sucre ?
 2. Combien de morceaux peut-on aligner dans la longueur de la boîte ? Dans la largeur ? Combien de couches peut-on empiler ?
 3. Combien de morceaux de sucre la boîte peut-elle contenir ? Vérifier ce résultat avec les volumes.`,
-      solution: `**1.** Boîte : $V = 12 \\times 6 \\times 4 = 288$ cm³. Sucre : $V = 2 \\times 1 \\times 1 = 2$ cm³.
+      solution: `**1.** Boîte : une couche contient $12 \\times 6 = 72$ cubes de $1$ cm d'arête et il y a $4$ couches, soit $72 \\times 4 = 288$ cubes : le volume est $288$ cm³. Un morceau de sucre correspond à $2$ cubes de $1$ cm d'arête : son volume est $2$ cm³.
 
 **2.** Dans la longueur : $12 \\div 2 = 6$ morceaux. Dans la largeur : $6 \\div 1 = 6$ morceaux. En hauteur : $4 \\div 1 = 4$ couches.
 
@@ -4415,26 +4627,26 @@ Vérification : $288 \\div 2 = 144$ ; les sucres remplissent exactement la boît
 1. Calculer le volume du cube et celui du pavé. Que remarque-t-on ?
 2. Léo construit un grand cube dont l'arête est le double de celle du petit cube. Calculer le volume du grand cube.
 3. Léo pense que le volume du grand cube est le double de celui du petit. A-t-il raison ? Combien de petits cubes faut-il pour remplir le grand cube ?`,
-      solution: `**1.** Cube : $V = 4 \\times 4 \\times 4 = 64$ cm³. Pavé : $V = 8 \\times 4 \\times 2 = 64$ cm³.
+      solution: `**1.** Comptons en cubes de $1$ cm d'arête. Cube : $4$ couches de $4 \\times 4 = 16$ cubes, soit $16 \\times 4 = 64$ cubes, donc $64$ cm³. Pavé : $2$ couches de $8 \\times 4 = 32$ cubes, soit $32 \\times 2 = 64$ cubes, donc $64$ cm³.
 Les deux solides ont le même volume, alors qu'ils n'ont pas la même forme.
 
-**2.** L'arête du grand cube mesure $2 \\times 4 = 8$ cm : $V = 8 \\times 8 \\times 8 = 512$ cm³.
+**2.** L'arête du grand cube mesure $2 \\times 4 = 8$ cm. Il contient $8$ couches de $8 \\times 8 = 64$ cubes de $1$ cm d'arête, soit $64 \\times 8 = 512$ cubes : son volume est $512$ cm³.
 
 **3.** Le double de $64$ cm³ est $128$ cm³, et non $512$ cm³ : Léo a tort.
 $512 \\div 64 = 8$ : il faut $8$ petits cubes pour remplir le grand ($2$ dans la longueur, $2$ dans la largeur et $2$ en hauteur, soit $2 \\times 2 \\times 2 = 8$).`
     },
     {
       id: "6M3-ds-07",
-      title: "La piscine gonflable",
+      title: "Pour aller plus loin : la piscine gonflable",
       difficulty: 4,
       points: 6,
-      statement: `Une piscine gonflable a la forme d'un pavé droit de $3$ m de long, $2$ m de large et $0{,}6$ m de profondeur. On la remplit d'eau jusqu'à $50$ cm de hauteur. On rappelle que $1$ m³ $= 1\\,000$ L.
+      statement: `Une piscine gonflable a la forme d'un pavé droit de $3$ m de long, $2$ m de large et $0{,}6$ m de profondeur. On la remplit d'eau jusqu'à $50$ cm de hauteur. On admet que $1$ m³ $= 1\\,000$ L.
 
 1. Calculer le volume d'eau dans la piscine, en m³, puis en litres.
 2. Le tuyau d'arrosage débite $12$ L d'eau par minute. Combien de temps faut-il pour remplir la piscine jusqu'à $50$ cm ? Donner le résultat en heures et minutes.
 3. Le remplissage commence à $14$ h $15$. À quelle heure sera-t-il terminé ?
 4. L'eau coûte $4$ € le m³. Combien coûte le remplissage ?`,
-      solution: `**1.** $50$ cm $= 0{,}5$ m. $V = 3 \\times 2 \\times 0{,}5 = 3$ m³, soit $3 \\times 1\\,000 = 3\\,000$ L.
+      solution: `**1.** $50$ cm $= 0{,}5$ m. $\\mathcal{V} = 3 \\times 2 \\times 0{,}5 = 3$ m³, soit $3 \\times 1\\,000 = 3\\,000$ L.
 
 **2.** $3\\,000 \\div 12 = 250$ minutes. Or $250 = 4 \\times 60 + 10$, donc $250$ min $= 4$ h $10$ min.
 
@@ -4447,74 +4659,78 @@ $512 \\div 64 = 8$ : il faut $8$ petits cubes pour remplir le grand ($2$ dans la
       title: "Charger le camion de déménagement",
       difficulty: 4,
       points: 6,
-      statement: `L'espace de chargement d'un camion est un pavé droit de $4$ m de long, $2$ m de large et $2$ m de haut. On veut y ranger des cartons cubiques de $50$ cm d'arête.
+      statement: `L'espace de chargement d'un camion est un pavé droit de $4$ m de long, $2$ m de large et $2$ m de haut. On y range des cartons cubiques de $50$ cm d'arête, en couches régulières.
 
-1. Calculer le volume de l'espace de chargement, en m³.
-2. Combien de cartons peut-on ranger dans la longueur ? Dans la largeur ? En hauteur ? En déduire le nombre maximal de cartons.
-3. Calculer le volume d'un carton en m³ et vérifier le résultat de la question 2.
-4. La famille Martin charge $90$ cartons. Il reste aussi une armoire de $2$ m sur $1$ m sur $0{,}6$ m. Le volume restant est-il suffisant pour l'armoire ?`,
-      solution: `**1.** $V = 4 \\times 2 \\times 2 = 16$ m³.
+1. Combien de cartons peut-on aligner dans la longueur ? Dans la largeur ? Combien de couches peut-on empiler ?
+2. Combien de cartons une couche contient-elle ? En déduire le nombre maximal de cartons dans le camion.
+3. La famille Martin charge $90$ cartons, en remplissant les couches l'une après l'autre.
+   a) Combien de couches complètes obtient-elle ? Combien de cartons y a-t-il sur la couche suivante ?
+   b) Combien de cartons pourrait-on encore charger ?
+4. Pour un autre chargement, on utilise des cartons cubiques de $25$ cm d'arête. Combien peut-on en ranger dans le camion ? Combien de fois plus que de cartons de $50$ cm ? Expliquer ce résultat en imaginant un carton de $50$ cm rempli de cartons de $25$ cm.`,
+      solution: `**1.** $4$ m $= 400$ cm et $2$ m $= 200$ cm. Longueur : $400 \\div 50 = 8$ cartons ; largeur : $200 \\div 50 = 4$ cartons ; hauteur : $200 \\div 50 = 4$ couches.
 
-**2.** $50$ cm $= 0{,}5$ m. Longueur : $4 \\div 0{,}5 = 8$ cartons ; largeur : $2 \\div 0{,}5 = 4$ ; hauteur : $2 \\div 0{,}5 = 4$.
-Nombre maximal : $8 \\times 4 \\times 4 = 128$ cartons.
+**2.** Une couche contient $8 \\times 4 = 32$ cartons. Avec $4$ couches : $32 \\times 4 = 128$ cartons au maximum.
 
-**3.** Un carton : $0{,}5 \\times 0{,}5 \\times 0{,}5 = 0{,}125$ m³. $16 \\div 0{,}125 = 128$ : on retrouve $128$ cartons.
+**3.** a) $2 \\times 32 = 64$ et $3 \\times 32 = 96$ : on obtient $2$ couches complètes. Il reste $90 - 64 = 26$ cartons sur la troisième couche.
+b) $128 - 90 = 38$. On pourrait encore charger $38$ cartons.
 
-**4.** $90$ cartons occupent $90 \\times 0{,}125 = 11{,}25$ m³. Il reste $16 - 11{,}25 = 4{,}75$ m³.
-L'armoire a un volume de $2 \\times 1 \\times 0{,}6 = 1{,}2$ m³ et $1{,}2 < 4{,}75$ : le volume restant est suffisant (à condition de bien ranger les cartons).`
+**4.** Longueur : $400 \\div 25 = 16$ ; largeur : $200 \\div 25 = 8$ ; hauteur : $200 \\div 25 = 8$. Une couche contient $16 \\times 8 = 128$ cartons et il y a $8$ couches : $128 \\times 8 = 1\\,024$ cartons.
+$1\\,024 \\div 128 = 8$ : on peut en ranger $8$ fois plus. En effet, un carton de $50$ cm contient $2$ couches de $2 \\times 2 = 4$ cartons de $25$ cm, soit $8$ cartons.`
     },
     {
       id: "6M3-ds-09",
       title: "La boîte à chaussures",
       difficulty: 1,
       points: 4,
-      statement: `On rappelle que $1$ L $= 1$ dm³ $= 1\\,000$ cm³.
-
-1. Une boîte à chaussures a la forme d'un pavé droit de $0{,}3$ m de long, $20$ cm de large et $15$ cm de haut.
+      statement: `1. Une boîte à chaussures a la forme d'un pavé droit de $0{,}3$ m de long, $20$ cm de large et $15$ cm de haut.
    a) Exprimer toutes les dimensions en centimètres.
-   b) Calculer le volume de la boîte en cm³.
-   c) Exprimer ce volume en litres.
-2. Un cube a une arête de $1$ dm. Calculer son volume en cm³. Que peut-on dire de sa contenance ?`,
+   b) On imagine la boîte remplie de cubes de $1$ cm d'arête. Combien de cubes une couche contient-elle ? Combien y a-t-il de couches ?
+   c) En déduire le volume de la boîte en cm³.
+2. Un cube a une arête de $1$ dm. Combien de cubes de $1$ cm d'arête faut-il pour le remplir ? En déduire son volume en cm³.`,
       solution: `**1.** a) $0{,}3$ m $= 30$ cm. Les dimensions sont $30$ cm, $20$ cm et $15$ cm.
-b) $V = 30 \\times 20 \\times 15 = 600 \\times 15 = 9\\,000$ cm³.
-c) $9\\,000 \\div 1\\,000 = 9$. La boîte a un volume de $9$ L.
+b) Une couche contient $30 \\times 20 = 600$ cubes. Il y a $15$ couches.
+c) $600 \\times 15 = 9\\,000$ cubes. Chaque cube a un volume de $1$ cm³, donc le volume de la boîte est $9\\,000$ cm³.
 
-**2.** $1$ dm $= 10$ cm, donc $V = 10 \\times 10 \\times 10 = 1\\,000$ cm³.
-Ce cube a un volume de $1$ dm³ : sa contenance est exactement $1$ L.`
+**2.** $1$ dm $= 10$ cm. Une couche contient $10 \\times 10 = 100$ cubes et il y a $10$ couches : $100 \\times 10 = 1\\,000$ cubes. Le volume est $1\\,000$ cm³.`
     },
     {
       id: "6M3-ds-10",
-      title: "Le bac à sable",
+      title: "Le muret de cubes",
       difficulty: 2,
       points: 5,
-      statement: `L'école maternelle installe un bac à sable en forme de pavé droit de $1{,}5$ m de long et $1{,}2$ m de large. On veut le remplir de sable sur une hauteur de $25$ cm. On rappelle que $1$ m³ $= 1\\,000$ L.
+      statement: `Théo construit un muret plein avec des cubes de $1$ cm d'arête. Le muret compte $16$ cubes de long, $4$ cubes de large et $6$ cubes de haut.
 
-1. Exprimer $25$ cm en mètres.
-2. Calculer le volume de sable nécessaire, en m³, puis en litres.
-3. Le sable est vendu en sacs de $25$ L. Combien de sacs faut-il acheter ?
-4. Un sac coûte $4{,}50$ €. Calculer le prix total du sable.`,
-      solution: `**1.** $25$ cm $= 0{,}25$ m.
+1. Combien de cubes y a-t-il dans une couche ?
+2. Combien de cubes le muret contient-il en tout ? En déduire son volume, en cm³.
+3. Théo pose au-dessus deux nouvelles couches de $10$ cubes de long et $4$ cubes de large. Quel est le nouveau volume ?
+4. Les cubes sont vendus par sachets de $25$. Combien de sachets Théo doit-il acheter pour construire le tout ?
+5. Un sachet coûte $4{,}50$ €. Calculer le prix total.`,
+      solution: `**1.** Une couche contient $16 \\times 4 = 64$ cubes.
 
-**2.** $V = 1{,}5 \\times 1{,}2 \\times 0{,}25 = 1{,}8 \\times 0{,}25 = 0{,}45$ m³, soit $0{,}45 \\times 1\\,000 = 450$ L.
+**2.** Il y a $6$ couches : $64 \\times 6 = 384$ cubes. Le volume du muret est $384$ cm³.
 
-**3.** $450 \\div 25 = 18$. Il faut acheter $18$ sacs de sable.
+**3.** Une nouvelle couche contient $10 \\times 4 = 40$ cubes ; les deux couches en contiennent $40 \\times 2 = 80$. Nouveau volume : $384 + 80 = 464$ cm³.
 
-**4.** $18 \\times 4{,}50 = 81$. Le sable coûte $81$ €.`
+**4.** $18 \\times 25 = 450$ et $19 \\times 25 = 475$. Comme $450 < 464 \\leqslant 475$, il faut acheter $19$ sachets.
+
+**5.** $19 \\times 4{,}50 = 85{,}50$. Le prix total est de $85{,}50$ €.`
     },
     {
       id: "6M3-ds-11",
-      title: "Le volume d'un caillou",
+      title: "Pour aller plus loin : le volume d'un caillou",
       difficulty: 3,
       points: 5,
-      statement: `Pour mesurer le volume d'un caillou, Chloé utilise un récipient en forme de pavé droit dont le fond est un rectangle de $20$ cm sur $15$ cm et dont la hauteur est $15$ cm. Elle y verse de l'eau jusqu'à une hauteur de $12$ cm.
+      statement: `On admet que $1$ L $= 1\\,000$ cm³.
+
+Pour mesurer le volume d'un caillou, Chloé utilise un récipient en forme de pavé droit dont le fond est un rectangle de $20$ cm sur $15$ cm et dont la hauteur est $15$ cm. Elle y verse de l'eau jusqu'à une hauteur de $12$ cm.
 
 1. Calculer le volume d'eau versé, en cm³, puis en litres.
 2. Chloé plonge le caillou, qui est entièrement recouvert par l'eau. Le niveau de l'eau monte jusqu'à $12{,}8$ cm. Expliquer pourquoi le volume du caillou est égal au volume d'un pavé droit de $20$ cm sur $15$ cm sur $0{,}8$ cm. Calculer ce volume.
 3. Elle ajoute ensuite des billes de $8$ cm³ chacune, qui coulent au fond. Combien de billes peut-elle ajouter au maximum sans que l'eau ne déborde ?`,
-      solution: `**1.** $V = 20 \\times 15 \\times 12 = 3\\,600$ cm³, soit $3{,}6$ L.
+      solution: `**1.** $\\mathcal{V} = 20 \\times 15 \\times 12 = 3\\,600$ cm³, soit $3{,}6$ L.
 
 **2.** Le caillou prend la place d'une partie de l'eau, qui est poussée vers le haut : l'eau monte de $12{,}8 - 12 = 0{,}8$ cm. Le volume « gagné » au-dessus de l'ancien niveau est un pavé droit de $20$ cm sur $15$ cm sur $0{,}8$ cm, et il est égal au volume du caillou.
-$V = 20 \\times 15 \\times 0{,}8 = 300 \\times 0{,}8 = 240$ cm³. Le caillou a un volume de $240$ cm³.
+$\\mathcal{V} = 20 \\times 15 \\times 0{,}8 = 300 \\times 0{,}8 = 240$ cm³. Le caillou a un volume de $240$ cm³.
 
 **3.** Espace libre au-dessus de l'eau : $15 - 12{,}8 = 2{,}2$ cm de hauteur, soit $20 \\times 15 \\times 2{,}2 = 660$ cm³.
 $82 \\times 8 = 656$ cm³ $\\leqslant 660$ cm³ et $83 \\times 8 = 664$ cm³ $> 660$ cm³.
@@ -4522,7 +4738,7 @@ Chloé peut ajouter au maximum $82$ billes.`
     },
     {
       id: "6M3-ds-12",
-      title: "La boîte sans couvercle la plus grande",
+      title: "Pour aller plus loin : la boîte sans couvercle la plus grande",
       difficulty: 4,
       points: 6,
       statement: `On dispose d'une plaque de carton rectangulaire de $30$ cm sur $20$ cm. Dans chaque coin, on découpe un carré de même côté, puis on relève les bords pour obtenir une boîte sans couvercle en forme de pavé droit.
@@ -4541,7 +4757,7 @@ Chloé peut ajouter au maximum $82$ billes.`
 3. Parmi ces valeurs, quel côté faut-il choisir pour obtenir la boîte de plus grand volume ?
 4. Peut-on découper des carrés de $10$ cm de côté ? Justifier.`,
       solution: `**1.** a) On enlève $2$ cm à chaque bout de la longueur et de la largeur : $30 - 2 - 2 = 26$ cm et $20 - 2 - 2 = 16$ cm. En relevant les bords, la hauteur de la boîte est le côté du carré découpé, soit $2$ cm.
-b) $V = 26 \\times 16 \\times 2 = 832$ cm³.
+b) $\\mathcal{V} = 26 \\times 16 \\times 2 = 832$ cm³.
 
 **2.** Pour un côté $c$ : longueur $30 - 2 \\times c$, largeur $20 - 2 \\times c$, hauteur $c$.
 
@@ -4562,61 +4778,52 @@ b) $V = 26 \\times 16 \\times 2 = 832$ cm³.
       title: "Le bac à glaçons",
       difficulty: 1,
       points: 4,
-      statement: `On rappelle que $1$ L $= 1\\,000$ cm³ et que $1$ L $= 100$ cL.
-
-Un bac à glaçons permet de fabriquer $12$ glaçons. Chaque glaçon a la forme d'un cube de $3$ cm d'arête. On considère que l'eau versée a le même volume que les glaçons obtenus.
+      statement: `Un bac à glaçons permet de fabriquer $12$ glaçons. Chaque glaçon a la forme d'un cube de $3$ cm d'arête.
 
 1. Combien de petits cubes de $1$ cm d'arête faudrait-il pour construire un glaçon ? Expliquer.
-2. Calculer le volume d'un glaçon, en cm³.
-3. Calculer le volume d'eau nécessaire pour remplir le bac, en cm³.
-4. a) Combien de cm³ y a-t-il dans $1$ cL ?
-   b) Exprimer le volume d'eau de la question 3 en cL.`,
-      solution: `**1.** Un glaçon peut être découpé en $3$ couches ; chaque couche contient $3 \\times 3 = 9$ petits cubes. Il faut donc $3 \\times 9 = 27$ petits cubes de $1$ cm d'arête.
+2. Quel est le volume d'un glaçon, en cm³ ?
+3. Quel est le volume total des $12$ glaçons, en cm³ ?
+4. Un autre bac permet de fabriquer $8$ glaçons cubiques de $4$ cm d'arête. Lequel des deux bacs donne le plus grand volume de glace ?`,
+      solution: `**1.** Un glaçon peut être découpé en $3$ couches ; chaque couche contient $3 \\times 3 = 9$ petits cubes. Il faut donc $9 \\times 3 = 27$ petits cubes de $1$ cm d'arête.
 
-**2.** $V = 3 \\times 3 \\times 3 = 27$ cm³ (on retrouve les $27$ cubes de $1$ cm³).
+**2.** Chaque petit cube a un volume de $1$ cm³, donc un glaçon a un volume de $27$ cm³.
 
-**3.** $12 \\times 27 = 324$ cm³.
+**3.** $12 \\times 27 = 324$. Le volume total est $324$ cm³.
 
-**4.** a) $1$ L $= 1\\,000$ cm³ $= 100$ cL, donc $1$ cL $= 1\\,000 \\div 100 = 10$ cm³.
-b) $324 \\div 10 = 32{,}4$ cL. Il faut $32{,}4$ cL d'eau.`
+**4.** Un glaçon de $4$ cm d'arête contient $4$ couches de $4 \\times 4 = 16$ petits cubes, soit $16 \\times 4 = 64$ cm³. Les $8$ glaçons : $8 \\times 64 = 512$ cm³. Comme $512 > 324$, c'est le second bac qui donne le plus grand volume de glace.`
     },
     {
       id: "6M3-ds-14",
-      title: "Quelle boîte pour le riz ?",
+      title: "Quelle boîte pour les cubes ?",
       difficulty: 2,
       points: 5,
-      statement: `On rappelle que $1$ L $= 1\\,000$ cm³.
-
-Un magasin vend du riz en paquets de $1{,}1$ L. On dispose de trois boîtes en forme de pavé droit :
+      statement: `On veut ranger $1\\,100$ cubes de $1$ cm d'arête. On dispose de trois boîtes en forme de pavé droit, dont voici les dimensions intérieures :
 - boîte A : $10$ cm sur $10$ cm sur $10$ cm ;
 - boîte B : $20$ cm sur $5$ cm sur $12$ cm ;
 - boîte C : $25$ cm sur $8$ cm sur $5$ cm.
 
-1. Calculer le volume de chaque boîte, en cm³.
+1. Combien de cubes de $1$ cm d'arête faut-il pour remplir exactement chaque boîte ? En déduire le volume de chaque boîte, en cm³.
 2. Deux boîtes ont le même volume. Lesquelles ? Ont-elles la même forme ?
-3. Exprimer le volume de chaque boîte en litres.
-4. Dans quelle(s) boîte(s) peut-on verser entièrement un paquet de riz ? Justifier.
-5. On veut fabriquer une boîte D dont le fond est un rectangle de $8$ cm sur $10$ cm et qui contienne exactement $1{,}2$ L. Quelle doit être sa hauteur ?`,
+3. Dans quelle(s) boîte(s) peut-on ranger les $1\\,100$ cubes ? Justifier.
+4. On veut fabriquer une boîte D dont le fond reçoit $8$ rangées de $10$ cubes et qui contienne exactement $1\\,200$ cubes. Combien de couches de cubes contiendra-t-elle ? Quelle doit être sa hauteur ?`,
       solution: `**1.**
-- $V_A = 10 \\times 10 \\times 10 = 1\\,000$ cm³ ;
-- $V_B = 20 \\times 5 \\times 12 = 1\\,200$ cm³ ;
-- $V_C = 25 \\times 8 \\times 5 = 1\\,000$ cm³.
+- Boîte A : $10 \\times 10 = 100$ cubes par couche et $10$ couches, soit $1\\,000$ cubes : $1\\,000$ cm³ ;
+- Boîte B : $20 \\times 5 = 100$ cubes par couche et $12$ couches, soit $1\\,200$ cubes : $1\\,200$ cm³ ;
+- Boîte C : $25 \\times 8 = 200$ cubes par couche et $5$ couches, soit $1\\,000$ cubes : $1\\,000$ cm³.
 
 **2.** Les boîtes A et C ont le même volume ($1\\,000$ cm³), mais pas la même forme : A est un cube, C est un pavé allongé et plat.
 
-**3.** $V_A = 1$ L ; $V_B = 1\\,200 \\div 1\\,000 = 1{,}2$ L ; $V_C = 1$ L.
+**3.** Seule la **boîte B** convient : elle peut contenir $1\\,200$ cubes, et $1\\,200 > 1\\,100$, alors que les boîtes A et C ne peuvent en contenir que $1\\,000$.
 
-**4.** Un paquet contient $1{,}1$ L, soit $1\\,100$ cm³. Seule la **boîte B** convient, car $1{,}2$ L $> 1{,}1$ L, alors que les boîtes A et C ne contiennent que $1$ L.
-
-**5.** $1{,}2$ L $= 1\\,200$ cm³. L'aire du fond est $8 \\times 10 = 80$ cm². Il faut $80 \\times$ hauteur $= 1\\,200$, donc hauteur $= 1\\,200 \\div 80 = 15$ cm.
-(Vérification : $8 \\times 10 \\times 15 = 1\\,200$ cm³.)`
+**4.** Une couche contient $8 \\times 10 = 80$ cubes. Il faut $1\\,200 \\div 80 = 15$ couches : la hauteur doit être de $15$ cm.
+(Vérification : $80 \\times 15 = 1\\,200$.)`
     },
     {
       id: "6M3-ds-15",
-      title: "La cuve de récupération d'eau de pluie",
+      title: "Pour aller plus loin : la cuve de récupération d'eau de pluie",
       difficulty: 3,
       points: 5,
-      statement: `On rappelle que $1$ m³ $= 1\\,000$ L.
+      statement: `On admet que $1$ m³ $= 1\\,000$ L.
 
 Dans son jardin, Maxime installe une cuve en forme de pavé droit pour récupérer l'eau de pluie. Elle mesure $2$ m de long, $1{,}5$ m de large et $1{,}2$ m de haut.
 
@@ -4625,7 +4832,7 @@ Dans son jardin, Maxime installe une cuve en forme de pavé droit pour récupér
 3. Un matin, l'eau atteint une hauteur de $80$ cm dans la cuve. Combien de litres d'eau contient-elle ?
 4. a) Calculer l'aire du fond de la cuve, en m².
    b) Un orage apporte $600$ L d'eau dans la cuve. De combien de centimètres le niveau de l'eau monte-t-il ?`,
-      solution: `**1.** $V = 2 \\times 1{,}5 \\times 1{,}2 = 3 \\times 1{,}2 = 3{,}6$ m³.
+      solution: `**1.** $\\mathcal{V} = 2 \\times 1{,}5 \\times 1{,}2 = 3 \\times 1{,}2 = 3{,}6$ m³.
 $3{,}6$ m³ $= 3{,}6 \\times 1\\,000 = 3\\,600$ L.
 
 **2.** $3\\,600 \\div 150 = 24$. Il peut arroser pendant **$24$ jours**.
@@ -4650,19 +4857,165 @@ Le niveau monte de **$20$ cm**. (Vérification : $2 \\times 1{,}5 \\times 0{,}2 
    a) Quel est le volume d'un petit cube ?
    b) Combien de petits cubes obtient-elle ? Retrouver ce résultat en imaginant le grand cube de départ découpé.
 5. Son frère veut fabriquer un cube **deux fois plus volumineux** que le cube de départ, avec une arête mesurant un nombre entier de centimètres. Est-ce possible ? Justifier en calculant quelques volumes de cubes.`,
-      solution: `**1.** $V = 6 \\times 6 \\times 6 = 216$ cm³.
+      solution: `**1.** En cubes de $1$ cm d'arête : $6$ couches de $6 \\times 6 = 36$ cubes, soit $36 \\times 6 = 216$ cubes. Le volume est $216$ cm³.
 
-**2.** Aire du fond : $9 \\times 4 = 36$ cm². Hauteur : $216 \\div 36 = 6$ cm. (Vérification : $9 \\times 4 \\times 6 = 216$.)
+**2.** Une couche de cubes de $1$ cm d'arête posée sur le fond contient $9 \\times 4 = 36$ cubes. Il faut $216 \\div 36 = 6$ couches : la hauteur est $6$ cm. (Vérification : $36 \\times 6 = 216$.)
 
-**3.** Aire de la plaque : $12 \\times 9 = 108$ cm². Épaisseur : $216 \\div 108 = 2$ cm.
+**3.** Une couche contient $12 \\times 9 = 108$ cubes de $1$ cm d'arête. Il y a $216 \\div 108 = 2$ couches : l'épaisseur est $2$ cm.
 
-**4.** a) $2 \\times 2 \\times 2 = 8$ cm³.
+**4.** a) Un petit cube de $2$ cm d'arête contient $2$ couches de $2 \\times 2 = 4$ cubes de $1$ cm d'arête, soit $8$ cubes : son volume est $8$ cm³.
 b) $216 \\div 8 = 27$ petits cubes.
 Autre méthode : sur chaque arête du cube de $6$ cm, on place $6 \\div 2 = 3$ petits cubes, donc $3 \\times 3 \\times 3 = 27$ petits cubes. On retrouve $27$.
 
 **5.** Il faudrait un volume de $2 \\times 216 = 432$ cm³.
 $7 \\times 7 \\times 7 = 343$ cm³ (trop petit) et $8 \\times 8 \\times 8 = 512$ cm³ (trop grand).
 Aucun nombre entier entre $7$ et $8$ : ce **n'est pas possible** avec une arête entière (l'arête serait comprise entre $7$ et $8$ cm). Doubler l'arête ne convient pas non plus : on obtiendrait $12 \\times 12 \\times 12 = 1\\,728$ cm³, soit $8$ fois plus.`
+    },
+    {
+      id: "6M3-ds-17",
+      title: "Un assemblage décrit par un tableau",
+      difficulty: 2,
+      points: 4,
+      statement: `Un assemblage est formé de cubes de $1$ cm d'arête, empilés sur une grille. Le tableau indique le nombre de cubes de chaque pile :
+
+| | Colonne 1 | Colonne 2 | Colonne 3 | Colonne 4 |
+|:---|:---:|:---:|:---:|:---:|
+| Rangée 1 | 4 | 3 | 2 | 1 |
+| Rangée 2 | 3 | 3 | 2 | 1 |
+| Rangée 3 | 2 | 1 | 1 | 0 |
+
+1. Quel est le volume de cet assemblage, en cm³ ?
+2. Compter maintenant les cubes niveau par niveau : combien y a-t-il de cubes au premier niveau ? Au deuxième ? Au troisième ? Au quatrième ? Vérifier le résultat de la question 1.
+3. On veut compléter cet assemblage pour obtenir un pavé droit plein de $4$ couches, dont le fond est la grille entière. Combien de cubes faut-il ajouter ?`,
+      solution: `**1.** Rangée 1 : $4 + 3 + 2 + 1 = 10$ cubes. Rangée 2 : $3 + 3 + 2 + 1 = 9$ cubes. Rangée 3 : $2 + 1 + 1 + 0 = 4$ cubes.
+Total : $10 + 9 + 4 = 23$ cubes. Le volume est $23$ cm³.
+
+**2.** Premier niveau (piles d'au moins $1$ cube) : $4 + 4 + 3 = 11$ cubes.
+Deuxième niveau (piles d'au moins $2$ cubes) : $3 + 3 + 1 = 7$ cubes.
+Troisième niveau (piles d'au moins $3$ cubes) : $2 + 2 + 0 = 4$ cubes.
+Quatrième niveau (piles de $4$ cubes) : $1$ cube.
+On retrouve $11 + 7 + 4 + 1 = 23$ cubes.
+
+**3.** La grille compte $3 \\times 4 = 12$ emplacements. Le pavé complet contient $12 \\times 4 = 48$ cubes. Il faut ajouter $48 - 23 = 25$ cubes.`
+    },
+    {
+      id: "6M3-ds-18",
+      title: "Trois constructions à comparer",
+      difficulty: 2,
+      points: 5,
+      statement: `Anna, Bilal et Chloé construisent chacun un solide plein avec des cubes de $1$ cm d'arête.
+- Anna : un pavé droit de $6$ cubes de long, $4$ de large et $3$ de haut.
+- Bilal : un cube avec $4$ cubes sur chaque arête.
+- Chloé : un escalier de $4$ cubes de large, dont les marches sont des colonnes de $5$, $4$, $3$, $2$ et $1$ cubes de haut.
+
+1. Calculer le volume de chaque solide, en cm³.
+2. Ranger les trois solides du plus petit volume au plus grand.
+3. Combien de cubes Bilal devrait-il ajouter pour atteindre le volume du solide d'Anna ?
+4. Chloé démonte son escalier et construit, avec tous ses cubes, un pavé droit dont chaque couche compte $5$ cubes de long et $4$ de large. Combien de couches ce pavé a-t-il ? Son volume a-t-il changé ? Sa forme a-t-elle changé ?`,
+      solution: `**1.** Anna : une couche contient $6 \\times 4 = 24$ cubes ; avec $3$ couches : $24 \\times 3 = 72$ cubes, soit $72$ cm³.
+Bilal : une couche contient $4 \\times 4 = 16$ cubes ; avec $4$ couches : $16 \\times 4 = 64$ cubes, soit $64$ cm³.
+Chloé : une tranche de l'escalier contient $5 + 4 + 3 + 2 + 1 = 15$ cubes ; avec $4$ tranches : $15 \\times 4 = 60$ cubes, soit $60$ cm³.
+
+**2.** $60 < 64 < 72$ : Chloé, puis Bilal, puis Anna.
+
+**3.** $72 - 64 = 8$. Bilal devrait ajouter $8$ cubes.
+
+**4.** Une couche contient $5 \\times 4 = 20$ cubes et $60 \\div 20 = 3$ : le pavé a $3$ couches. Le volume reste $60$ cm³ (mêmes cubes), mais la forme a changé.`
+    },
+    {
+      id: "6M3-ds-19",
+      title: "Un pavé percé",
+      difficulty: 3,
+      points: 5,
+      statement: `Un pavé droit plein est formé de cubes de $1$ cm d'arête : $8$ cubes de long, $5$ de large et $4$ de haut.
+
+1. Quel est le volume de ce pavé, en cm³ ?
+2. On retire $6$ colonnes entières, chacune allant du haut du pavé jusqu'au sol. Combien de cubes retire-t-on ? Quel est le volume du solide obtenu ?
+3. On replace des cubes dans ces $6$ colonnes vides, sur les $2$ couches du bas seulement. Combien de cubes replace-t-on ? Quel est maintenant le volume du solide ?
+4. Avec tous les cubes du solide de la question 3, on veut construire un pavé dont chaque couche compte $6$ rangées de $6$ cubes. Combien de couches complètes peut-on obtenir ? Combien de cubes restera-t-il ?`,
+      solution: `**1.** Une couche contient $8 \\times 5 = 40$ cubes. Avec $4$ couches : $40 \\times 4 = 160$ cubes. Le volume est $160$ cm³.
+
+**2.** Le pavé a $4$ couches, donc une colonne contient $4$ cubes. On retire $6 \\times 4 = 24$ cubes.
+Il reste $160 - 24 = 136$ cubes : le volume est $136$ cm³.
+
+**3.** On replace $6 \\times 2 = 12$ cubes. Le volume est maintenant $136 + 12 = 148$ cm³.
+
+**4.** Une couche contient $6 \\times 6 = 36$ cubes. $4 \\times 36 = 144$ et $5 \\times 36 = 180$, donc on obtient $4$ couches complètes. Il restera $148 - 144 = 4$ cubes.`
+    },
+    {
+      id: "6M3-ds-20",
+      title: "La pyramide de cubes",
+      difficulty: 3,
+      points: 5,
+      statement: `Yanis construit une pyramide avec des cubes de $1$ cm d'arête. La couche du bas est un carré de $7$ cubes de côté. Chaque couche posée au-dessus est un carré dont le côté compte un cube de moins que la couche du dessous. La pyramide s'arrête à la couche formée d'un seul cube.
+
+1. Combien de couches la pyramide a-t-elle ?
+2. Recopier et compléter le tableau :
+
+| Couche (en partant du bas) | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| Nombre de cubes | | | | | | | |
+
+3. Quel est le volume de la pyramide, en cm³ ?
+4. Yanis ne possède que $100$ cubes. En partant du bas, combien de couches complètes peut-il poser ? Combien de cubes lui reste-t-il alors ?`,
+      solution: `**1.** Le côté de la couche du bas compte $7$ cubes, puis on passe à $6$, $5$, $4$, $3$, $2$ et enfin $1$ : il y a $7$ couches.
+
+**2.** Une couche est un carré, donc elle contient (côté) $\\times$ (côté) cubes.
+
+| Couche (en partant du bas) | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| Nombre de cubes | 49 | 36 | 25 | 16 | 9 | 4 | 1 |
+
+**3.** $49 + 36 + 25 + 16 + 9 + 4 + 1 = 140$ cubes. Le volume est $140$ cm³.
+
+**4.** $49 + 36 = 85$ et $85 + 25 = 110 > 100$. Yanis peut poser $2$ couches complètes et il lui reste $100 - 85 = 15$ cubes.`
+    },
+    {
+      id: "6M3-ds-21",
+      title: "Le grand cube peint",
+      difficulty: 4,
+      points: 6,
+      statement: `Un grand cube plein est formé de $125$ petits cubes de $1$ cm d'arête. On peint toutes ses faces extérieures, puis on le démonte.
+
+1. Combien y a-t-il de petits cubes sur une arête du grand cube ?
+2. Où se trouvent les petits cubes qui ont exactement trois faces peintes ? Combien y en a-t-il ?
+3. Combien de petits cubes ont exactement deux faces peintes ?
+4. Combien de petits cubes ont exactement une face peinte ?
+5. Combien de petits cubes n'ont aucune face peinte ?
+6. Vérifier que le total des réponses aux questions 2 à 5 est cohérent.`,
+      solution: `**1.** $5 \\times 5 \\times 5 = 125$ : il y a $5$ petits cubes sur chaque arête.
+
+**2.** Ils sont aux sommets du grand cube. Un cube a $8$ sommets : il y en a $8$.
+
+**3.** Ils sont sur les arêtes, sans les extrémités. Sur chaque arête, il y en a $5 - 2 = 3$. Le grand cube a $12$ arêtes : $12 \\times 3 = 36$ petits cubes.
+
+**4.** Ils sont sur les faces, sans toucher aucune arête. Sur chaque face, ils forment un carré de $3$ cubes de côté, soit $3 \\times 3 = 9$ petits cubes. Le grand cube a $6$ faces : $6 \\times 9 = 54$ petits cubes.
+
+**5.** Ils sont à l'intérieur et forment un cube de $3$ petits cubes d'arête : $3 \\times 3 \\times 3 = 27$ petits cubes.
+
+**6.** $8 + 36 + 54 + 27 = 125$ : on retrouve bien tous les petits cubes.`
+    },
+    {
+      id: "6M3-ds-22",
+      title: "Percer un grand cube",
+      difficulty: 4,
+      points: 6,
+      statement: `Un grand cube plein est formé de petits cubes de $1$ cm d'arête, avec $5$ petits cubes sur chaque arête.
+
+1. Quel est le volume du grand cube, en cm³ ?
+2. On perce un tunnel droit passant par le petit cube central : on retire toute la file de petits cubes qui va d'une face à la face opposée. Combien de petits cubes retire-t-on ? Quel est le volume du solide obtenu ?
+3. On perce un deuxième tunnel, perpendiculaire au premier et passant aussi par le petit cube central. Combien de petits cubes ce tunnel retire-t-il en plus ? Pourquoi n'en retire-t-il pas $5$ ? Quel est le nouveau volume ?
+4. On perce un troisième tunnel, perpendiculaire aux deux premiers et passant aussi par le petit cube central. Quel est le nouveau volume ?
+5. Reprendre les trois perçages avec un grand cube de $7$ petits cubes d'arête. Quel est le volume du solide obtenu ?`,
+      solution: `**1.** Une couche contient $5 \\times 5 = 25$ petits cubes et il y a $5$ couches : $25 \\times 5 = 125$ petits cubes. Le volume est $125$ cm³.
+
+**2.** Une file contient $5$ petits cubes. Le volume devient $125 - 5 = 120$ cm³.
+
+**3.** Le petit cube central a déjà été retiré par le premier tunnel. Le deuxième tunnel n'en retire donc que $5 - 1 = 4$. Le volume devient $120 - 4 = 116$ cm³.
+
+**4.** Le troisième tunnel retire lui aussi $4$ petits cubes : le volume devient $116 - 4 = 112$ cm³.
+
+**5.** Le grand cube contient $7 \\times 7 \\times 7 = 343$ petits cubes. On retire $7$ petits cubes, puis $6$, puis $6$, soit $7 + 6 + 6 = 19$ petits cubes. Il reste $343 - 19 = 324$ petits cubes : le volume est $324$ cm³.`
     }
   ],
   "6M4": [
@@ -5531,6 +5884,90 @@ Tom a représenté ces données par le diagramme en barres suivant.
 **6.** $1$ cm représente $20$ visiteurs.
 - Samedi : $150 \\div 20 = 7{,}5$, la barre mesure $7{,}5$ cm.
 - Vendredi : $70 \\div 20 = 3{,}5$, la barre mesure $3{,}5$ cm.`
+    },
+    {
+      id: "6D1-ds-17",
+      title: "Préparer et exploiter un comptage d'oiseaux",
+      difficulty: 2,
+      points: 5,
+      statement: `Des élèves veulent comparer, d'un jour à l'autre, le nombre d'oiseaux présents dans le jardin du collège. Deux façons de faire sont proposées.
+
+- **Protocole A** : chaque jour à $8$ h, pendant $10$ minutes, depuis le même banc.
+- **Protocole B** : chacun compte quand il veut, où il veut, pendant la durée qu'il veut.
+
+1. Quel protocole permet de comparer les jours entre eux ? Justifie ta réponse.
+
+Avec le protocole retenu, les élèves obtiennent les résultats suivants.
+
+| Espèce | Lun. | Mar. | Mer. | Jeu. | Ven. |
+|:---:|:---:|:---:|:---:|:---:|:---:|
+| Moineau | $6$ | $4$ | $5$ | $8$ | $3$ |
+| Mésange | $2$ | $3$ | $0$ | $2$ | $1$ |
+| Merle | $1$ | $1$ | $2$ | $0$ | $1$ |
+
+2. Combien de mésanges ont été comptées le jeudi ?
+3. Calcule le nombre total d'oiseaux comptés chaque jour. Quel jour en a-t-on compté le plus ?
+4. Combien de merles ont été comptés sur l'ensemble de la semaine ?
+5. Pourquoi les élèves doivent-ils noter chaque comptage aussitôt ?`,
+      solution: `**1.** Le **protocole A**, car les conditions sont les mêmes chaque jour (même heure, même durée, même endroit) : les résultats peuvent être comparés. Avec le protocole B, un écart pourrait venir de la durée ou du lieu et non du nombre d'oiseaux.
+
+**2.** On lit à l'intersection de la ligne « Mésange » et de la colonne « Jeu. » : **$2$** mésanges.
+
+**3.** Lundi : $6 + 2 + 1 = 9$. Mardi : $4 + 3 + 1 = 8$. Mercredi : $5 + 0 + 2 = 7$. Jeudi : $8 + 2 + 0 = 10$. Vendredi : $3 + 1 + 1 = 5$.
+Le jour où l'on a compté le plus d'oiseaux est le **jeudi**, avec $10$ oiseaux.
+
+**4.** $1 + 1 + 2 + 0 + 1 = 5$ : **$5$** merles.
+
+**5.** Pour ne pas oublier ou se tromper : un résultat noté plus tard, de mémoire, risque d'être faux.`
+    },
+    {
+      id: "6D1-ds-18",
+      title: "Déchets ramassés sur une plage",
+      difficulty: 2,
+      points: 5,
+      statement: `Lors d'une opération de nettoyage, des bénévoles ont ramassé $64$ déchets sur une plage. Le diagramme circulaire ci-dessous montre la répartition de ces déchets selon leur type. Les parts « Verre » et « Papier » sont égales.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:340px;"><svg class="geo-svg-figure" viewBox="0 0 340 220" width="340" height="220" style="width:100%; height:auto; color:var(--text-main, #334155);" xmlns="http://www.w3.org/2000/svg" role="img"><path d="M170 110 L170 32 A78 78 0 0 1 170 188 Z" fill="rgba(37,99,235,0.75)" stroke="currentColor" stroke-width="1.5"/><text x="258" y="114" text-anchor="start" font-size="12" font-weight="700" fill="currentColor">Mégots</text><path d="M170 110 L170 188 A78 78 0 0 1 92 110 Z" fill="rgba(245,158,11,0.8)" stroke="currentColor" stroke-width="1.5"/><text x="108" y="176" text-anchor="end" font-size="12" font-weight="700" fill="currentColor">Plastique</text><path d="M170 110 L92 110 A78 78 0 0 1 114.85 54.85 Z" fill="rgba(16,185,129,0.75)" stroke="currentColor" stroke-width="1.5"/><text x="89" y="80" text-anchor="end" font-size="12" font-weight="700" fill="currentColor">Verre</text><path d="M170 110 L114.85 54.85 A78 78 0 0 1 170 32 Z" fill="rgba(168,85,247,0.7)" stroke="currentColor" stroke-width="1.5"/><text x="136" y="33" text-anchor="end" font-size="12" font-weight="700" fill="currentColor">Papier</text></svg></div>
+
+1. Quel type de déchet représente la moitié du total ?
+2. Quelle fraction du total représentent les déchets en plastique ?
+3. Calcule le nombre de mégots, puis le nombre de déchets en plastique.
+4. Combien de déchets en verre ont été ramassés ?
+5. L'année suivante, on ne ramasse plus que $20$ mégots, et le nombre des autres déchets ne change pas. Combien de déchets sont ramassés au total cette année-là ?`,
+      solution: `**1.** La part « Mégots » est un demi-disque : les **mégots** représentent la moitié du total.
+
+**2.** La part « Plastique » est un quart de disque : le plastique représente **$\\frac{1}{4}$** du total.
+
+**3.** Mégots : $64 \\div 2 = 32$, soit **$32$** mégots. Plastique : $64 \\div 4 = 16$, soit **$16$** déchets en plastique.
+
+**4.** Il reste $64 - 32 - 16 = 16$ déchets pour le verre et le papier, en parts égales : $16 \\div 2 = 8$. Il y a **$8$** déchets en verre.
+
+**5.** Les autres déchets sont au nombre de $16 + 8 + 8 = 32$. Au total : $20 + 32 = 52$, soit **$52$** déchets.`
+    },
+    {
+      id: "6D1-ds-19",
+      title: "Lire une courbe de températures",
+      difficulty: 2,
+      points: 5,
+      statement: `Une classe a relevé la température à midi, le 15 de six mois d'une même année. La courbe ci-dessous donne les résultats.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:360px;"><svg class="geo-svg-figure" viewBox="0 0 360 212" width="360" height="212" style="width:100%; height:auto; color:var(--text-main, #334155);" xmlns="http://www.w3.org/2000/svg" role="img"><text x="34" y="189" text-anchor="end" font-size="11" font-weight="500" fill="currentColor">0</text><line x1="40" y1="171.4" x2="350" y2="171.4" stroke="rgba(100,116,139,0.35)" stroke-width="1"/><text x="34" y="175.4" text-anchor="end" font-size="11" font-weight="500" fill="currentColor">2</text><line x1="40" y1="157.8" x2="350" y2="157.8" stroke="rgba(100,116,139,0.35)" stroke-width="1"/><text x="34" y="161.8" text-anchor="end" font-size="11" font-weight="500" fill="currentColor">4</text><line x1="40" y1="144.3" x2="350" y2="144.3" stroke="rgba(100,116,139,0.35)" stroke-width="1"/><text x="34" y="148.3" text-anchor="end" font-size="11" font-weight="500" fill="currentColor">6</text><line x1="40" y1="130.7" x2="350" y2="130.7" stroke="rgba(100,116,139,0.35)" stroke-width="1"/><text x="34" y="134.7" text-anchor="end" font-size="11" font-weight="500" fill="currentColor">8</text><line x1="40" y1="117.1" x2="350" y2="117.1" stroke="rgba(100,116,139,0.35)" stroke-width="1"/><text x="34" y="121.1" text-anchor="end" font-size="11" font-weight="500" fill="currentColor">10</text><line x1="40" y1="103.5" x2="350" y2="103.5" stroke="rgba(100,116,139,0.35)" stroke-width="1"/><text x="34" y="107.5" text-anchor="end" font-size="11" font-weight="500" fill="currentColor">12</text><line x1="40" y1="89.9" x2="350" y2="89.9" stroke="rgba(100,116,139,0.35)" stroke-width="1"/><text x="34" y="93.9" text-anchor="end" font-size="11" font-weight="500" fill="currentColor">14</text><line x1="40" y1="76.3" x2="350" y2="76.3" stroke="rgba(100,116,139,0.35)" stroke-width="1"/><text x="34" y="80.3" text-anchor="end" font-size="11" font-weight="500" fill="currentColor">16</text><line x1="40" y1="62.8" x2="350" y2="62.8" stroke="rgba(100,116,139,0.35)" stroke-width="1"/><text x="34" y="66.8" text-anchor="end" font-size="11" font-weight="500" fill="currentColor">18</text><line x1="40" y1="49.2" x2="350" y2="49.2" stroke="rgba(100,116,139,0.35)" stroke-width="1"/><text x="34" y="53.2" text-anchor="end" font-size="11" font-weight="500" fill="currentColor">20</text><line x1="40" y1="35.6" x2="350" y2="35.6" stroke="rgba(100,116,139,0.35)" stroke-width="1"/><text x="34" y="39.6" text-anchor="end" font-size="11" font-weight="500" fill="currentColor">22</text><line x1="40" y1="22" x2="350" y2="22" stroke="rgba(100,116,139,0.35)" stroke-width="1"/><text x="34" y="26" text-anchor="end" font-size="11" font-weight="500" fill="currentColor">24</text><text x="65" y="203" text-anchor="middle" font-size="11" font-weight="700" fill="currentColor">févr.</text><text x="115" y="203" text-anchor="middle" font-size="11" font-weight="700" fill="currentColor">avr.</text><text x="165" y="203" text-anchor="middle" font-size="11" font-weight="700" fill="currentColor">juin</text><text x="215" y="203" text-anchor="middle" font-size="11" font-weight="700" fill="currentColor">août</text><text x="265" y="203" text-anchor="middle" font-size="11" font-weight="700" fill="currentColor">oct.</text><text x="315" y="203" text-anchor="middle" font-size="11" font-weight="700" fill="currentColor">déc.</text><line x1="40" y1="185" x2="350" y2="185" stroke="currentColor" stroke-width="2"/><line x1="40" y1="185" x2="40" y2="10" stroke="currentColor" stroke-width="2"/><polyline points="65,144.3 115,117.1 165,62.8 215,35.6 265,89.9 315,144.3" fill="none" stroke="#dc2626" stroke-width="2"/><circle cx="65" cy="144.3" r="3.5" fill="#dc2626"/><circle cx="115" cy="117.1" r="3.5" fill="#dc2626"/><circle cx="165" cy="62.8" r="3.5" fill="#dc2626"/><circle cx="215" cy="35.6" r="3.5" fill="#dc2626"/><circle cx="265" cy="89.9" r="3.5" fill="#dc2626"/><circle cx="315" cy="144.3" r="3.5" fill="#dc2626"/><text x="46" y="14" text-anchor="start" font-size="11" font-weight="700" fill="currentColor">Température (°C)</text></svg></div>
+
+1. Quelle température a-t-on relevée en avril ?
+2. En quel mois a-t-on relevé la température la plus élevée ?
+3. De combien de degrés la température a-t-elle baissé entre août et décembre ?
+4. Entre deux relevés consécutifs, pour quels mois la température a-t-elle le plus augmenté ?
+5. Pour combien de ces six relevés la température est-elle strictement supérieure à $12$ °C ?`,
+      solution: `**1.** L'axe vertical est gradué de $2$ en $2$. Le point d'avril est à la hauteur $10$ : **$10$ °C**.
+
+**2.** Le point le plus haut correspond au mois d'**août** ($22$ °C).
+
+**3.** En août, $22$ °C ; en décembre, $6$ °C. $22 - 6 = 16$ : la température a baissé de **$16$ °C**.
+
+**4.** De février à avril : $10 - 6 = 4$. D'avril à juin : $18 - 10 = 8$. De juin à août : $22 - 18 = 4$. Ensuite, la température baisse.
+La plus forte hausse a lieu **entre avril et juin** ($8$ °C).
+
+**5.** Les températures relevées sont $6$, $10$, $18$, $22$, $14$ et $6$ °C. Seules $18$, $22$ et $14$ dépassent strictement $12$ °C : **$3$** relevés.`
     }
   ]
 });
@@ -6456,7 +6893,8 @@ $111^\\circ$ est compris entre $90^\\circ$ et $180^\\circ$ : $\\widehat{AOD}$ es
 4. On trace la bissectrice $[BF)$ de l'angle $\\widehat{EBC}$. Calculer $\\widehat{CBF}$, puis $\\widehat{DBF}$. Que remarque-t-on ?`,
       solution: `**1.** On trace la demi-droite $[BA)$. On place le centre du rapporteur sur le sommet $B$ et la graduation $0$ sur la demi-droite $[BA)$. On repère la graduation $110$ sur la même échelle (celle qui part de $0$ sur $[BA)$), on place un point $C$, puis on trace $[BC)$.
 
-**2.** On trace $[BD)$ à l'intérieur de l'angle avec $\\widehat{ABD} = \\widehat{DBC}$. La bissectrice partage l'angle en deux angles égaux : $\\widehat{ABD} = 110^\\circ \\div 2 = 55^\\circ$.
+**2.** La bissectrice partage l'angle en deux angles égaux : $\\widehat{ABD} = 110^\\circ \\div 2 = 55^\\circ$.
+Construction : on place le centre du rapporteur sur $B$ et le zéro sur $[BA)$, on marque un point $D$ à $55^\\circ$ (à l'intérieur de l'angle), puis on trace $[BD)$. On contrôle que $\\widehat{DBC}$ mesure aussi $55^\\circ$.
 
 **3.** $A$, $B$, $E$ sont alignés : $\\widehat{ABE}$ est un angle plat. Les angles adjacents $\\widehat{ABC}$ et $\\widehat{CBE}$ sont donc supplémentaires :
 $\\widehat{EBC} = 180^\\circ - 110^\\circ = 70^\\circ$.
@@ -6707,6 +7145,28 @@ Vérification : $45 + 90 + 45 = 180$.
 Les deux angles sont adjacents, égaux, et $55^\\circ + 55^\\circ = 110^\\circ = \\widehat{AIB}$ : la perpendiculaire partage $\\widehat{AIB}$ en deux angles égaux, c'est **la bissectrice de $\\widehat{AIB}$**.
 
 **5.** Quelle que soit la valeur de $a$, l'angle entre $[IA)$ et la perpendiculaire vaut $90^\\circ - a$, et l'angle entre la perpendiculaire et $[IB)$ vaut aussi $90^\\circ - a$, car les deux angles $a$ sont égaux. La perpendiculaire partage donc toujours $\\widehat{AIB}$ en deux angles égaux : c'est toujours sa bissectrice.`
+    },
+    {
+      id: "6G3-ds-17",
+      title: "Construire une bissectrice de deux façons",
+      difficulty: 2,
+      points: 5,
+      statement: `On a tracé sur une feuille un angle $\\widehat{xOy}$ de mesure $128^\\circ$.
+1. Décrire comment obtenir la bissectrice de cet angle par pliage.
+2. Quelle est la mesure de chacun des deux angles obtenus ?
+3. Expliquer comment construire au rapporteur la bissectrice $[Oz)$, le zéro étant placé sur $[Ox)$, puis réaliser cette construction.
+4. Quel est le symétrique de la demi-droite $[Ox)$ par rapport à la droite qui porte $[Oz)$ ? Justifier.
+5. On place sur $[Ox)$ le point $A$ tel que $OA = 4\\text{ cm}$. On note $A'$ son symétrique par rapport à la droite qui porte $[Oz)$. Sur quelle demi-droite se trouve $A'$ ? Combien mesure $OA'$ ? Justifier.`,
+      solution: `**1.** On plie la feuille de façon que le pli passe par le sommet $O$ et que les côtés $[Ox)$ et $[Oy)$ se superposent exactement. Le pli marque la droite qui porte la bissectrice : on déplie, puis on repasse ce pli à la règle, à l'intérieur de l'angle.
+
+**2.** La bissectrice partage l'angle en deux angles adjacents de même mesure : chacun mesure $128^\\circ \\div 2 = 64^\\circ$.
+
+**3.** On place le centre du rapporteur sur le sommet $O$ et le zéro d'une graduation sur $[Ox)$. En suivant cette graduation, on marque, à l'intérieur de l'angle (du côté de $[Oy)$), un point à $64^\\circ$, puis on trace la demi-droite $[Oz)$ passant par ce point. Contrôle : en mesurant $\\widehat{zOy}$, on doit aussi trouver $64^\\circ$.
+
+**4.** La droite qui porte la bissectrice est l'axe de symétrie de l'angle : en pliant la feuille le long de cette droite, $[Ox)$ se superpose à $[Oy)$. Le symétrique de $[Ox)$ est donc la demi-droite $[Oy)$.
+
+**5.** Comme $A$ est sur $[Ox)$, son symétrique $A'$ est sur le symétrique de $[Ox)$, c'est-à-dire sur $[Oy)$.
+Le point $O$ est sur l'axe : il est son propre symétrique. La symétrie axiale conserve les longueurs, donc $OA' = OA = 4\\text{ cm}$.`
     }
   ],
   "6G4": [
@@ -7083,6 +7543,37 @@ Les angles en $D$ et en $C$ sont égaux : **$BDC$ est isocèle en $B$**, c'est-�
 **5.** $108^\\circ + 72^\\circ = 180^\\circ$. C'est normal : $D$ est sur le segment $[AC]$, donc $A$, $D$ et $C$ sont alignés et $\\widehat{ADC}$ est un angle plat, formé des deux angles adjacents $\\widehat{ADB}$ et $\\widehat{BDC}$.
 
 **6.** Le triangle $BDC$ est isocèle en $B$ : $BD = BC = 4$ cm. Le triangle $ABD$ est isocèle en $D$ : $AD = BD = 4$ cm.`
+    },
+    {
+      id: "6G4-ds-17",
+      title: "Démontrer les propriétés du triangle équilatéral",
+      difficulty: 2,
+      points: 5,
+      statement: `On rappelle que, dans un triangle isocèle, les deux angles à la base ont la même mesure et que, réciproquement, un triangle qui a deux angles de même mesure est isocèle. On rappelle aussi que la somme des mesures des trois angles d'un triangle vaut $180^\\circ$.
+
+1. $ABC$ est un triangle équilatéral.
+   a) Expliquer pourquoi $ABC$ est isocèle en $C$. Que peut-on en déduire pour les angles $\\widehat{A}$ et $\\widehat{B}$ ?
+   b) De la même façon, comparer les angles $\\widehat{B}$ et $\\widehat{C}$.
+   c) En déduire, en rédigeant, la mesure de chacun des angles du triangle $ABC$.
+2. Dans un triangle $DEF$, on a $\\widehat{D} = 60^\\circ$ et $\\widehat{E} = 60^\\circ$. Démontrer que $DEF$ est équilatéral.
+3. $GHI$ est un triangle isocèle en $G$ tel que $\\widehat{G} = 60^\\circ$. Démontrer que $GHI$ est équilatéral.
+4. $JKL$ est un triangle isocèle en $J$ tel que $\\widehat{K} = 50^\\circ$. Calculer $\\widehat{L}$ et $\\widehat{J}$. Ce triangle est-il équilatéral ? Justifier.`,
+      solution: `**1. a)** $ABC$ est équilatéral, donc $CA = CB$ : il est isocèle en $C$. Ses angles à la base, $\\widehat{A}$ et $\\widehat{B}$, ont donc la même mesure : $\\widehat{A} = \\widehat{B}$.
+
+**b)** De même, $AB = AC$ : le triangle est isocèle en $A$. Ses angles à la base, $\\widehat{B}$ et $\\widehat{C}$, ont la même mesure : $\\widehat{B} = \\widehat{C}$.
+
+**c)** On a donc $\\widehat{A} = \\widehat{B} = \\widehat{C}$. La somme des trois angles vaut $180^\\circ$, donc chaque angle mesure
+$$180^\\circ \\div 3 = 60^\\circ.$$
+
+**2.** La somme des angles donne $\\widehat{F} = 180^\\circ - 60^\\circ - 60^\\circ = 60^\\circ$.
+Comme $\\widehat{D} = \\widehat{E}$, le triangle est isocèle en $F$ : $FD = FE$. Comme $\\widehat{E} = \\widehat{F}$, il est isocèle en $D$ : $DE = DF$. Les trois côtés ont donc la même longueur : **$DEF$ est équilatéral**.
+
+**3.** $GHI$ est isocèle en $G$, donc $\\widehat{H} = \\widehat{I}$. Ces deux angles ont pour somme $180^\\circ - 60^\\circ = 120^\\circ$, donc chacun mesure $120^\\circ \\div 2 = 60^\\circ$.
+Les trois angles mesurent $60^\\circ$ : ils ont la même mesure, donc **$GHI$ est équilatéral**.
+
+**4.** $JKL$ est isocèle en $J$, donc $\\widehat{L} = \\widehat{K} = 50^\\circ$. Ensuite,
+$$\\widehat{J} = 180^\\circ - 50^\\circ - 50^\\circ = 80^\\circ.$$
+Un triangle équilatéral a ses trois angles égaux à $60^\\circ$. Ici, $\\widehat{K} = 50^\\circ$ : **$JKL$ n'est pas équilatéral**.`
     }
   ]
 });
@@ -7357,9 +7848,9 @@ On vérifie que les six nombres $4$, $1$, $3$, $6$, $2$, $5$ sont bien différen
 On connaît seulement :
 - la **vue de dessus** : les $4$ cases sont occupées ;
 - la **vue de face** : la colonne de gauche paraît haute de $2$ cubes et la colonne de droite de $3$ cubes ;
-- la **vue de côté** (regard depuis la droite) : la rangée du fond paraît haute de $2$ cubes et la rangée de devant de $3$ cubes.
+- la **vue de droite** (ce que l'on voit en se plaçant à droite de l'assemblage) : la rangée du fond paraît haute de $2$ cubes et la rangée de devant de $3$ cubes.
 
-(Sur une vue de face, chaque colonne apparaît avec la hauteur de sa pile la plus haute ; de même pour la vue de côté et les rangées.)
+(Sur une vue de face, chaque colonne apparaît avec la hauteur de sa pile la plus haute ; de même pour la vue de droite et les rangées.)
 
 1. Pourquoi y a-t-il au moins un cube sur chaque case ?
 2. Sur quelle case se trouve une pile de $3$ cubes ? Justifier. Peut-il y en avoir une autre ?
@@ -7368,9 +7859,9 @@ On connaît seulement :
 5. Donner une répartition qui respecte les trois vues et utilise exactement $8$ cubes.`,
       solution: `**1.** Sur la vue de dessus, les $4$ cases sont occupées : chaque case porte au moins un cube.
 
-**2.** La vue de face montre une pile de $3$ cubes uniquement dans la colonne de droite ; la vue de côté en montre une uniquement dans la rangée de devant. Une pile de $3$ est donc dans la colonne de droite **et** dans la rangée de devant : c'est la case **devant-droite**. Aucune autre case ne peut avoir $3$ cubes (elle serait dans la colonne de gauche ou dans la rangée du fond, qui ne dépassent pas $2$).
+**2.** La vue de face montre une pile de $3$ cubes uniquement dans la colonne de droite ; la vue de droite en montre une uniquement dans la rangée de devant. Une pile de $3$ est donc dans la colonne de droite **et** dans la rangée de devant : c'est la case **devant-droite**. Aucune autre case ne peut avoir $3$ cubes (elle serait dans la colonne de gauche ou dans la rangée du fond, qui ne dépassent pas $2$).
 
-**3.** Chaque pile ne peut pas dépasser la hauteur de sa colonne (vue de face) ni celle de sa rangée (vue de côté) :
+**3.** Chaque pile ne peut pas dépasser la hauteur de sa colonne (vue de face) ni celle de sa rangée (vue de droite) :
 - fond-gauche : au plus $2$ ; fond-droite : au plus $2$ (rangée du fond) ;
 - devant-gauche : au plus $2$ (colonne de gauche) ; devant-droite : $3$.
 
@@ -7380,7 +7871,7 @@ En mettant le maximum partout, les vues sont bien respectées : $2 + 2 + 2 + 3 =
 Minimum : fond-gauche $2$, fond-droite $1$, devant-gauche $1$, devant-droite $3$, soit $2 + 1 + 1 + 3 = 7$ cubes.
 On ne peut pas faire moins : il faut $3$ cubes devant-droite, au moins $1$ cube sur chacune des trois autres cases, et une pile de $2$ dans la colonne de gauche, ce qui ajoute au moins $1$ cube.
 
-**5.** Par exemple : fond-gauche $2$, fond-droite $2$, devant-gauche $1$, devant-droite $3$ ; total $2 + 2 + 1 + 3 = 8$ cubes. Vue de face : la plus haute pile de gauche a $2$ cubes et celle de droite $3$ cubes ; vue de côté : la plus haute pile du fond a $2$ cubes et celle de devant $3$ cubes. Les trois vues sont respectées.`
+**5.** Par exemple : fond-gauche $2$, fond-droite $2$, devant-gauche $1$, devant-droite $3$ ; total $2 + 2 + 1 + 3 = 8$ cubes. Vue de face : la plus haute pile de gauche a $2$ cubes et celle de droite $3$ cubes ; vue de droite : la plus haute pile du fond a $2$ cubes et celle de devant $3$ cubes. Les trois vues sont respectées.`
     },
     {
       id: "6G5-ds-13",
@@ -7524,6 +8015,66 @@ $36 - 3 - 6 - 6 = 21$. On retrouve bien **$21$ carrés peints**.
 | Total de carrés peints | $21$ | $32$ | $140$ |
 
 Pour $10$ marches : $10 + 9 + \\ldots + 1 = 55$ cubes ; avant et arrière : $2 \\times 55 = 110$ ; dessus, gauche et droite : $3 \\times 10 = 30$ ; total $110 + 30 = 140$ carrés peints.`
+    },
+    {
+      id: "6G5-ds-17",
+      title: "Terminer un dessin en perspective cavalière",
+      difficulty: 2,
+      points: 5,
+      statement: `Sacha dessine à main levée un pavé droit $ABCDEFGH$ en perspective cavalière. La face $ABCD$ est devant lui et les sommets $E$, $F$, $G$ et $H$ sont situés derrière $A$, $B$, $C$ et $D$. Voici son dessin, qu'il n'a pas terminé.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:260px;"><svg class="geo-svg-figure" viewBox="0 0 260 180" width="260" height="180" style="width:100%; height:auto; color:var(--text-main, #334155);" xmlns="http://www.w3.org/2000/svg" role="img"><g stroke="currentColor" stroke-width="2"><line x1="40" y1="150" x2="180" y2="150"/><line x1="180" y1="150" x2="180" y2="70"/><line x1="180" y1="70" x2="40" y2="70"/><line x1="40" y1="70" x2="40" y2="150"/><line x1="180" y1="150" x2="220" y2="120"/><line x1="180" y1="70" x2="220" y2="40"/><line x1="220" y1="120" x2="220" y2="40"/><line x1="40" y1="70" x2="80" y2="40"/></g><g fill="currentColor" font-size="13" font-weight="700" text-anchor="middle"><text x="28" y="166">A</text><text x="192" y="166">B</text><text x="192" y="85">C</text><text x="28" y="63">D</text><text x="92" y="135">E</text><text x="232" y="136">F</text><text x="232" y="33">G</text><text x="68" y="33">H</text></g></svg></div>
+
+1. Combien d'arêtes possède un pavé droit ? Combien sont déjà tracées sur le dessin ?
+2. Nommer les arêtes qui restent à tracer.
+3. Quel sommet est caché ? En déduire, parmi les arêtes de la question 2, celles qui doivent être dessinées en pointillés.
+4. Reproduire le dessin à main levée, puis le terminer.
+5. Dans la réalité, $AB = 6$ cm, $BC = 3$ cm et $BF = 4$ cm.
+   a) Quelle est la longueur réelle de l'arête $[GH]$ ? de l'arête $[AE]$ ?
+   b) Sur le dessin, $[BF]$ paraît plus courte que $[BC]$. Est-ce le cas dans la réalité ? Que peut-on en conclure ?`,
+      solution: `**1.** Un pavé droit a **$12$ arêtes**. Sur le dessin, $8$ sont tracées : $[AB]$, $[BC]$, $[CD]$, $[DA]$, $[BF]$, $[CG]$, $[FG]$ et $[DH]$.
+
+**2.** Il reste $12 - 8 = 4$ arêtes à tracer : $[GH]$, $[AE]$, $[EF]$ et $[EH]$.
+
+**3.** Le sommet caché est $E$ : c'est le seul sommet que l'on ne voit pas, au fond et en bas du pavé. Les arêtes qui en partent sont cachées : $[AE]$, $[EF]$ et $[EH]$ seront en **pointillés**. L'arête $[GH]$ est visible : elle sera en trait plein.
+
+**4.** Voici le dessin terminé.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:260px;"><svg class="geo-svg-figure" viewBox="0 0 260 180" width="260" height="180" style="width:100%; height:auto; color:var(--text-main, #334155);" xmlns="http://www.w3.org/2000/svg" role="img"><g stroke="currentColor" stroke-width="2"><line x1="40" y1="150" x2="180" y2="150"/><line x1="180" y1="150" x2="180" y2="70"/><line x1="180" y1="70" x2="40" y2="70"/><line x1="40" y1="70" x2="40" y2="150"/><line x1="180" y1="150" x2="220" y2="120"/><line x1="180" y1="70" x2="220" y2="40"/><line x1="220" y1="120" x2="220" y2="40"/><line x1="40" y1="70" x2="80" y2="40"/><line x1="80" y1="40" x2="220" y2="40"/></g><g stroke="currentColor" stroke-width="2" stroke-dasharray="5 4"><line x1="40" y1="150" x2="80" y2="120"/><line x1="80" y1="120" x2="220" y2="120"/><line x1="80" y1="120" x2="80" y2="40"/></g><g fill="currentColor" font-size="13" font-weight="700" text-anchor="middle"><text x="28" y="166">A</text><text x="192" y="166">B</text><text x="192" y="85">C</text><text x="28" y="63">D</text><text x="92" y="135">E</text><text x="232" y="136">F</text><text x="232" y="33">G</text><text x="68" y="33">H</text></g></svg></div>
+
+**5.** a) Les arêtes parallèles d'un pavé droit ont la même longueur. $[GH]$ est parallèle à $[AB]$, donc $GH = 6$ cm. $[AE]$ est parallèle à $[BF]$, donc $AE = 4$ cm.
+
+b) Non : $BF = 4$ cm et $BC = 3$ cm, donc dans la réalité $[BF]$ est plus longue que $[BC]$. En perspective cavalière, les arêtes obliques sont raccourcies : on ne peut pas lire les vraies longueurs sur le dessin.`
+    },
+    {
+      id: "6G5-ds-18",
+      title: "Les quatre vues d'un assemblage",
+      difficulty: 2,
+      points: 4,
+      statement: `Voici la **vue de dessus** d'un assemblage de cubes identiques posé sur une table ; chaque case indique le nombre de cubes empilés. La gauche et la droite sont celles d'une personne placée devant l'assemblage.
+
+| | gauche | milieu | droite |
+|:---|:---:|:---:|:---:|
+| rangée du fond | $3$ | $1$ | $2$ |
+| rangée du milieu | $2$ | $2$ | $1$ |
+| rangée de devant | $1$ | $1$ | $1$ |
+
+1. Combien de cubes compte cet assemblage ?
+2. Combien de carrés voit-on sur la vue de dessus ?
+3. Dessiner à main levée la **vue de face**.
+4. Dessiner à main levée la **vue de gauche**, puis la **vue de droite**.
+5. Que remarque-t-on en comparant la vue de gauche et la vue de droite ? Expliquer.`,
+      solution: `**1.** $3 + 1 + 2 + 2 + 2 + 1 + 1 + 1 + 1 = 14$ cubes.
+
+**2.** Les $9$ cases sont occupées : on voit $9$ carrés.
+
+**3.** Dans chaque colonne, on garde la pile la plus haute : $3$ à gauche, $2$ au milieu et $2$ à droite. La vue de face a donc, de gauche à droite, des colonnes de $3$, $2$ et $2$ carrés.
+
+**4.** Dans chaque rangée, on garde la pile la plus haute : $3$ au fond, $2$ au milieu et $1$ devant.
+Placé à gauche de l'assemblage, on a le fond à sa gauche et le devant à sa droite : la vue de gauche a, de gauche à droite, des colonnes de $3$, $2$ et $1$ carrés.
+Placé à droite, c'est l'inverse : la vue de droite a, de gauche à droite, des colonnes de $1$, $2$ et $3$ carrés.
+
+**5.** Ces deux vues sont symétriques l'une de l'autre. Les deux personnes voient les mêmes rangées, mais depuis deux côtés opposés : ce qui est à gauche pour l'une est à droite pour l'autre.`
     }
   ],
   "6D2": [
@@ -7924,6 +8475,32 @@ b) $P = \\frac{10}{100}$ (soit $\\frac{1}{10}$).
 Exemple de règle : « la boule est gagnante si son numéro est un multiple de $5$ » ($5$ ; $10$ ; … ; $100$, soit $100 \\div 5 = 20$ boules). D'autres règles conviennent, par exemple « le numéro se termine par $3$ ou par $8$ ».
 
 **6.** Il y a $50$ numéros pairs et $50$ numéros impairs entre $1$ et $100$ : les deux probabilités valent $\\frac{50}{100}$. Léo **a tort**, les deux événements ont la même probabilité.`
+    },
+    {
+      id: "6D2-ds-17",
+      title: "Trois jeux de kermesse",
+      difficulty: 2,
+      points: 5,
+      statement: `À une kermesse, trois jeux sont proposés.
+
+- **Jeu A** : on a $3$ chances sur $10$ de gagner.
+- **Jeu B** : on a $1$ chance sur $4$ de gagner.
+- **Jeu C** : on fait tourner une roue partagée en $20$ secteurs égaux, dont $7$ sont gagnants.
+
+1. Écris la probabilité de gagner au jeu A sous forme de fraction, puis d'écriture décimale, puis de pourcentage.
+2. Même question pour le jeu B.
+3. Quelle est la probabilité de gagner au jeu C, en pourcentage ?
+4. Range les trois jeux, du moins avantageux au plus avantageux.
+5. Au jeu B, combien a-t-on de chances de perdre ? Écris la réponse sous la forme « … chances sur … ».`,
+      solution: `**1.** « $3$ chances sur $10$ » s'écrit $\\frac{3}{10}$, soit $0{,}3$, soit **$30\\,\\%$**.
+
+**2.** « $1$ chance sur $4$ » s'écrit $\\frac{1}{4}$, soit $0{,}25$, soit **$25\\,\\%$**.
+
+**3.** La probabilité est $\\frac{7}{20} = \\frac{7 \\times 5}{20 \\times 5} = \\frac{35}{100}$, soit **$35\\,\\%$**.
+
+**4.** On compare $25\\,\\%$, $30\\,\\%$ et $35\\,\\%$ : du moins avantageux au plus avantageux, **jeu B, jeu A, jeu C**.
+
+**5.** Sur $4$ cas, $1$ seul fait gagner : les $3$ autres font perdre. On a **$3$ chances sur $4$** de perdre.`
     }
   ]
 });
@@ -8092,7 +8669,9 @@ Longueur du tracé : $8 \\times (30 + 10) = 8 \\times 40 = 320$ pas.`
       title: "La spirale du lutin",
       difficulty: 4,
       points: 6,
-      statement: `Le lutin est orienté vers la droite, stylo baissé. On exécute le script suivant, qui utilise une variable « longueur » :
+      statement: `**Pour aller plus loin** (au-delà du programme de 6e) : une **variable** est une case mémoire qui garde un nombre, et ce nombre peut changer pendant le programme.
+
+Le lutin est orienté vers la droite, stylo baissé. On exécute le script suivant, qui utilise une variable « longueur » :
 
 \`\`\`scratch
 quand drapeau cliqué
@@ -8133,27 +8712,26 @@ répéter 5 fois
       title: "La tirelire programmée",
       difficulty: 4,
       points: 5,
-      statement: `Sami simule l'évolution de sa tirelire avec Scratch : il y a déjà $20$ € et il ajoute $5$ € chaque semaine.
+      statement: `Sami simule l'évolution de sa tirelire avec un programme de calcul : il y a déjà $20$ € et il ajoute $5$ € chaque semaine. Le programme reçoit la somme de départ en **entrée** et donne la somme finale en **sortie**.
 
-\`\`\`scratch
-quand drapeau cliqué
-mettre [argent] à 20
+\`\`\`text
+entrée : 20
 répéter 12 fois
-    ajouter 5 à [argent]
-dire (argent)
+    ajouter 5
+sortie : le nombre obtenu
 \`\`\`
 
-1. Que représente un passage dans la boucle ? Que vaut la variable « argent » après $3$ passages ?
-2. Quel nombre le lutin dit-il à la fin du script ? Justifier par un calcul.
-3. Sami veut savoir au bout de combien de semaines il aura exactement $100$ €. Par quel nombre faut-il remplacer $12$ dans le script ? Justifier.
-4. Sa sœur Lou part de $0$ € et économise $7$ € par semaine. Écrire son script. Combien de semaines lui faut-il au minimum pour avoir au moins $100$ € ?`,
+1. Que représente un passage dans la boucle ? Quel nombre obtient-on après $3$ passages ?
+2. Quelle est la sortie de ce programme ? Justifier par un calcul.
+3. Sami veut savoir au bout de combien de semaines il aura exactement $100$ €. Par quel nombre faut-il remplacer $12$ dans le programme ? Justifier.
+4. Sa sœur Lou part de $0$ € et économise $7$ € par semaine. Écrire son programme. Combien de semaines lui faut-il au minimum pour avoir au moins $100$ € ?`,
       solution: `**1.** Un passage représente **une semaine** : on ajoute $5$ € à la tirelire. Après $3$ passages : $20 + 3 \\times 5 = 20 + 15 = 35$ €.
 
-**2.** Après $12$ passages : $20 + 12 \\times 5 = 20 + 60 = 80$. Le lutin dit **$80$**.
+**2.** Après $12$ passages : $20 + 12 \\times 5 = 20 + 60 = 80$. La sortie est **$80$**.
 
 **3.** Il faut ajouter $100 - 20 = 80$ €, à raison de $5$ € par semaine : $80 \\div 5 = 16$. On remplace $12$ par **$16$** : au bout de $16$ semaines, Sami a exactement $100$ €.
 
-**4.** Script de Lou : « quand drapeau cliqué ; mettre [argent] à 0 ; répéter … fois : ajouter 7 à [argent] ; dire (argent) ».
+**4.** Programme de Lou : « entrée : 0 ; répéter … fois : ajouter 7 ; sortie : le nombre obtenu ».
 $7 \\times 14 = 98$ € : c'est moins que $100$ €. $7 \\times 15 = 105$ € : c'est au moins $100$ €. Il faut **$15$ semaines** au minimum (donc « répéter 15 fois »).`
     },
     {
@@ -8307,46 +8885,41 @@ Vérification : après $10$ passages, Lapin est à $150$ pas et Tortue à $100 +
     },
     {
       id: "6A1-ds-13",
-      title: "Que dit le lutin ?",
+      title: "Un programme de calcul à cartes",
       difficulty: 1,
       points: 4,
-      statement: `On exécute le script Scratch suivant, qui utilise une variable « nombre » :
+      statement: `Un programme de calcul s'écrit avec trois cartes, à appliquer dans l'ordre :
 
-\`\`\`scratch
-quand drapeau cliqué
-mettre [nombre] à 7
-ajouter 5 à [nombre]
-mettre [nombre] à (nombre * 2)
-ajouter -4 à [nombre]
-dire (nombre)
-\`\`\`
+- carte 1 : « ajouter $5$ »
+- carte 2 : « multiplier par $2$ »
+- carte 3 : « retirer $4$ »
 
-1. Recopier et compléter le tableau en donnant la valeur de « nombre » après chaque instruction.
+Le nombre donné au départ est l'**entrée** du programme ; le nombre obtenu à la fin est sa **sortie**.
 
-| Instruction | mettre à $7$ | ajouter $5$ | multiplier par $2$ | ajouter $-4$ |
+1. L'entrée est $7$. Recopier et compléter le tableau en donnant le nombre obtenu après chaque carte.
+
+| Étape | entrée | carte 1 : ajouter $5$ | carte 2 : multiplier par $2$ | carte 3 : retirer $4$ |
 |:---|:---:|:---:|:---:|:---:|
-| Valeur de « nombre » | | | | |
+| Nombre obtenu | $7$ | | | |
 
-2. Que dit le lutin à la fin ?
-3. On remplace la deuxième ligne par « mettre [nombre] à 10 ». Que dit alors le lutin ?
-4. Par quel nombre faut-il remplacer $7$ pour que le lutin dise $30$ ? Expliquer la démarche.`,
-      solution: `**1.** Les instructions sont exécutées dans l'ordre, de haut en bas :
+2. Quelle est la sortie lorsque l'entrée est $7$ ?
+3. Quelle est la sortie lorsque l'entrée est $10$ ?
+4. Quelle entrée faut-il choisir pour que la sortie soit $30$ ? Expliquer la démarche.`,
+      solution: `**1.** Les cartes sont appliquées dans l'ordre, chacune au nombre donné par la précédente :
 
-| Instruction | mettre à $7$ | ajouter $5$ | multiplier par $2$ | ajouter $-4$ |
+| Étape | entrée | carte 1 : ajouter $5$ | carte 2 : multiplier par $2$ | carte 3 : retirer $4$ |
 |:---|:---:|:---:|:---:|:---:|
-| Valeur de « nombre » | $7$ | $12$ | $24$ | $20$ |
+| Nombre obtenu | $7$ | $12$ | $24$ | $20$ |
 
-(« ajouter $-4$ » revient à enlever $4$ : $24 - 4 = 20$.)
+**2.** La sortie est **$20$**.
 
-**2.** Le lutin dit **$20$**.
+**3.** $10 + 5 = 15$ ; $15 \\times 2 = 30$ ; $30 - 4 = 26$. La sortie est **$26$**.
 
-**3.** $10 \\to 10 + 5 = 15 \\to 15 \\times 2 = 30 \\to 30 - 4 = 26$. Le lutin dit **$26$**.
-
-**4.** On remonte le programme en faisant les opérations inverses, en partant de la fin :
-- avant « ajouter $-4$ », le nombre valait $30 + 4 = 34$ ;
+**4.** On remonte le programme à partir de la sortie, en faisant les opérations inverses et en commençant par la dernière carte :
+- avant « retirer $4$ », le nombre valait $30 + 4 = 34$ ;
 - avant « multiplier par $2$ », il valait $34 \\div 2 = 17$ ;
 - avant « ajouter $5$ », il valait $17 - 5 = 12$.
-Il faut remplacer $7$ par **$12$**. (Vérification : $12 + 5 = 17$ ; $17 \\times 2 = 34$ ; $34 - 4 = 30$.)`
+Il faut choisir **$12$** en entrée. (Vérification : $12 + 5 = 17$ ; $17 \\times 2 = 34$ ; $34 - 4 = 30$.)`
     },
     {
       id: "6A1-ds-14",
@@ -8394,52 +8967,49 @@ répéter 4 fois
       title: "Le compte à rebours",
       difficulty: 3,
       points: 5,
-      statement: `On exécute le script suivant, qui utilise une variable $n$ :
+      statement: `Un programme de compte à rebours reçoit un nombre en **entrée** et affiche des nombres à l'écran : ce sont ses **sorties**.
 
-\`\`\`scratch
-quand drapeau cliqué
-mettre [n] à 50
-répéter jusqu'à ce que (n < 10)
-    dire (n)
-    attendre 1 secondes
-    ajouter -7 à [n]
-dire [Fin !]
+\`\`\`text
+entrée : 50
+répéter 6 fois
+    afficher le nombre
+    attendre 1 seconde
+    retirer 7
+afficher « Fin ! »
 \`\`\`
 
-La boucle « répéter jusqu'à ce que » s'arrête dès que la condition $n < 10$ est vraie au moment où elle est testée (c'est-à-dire au début de chaque passage).
+À chaque passage, le nombre obtenu après « retirer 7 » est celui qu'on utilise au passage suivant.
 
-1. Recopier et compléter le tableau jusqu'à l'arrêt de la boucle.
-
-| Passage | $1$ | $2$ | $3$ | $\\ldots$ |
-|:---|:---:|:---:|:---:|:---:|
-| Nombre dit par le lutin | $50$ | | | |
-
-2. Combien de nombres le lutin dit-il avant « Fin ! » ? Combien de temps environ dure le compte à rebours ?
-3. Quelle est la valeur de $n$ à la fin du script ?
-4. On veut que le lutin dise $50$ ; $45$ ; $40$ ; … ; $10$ ; $5$, puis « Fin ! ». Quelles modifications faut-il faire ? Combien de nombres dira-t-il alors ?`,
-      solution: `**1.** $n$ commence à $50$ et diminue de $7$ après chaque nombre dit :
+1. Recopier et compléter le tableau.
 
 | Passage | $1$ | $2$ | $3$ | $4$ | $5$ | $6$ |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|
-| Nombre dit par le lutin | $50$ | $43$ | $36$ | $29$ | $22$ | $15$ |
+| Nombre affiché | $50$ | | | | | |
 
-Après le $6^\\text{e}$ passage, $n = 15 - 7 = 8$. Au test suivant, $8 < 10$ est vrai : la boucle s'arrête.
+2. Combien de nombres le programme affiche-t-il avant « Fin ! » ? Combien de temps environ dure le compte à rebours ?
+3. Quel nombre obtient-on après le dernier « retirer $7$ » ? Est-il affiché ? Justifier.
+4. On veut afficher $50$ ; $45$ ; $40$ ; … ; $10$ ; $5$, puis « Fin ! ». Quelles modifications faut-il faire dans le programme ? Combien de nombres seront alors affichés ?`,
+      solution: `**1.** On part de $50$ et on retire $7$ après chaque nombre affiché :
 
-**2.** Le lutin dit **$6$ nombres**. Chaque passage dure environ $1$ seconde : le compte à rebours dure environ **$6$ secondes**.
+| Passage | $1$ | $2$ | $3$ | $4$ | $5$ | $6$ |
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|
+| Nombre affiché | $50$ | $43$ | $36$ | $29$ | $22$ | $15$ |
 
-**3.** À la fin, $n = 8$.
+**2.** La boucle est répétée $6$ fois, avec un nombre affiché à chaque passage : le programme affiche **$6$ nombres**. Chaque passage dure environ $1$ seconde : le compte à rebours dure environ **$6$ secondes**.
 
-**4.** Il faut enlever $5$ à chaque passage : remplacer « ajouter -7 à [n] » par **« ajouter -5 à [n] »**.
-Il faut aussi dire $5$ mais pas $0$ : on remplace la condition par **« n < 5 »** (ou « n = 0 »). En effet, après $5$, on obtient $n = 0$ et $0 < 5$ arrête la boucle.
-Les nombres dits sont $50$ ; $45$ ; … ; $5$ : ce sont les multiples de $5$ de $5$ à $50$, soit $50 \\div 5 = 10$ nombres.
-(Avec la condition « n < 10 » inchangée, le lutin s'arrêterait après $10$ et ne dirait pas $5$.)`
+**3.** Après le $6^\\text{e}$ passage, on obtient $15 - 7 = 8$. Ce nombre n'est **pas affiché** : la boucle est terminée et le programme passe directement à « Fin ! ».
+
+**4.** Il faut retirer $5$ à chaque passage : on remplace « retirer 7 » par **« retirer 5 »**.
+Les nombres affichés sont $50$ ; $45$ ; … ; $5$ : ce sont les multiples de $5$ de $5$ à $50$, soit $50 \\div 5 = 10$ nombres. On remplace donc « répéter 6 fois » par **« répéter 10 fois »**.`
     },
     {
       id: "6A1-ds-16",
       title: "Le jeu du nombre mystère",
       difficulty: 4,
       points: 6,
-      statement: `Voici le script d'un jeu : le joueur doit deviner un nombre entier compris entre $1$ et $100$.
+      statement: `**Pour aller plus loin** (au-delà du programme de 6e) : ce script utilise des variables, des conditions (« si … alors ») et une boucle « répéter jusqu'à ce que ».
+
+Voici le script d'un jeu : le joueur doit deviner un nombre entier compris entre $1$ et $100$.
 
 \`\`\`scratch
 quand drapeau cliqué

@@ -3,7 +3,9 @@
  * Tests du cœur applicatif : correction des réponses (validateAnswer) et robustesse du stockage.
  * Usage : node scripts/tests/test_core.js
  */
+const fs = require('fs');
 const path = require('path');
+const vm = require('vm');
 const ROOT = path.resolve(__dirname, '..', '..');
 
 const store = {};
@@ -64,6 +66,15 @@ exact('(3;5)', '(3 ; 5)', true);
 exact('2x+3', '2x + 3', true);
 exact('−3', '-3', true);
 exact('oui', 'vrai', true);
+exact('5=x', '5', true);
+exact('≈3,5', '3.5', true);
+exact('environ 3,5', '3.5', true);
+exact('8.', '8', true);
+exact('x²+2x+1', 'x^2+2x+1', true);
+exact('4/-49', '-4/49', true);
+exact('-4/49', '4/-49', true);
+exact('-4/-49', '4/49', true);
+exact('-4/-49', '-4/49', false);
 
 // --- Racines, π, mots : analyseur d'expressions (sans eval) ---------------------------------
 // Écritures équivalentes d'une forme exacte
@@ -110,7 +121,81 @@ advice('√2', '1,41', 'approx');
 advice('0,07', '0,06', null);
 advice('5', '3√2', null);
 check('Message de conseil défini pour chaque motif',
-  ['exact', 'radical', 'denominator', 'fraction', 'form', 'rounding', 'approx'].every(k => Array.isArray(E.ADVICE_MESSAGES[k]) && E.ADVICE_MESSAGES[k].length === 2), true);
+  ['exact', 'radical', 'denominator', 'fraction', 'fractionForm', 'decimalForm', 'scientific', 'power10', 'unit', 'form', 'rounding', 'approx'].every(k => Array.isArray(E.ADVICE_MESSAGES[k]) && E.ADVICE_MESSAGES[k].length === 2), true);
+
+// Forme imposée par la consigne : sans consigne de forme (ci-dessus), seule la valeur compte
+const SCI = "Donner l'écriture scientifique de ce nombre.";
+const POW = "Écrire sous la forme d'une seule puissance de 10.";
+const FRAC = 'Donner le résultat sous forme de fraction irréductible.';
+const LIBRE = '*Saisir la valeur exacte : entier, décimal ou fraction irréductible (par exemple -7/3).*';
+const DECI = "Donner l'écriture décimale de la fraction 14/5.";
+const inForm = (user, answer, statement, expected) =>
+  check(`validateAnswer(${JSON.stringify(user)} pour ${JSON.stringify(answer)}, ${statement})`, E.validateAnswer(user, { type: 'exact', answer, statement }), expected);
+['9,1*10^6', '9,1 x 10^6', '9,1×10⁶', '9,1.10^6', '9,1 10^6', '9,1e6', '9,1E6', '9.1*10^(6)'].forEach(u => inForm(u, '9.1*10^6', SCI, true));
+['9100000', '91*10^5', '0,91*10^7'].forEach(u => advice(u, '9.1*10^6', 'scientific', SCI));
+inForm('6,02.10^23', '6.02*10^23', SCI, true);
+inForm('1,5', '1.5*10^0', SCI, true);
+advice('15*10^-1', '1.5*10^0', 'scientific', SCI);
+advice('3/2', '1.5*10^0', 'scientific', SCI);
+advice('100000000000', '10^11', 'power10', POW);
+inForm('10^11', '10^11', POW, true);
+inForm('10¹¹', '10^11', POW, true);
+exact('9100000', '9.1*10^6', true);
+advice('1,25', '5/4', 'fractionForm', FRAC);
+advice('10/8', '5/4', 'fraction', FRAC);
+inForm('5/4', '5/4', FRAC, true);
+inForm('2', '2', FRAC, true);
+inForm('1,25', '5/4', LIBRE, true);
+advice('0,1666666667', '1/6', 'exact');
+advice('0,1666666667', '1/6', 'exact', LIBRE);
+exact('1,25', '5/4', true);
+advice('14/5', '2.8', 'decimalForm', DECI);
+inForm('2,8', '2.8', DECI, true);
+// Formulations courtes de la consigne, recopie de l'énoncé
+['(fraction)', '(fraction $a/b$)'].forEach(c => advice('0,375', '3/8', 'fractionForm', `Quelle est la probabilité ? ${c}`));
+inForm('0,375', '3/8', 'Quelle est la probabilité ? (entier ou fraction)', true);
+['sous la forme d\'un nombre décimal.', '(nombre décimal)', '(entier ou décimal)', '(valeur exacte, nombre décimal)'].forEach(c => advice('51/2', '25.5', 'decimalForm', `Écrire le résultat ${c}`));
+advice('51/2', '25.5', 'decimalForm', 'Donner le quotient décimal exact de 51 par 2.');
+advice('102/4', '25.5', 'decimalForm', 'Donner le quotient décimal exact de 102 par 4.');
+inForm('51/2', '25.5', 'Saisir la valeur exacte : (décimal ou fraction)', true);
+inForm('51/2', '25.5', 'Ce nombre n\'est pas un nombre décimal, et ?', true);
+advice('9,1*10^6', '9100000', 'decimalForm', "Donner l'écriture décimale de $9{,}1 \\times 10^{6}$.");
+advice('10^5', '100000', 'decimalForm', 'Écrire sous forme décimale $N = 10^{5}$.');
+advice('10^3', '1000', 'decimalForm', 'Calculer la valeur de $A = 10^{3}$.');
+advice('10^-2', '0.01', 'decimalForm', 'Calculer la valeur de $A = 10^{-2}$.');
+inForm('10^3', '1000', 'Combien y a-t-il de mètres dans un kilomètre ?', true);
+inForm('5*10^3', '5000', 'Sachant que 1 km = 10^3 m, convertir 5 km en mètres.', true);
+// Décorations : « 5 = x » s'enlève, pas « f(x) = b »
+exact('f(x)=b', 'f(x)=a', false);
+exact('y+1=b', 'y+1=a', false);
+exact('√2=x', '√2', true);
+exact('sqrt(2)=x', '√2', true);
+exact('-1/2=x', '-1/2', true);
+// Unités : celles de la grandeur demandée sont acceptées, une unité d'une autre grandeur vaut un conseil
+[['16 km²', "Calculer l'aire du champ."], ['16 km2', "Calculer l'aire du champ."], ['16 dam²', "Calculer l'aire du champ."], ['16 hm²', "Calculer l'aire du champ."],
+ ['16 dm³', 'Calculer le volume.'], ['16 mL/h', 'Quel est le débit ?'], ['16 mmol/L', 'Quelle est la concentration ?'], ['16 mg/kg', 'Quelle est la posologie ?'],
+ ['12 m', 'Un ruban coûte 3 €. Combien de mètres peut-on acheter ?'], ['12 g', 'Un sachet coûte 3 €. Combien de grammes contient-il ?'],
+ ['12 t', 'Un camion coûte 3 €. Combien de tonnes transporte-t-il ?'], ['12 h', 'Le tarif est de 3 €. Combien d\'heures de location ?']]
+  .forEach(([u, s]) => inForm(u, u.split(' ')[0], s, true));
+advice('12 cm', '12', 'unit', 'Un sachet coûte 3 €. Combien de grammes contient-il ?');
+inForm('12 m²', '12', 'Combien de mètres carrés de moquette faut-il ?', true);
+inForm('12 m³', '12', 'Combien de mètres cubes de sable faut-il ?', true);
+[['16 cm²', "Calculer l'aire du carré."], ['16 cm2', "Calculer l'aire du carré."], ['16 cm^2', "Calculer l'aire, en cm²."],
+ ['16 cm³', 'Calculer le volume du cube.'], ['16 %', 'Quel est le taux de réduction ?'], ['16 kg', 'Quelle est sa masse ?'],
+ ['16 degrés', "Quelle est la mesure de l'angle ?"], ['16°', "Quelle est la mesure de l'angle ?"], ['16 min', 'Quelle est la durée ?'],
+ ['16 ml', 'Quel volume, en mL, faut-il ?'], ['16 €', 'Quel est le prix ?'], ['16 euros', 'Quel est le prix ?'], ['16 km/h', 'Quelle est sa vitesse ?'],
+ ['16 mg/L', 'Quelle est la concentration, en mg/L ?'], ['16 mg/kg', 'Quelle dose ? (en mg/kg)'], ['16 ans', "Quel est l'âge de Léa ?"], ['16 m', 'Combien cela fait-il ?']]
+  .forEach(([u, s]) => inForm(u, '16', s, true));
+advice('11°', '11', 'unit', 'Calculer la longueur AB, en cm.');
+advice('16 m²', '16', 'unit', "Calculer l'aire, en cm².");
+advice('5000 mm', '5000', 'unit', 'Convertir 5 km en m.');
+inForm('5000 m', '5000', 'Convertir 5 km en m.', true);
+inForm('2x+m', '2x+m', 'Réduire.', true);
+// Fraction : l'attendu non réduit (lecture d'une graduation) ne réclame aucune simplification
+check('Attendu non réduit : pas de conseil', E.checkUnsimplifiedFraction('14/8', { type: 'exact', answer: '14/8' }), null);
+check('Réponse admise telle quelle : pas de conseil', E.checkUnsimplifiedFraction('2/4', { type: 'exact', answer: '1/2', acceptedAnswers: ['2/4'] }), null);
+check('Fraction réductible : conseil', !!E.checkUnsimplifiedFraction('3/6', { type: 'exact', answer: '1/2' }), true);
+check('Dénominateur négatif réductible : conseil', !!E.checkUnsimplifiedFraction('3/-6', { type: 'exact', answer: '-1/2' }), true);
 
 // Réponses alternatives proposées par le générateur (ex. ancienne saisie « (3;2) » pour 3√2)
 const withAlt = { type: 'exact', answer: '(3;2)', acceptedAnswers: ['3√2'] };
@@ -130,6 +215,13 @@ for (let i = 0; i < 200; i++) {
   positions.add(q.correctIndex);
 }
 check('shuffleMcq varie la position de la bonne réponse', positions.size, 4);
+// QCM dont la bonne réponse est introuvable : ni mélangé, ni corrigé à tort sur la première option
+const orphan = E.shuffleMcq({ type: 'mcq', options: ['a', 'b'], answer: 'c' });
+check('QCM sans bonne réponse : pas de mélange', orphan._mcqShuffled, undefined);
+check('QCM sans bonne réponse : pas d\'indice forcé', orphan.correctIndex, undefined);
+check('QCM sans bonne réponse : détecté', E._mcqIsBroken(orphan), true);
+check('QCM à bonne réponse textuelle : sain', E._mcqIsBroken({ type: 'mcq', options: ['a', 'b'], answer: 'b' }), false);
+check('QCM à indice : sain', E._mcqIsBroken({ type: 'mcq', options: ['a', 'b'], correctIndex: 1 }), false);
 
 // --- Stockage : données corrompues ou partielles ------------------------------------------------
 const KEY = 'maths_3e_progress_v1';
@@ -187,6 +279,26 @@ const answer = ok => {
   return E.submitAnswer(ok ? '7' : '8');
 };
 const tiersOf = () => (S.getChapterProgress('SIM').validatedTiers || []).slice().sort();
+
+// Un QCM sans bonne réponse identifiable n'est jamais servi : la banque statique prend le relais
+{
+  const generate = window.MathsGenerators.generateForChapter;
+  const pick = E.pickStaticExercise;
+  window.MathsGenerators.generateForChapter = () => ({ type: 'mcq', title: 't', statement: 'cassé', options: ['a', 'b'], answer: 'c', solution: 's' });
+  E.pickStaticExercise = () => ({ type: 'exact', title: 't', statement: 'sain', answer: '7', solution: 's' });
+  freshChapter();
+  check('nextExercise écarte un QCM sans bonne réponse', E.state.currentExercise.statement, 'sain');
+  window.MathsGenerators.generateForChapter = generate;
+  E.pickStaticExercise = pick;
+}
+
+// Un conseil de forme (écriture attendue non respectée) n'est pas compté comme une erreur
+freshChapter();
+E.state.currentExercise = { type: 'exact', title: 't', statement: SCI, answer: '9.1*10^6', solution: 's' };
+const histBeforeSci = E.state.sessionHistory.length;
+check('submitAnswer : conseil « scientific »', E.submitAnswer('9100000').adviceKind, 'scientific');
+check('submitAnswer : conseil de forme non compté', E.state.sessionHistory.length, histBeforeSci);
+check('submitAnswer : écriture scientifique acceptée ensuite', E.submitAnswer('9,1 x 10^6').isCorrect, true);
 
 // Un conseil de forme (racine à simplifier) n'est pas compté comme une erreur
 freshChapter();
@@ -355,6 +467,39 @@ check('Orange non comptée : 5 vertes ne suffisent pas', E.isTierObjectiveMet(no
 const guessers = Array.from({ length: 40 }, () => simulate(0, { mcq: 1, guess: true, maxQ: 100 }));
 check('QCM au hasard : palier 1 presque jamais validé en 100 questions', guessers.filter(r => r[1]).length <= 4, true);
 mcqRate = 0;
+
+// MathsApp est assemblé par Object.assign dans plusieurs fichiers : une méthode définie deux fois
+// écraserait l'autre sans erreur, selon l'ordre de chargement.
+{
+  const appDir = path.join(ROOT, 'js/app');
+  const files = ['js/app.js', ...fs.readdirSync(appDir).filter(f => f.endsWith('.js')).sort().map(f => `js/app/${f}`)];
+  const owners = new Map();
+  const duplicates = [];
+  let current = '';
+  const claim = (keys) => {
+    for (const key of keys) {
+      if (owners.has(key)) duplicates.push(`${key} (${owners.get(key)} et ${current})`);
+      owners.set(key, current);
+    }
+  };
+  const sandbox = { console, document: { addEventListener() {} }, __claim: source => claim(Object.keys(source)) };
+  sandbox.window = sandbox;
+  vm.createContext(sandbox);
+  vm.runInContext(`{
+    const assign = Object.assign;
+    Object.assign = function (target, ...sources) {
+      if (target === window.MathsApp) sources.forEach(window.__claim);
+      return assign(target, ...sources);
+    };
+  }`, sandbox);
+  for (const file of files) {
+    current = file;
+    vm.runInContext(fs.readFileSync(path.join(ROOT, file), 'utf8'), sandbox, { filename: file });
+    if (file === 'js/app.js') claim(Object.keys(sandbox.MathsApp));
+  }
+  check('MathsApp : aucune clé définie deux fois', duplicates.join(', '), '');
+  check('MathsApp : assemblage complet observé', owners.size > 145 && files.length >= 8, true);
+}
 
 if (failures) {
   logError(`\n✖ test_core : ${failures} échec(s)`);

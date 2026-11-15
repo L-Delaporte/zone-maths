@@ -408,6 +408,38 @@ Sam a sans doute calculé de gauche à droite sans respecter les priorités, ou 
 **4.** Par exemple $4 + 4 + 4 - 4 = 8$ (ou $4 \\times 4 - 4 - 4 = 8$).
 Pour $4$ : par exemple $4 + (4 - 4) \\times 4 = 4 + 0 = 4$ (ou $(4 - 4) \\times 4 + 4$, ou $4 \\times (4 - 4) + 4$).
 Toute expression correcte utilisant exactement quatre chiffres $4$ est acceptée.`
+    },
+    {
+      id: "5N1-ds-17",
+      title: "Diviser par un nombre décimal",
+      difficulty: 2,
+      points: 6,
+      statement: `Sans calculatrice.
+
+1. Recopier et compléter pour obtenir un diviseur entier, sans changer le quotient :
+   a) $1{,}8 \\div 0{,}3 = 18 \\div \\ldots$
+   b) $7{,}5 \\div 0{,}25 = \\ldots \\div 25$
+2. Calculer en se ramenant à un diviseur entier :
+   a) $4{,}2 \\div 0{,}6$
+   b) $9{,}6 \\div 1{,}2$
+   c) $1{,}35 \\div 0{,}15$
+3. Lucas affirme : « $6 \\div 0{,}2 = 6 \\div 2 = 3$ ». Expliquer son erreur, puis donner le bon résultat.
+4. Un ruban de $13{,}5$ m est coupé, sans chute, en morceaux de $0{,}75$ m. Combien de morceaux obtient-on ?`,
+      solution: `**1. a)** On multiplie les deux nombres par $10$ : $1{,}8 \\div 0{,}3 = 18 \\div 3$.
+
+**b)** On multiplie les deux nombres par $100$ : $7{,}5 \\div 0{,}25 = 750 \\div 25$.
+
+**2. a)** $4{,}2 \\div 0{,}6 = 42 \\div 6 = 7$.
+
+**b)** $9{,}6 \\div 1{,}2 = 96 \\div 12 = 8$.
+
+**c)** $1{,}35 \\div 0{,}15 = 135 \\div 15 = 9$.
+
+**3.** Lucas n'a multiplié que le diviseur par $10$ : il a changé le quotient. Il faut multiplier les deux nombres par $10$ :
+$6 \\div 0{,}2 = 60 \\div 2 = 30$.
+
+**4.** $13{,}5 \\div 0{,}75 = 1\\,350 \\div 75 = 18$. On obtient $18$ morceaux.
+Vérification : $18 \\times 0{,}75 = 13{,}5$.`
     }
   ],
   "5N2": [
@@ -420,7 +452,7 @@ Toute expression correcte utilisant exactement quatre chiffres $4$ est acceptée
 
 1. Ranger ces nombres dans l'ordre croissant.
 2. Donner l'opposé de chacun de ces nombres.
-3. Quelle est la distance à zéro du nombre $-7$ ?
+3. Parmi ces nombres, citer ceux qui sont strictement négatifs, puis ceux qui sont strictement positifs. Quel nombre de la liste n'est ni l'un ni l'autre ?
 4. Recopier et compléter avec $<$ ou $>$, en justifiant :
    a) $-8 \\;\\ldots\\; -12$
    b) $-2{,}5 \\;\\ldots\\; -2{,}05$
@@ -430,7 +462,7 @@ $$-7 < -3 < -0{,}5 < 0 < 2 < 4{,}5$$
 
 **2.** L'opposé de $-3$ est $3$ ; de $2$ est $-2$ ; de $-0{,}5$ est $0{,}5$ ; de $4{,}5$ est $-4{,}5$ ; de $-7$ est $7$ ; l'opposé de $0$ est $0$.
 
-**3.** La distance à zéro de $-7$ est $7$.
+**3.** Strictement négatifs : $-3$ ; $-0{,}5$ ; $-7$. Strictement positifs : $2$ ; $4{,}5$. Le nombre $0$ n'est ni strictement positif, ni strictement négatif.
 
 **4. a)** $-8 > -12$ : deux nombres négatifs sont rangés dans l'ordre inverse de leurs distances à zéro, et $8 < 12$.
 
@@ -631,7 +663,7 @@ Solde final : $125 + 235 - 387{,}50 = 360 - 387{,}50 = -27{,}50$ €. On retrouv
     },
     {
       id: "5N2-ds-09",
-      title: "Opposés et distance à zéro",
+      title: "Opposés et comparaison de nombres relatifs",
       difficulty: 1,
       points: 4,
       statement: `On considère les nombres suivants :
@@ -639,9 +671,9 @@ $$-7 \\qquad 4{,}5 \\qquad 0 \\qquad -2{,}5 \\qquad 6 \\qquad -6$$
 
 1. Donner l'opposé de chacun de ces nombres.
 2. Quels sont, dans cette liste, les deux nombres opposés l'un de l'autre ?
-3. Donner la distance à zéro de $-7$, de $4{,}5$ et de $-2{,}5$.
+3. Comparer $-7$ et $-2{,}5$, puis $-7$ et $-6$, en justifiant à l'aide de leurs distances à zéro.
 4. Sur une droite graduée, le point $A$ a pour abscisse $-3$ et le point $B$ a pour abscisse $5$. Quelle est la longueur du segment $[AB]$ (en unités de graduation) ? Justifier.`,
-      solution: `**1.** L'opposé d'un nombre a la même distance à zéro mais le signe contraire :
+      solution: `**1.** Deux nombres sont opposés lorsque leur somme est nulle. Un nombre non nul et son opposé ont la même distance à zéro et des signes contraires ; $0$ est son propre opposé :
 - opposé de $-7$ : $7$ ;
 - opposé de $4{,}5$ : $-4{,}5$ ;
 - opposé de $0$ : $0$ ;
@@ -651,7 +683,7 @@ $$-7 \\qquad 4{,}5 \\qquad 0 \\qquad -2{,}5 \\qquad 6 \\qquad -6$$
 
 **2.** $6$ et $-6$ sont opposés : leur somme vaut $0$ et ils sont à la même distance de zéro, de part et d'autre.
 
-**3.** La distance à zéro est le nombre sans son signe : $-7$ est à $7$ unités de zéro, $4{,}5$ à $4{,}5$ unités et $-2{,}5$ à $2{,}5$ unités.
+**3.** Entre deux nombres négatifs, le plus grand est celui qui a la plus petite distance à zéro. Les distances à zéro de $-7$ et de $-2{,}5$ sont $7$ et $2{,}5$ ; comme $2{,}5 < 7$, on a $-2{,}5 > -7$. De même, $6 < 7$, donc $-6 > -7$.
 
 **4.** $A$ est à $3$ unités à gauche de zéro et $B$ à $5$ unités à droite. Les deux points sont de part et d'autre de l'origine, donc $AB = 3 + 5 = 8$ unités. On peut aussi calculer $5 - (-3) = 5 + 3 = 8$.`
     },
@@ -850,10 +882,10 @@ Le soir du jour $18$ : $-3 + 3 = 0$. Il atteint le bord **le 18e jour**.`
   "5N3": [
     {
       id: "5N3-ds-01",
-      title: "Fractions égales et simplification",
+      title: "Fractions égales",
       difficulty: 1,
       points: 4,
-      statement: `1. Simplifier chaque fraction pour la rendre la plus simple possible, en indiquant par quel nombre on divise.
+      statement: `1. Pour chaque fraction, écrire une fraction égale avec un dénominateur plus petit, en indiquant par quel nombre on divise.
    a) $\\dfrac{18}{24}$
    b) $\\dfrac{35}{49}$
    c) $\\dfrac{45}{60}$
@@ -886,7 +918,7 @@ Le soir du jour $18$ : $-3 + 3 = 0$. Il atteint le bord **le 18e jour**.`
       title: "Additionner et soustraire des fractions",
       difficulty: 1,
       points: 4,
-      statement: `Calculer et donner le résultat sous la forme d'une fraction la plus simple possible.
+      statement: `Calculer et donner le résultat sous la forme d'une fraction.
 
 1. $A = \\dfrac{3}{7} + \\dfrac{2}{7}$
 2. $B = \\dfrac{5}{6} - \\dfrac{1}{3}$
@@ -981,10 +1013,10 @@ Vérification : $60 + 30 + 150 = 240$ m².`
       points: 5,
       statement: `Dans la classe de 5e A, $18$ élèves sur $24$ pratiquent un sport en club. Dans la classe de 5e B, $20$ élèves sur $30$ pratiquent un sport en club.
 
-1. Écrire, pour chaque classe, la proportion d'élèves pratiquant un sport en club sous la forme d'une fraction la plus simple possible.
+1. Écrire, pour chaque classe, la proportion d'élèves pratiquant un sport en club sous la forme d'une fraction.
 2. Dans quelle classe la proportion de sportifs est-elle la plus grande ? Justifier.
 3. Un élève dit : « C'est la 5e B, car il y a $20$ sportifs, contre $18$ en 5e A. » Que penser de son raisonnement ?
-4. Écrire la proportion de sportifs dans l'ensemble des deux classes réunies, sous forme simplifiée.`,
+4. Écrire la proportion de sportifs dans l'ensemble des deux classes réunies, sous la forme d'une fraction.`,
       solution: `**1.** 5e A : $\\dfrac{18}{24} = \\dfrac{3}{4}$ (division par $6$). 5e B : $\\dfrac{20}{30} = \\dfrac{2}{3}$ (division par $10$).
 
 **2.** Au dénominateur $12$ : $\\dfrac{3}{4} = \\dfrac{9}{12}$ et $\\dfrac{2}{3} = \\dfrac{8}{12}$. Comme $\\dfrac{9}{12} > \\dfrac{8}{12}$, la proportion est plus grande en **5e A**.
@@ -1046,7 +1078,7 @@ On utilise $54 \\div 3 = 18$ L ; il restera $21 - 18 = 3$ litres (soit $\\dfrac{
    a) $3 \\times \\ldots = 7$
    b) $8 \\times \\ldots = 30$
 2. Donner l'écriture décimale de $\\frac{7}{4}$ et de $\\frac{3}{8}$.
-3. a) Simplifier la fraction $\\frac{30}{8}$, puis donner son écriture décimale.
+3. a) Donner l'écriture décimale de la fraction $\\frac{30}{8}$.
    b) Vérifier que $8 \\times 3{,}75 = 30$.
 4. La fraction $\\frac{2}{3}$ a-t-elle une écriture décimale exacte ? En donner une valeur approchée au centième.`,
       solution: `**1.** Par définition, le quotient de $a$ par $b$ est le nombre qui, multiplié par $b$, donne $a$ ; il s'écrit $\\frac{a}{b}$.
@@ -1098,7 +1130,7 @@ $\\frac{7}{45} = \\frac{28}{180}$ et $\\frac{3}{20} = \\frac{27}{180}$. Comme $2
 Une journée dure $24$ heures.
 
 1. Combien d'heures Zoé a-t-elle dormi ?
-2. Quelle fraction de la journée représentent ces quatre activités ensemble ? Donner le résultat sous forme simplifiée.
+2. Quelle fraction de la journée représentent ces quatre activités ensemble ?
 3. Quelle fraction de la journée lui reste-t-il pour ses autres activités ? Combien d'heures cela représente-t-il ?
 4. Zoé affirme : « J'ai passé deux fois plus de temps devant un écran qu'à faire du sport. » A-t-elle raison ? Calculer la différence entre ces deux fractions de la journée.`,
       solution: `**1.** $\\frac{3}{8}$ de $24$ h : $24 \\div 8 = 3$, puis $3 \\times 3 = 9$. Zoé a dormi **$9$ heures**.
@@ -1148,7 +1180,7 @@ Vérification : $\\frac{6}{12} + \\frac{3}{12} + \\frac{2}{12} = \\frac{11}{12}$
 
 1. Combien de parts chacun a-t-il mangées ?
 2. Écrire chacune des trois fractions avec le dénominateur $12$.
-3. Quelle fraction de la pizza a été mangée en tout ? Donner le résultat sous forme simplifiée.
+3. Quelle fraction de la pizza a été mangée en tout ?
 4. Quelle fraction de la pizza reste-t-il ? Combien de parts cela représente-t-il ?`,
       solution: `**1.** $\\frac{1}{4}$ de $12$ parts : $12 \\div 4 = 3$ parts pour Ana.
 $\\frac{1}{3}$ de $12$ parts : $12 \\div 3 = 4$ parts pour Ben.
@@ -1197,7 +1229,7 @@ Du plus avancé au moins avancé : **Jules, Karim, Inès**.
 1. Quelle fraction du mélange représente la peinture jaune ? Détailler le calcul.
 2. Calculer le volume (en litres) de chacune des trois peintures.
 3. Hugo dit : « Il y a plus de jaune que de blanc. » A-t-il raison ? Justifier.
-4. Pour obtenir un vert plus foncé, Hugo ajoute $2$ litres de peinture bleue à ses $20$ litres. Quelle fraction du nouveau mélange la peinture bleue représente-t-elle ? Donner le résultat sous forme simplifiée.`,
+4. Pour obtenir un vert plus foncé, Hugo ajoute $2$ litres de peinture bleue à ses $20$ litres. Quelle fraction du nouveau mélange la peinture bleue représente-t-elle ?`,
       solution: `**1.** On écrit les fractions avec le dénominateur $10$ : $\\frac{2}{5} = \\frac{4}{10}$.
 Blanc et bleu ensemble : $\\frac{3}{10} + \\frac{4}{10} = \\frac{7}{10}$.
 Jaune : $1 - \\frac{7}{10} = \\frac{10}{10} - \\frac{7}{10} = \\frac{3}{10}$.
@@ -1240,6 +1272,88 @@ Le trajet complet mesure $6 \\times 6 = 36$ km.
 
 **5.** Matin : $\\frac{1}{3}$ de $36$ km $= 36 \\div 3 = 12$ km. Il reste $36 - 12 = 24$ km.
 Après-midi : la moitié de $24$ km, soit $12$ km. Il reste $24 - 12 = 12$ km pour le lendemain : c'est bien la donnée de l'énoncé.`
+    },
+    {
+      id: "5N3-ds-17",
+      title: "Additionner avec des dénominateurs quelconques",
+      difficulty: 3,
+      points: 6,
+      statement: `Sans calculatrice. Donner chaque résultat sous la forme d'une fraction.
+
+1. Calculer :
+   a) $A = \\frac{5}{6} + \\frac{3}{4}$
+   b) $B = \\frac{7}{10} - \\frac{1}{4}$
+   c) $C = \\frac{5}{9} - \\frac{1}{6}$
+2. Noé affirme : « $\\frac{5}{6} + \\frac{3}{4} = \\frac{8}{10}$ ». Expliquer son erreur.
+3. Une gourde est remplie aux $\\frac{7}{8}$ de sa contenance. Hugo boit l'équivalent de $\\frac{1}{6}$ de la contenance de la gourde. Quelle fraction de la contenance reste-t-il dans la gourde ?
+4. Comparer $\\frac{5}{6}$ et $\\frac{3}{4}$ en les écrivant avec un même dénominateur.`,
+      solution: `**1. a)** Un multiple commun de $6$ et de $4$ est $12$ : $A = \\frac{10}{12} + \\frac{9}{12} = \\frac{19}{12}$.
+
+**b)** Un multiple commun de $10$ et de $4$ est $20$ : $B = \\frac{14}{20} - \\frac{5}{20} = \\frac{9}{20}$.
+
+**c)** Un multiple commun de $9$ et de $6$ est $18$ : $C = \\frac{10}{18} - \\frac{3}{18} = \\frac{7}{18}$.
+
+**2.** Noé a additionné les numérateurs entre eux et les dénominateurs entre eux. Il faut d'abord écrire les deux fractions avec un même dénominateur. D'après la question 1, le résultat exact est $\\frac{19}{12}$, qui est plus grand que $1$, alors que $\\frac{8}{10}$ est plus petit que $1$.
+
+**3.** Un multiple commun de $8$ et de $6$ est $24$ : $\\frac{7}{8} - \\frac{1}{6} = \\frac{21}{24} - \\frac{4}{24} = \\frac{17}{24}$. Il reste les **$\\frac{17}{24}$** de la contenance.
+
+**4.** $\\frac{5}{6} = \\frac{10}{12}$ et $\\frac{3}{4} = \\frac{9}{12}$. Comme $10 > 9$, on a $\\frac{5}{6} > \\frac{3}{4}$.`
+    },
+    {
+      id: "5N3-ds-18",
+      title: "Une même quantité, plusieurs écritures",
+      difficulty: 2,
+      points: 5,
+      statement: `1. Écrire $\\frac{23}{4}$ sous la forme de la somme d'un nombre entier et d'une fraction plus petite que $1$.
+2. On considère le nombre $1{,}4$.
+   a) L'écrire sous la forme d'une fraction de dénominateur $10$, puis sous la forme d'une fraction de dénominateur $5$.
+   b) L'écrire sous la forme de la somme d'un nombre entier et d'une fraction plus petite que $1$.
+   c) L'écrire sous la forme d'un pourcentage.
+3. Recopier et compléter le tableau.
+
+| Fraction | $\\frac{3}{4}$ | | $\\frac{6}{5}$ |
+|---|---|---|---|
+| Écriture décimale | | $0{,}35$ | |
+| Pourcentage | | | |
+
+4. Ranger dans l'ordre croissant les nombres $\\frac{6}{5}$ ; $\\;1{,}05$ ; $\\;110\\,\\%$.`,
+      solution: `**1.** $23 = 5 \\times 4 + 3$, donc $\\frac{23}{4} = 5 + \\frac{3}{4}$.
+
+**2. a)** $1{,}4 = \\frac{14}{10} = \\frac{7}{5}$.
+
+**b)** $1{,}4 = 1 + 0{,}4 = 1 + \\frac{4}{10} = 1 + \\frac{2}{5}$.
+
+**c)** $1{,}4 = \\frac{140}{100} = 140\\,\\%$.
+
+**3.**
+
+| Fraction | $\\frac{3}{4}$ | $\\frac{35}{100} = \\frac{7}{20}$ | $\\frac{6}{5}$ |
+|---|---|---|---|
+| Écriture décimale | $0{,}75$ | $0{,}35$ | $1{,}2$ |
+| Pourcentage | $75\\,\\%$ | $35\\,\\%$ | $120\\,\\%$ |
+
+**4.** On écrit les trois nombres en écriture décimale : $\\frac{6}{5} = 1{,}2$ et $110\\,\\% = 1{,}1$. Comme $1{,}05 < 1{,}1 < 1{,}2$, on obtient : $1{,}05 < 110\\,\\% < \\frac{6}{5}$.`
+    },
+    {
+      id: "5N3-ds-19",
+      title: "Pourquoi peut-on multiplier les deux termes ?",
+      difficulty: 3,
+      points: 4,
+      statement: `On rappelle que $\\frac{a}{b}$ est le nombre qui, multiplié par $b$, donne $a$.
+
+Soit $a$, $b$ et $k$ trois nombres, avec $b \\neq 0$ et $k \\neq 0$. On pose $q = \\frac{a}{b}$.
+
+1. Que vaut $b \\times q$ ?
+2. Montrer que $(b \\times k) \\times q = a \\times k$.
+3. En déduire que $\\frac{a}{b} = \\frac{a \\times k}{b \\times k}$.
+4. Application : à l'aide de cette propriété, écrire $\\frac{5}{8}$ sous la forme d'une fraction de dénominateur $48$.`,
+      solution: `**1.** Par définition du quotient, $b \\times q = a$.
+
+**2.** Dans un produit, on peut changer l'ordre des facteurs : $(b \\times k) \\times q = (b \\times q) \\times k$. D'après la question 1, on obtient $(b \\times k) \\times q = a \\times k$.
+
+**3.** Le nombre $q$, multiplié par $b \\times k$ (qui n'est pas nul), donne $a \\times k$. Par définition du quotient, $q = \\frac{a \\times k}{b \\times k}$. Comme $q = \\frac{a}{b}$, on a bien $\\frac{a}{b} = \\frac{a \\times k}{b \\times k}$.
+
+**4.** $48 = 8 \\times 6$, donc on prend $k = 6$ : $\\frac{5}{8} = \\frac{5 \\times 6}{8 \\times 6} = \\frac{30}{48}$.`
     }
   ],
   "5N4": [
@@ -1249,18 +1363,18 @@ Après-midi : la moitié de $24$ km, soit $12$ km. Il reste $24 - 12 = 12$ km po
       difficulty: 1,
       points: 4,
       statement: `1. Écrire sous la forme d'une puissance :
-   a) $3 \\times 3 \\times 3 \\times 3$
-   b) $2 \\times 2 \\times 2 \\times 2 \\times 2$
+   a) $6 \\times 6 \\times 6$
+   b) $2 \\times 2 \\times 2$
    c) $7 \\times 7$
-2. Calculer : $2^6$ ; $\\;3^3$ ; $\\;11^2$ ; $\\;2^1$.
+2. Calculer : $4^3$ ; $\\;3^3$ ; $\\;11^2$ ; $\\;10^3$.
 3. Dans l'écriture $5^3$, comment s'appelle le nombre $3$ ? Que signifie $5^3$ ? Calculer $5^3$.`,
-      solution: `**1. a)** $3 \\times 3 \\times 3 \\times 3 = 3^4$ ($4$ facteurs égaux à $3$).
+      solution: `**1. a)** $6 \\times 6 \\times 6 = 6^3$ ($3$ facteurs égaux à $6$ : « $6$ au cube »).
 
-**b)** $2 \\times 2 \\times 2 \\times 2 \\times 2 = 2^5$.
+**b)** $2 \\times 2 \\times 2 = 2^3$.
 
 **c)** $7 \\times 7 = 7^2$ (« $7$ au carré »).
 
-**2.** $2^6 = 2 \\times 2 \\times 2 \\times 2 \\times 2 \\times 2 = 64$ ; $\\;3^3 = 3 \\times 3 \\times 3 = 27$ ; $\\;11^2 = 11 \\times 11 = 121$ ; $\\;2^1 = 2$.
+**2.** $4^3 = 4 \\times 4 \\times 4 = 64$ ; $\\;3^3 = 3 \\times 3 \\times 3 = 27$ ; $\\;11^2 = 11 \\times 11 = 121$ ; $\\;10^3 = 10 \\times 10 \\times 10 = 1\\,000$.
 
 **3.** Le nombre $3$ est l'**exposant**. $5^3$ est le produit de $3$ facteurs égaux à $5$ : $5^3 = 5 \\times 5 \\times 5 = 125$.`
     },
@@ -1297,13 +1411,13 @@ Après-midi : la moitié de $24$ km, soit $12$ km. Il reste $24 - 12 = 12$ km po
       statement: `On rappelle que les puissances sont calculées avant les multiplications, divisions, additions et soustractions (mais après les parenthèses).
 
 1. Calculer :
-   a) $A = 3 + 2^4$
+   a) $A = 3 + 2^3$
    b) $B = (3 + 2)^2$
    c) $C = 2 \\times 5^2$
    d) $D = (2 \\times 5)^2$
 2. Calculer $E = 10 - 3^2$ et $F = 2^3 \\times 3^2$.
 3. Léo affirme que $(3 + 4)^2 = 3^2 + 4^2$. Vérifier par un calcul s'il a raison.`,
-      solution: `**1. a)** $A = 3 + 16 = 19$.
+      solution: `**1. a)** $A = 3 + 8 = 11$.
 
 **b)** Parenthèses d'abord : $B = 5^2 = 25$.
 
@@ -1317,34 +1431,36 @@ Après-midi : la moitié de $24$ km, soit $12$ km. Il reste $24 - 12 = 12$ km po
     },
     {
       id: "5N4-ds-04",
-      title: "Une population de bactéries",
+      title: "Cubes et volumes",
       difficulty: 2,
       points: 5,
-      statement: `Au début d'une expérience, on place $1$ bactérie dans un milieu favorable. Le nombre de bactéries double toutes les heures.
+      statement: `On rappelle que le volume d'un cube d'arête $a$ est égal à $a^3$.
 
 1. Recopier et compléter le tableau.
 
-| Nombre d'heures | $0$ | $1$ | $2$ | $3$ | $4$ | $5$ |
+| Arête du cube (en cm) | $1$ | $2$ | $3$ | $4$ | $5$ | $10$ |
 |---|---|---|---|---|---|---|
-| Nombre de bactéries | $1$ | $2$ | | | | |
+| Volume du cube (en cm³) | $1$ | $8$ | | | | |
 
-2. Écrire le nombre de bactéries au bout de $5$ heures sous la forme d'une puissance de $2$.
-3. Combien y a-t-il de bactéries au bout de $10$ heures ?
-4. Au bout de combien d'heures le nombre de bactéries dépasse-t-il $1\\,000$ pour la première fois ? Justifier.`,
-      solution: `**1.** On multiplie par $2$ à chaque heure : $1$ ; $2$ ; $4$ ; $8$ ; $16$ ; $32$.
+2. Écrire $1\\,000$ comme le cube d'un nombre entier.
+3. Un cube a une arête de $0{,}5$ dm. Calculer son volume en dm³.
+4. Un cube a un volume de $64$ cm³. Quelle est la longueur de son arête ? Justifier.`,
+      solution: `**1.** On calcule $a \\times a \\times a$ pour chaque arête : $1$ ; $8$ ; $3^3 = 27$ ; $4^3 = 64$ ; $5^3 = 125$ ; $10^3 = 1\\,000$ (en cm³).
 
-**2.** Au bout de $5$ heures : $2 \\times 2 \\times 2 \\times 2 \\times 2 = 2^5 = 32$ bactéries.
+**2.** $10 \\times 10 \\times 10 = 1\\,000$, donc $1\\,000 = 10^3$.
 
-**3.** Au bout de $10$ heures : $2^{10} = 1\\,024$ bactéries.
+**3.** $0{,}5^3 = 0{,}5 \\times 0{,}5 \\times 0{,}5 = 0{,}25 \\times 0{,}5 = 0{,}125$. Le volume est de **$0{,}125$ dm³**.
 
-**4.** $2^9 = 512 < 1\\,000$ et $2^{10} = 1\\,024 > 1\\,000$. Le nombre de bactéries dépasse $1\\,000$ pour la première fois **au bout de $10$ heures**.`
+**4.** $4 \\times 4 \\times 4 = 64$, donc $4^3 = 64$ : l'arête mesure **$4$ cm**.`
     },
     {
       id: "5N4-ds-05",
-      title: "La chaîne de messages",
+      title: "Pour aller plus loin : la chaîne de messages",
       difficulty: 3,
       points: 5,
-      statement: `Sacha envoie un message à $3$ amis (étape 1). À l'étape 2, chacun de ces amis le transfère à $3$ nouvelles personnes, et ainsi de suite : à chaque étape, chaque personne qui vient de recevoir le message le transfère à $3$ personnes qui ne l'ont pas encore reçu.
+      statement: `**Pour aller plus loin** : cet exercice utilise des exposants supérieurs à $3$, qui seront étudiés en 4e.
+
+Sacha envoie un message à $3$ amis (étape 1). À l'étape 2, chacun de ces amis le transfère à $3$ nouvelles personnes, et ainsi de suite : à chaque étape, chaque personne qui vient de recevoir le message le transfère à $3$ personnes qui ne l'ont pas encore reçu.
 
 1. Combien de personnes reçoivent le message à l'étape 2 ? à l'étape 3 ?
 2. Exprimer le nombre de personnes qui reçoivent le message à l'étape 5 sous forme d'une puissance de $3$, puis le calculer.
@@ -1379,45 +1495,50 @@ $100 \\div 25 = 4$ : l'aire est multipliée par **$4$** (et non par $2$).`
     },
     {
       id: "5N4-ds-07",
-      title: "Comparer des puissances",
+      title: "Comparer des carrés et des cubes",
       difficulty: 4,
       points: 6,
       statement: `1. Calculer puis comparer :
-   a) $2^5$ et $5^2$
-   b) $2^4$ et $4^2$
-   c) $3^4$ et $4^3$
-   d) $2^{10}$ et $10^3$
+   a) $2^3$ et $3^2$
+   b) $4^3$ et $8^2$
+   c) $5^3$ et $11^2$
+   d) $0{,}5^2$ et $0{,}5$
 2. Recopier et compléter le tableau.
 
-| $n$ | $1$ | $2$ | $3$ | $4$ | $5$ | $6$ |
+| $n$ | $0$ | $1$ | $2$ | $3$ | $4$ | $5$ |
 |---|---|---|---|---|---|---|
-| $2^n$ | | | | | | |
 | $n^2$ | | | | | | |
+| $n^3$ | | | | | | |
 
-3. Pour quelles valeurs de $n$ du tableau a-t-on $2^n > n^2$ ?`,
-      solution: `**1. a)** $2^5 = 32$ et $5^2 = 25$ : $2^5 > 5^2$.
+3. Pour quelles valeurs de $n$ du tableau a-t-on $n^3 = n^2$ ? Pour quelles valeurs a-t-on $n^3 > n^2$ ?
+4. Yanis affirme : « Le cube d'un nombre positif est toujours plus grand que son carré, ou égal à son carré. » Montrer qu'il a tort, à l'aide du nombre $0{,}5$.`,
+      solution: `**1. a)** $2^3 = 8$ et $3^2 = 9$ : $2^3 < 3^2$.
 
-**b)** $2^4 = 16$ et $4^2 = 16$ : $2^4 = 4^2$.
+**b)** $4^3 = 4 \\times 4 \\times 4 = 64$ et $8^2 = 8 \\times 8 = 64$ : $4^3 = 8^2$.
 
-**c)** $3^4 = 3 \\times 3 \\times 3 \\times 3 = 81$ et $4^3 = 4 \\times 4 \\times 4 = 64$ : $3^4 > 4^3$.
+**c)** $5^3 = 125$ et $11^2 = 121$ : $5^3 > 11^2$.
 
-**d)** $2^{10} = 1\\,024$ et $10^3 = 1\\,000$ : $2^{10} > 10^3$.
+**d)** $0{,}5^2 = 0{,}5 \\times 0{,}5 = 0{,}25$ et $0{,}25 < 0{,}5$ : $0{,}5^2 < 0{,}5$.
 
 **2.**
 
-| $n$ | $1$ | $2$ | $3$ | $4$ | $5$ | $6$ |
+| $n$ | $0$ | $1$ | $2$ | $3$ | $4$ | $5$ |
 |---|---|---|---|---|---|---|
-| $2^n$ | $2$ | $4$ | $8$ | $16$ | $32$ | $64$ |
-| $n^2$ | $1$ | $4$ | $9$ | $16$ | $25$ | $36$ |
+| $n^2$ | $0$ | $1$ | $4$ | $9$ | $16$ | $25$ |
+| $n^3$ | $0$ | $1$ | $8$ | $27$ | $64$ | $125$ |
 
-**3.** On a $2^n > n^2$ pour $n = 1$, $n = 5$ et $n = 6$. (Pour $n = 2$ et $n = 4$ il y a égalité, et pour $n = 3$ on a $8 < 9$.)`
+**3.** On a $n^3 = n^2$ pour $n = 0$ et $n = 1$, et $n^3 > n^2$ pour $n = 2$, $n = 3$, $n = 4$ et $n = 5$.
+
+**4.** $0{,}5^2 = 0{,}25$ et $0{,}5^3 = 0{,}25 \\times 0{,}5 = 0{,}125$. Comme $0{,}125 < 0{,}25$, le cube de $0{,}5$ est plus petit que son carré : **Yanis a tort**.`
     },
     {
       id: "5N4-ds-08",
-      title: "Les grains sur l'échiquier",
+      title: "Pour aller plus loin : les grains sur l'échiquier",
       difficulty: 4,
       points: 6,
-      statement: `On pose $1$ grain de riz sur la première case d'une rangée de $8$ cases, $2$ grains sur la deuxième, $4$ sur la troisième, et ainsi de suite : on double à chaque case.
+      statement: `**Pour aller plus loin** : cet exercice utilise des exposants supérieurs à $3$, qui seront étudiés en 4e.
+
+On pose $1$ grain de riz sur la première case d'une rangée de $8$ cases, $2$ grains sur la deuxième, $4$ sur la troisième, et ainsi de suite : on double à chaque case.
 
 1. Combien de grains y a-t-il sur la $4$e case ? sur la $8$e case ? Écrire ces nombres sous forme de puissances de $2$.
 2. Calculer le nombre total de grains sur les $3$ premières cases, puis sur les $4$ premières cases.
@@ -1441,46 +1562,44 @@ Vérification : $1 + 2 + 4 + 8 + 16 + 32 + 64 + 128 = 255$ grains.`
       points: 4,
       statement: `1. Calculer :
    a) $6^2$ et $6 \\times 2$
-   b) $2^4$ et $4^2$
+   b) $4^2$ et $4 \\times 2$
    c) $2^3$ et $3^2$
    d) $10^2$ et $10 \\times 2$
 2. Léa affirme : « $5^2 = 10$ ». Expliquer son erreur.
-3. Écrire sous la forme d'une puissance : $3 \\times 3 \\times 3 \\times 3$ ; $\\;7 \\times 7$ ; $\\;2 \\times 2 \\times 2 \\times 2 \\times 2$.
-4. Trouver le nombre entier positif qui convient : $\\ldots^2 = 81$ ; $\\;2^{\\ldots} = 64$.`,
+3. Écrire sous la forme d'une puissance : $3 \\times 3 \\times 3$ ; $\\;7 \\times 7$ ; $\\;2 \\times 2 \\times 2$.
+4. Trouver le nombre entier positif qui convient : $\\ldots^2 = 81$ ; $\\;\\ldots^3 = 64$.`,
       solution: `**1.** Le carré d'un nombre est ce nombre multiplié **par lui-même** ; le double est ce nombre multiplié par $2$.
 a) $6^2 = 6 \\times 6 = 36$ et $6 \\times 2 = 12$.
-b) $2^4 = 2 \\times 2 \\times 2 \\times 2 = 16$ et $4^2 = 4 \\times 4 = 16$ (cas particulier où les deux sont égaux).
+b) $4^2 = 4 \\times 4 = 16$ et $4 \\times 2 = 8$.
 c) $2^3 = 2 \\times 2 \\times 2 = 8$ et $3^2 = 3 \\times 3 = 9$ : ils sont différents.
 d) $10^2 = 10 \\times 10 = 100$ et $10 \\times 2 = 20$.
 
 **2.** Léa a calculé $5 \\times 2$ (le double) au lieu de $5 \\times 5$. En réalité $5^2 = 5 \\times 5 = 25$.
 
-**3.** $3 \\times 3 \\times 3 \\times 3 = 3^4$ ; $\\;7 \\times 7 = 7^2$ ; $\\;2 \\times 2 \\times 2 \\times 2 \\times 2 = 2^5$ (on compte le nombre de facteurs égaux).
+**3.** $3 \\times 3 \\times 3 = 3^3$ ; $\\;7 \\times 7 = 7^2$ ; $\\;2 \\times 2 \\times 2 = 2^3$ (on compte le nombre de facteurs égaux).
 
 **4.** $9 \\times 9 = 81$, donc $9^2 = 81$.
-$2^5 = 32$ et $2^6 = 32 \\times 2 = 64$, donc $2^6 = 64$.`
+$4 \\times 4 \\times 4 = 16 \\times 4 = 64$, donc $4^3 = 64$.`
     },
     {
       id: "5N4-ds-10",
-      title: "Le tournoi à élimination directe",
+      title: "Carrés et cubes de nombres décimaux",
       difficulty: 2,
       points: 5,
-      statement: `Dans un tournoi de tennis de table, les joueurs s'affrontent par matchs à deux. À chaque tour, le perdant de chaque match est éliminé, le gagnant passe au tour suivant. Le tournoi se termine quand il ne reste qu'un joueur.
+      statement: `Sans calculatrice.
 
-1. Le tournoi commence avec $32$ joueurs. Combien en reste-t-il après chaque tour ? Combien de tours faut-il pour désigner le vainqueur ?
-2. Écrire $32$ sous la forme d'une puissance de $2$. Quel lien y a-t-il avec le nombre de tours ?
-3. Un tournoi se déroule en $7$ tours. Combien de joueurs y avait-il au départ ? Justifier.
-4. Combien de matchs ont été joués en tout dans le tournoi à $32$ joueurs ? Expliquer pourquoi ce nombre est égal à $32 - 1$.`,
-      solution: `**1.** À chaque tour, le nombre de joueurs est divisé par $2$ : $32 \\to 16 \\to 8 \\to 4 \\to 2 \\to 1$.
-Il faut **$5$ tours** pour désigner le vainqueur.
+1. Calculer : $0{,}5^2$ ; $\\;1{,}2^2$ ; $\\;0{,}3^2$ ; $\\;0{,}2^3$.
+2. Un carreau carré a un côté de $1{,}5$ dm. Calculer son aire en dm².
+3. Comparer $0{,}5^2$ et $0{,}5$, puis $1{,}5^2$ et $1{,}5$.
+4. Théo affirme : « Le carré d'un nombre positif est toujours plus grand que ce nombre. » A-t-il raison ? Justifier.`,
+      solution: `**1.** $0{,}5^2 = 0{,}5 \\times 0{,}5 = 0{,}25$ ; $\\;1{,}2^2 = 1{,}2 \\times 1{,}2 = 1{,}44$ ; $\\;0{,}3^2 = 0{,}3 \\times 0{,}3 = 0{,}09$ ; $\\;0{,}2^3 = 0{,}2 \\times 0{,}2 \\times 0{,}2 = 0{,}04 \\times 0{,}2 = 0{,}008$.
 
-**2.** $32 = 2 \\times 2 \\times 2 \\times 2 \\times 2 = 2^5$. L'exposant $5$ est égal au **nombre de tours** : chaque tour correspond à une division par $2$.
+**2.** L'aire est égale à $1{,}5^2 = 1{,}5 \\times 1{,}5 = 2{,}25$ dm².
 
-**3.** En remontant le tournoi, on multiplie par $2$ à chaque tour : il y avait $2^7$ joueurs au départ.
-$2^7 = 2^5 \\times 2 \\times 2 = 32 \\times 4 = 128$ joueurs.
+**3.** $0{,}5^2 = 0{,}25$ et $0{,}25 < 0{,}5$, donc $0{,}5^2 < 0{,}5$.
+$1{,}5^2 = 2{,}25$ et $2{,}25 > 1{,}5$, donc $1{,}5^2 > 1{,}5$.
 
-**4.** Chaque tour comporte un match pour deux joueurs : $16 + 8 + 4 + 2 + 1 = 31$ matchs.
-Chaque match élimine exactement un joueur et, à la fin, tous les joueurs sauf le vainqueur ont été éliminés : il y a donc autant de matchs que de joueurs éliminés, soit $32 - 1 = 31$.`
+**4.** **Théo a tort** : d'après la question 3, le carré de $0{,}5$ est plus petit que $0{,}5$. Un seul contre-exemple suffit pour montrer qu'une affirmation générale est fausse.`
     },
     {
       id: "5N4-ds-11",
@@ -1507,29 +1626,26 @@ b) D'après la conjecture : $1 + 3 + \\ldots + 23 = 12^2 = 144$. La calculatrice
     },
     {
       id: "5N4-ds-12",
-      title: "Le chiffre des unités d'une puissance",
+      title: "Le chiffre des unités d'un carré ou d'un cube",
       difficulty: 4,
       points: 6,
       statement: `1. a) Écrire les carrés des nombres entiers de $1$ à $12$.
    b) Quels chiffres des unités obtient-on ? Lesquels n'apparaissent jamais ?
 2. On admet que le chiffre des unités du carré d'un nombre entier ne dépend que du chiffre des unités de ce nombre (par exemple, $23^2$ se termine comme $3^2$, c'est-à-dire par $9$). En déduire que $2\\,027$ n'est le carré d'aucun nombre entier.
-3. a) Calculer les puissances de $2$ de $2^1$ à $2^8$ et noter leur chiffre des unités.
-   b) Que remarque-t-on ? Prévoir le chiffre des unités de $2^{12}$.
-   c) Vérifier en calculant $2^9$, $2^{10}$, $2^{11}$ et $2^{12}$ par doublements successifs.
-4. Calculer les puissances de $3$ de $3^1$ à $3^6$ et noter leur chiffre des unités. Prévoir le chiffre des unités de $3^8$, puis vérifier sachant que $3^8 = 3^4 \\times 3^4$.`,
+3. a) Écrire les cubes des nombres entiers de $1$ à $10$ et noter leur chiffre des unités.
+   b) Combien de fois chacun des chiffres de $0$ à $9$ apparaît-il ? Comparer avec le résultat de la question 1.
+4. On admet que le chiffre des unités du cube d'un nombre entier ne dépend, lui aussi, que du chiffre des unités de ce nombre. Prévoir le chiffre des unités de $23^3$ et de $18^3$, puis vérifier à la calculatrice.`,
       solution: `**1.** a) $1^2 = 1$ ; $2^2 = 4$ ; $3^2 = 9$ ; $4^2 = 16$ ; $5^2 = 25$ ; $6^2 = 36$ ; $7^2 = 49$ ; $8^2 = 64$ ; $9^2 = 81$ ; $10^2 = 100$ ; $11^2 = 121$ ; $12^2 = 144$.
 b) Les chiffres des unités obtenus sont $0$, $1$, $4$, $5$, $6$ et $9$. Les chiffres **$2$, $3$, $7$ et $8$** n'apparaissent jamais.
 
 **2.** Le chiffre des unités d'un carré est celui de l'un des carrés $0^2, 1^2, \\ldots, 9^2$ : d'après la question 1, il ne peut valoir que $0$, $1$, $4$, $5$, $6$ ou $9$. Comme $2\\,027$ se termine par $7$, **ce n'est pas un carré**.
 
-**3.** a) $2^1 = 2$ ; $2^2 = 4$ ; $2^3 = 8$ ; $2^4 = 16$ ; $2^5 = 32$ ; $2^6 = 64$ ; $2^7 = 128$ ; $2^8 = 256$.
-Chiffres des unités : $2$ ; $4$ ; $8$ ; $6$ ; $2$ ; $4$ ; $8$ ; $6$.
-b) Les chiffres des unités se répètent par groupes de quatre : $2, 4, 8, 6$. En continuant : $2^9 \\to 2$, $2^{10} \\to 4$, $2^{11} \\to 8$, $2^{12} \\to 6$. On prévoit que **$2^{12}$ se termine par $6$**.
-c) $2^9 = 512$ ; $2^{10} = 1\\,024$ ; $2^{11} = 2\\,048$ ; $2^{12} = 4\\,096$ : la prévision est vérifiée.
+**3.** a) $1^3 = 1$ ; $2^3 = 8$ ; $3^3 = 27$ ; $4^3 = 64$ ; $5^3 = 125$ ; $6^3 = 216$ ; $7^3 = 343$ ; $8^3 = 512$ ; $9^3 = 729$ ; $10^3 = 1\\,000$.
+Chiffres des unités : $1$ ; $8$ ; $7$ ; $4$ ; $5$ ; $6$ ; $3$ ; $2$ ; $9$ ; $0$.
+b) Chacun des chiffres de $0$ à $9$ apparaît **exactement une fois**. Pour les carrés, au contraire, les chiffres $2$, $3$, $7$ et $8$ n'apparaissent jamais.
 
-**4.** $3^1 = 3$ ; $3^2 = 9$ ; $3^3 = 27$ ; $3^4 = 81$ ; $3^5 = 243$ ; $3^6 = 729$. Chiffres des unités : $3$ ; $9$ ; $7$ ; $1$ ; $3$ ; $9$.
-Ils se répètent par groupes de quatre : $3, 9, 7, 1$. En continuant : $3^7 \\to 7$ et $3^8 \\to 1$. On prévoit que $3^8$ se termine par **$1$**.
-Vérification : $3^8 = 81 \\times 81 = 6\\,561$, qui se termine bien par $1$.`
+**4.** $23$ se termine par $3$ et $3^3 = 27$ : on prévoit que $23^3$ se termine par **$7$**. La calculatrice donne $23^3 = 12\\,167$.
+$18$ se termine par $8$ et $8^3 = 512$ : on prévoit que $18^3$ se termine par **$2$**. La calculatrice donne $18^3 = 5\\,832$.`
     },
     {
       id: "5N4-ds-13",
@@ -1539,15 +1655,15 @@ Vérification : $3^8 = 81 \\times 81 = 6\\,561$, qui se termine bien par $1$.`
       statement: `Sans calculatrice.
 
 1. Calculer chacun des nombres suivants :
-$$3^2 \\quad ; \\quad 3 \\times 2 \\quad ; \\quad 2^3 \\quad ; \\quad 2 \\times 3 \\quad ; \\quad 2^4 \\quad ; \\quad 4^2$$
+$$3^2 \\quad ; \\quad 3 \\times 2 \\quad ; \\quad 2^3 \\quad ; \\quad 2 \\times 3 \\quad ; \\quad 5^2 \\quad ; \\quad 5 \\times 2$$
 2. Lucie affirme : « $3^2$ et $3 \\times 2$, c'est la même chose. » Expliquer son erreur.
-3. Les nombres $2^4$ et $4^2$ sont-ils égaux ? Et les nombres $2^3$ et $3^2$ ?
+3. Les nombres $4^3$ et $8^2$ sont-ils égaux ? Et les nombres $2^3$ et $3^2$ ?
 4. Écrire $3 \\times 3 \\times 3 + 2 \\times 2$ à l'aide de puissances, puis calculer.`,
-      solution: `**1.** $3^2 = 3 \\times 3 = 9$ ; $\\;3 \\times 2 = 6$ ; $\\;2^3 = 2 \\times 2 \\times 2 = 8$ ; $\\;2 \\times 3 = 6$ ; $\\;2^4 = 2 \\times 2 \\times 2 \\times 2 = 16$ ; $\\;4^2 = 4 \\times 4 = 16$.
+      solution: `**1.** $3^2 = 3 \\times 3 = 9$ ; $\\;3 \\times 2 = 6$ ; $\\;2^3 = 2 \\times 2 \\times 2 = 8$ ; $\\;2 \\times 3 = 6$ ; $\\;5^2 = 5 \\times 5 = 25$ ; $\\;5 \\times 2 = 10$.
 
 **2.** $3^2$ est le produit de **deux facteurs égaux à $3$** : $3 \\times 3 = 9$. Alors que $3 \\times 2$ est le produit de $3$ par $2$, qui vaut $6$. Comme $9 \\neq 6$, ce n'est pas la même chose.
 
-**3.** $2^4 = 16$ et $4^2 = 16$ : ces deux nombres sont égaux (c'est un cas particulier).
+**3.** $4^3 = 4 \\times 4 \\times 4 = 64$ et $8^2 = 8 \\times 8 = 64$ : ces deux nombres sont égaux (c'est un cas particulier).
 $2^3 = 8$ et $3^2 = 9$ : ces nombres ne sont pas égaux. En général, on ne peut pas échanger le nombre et l'exposant.
 
 **4.** $3 \\times 3 \\times 3 + 2 \\times 2 = 3^3 + 2^2 = 27 + 4 = 31$.`
@@ -1578,38 +1694,37 @@ Pour $12$ dalles de côté : $12^2 = 12 \\times 12 = 144$ dalles.
     },
     {
       id: "5N4-ds-15",
-      title: "Des nombres fabriqués avec des 2 et des 3",
+      title: "Un carré, un cube, ou les deux ?",
       difficulty: 3,
       points: 5,
-      statement: `Certains nombres entiers peuvent s'écrire comme un produit de puissances de $2$ et de puissances de $3$. Par exemple : $12 = 4 \\times 3 = 2^2 \\times 3$.
+      statement: `1. Écrire chacun des nombres suivants comme le carré d'un nombre positif : $49$ ; $\\;121$ ; $\\;0{,}25$.
+2. Écrire chacun des nombres suivants comme le cube d'un nombre entier : $27$ ; $\\;125$ ; $\\;1\\,000$.
+3. a) Montrer que $64$ est à la fois le carré d'un nombre entier et le cube d'un nombre entier.
+   b) Écrire la liste des carrés de nombres entiers compris entre $2$ et $100$, puis la liste des cubes de nombres entiers compris entre $2$ et $100$.
+   c) Combien de nombres entiers compris entre $2$ et $100$ sont à la fois un carré et un cube ?
+4. Vérifier que $729$ est à la fois le carré de $27$ et le cube de $9$.`,
+      solution: `**1.** $49 = 7^2$ ; $\\;121 = 11^2$ ; $\\;0{,}25 = 0{,}5^2$ (car $0{,}5 \\times 0{,}5 = 0{,}25$).
 
-1. Calculer : $A = 2^3 \\times 3$ ; $\\;B = 2^2 \\times 3^2$ ; $\\;C = 2 \\times 3^3$.
-2. On veut écrire $72$ de cette façon.
-   a) Diviser $72$ par $2$ autant de fois que possible : combien de fois peut-on le faire, et quel quotient obtient-on à la fin ?
-   b) En déduire l'écriture de $72$ sous la forme d'un produit d'une puissance de $2$ et d'une puissance de $3$.
-3. Avec la même méthode, écrire $48$ et $108$ sous cette forme.
-4. Le nombre $40$ peut-il s'écrire de cette façon ? Justifier.`,
-      solution: `**1.** $A = 8 \\times 3 = 24$ ; $\\;B = 4 \\times 9 = 36$ ; $\\;C = 2 \\times 27 = 54$.
+**2.** $27 = 3^3$ ; $\\;125 = 5^3$ ; $\\;1\\,000 = 10^3$.
 
-**2. a)** $72 \\div 2 = 36$ ; $36 \\div 2 = 18$ ; $18 \\div 2 = 9$. Le nombre $9$ est impair : on a pu diviser **$3$ fois** par $2$, et il reste $9$.
+**3. a)** $8 \\times 8 = 64$, donc $64 = 8^2$. De plus, $4 \\times 4 \\times 4 = 64$, donc $64 = 4^3$.
 
-**b)** $72 = 2 \\times 2 \\times 2 \\times 9 = 2^3 \\times 3^2$. Vérification : $8 \\times 9 = 72$.
+**b)** Carrés : $4$ ; $9$ ; $16$ ; $25$ ; $36$ ; $49$ ; $64$ ; $81$ ; $100$.
+Cubes : $8$ ; $27$ ; $64$ (car $5^3 = 125$ dépasse $100$).
 
-**3.** $48 \\div 2 = 24$, $24 \\div 2 = 12$, $12 \\div 2 = 6$, $6 \\div 2 = 3$ : quatre divisions, il reste $3$.
-Donc $48 = 2^4 \\times 3$ (vérification : $16 \\times 3 = 48$).
+**c)** Le seul nombre présent dans les deux listes est $64$ : il y a **un seul** nombre qui convient.
 
-$108 \\div 2 = 54$, $54 \\div 2 = 27$ : deux divisions, il reste $27 = 3 \\times 3 \\times 3$.
-Donc $108 = 2^2 \\times 3^3$ (vérification : $4 \\times 27 = 108$).
-
-**4.** $40 \\div 2 = 20$, $20 \\div 2 = 10$, $10 \\div 2 = 5$ : il reste $5$, qui n'est pas une puissance de $3$ (car $3^1 = 3$ et $3^2 = 9$).
-Donc $40 = 2^3 \\times 5$ ne peut **pas** s'écrire uniquement avec des puissances de $2$ et de $3$.`
+**4.** $27 \\times 27 = 729$, donc $729 = 27^2$.
+$9 \\times 9 \\times 9 = 81 \\times 9 = 729$, donc $729 = 9^3$.`
     },
     {
       id: "5N4-ds-16",
-      title: "Plier une feuille de papier",
+      title: "Pour aller plus loin : plier une feuille de papier",
       difficulty: 4,
       points: 6,
-      statement: `On plie une feuille de papier en deux, puis encore en deux, et ainsi de suite. À chaque pliage, le nombre d'épaisseurs de papier double. Une feuille a une épaisseur de $0{,}1$ mm.
+      statement: `**Pour aller plus loin** : cet exercice utilise des exposants supérieurs à $3$, qui seront étudiés en 4e.
+
+On plie une feuille de papier en deux, puis encore en deux, et ainsi de suite. À chaque pliage, le nombre d'épaisseurs de papier double. Une feuille a une épaisseur de $0{,}1$ mm.
 
 1. Recopier et compléter le tableau, en écrivant le nombre d'épaisseurs sous la forme d'une puissance de $2$ puis en nombre entier :
 
@@ -1636,6 +1751,28 @@ Donc $40 = 2^3 \\times 5$ ne peut **pas** s'écrire uniquement avec des puissanc
 
 **5.** $3^1 = 3$, $3^2 = 9$, $3^3 = 27$, $3^4 = 81$, $3^5 = 243$.
 $3^4 = 81 < 100$ et $3^5 = 243 > 100$ : il faut **$5$ pliages en trois**.`
+    },
+    {
+      id: "5N4-ds-17",
+      title: "Un carré ou un cube dans une expression",
+      difficulty: 2,
+      points: 5,
+      statement: `Sans calculatrice.
+
+1. Calculer $A = 3 \\times 5^2 - 7$ et $B = (3 \\times 5)^2 - 7$.
+2. Expliquer pourquoi on n'obtient pas le même résultat.
+3. Calculer la valeur de l'expression $C = 2x^2 + 3$ pour $x = 4$, puis pour $x = 0{,}5$.
+4. Calculer la valeur de l'expression $D = x^3 - x^2$ pour $x = 3$, puis pour $x = 10$.`,
+      solution: `**1.** Le carré d'abord : $A = 3 \\times 25 - 7 = 75 - 7 = 68$.
+Les parenthèses d'abord : $B = 15^2 - 7 = 225 - 7 = 218$.
+
+**2.** Dans $A$, le carré porte seulement sur $5$. Dans $B$, à cause des parenthèses, il porte sur le produit $3 \\times 5$, c'est-à-dire sur $15$.
+
+**3.** Pour $x = 4$ : $C = 2 \\times 4^2 + 3 = 2 \\times 16 + 3 = 32 + 3 = 35$.
+Pour $x = 0{,}5$ : $C = 2 \\times 0{,}5^2 + 3 = 2 \\times 0{,}25 + 3 = 0{,}5 + 3 = 3{,}5$.
+
+**4.** Pour $x = 3$ : $D = 3^3 - 3^2 = 27 - 9 = 18$.
+Pour $x = 10$ : $D = 10^3 - 10^2 = 1\\,000 - 100 = 900$.`
     }
   ],
   "5N5": [
@@ -1715,17 +1852,18 @@ Pour obtenir $58$, il faut choisir le nombre $x$ tel que $4x = 58$, soit $x = 58
     },
     {
       id: "5N5-ds-04",
-      title: "Tester puis résoudre des équations",
+      title: "Tester des égalités, trouver une inconnue",
       difficulty: 2,
       points: 5,
-      statement: `1. Le nombre $3$ est-il solution de l'équation $5x - 4 = 2x + 5$ ? Justifier.
-2. Le nombre $2$ est-il solution de cette même équation ? Justifier.
-3. Résoudre les équations suivantes en détaillant :
+      statement: `1. Le nombre $3$ est-il solution de l'égalité $5x - 4 = 2x + 5$ ? Justifier.
+2. Le nombre $2$ est-il solution de cette même égalité ? Justifier.
+3. Trouver la valeur de $x$ dans chaque cas, en détaillant :
    a) $x + 7 = 15$
    b) $4x = 26$
    c) $x - 2{,}5 = 3$
-   d) $3x + 4 = 19$`,
-      solution: `**1.** Pour $x = 3$ : $5 \\times 3 - 4 = 15 - 4 = 11$ et $2 \\times 3 + 5 = 6 + 5 = 11$. Les deux membres sont égaux, donc **$3$ est solution** de l'équation.
+   d) $\\frac{x}{4} = 2{,}5$
+   e) $7x = 0$`,
+      solution: `**1.** Pour $x = 3$ : $5 \\times 3 - 4 = 15 - 4 = 11$ et $2 \\times 3 + 5 = 6 + 5 = 11$. Les deux membres sont égaux, donc **$3$ est solution** de l'égalité.
 
 **2.** Pour $x = 2$ : $5 \\times 2 - 4 = 6$ et $2 \\times 2 + 5 = 9$. Comme $6 \\neq 9$, **$2$ n'est pas solution**.
 
@@ -1733,7 +1871,8 @@ Pour obtenir $58$, il faut choisir le nombre $x$ tel que $4x = 58$, soit $x = 58
 a) $x + 7 = 15$ donc $x = 15 - 7 = 8$. La solution est $8$ (vérification : $8 + 7 = 15$).
 b) $4x = 26$ donc $x = 26 \\div 4 = 6{,}5$. La solution est $6{,}5$ (vérification : $4 \\times 6{,}5 = 26$).
 c) $x - 2{,}5 = 3$ donc $x = 3 + 2{,}5 = 5{,}5$. La solution est $5{,}5$.
-d) $3x + 4 = 19$ donc $3x = 19 - 4 = 15$, puis $x = 15 \\div 3 = 5$. La solution est $5$ (vérification : $3 \\times 5 + 4 = 19$).`
+d) $\\frac{x}{4} = 2{,}5$ donc $x = 2{,}5 \\times 4 = 10$. La solution est $10$ (vérification : $10 \\div 4 = 2{,}5$).
+e) $7x = 0$ donc $x = 0 \\div 7 = 0$. La solution est $0$ (vérification : $7 \\times 0 = 0$).`
     },
     {
       id: "5N5-ds-05",
@@ -1745,7 +1884,7 @@ d) $3x + 4 = 19$ donc $3x = 19 - 4 = 15$, puis $x = 15 \\div 3 = 5$. La solution
 1. Exprimer la longueur du rectangle en fonction de $x$.
 2. Montrer que le périmètre du rectangle, en cm, est égal à $4x + 10$.
 3. Calculer le périmètre et l'aire du rectangle lorsque $x = 3$.
-4. Écrire puis résoudre une équation permettant de trouver la largeur $x$ pour laquelle le périmètre vaut $38$ cm. Donner alors les dimensions du rectangle.`,
+4. On cherche la largeur $x$ pour laquelle le périmètre vaut $38$ cm. Tester les valeurs $x = 6$ et $x = 7$, puis donner les dimensions du rectangle qui convient.`,
       solution: `**1.** La longueur mesure $x + 5$ (en cm).
 
 **2.** Périmètre d'un rectangle : $2 \\times (\\text{longueur} + \\text{largeur})$.
@@ -1754,8 +1893,9 @@ $P = 2 \\times (x + 5 + x) = 2 \\times (2x + 5) = 4x + 10$.
 **3.** Pour $x = 3$ : $P = 4 \\times 3 + 10 = 22$ cm.
 La longueur vaut $3 + 5 = 8$ cm, donc l'aire vaut $\\mathcal{A} = 8 \\times 3 = 24$ cm².
 
-**4.** On cherche $x$ tel que $4x + 10 = 38$.
-$4x = 38 - 10 = 28$, donc $x = 28 \\div 4 = 7$.
+**4.** On calcule $4x + 10$ pour chaque valeur.
+Pour $x = 6$ : $4 \\times 6 + 10 = 24 + 10 = 34$, ce qui ne convient pas.
+Pour $x = 7$ : $4 \\times 7 + 10 = 28 + 10 = 38$, ce qui convient.
 La largeur mesure $7$ cm et la longueur $7 + 5 = 12$ cm. Vérification : $2 \\times (12 + 7) = 38$ cm.`
     },
     {
@@ -1772,7 +1912,7 @@ On note $n$ le nombre de séances dans l'année.
 1. Exprimer, en fonction de $n$, le prix payé avec la formule A, puis avec la formule B.
 2. Calculer le prix payé avec chaque formule pour $10$ séances. Quelle formule est la plus avantageuse ?
 3. Pour quel nombre de séances les deux formules coûtent-elles le même prix ? Justifier par un calcul.
-4. Jade dispose de $90$ € et choisit la formule B. Combien de séances peut-elle payer ? Justifier en résolvant une équation.`,
+4. Jade dispose de $90$ € et choisit la formule B. Quelle somme lui reste-t-il pour les séances une fois l'abonnement payé ? Combien de séances peut-elle alors payer ?`,
       solution: `**1.** Formule A : $P_A = 7n$. Formule B : $P_B = 18 + 4n$.
 
 **2.** Pour $n = 10$ : $P_A = 7 \\times 10 = 70$ € et $P_B = 18 + 4 \\times 10 = 58$ €.
@@ -1787,7 +1927,8 @@ Comme $58 < 70$, la **formule B** est la plus avantageuse pour $10$ séances.
 
 Pour $n = 6$, les deux formules coûtent $42$ €. (Chaque séance coûte $3$ € de plus avec A, il faut donc $18 \\div 3 = 6$ séances pour compenser l'abonnement.)
 
-**4.** On résout $18 + 4n = 90$ : $4n = 90 - 18 = 72$, donc $n = 72 \\div 4 = 18$.
+**4.** Une fois l'abonnement payé, il reste à Jade $90 - 18 = 72$ €.
+Le nombre $n$ de séances vérifie $4n = 72$, donc $n = 72 \\div 4 = 18$.
 Jade peut payer **$18$ séances** (vérification : $18 + 4 \\times 18 = 18 + 72 = 90$ €).`
     },
     {
@@ -1827,14 +1968,14 @@ On note $x$ la somme, en euros, reçue par le premier frère.
 
 1. Exprimer en fonction de $x$ la somme reçue par le deuxième frère, puis par le troisième.
 2. Montrer que la somme totale reçue par les trois frères peut s'écrire $4x + 4$.
-3. Écrire une équation traduisant le problème, puis la résoudre.
-4. Combien chaque frère reçoit-il ? Vérifier la réponse.`,
+3. **Pour aller plus loin** (notion étudiée en 4e). Écrire une égalité traduisant le problème, puis trouver la valeur de $x$.
+4. **Pour aller plus loin.** Combien chaque frère reçoit-il ? Vérifier la réponse.`,
       solution: `**1.** Le deuxième frère reçoit $x + 4$ (en €) et le troisième reçoit $2x$ (en €).
 
 **2.** Somme totale : $x + (x + 4) + 2x = x + x + 2x + 4 = 4x + 4$.
 
-**3.** La cagnotte vaut $64$ €, donc $4x + 4 = 64$.
-$4x = 64 - 4 = 60$, puis $x = 60 \\div 4 = 15$.
+**3.** (Pour aller plus loin.) La cagnotte vaut $64$ €, donc $4x + 4 = 64$.
+On soustrait $4$ aux deux membres : $4x = 64 - 4 = 60$, puis $x = 60 \\div 4 = 15$.
 
 **4.** Le premier frère reçoit $15$ €, le deuxième $15 + 4 = 19$ €, le troisième $2 \\times 15 = 30$ €.
 Vérification : $15 + 19 + 30 = 64$ € ; on a bien $19 = 15 + 4$ et $30 = 2 \\times 15$.`
@@ -1873,8 +2014,8 @@ b) Pour $x = 2$ : $4 \\times 2 + 3 = 11$ et $2 \\times 2 + 11 = 15$. Comme $11 \
 2. Montrer que la somme des âges des trois personnes est égale à $5x + 3$.
 3. Calculer cette somme lorsque Léo a $10$ ans.
 4. En réalité, la somme des trois âges est $58$ ans.
-   a) Écrire une équation traduisant cette information.
-   b) Résoudre cette équation et donner l'âge de chacun. Vérifier.`,
+   a) Écrire une égalité traduisant cette information.
+   b) Tester les valeurs $x = 10$, $x = 11$ et $x = 12$ dans cette égalité, puis donner l'âge de chacun. Vérifier.`,
       solution: `**1.** Maya a $3$ ans de plus : son âge est $x + 3$. Le père a le triple de l'âge de Léo : $3 \\times x = 3x$.
 
 **2.** Somme des âges : $x + (x + 3) + 3x = x + x + 3x + 3 = 5x + 3$ (on regroupe les termes en $x$ : $1 + 1 + 3 = 5$).
@@ -1882,7 +2023,9 @@ b) Pour $x = 2$ : $4 \\times 2 + 3 = 11$ et $2 \\times 2 + 11 = 15$. Comme $11 \
 **3.** Pour $x = 10$ : $5 \\times 10 + 3 = 53$ ans.
 
 **4.** a) $5x + 3 = 58$.
-b) On soustrait $3$ aux deux membres : $5x = 55$. On divise par $5$ : $x = 11$.
+b) Pour $x = 10$ : $5 \\times 10 + 3 = 53$, ce qui ne convient pas.
+Pour $x = 11$ : $5 \\times 11 + 3 = 55 + 3 = 58$, ce qui convient.
+Pour $x = 12$ : $5 \\times 12 + 3 = 63$, ce qui ne convient pas.
 Léo a **$11$ ans**, Maya **$14$ ans** et le père **$33$ ans**.
 Vérification : $11 + 14 + 33 = 58$.`
     },
@@ -1898,7 +2041,7 @@ Vérification : $11 + 14 + 33 = 58$.`
    a) le périmètre de la photo ;
    b) le périmètre extérieur du cadre, sous la forme d'une expression développée et réduite.
 3. Calculer le périmètre extérieur du cadre pour une photo de $15$ cm de côté.
-4. Le périmètre extérieur du cadre mesure $100$ cm. Écrire une équation, la résoudre, puis donner le côté de la photo.
+4. Le périmètre extérieur du cadre mesure $100$ cm. Calculer le côté du carré extérieur, puis en déduire le côté de la photo.
 5. Noé affirme : « Quelle que soit la photo, le périmètre extérieur du cadre dépasse celui de la photo de $16$ cm. » A-t-il raison ? Justifier.`,
       solution: `**1.** Sur chaque côté, le cadre ajoute $2$ cm à gauche et $2$ cm à droite de la photo : le côté extérieur mesure $2 + x + 2 = x + 4$ cm.
 
@@ -1907,8 +2050,8 @@ b) Le périmètre extérieur est $4 \\times (x + 4)$. Par distributivité : $4(x
 
 **3.** Pour $x = 15$ : $4 \\times 15 + 16 = 60 + 16 = 76$ cm.
 
-**4.** On résout $4x + 16 = 100$.
-On soustrait $16$ : $4x = 84$. On divise par $4$ : $x = 21$.
+**4.** Le carré extérieur a pour périmètre $100$ cm, donc son côté mesure $100 \\div 4 = 25$ cm.
+Ainsi $x + 4 = 25$, donc $x = 25 - 4 = 21$.
 La photo a **$21$ cm** de côté. Vérification : $4 \\times (21 + 4) = 4 \\times 25 = 100$.
 
 **5.** Différence des périmètres : $(4x + 16) - 4x = 16$. Le résultat ne dépend pas de $x$ : **Noé a raison**, pour toute photo l'écart est de $16$ cm.`
@@ -1931,23 +2074,27 @@ La photo a **$21$ cm** de côté. Vérification : $4 \\times (21 + 4) = 4 \\time
 1. Calculer la somme des $4$ dates entourées dans cet exemple.
 2. On appelle $n$ la date en haut à gauche d'un tel carré.
    a) Expliquer pourquoi les trois autres dates sont $n + 1$, $n + 7$ et $n + 8$.
-   b) Montrer que la somme des quatre dates est égale à $4n + 16$. Vérifier avec l'exemple.
-3. Un carré de quatre dates a pour somme $76$. Trouver les quatre dates en résolvant une équation.
-4. Peut-on trouver un carré de quatre dates dont la somme vaut $50$ ? Justifier.
-5. Peut-on trouver un carré de quatre dates dont la somme vaut $140$ ? Justifier.`,
+   b) Montrer que la somme des quatre dates est égale à $4n + 16$, puis factoriser complètement cette expression. Vérifier avec l'exemple.
+3. Un carré de quatre dates a pour somme $76$, donc $4 \\times (n + 4) = 76$.
+   a) Quel nombre, multiplié par $4$, donne $76$ ? En déduire la valeur de $n + 4$.
+   b) En déduire $n$, puis les quatre dates.
+4. Peut-on trouver un carré de quatre dates dont la somme vaut $50$ ? Justifier en calculant d'abord $n + 4$, comme à la question 3.
+5. Peut-on trouver un carré de quatre dates dont la somme vaut $140$ ? Justifier en calculant d'abord $n + 4$, puis $n$.`,
       solution: `**1.** $3 + 4 + 10 + 11 = 28$.
 
 **2.** a) La date à droite de $n$ est le lendemain : $n + 1$. La date en dessous de $n$ est le même jour de la semaine suivante, $7$ jours plus tard : $n + 7$. Celle en dessous de $n + 1$ est $n + 1 + 7 = n + 8$.
 b) $n + (n + 1) + (n + 7) + (n + 8) = 4n + 16$ (quatre fois $n$, et $1 + 7 + 8 = 16$).
-Avec $n = 3$ : $4 \\times 3 + 16 = 12 + 16 = 28$. On retrouve le résultat de la question 1.
+En factorisant : $4n + 16 = 4 \\times n + 4 \\times 4 = 4(n + 4)$.
+Avec $n = 3$ : $4 \\times 3 + 16 = 12 + 16 = 28$ et $4 \\times (3 + 4) = 4 \\times 7 = 28$. On retrouve le résultat de la question 1.
 
-**3.** On résout $4n + 16 = 76$ : $4n = 60$, donc $n = 15$.
+**3.** a) $n + 4$ est le nombre qui, multiplié par $4$, donne $76$ : $n + 4 = 76 \\div 4 = 19$.
+b) $n$ est le nombre qui, ajouté à $4$, donne $19$ : $n = 19 - 4 = 15$.
 Les dates sont **$15$, $16$, $22$ et $23$**. Vérification : $15 + 16 + 22 + 23 = 76$.
 
-**4.** Il faudrait $4n + 16 = 50$, donc $4n = 34$ et $n = 8{,}5$. Une date est un nombre entier : **c'est impossible**.
-(On peut aussi remarquer que $4n + 16 = 4(n + 4)$ est toujours un multiple de $4$, ce qui n'est pas le cas de $50$.)
+**4.** Il faudrait $4(n + 4) = 50$, donc $n + 4 = 50 \\div 4 = 12{,}5$ et $n = 8{,}5$. Une date est un nombre entier : **c'est impossible**.
+(On peut aussi remarquer que $4(n + 4)$ est toujours un multiple de $4$, ce qui n'est pas le cas de $50$.)
 
-**5.** Il faudrait $4n + 16 = 140$, donc $4n = 124$ et $n = 31$. Mais alors la date en bas à droite serait $31 + 8 = 39$, et aucun mois n'a $39$ jours : **c'est impossible**.`
+**5.** Il faudrait $4(n + 4) = 140$, donc $n + 4 = 140 \\div 4 = 35$ et $n = 35 - 4 = 31$. Mais alors la date en bas à droite serait $31 + 8 = 39$, et aucun mois n'a $39$ jours : **c'est impossible**.`
     },
     {
       id: "5N5-ds-13",
@@ -1961,7 +2108,7 @@ Les dates sont **$15$, $16$, $22$ et $23$**. Vérification : $15 + 16 + 22 + 23 
 1. Combien d'allumettes faut-il pour une rangée de $1$ carré ? de $2$ carrés ? de $3$ carrés ? de $4$ carrés ?
 2. On admet que, pour une rangée de $n$ carrés, il faut $3 \\times n + 1$ allumettes. Vérifier cette formule pour $n = 3$ et $n = 4$.
 3. Combien faut-il d'allumettes pour une rangée de $20$ carrés ?
-4. Avec $121$ allumettes, combien de carrés peut-on aligner (en utilisant toutes les allumettes) ?`,
+4. Avec $121$ allumettes, combien de carrés peut-on aligner (en utilisant toutes les allumettes) ? On pourra mettre de côté la première allumette, puis compter les groupes de $3$ allumettes.`,
       solution: `**1.** $1$ carré : $4$ allumettes. Chaque nouveau carré ajoute $3$ allumettes (le côté gauche est déjà posé).
 $2$ carrés : $4 + 3 = 7$ ; $3$ carrés : $7 + 3 = 10$ ; $4$ carrés : $10 + 3 = 13$ allumettes.
 
@@ -1969,8 +2116,9 @@ $2$ carrés : $4 + 3 = 7$ ; $3$ carrés : $7 + 3 = 10$ ; $4$ carrés : $10 + 3 =
 
 **3.** Pour $n = 20$ : $3 \\times 20 + 1 = 61$ allumettes.
 
-**4.** On cherche $n$ tel que $3n + 1 = 121$.
-$3n = 121 - 1 = 120$, donc $n = 120 \\div 3 = 40$.
+**4.** La formule $3 \\times n + 1$ montre qu'il faut une première allumette, puis $3$ allumettes par carré.
+On met de côté la première allumette : il en reste $121 - 1 = 120$.
+Avec $3$ allumettes par carré, $3n = 120$, donc $n = 120 \\div 3 = 40$.
 On peut aligner **$40$ carrés** (vérification : $3 \\times 40 + 1 = 121$).`
     },
     {
@@ -2007,20 +2155,23 @@ $3(5 + 2x) = 3 \\times 5 + 3 \\times 2x = 15 + 6x$.`
 
 1. Calculer la somme de $11$, $12$ et $13$. Ces nombres conviennent-ils ?
 2. On appelle $x$ le plus petit des trois nombres. Exprimer les deux autres en fonction de $x$.
-3. Montrer que la somme des trois nombres est égale à $3x + 3$.
-4. Écrire une équation traduisant le problème, la résoudre et donner les trois nombres.
+3. Montrer que la somme des trois nombres est égale à $3x + 3$, puis factoriser complètement cette expression.
+4. On veut que la somme vaille $84$, donc $3 \\times (x + 1) = 84$.
+   a) Quel nombre, multiplié par $3$, donne $84$ ? En déduire la valeur de $x + 1$.
+   b) En déduire $x$, puis les trois nombres.
 5. Peut-on trouver trois nombres entiers consécutifs dont la somme vaut $100$ ? Justifier.`,
       solution: `**1.** $11 + 12 + 13 = 36$. Comme $36 \\neq 84$, ces nombres ne conviennent pas.
 
 **2.** Les deux autres nombres sont $x + 1$ et $x + 2$.
 
 **3.** $x + (x + 1) + (x + 2) = x + x + x + 1 + 2 = 3x + 3$.
+En factorisant : $3x + 3 = 3 \\times x + 3 \\times 1 = 3(x + 1)$.
 
-**4.** On résout $3x + 3 = 84$.
-$3x = 84 - 3 = 81$, donc $x = 81 \\div 3 = 27$.
+**4.** a) $x + 1$ est le nombre qui, multiplié par $3$, donne $84$ : $x + 1 = 84 \\div 3 = 28$.
+b) $x$ est le nombre qui, ajouté à $1$, donne $28$ : $x = 28 - 1 = 27$.
 Les trois nombres sont **$27$, $28$ et $29$** (vérification : $27 + 28 + 29 = 84$).
 
-**5.** Il faudrait $3x + 3 = 100$, soit $3x = 97$. Or $97$ n'est pas un multiple de $3$ ($3 \\times 32 = 96$ et $3 \\times 33 = 99$) : $x$ ne serait pas un nombre entier.
+**5.** La somme s'écrit $3(x + 1)$ : si $x$ est un nombre entier, c'est un multiple de $3$. Or $100$ n'est pas un multiple de $3$ ($3 \\times 33 = 99$ et $3 \\times 34 = 102$).
 **Ce n'est pas possible.**`
     },
     {
@@ -2028,26 +2179,124 @@ Les trois nombres sont **$27$, $28$ et $29$** (vérification : $27 + 28 + 29 = 8
       title: "Un triangle isocèle à dimensions variables",
       difficulty: 4,
       points: 6,
-      statement: `Un triangle $ABC$ est isocèle en $A$. On note $x$ un nombre (supérieur à $1$) et on sait que, en cm :
+      statement: `Un triangle $ABC$ est isocèle en $A$. On note $x$ un nombre (supérieur à $2$) et on sait que, en cm :
 $$AB = AC = 2x - 1 \\qquad \\text{et} \\qquad BC = x + 2.$$
 
 1. Calculer les longueurs des trois côtés lorsque $x = 4$, puis le périmètre du triangle.
-2. Montrer que, pour tout nombre $x$, le périmètre du triangle est égal à $5x$.
+2. Montrer que, pour tout nombre $x$ supérieur à $2$, le périmètre du triangle est égal à $5x$.
 3. Trouver la valeur de $x$ pour laquelle le périmètre vaut $40$ cm, et donner alors les longueurs des trois côtés.
-4. Pour quelle valeur de $x$ le triangle est-il équilatéral ? Justifier en écrivant une équation, puis vérifier.`,
+4. Parmi les valeurs $2{,}5$ ; $3$ et $4$, laquelle rend le triangle équilatéral ? Justifier en calculant $AB$ et $BC$.`,
       solution: `**1.** Pour $x = 4$ : $AB = AC = 2 \\times 4 - 1 = 7$ cm et $BC = 4 + 2 = 6$ cm.
 Périmètre : $7 + 7 + 6 = 20$ cm.
 
 **2.** $P = (2x - 1) + (2x - 1) + (x + 2) = 2x + 2x + x - 1 - 1 + 2 = 5x$.
 (Vérification avec la question 1 : $5 \\times 4 = 20$.)
 
-**3.** On résout $5x = 40$, donc $x = 40 \\div 5 = 8$.
+**3.** On cherche $x$ tel que $5x = 40$, donc $x = 40 \\div 5 = 8$.
 Alors $AB = AC = 2 \\times 8 - 1 = 15$ cm et $BC = 8 + 2 = 10$ cm. Vérification : $15 + 15 + 10 = 40$ cm.
 
-**4.** Le triangle est équilatéral lorsque $AB = BC$, c'est-à-dire $2x - 1 = x + 2$.
-On teste quelques valeurs : pour $x = 2$, $3 \\neq 4$ ; pour $x = 3$, $2 \\times 3 - 1 = 5$ et $3 + 2 = 5$.
-On peut aussi raisonner : on retire $x$ des deux côtés, $x - 1 = 2$, donc $x = 3$.
+**4.** Comme $AB = AC$, le triangle est équilatéral lorsque $AB = BC$, c'est-à-dire $2x - 1 = x + 2$. On teste les valeurs proposées :
+- pour $x = 2{,}5$ : $AB = 2 \\times 2{,}5 - 1 = 4$ et $BC = 2{,}5 + 2 = 4{,}5$, ces longueurs sont différentes ;
+- pour $x = 3$ : $AB = 2 \\times 3 - 1 = 5$ et $BC = 3 + 2 = 5$, ces longueurs sont égales ;
+- pour $x = 4$ : $AB = 7$ et $BC = 6$, ces longueurs sont différentes.
+
 Pour **$x = 3$**, les trois côtés mesurent $5$ cm (périmètre $15 = 5 \\times 3$).`
+    },
+    {
+      id: "5N5-ds-17",
+      title: "Factoriser avec des rectangles accolés",
+      difficulty: 2,
+      points: 5,
+      statement: `Deux rectangles $A$ et $B$ de même largeur $6$ cm sont accolés. Le rectangle $A$ a pour longueur $x$ cm et le rectangle $B$ a pour longueur $4$ cm.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:320px;"><svg class="geo-svg-figure" viewBox="0 0 300 150" width="300" height="150" style="width:100%; height:auto; color:var(--text-main, #334155);" xmlns="http://www.w3.org/2000/svg" role="img"><rect x="40" y="20" width="170" height="100" fill="rgba(59,130,246,0.10)" stroke="currentColor" stroke-width="2"/><rect x="210" y="20" width="70" height="100" fill="rgba(234,179,8,0.15)" stroke="currentColor" stroke-width="2"/><text x="125" y="140" text-anchor="middle" font-size="15" fill="currentColor">x</text><text x="245" y="140" text-anchor="middle" font-size="15" fill="currentColor">4</text><text x="25" y="75" text-anchor="middle" font-size="15" fill="currentColor">6</text><text x="125" y="75" text-anchor="middle" font-size="16" font-weight="bold" fill="#2563eb">A</text><text x="245" y="75" text-anchor="middle" font-size="16" font-weight="bold" fill="#b45309">B</text></svg></div>
+
+1. Exprimer en fonction de $x$ l'aire du rectangle $A$, l'aire du rectangle $B$, puis la somme de ces deux aires.
+2. Exprimer la longueur du grand rectangle formé par $A$ et $B$, puis son aire sous la forme d'un produit.
+3. En déduire une égalité entre ces deux expressions, et la vérifier pour $x = 5$.
+4. Sur le même modèle, factoriser complètement : $3x + 12$ ; $\\;8x - 8$ ; $\\;10x + 15$.
+5. Dire si chaque expression est une somme, une différence ou un produit, en nommant la dernière opération effectuée :
+   $E = 3x + 12$ ; $\\;F = 3(x + 4)$ ; $\\;G = 3(x + 4) + 1$ ; $\\;H = x^2 - 5$.`,
+      solution: `**1.** Aire de $A$ : $6 \\times x = 6x$. Aire de $B$ : $6 \\times 4 = 24$. Somme des aires : $6x + 24$.
+
+**2.** Le grand rectangle a pour largeur $6$ et pour longueur $x + 4$. Son aire est $6 \\times (x + 4) = 6(x + 4)$.
+
+**3.** Ces deux expressions représentent la même aire, donc $6x + 24 = 6(x + 4)$.
+Pour $x = 5$ : $6 \\times 5 + 24 = 30 + 24 = 54$ et $6 \\times (5 + 4) = 6 \\times 9 = 54$. Les deux résultats sont égaux.
+
+**4.** On repère le plus grand facteur commun :
+- $3x + 12 = 3 \\times x + 3 \\times 4 = 3(x + 4)$ ;
+- $8x - 8 = 8 \\times x - 8 \\times 1 = 8(x - 1)$ ;
+- $10x + 15 = 5 \\times 2x + 5 \\times 3 = 5(2x + 3)$.
+
+**5.** On cherche la dernière opération effectuée quand on calcule l'expression pour une valeur de $x$ :
+- $E$ : on multiplie $x$ par $3$, puis on ajoute $12$. La dernière opération est une addition : $E$ est une **somme**.
+- $F$ : on ajoute $4$ à $x$, puis on multiplie par $3$. La dernière opération est une multiplication : $F$ est un **produit**.
+- $G$ : on ajoute $4$ à $x$, on multiplie par $3$, puis on ajoute $1$. La dernière opération est une addition : $G$ est une **somme**.
+- $H$ : on élève $x$ au carré, puis on soustrait $5$. La dernière opération est une soustraction : $H$ est une **différence**.`
+    },
+    {
+      id: "5N5-ds-18",
+      title: "Conjecturer, démontrer, réfuter",
+      difficulty: 3,
+      points: 5,
+      statement: `On rappelle qu'un nombre **pair** est le double d'un nombre entier. Un **carré parfait** est le carré d'un nombre entier.
+
+1. Calculer $4 + 10$, $\\;6 + 12$ et $20 + 12$. Quelle conjecture peut-on faire sur la somme de deux nombres pairs ?
+2. Ces trois exemples suffisent-ils à prouver que cette conjecture est toujours vraie ? Expliquer.
+3. On note $2n$ et $2p$ deux nombres pairs, où $n$ et $p$ sont des nombres entiers. Démontrer que leur somme est un nombre pair.
+4. Théo affirme : « La somme de deux carrés parfaits est toujours un carré parfait. » Il a vérifié que $9 + 16 = 25$ et que $25 = 5^2$.
+   a) Calculer $4 + 9$. Pourquoi $4$ et $9$ sont-ils des carrés parfaits ?
+   b) Théo a-t-il raison ? Justifier.`,
+      solution: `**1.** $4 + 10 = 14$ ; $\\;6 + 12 = 18$ ; $\\;20 + 12 = 32$. Ces trois résultats sont pairs.
+On peut conjecturer que **la somme de deux nombres pairs est toujours un nombre pair**.
+
+**2.** Non. Quelques exemples ne prouvent pas qu'une propriété est vraie pour tous les nombres : il faut une démonstration.
+
+**3.** $2n + 2p = 2(n + p)$. Comme $n + p$ est un nombre entier, la somme est le double d'un nombre entier : c'est un nombre pair.
+Ce calcul est valable pour tous les nombres pairs : la conjecture est démontrée.
+
+**4.** a) $4 + 9 = 13$. De plus, $4 = 2^2$ et $9 = 3^2$ : ce sont des carrés parfaits.
+b) $3^2 = 9$ et $4^2 = 16$ : aucun nombre entier n'a pour carré $13$, donc $13$ n'est pas un carré parfait.
+Un seul contre-exemple suffit : **Théo a tort**, même si son affirmation est vraie pour $9 + 16$.`
+    },
+    {
+      id: "5N5-ds-19",
+      title: "Conjecturer au tableur, puis démontrer",
+      difficulty: 4,
+      points: 6,
+      statement: `On considère le programme de calcul suivant :
+- Choisir un nombre.
+- Lui ajouter $5$.
+- Multiplier le résultat par $3$.
+- Soustraire le triple du nombre choisi.
+
+On a testé ce programme avec un tableur :
+
+| | A | B | C | D |
+|:---:|:---:|:---:|:---:|:---:|
+| 1 | Nombre choisi | Ajouter 5 | Multiplier par 3 | Soustraire le triple |
+| 2 | $1$ | $6$ | $18$ | $15$ |
+| 3 | $4$ | $9$ | $27$ | $15$ |
+| 4 | $10$ | $15$ | $45$ | $15$ |
+| 5 | $2{,}5$ | $7{,}5$ | $22{,}5$ | $15$ |
+
+1. Quelles formules a-t-on saisies en B2, en C2 et en D2 avant de les étirer vers le bas ?
+2. Vérifier par un calcul le résultat de la ligne 5.
+3. Quelle conjecture peut-on faire ?
+4. On note $x$ le nombre choisi. Écrire le résultat du programme en fonction de $x$, puis démontrer la conjecture en développant et en réduisant.
+5. On remplace « Lui ajouter $5$ » par « Lui ajouter $7$ ». Quel résultat obtient-on, quel que soit le nombre choisi ? Justifier.`,
+      solution: `**1.** En B2 : \`=A2+5\`. En C2 : \`=B2*3\`. En D2 : \`=C2-3*A2\`.
+
+**2.** $2{,}5 + 5 = 7{,}5$ ; $\\;7{,}5 \\times 3 = 22{,}5$ ; $\\;22{,}5 - 3 \\times 2{,}5 = 22{,}5 - 7{,}5 = 15$.
+
+**3.** Sur toutes les lignes, la colonne D contient $15$. On peut conjecturer que **le résultat est toujours égal à $15$**, quel que soit le nombre choisi.
+
+**4.** Le programme donne $3(x + 5) - 3x$.
+En développant : $3(x + 5) - 3x = 3x + 15 - 3x$. En réduisant, les termes en $x$ se compensent : il reste $15$.
+Ce calcul est valable pour tout nombre $x$ : la conjecture est démontrée.
+
+**5.** Le programme donne alors $3(x + 7) - 3x = 3x + 21 - 3x = 21$. Le résultat est toujours égal à $21$.`
     }
   ],
   "5G1": [
@@ -2218,8 +2467,8 @@ Milieu de $[BD]$ : à mi-chemin entre $2$ et $-1$, on trouve $0{,}5$ ; entre $-1
 1. Le point $M$ a une abscisse égale au double de son ordonnée, et la somme de ses deux coordonnées est égale à $-9$. Déterminer les coordonnées de $M$.
 2. Le point $C$ a une abscisse nulle et une ordonnée non nulle. Expliquer pourquoi le triangle $ABC$ est isocèle en $C$.
 3. Déterminer les coordonnées de tous les points $C$ d'abscisse nulle tels que l'aire du triangle $ABC$ soit égale à $12$ cm².`,
-      solution: `**1.** Notons $y$ l'ordonnée de $M$ ; son abscisse est $2y$. La somme des coordonnées vaut $2y + y = 3y$, donc $3y = -9$ et $y = -3$. L'abscisse vaut $2 \\times (-3) = -6$.
-Donc **$M(-6 ; -3)$**. (Vérification : $-6 + (-3) = -9$ et $-6 = 2 \\times (-3)$.)
+      solution: `**1.** Notons $y$ l'ordonnée de $M$ ; son abscisse, le double de $y$, est égale à $y + y$. La somme des coordonnées vaut $y + y + y$ : trois nombres égaux ont pour somme $-9$, chacun vaut donc $-3$, car $(-3) + (-3) + (-3) = -9$. L'abscisse vaut $(-3) + (-3) = -6$.
+Donc **$M(-6 ; -3)$**. (Vérification : $-6 + (-3) = -9$ et $(-3) + (-3) = -6$.)
 
 **2.** $C$ est sur l'axe des ordonnées. Le milieu de $[AB]$ est l'origine $O(0 ; 0)$ et l'axe des ordonnées est perpendiculaire à $(AB)$ en $O$ : c'est la médiatrice de $[AB]$. Tout point de la médiatrice est à égale distance de $A$ et $B$, donc $CA = CB$ : le triangle $ABC$ est isocèle en $C$.
 
@@ -2310,7 +2559,7 @@ c) $F$ a la même abscisse que $A$ ; ses ordonnées vont de $-2$ à $2$, soit un
 1. Donner les coordonnées d'Alpha après $1$, $2$, $3$ et $4$ sauts.
 2. Pour connaître la position d'Alpha, on utilise deux programmes de calcul :
    - abscisse : « prendre le nombre de sauts et le multiplier par $3$ » ;
-   - ordonnée : « prendre le nombre de sauts et le multiplier par $-2$ ».
+   - ordonnée : « prendre le nombre de sauts, le multiplier par $2$, puis prendre l'opposé du résultat ».
    a) Expliquer pourquoi ces programmes donnent bien la position d'Alpha.
    b) Où est Alpha après $10$ sauts ?
 3. Alpha passera-t-il par le point $(45 ; -30)$ ? Par le point $(20 ; -14)$ ? Justifier.
@@ -2322,11 +2571,11 @@ c) $F$ a la même abscisse que $A$ ; ses ordonnées vont de $-2$ à $2$, soit un
 | Position de Bêta | $(-10 ; 5)$ | | | | | | |`,
       solution: `**1.** On ajoute $3$ à l'abscisse et on retire $2$ à l'ordonnée à chaque saut : $(3 ; -2)$, $(6 ; -4)$, $(9 ; -6)$, $(12 ; -8)$.
 
-**2.** a) Alpha part de $(0 ; 0)$. Après un certain nombre de sauts, son abscisse a augmenté autant de fois de $3$ : elle vaut (nombre de sauts) $\\times 3$. Son ordonnée a diminué autant de fois de $2$ : elle vaut (nombre de sauts) $\\times (-2)$.
-b) Après $10$ sauts : abscisse $10 \\times 3 = 30$, ordonnée $10 \\times (-2) = -20$. Alpha est en **$(30 ; -20)$**.
+**2.** a) Alpha part de $(0 ; 0)$. Après un certain nombre de sauts, son abscisse a augmenté autant de fois de $3$ : elle vaut (nombre de sauts) $\\times 3$. Son ordonnée a diminué autant de fois de $2$ : elle vaut l'opposé de (nombre de sauts) $\\times 2$.
+b) Après $10$ sauts : abscisse $10 \\times 3 = 30$ ; pour l'ordonnée, $10 \\times 2 = 20$, dont l'opposé est $-20$. Alpha est en **$(30 ; -20)$**.
 
-**3.** Pour $(45 ; -30)$ : l'abscisse $45 = 15 \\times 3$ correspond à $15$ sauts, et après $15$ sauts l'ordonnée vaut $15 \\times (-2) = -30$. Les deux coordonnées correspondent : **oui**, Alpha y passe après $15$ sauts.
-Pour $(20 ; -14)$ : l'abscisse d'Alpha est toujours un multiple de $3$, et $20$ n'est pas un multiple de $3$. **Non**, Alpha n'y passe pas (après $7$ sauts, son ordonnée vaut bien $-14$, mais il est en $(21 ; -14)$).
+**3.** Pour $(45 ; -30)$ : l'abscisse $45 = 15 \\times 3$ correspond à $15$ sauts ; après $15$ sauts, $15 \\times 2 = 30$, donc l'ordonnée vaut $-30$. Les deux coordonnées correspondent : **oui**, Alpha y passe après $15$ sauts.
+Pour $(20 ; -14)$ : l'abscisse d'Alpha est toujours un multiple de $3$, et $20$ n'est pas un multiple de $3$. **Non**, Alpha n'y passe pas (après $7$ sauts, son ordonnée vaut bien $-14$, opposé de $7 \\times 2$, mais il est en $(21 ; -14)$).
 
 **4.** Pour Bêta, on ajoute $5$ à l'abscisse et on retire $3$ à l'ordonnée à chaque saut.
 
@@ -2774,7 +3023,7 @@ $\\widehat{AOB'} = 180^\\circ - 30^\\circ = 150^\\circ$.`
 2. Calculer la distance $II'$.
 3. On veut savoir si les cercles $\\mathcal{C}$ et $\\mathcal{C}'$ ont un point commun. On suppose qu'un point $M$ est sur les deux cercles.
    a) Que valent alors $IM$ et $MI'$ ?
-   b) À l'aide de l'inégalité triangulaire dans le triangle $IMI'$ (ou dans le cas où $M$ est sur le segment $[II']$), montrer que c'est impossible.
+   b) Le chemin le plus court pour aller de $I$ à $I'$ est le segment $[II']$. En comparant la longueur du trajet $I \\to M \\to I'$ à la distance $II'$, montrer que c'est impossible.
 4. On recommence avec un point $O$ tel que $OI = 2$ cm (le rayon de $\\mathcal{C}$ ne change pas).
    a) Justifier que le point $O$ est sur le cercle $\\mathcal{C}$.
    b) En déduire que $O$ est aussi sur le cercle $\\mathcal{C}'$. Que peut-on dire des deux cercles ?`,
@@ -2783,7 +3032,7 @@ $\\widehat{AOB'} = 180^\\circ - 30^\\circ = 150^\\circ$.`
 **2.** $O$ est le milieu de $[II']$ : $II' = 2 \\times OI = 2 \\times 3 = 6$ cm.
 
 **3.** a) $M$ est sur $\\mathcal{C}$, donc $IM = 2$ cm ; $M$ est sur $\\mathcal{C}'$, donc $MI' = 2$ cm.
-b) D'après l'inégalité triangulaire, $II' \\leqslant IM + MI'$ (avec égalité si $M$ est sur le segment $[II']$). On aurait donc $II' \\leqslant 2 + 2 = 4$ cm. Or $II' = 6$ cm et $6 > 4$ : c'est impossible.
+b) Le trajet $I \\to M \\to I'$ mesurerait $IM + MI' = 2 + 2 = 4$ cm. Or le chemin le plus court de $I$ à $I'$ est le segment $[II']$, qui mesure $6$ cm : un trajet de $I$ à $I'$ ne peut pas être plus court que $6$ cm. C'est impossible.
 Les deux cercles n'ont **aucun point commun**.
 
 **4.** a) $OI = 2$ cm et le rayon de $\\mathcal{C}$ est $2$ cm : $O$ est sur $\\mathcal{C}$.
@@ -2837,6 +3086,40 @@ Vérification : $M(14)$ est à $13$ à droite de $A$, donc $M_1 = 1 - 13 = -12$ 
 
 **5.** $M(0)$ est à $4$ à gauche de $B$ : son symétrique par rapport à $B$ a pour abscisse $8$. Le point d'abscisse $8$ est à $7$ à droite de $A$ : son symétrique par rapport à $A$ a pour abscisse $1 - 7 = -6$.
 On arrive au point d'abscisse $-6$ : cette fois, on s'est déplacé de $6$ unités **vers la gauche**. L'ordre des deux symétries compte.`
+    },
+    {
+      id: "5G2-ds-17",
+      title: "Une frise de triangles construite par demi-tours",
+      difficulty: 3,
+      points: 7,
+      statement: `La figure ci-dessous est tracée sur un quadrillage dont les carreaux ont $1$ cm de côté. Le triangle $ABC$ est le motif de départ d'une frise et $I$ est le milieu du segment $[BC]$.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:360px;"><svg class="geo-svg-figure" viewBox="0 0 330 158" width="330" height="158" style="width:100%; height:auto; display:block; margin:0 auto; color:var(--text-main, #1e293b);" xmlns="http://www.w3.org/2000/svg" role="img"><line x1="16" y1="146" x2="16" y2="11" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="43" y1="146" x2="43" y2="11" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="70" y1="146" x2="70" y2="11" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="97" y1="146" x2="97" y2="11" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="124" y1="146" x2="124" y2="11" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="151" y1="146" x2="151" y2="11" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="178" y1="146" x2="178" y2="11" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="205" y1="146" x2="205" y2="11" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="232" y1="146" x2="232" y2="11" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="259" y1="146" x2="259" y2="11" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="286" y1="146" x2="286" y2="11" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="313" y1="146" x2="313" y2="11" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="16" y1="146" x2="313" y2="146" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="16" y1="119" x2="313" y2="119" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="16" y1="92" x2="313" y2="92" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="16" y1="65" x2="313" y2="65" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="16" y1="38" x2="313" y2="38" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="16" y1="11" x2="313" y2="11" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><polygon points="43,119 151,119 70,38" fill="rgba(59,130,246,0.18)" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="43" cy="119" r="3" fill="currentColor"/><text x="33" y="133" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="currentColor" text-anchor="middle">A</text><circle cx="151" cy="119" r="3" fill="currentColor"/><text x="151" y="135" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="currentColor" text-anchor="middle">B</text><circle cx="70" cy="38" r="3" fill="currentColor"/><text x="62" y="30" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="currentColor" text-anchor="middle">C</text><circle cx="110.5" cy="78.5" r="3" fill="#dc2626"/><text x="121.5" y="82.5" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="#dc2626" text-anchor="middle">I</text></svg></div>
+
+1. Reproduire la figure sur un quadrillage, puis construire le point $D$, image de $A$ par le demi-tour de centre $I$. Tracer le triangle $BDC$.
+2. Quelle est l'image du triangle $ABC$ par le demi-tour de centre $I$ ? Justifier.
+3. L'aire du triangle $ABC$ est égale à $6$ cm². Sans calcul, donner l'aire du triangle $BDC$, en justifiant.
+4. Démontrer que les droites $(AC)$ et $(BD)$ sont parallèles.
+5. On note $J$ le milieu du segment $[BD]$. Construire le point $E$, image de $C$, et le point $F$, image de $A$, par le demi-tour de centre $J$. Tracer les triangles $BED$ et $DEF$.
+6. Quelles sont les images des droites $(AC)$ et $(BD)$ par le demi-tour de centre $J$ ? En déduire que les droites $(EF)$ et $(BD)$ sont parallèles.
+7. On prolonge la frise jusqu'à obtenir $20$ triangles, chacun étant l'image du précédent par un demi-tour. Quelle est l'aire totale de la frise ?`,
+      solution: `**1.** $I$ est le milieu de $[AD]$. De $A$ à $I$, on avance de $2{,}5$ carreaux vers la droite et on monte de $1{,}5$ carreau ; on recommence à partir de $I$. Donc $D$ est à $5$ carreaux à droite de $A$ et $3$ carreaux au-dessus.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:360px;"><svg class="geo-svg-figure" viewBox="0 0 330 158" width="330" height="158" style="width:100%; height:auto; display:block; margin:0 auto; color:var(--text-main, #1e293b);" xmlns="http://www.w3.org/2000/svg" role="img"><line x1="16" y1="146" x2="16" y2="11" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="43" y1="146" x2="43" y2="11" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="70" y1="146" x2="70" y2="11" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="97" y1="146" x2="97" y2="11" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="124" y1="146" x2="124" y2="11" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="151" y1="146" x2="151" y2="11" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="178" y1="146" x2="178" y2="11" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="205" y1="146" x2="205" y2="11" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="232" y1="146" x2="232" y2="11" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="259" y1="146" x2="259" y2="11" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="286" y1="146" x2="286" y2="11" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="313" y1="146" x2="313" y2="11" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="16" y1="146" x2="313" y2="146" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="16" y1="119" x2="313" y2="119" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="16" y1="92" x2="313" y2="92" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="16" y1="65" x2="313" y2="65" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="16" y1="38" x2="313" y2="38" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><line x1="16" y1="11" x2="313" y2="11" stroke="currentColor" stroke-opacity="0.22" stroke-width="1"/><polygon points="43,119 151,119 70,38" fill="rgba(59,130,246,0.18)" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><polygon points="151,119 178,38 70,38" fill="rgba(16,185,129,0.18)" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><polygon points="151,119 259,119 178,38" fill="rgba(59,130,246,0.18)" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><polygon points="178,38 259,119 286,38" fill="rgba(16,185,129,0.18)" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="43" cy="119" r="3" fill="currentColor"/><text x="33" y="133" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="currentColor" text-anchor="middle">A</text><circle cx="151" cy="119" r="3" fill="currentColor"/><text x="151" y="135" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="currentColor" text-anchor="middle">B</text><circle cx="70" cy="38" r="3" fill="currentColor"/><text x="62" y="30" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="currentColor" text-anchor="middle">C</text><circle cx="110.5" cy="78.5" r="3" fill="#dc2626"/><text x="121.5" y="82.5" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="#dc2626" text-anchor="middle">I</text><circle cx="178" cy="38" r="3" fill="currentColor"/><text x="186" y="30" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="currentColor" text-anchor="middle">D</text><circle cx="259" cy="119" r="3" fill="currentColor"/><text x="259" y="135" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="currentColor" text-anchor="middle">E</text><circle cx="286" cy="38" r="3" fill="currentColor"/><text x="294" y="30" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="currentColor" text-anchor="middle">F</text><circle cx="164.5" cy="78.5" r="3" fill="#dc2626"/><text x="175.5" y="82.5" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="#dc2626" text-anchor="middle">J</text></svg></div>
+
+**2.** $I$ est le milieu de $[BC]$ : le demi-tour de centre $I$ échange $B$ et $C$. Par construction, l'image de $A$ est $D$. L'image du triangle $ABC$ est donc le triangle $DCB$, c'est-à-dire le triangle $BDC$.
+
+**3.** Le triangle $BDC$ est l'image de $ABC$ par un demi-tour, et un demi-tour conserve les aires : l'aire de $BDC$ est aussi **$6$ cm²**.
+
+**4.** Par le demi-tour de centre $I$, $A$ a pour image $D$ et $C$ a pour image $B$ : la droite $(AC)$ a pour image la droite $(DB)$. Or une droite et son image par un demi-tour sont parallèles. Donc **$(AC) \\parallel (BD)$**.
+
+**5.** Voir la figure ci-dessus. $J$ est le milieu de $[BD]$ : le demi-tour de centre $J$ échange $B$ et $D$. De $C$ à $J$, on avance de $3{,}5$ carreaux vers la droite et on descend de $1{,}5$ carreau, donc $E$ est à $7$ carreaux à droite de $C$ et $3$ carreaux au-dessous : il est sur la droite $(AB)$, à $4$ carreaux à droite de $B$. De même, $F$ est à $9$ carreaux à droite de $A$ et $3$ carreaux au-dessus.
+Le triangle $BED$ est l'image de $BDC$, et le triangle $DEF$ est l'image de $ABC$.
+
+**6.** Par le demi-tour de centre $J$, $A$ a pour image $F$ et $C$ a pour image $E$ : $(AC)$ a pour image $(FE)$. De plus, $B$ a pour image $D$ et $D$ a pour image $B$ : $(BD)$ a pour image $(DB)$, c'est la même droite, car elle passe par le centre $J$.
+Or deux droites parallèles ont pour images deux droites parallèles. Comme $(AC) \\parallel (BD)$ d'après la question 4, on obtient **$(EF) \\parallel (BD)$**.
+
+**7.** Chaque triangle est l'image du précédent par un demi-tour, qui conserve les aires : les $20$ triangles ont tous une aire de $6$ cm². L'aire totale est $20 \\times 6 =$ **$120$ cm²**.`
     }
   ],
   "5G3": [
@@ -2925,7 +3208,7 @@ Le triangle $RST$ est **rectangle et isocèle en $R$**.`
     },
     {
       id: "5G3-ds-05",
-      title: "Démontrer que la somme des angles vaut 180°",
+      title: "Somme des angles : le raisonnement sur un exemple",
       difficulty: 3,
       points: 5,
       statement: `$ABC$ est un triangle tel que $\\widehat{BAC} = 50^\\circ$ et $\\widehat{ABC} = 60^\\circ$. On trace la droite $(d)$ passant par $A$ et parallèle à $(BC)$. On place sur $(d)$ deux points $M$ et $N$, de part et d'autre de $A$, avec $M$ du côté de $B$ et $N$ du côté de $C$.
@@ -3218,6 +3501,33 @@ b) $M$, $A$, $N$ sont alignés, donc $\\widehat{MAE} + \\widehat{EAB} + \\wideha
 De même, avec la sécante $(AC)$ : $\\widehat{ADE} = \\widehat{ACB} = 50^\\circ$.
 b) $\\widehat{EAD} + \\widehat{AED} + \\widehat{ADE} = 60^\\circ + 70^\\circ + 50^\\circ = 180^\\circ$ : c'est cohérent.
 (On peut aussi vérifier en $E$ : $\\widehat{BED} = 180^\\circ - 35^\\circ - 35^\\circ = 110^\\circ$ et $\\widehat{AED} = 180^\\circ - 110^\\circ = 70^\\circ$.)`
+    },
+    {
+      id: "5G3-ds-17",
+      title: "Démonstration générale : la somme des angles d'un triangle",
+      difficulty: 3,
+      points: 6,
+      statement: `$ABC$ est un triangle quelconque : aucune mesure n'est donnée et il ne faut rien mesurer. On veut démontrer que la somme de ses trois angles vaut $180^\\circ$.
+
+1. Tracer à main levée un triangle $ABC$, puis la droite $(d)$ parallèle à $(BC)$ passant par $A$. Placer sur $(d)$ deux points $M$ et $N$, de part et d'autre de $A$, de sorte que $M$ et $C$ soient de part et d'autre de la droite $(AB)$, et $N$ et $B$ de part et d'autre de la droite $(AC)$.
+2. Démontrer que $\\widehat{MAB} = \\widehat{ABC}$. Citer la propriété utilisée.
+3. Démontrer que $\\widehat{NAC} = \\widehat{ACB}$.
+4. Que vaut la somme $\\widehat{MAB} + \\widehat{BAC} + \\widehat{NAC}$ ? Justifier.
+5. En déduire la valeur de $\\widehat{ABC} + \\widehat{BAC} + \\widehat{ACB}$, puis expliquer pourquoi ce résultat est valable pour tous les triangles.`,
+      solution: `**1.** Figure à main levée, par exemple :
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:320px;"><svg class="geo-svg-figure" viewBox="0 0 300 155" width="300" height="155" style="width:100%; height:auto; display:block; margin:0 auto; color:var(--text-main, #1e293b);" xmlns="http://www.w3.org/2000/svg" role="img"><polygon points="125,35 45,130 255,130" fill="rgba(59,130,246,0.08)" stroke="currentColor" stroke-width="1.8"/><line x1="12" y1="35" x2="288" y2="35" stroke="#2563eb" stroke-width="1.8"/><path d="M 125 35 L 149 35 A 24 24 0 0 1 144.4 49.2 Z" fill="rgba(217, 119, 6, 0.3)" stroke="#d97706" stroke-width="1.5"/><path d="M 125 35 L 144.4 49.2 A 24 24 0 0 1 109.5 53.4 Z" fill="rgba(59,130,246,0.3)" stroke="#2563eb" stroke-width="1.5"/><path d="M 125 35 L 109.5 53.4 A 24 24 0 0 1 101 35 Z" fill="rgba(16, 185, 129, 0.3)" stroke="#10b981" stroke-width="1.5"/><path d="M 45 130 L 60.5 111.6 A 24 24 0 0 1 69 130 Z" fill="rgba(16, 185, 129, 0.3)" stroke="#10b981" stroke-width="1.5"/><path d="M 255 130 L 231 130 A 24 24 0 0 1 235.6 115.8 Z" fill="rgba(217, 119, 6, 0.3)" stroke="#d97706" stroke-width="1.5"/><circle cx="30" cy="35" r="3" fill="#2563eb"/><circle cx="270" cy="35" r="3" fill="#2563eb"/><text x="125" y="23" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="currentColor" text-anchor="middle">A</text><text x="30" y="23" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="#2563eb" text-anchor="middle">M</text><text x="270" y="23" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="#2563eb" text-anchor="middle">N</text><text x="33" y="145" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="currentColor" text-anchor="middle">B</text><text x="267" y="145" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="currentColor" text-anchor="middle">C</text><text x="296" y="54" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="#2563eb" text-anchor="end">(d)</text></svg></div>
+
+**2.** **On sait que** les droites $(d)$ et $(BC)$ sont parallèles et coupées par la sécante $(AB)$. Les angles $\\widehat{MAB}$ et $\\widehat{ABC}$ sont alternes-internes.
+**Or**, si deux droites parallèles sont coupées par une sécante, alors les angles alternes-internes ont la même mesure.
+**Donc** $\\widehat{MAB} = \\widehat{ABC}$.
+
+**3.** De même, les droites parallèles $(d)$ et $(BC)$ sont coupées par la sécante $(AC)$, et les angles $\\widehat{NAC}$ et $\\widehat{ACB}$ sont alternes-internes. Donc $\\widehat{NAC} = \\widehat{ACB}$.
+
+**4.** Les points $M$, $A$ et $N$ sont alignés, avec $A$ entre $M$ et $N$ : l'angle $\\widehat{MAN}$ est un angle plat. Les trois angles $\\widehat{MAB}$, $\\widehat{BAC}$ et $\\widehat{NAC}$ le partagent sans se chevaucher, donc $\\widehat{MAB} + \\widehat{BAC} + \\widehat{NAC} = 180^\\circ$.
+
+**5.** En remplaçant $\\widehat{MAB}$ par $\\widehat{ABC}$ et $\\widehat{NAC}$ par $\\widehat{ACB}$ dans l'égalité de la question 4, on obtient $\\widehat{ABC} + \\widehat{BAC} + \\widehat{ACB} = 180^\\circ$.
+Le raisonnement n'utilise aucune mesure et aucune propriété particulière du triangle $ABC$ : il est valable pour **n'importe quel triangle**. La somme des angles d'un triangle vaut donc toujours $180^\\circ$.`
     }
   ],
   "5G4": [
@@ -3234,16 +3544,16 @@ b) $\\widehat{EAD} + \\widehat{AED} + \\widehat{ADE} = 60^\\circ + 70^\\circ + 5
 | $DEF$ | $3$ cm ; $4$ cm ; $8$ cm |
 | $GHI$ | $4$ cm ; $6$ cm ; $10$ cm |
 
-1. Rappeler l'inégalité triangulaire.
-2. Pour chacun des trois triangles, dire s'il est constructible. Justifier par un calcul.
+1. Pour le triangle $DEF$, tracer un segment de $8$ cm puis, à ses extrémités, un arc de cercle de rayon $3$ cm et un arc de cercle de rayon $4$ cm. Que constate-t-on ?
+2. Pour chacun des trois triangles, imaginer la construction de la question 1 sur le plus grand côté : les deux autres longueurs, mises bout à bout, sont-elles assez longues pour que les arcs de cercle se coupent ? En déduire si le triangle est constructible.
 3. L'un de ces « triangles » est particulier : lequel ? Que peut-on dire de ses trois sommets ?
 4. Construire le triangle $ABC$ tel que $AB = 7$ cm, $AC = 5$ cm et $BC = 10$ cm, en laissant les traits de construction.`,
-      solution: `**1.** Dans un triangle, la longueur de chaque côté est inférieure à la somme des longueurs des deux autres côtés. Pour savoir si un triangle est constructible, il suffit de comparer la plus grande longueur à la somme des deux autres.
+      solution: `**1.** Les deux arcs ne se coupent pas : mises bout à bout, les longueurs $3$ cm et $4$ cm font $3 + 4 = 7$ cm, ce qui est trop court pour relier les extrémités du segment de $8$ cm. Trois longueurs ne permettent donc pas toujours de construire un triangle.
 
 **2.**
-- $ABC$ : la plus grande longueur est $10$ cm et $5 + 7 = 12$ ; comme $10 < 12$, le triangle $ABC$ est constructible.
-- $DEF$ : la plus grande longueur est $8$ cm et $3 + 4 = 7$ ; comme $8 > 7$, le triangle $DEF$ n'est pas constructible (les deux arcs de cercle ne se coupent pas).
-- $GHI$ : la plus grande longueur est $10$ cm et $4 + 6 = 10$ ; il y a égalité.
+- $ABC$ : sur le côté de $10$ cm, les longueurs $5$ cm et $7$ cm mises bout à bout font $12$ cm, plus que $10$ cm : les arcs se coupent (en deux points, un de chaque côté), le triangle $ABC$ est constructible.
+- $DEF$ : sur le côté de $8$ cm, $3$ cm et $4$ cm mis bout à bout font $7$ cm, moins que $8$ cm : les arcs ne se coupent pas, le triangle $DEF$ n'est pas constructible.
+- $GHI$ : sur le côté de $10$ cm, $4$ cm et $6$ cm mis bout à bout font exactement $10$ cm : les arcs se touchent en un seul point, situé sur le segment lui-même. On n'obtient qu'un triangle « aplati », pas un vrai triangle.
 
 **3.** Pour $GHI$, on a $4 + 6 = 10$ : le triangle est « aplati ». Ses trois sommets sont **alignés** : le sommet commun aux côtés de $4$ cm et $6$ cm est situé sur le côté de $10$ cm.
 
@@ -3364,10 +3674,12 @@ Donc $\\dfrac{8 \\times CK}{2} = 30$, soit $8 \\times CK = 60$ et $CK = 60 \\div
     },
     {
       id: "5G4-ds-07",
-      title: "Le troisième côté",
+      title: "Pour aller plus loin : le troisième côté",
       difficulty: 4,
       points: 6,
-      statement: `Un triangle a deux côtés qui mesurent $7$ cm et $11$ cm. On note $x$ la longueur, en centimètres, de son troisième côté ; on suppose que $x$ est un **nombre entier**.
+      statement: `**Pour aller plus loin.** On admet qu'on peut construire un triangle si et seulement si la plus grande longueur est strictement inférieure à la somme des deux autres (c'est l'**inégalité triangulaire**).
+
+Un triangle a deux côtés qui mesurent $7$ cm et $11$ cm. On note $x$ la longueur, en centimètres, de son troisième côté ; on suppose que $x$ est un **nombre entier**.
 
 1. Le triangle est-il constructible si $x = 3$ ? si $x = 15$ ? si $x = 20$ ? Justifier.
 2. Déterminer toutes les valeurs entières possibles de $x$. Combien y en a-t-il ?
@@ -3484,12 +3796,12 @@ Somme : $9 + 21 = 30\\text{ cm}^2$. C'est cohérent : le rectangle ($60\\text{ c
       points: 6,
       statement: `$ABC$ est un triangle tel que $AB = 13$ cm, $BC = 14$ cm et $AC = 15$ cm. La hauteur issue de $A$ mesure $AH = 12$ cm.
 
-1. Vérifier que ce triangle est constructible.
+1. Expliquer pourquoi ces trois longueurs permettent de construire un triangle.
 2. Calculer l'aire du triangle $ABC$.
 3. a) Calculer la longueur de la hauteur issue de $B$ (relative au côté $[AC]$).
    b) Calculer la longueur de la hauteur issue de $C$ (relative au côté $[AB]$), arrondie au dixième.
 4. Ranger les trois hauteurs dans l'ordre croissant, puis les trois côtés dans l'ordre croissant. Que remarque-t-on ? Expliquer cette remarque à l'aide de la formule de l'aire.`,
-      solution: `**1.** Le plus grand côté mesure $15$ cm et $13 + 14 = 27 > 15$ : le triangle est constructible.
+      solution: `**1.** Le plus grand côté mesure $15$ cm et les deux autres, mis bout à bout, mesurent $13 + 14 = 27$ cm, ce qui dépasse $15$ cm : les arcs tracés aux extrémités du côté de $15$ cm se coupent, donc le triangle est constructible.
 
 **2.** Avec la base $[BC]$ et la hauteur $[AH]$ : $\\mathcal{A}_{ABC} = \\dfrac{14 \\times 12}{2} = 84\\text{ cm}^2$.
 
@@ -3621,6 +3933,30 @@ b) $\\mathcal{A}_{AMN} = 60 - 10 - 10 - 15 = 25\\text{ cm}^2$.
 
 **4.** Chaque fois que $BN$ augmente de $2$ cm, l'aire **diminue de $5\\text{ cm}^2$**, soit $2{,}5\\text{ cm}^2$ par centimètre. $22{,}5$ est à mi-chemin entre $25$ et $20$ : on essaie $BN = 3$ cm.
 Vérification : $ABN$ : $\\dfrac{10 \\times 3}{2} = 15$ ; $CN = 3$ cm, $NCM$ : $\\dfrac{3 \\times 5}{2} = 7{,}5$ ; aire de $AMN$ : $60 - 15 - 7{,}5 - 15 = 22{,}5\\text{ cm}^2$. Il faut placer $N$ tel que **$BN = 3$ cm**.`
+    },
+    {
+      id: "5G4-ds-17",
+      title: "Démontrer la propriété de la médiane",
+      difficulty: 3,
+      points: 5,
+      statement: `$ABC$ est un triangle quelconque. On note $I$ le milieu du côté $[BC]$ et $h$ la longueur de la hauteur issue de $A$.
+
+1. Que représente la droite $(AI)$ pour le triangle $ABC$ ?
+2. Exprimer l'aire du triangle $ABI$ en fonction de $BI$ et de $h$, puis l'aire du triangle $AIC$ en fonction de $IC$ et de $h$. Justifier le choix de la hauteur.
+3. Démontrer que les triangles $ABI$ et $AIC$ ont la même aire.
+4. Démontrer que l'aire du triangle $ABI$ est égale à la moitié de l'aire du triangle $ABC$.
+5. On note $J$ le milieu de $[AI]$. Que représente la droite $(BJ)$ pour le triangle $ABI$ ? En déduire que l'aire du triangle $ABJ$ est le quart de l'aire du triangle $ABC$.`,
+      solution: `**1.** La droite $(AI)$ passe par le sommet $A$ et par le milieu $I$ du côté opposé $[BC]$ : c'est la **médiane** issue de $A$.
+
+**2.** Les bases $[BI]$ et $[IC]$ sont portées par la droite $(BC)$, et la hauteur issue de $A$ est perpendiculaire à cette droite. C'est donc aussi la hauteur des triangles $ABI$ et $AIC$ relative à ces bases :
+$\\mathcal{A}_{ABI} = \\dfrac{BI \\times h}{2}$ et $\\mathcal{A}_{AIC} = \\dfrac{IC \\times h}{2}$.
+
+**3.** Comme $I$ est le milieu de $[BC]$, on a $BI = IC$. Les deux triangles ont des bases de même longueur et la même hauteur $h$ : ils ont donc la même aire, $\\mathcal{A}_{ABI} = \\mathcal{A}_{AIC}$.
+
+**4.** Les triangles $ABI$ et $AIC$ recouvrent exactement le triangle $ABC$, donc $\\mathcal{A}_{ABI} + \\mathcal{A}_{AIC} = \\mathcal{A}_{ABC}$. Comme ces deux aires sont égales, $2 \\times \\mathcal{A}_{ABI} = \\mathcal{A}_{ABC}$, c'est-à-dire $\\mathcal{A}_{ABI} = \\dfrac{\\mathcal{A}_{ABC}}{2}$.
+
+**5.** Dans le triangle $ABI$, $J$ est le milieu du côté $[AI]$ et la droite $(BJ)$ passe par le sommet $B$ : c'est la médiane issue de $B$. La propriété démontrée aux questions 2 et 3, appliquée au triangle $ABI$, montre que $ABJ$ et $IBJ$ ont la même aire. D'après le raisonnement de la question 4 :
+$\\mathcal{A}_{ABJ} = \\dfrac{\\mathcal{A}_{ABI}}{2} = \\dfrac{1}{2} \\times \\dfrac{\\mathcal{A}_{ABC}}{2} = \\dfrac{\\mathcal{A}_{ABC}}{4}$.`
     }
   ],
   "5G5": [
@@ -3629,7 +3965,7 @@ Vérification : $ABN$ : $\\dfrac{10 \\times 3}{2} = 15$ ; $CN = 3$ cm, $NCM$ : $
       title: "Propriétés du parallélogramme",
       difficulty: 1,
       points: 4,
-      statement: `$ABCD$ est un parallélogramme de centre $O$. On sait que $AB = 6$ cm, $BC = 4$ cm, $AC = 8{,}4$ cm et $\\widehat{ABC} = 110^\\circ$.
+      statement: `$ABCD$ est un parallélogramme de centre $O$. On sait que $AB = 6$ cm, $BC = 4$ cm, $AC = 8{,}4$ cm et $\\widehat{ABC} = 113^\\circ$.
 
 1. Donner, sans les mesurer, les longueurs $CD$ et $AD$. Justifier.
 2. Calculer la longueur $OA$. Justifier.
@@ -3639,8 +3975,8 @@ Vérification : $ABN$ : $\\dfrac{10 \\times 3}{2} = 15$ ; $CN = 3$ cm, $NCM$ : $
 
 **2.** Dans un parallélogramme, les diagonales se coupent en leur milieu. $O$ est donc le milieu de $[AC]$ : $OA = 8{,}4 \\div 2 = 4{,}2$ cm.
 
-**3.** Dans un parallélogramme, les angles opposés ont la même mesure : $\\widehat{CDA} = \\widehat{ABC} = 110^\\circ$.
-Deux angles consécutifs d'un parallélogramme sont supplémentaires (leur somme vaut $180^\\circ$) : $\\widehat{BCD} = 180^\\circ - 110^\\circ = 70^\\circ$.
+**3.** Dans un parallélogramme, les angles opposés ont la même mesure : $\\widehat{CDA} = \\widehat{ABC} = 113^\\circ$.
+Deux angles consécutifs d'un parallélogramme sont supplémentaires (leur somme vaut $180^\\circ$) : $\\widehat{BCD} = 180^\\circ - 113^\\circ = 67^\\circ$.
 
 **4.** $\\mathcal{P} = 2 \\times (6 + 4) = 20$. Le périmètre de $ABCD$ est $20$ cm.`
     },
@@ -4015,6 +4351,35 @@ Dans un parallélogramme, les côtés opposés ont la même longueur : $DC = AB$
 **5.** Avec la base $[AB]$ (hauteur $3$ cm) : $\\text{Aire} = 6 \\times 3 = 18\\text{ cm}^2$.
 Avec la base $[AD]$, la hauteur est maintenant la largeur de la bande 2, soit $4$ cm : $AD \\times 4 = 18$, donc $AD = 18 \\div 4 = 4{,}5$ cm.
 $AB = 6$ cm et $AD = 4{,}5$ cm : deux côtés consécutifs n'ont pas la même longueur, ce **n'est plus un losange**.`
+    },
+    {
+      id: "5G5-ds-17",
+      title: "Figures composées et conversions d'aires",
+      difficulty: 3,
+      points: 7,
+      statement: `1. Convertir :
+   a) $3{,}5\\text{ m}^2$ en $\\text{cm}^2$
+   b) $420\\text{ cm}^2$ en $\\text{dm}^2$
+   c) $2\\text{ cm}^2$ en $\\text{mm}^2$
+2. Une figure est formée d'un rectangle de longueur $6$ cm et de largeur $4$ cm, et d'un parallélogramme de base $6$ cm et de hauteur $3$ cm posé sur la longueur du rectangle, sans chevauchement.
+   a) Calculer l'aire de cette figure en $\\text{cm}^2$.
+   b) Exprimer cette aire en $\\text{mm}^2$.
+3. Une bâche a la forme d'un parallélogramme de base $2{,}4$ m et de hauteur $125$ cm. Calculer son aire en $\\text{m}^2$, puis en $\\text{dm}^2$.
+4. On découpe un triangle à une extrémité d'un parallélogramme, en suivant une hauteur, et on le recolle à l'autre extrémité. Expliquer pourquoi on retrouve ainsi la formule de l'aire du parallélogramme.`,
+      solution: `**1. a)** $3{,}5\\text{ m}^2 = 3{,}5 \\times 10\\,000\\text{ cm}^2 = 35\\,000\\text{ cm}^2$.
+
+**b)** $420\\text{ cm}^2 = 420 \\div 100\\text{ dm}^2 = 4{,}2\\text{ dm}^2$.
+
+**c)** $2\\text{ cm}^2 = 2 \\times 100\\text{ mm}^2 = 200\\text{ mm}^2$.
+
+**2. a)** On additionne les deux aires : $6 \\times 4 + 6 \\times 3 = 24 + 18 = 42\\text{ cm}^2$.
+
+**b)** $42\\text{ cm}^2 = 42 \\times 100\\text{ mm}^2 = 4\\,200\\text{ mm}^2$.
+
+**3.** On écrit les longueurs dans la même unité : $125$ cm $= 1{,}25$ m.
+$\\mathcal{A} = 2{,}4 \\times 1{,}25 = 3\\text{ m}^2$, soit $3 \\times 100 = 300\\text{ dm}^2$.
+
+**4.** Le triangle découpé est simplement déplacé : l'aire ne change pas. La figure obtenue est un rectangle qui a la même base et la même hauteur que le parallélogramme. Son aire est base $\\times$ hauteur, donc l'aire du parallélogramme aussi.`
     }
   ],
   "5G6": [
@@ -4174,7 +4539,7 @@ Il reste $1\\,500 - 6 \\times 72\\pi = 1\\,500 - 432\\pi \\approx 143\\text{ cm}
 3. Un prisme droit à base carrée de côté $7$ cm a la même hauteur que le cylindre. Lequel des deux solides a le plus grand volume ?
 4. Noé affirme : « Si je double le rayon du cylindre sans changer sa hauteur, son volume double. » A-t-il raison ? Justifier.`,
       solution: `**1.** a) Les disques ont le même rayon que le cylindre : $4$ cm.
-b) Une dimension du rectangle est la hauteur du cylindre, $10$ cm. L'autre est égale au périmètre d'un disque de base : $2 \\times \\pi \\times 4 = 8\\pi \\approx 25{,}1$ cm. Le rectangle mesure $10$ cm sur $8\\pi$ cm, soit environ $25{,}1$ cm.
+b) Une dimension du rectangle est la hauteur du cylindre, $10$ cm. L'autre est égale au périmètre d'un disque de base : $2 \\times \\pi \\times 4 = 8\\pi \\approx 25{,}1$ cm. Le rectangle mesure $10$ cm sur $8\\pi$ cm, soit environ $25{,}1$ cm pour ce côté.
 
 **2.** $V = \\pi \\times 4^2 \\times 10 = 160\\pi \\approx 503\\text{ cm}^3$.
 
@@ -4379,6 +4744,75 @@ Rectangle : $10 \\times 1 = 10\\text{ m}^2$. Triangle : $\\dfrac{10 \\times 1}{2
 **5.** La partie vide est un pavé droit de $10$ m sur $4$ m sur $0{,}2$ m : $10 \\times 4 \\times 0{,}2 = 8\\text{ m}^3$.
 Volume d'eau : $60 - 8 = 52\\text{ m}^3$, soit $52\\,000$ L.
 (Autre méthode : l'eau occupe un prisme de base $15 - 10 \\times 0{,}2 = 13\\text{ m}^2$ et de hauteur $4$ m : $13 \\times 4 = 52\\text{ m}^3$.)`
+    },
+    {
+      id: "5G6-ds-17",
+      title: "Dessiner en perspective cavalière",
+      difficulty: 2,
+      points: 7,
+      statement: `On veut représenter en perspective cavalière un pavé droit de longueur $8$ cm, de hauteur $4$ cm et de profondeur $6$ cm, la face de $8$ cm sur $4$ cm étant à l'avant. Les fuyantes sont inclinées à $45°$ et le coefficient de réduction est $0{,}5$.
+
+1. Quelle figure représente la face avant sur le dessin ? Quelles sont ses dimensions sur le dessin ?
+2. Calculer la longueur des fuyantes sur le dessin.
+3. Réaliser le dessin, en faisant monter les fuyantes vers la droite.
+4. Combien d'arêtes sont en pointillés sur ce dessin ? Expliquer pourquoi.
+
+Le dessin ci-dessous, réalisé lui aussi avec un coefficient de réduction de $0{,}5$, représente un cylindre de révolution couché, une base face à nous (la figure n'est pas à l'échelle).
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:220px;"><svg class="geo-svg-figure" viewBox="0 0 150 130" width="220" height="191" style="width:100%; height:auto; display:block; margin:0 auto; color:var(--text-main, #1e293b);" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cylindre couché en perspective cavalière : disque avant de rayon 3 cm, segments de 5 cm reliant les deux disques"><path d="M 111.5 69.5 A 36 36 0 0 1 60.5 18.5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="4 3"/><path d="M 60.5 18.5 A 36 36 0 0 1 111.5 69.5" fill="none" stroke="currentColor" stroke-width="1.7"/><line x1="69.5" y1="111.5" x2="111.5" y2="69.5" stroke="currentColor" stroke-width="1.7"/><line x1="18.5" y1="60.5" x2="60.5" y2="18.5" stroke="currentColor" stroke-width="1.7"/><circle cx="44" cy="86" r="36" fill="rgba(59,130,246,0.10)" stroke="currentColor" stroke-width="1.7"/><line x1="44" y1="86" x2="8" y2="86" stroke="#dc2626" stroke-width="1.6"/><text x="26" y="81" font-family="system-ui, sans-serif" font-size="11" font-weight="500" fill="#dc2626" text-anchor="middle">3 cm</text><text x="97" y="101" font-family="system-ui, sans-serif" font-size="11" font-weight="500" fill="currentColor" text-anchor="start">5 cm</text></svg></div>
+
+5. Sur ce dessin, le disque avant a pour rayon $3$ cm. Quel est le rayon réel du cylindre ? Justifier.
+6. Les segments qui relient les deux disques mesurent $5$ cm sur le dessin. Calculer la hauteur réelle du cylindre.
+7. Calculer le volume du cylindre : donner la valeur exacte, puis la valeur arrondie au $\\text{cm}^3$.`,
+      solution: `**1.** La face avant est dessinée en vraie grandeur : c'est un **rectangle de $8$ cm sur $4$ cm**.
+
+**2.** La profondeur réelle est $6$ cm. Sur le dessin, les fuyantes mesurent $6 \\times 0{,}5 = 3$ cm.
+
+**3.** On trace la face avant, puis à partir de chaque sommet une fuyante de $3$ cm inclinée à $45°$, et on relie les extrémités des fuyantes. Les arêtes qui partent du sommet situé à l'arrière, en bas, à gauche sont tracées en pointillés (figure réduite).
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:330px;"><svg class="geo-svg-figure" viewBox="0 0 275 178" width="330" height="214" style="width:100%; height:auto; display:block; margin:0 auto; color:var(--text-main, #1e293b);" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pavé droit en perspective cavalière, trois arêtes cachées en pointillés"><line x1="40" y1="150" x2="82.4" y2="107.6" stroke="currentColor" stroke-width="1.2" stroke-dasharray="5 4"/><line x1="82.4" y1="107.6" x2="242.4" y2="107.6" stroke="currentColor" stroke-width="1.2" stroke-dasharray="5 4"/><line x1="82.4" y1="107.6" x2="82.4" y2="27.6" stroke="currentColor" stroke-width="1.2" stroke-dasharray="5 4"/><polygon points="40,150 200,150 200,70 40,70" fill="rgba(59,130,246,0.10)" stroke="currentColor" stroke-width="1.8"/><polyline points="40,70 82.4,27.6 242.4,27.6 200,70" fill="none" stroke="currentColor" stroke-width="1.8"/><polyline points="242.4,27.6 242.4,107.6 200,150" fill="none" stroke="currentColor" stroke-width="1.8"/><text x="120" y="168" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="middle">8 cm</text><text x="34" y="114" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="end">4 cm</text><text x="227" y="140" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="start">3 cm</text></svg></div>
+
+**4.** Les fuyantes montent vers la droite : on voit la face avant, le dessus et le côté droit. Un seul sommet n'appartient à aucune de ces trois faces, celui qui est à l'arrière, en bas, à gauche. Les **$3$ arêtes** qui en partent sont cachées : ce sont elles qui sont en pointillés.
+
+**5.** Cette base est face à nous : c'est une face avant, dessinée en vraie grandeur. Le rayon réel est donc **$3$ cm**.
+
+**6.** Longueur sur le dessin $=$ longueur réelle $\\times\\ 0{,}5$, donc on divise : $5 \\div 0{,}5 = 10$. La hauteur réelle du cylindre est **$10$ cm**.
+
+**7.** $V = \\pi \\times R^2 \\times h = \\pi \\times 3^2 \\times 10 = 90\\pi\\text{ cm}^3$, soit environ $283\\text{ cm}^3$.`
+    },
+    {
+      id: "5G6-ds-18",
+      title: "La table ronde et le massif de fleurs",
+      difficulty: 2,
+      points: 7,
+      statement: `**Partie A.** Le plateau d'une table ronde a un diamètre de $1{,}2$ m.
+
+1. Quel est le rayon de ce plateau ?
+2. Calculer l'aire du plateau : donner la valeur exacte, puis la valeur arrondie au centième de $\\text{m}^2$.
+
+**Partie B.** Un massif de fleurs a la forme d'un disque de rayon $5$ m. Il est entouré d'une allée de $1$ m de large, coloriée sur la figure.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:300px;"><svg class="geo-svg-figure" viewBox="0 0 250 200" width="300" height="240" style="width:100%; height:auto; display:block; margin:0 auto; color:var(--text-main, #1e293b);" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Massif circulaire de rayon 5 m entouré d'une allée de 1 m de large"><path fill-rule="evenodd" d="M 36 100 a 84 84 0 1 0 168 0 a 84 84 0 1 0 -168 0 Z M 50 100 a 70 70 0 1 0 140 0 a 70 70 0 1 0 -140 0 Z" fill="rgba(59,130,246,0.18)" stroke="currentColor" stroke-width="1.7"/><line x1="120" y1="100" x2="190" y2="100" stroke="currentColor" stroke-width="1.5"/><circle cx="120" cy="100" r="2.2" fill="currentColor"/><line x1="190" y1="100" x2="204" y2="100" stroke="#dc2626" stroke-width="2.2"/><text x="155" y="93" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="middle">5 m</text><text x="209" y="105" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="#dc2626" text-anchor="start">1 m</text><text x="120" y="145" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="middle">massif</text><text x="120" y="27" font-family="system-ui, sans-serif" font-size="11" font-weight="500" fill="currentColor" text-anchor="middle">allée</text></svg></div>
+
+3. Quel est le rayon du grand disque formé par le massif et l'allée ?
+4. Calculer la valeur exacte de l'aire de l'allée, puis sa valeur arrondie au dixième de $\\text{m}^2$.
+5. Un élève affirme : « L'allée a $1$ m de large, donc son aire est $\\pi \\times 1^2$, soit $\\pi\\text{ m}^2$. » Expliquer son erreur.
+6. On veut poser une bordure le long du cercle qui limite le massif. Faut-il calculer une aire ou une longueur ? Calculer la longueur de cette bordure, arrondie au dixième de mètre.
+7. Un sac de gravier permet de recouvrir $5\\text{ m}^2$. Combien de sacs faut-il acheter pour recouvrir toute l'allée ?`,
+      solution: `**1.** Le rayon est la moitié du diamètre : $R = 1{,}2 \\div 2 = 0{,}6$ m.
+
+**2.** $\\mathcal{A} = \\pi \\times R^2 = \\pi \\times 0{,}6^2 = 0{,}36\\pi\\text{ m}^2$, soit environ $1{,}13\\text{ m}^2$.
+
+**3.** $5 + 1 = 6$ : le grand disque a pour rayon $6$ m.
+
+**4.** Aire du grand disque : $\\pi \\times 6^2 = 36\\pi\\text{ m}^2$. Aire du massif : $\\pi \\times 5^2 = 25\\pi\\text{ m}^2$.
+Aire de l'allée : $36\\pi - 25\\pi = 11\\pi\\text{ m}^2$, soit environ $34{,}6\\text{ m}^2$.
+
+**5.** $\\pi \\times 1^2$ est l'aire d'un disque de rayon $1$ m. L'allée n'est pas un disque mais un anneau : son aire s'obtient en retirant l'aire du massif à celle du grand disque, ce qui donne $11\\pi\\text{ m}^2$ et non $\\pi\\text{ m}^2$.
+
+**6.** La bordure suit le cercle : il faut calculer une **longueur**, le périmètre du cercle de rayon $5$ m. $2 \\times \\pi \\times 5 = 10\\pi$ m, soit environ $31{,}4$ m.
+
+**7.** $34{,}6 \\div 5 \\approx 6{,}9$. Six sacs ne couvrent que $6 \\times 5 = 30\\text{ m}^2$, ce qui ne suffit pas : il faut acheter **$7$ sacs**.`
     }
   ],
   "5D1": [
@@ -4397,7 +4831,7 @@ Volume d'eau : $60 - 8 = 52\\text{ m}^3$, soit $52\\,000$ L.
 
 1. Vérifier que l'effectif total est bien $25$.
 2. Recopier et compléter le tableau.
-3. Écrire la fréquence des élèves venant en bus sous la forme d'une fraction irréductible.
+3. Écrire la fréquence des élèves venant en bus sous la forme d'une fraction de dénominateur $5$.
 4. Quel pourcentage des élèves vient au collège sans moyen de transport motorisé ?`,
       solution: `**1.** $6 + 4 + 10 + 5 = 25$ : l'effectif total est bien $25$.
 
@@ -4453,7 +4887,7 @@ $$36 \\;\\; 38 \\;\\; 37 \\;\\; 38 \\;\\; 39 \\;\\; 40 \\;\\; 38 \\;\\; 37 \\;\\
 
 2. Quelle est la pointure la plus fréquente ? Quelle est sa fréquence en pourcentage ?
 3. Quel pourcentage des élèves chausse du $39$ ou plus ?
-4. Décrire comment représenter cette série par un diagramme en bâtons (axes, graduations, hauteur des bâtons).`,
+4. Décrire comment représenter cette série par un diagramme en barres (axes, graduations, hauteur des barres).`,
       solution: `**1.** En comptant chaque valeur :
 
 | Pointure | $36$ | $37$ | $38$ | $39$ | $40$ | $41$ |
@@ -4466,7 +4900,7 @@ Vérification : $3 + 4 + 7 + 3 + 2 + 1 = 20$.
 
 **3.** Élèves chaussant du $39$ ou plus : $3 + 2 + 1 = 6$. Fréquence : $\\dfrac{6}{20} = \\dfrac{30}{100} = 30\\,\\%$.
 
-**4.** On place les pointures ($36$ à $41$) sur l'axe horizontal et les effectifs sur l'axe vertical, gradué de $0$ à $7$ (par exemple $1$ cm pour $1$ élève). Pour chaque pointure, on trace un bâton vertical dont la hauteur est égale à l'effectif : $3$ cm pour $36$, $4$ cm pour $37$, $7$ cm pour $38$, etc. On donne un titre et on légende les axes.`
+**4.** On place les pointures ($36$ à $41$) sur l'axe horizontal et les effectifs sur l'axe vertical, gradué de $0$ à $7$ (par exemple $1$ cm pour $1$ élève). Pour chaque pointure, on trace une barre verticale dont la hauteur est égale à l'effectif : $3$ cm pour $36$, $4$ cm pour $37$, $7$ cm pour $38$, etc. On donne un titre et on légende les axes.`
     },
     {
       id: "5D1-ds-04",
@@ -4484,7 +4918,7 @@ On veut représenter ces données par un diagramme circulaire.
 1. Quelle mesure d'angle correspond à un élève ? Justifier.
 2. Calculer la mesure de l'angle de chaque secteur.
 3. Construire le diagramme circulaire (rayon $4$ cm).
-4. Quelle fraction du disque représente la natation ? Simplifier.`,
+4. Quelle fraction du disque représente la natation ?`,
       solution: `**1.** Le disque entier ($360^\\circ$) représente les $40$ élèves. Les angles sont proportionnels aux effectifs : un élève correspond à $360^\\circ \\div 40 = 9^\\circ$.
 
 **2.**
@@ -4502,9 +4936,11 @@ Vérification : $126 + 72 + 108 + 54 = 360$.
     {
       id: "5D1-ds-05",
       title: "Les résultats d'un contrôle",
-      difficulty: 3,
+      difficulty: 4,
       points: 5,
-      statement: `Voici les notes obtenues par une classe à un contrôle noté sur $20$.
+      statement: `**Pour aller plus loin** (questions 2 et 4 : moyenne à partir d'un tableau d'effectifs, étudiée en 4e).
+
+Voici les notes obtenues par une classe à un contrôle noté sur $20$.
 
 | Note | $8$ | $10$ | $12$ | $14$ | $16$ |
 |---|---|---|---|---|---|
@@ -4527,10 +4963,12 @@ L'augmentation est d'environ $12{,}48 - 12{,}1 = 0{,}38$, inférieure à $0{,}5$
     },
     {
       id: "5D1-ds-06",
-      title: "Lire un diagramme en bâtons",
-      difficulty: 3,
+      title: "Lire un diagramme en barres",
+      difficulty: 4,
       points: 5,
-      statement: `On a demandé à chaque élève d'une classe combien il a de frères et sœurs. Les résultats sont représentés par le diagramme en bâtons ci-dessous.
+      statement: `**Pour aller plus loin** (question 3 : moyenne à partir d'un tableau d'effectifs, étudiée en 4e).
+
+On a demandé à chaque élève d'une classe combien il a de frères et sœurs. Les résultats sont représentés par le diagramme en barres ci-dessous.
 
 <div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:340px;"><svg class="geo-svg-figure" viewBox="0 0 350 250" width="350" height="250" style="width:100%; height:auto; display:block; margin:0 auto; color:var(--text-main, #1e293b);" xmlns="http://www.w3.org/2000/svg" role="img"><line x1="50" y1="200" x2="330" y2="200" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="40" y="205" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="end">0</text><line x1="50" y1="184" x2="330" y2="184" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><line x1="50" y1="168" x2="330" y2="168" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="40" y="173" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="end">2</text><line x1="50" y1="152" x2="330" y2="152" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><line x1="50" y1="136" x2="330" y2="136" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="40" y="141" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="end">4</text><line x1="50" y1="120" x2="330" y2="120" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><line x1="50" y1="104" x2="330" y2="104" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="40" y="109" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="end">6</text><line x1="50" y1="88" x2="330" y2="88" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><line x1="50" y1="72" x2="330" y2="72" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="40" y="77" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="end">8</text><line x1="50" y1="56" x2="330" y2="56" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><line x1="50" y1="40" x2="330" y2="40" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="40" y="45" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="end">10</text><line x1="50" y1="200" x2="330" y2="200" stroke="currentColor" stroke-width="1.6" /><line x1="50" y1="200" x2="50" y2="30" stroke="currentColor" stroke-width="1.6" /><rect x="78" y="120" width="24" height="80" fill="rgba(59,130,246,0.55)" stroke="currentColor" stroke-width="1.2" /><text x="90" y="218" font-family="system-ui, sans-serif" font-size="14" font-weight="500" fill="currentColor" text-anchor="middle">0</text><rect x="133" y="56" width="24" height="144" fill="rgba(59,130,246,0.55)" stroke="currentColor" stroke-width="1.2" /><text x="145" y="218" font-family="system-ui, sans-serif" font-size="14" font-weight="500" fill="currentColor" text-anchor="middle">1</text><rect x="188" y="88" width="24" height="112" fill="rgba(59,130,246,0.55)" stroke="currentColor" stroke-width="1.2" /><text x="200" y="218" font-family="system-ui, sans-serif" font-size="14" font-weight="500" fill="currentColor" text-anchor="middle">2</text><rect x="243" y="152" width="24" height="48" fill="rgba(59,130,246,0.55)" stroke="currentColor" stroke-width="1.2" /><text x="255" y="218" font-family="system-ui, sans-serif" font-size="14" font-weight="500" fill="currentColor" text-anchor="middle">3</text><rect x="298" y="184" width="24" height="16" fill="rgba(59,130,246,0.55)" stroke="currentColor" stroke-width="1.2" /><text x="310" y="218" font-family="system-ui, sans-serif" font-size="14" font-weight="500" fill="currentColor" text-anchor="middle">4</text><text x="190" y="240" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="middle">Nombre de frères et sœurs</text><text x="55" y="22" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="start">Effectif</text></svg></div>
 
@@ -4538,7 +4976,7 @@ L'augmentation est d'environ $12{,}48 - 12{,}1 = 0{,}38$, inférieure à $0{,}5$
 2. Construire le tableau d'effectifs de cette série et calculer l'effectif total.
 3. Calculer le nombre moyen de frères et sœurs par élève.
 4. Quel pourcentage des élèves a au moins $2$ frères et sœurs ?`,
-      solution: `**1.** Le bâton correspondant à $2$ s'arrête à la graduation $7$ : $7$ élèves ont exactement $2$ frères et sœurs.
+      solution: `**1.** La barre correspondant à $2$ s'arrête à la graduation $7$ : $7$ élèves ont exactement $2$ frères et sœurs.
 
 **2.**
 
@@ -4605,7 +5043,7 @@ Vérification : $\\dfrac{47 + 13}{5} = \\dfrac{60}{5} = 12$.
 
 1. Vérifier que l'effectif total est bien $50$.
 2. Calculer la fréquence de chaque genre, sous forme décimale puis en pourcentage.
-3. Écrire la fréquence des mangas sous la forme d'une fraction irréductible.
+3. Écrire la fréquence des mangas sous la forme d'une fraction de dénominateur $10$.
 4. Quel pourcentage des livres empruntés sont des livres dessinés (bandes dessinées ou mangas) ?`,
       solution: `**1.** $18 + 12 + 15 + 5 = 50$ : l'effectif total est bien $50$.
 
@@ -4616,7 +5054,7 @@ Vérification : $\\dfrac{47 + 13}{5} = \\dfrac{60}{5} = 12$.
 - Documentaire : $\\dfrac{5}{50} = 0{,}1$, soit $10\\,\\%$.
 (Vérification : $36 + 24 + 30 + 10 = 100$.)
 
-**3.** $\\dfrac{15}{50} = \\dfrac{15 \\div 5}{50 \\div 5} = \\dfrac{3}{10}$, fraction irréductible car $3$ et $10$ n'ont pas de diviseur commun autre que $1$.
+**3.** $\\dfrac{15}{50} = \\dfrac{15 \\div 5}{50 \\div 5} = \\dfrac{3}{10}$.
 
 **4.** $18 + 15 = 33$ livres dessinés, et $\\dfrac{33}{50} = \\dfrac{66}{100}$ : cela représente $66\\,\\%$ des emprunts (on retrouve $36\\,\\% + 30\\,\\%$).`
     },
@@ -4678,7 +5116,9 @@ b) Nouvelle somme : $282 + 15 + 9 = 306$ pour $26$ élèves. Moyenne : $\\dfrac{
       title: "Les séances de sport de la semaine",
       difficulty: 4,
       points: 6,
-      statement: `On a demandé aux $25$ élèves d'une classe combien de séances de sport ils pratiquent par semaine (en dehors du collège). Le tableau a été en partie effacé.
+      statement: `**Pour aller plus loin** (questions 2 et 5 : moyenne à partir d'un tableau d'effectifs, étudiée en 4e).
+
+On a demandé aux $25$ élèves d'une classe combien de séances de sport ils pratiquent par semaine (en dehors du collège). Le tableau a été en partie effacé.
 
 | Nombre de séances | $0$ | $1$ | $2$ | $3$ | $4$ |
 |---|---|---|---|---|---|
@@ -4804,10 +5244,12 @@ Il y a bien plus d'élèves satisfaits ($162$ au lieu de $156$), mais on a inter
     },
     {
       id: "5D1-ds-16",
-      title: "La moyenne de deux groupes",
+      title: "Pour aller plus loin : la moyenne de deux groupes",
       difficulty: 4,
       points: 6,
-      statement: `Une classe de $30$ élèves est partagée en deux groupes pour un devoir de sciences :
+      statement: `**Pour aller plus loin** (moyenne de deux groupes d'effectifs différents, étudiée en 4e).
+
+Une classe de $30$ élèves est partagée en deux groupes pour un devoir de sciences :
 - le groupe A compte $12$ élèves et sa moyenne est $13$ sur $20$ ;
 - le groupe B compte $18$ élèves et sa moyenne est $10{,}5$ sur $20$.
 
@@ -4829,6 +5271,162 @@ Tom a **tort** ($11{,}5 \\ne 11{,}75$). Il a fait comme si les deux groupes avai
 **4.** Pour avoir une moyenne de $11{,}6$ avec $31$ élèves, la somme des notes doit être $11{,}6 \\times 31 = 359{,}6$.
 Il manque $359{,}6 - 345 = 14{,}6$ : le nouvel élève doit obtenir **$14{,}6$ sur $20$**.
 Vérification : $\\dfrac{345 + 14{,}6}{31} = \\dfrac{359{,}6}{31} = 11{,}6$.`
+    },
+    {
+      id: "5D1-ds-17",
+      title: "Lire un graphique cartésien",
+      difficulty: 2,
+      points: 5,
+      statement: `Une station météo relève la température dans un village, toutes les trois heures. Les relevés sont représentés par le graphique cartésien ci-dessous.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:440px;"><svg class="geo-svg-figure" viewBox="0 0 440 288" width="440" height="288" style="width:100%; height:auto; display:block; margin:0 auto; color:var(--text-main, #1e293b);" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Graphique cartésien : température en degrés Celsius selon l'heure."><line x1="52" y1="240" x2="425" y2="240" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="44" y="245" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="end">0</text><line x1="52" y1="229.7" x2="425" y2="229.7" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><line x1="52" y1="219.4" x2="425" y2="219.4" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="44" y="224.4" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="end">2</text><line x1="52" y1="209.1" x2="425" y2="209.1" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><line x1="52" y1="198.8" x2="425" y2="198.8" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="44" y="203.8" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="end">4</text><line x1="52" y1="188.5" x2="425" y2="188.5" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><line x1="52" y1="178.2" x2="425" y2="178.2" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="44" y="183.2" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="end">6</text><line x1="52" y1="167.9" x2="425" y2="167.9" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><line x1="52" y1="157.6" x2="425" y2="157.6" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="44" y="162.6" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="end">8</text><line x1="52" y1="147.3" x2="425" y2="147.3" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><line x1="52" y1="137" x2="425" y2="137" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="44" y="142" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="end">10</text><line x1="52" y1="126.7" x2="425" y2="126.7" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><line x1="52" y1="116.4" x2="425" y2="116.4" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="44" y="121.4" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="end">12</text><line x1="52" y1="106.1" x2="425" y2="106.1" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><line x1="52" y1="95.8" x2="425" y2="95.8" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="44" y="100.8" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="end">14</text><line x1="52" y1="85.5" x2="425" y2="85.5" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><line x1="52" y1="75.2" x2="425" y2="75.2" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="44" y="80.2" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="end">16</text><line x1="52" y1="64.9" x2="425" y2="64.9" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><line x1="52" y1="54.6" x2="425" y2="54.6" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="44" y="59.6" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="end">18</text><line x1="52" y1="44.3" x2="425" y2="44.3" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><line x1="52" y1="34" x2="425" y2="34" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="44" y="39" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="end">20</text><line x1="83.1" y1="34" x2="83.1" y2="240" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="83.1" y="259" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="middle">6 h</text><line x1="145.3" y1="34" x2="145.3" y2="240" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="145.3" y="259" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="middle">9 h</text><line x1="207.4" y1="34" x2="207.4" y2="240" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="207.4" y="259" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="middle">12 h</text><line x1="269.6" y1="34" x2="269.6" y2="240" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="269.6" y="259" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="middle">15 h</text><line x1="331.8" y1="34" x2="331.8" y2="240" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="331.8" y="259" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="middle">18 h</text><line x1="393.9" y1="34" x2="393.9" y2="240" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="393.9" y="259" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="middle">21 h</text><line x1="52" y1="240" x2="433" y2="240" stroke="currentColor" stroke-width="1.6" /><line x1="52" y1="240" x2="52" y2="24" stroke="currentColor" stroke-width="1.6" /><polyline points="83.1,188.5 145.3,147.3 207.4,85.5 269.6,64.9 331.8,106.1 393.9,167.9" fill="none" stroke="#2563eb" stroke-width="2.2" /><circle cx="83.1" cy="188.5" r="4.5" fill="#2563eb" /><circle cx="145.3" cy="147.3" r="4.5" fill="#2563eb" /><circle cx="207.4" cy="85.5" r="4.5" fill="#2563eb" /><circle cx="269.6" cy="64.9" r="4.5" fill="#2563eb" /><circle cx="331.8" cy="106.1" r="4.5" fill="#2563eb" /><circle cx="393.9" cy="167.9" r="4.5" fill="#2563eb" /><text x="433" y="281" font-family="system-ui, sans-serif" font-size="12" font-weight="500" fill="currentColor" text-anchor="end">Heure</text><text x="6" y="16" font-family="system-ui, sans-serif" font-size="12" font-weight="500" fill="currentColor" text-anchor="start">Température (en °C)</text></svg></div>
+
+1. Quelle température relève-t-on à $12$ h ?
+2. À quelle heure relève-t-on la température la plus élevée ? Quelle est cette température ?
+3. De combien de degrés la température baisse-t-elle entre $15$ h et $21$ h ?
+4. Entre quels relevés consécutifs la température augmente-t-elle le plus ? De combien de degrés ?
+5. Calculer la moyenne des six températures relevées.`,
+      solution: `**1.** On part de $12$ h sur l'axe horizontal, on monte jusqu'au point, puis on lit sur l'axe vertical : $15$ °C.
+
+**2.** Le point le plus haut correspond à $15$ h : la température la plus élevée est $17$ °C.
+
+**3.** À $15$ h, on lit $17$ °C et à $21$ h, on lit $7$ °C. La température baisse de $17 - 7 = 10$ °C.
+
+**4.** De $6$ h à $9$ h : $9 - 5 = 4$ °C ; de $9$ h à $12$ h : $15 - 9 = 6$ °C ; de $12$ h à $15$ h : $17 - 15 = 2$ °C ; ensuite, la température baisse. La plus forte augmentation est de $6$ °C, entre $9$ h et $12$ h.
+
+**5.** Les six températures sont $5$, $9$, $15$, $17$, $13$ et $7$ (en °C).
+Moyenne : $\\dfrac{5 + 9 + 15 + 17 + 13 + 7}{6} = \\dfrac{66}{6} = 11$ °C.`
+    },
+    {
+      id: "5D1-ds-18",
+      title: "Construire un graphique cartésien",
+      difficulty: 2,
+      points: 5,
+      statement: `Le tableau ci-dessous indique le nombre de livres empruntés chaque mois à la bibliothèque d'un collège.
+
+| Mois | Sept. | Oct. | Nov. | Déc. | Janv. | Févr. |
+|---|---|---|---|---|---|---|
+| Livres empruntés | $60$ | $90$ | $120$ | $80$ | $110$ | $140$ |
+
+1. On veut montrer comment le nombre de livres empruntés évolue au fil des mois. Quelle représentation choisir ? Justifier.
+2. Construire cette représentation, avec $1$ cm pour un mois sur l'axe horizontal et $1$ cm pour $20$ livres sur l'axe vertical.
+3. Calculer le nombre moyen de livres empruntés par mois.
+4. Pendant combien de mois le nombre de livres empruntés est-il supérieur à cette moyenne ?`,
+      solution: `**1.** On suit une même grandeur (le nombre de livres empruntés) au fil du temps : c'est une évolution. On choisit donc un **graphique cartésien**.
+
+**2.** On place les mois sur l'axe horizontal et on gradue l'axe vertical de $0$ à $160$, de $20$ en $20$. On place ensuite un point pour chaque mois ; on peut relier les points par des segments pour mieux voir l'évolution.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:440px;"><svg class="geo-svg-figure" viewBox="0 0 440 288" width="440" height="288" style="width:100%; height:auto; display:block; margin:0 auto; color:var(--text-main, #1e293b);" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Graphique cartésien : nombre de livres empruntés selon le mois."><line x1="52" y1="240" x2="425" y2="240" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="44" y="245" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="end">0</text><line x1="52" y1="214.3" x2="425" y2="214.3" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="44" y="219.3" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="end">20</text><line x1="52" y1="188.5" x2="425" y2="188.5" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="44" y="193.5" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="end">40</text><line x1="52" y1="162.8" x2="425" y2="162.8" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="44" y="167.8" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="end">60</text><line x1="52" y1="137" x2="425" y2="137" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="44" y="142" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="end">80</text><line x1="52" y1="111.3" x2="425" y2="111.3" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="44" y="116.3" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="end">100</text><line x1="52" y1="85.5" x2="425" y2="85.5" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="44" y="90.5" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="end">120</text><line x1="52" y1="59.8" x2="425" y2="59.8" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="44" y="64.8" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="end">140</text><line x1="52" y1="34" x2="425" y2="34" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="44" y="39" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="end">160</text><line x1="83.1" y1="34" x2="83.1" y2="240" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="83.1" y="259" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="middle">Sept.</text><line x1="145.3" y1="34" x2="145.3" y2="240" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="145.3" y="259" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="middle">Oct.</text><line x1="207.4" y1="34" x2="207.4" y2="240" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="207.4" y="259" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="middle">Nov.</text><line x1="269.6" y1="34" x2="269.6" y2="240" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="269.6" y="259" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="middle">Déc.</text><line x1="331.8" y1="34" x2="331.8" y2="240" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="331.8" y="259" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="middle">Janv.</text><line x1="393.9" y1="34" x2="393.9" y2="240" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="393.9" y="259" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="middle">Févr.</text><line x1="52" y1="240" x2="433" y2="240" stroke="currentColor" stroke-width="1.6" /><line x1="52" y1="240" x2="52" y2="24" stroke="currentColor" stroke-width="1.6" /><polyline points="83.1,162.8 145.3,124.1 207.4,85.5 269.6,137 331.8,98.4 393.9,59.8" fill="none" stroke="#2563eb" stroke-width="2.2" /><circle cx="83.1" cy="162.8" r="4.5" fill="#2563eb" /><circle cx="145.3" cy="124.1" r="4.5" fill="#2563eb" /><circle cx="207.4" cy="85.5" r="4.5" fill="#2563eb" /><circle cx="269.6" cy="137" r="4.5" fill="#2563eb" /><circle cx="331.8" cy="98.4" r="4.5" fill="#2563eb" /><circle cx="393.9" cy="59.8" r="4.5" fill="#2563eb" /><text x="433" y="281" font-family="system-ui, sans-serif" font-size="12" font-weight="500" fill="currentColor" text-anchor="end">Mois</text><text x="6" y="16" font-family="system-ui, sans-serif" font-size="12" font-weight="500" fill="currentColor" text-anchor="start">Livres empruntés</text></svg></div>
+
+**3.** $60 + 90 + 120 + 80 + 110 + 140 = 600$ livres en $6$ mois. Moyenne : $\\dfrac{600}{6} = 100$ livres par mois.
+
+**4.** Les mois au-dessus de $100$ sont novembre ($120$), janvier ($110$) et février ($140$), soit $3$ mois.`
+    },
+    {
+      id: "5D1-ds-19",
+      title: "Quelle représentation choisir ?",
+      difficulty: 3,
+      points: 5,
+      statement: `On dispose de trois séries de données.
+
+- **Série A** : répartition du budget d'un club : matériel $50\\,\\%$, transport $30\\,\\%$, goûters $20\\,\\%$.
+- **Série B** : nombre d'élèves dans chacune des quatre classes de 5e d'un collège : $26$, $28$, $25$ et $27$.
+- **Série C** : masse d'un chiot, pesé chaque semaine pendant deux mois.
+
+1. Pour chaque série, indiquer la représentation la mieux adaptée (diagramme circulaire, diagramme en barres ou graphique cartésien) et justifier.
+2. Calculer les angles du diagramme circulaire de la série A, puis vérifier que leur somme vaut $360^\\circ$.
+3. Calculer le nombre moyen d'élèves par classe de 5e pour la série B. Ce résultat est-il un nombre entier ?
+4. Quelqu'un propose de représenter la série C par un diagramme circulaire. Pourquoi est-ce un mauvais choix ?`,
+      solution: `**1.**
+- Série A : on veut montrer les **parts d'un tout** (le budget total), donc un **diagramme circulaire**.
+- Série B : on veut **comparer** des catégories (les classes), donc un **diagramme en barres**.
+- Série C : on suit une même grandeur au fil du temps, c'est une **évolution**, donc un **graphique cartésien**.
+
+**2.** Angle $=$ fréquence $\\times 360^\\circ$.
+Matériel : $0{,}5 \\times 360^\\circ = 180^\\circ$ ; transport : $0{,}3 \\times 360^\\circ = 108^\\circ$ ; goûters : $0{,}2 \\times 360^\\circ = 72^\\circ$.
+Vérification : $180 + 108 + 72 = 360$.
+
+**3.** $26 + 28 + 25 + 27 = 106$ élèves pour $4$ classes. Moyenne : $\\dfrac{106}{4} = 26{,}5$ élèves par classe. Ce n'est pas un nombre entier : une moyenne n'est pas forcément une valeur de la série.
+
+**4.** Les masses successives du chiot ne sont pas les parts d'un tout : leur somme n'a pas de sens. De plus, un diagramme circulaire ne montrerait pas comment la masse change au fil des semaines.`
+    },
+    {
+      id: "5D1-ds-20",
+      title: "Une feuille de tableur",
+      difficulty: 3,
+      points: 5,
+      statement: `Les résultats d'une enquête sur le moyen de transport des élèves d'une classe ont été saisis dans une feuille de tableur.
+
+| | A | B | C | D | E | F |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| 1 | Transport | Bus | Vélo | À pied | Voiture | Total |
+| 2 | Effectif | $12$ | $6$ | $9$ | $3$ | |
+| 3 | Fréquence | | | | | |
+
+1. Quelle formule faut-il saisir en \`F2\` pour calculer l'effectif total ? Quelle valeur s'affiche alors ?
+2. Quelle formule faut-il saisir en \`B3\` pour calculer la fréquence des élèves qui viennent en bus ? Quelle valeur s'affiche alors ?
+3. Quelles valeurs s'affichent en \`C3\`, \`D3\` et \`E3\` si l'on y saisit des formules analogues ? Quelle est la somme des quatre fréquences ?
+4. On veut montrer la part de chaque moyen de transport. Quelle représentation choisir ? Calculer l'angle du secteur « Bus ».
+5. En \`B4\`, on saisit \`=MOYENNE(B2:E2)\`. Quelle valeur s'affiche ? Que représente ce nombre ?
+6. On s'aperçoit qu'en réalité $18$ élèves viennent en bus. On remplace $12$ par $18$ en \`B2\`. Quelles valeurs affichent maintenant \`F2\` et \`B3\` ?`,
+      solution: `**1.** \`=SOMME(B2:E2)\` (ou \`=B2+C2+D2+E2\`). La cellule affiche $12 + 6 + 9 + 3 = 30$.
+
+**2.** Fréquence $=$ effectif $\\div$ effectif total, donc \`=B2/F2\`. La cellule affiche $\\dfrac{12}{30} = 0{,}4$.
+
+**3.** \`C3\` : $\\dfrac{6}{30} = 0{,}2$ ; \`D3\` : $\\dfrac{9}{30} = 0{,}3$ ; \`E3\` : $\\dfrac{3}{30} = 0{,}1$.
+Somme des fréquences : $0{,}4 + 0{,}2 + 0{,}3 + 0{,}1 = 1$.
+
+**4.** On veut montrer les parts d'un tout : on choisit un **diagramme circulaire**. Angle du secteur « Bus » : $0{,}4 \\times 360^\\circ = 144^\\circ$.
+
+**5.** La cellule affiche $\\dfrac{30}{4} = 7{,}5$ : c'est le nombre moyen d'élèves par moyen de transport.
+
+**6.** Le tableur recalcule automatiquement : \`F2\` affiche $18 + 6 + 9 + 3 = 36$ et \`B3\` affiche $\\dfrac{18}{36} = 0{,}5$.`
+    },
+    {
+      id: "5D1-ds-21",
+      title: "Un diagramme trompeur",
+      difficulty: 3,
+      points: 5,
+      statement: `Une publicité présente le diagramme en barres ci-dessous et affirme : « Le magasin B a trois fois plus de clients que le magasin A ! »
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:320px;"><svg class="geo-svg-figure" viewBox="0 0 300 256" width="300" height="256" style="width:100%; height:auto; display:block; margin:0 auto; color:var(--text-main, #1e293b);" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagramme en barres dont l'axe vertical commence à 460. Magasin A : 480 clients. Magasin B : 520 clients."><text x="165" y="16" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="currentColor" text-anchor="middle">Nombre de clients sur une journée</text><line x1="48" y1="226" x2="290" y2="226" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="41" y="231" font-family="system-ui, sans-serif" font-size="12" font-weight="500" fill="currentColor" text-anchor="end">460</text><line x1="48" y1="198.9" x2="290" y2="198.9" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="41" y="203.9" font-family="system-ui, sans-serif" font-size="12" font-weight="500" fill="currentColor" text-anchor="end">470</text><line x1="48" y1="171.7" x2="290" y2="171.7" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="41" y="176.7" font-family="system-ui, sans-serif" font-size="12" font-weight="500" fill="currentColor" text-anchor="end">480</text><line x1="48" y1="144.6" x2="290" y2="144.6" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="41" y="149.6" font-family="system-ui, sans-serif" font-size="12" font-weight="500" fill="currentColor" text-anchor="end">490</text><line x1="48" y1="117.4" x2="290" y2="117.4" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="41" y="122.4" font-family="system-ui, sans-serif" font-size="12" font-weight="500" fill="currentColor" text-anchor="end">500</text><line x1="48" y1="90.3" x2="290" y2="90.3" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="41" y="95.3" font-family="system-ui, sans-serif" font-size="12" font-weight="500" fill="currentColor" text-anchor="end">510</text><line x1="48" y1="63.1" x2="290" y2="63.1" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="41" y="68.1" font-family="system-ui, sans-serif" font-size="12" font-weight="500" fill="currentColor" text-anchor="end">520</text><line x1="48" y1="36" x2="290" y2="36" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" /><text x="41" y="41" font-family="system-ui, sans-serif" font-size="12" font-weight="500" fill="currentColor" text-anchor="end">530</text><line x1="48" y1="226" x2="290" y2="226" stroke="currentColor" stroke-width="1.6" /><line x1="48" y1="226" x2="48" y2="28" stroke="currentColor" stroke-width="1.6" /><rect x="85.5" y="171.7" width="46" height="54.3" fill="rgba(59,130,246,0.55)" stroke="currentColor" stroke-width="1.2" /><text x="108.5" y="245" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="middle">Magasin A</text><rect x="206.5" y="63.1" width="46" height="162.9" fill="rgba(59,130,246,0.55)" stroke="currentColor" stroke-width="1.2" /><text x="229.5" y="245" font-family="system-ui, sans-serif" font-size="13" font-weight="500" fill="currentColor" text-anchor="middle">Magasin B</text></svg></div>
+
+1. Lire le nombre de clients de chaque magasin.
+2. Combien de clients le magasin B a-t-il de plus que le magasin A ?
+3. Le magasin B a-t-il vraiment trois fois plus de clients que le magasin A ? Justifier par un calcul.
+4. Observer l'axe vertical. Expliquer pourquoi la barre de B paraît trois fois plus haute que celle de A.
+5. Comment faudrait-il modifier ce diagramme pour qu'il ne soit plus trompeur ? Décrire ce que l'on verrait alors.`,
+      solution: `**1.** On lit $480$ clients pour le magasin A et $520$ clients pour le magasin B.
+
+**2.** $520 - 480 = 40$ : le magasin B a $40$ clients de plus que le magasin A.
+
+**3.** Non. Trois fois plus de clients que A, cela ferait $3 \\times 480 = 1\\,440$ clients, et B n'en a que $520$.
+
+**4.** L'axe vertical commence à $460$ et non à $0$. La hauteur de la barre de A correspond donc à $480 - 460 = 20$ clients et celle de la barre de B à $520 - 460 = 60$ clients. Comme $60 = 3 \\times 20$, la barre de B paraît trois fois plus haute. Les hauteurs ne sont pas proportionnelles aux nombres de clients.
+
+**5.** Il faut graduer l'axe vertical à partir de $0$. Les hauteurs des barres sont alors proportionnelles à $480$ et à $520$ : les deux barres ont presque la même hauteur, ce qui correspond à la réalité.`
+    },
+    {
+      id: "5D1-ds-22",
+      title: "Ajouter des points à toutes les notes",
+      difficulty: 2,
+      points: 5,
+      statement: `Hugo a obtenu les notes suivantes (sur $20$) : $9$ ; $12$ ; $14$ ; $10$ ; $13$.
+
+1. Calculer la moyenne de ces notes.
+2. Cette moyenne est-elle l'une des notes d'Hugo ? Entre quelles valeurs est-elle forcément comprise ?
+3. Le professeur décide d'ajouter $2$ points à chaque note. Écrire les nouvelles notes, puis calculer la nouvelle moyenne.
+4. Que remarque-t-on en comparant les deux moyennes ?
+5. Sans refaire la somme, donner la moyenne obtenue si le professeur avait retiré $1$ point à chacune des notes de départ.`,
+      solution: `**1.** $9 + 12 + 14 + 10 + 13 = 58$. Moyenne : $\\dfrac{58}{5} = 11{,}6$ sur $20$.
+
+**2.** Non, $11{,}6$ n'est pas l'une des notes d'Hugo. La moyenne est toujours comprise entre la plus petite valeur ($9$) et la plus grande ($14$).
+
+**3.** Nouvelles notes : $11$ ; $14$ ; $16$ ; $12$ ; $15$. Somme : $11 + 14 + 16 + 12 + 15 = 68$. Moyenne : $\\dfrac{68}{5} = 13{,}6$ sur $20$.
+
+**4.** $13{,}6 = 11{,}6 + 2$ : la moyenne a augmenté de $2$ points, c'est-à-dire du nombre ajouté à chaque note.
+
+**5.** Retirer $1$ point à chaque note diminue la moyenne de $1$ : elle vaudrait $11{,}6 - 1 = 10{,}6$ sur $20$.`
     }
   ],
   "5D2": [
@@ -4850,7 +5448,7 @@ Vérification : $\\dfrac{345 + 14{,}6}{31} = \\dfrac{359{,}6}{31} = 11{,}6$.`
 
 **2.** Les issues possibles sont : 1 ; 2 ; 3 ; 4 ; 5 ; 6. Il y en a 6.
 
-**3.** Le dé est équilibré, donc les 6 issues ont la même probabilité, égale à $\\dfrac{1}{6}$.
+**3.** Le dé est équilibré : on suppose donc que les 6 issues ont la même probabilité, égale à $\\dfrac{1}{6}$.
 a) Une seule issue réalise A (le 5) : $P(A) = \\dfrac{1}{6}$.
 b) Les issues 2, 4 et 6 réalisent B : $P(B) = \\dfrac{3}{6} = \\dfrac{1}{2}$.
 c) Les multiples de 3 compris entre 1 et 6 sont 3 et 6 : $P(C) = \\dfrac{2}{6} = \\dfrac{1}{3}$.
@@ -4870,7 +5468,7 @@ c) Les multiples de 3 compris entre 1 et 6 sont 3 et 6 : $P(C) = \\dfrac{2}{6} =
 4. Sur une échelle de probabilité graduée de 0 à 1, l'événement « tirer une bille rouge » est-il plutôt du côté de « impossible », au milieu ou plutôt du côté de « certain » ? Justifier.`,
       solution: `**1.** $5 + 3 + 2 = 10$. Il y a 10 billes dans le sac.
 
-**2.** Les billes sont indiscernables au toucher, donc chaque bille a la même chance d'être tirée : c'est une situation d'équiprobabilité.
+**2.** Les billes sont indiscernables au toucher : on suppose donc que chaque bille a la même chance d'être tirée, c'est une situation d'équiprobabilité.
 - 5 billes sur 10 sont rouges : $P(\\text{rouge}) = \\dfrac{5}{10} = \\dfrac{1}{2}$.
 - 3 billes sur 10 sont bleues : $P(\\text{bleue}) = \\dfrac{3}{10}$.
 
@@ -4884,7 +5482,7 @@ $P(\\text{pas verte}) = \\dfrac{8}{10} = \\dfrac{4}{5}$.
       title: "La roue de la kermesse",
       difficulty: 2,
       points: 5,
-      statement: `À la kermesse du collège, une roue est partagée en 12 secteurs identiques numérotés de 1 à 12. On fait tourner la roue et on note le numéro du secteur qui s'arrête devant la flèche. Chaque secteur a la même chance d'être obtenu.
+      statement: `À la kermesse du collège, une roue est partagée en 12 secteurs identiques numérotés de 1 à 12. On fait tourner la roue et on note le numéro du secteur qui s'arrête devant la flèche. On suppose que chaque secteur a la même chance d'être obtenu.
 
 On considère les événements :
 - A : « obtenir un nombre premier » ;
@@ -4892,7 +5490,7 @@ On considère les événements :
 - C : « obtenir un diviseur de 12 ».
 
 1. Pour chaque événement, écrire la liste des issues qui le réalisent.
-2. Calculer $P(A)$, $P(B)$ et $P(C)$. Donner les résultats sous forme de fractions simplifiées.
+2. Calculer $P(A)$, $P(B)$ et $P(C)$. Donner les résultats sous forme de fractions.
 3. Ranger ces trois événements du moins probable au plus probable.
 4. Léo gagne un lot s'il obtient un nombre supérieur ou égal à 10. Quelle est la probabilité qu'il gagne ?`,
       solution: `**1.**
@@ -4923,7 +5521,7 @@ On tire une carte au hasard dans ce jeu bien mélangé.
 3. Calculer la probabilité de tirer une figure.
 4. Calculer la probabilité de tirer l'as de pique.
 5. Nina affirme : « J'ai plus de chances de tirer une figure qu'un cœur. » A-t-elle raison ? Justifier.`,
-      solution: `Le jeu est bien mélangé : les 32 cartes ont la même probabilité d'être tirées.
+      solution: `Le jeu est bien mélangé : on suppose que les 32 cartes ont la même probabilité d'être tirées.
 
 **1.** Il y a 4 as (un par couleur) : $P(\\text{as}) = \\dfrac{4}{32} = \\dfrac{1}{8}$.
 
@@ -5016,7 +5614,9 @@ Vérification : le sac contient alors $20 + 6 = 26$ jetons dont 13 verts, et $\\
       title: "Deux dés à quatre faces",
       difficulty: 4,
       points: 6,
-      statement: `On lance deux dés équilibrés à quatre faces (en forme de tétraèdre), numérotées de 1 à 4 : un dé rouge et un dé bleu. On s'intéresse à la **somme** des deux numéros obtenus.
+      statement: `**Pour aller plus loin** (expérience à deux épreuves, notion travaillée plus tard au collège).
+
+On lance deux dés équilibrés à quatre faces (en forme de tétraèdre), numérotées de 1 à 4 : un dé rouge et un dé bleu. On s'intéresse à la **somme** des deux numéros obtenus.
 
 1. Recopier et compléter le tableau à double entrée suivant, qui donne la somme pour chaque issue.
 
@@ -5040,7 +5640,7 @@ Vérification : le sac contient alors $20 + 6 = 26$ jetons dont 13 verts, et $\\
 | 3 | 4 | 5 | 6 | 7 |
 | 4 | 5 | 6 | 7 | 8 |
 
-**2.** Il y a $4 \\times 4 = 16$ issues (16 cases du tableau). Les dés sont équilibrés : chaque case a la même probabilité $\\dfrac{1}{16}$.
+**2.** Il y a $4 \\times 4 = 16$ issues (16 cases du tableau). Les dés sont équilibrés : on suppose que chaque case a la même probabilité $\\dfrac{1}{16}$.
 
 **3.** La somme 5 apparaît dans 4 cases : $P(\\text{somme} = 5) = \\dfrac{4}{16} = \\dfrac{1}{4}$.
 Somme supérieure ou égale à 6 : 6 apparaît 3 fois, 7 apparaît 2 fois, 8 apparaît 1 fois, soit 6 cases : $P = \\dfrac{6}{16} = \\dfrac{3}{8}$.
@@ -5065,11 +5665,11 @@ On considère les événements suivants :
 - D : « obtenir un nombre inférieur ou égal à $8$ » ;
 - E : « ne pas obtenir $1$ ».
 
-1. Pourquoi les issues de cette expérience sont-elles équiprobables ? Quelle est la probabilité de chaque issue ?
+1. Que suppose-t-on en disant que le dé est équilibré ? Quelle est alors la probabilité de chaque issue ?
 2. Calculer la probabilité de chacun des événements A, B, C, D et E.
 3. Comment appelle-t-on l'événement C ? et l'événement D ?
 4. Tracer une échelle de probabilité de $0$ à $1$ (de longueur $8$ cm) et y placer les cinq événements.`,
-      solution: `**1.** Le dé est équilibré : chacune des $8$ faces a la même chance d'apparaître. Chaque issue a donc pour probabilité $\\dfrac{1}{8}$.
+      solution: `**1.** Dire que le dé est équilibré, c'est supposer que chacune des $8$ faces a la même chance d'apparaître : c'est une hypothèse, justifiée par la symétrie du dé. Chaque issue a alors pour probabilité $\\dfrac{1}{8}$.
 
 **2.**
 - A est réalisé par $2$, $4$, $6$, $8$ : $P(A) = \\dfrac{4}{8} = \\dfrac{1}{2}$.
@@ -5092,16 +5692,16 @@ On considère les événements suivants :
 1. Combien y a-t-il de cartons ? Les issues « obtenir P », « obtenir B », … sont-elles toutes équiprobables ? Justifier.
 2. Calculer la probabilité de tirer la lettre B, puis celle de tirer la lettre T.
 3. On rappelle que les voyelles sont A, E, I, O, U et Y. Calculer la probabilité de l'événement V : « tirer une voyelle ».
-4. Décrire par une phrase l'événement contraire de V et calculer sa probabilité.
+4. Décrire par une phrase l'événement « ne pas tirer une voyelle » et calculer sa probabilité.
 5. Quelle est la probabilité de tirer la lettre Z ?`,
-      solution: `**1.** Le mot PROBABILITE comporte $11$ lettres, donc il y a $11$ cartons, chacun ayant la même chance d'être tiré.
+      solution: `**1.** Le mot PROBABILITE comporte $11$ lettres, donc il y a $11$ cartons. Comme ils sont mélangés et retournés, on suppose que chacun a la même chance d'être tiré.
 Les lettres, elles, ne sont pas équiprobables : B et I figurent sur $2$ cartons chacune, alors que P, R, O, A, L, T et E ne figurent que sur un carton. On a plus de chances de tirer un B qu'un P.
 
 **2.** $P(\\text{B}) = \\dfrac{2}{11}$ (deux cartons sur onze) et $P(\\text{T}) = \\dfrac{1}{11}$.
 
 **3.** Les cartons portant une voyelle sont O, A, I, I, E : il y en a $5$. Donc $P(V) = \\dfrac{5}{11}$.
 
-**4.** L'événement contraire de V est « tirer une consonne ». Il est réalisé par P, R, B, B, L, T, soit $6$ cartons : sa probabilité est $\\dfrac{6}{11}$. On vérifie que $\\dfrac{5}{11} + \\dfrac{6}{11} = 1$.
+**4.** « Ne pas tirer une voyelle », c'est « tirer une consonne ». Cet événement est réalisé par P, R, B, B, L, T, soit $6$ cartons : sa probabilité est $\\dfrac{6}{11}$. (Vérification : $5 + 6 = 11$, on a bien compté tous les cartons.)
 
 **5.** Aucun carton ne porte la lettre Z : c'est un événement impossible, de probabilité $0$.`
     },
@@ -5113,7 +5713,7 @@ Les lettres, elles, ne sont pas équiprobables : B et I figurent sur $2$ cartons
       statement: `Pour sa tombola, une association vend $200$ billets numérotés. Les numéros gagnants seront tirés au hasard : il y a $1$ gros lot, $4$ lots moyens et $15$ petits lots (un billet gagne au plus un lot). Noa achète un billet.
 
 1. Quelle est la probabilité que le billet de Noa gagne le gros lot ?
-2. Quelle est la probabilité qu'il gagne un lot (quel qu'il soit) ? Donner le résultat sous forme de fraction simplifiée puis de pourcentage.
+2. Quelle est la probabilité qu'il gagne un lot (quel qu'il soit) ? Donner le résultat sous forme de fraction puis de pourcentage.
 3. Quelle est la probabilité qu'il ne gagne rien ?
 4. L'association voudrait que la probabilité de gagner un lot soit égale à $\\dfrac{1}{8}$, sans changer le nombre de billets. Combien de petits lots doit-elle ajouter ?
 5. Une autre tombola propose $16$ lots pour $150$ billets. Dans laquelle des deux tombolas (avant l'ajout de la question 4) a-t-on le plus de chances de gagner un lot ? Justifier.`,
@@ -5123,7 +5723,7 @@ Les lettres, elles, ne sont pas équiprobables : B et I figurent sur $2$ cartons
 
 **2.** Il y a $1 + 4 + 15 = 20$ billets gagnants. La probabilité de gagner un lot est $\\dfrac{20}{200} = \\dfrac{1}{10}$, soit $10\\,\\%$.
 
-**3.** « Ne rien gagner » est l'événement contraire de « gagner un lot » : sa probabilité est $1 - \\dfrac{1}{10} = \\dfrac{9}{10}$, soit $90\\,\\%$.
+**3.** Il y a $200 - 20 = 180$ billets perdants. La probabilité de ne rien gagner est $\\dfrac{180}{200} = \\dfrac{9}{10}$, soit $90\\,\\%$.
 
 **4.** On veut $\\dfrac{\\text{nombre de lots}}{200} = \\dfrac{1}{8}$, donc le nombre de lots doit être $200 \\div 8 = 25$. Il faut ajouter $25 - 20 = 5$ petits lots.
 
@@ -5134,14 +5734,16 @@ Les lettres, elles, ne sont pas équiprobables : B et I figurent sur $2$ cartons
       title: "Deux pièces de monnaie",
       difficulty: 4,
       points: 6,
-      statement: `On lance deux pièces de monnaie équilibrées, une pièce de $1$ € et une pièce de $2$ €, et on note la face obtenue par chacune (P pour pile, F pour face). L'arbre ci-dessous représente l'expérience : on lit d'abord le résultat de la pièce de $1$ €, puis celui de la pièce de $2$ €.
+      statement: `**Pour aller plus loin** (expérience à deux épreuves, notion travaillée plus tard au collège).
+
+On lance deux pièces de monnaie équilibrées, une pièce de $1$ € et une pièce de $2$ €, et on note la face obtenue par chacune (P pour pile, F pour face). L'arbre ci-dessous représente l'expérience : on lit d'abord le résultat de la pièce de $1$ €, puis celui de la pièce de $2$ €.
 
 <div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:340px;"><svg class="geo-svg-figure" viewBox="0 0 300 240" width="300" height="240" style="width:100%; height:auto; color:var(--text-main, #334155);" xmlns="http://www.w3.org/2000/svg" role="img"><line x1="20" y1="110" x2="118" y2="58" stroke="currentColor" stroke-width="1.5"/><line x1="20" y1="110" x2="118" y2="162" stroke="currentColor" stroke-width="1.5"/><line x1="142" y1="55" x2="238" y2="28" stroke="currentColor" stroke-width="1.5"/><line x1="142" y1="55" x2="238" y2="82" stroke="currentColor" stroke-width="1.5"/><line x1="142" y1="165" x2="238" y2="138" stroke="currentColor" stroke-width="1.5"/><line x1="142" y1="165" x2="238" y2="192" stroke="currentColor" stroke-width="1.5"/><circle cx="20" cy="110" r="4" fill="currentColor"/><text x="130" y="60" text-anchor="middle" font-size="15" font-weight="bold" fill="currentColor">P</text><text x="130" y="170" text-anchor="middle" font-size="15" font-weight="bold" fill="currentColor">F</text><text x="250" y="33" text-anchor="middle" font-size="15" font-weight="bold" fill="currentColor">P</text><text x="250" y="87" text-anchor="middle" font-size="15" font-weight="bold" fill="currentColor">F</text><text x="250" y="143" text-anchor="middle" font-size="15" font-weight="bold" fill="currentColor">P</text><text x="250" y="197" text-anchor="middle" font-size="15" font-weight="bold" fill="currentColor">F</text><text x="130" y="228" text-anchor="middle" font-size="15" fill="currentColor">pièce de 1 €</text><text x="250" y="228" text-anchor="middle" font-size="15" fill="currentColor">pièce de 2 €</text></svg></div>
 
 Hugo affirme : « Il y a trois résultats possibles : deux piles, deux faces, ou un pile et un face. Chacun a donc une probabilité de $\\dfrac{1}{3}$. »
 
 1. En suivant les branches de l'arbre, écrire la liste des issues de l'expérience (par exemple PF signifie : pile pour la pièce de $1$ €, face pour la pièce de $2$ €). Combien y en a-t-il ?
-2. Les pièces étant équilibrées, toutes ces issues ont la même probabilité. Quelle est la probabilité de chacune ?
+2. Les pièces étant équilibrées, on suppose que toutes ces issues ont la même probabilité. Quelle est la probabilité de chacune ?
 3. a) Quelles issues réalisent l'événement « obtenir deux piles » ? Quelle est sa probabilité ?
    b) Quelles issues réalisent l'événement « obtenir un pile et un face » ? Quelle est sa probabilité ?
    c) Hugo a-t-il raison ? Expliquer son erreur.
@@ -5171,10 +5773,10 @@ Pour désigner le délégué au conseil d'administration, le professeur écrit l
    a) « l'élève tiré a moins de $15$ ans » ;
    b) « l'élève tiré a $20$ ans ».
 5. Ranger les six événements des questions 2, 3 et 4 du moins probable au plus probable.`,
-      solution: `**1.** On connaît toutes les issues possibles (les $25$ élèves), mais on ne peut pas prévoir lequel sera tiré : c'est une expérience aléatoire. Les papiers sont identiques et mélangés : chaque élève a la même chance d'être tiré, les $25$ issues sont équiprobables.
+      solution: `**1.** On connaît toutes les issues possibles (les $25$ élèves), mais on ne peut pas prévoir lequel sera tiré : c'est une expérience aléatoire. Les papiers sont identiques et mélangés : on suppose donc que chaque élève a la même chance d'être tiré, les $25$ issues sont alors équiprobables.
 
 **2.** $P(\\text{fille}) = \\dfrac{14}{25}$ et $P(\\text{garçon}) = \\dfrac{11}{25}$.
-$\\dfrac{14}{25} + \\dfrac{11}{25} = \\dfrac{25}{25} = 1$ : « tirer un garçon » est l'événement contraire de « tirer une fille », la somme de leurs probabilités vaut $1$.
+$\\dfrac{14}{25} + \\dfrac{11}{25} = \\dfrac{25}{25} = 1$ : chaque élève est soit une fille, soit un garçon ; à eux deux, ces événements regroupent toutes les issues, et la somme de leurs probabilités vaut $1$.
 
 **3.** $P(\\text{lunettes}) = \\dfrac{6}{25}$ ; $P(\\text{garçon à lunettes}) = \\dfrac{2}{25}$.
 
@@ -5198,9 +5800,9 @@ b) Aucun élève n'a $20$ ans : l'événement est **impossible**, sa probabilit�
 3. Calculer la probabilité des événements suivants :
    a) A : « obtenir un numéro pair » ;
    b) B : « obtenir un secteur rouge portant un numéro pair ».
-4. Décrire par une phrase l'événement contraire de « obtenir un secteur rouge » et calculer sa probabilité.
+4. Décrire par une phrase, à l'aide des couleurs, l'événement « ne pas obtenir un secteur rouge » et calculer sa probabilité.
 5. Lou et Tim jouent avec cette roue : Lou gagne si la flèche s'arrête sur un secteur rouge, Tim gagne si elle s'arrête sur un secteur vert ou jaune ; sur un secteur bleu, personne ne gagne et on relance. Ce jeu est-il équitable ? Justifier.`,
-      solution: `Les $8$ secteurs sont identiques : les $8$ issues sont équiprobables, chacune a pour probabilité $\\dfrac{1}{8}$.
+      solution: `Les $8$ secteurs sont identiques : on suppose donc que les $8$ issues sont équiprobables, chacune a alors pour probabilité $\\dfrac{1}{8}$.
 
 **1.** $P(\\text{secteur } 5) = \\dfrac{1}{8}$.
 
@@ -5213,8 +5815,8 @@ Somme : $\\dfrac{3}{8} + \\dfrac{2}{8} + \\dfrac{2}{8} + \\dfrac{1}{8} = \\dfrac
 **3.** a) Les numéros pairs sont $2$, $4$, $6$ et $8$ : $P(A) = \\dfrac{4}{8} = \\dfrac{1}{2}$.
 b) Parmi les secteurs rouges ($1$, $2$, $3$), seul le $2$ est pair : $P(B) = \\dfrac{1}{8}$.
 
-**4.** Le contraire de « obtenir un secteur rouge » est « obtenir un secteur bleu, vert ou jaune » (c'est-à-dire « ne pas obtenir un secteur rouge »).
-Sa probabilité est $1 - \\dfrac{3}{8} = \\dfrac{5}{8}$ (secteurs $4$, $5$, $6$, $7$, $8$).
+**4.** « Ne pas obtenir un secteur rouge », c'est « obtenir un secteur bleu, vert ou jaune ».
+Cet événement est réalisé par les secteurs $4$, $5$, $6$, $7$, $8$, soit $5$ issues sur $8$ : sa probabilité est $\\dfrac{5}{8}$.
 
 **5.** Lou gagne avec les secteurs $1$, $2$, $3$ : probabilité $\\dfrac{3}{8}$.
 Tim gagne avec les secteurs $6$, $7$, $8$ : probabilité $\\dfrac{2}{8} + \\dfrac{1}{8} = \\dfrac{3}{8}$.
@@ -5248,7 +5850,7 @@ Les deux joueurs ont la même probabilité de gagner : le jeu est **équitable**
 **3.** Sur un petit nombre de lancers, la fréquence varie beaucoup ($0{,}62$ puis $0{,}58$). Quand le nombre de lancers augmente, elle varie de moins en moins et **se stabilise** autour de $0{,}61$.
 
 **4.** On peut estimer la probabilité d'obtenir « pointe en haut » à environ $0{,}61$ (soit $61\\,\\%$).
-« Pointe en bas » est l'événement contraire : sa probabilité est environ $1 - 0{,}61 = 0{,}39$.
+Sur les $1\\,000$ lancers, « pointe en bas » est arrivé $1\\,000 - 612 = 388$ fois, soit une fréquence de $0{,}388$ : on peut estimer la probabilité d'obtenir « pointe en bas » à environ $0{,}39$.
 
 **5.** $3\\,000 \\times 0{,}61 = 1\\,830$ : on peut s'attendre à **environ $1\\,830$** « pointe en haut ».
 On n'est pas sûr d'obtenir exactement ce nombre : l'expérience est aléatoire, le résultat sera seulement proche de $1\\,830$.`
@@ -5272,7 +5874,7 @@ On n'est pas sûr d'obtenir exactement ce nombre : l'expérience est aléatoire,
 
 4. Combien de boules rouges faut-il ajouter au sac de départ pour que la probabilité de tirer une boule rouge soit égale à $\\dfrac{3}{4}$ ? Justifier à l'aide du tableau.
 5. Inès propose une autre idée : repartir du sac de départ et **retirer** des boules noires. Combien faut-il en retirer pour que la probabilité de tirer une boule rouge soit égale à $\\dfrac{2}{3}$ ?`,
-      solution: `**1.** Il y a $4 + 6 = 10$ boules, toutes ayant la même chance d'être tirées.
+      solution: `**1.** Il y a $4 + 6 = 10$ boules, et on suppose qu'elles ont toutes la même chance d'être tirées.
 $P(\\text{rouge}) = \\dfrac{4}{10} = \\dfrac{2}{5}$ et $P(\\text{noire}) = \\dfrac{6}{10} = \\dfrac{3}{5}$.
 Les deux probabilités sont différentes : le jeu **n'est pas équitable** (il avantage Inès).
 
@@ -5723,6 +6325,45 @@ Dans sa cuisine, Hugo dispose de $500$ g de farine, $7$ œufs, $1$ L de lait et 
 
 **5.** Pour $12$ personnes (deux fois la recette) : $480$ g de farine, $6$ œufs, $900$ mL de lait et $180$ g de sucre.
 Il lui reste : $500 - 480 = 20$ g de farine, $7 - 6 = 1$ œuf, $1\\,000 - 900 = 100$ mL de lait et $200 - 180 = 20$ g de sucre.`
+    },
+    {
+      id: "5P1-ds-17",
+      title: "Des mesures au nuage de points",
+      difficulty: 3,
+      points: 7,
+      statement: `**Première expérience.** On mesure la masse de plusieurs blocs d'un même métal.
+
+| Volume (cm³) | $10$ | $20$ | $30$ | $40$ | $50$ |
+|:-:|:-:|:-:|:-:|:-:|:-:|
+| Masse (g) | $26$ | $55$ | $79$ | $110$ | $133$ |
+
+1. Dans un repère (en abscisse, $1$ cm pour $10$ cm³ ; en ordonnée, $1$ cm pour $20$ g), placer les points correspondant à ces mesures. On obtient un **nuage de points**.
+2. Calculer, pour chaque mesure, le quotient de la masse par le volume, arrondi au centième si nécessaire.
+3. Est-il plausible que la masse soit proportionnelle au volume ? Justifier à l'aide du nuage et des quotients.
+4. En prenant $2{,}7$ g par cm³, estimer la masse d'un bloc de $60$ cm³ de ce métal.
+
+**Deuxième expérience.** On accroche des masses à un ressort et on mesure sa longueur.
+
+| Masse accrochée (g) | $100$ | $200$ | $300$ | $400$ | $500$ |
+|:-:|:-:|:-:|:-:|:-:|:-:|
+| Longueur du ressort (cm) | $14$ | $18$ | $22{,}2$ | $25{,}8$ | $30$ |
+
+5. Placer les points correspondants dans un autre repère. Les points sont-ils pratiquement alignés ? La droite qui les approche passe-t-elle par l'origine ?
+6. La longueur du ressort est-elle proportionnelle à la masse accrochée ? Justifier.
+7. La droite coupe l'axe vertical vers $10$ cm. Que représente cette valeur pour le ressort ?`,
+      solution: `**1.** On place les points $(10 ; 26)$, $(20 ; 55)$, $(30 ; 79)$, $(40 ; 110)$ et $(50 ; 133)$.
+
+**2.** $26 \\div 10 = 2{,}6$ ; $55 \\div 20 = 2{,}75$ ; $79 \\div 30 \\approx 2{,}63$ ; $110 \\div 40 = 2{,}75$ ; $133 \\div 50 = 2{,}66$.
+
+**3.** Les points du nuage sont pratiquement alignés sur une droite passant par l'origine, et les quotients sont très proches les uns des autres (entre $2{,}6$ et $2{,}75$). Les petits écarts s'expliquent par la précision des mesures : il est **plausible** que la masse soit proportionnelle au volume.
+
+**4.** $60 \\times 2{,}7 = 162$ : on peut estimer la masse à environ $162$ g.
+
+**5.** On place les points $(100 ; 14)$, $(200 ; 18)$, $(300 ; 22{,}2)$, $(400 ; 25{,}8)$ et $(500 ; 30)$. Ils sont pratiquement alignés, mais la droite qui les approche ne passe pas par l'origine : elle coupe l'axe vertical vers $10$ cm.
+
+**6.** **Non** : pour que la situation soit proportionnelle, il faudrait que les points soient alignés avec l'origine. On peut le vérifier avec les quotients : $14 \\div 100 = 0{,}14$ et $30 \\div 500 = 0{,}06$ sont très différents.
+
+**7.** C'est la longueur du ressort lorsqu'aucune masse n'est accrochée : sa **longueur à vide**, environ $10$ cm.`
     }
   ],
   "5P2": [
@@ -6179,10 +6820,10 @@ De $50$ km/h à $100$ km/h, la distance passe de $25$ m à $100$ m : elle est **
     },
     {
       id: "5P2-ds-16",
-      title: "Deux cuves reliées",
+      title: "Deux cuves indépendantes",
       difficulty: 4,
       points: 6,
-      statement: `Dans une station d'épuration, on transvase de l'eau entre deux cuves. À $0$ min :
+      statement: `Dans une station d'épuration, on surveille deux cuves indépendantes l'une de l'autre. À $0$ min :
 - la cuve A contient $200$ L et se remplit de $15$ L par minute ;
 - la cuve B contient $500$ L et se vide de $25$ L par minute.
 
@@ -6282,30 +6923,34 @@ avancer de 30 pas
       title: "Un programme de calcul en Scratch",
       difficulty: 2,
       points: 5,
-      statement: `Voici un script Scratch qui utilise une variable nommée « résultat ».
+      statement: `Voici un script Scratch qui effectue un programme de calcul sur le nombre saisi, disponible dans le bloc « réponse ».
 
 \`\`\`scratch
 quand drapeau cliqué
 demander [Choisis un nombre] et attendre
-mettre [résultat] à (réponse)
-mettre [résultat] à (résultat × 3)
-ajouter 5 à [résultat]
-dire (résultat)
+dire ((réponse × 3) + 5)
 \`\`\`
 
 1. Quel nombre le lutin dit-il si l'on répond 4 ?
 2. Quel nombre le lutin dit-il si l'on répond 0 ? si l'on répond 2,5 ?
 3. Écrire une expression du nombre dit par le lutin quand on répond un nombre $x$.
-4. Quel nombre faut-il donner pour que le lutin dise 26 ? Justifier.`,
-      solution: `**1.** résultat prend la valeur 4, puis $4 \\times 3 = 12$, puis $12 + 5 = 17$. Le lutin dit **17**.
+4. Quel nombre faut-il donner pour que le lutin dise 26 ? Justifier.
+5. Léa veut que le lutin ajoute d'abord 5, puis multiplie le résultat par 3. Écrire le bloc « dire » qu'elle doit utiliser. Quel nombre le lutin dit-il alors si l'on répond 4 ?`,
+      solution: `**1.** Le bloc intérieur se calcule d'abord : $4 \\times 3 = 12$, puis $12 + 5 = 17$. Le lutin dit **17**.
 
 **2.** Avec 0 : $0 \\times 3 + 5 = 5$, le lutin dit **5**.
 Avec 2,5 : $2{,}5 \\times 3 + 5 = 7{,}5 + 5 = 12{,}5$, le lutin dit **12,5**.
 
 **3.** Le nombre dit est $3 \\times x + 5$.
 
-**4.** On « remonte » le programme : avant d'ajouter 5, résultat valait $26 - 5 = 21$ ; avant de multiplier par 3, il valait $21 \\div 3 = 7$.
-Il faut répondre **7**. Vérification : $7 \\times 3 + 5 = 21 + 5 = 26$.`
+**4.** On « remonte » le programme : avant d'ajouter 5, le nombre valait $26 - 5 = 21$ ; avant de multiplier par 3, il valait $21 \\div 3 = 7$.
+Il faut répondre **7**. Vérification : $7 \\times 3 + 5 = 21 + 5 = 26$.
+
+**5.** Le calcul à faire en premier se place dans le bloc intérieur :
+\`\`\`scratch
+dire ((réponse + 5) × 3)
+\`\`\`
+Si l'on répond 4 : $4 + 5 = 9$, puis $9 \\times 3 = 27$. Le lutin dit **27**.`
     },
     {
       id: "5A1-ds-04",
@@ -6348,39 +6993,45 @@ Chaque passage dans la boucle trace une longueur et une largeur ; deux passages 
       title: "La spirale",
       difficulty: 3,
       points: 5,
-      statement: `Le lutin part du point de coordonnées $(0 \\,;\\, 0)$, orienté vers la droite. On rappelle que « ajouter 10 à [côté] » augmente de 10 la valeur de la variable côté.
+      statement: `Le lutin part du point de coordonnées $(0 \\,;\\, 0)$, orienté vers la droite. Le nombre saisi est disponible dans le bloc « réponse ».
 
 \`\`\`scratch
 quand drapeau cliqué
 effacer tout
 aller à x: 0 y: 0
 s'orienter à 90
+demander [Longueur de départ ?] et attendre
 stylo en position d'écriture
-mettre [côté] à 10
-répéter 5 fois
-    avancer de côté pas
-    tourner ↻ de 90 degrés
-    ajouter 10 à [côté]
+avancer de (réponse) pas
+tourner ↻ de 90 degrés
+avancer de (réponse × 2) pas
+tourner ↻ de 90 degrés
+avancer de (réponse × 3) pas
+tourner ↻ de 90 degrés
+avancer de (réponse × 4) pas
+tourner ↻ de 90 degrés
+avancer de (réponse × 5) pas
 \`\`\`
 
-1. Recopier et compléter le tableau donnant, à chaque passage dans la boucle, la longueur du segment tracé.
+1. On répond 10. Recopier et compléter le tableau donnant la longueur de chaque segment tracé.
 
-| Passage | 1 | 2 | 3 | 4 | 5 |
+| Segment | 1 | 2 | 3 | 4 | 5 |
 |---|---|---|---|---|---|
 | Longueur tracée (pas) | 10 | … | … | … | … |
 
-2. Quelle est la valeur de la variable côté à la fin du script ?
-3. Calculer la longueur totale du tracé.
-4. Tracer à main levée la figure obtenue, puis déterminer les coordonnées du lutin à la fin du script.`,
-      solution: `**1.** La variable côté vaut 10 au premier passage et augmente de 10 à chaque passage.
+2. Calculer la longueur totale du tracé obtenu quand on répond 10.
+3. On répond un nombre $x$. Exprimer en fonction de $x$ la longueur totale du tracé, puis réduire cette expression.
+4. Tracer à main levée la figure obtenue quand on répond 10, puis déterminer les coordonnées du lutin à la fin du script.
+5. Quel nombre faut-il répondre pour que le tracé mesure 300 pas en tout ? Justifier.`,
+      solution: `**1.** Les segments mesurent la réponse multipliée successivement par 1, 2, 3, 4 et 5.
 
-| Passage | 1 | 2 | 3 | 4 | 5 |
+| Segment | 1 | 2 | 3 | 4 | 5 |
 |---|---|---|---|---|---|
 | Longueur tracée (pas) | 10 | 20 | 30 | 40 | 50 |
 
-**2.** Au 5e passage, côté vaut 50 avant d'être augmentée une dernière fois de 10 : à la fin, côté vaut **60**.
+**2.** $10 + 20 + 30 + 40 + 50 = 150$. Le tracé mesure **150 pas**.
 
-**3.** $10 + 20 + 30 + 40 + 50 = 150$. Le tracé mesure **150 pas**.
+**3.** La longueur totale est $x + 2x + 3x + 4x + 5x = 15x$. Le tracé mesure **$15x$ pas**.
 
 **4.** Le lutin tourne à droite d'un quart de tour à chaque fois : il va successivement vers la droite, le bas, la gauche, le haut, puis la droite. Il trace une **spirale** carrée qui s'agrandit.
 - 10 pas vers la droite : $(10 \\,;\\, 0)$ ;
@@ -6389,52 +7040,52 @@ répéter 5 fois
 - 40 pas vers le haut : $(-20 \\,;\\, 20)$ ;
 - 50 pas vers la droite : $(30 \\,;\\, 20)$.
 
-À la fin, le lutin est en $(30 \\,;\\, 20)$.`
+À la fin, le lutin est en $(30 \\,;\\, 20)$.
+
+**5.** On cherche $x$ tel que $15 \\times x = 300$, c'est-à-dire $x = 300 \\div 15 = 20$. Il faut répondre **20**.
+Vérification : $20 + 40 + 60 + 80 + 100 = 300$.`
     },
     {
       id: "5A1-ds-06",
       title: "Une somme calculée par le lutin",
       difficulty: 3,
       points: 5,
-      statement: `On considère le script suivant.
+      statement: `On considère le script suivant, qui calcule à partir du nombre saisi, disponible dans le bloc « réponse ».
 
 \`\`\`scratch
 quand drapeau cliqué
-mettre [somme] à 0
-mettre [n] à 1
-répéter 10 fois
-    ajouter n à [somme]
-    ajouter 1 à [n]
-dire somme
+demander [Choisis un nombre entier] et attendre
+dire ((réponse × (réponse + 1)) / 2)
 \`\`\`
 
-1. Recopier et compléter le tableau donnant les valeurs des variables à la fin de chacun des trois premiers passages dans la boucle.
+1. On répond 4. Détailler dans l'ordre les calculs effectués, puis donner le nombre dit par le lutin.
+2. Recopier et compléter le tableau.
 
-| Fin du passage | 1 | 2 | 3 |
+| Nombre saisi | 3 | 5 | 6 |
 |---|---|---|---|
-| somme | … | … | … |
-| n | … | … | … |
+| Nombre dit par le lutin | … | … | … |
 
-2. Quel calcul ce script effectue-t-il ? Quel nombre le lutin dit-il ?
-3. Quelle est la valeur de la variable n à la fin du script ?
-4. On veut que le lutin calcule la somme des 10 premiers nombres pairs $2 + 4 + 6 + \\ldots + 20$. Quelles modifications faut-il apporter au script ? Quel nombre le lutin dira-t-il alors ?`,
-      solution: `**1.**
-- Passage 1 : somme $= 0 + 1 = 1$, puis n $= 2$.
-- Passage 2 : somme $= 1 + 2 = 3$, puis n $= 3$.
-- Passage 3 : somme $= 3 + 3 = 6$, puis n $= 4$.
+3. Calculer $1 + 2 + 3$, puis $1 + 2 + 3 + 4 + 5$, puis $1 + 2 + 3 + 4 + 5 + 6$. Que remarque-t-on ? Quel nombre le lutin dit-il si l'on répond 10 ? Vérifier que c'est bien la somme $1 + 2 + 3 + \\ldots + 10$.
+4. Écrire une expression du nombre dit par le lutin quand on répond un nombre entier $n$.
+5. On veut que le lutin donne la somme des 10 premiers nombres pairs $2 + 4 + 6 + \\ldots + 20$ quand on répond 10. On admet que $2 + 4 + 6 + \\ldots + 20 = 2 \\times (1 + 2 + 3 + \\ldots + 10)$. Quelle modification faut-il apporter au script ? Quel nombre le lutin dira-t-il alors ?`,
+      solution: `**1.** On effectue d'abord le bloc le plus intérieur : $4 + 1 = 5$, puis $4 \\times 5 = 20$, puis $20 \\div 2 = 10$. Le lutin dit **10**.
 
-| Fin du passage | 1 | 2 | 3 |
+**2.** Pour 3 : $3 \\times 4 \\div 2 = 12 \\div 2 = 6$. Pour 5 : $5 \\times 6 \\div 2 = 30 \\div 2 = 15$. Pour 6 : $6 \\times 7 \\div 2 = 42 \\div 2 = 21$.
+
+| Nombre saisi | 3 | 5 | 6 |
 |---|---|---|---|
-| somme | 1 | 3 | 6 |
-| n | 2 | 3 | 4 |
+| Nombre dit par le lutin | 6 | 15 | 21 |
 
-**2.** Le script ajoute successivement 1, 2, 3, …, 10 : il calcule $1 + 2 + 3 + \\ldots + 10$.
-$1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10 = 55$. Le lutin dit **55**.
+**3.** $1 + 2 + 3 = 6$ ; $1 + 2 + 3 + 4 + 5 = 15$ ; $1 + 2 + 3 + 4 + 5 + 6 = 21$. On retrouve les nombres du tableau : le lutin dit la somme des nombres entiers de 1 jusqu'au nombre saisi.
+Si l'on répond 10 : $10 \\times 11 \\div 2 = 110 \\div 2 = 55$, le lutin dit **55**. On vérifie : $1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10 = 55$.
 
-**3.** n vaut 1 au départ et augmente de 1 à chacun des 10 passages : à la fin, n vaut $1 + 10 = $ **11**.
+**4.** Le nombre dit est $n \\times (n + 1) \\div 2$.
 
-**4.** Il faut que n prenne les valeurs 2, 4, 6, …, 20 : on remplace « mettre [n] à 1 » par « mettre [n] à **2** » et « ajouter 1 à [n] » par « ajouter **2** à [n] » (on garde « répéter 10 fois »).
-Le lutin dit alors $2 + 4 + \\ldots + 20 = 2 \\times (1 + 2 + \\ldots + 10) = 2 \\times 55 = $ **110**.`
+**5.** Il faut multiplier par 2 le nombre dit. Or diviser par 2 puis multiplier par 2 revient à ne rien changer : il suffit de supprimer la division par 2.
+\`\`\`scratch
+dire (réponse × (réponse + 1))
+\`\`\`
+Si l'on répond 10, le lutin dit alors $10 \\times 11 = $ **110**, et on a bien $2 + 4 + \\ldots + 20 = 2 \\times 55 = 110$.`
     },
     {
       id: "5A1-ds-07",
@@ -6450,20 +7101,25 @@ aller à x: -200 y: 0
 s'orienter à 90
 stylo en position d'écriture
 répéter 4 fois
-    répéter 4 fois
-        avancer de 30 pas
-        tourner ↺ de 90 degrés
+    avancer de 30 pas
+    tourner ↺ de 90 degrés
+    avancer de 30 pas
+    tourner ↺ de 90 degrés
+    avancer de 30 pas
+    tourner ↺ de 90 degrés
+    avancer de 30 pas
+    tourner ↺ de 90 degrés
     avancer de 40 pas
 \`\`\`
 
-1. Que trace la boucle intérieure « répéter 4 fois : avancer de 30 pas, tourner ↺ de 90 degrés » ? Dans quelle direction le lutin est-il orienté après cette boucle ?
+1. Que tracent les huit premières instructions de la boucle (celles placées avant « avancer de 40 pas ») ? Dans quelle direction le lutin est-il orienté après ces huit instructions ?
 2. Combien de fois l'instruction « avancer de 30 pas » est-elle exécutée en tout ?
 3. Calculer la distance totale parcourue par le lutin.
 4. Quelle est l'abscisse du lutin à la fin du script ?
 5. Sur le dessin, les carrés sont reliés par un trait. Où faut-il ajouter les instructions « relever le stylo » et « stylo en position d'écriture » pour obtenir quatre carrés séparés ?`,
-      solution: `**1.** Le lutin avance de 30 pas puis tourne d'un angle droit, 4 fois : il trace un **carré de côté 30 pas** (au-dessus de sa position, car il tourne vers la gauche). Après 4 quarts de tour, il a fait un tour complet ($4 \\times 90^\\circ = 360^\\circ$) : il est de nouveau orienté **vers la droite**.
+      solution: `**1.** Le lutin avance de 30 pas puis tourne d'un angle droit, et cela 4 fois de suite : il trace un **carré de côté 30 pas** (au-dessus de sa position, car il tourne vers la gauche). Après 4 quarts de tour, il a fait un tour complet ($4 \\times 90^\\circ = 360^\\circ$) : il est de nouveau orienté **vers la droite**.
 
-**2.** La boucle intérieure est répétée 4 fois, et elle-même est exécutée 4 fois : $4 \\times 4 = 16$ fois.
+**2.** L'instruction figure 4 fois dans la boucle, et la boucle est répétée 4 fois : $4 \\times 4 = 16$ fois.
 
 **3.** À chaque passage de la grande boucle, le lutin parcourt $4 \\times 30 + 40 = 160$ pas. Pour 4 passages : $4 \\times 160 = 640$ pas.
 
@@ -6473,9 +7129,14 @@ répéter 4 fois
 \`\`\`scratch
 répéter 4 fois
     stylo en position d'écriture
-    répéter 4 fois
-        avancer de 30 pas
-        tourner ↺ de 90 degrés
+    avancer de 30 pas
+    tourner ↺ de 90 degrés
+    avancer de 30 pas
+    tourner ↺ de 90 degrés
+    avancer de 30 pas
+    tourner ↺ de 90 degrés
+    avancer de 30 pas
+    tourner ↺ de 90 degrés
     relever le stylo
     avancer de 40 pas
 \`\`\`
@@ -6486,17 +7147,16 @@ Les carrés de 30 pas sont alors séparés par des espaces de $40 - 30 = 10$ pas
       title: "Tracer n'importe quel polygone régulier",
       difficulty: 4,
       points: 6,
-      statement: `Pour tracer un polygone régulier à $n$ côtés de longueur 50 pas, Yanis écrit le script suivant. Le lutin doit faire un tour complet (360°) pour revenir à son point de départ.
+      statement: `Pour tracer un polygone régulier à $n$ côtés de longueur 50 pas, Yanis écrit le script suivant, où le nombre de côtés $n$ est le nombre saisi, disponible dans le bloc « réponse ». Le lutin doit faire un tour complet (360°) pour revenir à son point de départ.
 
 \`\`\`scratch
 quand drapeau cliqué
 effacer tout
 stylo en position d'écriture
 demander [Nombre de côtés ?] et attendre
-mettre [n] à (réponse)
-répéter n fois
+répéter (réponse) fois
     avancer de 50 pas
-    tourner ↻ de (360 / n) degrés
+    tourner ↻ de (360 / réponse) degrés
 \`\`\`
 
 1. On répond 6. De quel angle le lutin tourne-t-il à chaque fois ? Quelle figure obtient-on ?
@@ -6527,32 +7187,27 @@ répéter n fois
       title: "Le compte à rebours",
       difficulty: 1,
       points: 4,
-      statement: `On considère le script suivant, qui utilise une variable nommée « compteur ».
+      statement: `On considère le script suivant.
 
 \`\`\`scratch
 quand drapeau cliqué
-mettre [compteur] à 10
 répéter 4 fois
-    dire (compteur) pendant 1 secondes
-    ajouter -2 à [compteur]
+    dire [Bip !] pendant 2 secondes
+    attendre 1 secondes
+dire [Partez !] pendant 3 secondes
 \`\`\`
 
-1. Quel nombre le lutin dit-il en premier ? Justifier.
-2. Écrire la liste de tous les nombres dits par le lutin, dans l'ordre.
-3. Quelle est la valeur de la variable « compteur » à la fin du script ? Combien de temps dure l'exécution du script (environ) ?
-4. On veut que le lutin dise $10$, $8$, $6$, $4$, $2$ puis $0$. Quelle modification faut-il apporter au script ?`,
-      solution: `**1.** La variable « compteur » est initialisée à $10$ avant la boucle, et l'instruction « dire » est exécutée avant « ajouter -2 » : le lutin dit d'abord **$10$**.
+1. Combien de fois le lutin dit-il « Bip ! » ? Combien de fois dit-il « Partez ! » ? Justifier.
+2. Quelle est la durée, en secondes, d'un passage dans la boucle ?
+3. Calculer la durée totale d'exécution du script.
+4. On veut que le script dure $21$ secondes, sans changer les instructions placées à l'intérieur de la boucle ni la dernière instruction. Quelle modification faut-il apporter au script ?`,
+      solution: `**1.** L'instruction « dire [Bip !] » est à l'intérieur de la boucle « répéter 4 fois » : le lutin dit « Bip ! » **$4$ fois**. L'instruction « dire [Partez !] » est placée après la boucle : elle n'est exécutée **qu'une seule fois**.
 
-**2.** À chaque passage, il dit la valeur de compteur puis lui retire $2$ :
-- passage 1 : il dit $10$, compteur devient $8$ ;
-- passage 2 : il dit $8$, compteur devient $6$ ;
-- passage 3 : il dit $6$, compteur devient $4$ ;
-- passage 4 : il dit $4$, compteur devient $2$.
-Le lutin dit : $10$, $8$, $6$, $4$.
+**2.** À chaque passage, le lutin parle pendant $2$ secondes puis attend $1$ seconde : un passage dure $2 + 1 = 3$ secondes.
 
-**3.** À la fin, compteur vaut **$2$**. Chaque nombre est affiché pendant $1$ seconde et il y a $4$ passages : le script dure environ $4$ secondes.
+**3.** Les $4$ passages durent $4 \\times 3 = 12$ secondes, et « Partez ! » dure encore $3$ secondes : $12 + 3 = 15$. Le script dure **$15$ secondes**.
 
-**4.** Il faut dire $6$ nombres au lieu de $4$ : on remplace « répéter 4 fois » par « répéter **6** fois ». (On peut vérifier : la dernière valeur dite est $10 - 5 \\times 2 = 0$.)`
+**4.** La dernière instruction dure toujours $3$ secondes : la boucle doit donc durer $21 - 3 = 18$ secondes, soit $18 \\div 3 = 6$ passages. On remplace « répéter 4 fois » par « répéter **6** fois ». Vérification : $6 \\times 3 + 3 = 18 + 3 = 21$.`
     },
     {
       id: "5A1-ds-10",
@@ -6630,56 +7285,68 @@ répéter 5 fois
       title: "Des carrés emboîtés",
       difficulty: 4,
       points: 6,
-      statement: `Au départ, le lutin est en $(0 \\,;\\, 0)$, orienté vers la droite.
+      statement: `Au départ, le lutin est en $(0 \\,;\\, 0)$, orienté vers la droite. Le nombre saisi est disponible dans le bloc « réponse ».
 
 \`\`\`scratch
 quand drapeau cliqué
 effacer tout
 aller à x: 0 y: 0
 s'orienter à 90
+demander [Côté du petit carré ?] et attendre
 stylo en position d'écriture
-mettre [côté] à 20
 répéter 4 fois
-    répéter 4 fois
-        avancer de (côté) pas
-        tourner ↺ de 90 degrés
-    ajouter 20 à [côté]
+    avancer de (réponse) pas
+    tourner ↺ de 90 degrés
+répéter 4 fois
+    avancer de (réponse × 2) pas
+    tourner ↺ de 90 degrés
+répéter 4 fois
+    avancer de (réponse × 3) pas
+    tourner ↺ de 90 degrés
 \`\`\`
 
-1. Que trace la boucle intérieure lors du premier passage dans la grande boucle ? Où se trouve alors le lutin, et vers où est-il orienté ?
-2. Recopier et compléter le tableau.
+1. On répond $20$. Que trace la première boucle ? Où se trouve alors le lutin, et vers où est-il orienté ?
+2. Toujours pour la réponse $20$, recopier et compléter le tableau.
 
-| Passage dans la grande boucle | $1$ | $2$ | $3$ | $4$ |
-|---|---|---|---|---|
-| Valeur de côté au début du passage | $20$ | … | … | … |
-| Longueur tracée pendant le passage (pas) | $80$ | … | … | … |
+| Boucle | $1$ | $2$ | $3$ |
+|---|---|---|---|
+| Côté du carré tracé (pas) | $20$ | … | … |
+| Longueur tracée par la boucle (pas) | $80$ | … | … |
 
 3. Dessiner à main levée la figure obtenue. Quels sont les points communs à tous les carrés ?
-4. Quelle est la valeur de la variable « côté » à la fin du script ? Calculer la longueur totale du tracé.
-5. On veut obtenir $6$ carrés emboîtés dont le plus grand a pour côté $120$ pas. Quelle modification faut-il apporter ? Calculer alors la longueur totale du tracé.`,
-      solution: `**1.** La boucle intérieure fait avancer le lutin de $20$ pas puis tourner d'un quart de tour vers la gauche, $4$ fois : elle trace un **carré de côté $20$ pas**. Le lutin a tourné de $4 \\times 90 = 360^\\circ$ et a fait le tour du carré : il est revenu en $(0 \\,;\\, 0)$, orienté vers la droite.
+4. Calculer la longueur totale du tracé pour la réponse $20$, puis l'exprimer en fonction du nombre saisi $x$.
+5. On ajoute à la fin du script une quatrième boucle, qui trace un carré dont le côté est quatre fois celui du petit carré. Écrire cette boucle, puis calculer la longueur totale du tracé si l'on répond $30$.`,
+      solution: `**1.** La première boucle fait avancer le lutin de $20$ pas puis tourner d'un quart de tour vers la gauche, $4$ fois : elle trace un **carré de côté $20$ pas**. Le lutin a tourné de $4 \\times 90 = 360^\\circ$ et a fait le tour du carré : il est revenu en $(0 \\,;\\, 0)$, orienté vers la droite.
 
-**2.** À chaque passage, côté augmente de $20$, et le lutin trace un carré de périmètre $4 \\times \\text{côté}$.
+**2.** Le côté vaut $20$, puis $2 \\times 20 = 40$, puis $3 \\times 20 = 60$, et le lutin trace à chaque fois un carré de périmètre $4 \\times \\text{côté}$.
 
-| Passage dans la grande boucle | $1$ | $2$ | $3$ | $4$ |
-|---|---|---|---|---|
-| Valeur de côté au début du passage | $20$ | $40$ | $60$ | $80$ |
-| Longueur tracée pendant le passage (pas) | $80$ | $160$ | $240$ | $320$ |
+| Boucle | $1$ | $2$ | $3$ |
+|---|---|---|---|
+| Côté du carré tracé (pas) | $20$ | $40$ | $60$ |
+| Longueur tracée par la boucle (pas) | $80$ | $160$ | $240$ |
 
-**3.** On obtient $4$ carrés de côtés $20$, $40$, $60$ et $80$ pas, emboîtés les uns dans les autres. Ils ont tous pour sommet le point $(0 \\,;\\, 0)$ (coin en bas à gauche), et leurs côtés de départ sont portés par les mêmes demi-droites (vers la droite et vers le haut).
+**3.** On obtient $3$ carrés de côtés $20$, $40$ et $60$ pas, emboîtés les uns dans les autres. Chaque boucle ramène le lutin en $(0 \\,;\\, 0)$, orienté vers la droite : les carrés ont tous pour sommet le point $(0 \\,;\\, 0)$ (coin en bas à gauche), et leurs côtés de départ sont portés par les mêmes demi-droites (vers la droite et vers le haut).
 
-**4.** Après le $4^\\text{e}$ passage, on a ajouté $20$ une dernière fois : côté vaut $80 + 20 = 100$.
-Longueur totale : $80 + 160 + 240 + 320 = 800$ pas.
+**4.** Pour la réponse $20$ : $80 + 160 + 240 = 480$ pas.
+Pour un nombre $x$, les carrés ont pour côtés $x$, $2x$ et $3x$, donc pour périmètres $4x$, $8x$ et $12x$. La longueur totale est $4x + 8x + 12x = $ **$24x$ pas**. Vérification : $24 \\times 20 = 480$.
 
-**5.** Les côtés seront $20$, $40$, $60$, $80$, $100$ et $120$ : il suffit de remplacer la grande boucle « répéter 4 fois » par « répéter **6** fois » (la boucle intérieure reste « répéter 4 fois »).
-Longueur totale : $4 \\times (20 + 40 + 60 + 80 + 100 + 120) = 4 \\times 420 = 1\\,680$ pas.`
+**5.**
+\`\`\`scratch
+répéter 4 fois
+    avancer de (réponse × 4) pas
+    tourner ↺ de 90 degrés
+\`\`\`
+Si l'on répond $30$, les côtés valent $30$, $60$, $90$ et $120$ pas.
+Longueur totale : $4 \\times (30 + 60 + 90 + 120) = 4 \\times 300 = 1\\,200$ pas.`
     },
     {
       id: "5A1-ds-13",
-      title: "Le tarif du cinéma",
-      difficulty: 1,
-      points: 4,
-      statement: `Un cinéma utilise le script suivant pour afficher le prix d'une place.
+      title: "Pour aller plus loin : le tarif du cinéma",
+      difficulty: 4,
+      points: 6,
+      statement: `**Pour aller plus loin** (notion étudiée en 4e : l'instruction conditionnelle « si … alors … sinon »).
+
+Un cinéma utilise le script suivant pour afficher le prix d'une place.
 
 \`\`\`scratch
 quand drapeau cliqué
@@ -6706,10 +7373,12 @@ $3 \\times 9 + 5 = 27 + 5 = 32$ €.
     },
     {
       id: "5A1-ds-14",
-      title: "Le nombre mystère",
-      difficulty: 2,
-      points: 5,
-      statement: `Voici le script d'un jeu : il faut deviner le nombre mystère choisi par le lutin.
+      title: "Pour aller plus loin : le nombre mystère",
+      difficulty: 4,
+      points: 6,
+      statement: `**Pour aller plus loin** (variables modifiées et instruction conditionnelle, étudiées en 4e ; boucle « répéter jusqu'à ce que », travaillée en 3e).
+
+Voici le script d'un jeu : il faut deviner le nombre mystère choisi par le lutin.
 
 \`\`\`scratch
 quand drapeau cliqué
@@ -6757,10 +7426,12 @@ dire (essais)
     },
     {
       id: "5A1-ds-15",
-      title: "La tirelire",
-      difficulty: 3,
-      points: 5,
-      statement: `Mila a $20$ € dans sa tirelire et y ajoute $15$ € chaque semaine. Elle écrit le script suivant.
+      title: "Pour aller plus loin : la tirelire",
+      difficulty: 4,
+      points: 6,
+      statement: `**Pour aller plus loin** (variables modifiées, étudiées en 4e ; boucle « répéter jusqu'à ce que », travaillée en 3e).
+
+Mila a $20$ € dans sa tirelire et y ajoute $15$ € chaque semaine. Elle écrit le script suivant.
 
 \`\`\`scratch
 quand drapeau cliqué
@@ -6799,10 +7470,12 @@ dire (semaine)
     },
     {
       id: "5A1-ds-16",
-      title: "La somme des multiples",
+      title: "Pour aller plus loin : la somme des multiples",
       difficulty: 4,
       points: 6,
-      statement: `Dans Scratch, « a modulo b » donne le reste de la division euclidienne de a par b. On considère le script suivant.
+      statement: `**Pour aller plus loin** (notions étudiées en 4e : variables modifiées, instruction conditionnelle et opérateur modulo).
+
+Dans Scratch, « a modulo b » donne le reste de la division euclidienne de a par b. On considère le script suivant.
 
 \`\`\`scratch
 quand drapeau cliqué

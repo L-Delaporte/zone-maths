@@ -113,11 +113,11 @@ window.MATHS_COURSES_L3 = {
     "keyPoints": [
       {
         "title": "1. Espaces métriques et boules",
-        "content": "• **Distance** : une application $d : E \\times E \\to \\mathbb{R}^+$ est une distance sur $E$ si :\n  1. **Séparation** : $d(x, y) = 0 \\iff x = y$.\n  2. **Symétrie** : $d(x, y) = d(y, x)$.\n  3. **Inégalité triangulaire** : $d(x, z) \\le d(x, y) + d(y, z)$.\n• Conséquence utile : $|d(x, z) - d(y, z)| \\le d(x, y)$, donc $d(\\cdot, z)$ est 1-lipschitzienne.\n• **Boules** : $B(x, r) = \\{y \\mid d(x, y) < r\\}$ (ouverte), $\\bar{B}(x, r) = \\{y \\mid d(x, y) \\le r\\}$ (fermée), $S(x, r) = \\{y \\mid d(x, y) = r\\}$.\n• **Exemples** : sur $\\mathbb{R}^n$, $d_1, d_2, d_\\infty$ issues des normes $\\|\\cdot\\|_1, \\|\\cdot\\|_2, \\|\\cdot\\|_\\infty$ ; la **distance discrète** ($d(x, y) = 1$ si $x \\neq y$) sur un ensemble quelconque ; la distance uniforme $d(f, g) = \\sup |f - g|$ sur les fonctions bornées."
+        "content": "• **Distance** : une application $d : E \\times E \\to \\mathbb{R}^+$ est une distance sur $E$ si :\n  1. **Séparation** : $d(x, y) = 0 \\iff x = y$.\n  2. **Symétrie** : $d(x, y) = d(y, x)$.\n  3. **Inégalité triangulaire** : $d(x, z) \\le d(x, y) + d(y, z)$.\n• Conséquence utile : $|d(x, z) - d(y, z)| \\le d(x, y)$, donc $d(\\cdot, z)$ est 1-lipschitzienne.\n• **Boules** : $B(x, r) = \\{y \\mid d(x, y) < r\\}$ (ouverte), $\\bar{B}(x, r) = \\{y \\mid d(x, y) \\le r\\}$ (fermée, notée aussi $B_f(x, r)$ quand on veut la distinguer de l'adhérence $\\overline{B(x, r)}$ de la boule ouverte, qui peut être plus petite), $S(x, r) = \\{y \\mid d(x, y) = r\\}$.\n• **Exemples** : sur $\\mathbb{R}^n$, $d_1, d_2, d_\\infty$ issues des normes $\\|\\cdot\\|_1, \\|\\cdot\\|_2, \\|\\cdot\\|_\\infty$ ; la **distance discrète** ($d(x, y) = 1$ si $x \\neq y$) sur un ensemble quelconque ; la distance uniforme $d(f, g) = \\sup |f - g|$ sur les fonctions bornées."
       },
       {
         "title": "2. Ouverts, fermés, adhérence, intérieur",
-        "content": "• **Ouvert** : $U \\subset E$ est ouvert si $\\forall x \\in U, \\exists r > 0, \\; B(x, r) \\subset U$. Toute boule ouverte est un ouvert (si $y \\in B(x, r)$, alors $B(y, r - d(x,y)) \\subset B(x, r)$). Toute réunion d'ouverts et toute intersection **finie** d'ouverts est un ouvert.\n• **Fermé** : $F$ est fermé si $E \\setminus F$ est ouvert. **Caractérisation séquentielle** : $F$ est fermé si et seulement si toute suite d'éléments de $F$ qui converge dans $E$ a sa limite dans $F$.\n• **Intérieur** $\\mathring{A}$ : plus grand ouvert contenu dans $A$. **Adhérence** $\\bar{A}$ : plus petit fermé contenant $A$ ;\n$$\\bar{A} = \\{x \\in E \\mid \\forall r > 0, \\; B(x, r) \\cap A \\neq \\emptyset\\} = \\{x \\in E \\mid \\exists (a_n) \\in A^{\\mathbb{N}}, \\; a_n \\to x\\}$$\n• **Frontière** : $\\partial A = \\bar{A} \\setminus \\mathring{A}$. **Densité** : $A$ est dense si $\\bar{A} = E$ (ex. $\\mathbb{Q}$ dans $\\mathbb{R}$).\n• **Exemple** : $[0 ; 1[$ n'est ni ouvert ni fermé dans $\\mathbb{R}$ ; $\\mathbb{R}$ et $\\emptyset$ sont à la fois ouverts et fermés."
+        "content": "• **Ouvert** : $U \\subset E$ est ouvert si $\\forall x \\in U, \\exists r > 0, \\; B(x, r) \\subset U$. Toute boule ouverte est un ouvert (si $y \\in B(x, r)$, alors $B(y, r - d(x,y)) \\subset B(x, r)$). Toute réunion d'ouverts et toute intersection **finie** d'ouverts est un ouvert.\n• **Fermé** : $F$ est fermé si $E \\setminus F$ est ouvert. **Caractérisation séquentielle** : $F$ est fermé si et seulement si toute suite d'éléments de $F$ qui converge dans $E$ a sa limite dans $F$.\n• **Intérieur** $\\mathring{A}$ : plus grand ouvert contenu dans $A$. **Adhérence** $\\bar{A}$ : plus petit fermé contenant $A$ ;\n$$\\bar{A} = \\{x \\in E \\mid \\forall r > 0, \\; B(x, r) \\cap A \\neq \\emptyset\\} = \\{x \\in E \\mid \\exists (a_n) \\in A^{\\mathbb{N}}, \\; a_n \\to x\\}$$\n• **Frontière** : $\\partial A = \\bar{A} \\setminus \\mathring{A}$ (notée aussi $\\mathrm{Fr}(A)$). **Densité** : $A$ est dense si $\\bar{A} = E$ (ex. $\\mathbb{Q}$ dans $\\mathbb{R}$).\n• **Point isolé** : $a \\in A$ est un point isolé de $A$ s'il existe $r > 0$ tel que $B(a, r) \\cap A = \\{a\\}$. Un point isolé de $A$ est adhérent à $A$ ; dans $\\mathbb{R}$, il n'est jamais intérieur à $A$. Par exemple, tout point de $\\left\\{\\frac{1}{n} \\; ; \\; n \\in \\mathbb{N}^*\\right\\}$ est isolé dans cet ensemble.\n• **Exemple** : $[0 ; 1[$ n'est ni ouvert ni fermé dans $\\mathbb{R}$ ; $\\mathbb{R}$ et $\\emptyset$ sont à la fois ouverts et fermés."
       },
       {
         "title": "3. Suites, suites de Cauchy et complétude",
@@ -162,13 +162,17 @@ window.MATHS_COURSES_L3 = {
       "En dimension infinie, deux normes ne sont pas nécessairement équivalentes : $\\|\\cdot\\|_1$ et $\\|\\cdot\\|_\\infty$ sur $\\mathcal{C}([0 ; 1])$ (rapport $n+1$ pour $t \\mapsto t^n$).",
       "L'image directe d'un ouvert par une application continue n'est pas nécessairement ouverte : $x \\mapsto x^2$ envoie $]-1 ; 1[$ sur $[0 ; 1[$.",
       "« Fermé » n'est pas le contraire d'« ouvert » : $[0 ; 1[$ n'est ni l'un ni l'autre dans $\\mathbb{R}$, et $\\mathbb{R}$ est les deux.",
-      "Dans un espace métrique quelconque, la boule fermée $\\bar{B}(x, r)$ peut être strictement plus grande que l'adhérence de $B(x, r)$ : pour la distance discrète, $B(x, 1) = \\{x\\}$ est fermée, alors que $\\bar{B}(x, 1) = E$. L'égalité est vraie dans un espace normé.",
+      "Dans un espace métrique quelconque, la boule fermée $B_f(x, r) = \\{y \\mid d(x, y) \\le r\\}$ peut être strictement plus grande que l'adhérence $\\overline{B(x, r)}$ de la boule ouverte : pour la distance discrète sur un ensemble $E$ d'au moins deux points, $B(x, 1) = \\{x\\}$ est fermée, donc $\\overline{B(x, 1)} = \\{x\\}$, alors que $B_f(x, 1) = E$. L'égalité $\\overline{B(x, r)} = B_f(x, r)$ est vraie dans un espace normé non réduit à $\\{0\\}$.",
       "Le caractère de Cauchy dépend de la distance, pas seulement de la topologie : pour $d(x, y) = |\\arctan x - \\arctan y|$ sur $\\mathbb{R}$ (même topologie que la distance usuelle), la suite $(n)$ est de Cauchy mais ne converge pas."
     ],
     "flashcards": [
       {
         "q": "Caractérisation de la continuité par les ouverts ?",
         "a": "$f : E \\to F$ est continue si et seulement si l'image réciproque de tout ouvert de $F$ est un ouvert de $E$."
+      },
+      {
+        "q": "Qu'est-ce qu'un point isolé de $A$ ?",
+        "a": "Un point $a \\in A$ tel qu'il existe $r > 0$ vérifiant $B(a, r) \\cap A = \\{a\\}$."
       },
       {
         "q": "Énoncer le théorème d'équivalence des normes.",
@@ -199,16 +203,17 @@ window.MATHS_COURSES_L3 = {
       "Caractériser les parties compactes d'un espace métrique par la propriété de Borel-Lebesgue et par celle de Bolzano-Weierstrass.",
       "Identifier les compacts des espaces normés de dimension finie et connaître le théorème de Riesz.",
       "Démontrer que l'image continue d'un compact est compacte et le théorème de Heine ; en déduire l'équivalence des normes en dimension finie.",
-      "Définir la connexité et la connexité par arcs, et énoncer le théorème des valeurs intermédiaires généralisé."
+      "Définir la connexité et la connexité par arcs, et énoncer le théorème des valeurs intermédiaires généralisé.",
+      "Définir les composantes connexes, savoir qu'elles sont fermées, et démontrer que l'adhérence d'une partie connexe est connexe."
     ],
     "keyPoints": [
       {
         "title": "1. Compacité : Borel-Lebesgue et Bolzano-Weierstrass",
-        "content": "• **Borel-Lebesgue** : un espace métrique $K$ est **compact** si de tout recouvrement de $K$ par des ouverts on peut extraire un **sous-recouvrement fini**.\n• **Bolzano-Weierstrass** : dans un espace **métrique**, $K$ est compact si et seulement si toute suite d'éléments de $K$ admet une sous-suite convergente dans $K$.\n• **Propriétés** :\n  1. Une partie compacte d'un espace métrique est **fermée et bornée**.\n  2. Une partie fermée d'un compact est compacte.\n  3. Un produit fini de compacts est compact (extractions successives).\n  4. Une suite d'un compact qui a une unique valeur d'adhérence converge.\n• **Exemples** : $[a ; b]$ est compact ; $]0 ; 1]$ ne l'est pas (la suite $(1/n)$ n'a pas de valeur d'adhérence dans $]0 ; 1]$) ; $\\{0\\} \\cup \\{1/n \\mid n \\ge 1\\}$ est compact."
+        "content": "• **Propriété de Borel-Lebesgue** : un espace métrique $K$ est **compact** si de tout recouvrement de $K$ par des ouverts on peut extraire un **sous-recouvrement fini**.\n• **Bolzano-Weierstrass** : dans un espace **métrique**, $K$ est compact si et seulement si toute suite d'éléments de $K$ admet une sous-suite convergente dans $K$.\n• **Propriétés** :\n  1. Une partie compacte d'un espace métrique est **fermée et bornée**.\n  2. Une partie fermée d'un compact est compacte.\n  3. Un produit fini de compacts est compact (extractions successives).\n  4. Une suite d'un compact qui a une unique valeur d'adhérence converge.\n• **Exemples** : $[a ; b]$ est compact ; $]0 ; 1]$ ne l'est pas (la suite $(1/n)$ n'a pas de valeur d'adhérence dans $]0 ; 1]$) ; $\\{0\\} \\cup \\{1/n \\mid n \\ge 1\\}$ est compact."
       },
       {
         "title": "2. Compacts en dimension finie et théorème de Riesz",
-        "content": "• **Compacts de $\\mathbb{R}^n$** : une partie de $\\mathbb{R}^n$ est compacte si et seulement si elle est **fermée et bornée** (une suite bornée de $\\mathbb{R}^n$ a une sous-suite convergente, par extractions coordonnée par coordonnée).\n• Le résultat s'étend à tout espace normé de dimension finie, une fois l'équivalence des normes établie (point 5).\n• **Théorème de Riesz** : un espace vectoriel normé est de dimension finie si et seulement si sa boule unité fermée est compacte.\n• **Conséquence** : en dimension infinie, « fermé et borné » n'implique pas « compact ». Par exemple dans $\\ell^2$, la suite $(e_n)$ de la base canonique est dans la boule unité mais $\\|e_p - e_q\\| = \\sqrt{2}$ pour $p \\neq q$ : aucune sous-suite n'est de Cauchy."
+        "content": "• **Théorème de Heine-Borel** : une partie de $\\mathbb{R}^n$ est compacte si et seulement si elle est **fermée et bornée** (une suite bornée de $\\mathbb{R}^n$ a une sous-suite convergente, par extractions coordonnée par coordonnée).\n• Le résultat s'étend à tout espace normé de dimension finie, une fois l'équivalence des normes établie (point 5).\n• **Théorème de Riesz** : un espace vectoriel normé est de dimension finie si et seulement si sa boule unité fermée est compacte.\n• **Conséquence** : en dimension infinie, « fermé et borné » n'implique pas « compact ». Par exemple dans $\\ell^2$, la suite $(e_n)$ de la base canonique est dans la boule unité mais $\\|e_p - e_q\\| = \\sqrt{2}$ pour $p \\neq q$ : aucune sous-suite n'est de Cauchy."
       },
       {
         "title": "3. Fonctions continues sur un compact",
@@ -225,6 +230,10 @@ window.MATHS_COURSES_L3 = {
       {
         "title": "6. Connexité et connexité par arcs",
         "content": "• **Connexité** : $E$ est **connexe** s'il n'est pas réunion de deux ouverts disjoints non vides ; de façon équivalente, les seules parties à la fois ouvertes et fermées sont $\\emptyset$ et $E$, ou encore toute fonction continue $E \\to \\{0, 1\\}$ est constante.\n• **Parties connexes de $\\mathbb{R}$** : ce sont exactement les **intervalles**.\n• **Image continue** : l'image d'un connexe par une application continue est connexe. **TVI généralisé** : si $E$ est connexe et $f : E \\to \\mathbb{R}$ continue, $f(E)$ est un intervalle.\n• **Connexité par arcs** : pour tous $x, y \\in E$, il existe $\\gamma : [0 ; 1] \\to E$ continue avec $\\gamma(0) = x$ et $\\gamma(1) = y$. Toute partie convexe (ou étoilée) d'un espace normé est connexe par arcs.\n• **Hiérarchie** : connexe par arcs $\\implies$ connexe. La réciproque est fausse en général (adhérence du graphe de $x \\mapsto \\sin(1/x)$ sur $]0 ; 1]$), mais vraie pour les **ouverts** d'un espace normé.\n• **Réunion** : une réunion de connexes ayant un point commun est connexe."
+      },
+      {
+        "title": "7. Composantes connexes et adhérence d'un connexe",
+        "content": "**Lemme (adhérence d'un connexe).** Soient $A$ une partie connexe d'un espace métrique $E$ et $B$ une partie telle que $A \\subset B \\subset \\overline{A}$. Alors $B$ est connexe ; en particulier $\\overline{A}$ est connexe.\n\n**Démonstration.** Soit $f : B \\to \\{0, 1\\}$ continue. Sa restriction à $A$ est continue sur un connexe, donc constante, de valeur $c$. Si $b \\in B$, alors $b \\in \\overline{A}$ : il existe une suite $(a_n)$ de $A$ qui converge vers $b$, et par continuité de $f$ en $b$, $f(b) = \\lim f(a_n) = c$. Ainsi $f$ est constante sur $B$, donc $B$ est connexe. $\\square$\n\n• **Relation** : sur $E$, on pose $x \\sim y$ s'il existe une partie connexe de $E$ contenant $x$ et $y$. C'est une relation d'équivalence : réflexive car $\\{x\\}$ est connexe, symétrique par construction, transitive car si $C$ contient $x, y$ et $C'$ contient $y, z$, alors $C \\cup C'$ est connexe (point commun $y$).\n• **Composantes connexes** : ce sont les classes d'équivalence de $\\sim$. La composante $C(x)$ est la réunion des parties connexes contenant $x$ : c'est le **plus grand connexe** contenant $x$. Les composantes forment une partition de $E$.\n• **Fermeture** : toute composante connexe est **fermée** dans $E$. En effet, $\\overline{C(x)}$ est connexe d'après le lemme et contient $x$, donc $\\overline{C(x)} \\subset C(x)$.\n• **Elles ne sont pas toujours ouvertes** : dans $\\mathbb{Q}$, les composantes connexes sont les singletons, qui ne sont pas ouverts dans $\\mathbb{Q}$.\n• **Ouverts d'un espace normé** : les composantes connexes d'un ouvert $U$ sont ouvertes, car une boule centrée en $x$ et contenue dans $U$ est connexe, donc incluse dans $C(x)$.\n• **Cas de $\\mathbb{R}$** : les composantes d'une partie de $\\mathbb{R}$ sont ses intervalles maximaux. Celles d'un ouvert de $\\mathbb{R}$ sont des intervalles ouverts disjoints, donc en nombre au plus dénombrable (chacun contient un rationnel).\n• **Invariance** : un homéomorphisme envoie les composantes connexes sur les composantes connexes ; deux espaces homéomorphes en ont donc le même nombre."
       }
     ],
     "methods": [
@@ -247,6 +256,16 @@ window.MATHS_COURSES_L3 = {
           "**Étape 3 (Disjonction)** : soient $x, y$ avec $|x - y| < \\delta$. Si les deux sont dans $[-A-1 ; A+1]$, l'étape 2 conclut. Sinon, par exemple $x > A + 1$ ; comme $|x - y| < 1$, $y > A$, et $|f(x) - f(y)| \\le |f(x) - \\ell| + |\\ell - f(y)| < \\varepsilon$. Le cas $x < -A - 1$ est symétrique.",
           "**Conclusion** : $\\forall \\varepsilon > 0, \\exists \\delta > 0, \\; |x - y| < \\delta \\implies |f(x) - f(y)| < \\varepsilon$ : $f$ est uniformément continue sur $\\mathbb{R}$."
         ]
+      },
+      {
+        "title": "Méthode : Compter les composantes connexes d'une partie",
+        "example": "Déterminer le nombre de composantes connexes de $A = \\{(x, y) \\in \\mathbb{R}^2 : x^2 \\neq 1\\}$.",
+        "steps": [
+          "**Étape 1 (Séparer)** : la fonction continue $(x, y) \\mapsto x$ évite $-1$ et $1$ sur $A$. L'image d'une partie connexe de $A$ est un intervalle qui ne contient ni $-1$ ni $1$ : toute partie connexe est donc contenue dans l'une des trois bandes $\\{x < -1\\}$, $\\{-1 < x < 1\\}$, $\\{x > 1\\}$.",
+          "**Étape 2 (Construire des chemins)** : chaque bande est convexe, donc connexe par arcs, donc connexe.",
+          "**Étape 3 (Identifier)** : chaque bande est un connexe de $A$ et aucun connexe de $A$ n'en déborde : c'est une composante connexe.",
+          "**Conclusion** : $A$ a $3$ composantes connexes. En général, on sépare à l'aide du signe de fonctions continues, puis on montre la connexité des morceaux (convexité, partie étoilée, côté d'un graphe, image continue d'un connexe)."
+        ]
       }
     ],
     "traps": [
@@ -254,7 +273,9 @@ window.MATHS_COURSES_L3 = {
       "La continuité uniforme est une propriété globale : $x \\mapsto x^2$ est continue sur $\\mathbb{R}$ mais pas uniformément continue (pour $x_n = n$ et $y_n = n + \\frac{1}{n}$, $y_n - x_n \\to 0$ mais $y_n^2 - x_n^2 \\to 2$) ; elle l'est sur tout segment par Heine.",
       "Sur une partie bornée non fermée, une fonction continue peut être non bornée : $x \\mapsto 1/x$ sur $]0 ; 1]$. L'hypothèse de compacité est indispensable dans le théorème des bornes atteintes.",
       "Connexe n'implique pas connexe par arcs : l'adhérence du graphe de $x \\mapsto \\sin(1/x)$ sur $]0 ; 1]$ est connexe, mais aucun chemin continu ne relie $(0, 0)$ à un point du graphe.",
-      "Une réunion de deux connexes n'est pas connexe en général ($[0 ; 1] \\cup [2 ; 3]$) ; il faut par exemple qu'ils aient un point commun."
+      "Une réunion de deux connexes n'est pas connexe en général ($[0 ; 1] \\cup [2 ; 3]$) ; il faut par exemple qu'ils aient un point commun.",
+      "Une composante connexe est toujours fermée, mais pas forcément ouverte : dans $\\mathbb{Q}$, les composantes sont les singletons. Elle n'est ouverte à coup sûr que dans un ouvert d'un espace normé (ou plus généralement dans un espace localement connexe).",
+      "Ne pas confondre les noms : la propriété de Borel-Lebesgue est la définition de la compacité par les recouvrements ; le théorème de Heine-Borel est le critère « fermé et borné » de $\\mathbb{R}^n$, qui est faux en dimension infinie."
     ],
     "flashcards": [
       {
@@ -267,7 +288,7 @@ window.MATHS_COURSES_L3 = {
       },
       {
         "q": "Quels sont les compacts de $\\mathbb{R}^n$ ?",
-        "a": "Les parties fermées et bornées (et plus généralement dans tout espace normé de dimension finie)."
+        "a": "Les parties fermées et bornées : c'est le théorème de Heine-Borel (le résultat s'étend à tout espace normé de dimension finie)."
       },
       {
         "q": "Pourquoi l'image continue d'un compact est-elle compacte ?",
@@ -280,6 +301,14 @@ window.MATHS_COURSES_L3 = {
       {
         "q": "Quelles sont les parties connexes de $\\mathbb{R}$ ?",
         "a": "Les intervalles."
+      },
+      {
+        "q": "Qu'est-ce qu'une composante connexe ?",
+        "a": "Une classe d'équivalence de la relation « $x$ et $y$ sont dans une même partie connexe » ; la composante de $x$ est le plus grand connexe contenant $x$."
+      },
+      {
+        "q": "Pourquoi une composante connexe est-elle fermée ?",
+        "a": "Parce que l'adhérence d'un connexe est connexe : $\\overline{C(x)}$ est un connexe contenant $x$, donc incluse dans $C(x)$."
       }
     ]
   },
@@ -296,7 +325,7 @@ window.MATHS_COURSES_L3 = {
     "keyPoints": [
       {
         "title": "1. Tribus et mesures positives",
-        "content": "• **Tribu** : $\\mathcal{T} \\subset \\mathcal{P}(X)$ est une **tribu** si $X \\in \\mathcal{T}$, si $\\mathcal{T}$ est stable par complémentaire et par réunion dénombrable (donc aussi par intersection dénombrable).\n• **Tribu borélienne** $\\mathcal{B}(X)$ : tribu engendrée par les ouverts de $X$. Sur $\\mathbb{R}$, elle est aussi engendrée par les intervalles $]a ; b]$.\n• **Mesure positive** : $\\mu : \\mathcal{T} \\to [0 ; +\\infty]$ avec $\\mu(\\emptyset) = 0$ et, pour toute suite $(A_n)$ d'éléments deux à deux disjoints, $\\mu\\left(\\bigcup_n A_n\\right) = \\sum_n \\mu(A_n)$ ($\\sigma$-additivité).\n• **Propriétés** : monotonie ; sous-additivité $\\mu\\left(\\bigcup A_n\\right) \\le \\sum \\mu(A_n)$ ; **continuité croissante** : si $A_n \\subset A_{n+1}$, $\\mu\\left(\\bigcup A_n\\right) = \\lim \\mu(A_n)$ ; **continuité décroissante** : si $A_{n+1} \\subset A_n$ **et** $\\mu(A_0) < +\\infty$, $\\mu\\left(\\bigcap A_n\\right) = \\lim \\mu(A_n)$.\n• **Mesure de Lebesgue** $\\lambda$ : unique mesure sur $\\mathcal{B}(\\mathbb{R})$ telle que $\\lambda(]a ; b]) = b - a$ pour $a \\le b$ ; elle est invariante par translation. Toute partie dénombrable est $\\lambda$-négligeable, par exemple $\\lambda(\\mathbb{Q}) = 0$.\n• **Presque partout** : une propriété est vraie $\\mu$-p.p. si elle est vraie hors d'un ensemble de mesure nulle."
+        "content": "• **Tribu** : $\\mathcal{T} \\subset \\mathcal{P}(X)$ est une **tribu** si $X \\in \\mathcal{T}$, si $\\mathcal{T}$ est stable par complémentaire et par réunion dénombrable (donc aussi par intersection dénombrable).\n• **Tribu borélienne** $\\mathcal{B}(X)$ : tribu engendrée par les ouverts de $X$. Sur $\\mathbb{R}$, elle est aussi engendrée par les intervalles $]a ; b]$.\n• **Mesure positive** : $\\mu : \\mathcal{T} \\to [0 ; +\\infty]$ avec $\\mu(\\emptyset) = 0$ et, pour toute suite $(A_n)$ d'éléments deux à deux disjoints, $\\mu\\left(\\bigcup_n A_n\\right) = \\sum_n \\mu(A_n)$ ($\\sigma$-additivité).\n• **Propriétés** : monotonie ; sous-additivité $\\mu\\left(\\bigcup A_n\\right) \\le \\sum \\mu(A_n)$ ; **continuité croissante** : si $A_n \\subset A_{n+1}$, $\\mu\\left(\\bigcup A_n\\right) = \\lim \\mu(A_n)$ ; **continuité décroissante** : si $A_{n+1} \\subset A_n$ **et** $\\mu(A_0) < +\\infty$, $\\mu\\left(\\bigcap A_n\\right) = \\lim \\mu(A_n)$.\n• **Mesure de Lebesgue** $\\lambda$ : unique mesure sur $\\mathcal{B}(\\mathbb{R})$ telle que $\\lambda(]a ; b]) = b - a$ pour $a \\le b$ ; elle est invariante par translation. Toute partie dénombrable est $\\lambda$-négligeable, par exemple $\\lambda(\\mathbb{Q}) = 0$.\n• **Tribu de Lebesgue** $\\mathcal{L}$ : c'est la **complétée** de $\\mathcal{B}(\\mathbb{R})$ pour $\\lambda$, formée des parties $A \\cup N$ avec $A$ borélien et $N$ contenue dans un borélien $\\lambda$-négligeable. La mesure $\\lambda$ se prolonge de façon unique à $\\mathcal{L}$ par $\\lambda(A \\cup N) = \\lambda(A)$ et reste invariante par translation. On a $\\mathcal{B}(\\mathbb{R}) \\subsetneq \\mathcal{L} \\subsetneq \\mathcal{P}(\\mathbb{R})$, la seconde inclusion stricte reposant sur l'axiome du choix (ensemble de Vitali).\n• **Presque partout** : une propriété est vraie $\\mu$-p.p. si elle est vraie hors d'un ensemble de mesure nulle."
       },
       {
         "title": "2. Fonctions mesurables et construction de l'intégrale",
@@ -304,7 +333,7 @@ window.MATHS_COURSES_L3 = {
       },
       {
         "title": "3. Théorèmes de convergence",
-        "content": "• **Convergence monotone (Beppo Levi)** : si $(f_n)$ est une suite **croissante** de fonctions mesurables **positives**, de limite simple $f$, alors\n$$\\int_X f_n \\, d\\mu \\xrightarrow[n \\to \\infty]{} \\int_X f \\, d\\mu$$\nCorollaire (Tonelli pour les séries) : pour $g_n \\ge 0$ mesurables, $\\int \\sum_n g_n \\, d\\mu = \\sum_n \\int g_n \\, d\\mu$.\n• **Lemme de Fatou** : pour toute suite de fonctions mesurables positives, $\\int \\liminf_n f_n \\, d\\mu \\le \\liminf_n \\int f_n \\, d\\mu$.\n• **Convergence dominée (Lebesgue)** : soit $(f_n)$ une suite de fonctions mesurables convergeant $\\mu$-p.p. vers $f$. S'il existe $g$ **intégrable**, **indépendante de $n$**, telle que $|f_n| \\le g$ $\\mu$-p.p. pour tout $n$, alors $f$ est intégrable et\n$$\\int_X |f_n - f| \\, d\\mu \\to 0, \\quad \\text{donc} \\quad \\int_X f_n \\, d\\mu \\to \\int_X f \\, d\\mu$$\n• **Intégrales à paramètre** : soit $F(x) = \\int_\\Omega h(x, t) \\, d\\mu(t)$, $x \\in I$.\n  1. **Continuité** : si $x \\mapsto h(x, t)$ est continue pour presque tout $t$ et $|h(x, t)| \\le g(t)$ avec $g$ intégrable (pour tout $x$), alors $F$ est continue.\n  2. **Dérivation** : si de plus $I$ est un intervalle, $h(\\cdot, t)$ est dérivable et $|\\partial_x h(x, t)| \\le g_1(t)$ avec $g_1$ intégrable, alors $F$ est dérivable et $F'(x) = \\int_\\Omega \\partial_x h(x, t) \\, d\\mu(t)$."
+        "content": "• **Convergence monotone (Beppo Levi)** : si $(f_n)$ est une suite **croissante** de fonctions mesurables **positives**, de limite simple $f$, alors\n$$\\int_X f_n \\, d\\mu \\xrightarrow[n \\to \\infty]{} \\int_X f \\, d\\mu$$\nCorollaire (Tonelli pour les séries) : pour $g_n \\ge 0$ mesurables, $\\int \\sum_n g_n \\, d\\mu = \\sum_n \\int g_n \\, d\\mu$.\n• **Lemme de Fatou** : pour toute suite de fonctions mesurables positives, $\\int \\liminf_n f_n \\, d\\mu \\le \\liminf_n \\int f_n \\, d\\mu$.\n• **Convergence dominée (Lebesgue)** : soit $(f_n)$ une suite de fonctions mesurables convergeant $\\mu$-p.p. vers une fonction **mesurable** $f$. S'il existe $g$ **intégrable**, **indépendante de $n$**, telle que $|f_n| \\le g$ $\\mu$-p.p. pour tout $n$, alors $f$ est intégrable et\n$$\\int_X |f_n - f| \\, d\\mu \\to 0, \\quad \\text{donc} \\quad \\int_X f_n \\, d\\mu \\to \\int_X f \\, d\\mu$$\n• **Intégrales à paramètre** : soit $F(x) = \\int_\\Omega h(x, t) \\, d\\mu(t)$, $x \\in I$, où, pour tout $x \\in I$, $t \\mapsto h(x, t)$ est **mesurable**.\n  1. **Continuité** : si $x \\mapsto h(x, t)$ est continue pour presque tout $t$ et $|h(x, t)| \\le g(t)$ avec $g$ intégrable (pour tout $x$), alors $F$ est continue.\n  2. **Dérivation** : si de plus $I$ est un intervalle, $h(\\cdot, t)$ est dérivable et $|\\partial_x h(x, t)| \\le g_1(t)$ avec $g_1$ intégrable, alors $F$ est dérivable et $F'(x) = \\int_\\Omega \\partial_x h(x, t) \\, d\\mu(t)$."
       },
       {
         "title": "4. Démonstrations : convergence monotone et inégalité de Markov",
@@ -351,7 +380,7 @@ window.MATHS_COURSES_L3 = {
     "flashcards": [
       {
         "q": "Énoncer le théorème de convergence dominée.",
-        "a": "Si $f_n \\to f$ p.p. et $|f_n| \\le g$ p.p. pour tout $n$ avec $g$ intégrable indépendante de $n$, alors $f$ est intégrable et $\\int |f_n - f| \\to 0$, donc $\\int f_n \\to \\int f$."
+        "a": "Si les $f_n$ et $f$ sont mesurables, si $f_n \\to f$ p.p. et si $|f_n| \\le g$ p.p. pour tout $n$ avec $g$ intégrable indépendante de $n$, alors $f$ est intégrable et $\\int |f_n - f| \\to 0$, donc $\\int f_n \\to \\int f$."
       },
       {
         "q": "Énoncer le lemme de Fatou.",
@@ -382,7 +411,9 @@ window.MATHS_COURSES_L3 = {
       "Définir une action de groupe sur un ensemble et le morphisme associé vers le groupe des permutations.",
       "Définir orbites et stabilisateurs, et démontrer la relation orbite-stabilisateur.",
       "Établir la formule des classes, en déduire que le centre d'un $p$-groupe non trivial est non trivial, et utiliser la formule de Burnside.",
-      "Énoncer et appliquer les théorèmes de Sylow pour étudier les groupes finis d'ordre donné."
+      "Énoncer et appliquer les théorèmes de Sylow pour étudier les groupes finis d'ordre donné.",
+      "Décrire le groupe diédral comme groupe des isométries préservant un polygone régulier, et exploiter son action sur les sommets.",
+      "Relire le groupe symétrique à l'aide des actions : théorème de Cayley, classes de conjugaison et types de cycles, groupe alterné."
     ],
     "keyPoints": [
       {
@@ -404,6 +435,14 @@ window.MATHS_COURSES_L3 = {
       {
         "title": "5. Théorèmes de Sylow",
         "content": "Soit $G$ un groupe fini d'ordre $p^\\alpha m$ avec $p$ premier, $\\alpha \\ge 1$ et $p \\nmid m$.\n• **Définition** : un **$p$-Sylow** de $G$ est un sous-groupe d'ordre $p^\\alpha$.\n• **Théorème 1 (existence)** : $G$ possède au moins un $p$-Sylow.\n• **Théorème 2 (conjugaison)** : tout $p$-sous-groupe de $G$ est contenu dans un $p$-Sylow, et deux $p$-Sylow sont conjugués : $P_2 = g P_1 g^{-1}$ pour un $g \\in G$.\n• **Théorème 3 (dénombrement)** : le nombre $n_p$ de $p$-Sylow vérifie\n$$n_p \\equiv 1 \\pmod p \\quad \\text{et} \\quad n_p \\mid m$$\nDe plus $n_p = [G : N_G(P)]$ où $N_G(P) = \\{g \\mid gPg^{-1} = P\\}$ est le normalisateur.\n• **Corollaire** : un $p$-Sylow $P$ est distingué dans $G$ si et seulement si $n_p = 1$.\n• **Théorème de Cauchy** : si $p$ divise $|G|$, $G$ possède un élément d'ordre $p$ (prendre un élément $g \\neq e$ d'un $p$-Sylow, d'ordre $p^k$, et considérer $g^{p^{k-1}}$).\n• **Simplicité** : un groupe est **simple** s'il n'a pas d'autre sous-groupe distingué que $\\{e\\}$ et lui-même. Les théorèmes de Sylow permettent souvent de montrer qu'un groupe d'ordre donné n'est pas simple."
+      },
+      {
+        "title": "6. Groupes laissant invariante une partie : le groupe diédral",
+        "content": "• **Stabilisateur d'une partie** : si $G$ agit sur $X$ et si $A \\subset X$, l'ensemble $G_A = \\{g \\in G \\mid g \\cdot A = A\\}$ est un sous-groupe de $G$, qui agit sur $A$. Exemple central : le **groupe des isométries d'une partie** $A$ du plan ou de l'espace euclidien, formé des isométries $f$ telles que $f(A) = A$.\n• **Groupe diédral** : pour $n \\ge 3$, $D_n$ est le groupe des isométries du plan qui préservent un polygone régulier à $n$ côtés, de centre $O$ et de sommets $A_0, \\dots, A_{n-1}$. Toute isométrie de $D_n$ fixe $O$, qui est l'isobarycentre des sommets. On note $r$ la rotation de centre $O$ et d'angle $\\frac{2\\pi}{n}$, et $s$ la réflexion d'axe $(OA_0)$.\n• **Ordre** : $D_n$ agit transitivement et fidèlement sur les $n$ sommets (une isométrie du plan qui fixe trois points non alignés est l'identité). Le stabilisateur de $A_0$ est $\\{\\text{Id}, s\\}$, car une isométrie qui fixe $O$ et $A_0$ est l'identité ou la réflexion d'axe $(OA_0)$. La relation orbite-stabilisateur donne $|D_n| = n \\times 2 = 2n$, et\n$$D_n = \\{r^k, \\; r^k s \\mid 0 \\le k \\le n-1\\}, \\qquad r^n = s^2 = \\text{Id}, \\qquad s r s = r^{-1}$$\nLes $r^k$ sont les $n$ rotations (dont l'identité), les $r^k s$ sont les $n$ réflexions.\n• **Structure** : $\\langle r \\rangle \\simeq \\mathbb{Z}/n\\mathbb{Z}$ est distingué d'indice $2$ ; $D_n$ n'est pas abélien, car $s r s^{-1} = r^{-1} \\neq r$ pour $n \\ge 3$ ; l'action sur les sommets plonge $D_n$ dans $\\mathfrak{S}_n$.\n• **Éléments remarquables** : $r^k$ est d'ordre $\\frac{n}{n \\wedge k}$ et les réflexions sont d'ordre $2$. Le centre de $D_n$ est $\\{\\text{Id}\\}$ si $n$ est impair, $\\{\\text{Id}, r^{n/2}\\}$ si $n$ est pair ($r^{n/2}$ étant alors la symétrie centrale de centre $O$). Si $n$ est impair, chaque axe de symétrie passe par un sommet et par le milieu du côté opposé ; si $n$ est pair, la moitié des axes passe par deux sommets opposés, l'autre moitié par les milieux de deux côtés opposés.\n• **Exemples** : $D_3 \\simeq \\mathfrak{S}_3$ (le plongement est bijectif, les deux groupes ayant $6$ éléments) ; $D_4$, d'ordre $8$, s'identifie à un $2$-Sylow de $\\mathfrak{S}_4$ ; le groupe des isométries d'un tétraèdre régulier, qui permute ses quatre sommets, est isomorphe à $\\mathfrak{S}_4$."
+      },
+      {
+        "title": "7. Le groupe symétrique vu par les actions",
+        "content": "Les définitions de base (cycles, décomposition en cycles à supports disjoints, signature) sont données au chapitre L3-GRP1, paragraphe 7. On les relit ici avec le langage des actions.\n• **Théorème de Cayley** : un groupe $G$ agit sur lui-même par translation à gauche, $g \\cdot x = gx$. Le morphisme associé $G \\to \\mathfrak{S}(G)$ est injectif (si $gx = x$ pour tout $x$, alors $g = e$). Tout groupe fini d'ordre $n$ est donc isomorphe à un sous-groupe de $\\mathfrak{S}_n$.\n• **Cycles et orbites** : pour $\\sigma \\in \\mathfrak{S}_n$, le sous-groupe $\\langle \\sigma \\rangle$ agit sur $\\{1, \\dots, n\\}$. Ses orbites sont exactement les supports des cycles de la décomposition de $\\sigma$, les points fixes formant les orbites à un élément. L'ordre de $\\sigma$ est le PPCM des longueurs de ses cycles.\n• **Conjugaison** : pour $\\tau \\in \\mathfrak{S}_n$, $\\tau (a_1\\, a_2\\, \\dots\\, a_k) \\tau^{-1} = (\\tau(a_1)\\, \\tau(a_2)\\, \\dots\\, \\tau(a_k))$. Deux permutations sont donc conjuguées si et seulement si elles ont le même **type** (la liste des longueurs de leurs cycles). Les classes de conjugaison, orbites de l'action de $\\mathfrak{S}_n$ sur lui-même par conjugaison, correspondent aux partitions de l'entier $n$.\n• **Exemple : formule des classes de $\\mathfrak{S}_4$** : l'identité ($1$ élément), les transpositions ($6$), les $3$-cycles ($8$), les $4$-cycles ($6$) et les doubles transpositions ($3$) : $1 + 6 + 8 + 6 + 3 = 24$. Le nombre de $k$-cycles de $\\mathfrak{S}_n$ est $\\frac{n!}{k\\,(n - k)!}$, et par la relation orbite-stabilisateur, le centralisateur d'un $k$-cycle a pour ordre $k\\,(n - k)!$.\n• **Groupe alterné** : $\\mathfrak{A}_n = \\ker \\varepsilon$ est distingué, d'indice $2$ pour $n \\ge 2$. Pour $n \\ge 3$, il est engendré par les $3$-cycles. On admet que $\\mathfrak{A}_n$ est simple pour $n \\ge 5$. En revanche, la réunion de l'identité et des trois doubles transpositions est un sous-groupe distingué de $\\mathfrak{S}_4$ (réunion de classes de conjugaison), isomorphe à $(\\mathbb{Z}/2\\mathbb{Z})^2$ : $\\mathfrak{A}_4$ n'est pas simple."
       }
     ],
     "methods": [
@@ -426,6 +465,16 @@ window.MATHS_COURSES_L3 = {
           "**Étape 3 (Formule de Burnside)** : $|X/G| = \\frac{1}{4}(16 + 2 + 4 + 2) = \\frac{24}{4} = 6$.",
           "**Conclusion** : il y a 6 coloriages à rotation près (0, 1, 2 adjacents, 2 opposés, 3 ou 4 sommets d'une même couleur). Diviser 16 par 4 serait faux : l'action n'est pas libre."
         ]
+      },
+      {
+        "title": "Méthode : Compter des coloriages à isométrie près grâce à $D_n$",
+        "example": "Combien y a-t-il de façons de colorier les sommets d'un pentagone régulier avec 3 couleurs, à isométrie du pentagone près ?",
+        "steps": [
+          "**Étape 1 (Action)** : $D_5$, d'ordre $10$, agit sur les $3^5 = 243$ coloriages des sommets. Les coloriages à isométrie près sont les orbites de cette action.",
+          "**Étape 2 (Rotations)** : l'identité fixe les $243$ coloriages ; chacune des $4$ rotations non triviales permute circulairement les $5$ sommets, donc fixe seulement les $3$ coloriages constants.",
+          "**Étape 3 (Réflexions)** : chacune des $5$ réflexions fixe un sommet et échange deux paires de sommets, soit $3$ cycles sur les sommets : elle fixe $3^3 = 27$ coloriages.",
+          "**Conclusion** : la formule de Burnside donne $\\frac{1}{10}(243 + 4 \\times 3 + 5 \\times 27) = \\frac{390}{10} = 39$ coloriages."
+        ]
       }
     ],
     "traps": [
@@ -433,7 +482,9 @@ window.MATHS_COURSES_L3 = {
       "Les stabilisateurs dépendent du point : pour $y = g \\cdot x$, $G_y = g G_x g^{-1}$, qui en général diffère de $G_x$ (mais a le même cardinal).",
       "Les théorèmes de Sylow ne donnent l'existence de sous-groupes que pour les puissances de premiers : $\\mathfrak{A}_4$, d'ordre 12, n'a pas de sous-groupe d'ordre 6.",
       "Le nombre d'orbites n'est pas $|X|/|G|$ en général : cette formule n'est valable que pour une action libre ; sinon il faut la formule de Burnside.",
-      "Les conditions $n_p \\equiv 1 \\pmod p$ et $n_p \\mid m$ n'imposent pas $n_p = 1$ : dans $\\mathfrak{S}_4$ (ordre $24 = 2^3 \\times 3$), $n_3 = 4$."
+      "Les conditions $n_p \\equiv 1 \\pmod p$ et $n_p \\mid m$ n'imposent pas $n_p = 1$ : dans $\\mathfrak{S}_4$ (ordre $24 = 2^3 \\times 3$), $n_3 = 4$.",
+      "$D_n$ a $2n$ éléments, pas $n$ ; selon les auteurs, le même groupe est noté $D_n$ (ici) ou $D_{2n}$.",
+      "Une rotation de $D_n$ n'est pas nécessairement d'ordre $n$ : l'ordre de $r^k$ est $\\frac{n}{n \\wedge k}$."
     ],
     "flashcards": [
       {
@@ -459,6 +510,14 @@ window.MATHS_COURSES_L3 = {
       {
         "q": "Un groupe d'ordre $p^2$ ($p$ premier) est-il abélien ?",
         "a": "Oui : sinon $|Z(G)| = p$ et $G/Z(G)$ serait cyclique, ce qui force $G$ abélien, contradiction."
+      },
+      {
+        "q": "Quel est l'ordre du groupe diédral $D_n$, et quelles relations vérifient $r$ et $s$ ?",
+        "a": "$|D_n| = 2n$, avec $r^n = s^2 = \\text{Id}$ et $s r s = r^{-1}$."
+      },
+      {
+        "q": "Quel est le centre de $D_n$ pour $n \\ge 3$ ?",
+        "a": "$\\{\\text{Id}\\}$ si $n$ est impair, $\\{\\text{Id}, r^{n/2}\\}$ si $n$ est pair."
       }
     ]
   },
@@ -470,7 +529,9 @@ window.MATHS_COURSES_L3 = {
       "Caractériser idéaux premiers et maximaux par les quotients $A/I$.",
       "Démontrer qu'un anneau euclidien est principal, en particulier $\\mathbb{Z}$ et $\\mathbb{K}[X]$.",
       "Distinguer éléments irréductibles et premiers, et situer anneaux euclidiens, principaux et factoriels.",
-      "Appliquer les critères d'irréductibilité dans $\\mathbb{K}[X]$ et $\\mathbb{Z}[X]$ (racines, Eisenstein, réduction modulo $p$) et construire des corps de rupture."
+      "Appliquer les critères d'irréductibilité dans $\\mathbb{K}[X]$ et $\\mathbb{Z}[X]$ (racines, Eisenstein, réduction modulo $p$) et construire des corps de rupture.",
+      "Énoncer et appliquer le théorème des restes chinois dans un anneau.",
+      "Connaître la structure des corps finis : cardinal $p^n$, existence et unicité, morphisme de Frobenius, cyclicité du groupe multiplicatif."
     ],
     "keyPoints": [
       {
@@ -479,7 +540,7 @@ window.MATHS_COURSES_L3 = {
       },
       {
         "title": "2. Idéaux premiers et idéaux maximaux",
-        "content": "Soit $A$ un anneau commutatif unitaire.\n• **Idéal premier** : idéal $P \\neq A$ tel que $ab \\in P \\implies a \\in P$ ou $b \\in P$. **Caractérisation** : $P$ premier $\\iff A/P$ intègre.\n• **Idéal maximal** : idéal $M \\neq A$ tel que les seuls idéaux contenant $M$ sont $M$ et $A$. **Caractérisation** : $M$ maximal $\\iff A/M$ est un corps.\n• **Conséquence** : tout idéal maximal est premier (un corps est intègre). La réciproque est fausse : dans $\\mathbb{Z}[X]$, $(X)$ est premier ($\\mathbb{Z}[X]/(X) \\simeq \\mathbb{Z}$ intègre) mais pas maximal ($\\mathbb{Z}$ n'est pas un corps ; $(X) \\subsetneq (2, X) \\subsetneq \\mathbb{Z}[X]$).\n• **Dans $\\mathbb{Z}$** : les idéaux premiers sont $(0)$ et les $(p)$, $p$ premier ; les maximaux sont les $(p)$. Ainsi $\\mathbb{Z}/n\\mathbb{Z}$ est un corps $\\iff$ $\\mathbb{Z}/n\\mathbb{Z}$ est intègre $\\iff$ $n$ est premier.\n• **Dans un anneau principal** : tout idéal premier non nul est maximal."
+        "content": "Soit $A$ un anneau commutatif unitaire.\n• **Idéal premier** : idéal $P \\neq A$ tel que $ab \\in P \\implies a \\in P$ ou $b \\in P$. **Caractérisation** : $P$ premier $\\iff A/P$ intègre.\n• **Idéal maximal** : idéal $M \\neq A$ tel que les seuls idéaux contenant $M$ sont $M$ et $A$. **Caractérisation** : $M$ maximal $\\iff A/M$ est un corps.\n• **Conséquence** : tout idéal maximal est premier (un corps est intègre). La réciproque est fausse : dans $\\mathbb{Z}[X]$, $(X)$ est premier ($\\mathbb{Z}[X]/(X) \\simeq \\mathbb{Z}$ intègre) mais pas maximal ($\\mathbb{Z}$ n'est pas un corps ; $(X) \\subsetneq (2, X) \\subsetneq \\mathbb{Z}[X]$).\n• **Dans $\\mathbb{Z}$** : les idéaux premiers sont $(0)$ et les $(p)$, $p$ premier ; les maximaux sont les $(p)$. Ainsi, pour $n \\ge 2$, $\\mathbb{Z}/n\\mathbb{Z}$ est un corps $\\iff$ $\\mathbb{Z}/n\\mathbb{Z}$ est intègre $\\iff$ $n$ est premier.\n• **Dans un anneau principal** : tout idéal premier non nul est maximal."
       },
       {
         "title": "3. Divisibilité, irréductibles et anneaux factoriels",
@@ -496,9 +557,27 @@ window.MATHS_COURSES_L3 = {
       {
         "title": "6. Polynômes irréductibles et corps de rupture",
         "content": "• **Sur un corps $\\mathbb{K}$** : $P$ irréductible dans $\\mathbb{K}[X]$ $\\iff$ $(P)$ maximal $\\iff$ $\\mathbb{K}[X]/(P)$ est un corps, de dimension $\\deg P$ sur $\\mathbb{K}$ (**corps de rupture** : la classe de $X$ y est une racine de $P$).\n• **Racines** : un polynôme de degré $\\ge 2$ ayant une racine dans $\\mathbb{K}$ est réductible ; un polynôme de **degré 2 ou 3** est irréductible si et seulement s'il n'a pas de racine dans $\\mathbb{K}$.\n• Irréductibles de $\\mathbb{C}[X]$ : degré 1 ; de $\\mathbb{R}[X]$ : degré 1 et degré 2 à discriminant strictement négatif.\n• **Racines rationnelles** : si $\\frac{p}{q}$ (irréductible) est racine de $\\sum a_k X^k \\in \\mathbb{Z}[X]$, alors $p \\mid a_0$ et $q \\mid a_n$.\n• **Critère d'Eisenstein** : soit $P = a_n X^n + \\dots + a_0 \\in \\mathbb{Z}[X]$, $n \\ge 1$, et $p$ premier tel que $p \\nmid a_n$, $p \\mid a_i$ pour $0 \\le i \\le n-1$, et $p^2 \\nmid a_0$. Alors $P$ est irréductible dans $\\mathbb{Q}[X]$ (et dans $\\mathbb{Z}[X]$ si $P$ est primitif). Exemple : $X^n - 2$ est irréductible sur $\\mathbb{Q}$ pour tout $n \\ge 1$.\n• **Réduction modulo $p$** : si $P \\in \\mathbb{Z}[X]$, $p \\nmid a_n$ et $\\bar{P}$ est irréductible dans $\\mathbb{F}_p[X]$, alors $P$ est irréductible dans $\\mathbb{Q}[X]$."
+      },
+      {
+        "title": "7. Théorème des restes chinois",
+        "content": "Soit $A$ un anneau commutatif unitaire et $I$, $J$ deux idéaux **comaximaux**, c'est-à-dire tels que $I + J = A$. On note $IJ$ l'idéal engendré par les produits $xy$, $x \\in I$, $y \\in J$.\n• **Théorème des restes chinois** : on a $I \\cap J = IJ$ et l'application $A/(I \\cap J) \\to A/I \\times A/J$, $\\bar{x} \\mapsto (x \\bmod I, x \\bmod J)$, est un isomorphisme d'anneaux.\n• **Démonstration** : écrivons $1 = u + v$ avec $u \\in I$ et $v \\in J$. Le morphisme $\\psi : A \\to A/I \\times A/J$ a pour noyau $I \\cap J$. Il est surjectif : $v \\equiv 1 \\pmod I$, $v \\equiv 0 \\pmod J$, $u \\equiv 0 \\pmod I$ et $u \\equiv 1 \\pmod J$, donc $\\psi(av + bu) = (\\bar{a}, \\bar{b})$. Le théorème d'isomorphisme conclut. Enfin $IJ \\subset I \\cap J$ et, si $x \\in I \\cap J$, alors $x = xu + xv \\in IJ$.\n• **Dans $\\mathbb{Z}$** : si $m \\wedge n = 1$, le théorème de Bézout donne $m\\mathbb{Z} + n\\mathbb{Z} = \\mathbb{Z}$, et $m\\mathbb{Z} \\cap n\\mathbb{Z} = mn\\mathbb{Z}$, d'où $\\mathbb{Z}/mn\\mathbb{Z} \\simeq \\mathbb{Z}/m\\mathbb{Z} \\times \\mathbb{Z}/n\\mathbb{Z}$. Par récurrence, le résultat s'étend à des entiers deux à deux premiers entre eux.\n• **Inversibles** : un isomorphisme d'anneaux respecte les inversibles, donc $(\\mathbb{Z}/mn\\mathbb{Z})^{\\times} \\simeq (\\mathbb{Z}/m\\mathbb{Z})^{\\times} \\times (\\mathbb{Z}/n\\mathbb{Z})^{\\times}$ et $\\varphi(mn) = \\varphi(m)\\varphi(n)$ lorsque $m \\wedge n = 1$.\n• **Dans $\\mathbb{K}[X]$** : si $P \\wedge Q = 1$, alors $\\mathbb{K}[X]/(PQ) \\simeq \\mathbb{K}[X]/(P) \\times \\mathbb{K}[X]/(Q)$. Pour des facteurs $X - a_i$ avec des $a_i$ deux à deux distincts, on retrouve l'interpolation de Lagrange."
+      },
+      {
+        "title": "8. Corps finis",
+        "content": "Soit $\\mathbb{F}$ un corps fini.\n• **Caractéristique et cardinal** : le morphisme $\\mathbb{Z} \\to \\mathbb{F}$, $k \\mapsto k \\cdot 1$, a un noyau non nul car $\\mathbb{F}$ est fini, de la forme $p\\mathbb{Z}$ avec $p$ premier car $\\mathbb{F}$ est intègre. Ainsi $\\mathbb{F}$ contient un sous-corps isomorphe à $\\mathbb{F}_p = \\mathbb{Z}/p\\mathbb{Z}$ ; c'est un $\\mathbb{F}_p$-espace vectoriel de dimension finie $n \\ge 1$, donc $|\\mathbb{F}| = p^n$. Par exemple, il n'existe pas de corps à $6$ éléments.\n• **Morphisme de Frobenius** : pour $1 \\le k \\le p - 1$, $p$ divise $\\binom{p}{k}$, donc $(x + y)^p = x^p + y^p$ dans $\\mathbb{F}$. L'application $\\sigma : x \\mapsto x^p$ est un morphisme de corps, injectif donc bijectif puisque $\\mathbb{F}$ est fini : c'est un automorphisme de $\\mathbb{F}$. Ses points fixes sont exactement les éléments de $\\mathbb{F}_p$ : ceux-ci vérifient $x^p = x$ (petit théorème de Fermat), et $X^p - X$ a au plus $p$ racines dans $\\mathbb{F}$.\n• **Existence et unicité** : pour tout $p$ premier et tout $n \\ge 1$, il existe un corps à $q = p^n$ éléments, unique à isomorphisme près, noté $\\mathbb{F}_q$. *Existence* : dans un corps de décomposition $K$ de $X^q - X$ sur $\\mathbb{F}_p$ (obtenu en itérant des corps de rupture), l'ensemble des racines est le corps des points fixes de $\\sigma^n$ ; il a $q$ éléments car $X^q - X$ est à racines simples, sa dérivée valant $-1$. *Unicité* : un corps de cardinal $q$ vérifie $x^q = x$ pour tout $x$ (Lagrange dans $\\mathbb{F}^{\\times}$), c'est donc un corps de décomposition de $X^q - X$ ; on admet que deux corps de décomposition d'un même polynôme sont isomorphes.\n• **En pratique** : $\\mathbb{F}_{p^n} \\simeq \\mathbb{F}_p[X]/(P)$ avec $P$ irréductible de degré $n$ sur $\\mathbb{F}_p$ (section 6). Pour $n \\ge 2$, $\\mathbb{F}_{p^n}$ n'est **pas** $\\mathbb{Z}/p^n\\mathbb{Z}$, qui n'est pas intègre.\n• **Cyclicité** : le groupe multiplicatif $\\mathbb{F}_q^{\\times}$ est cyclique d'ordre $q - 1$ ; il possède donc $\\varphi(q - 1)$ générateurs.\n\n**Démonstration.** Soit $G$ un sous-groupe fini d'ordre $N$ du groupe multiplicatif d'un corps, et soit $d$ un diviseur de $N$. Si $G$ contient un élément $x$ d'ordre $d$, les $d$ éléments de $\\langle x \\rangle$ sont racines de $X^d - 1$, qui a au plus $d$ racines : tout élément d'ordre $d$ appartient donc à $\\langle x \\rangle$, et il y en a $\\varphi(d)$. Le nombre $N_d$ d'éléments d'ordre $d$ vaut ainsi $0$ ou $\\varphi(d)$. Comme $\\sum_{d \\mid N} N_d = N = \\sum_{d \\mid N} \\varphi(d)$, on a $N_d = \\varphi(d)$ pour tout $d \\mid N$ ; en particulier $N_N = \\varphi(N) \\ge 1$ : $G$ possède un élément d'ordre $N$. $\\square$\n\n**Exemple.** Dans $\\mathbb{F}_5$, on a $\\bar{2}^2 = \\bar{4}$, $\\bar{2}^3 = \\bar{3}$ et $\\bar{2}^4 = \\bar{1}$ : $\\bar{2}$ engendre $\\mathbb{F}_5^{\\times}$. Ses générateurs sont $\\bar{2}$ et $\\bar{3}$, au nombre de $\\varphi(4) = 2$."
       }
     ],
     "methods": [
+      {
+        "title": "Méthode : Résoudre un système de congruences avec le théorème chinois",
+        "example": "Résoudre dans $\\mathbb{Z}$ le système $x \\equiv 2 \\pmod 7$ et $x \\equiv 3 \\pmod{11}$.",
+        "steps": [
+          "**Étape 1 (Hypothèse)** : $7 \\wedge 11 = 1$, donc le théorème assure une unique solution modulo $77$.",
+          "**Étape 2 (Bézout)** : l'algorithme d'Euclide donne $11 = 7 + 4$, $7 = 4 + 3$ et $4 = 3 + 1$, d'où $1 = 2 \\times 11 - 3 \\times 7$.",
+          "**Étape 3 (Recollement)** : $e_1 = 2 \\times 11 = 22$ vérifie $e_1 \\equiv 1 \\pmod 7$ et $e_1 \\equiv 0 \\pmod{11}$ ; $e_2 = -3 \\times 7 = -21$ vérifie $e_2 \\equiv 0 \\pmod 7$ et $e_2 \\equiv 1 \\pmod{11}$. Donc $x_0 = 2e_1 + 3e_2 = 44 - 63 = -19$ est solution.",
+          "**Conclusion** : les solutions sont les entiers $x \\equiv -19 \\equiv 58 \\pmod{77}$. Vérification : $58 = 8 \\times 7 + 2$ et $58 = 5 \\times 11 + 3$."
+        ]
+      },
       {
         "title": "Méthode : Montrer l'irréductibilité de $\\Phi_p$ par Eisenstein",
         "example": "Montrer que $\\Phi_p(X) = X^{p-1} + X^{p-2} + \\dots + X + 1$ est irréductible dans $\\mathbb{Q}[X]$ pour $p$ premier.",
@@ -525,9 +604,23 @@ window.MATHS_COURSES_L3 = {
       "$\\mathbb{Z}[X]$ n'est pas principal : si $(2, X) = (d)$, $d$ divise $2$ et $X$, donc $d = \\pm 1$ ; or $1 \\notin (2, X)$ car le coefficient constant de $2U + XV$ est pair.",
       "« Pas de racine » n'implique « irréductible » qu'en degré 2 ou 3 : $(X^2 + 1)^2$ n'a pas de racine réelle mais est réductible dans $\\mathbb{R}[X]$.",
       "Eisenstein donne l'irréductibilité dans $\\mathbb{Q}[X]$, pas forcément dans $\\mathbb{Z}[X]$ : $2X + 6$ vérifie le critère pour $p = 3$ mais $2X + 6 = 2(X + 3)$ avec $2$ non inversible dans $\\mathbb{Z}$.",
-      "Premier n'implique pas maximal : $(X)$ est premier non maximal dans $\\mathbb{Z}[X]$ ; l'implication ne vaut, pour les idéaux non nuls, que dans un anneau principal."
+      "Premier n'implique pas maximal : $(X)$ est premier non maximal dans $\\mathbb{Z}[X]$ ; l'implication ne vaut, pour les idéaux non nuls, que dans un anneau principal.",
+      "Le théorème chinois exige des idéaux comaximaux : $\\mathbb{Z}/4\\mathbb{Z} \\not\\simeq (\\mathbb{Z}/2\\mathbb{Z})^2$, car $\\bar{1}$ est d'ordre additif $4$ dans le premier et tout élément est d'ordre au plus $2$ dans le second.",
+      "Le corps à $4$ éléments n'est pas $\\mathbb{Z}/4\\mathbb{Z}$, où $\\bar{2} \\times \\bar{2} = \\bar{0}$ : on le construit comme $\\mathbb{F}_2[X]/(X^2 + X + 1)$."
     ],
     "flashcards": [
+      {
+        "q": "Énoncer le théorème des restes chinois dans un anneau.",
+        "a": "Si $I + J = A$, alors $I \\cap J = IJ$ et $A/(I \\cap J) \\simeq A/I \\times A/J$ ; en particulier $\\mathbb{Z}/mn\\mathbb{Z} \\simeq \\mathbb{Z}/m\\mathbb{Z} \\times \\mathbb{Z}/n\\mathbb{Z}$ si $m \\wedge n = 1$."
+      },
+      {
+        "q": "Quels sont les cardinaux possibles d'un corps fini ?",
+        "a": "Les $p^n$, $p$ premier et $n \\ge 1$ ; pour chacun d'eux il existe un corps, unique à isomorphisme près."
+      },
+      {
+        "q": "Que sait-on du groupe multiplicatif $\\mathbb{F}_q^{\\times}$ ?",
+        "a": "Il est cyclique d'ordre $q - 1$ et possède $\\varphi(q - 1)$ générateurs."
+      },
       {
         "q": "Caractériser un idéal maximal, puis un idéal premier, par le quotient.",
         "a": "$M$ maximal $\\iff A/M$ est un corps ; $P$ premier $\\iff A/P$ est intègre."
@@ -562,12 +655,13 @@ window.MATHS_COURSES_L3 = {
       "Démontrer que $\\mathcal{L}_c(E, F)$ est un espace de Banach dès que $F$ l'est.",
       "Définir les espaces de Hilbert et énoncer le théorème de projection sur un convexe fermé.",
       "Énoncer et appliquer le théorème de représentation de Riesz dans un espace de Hilbert.",
-      "Connaître le théorème de Baire, ses conséquences (Banach-Steinhaus, application ouverte) et le théorème du point fixe de Picard."
+      "Connaître le théorème de Baire, ses conséquences (Banach-Steinhaus, application ouverte) et le théorème du point fixe de Picard.",
+      "Énoncer le théorème de Cauchy-Lipschitz pour $y' = f(t, y)$, le démontrer par le point fixe de Picard et déterminer une solution maximale."
     ],
     "keyPoints": [
       {
         "title": "1. Suites de Cauchy et espaces de Banach",
-        "content": "• **Espace de Banach** : espace vectoriel normé **complet**, c'est-à-dire dans lequel toute suite de Cauchy converge.\n• **Exemples** :\n  1. Tout espace normé de dimension finie (équivalence des normes et complétude de $\\mathbb{R}^n$).\n  2. $(\\mathcal{C}([a ; b], \\mathbb{K}), \\|\\cdot\\|_\\infty)$, et plus généralement l'espace des fonctions bornées d'un ensemble dans un Banach, muni de la norme uniforme.\n  3. Les espaces $\\ell^p$ et $L^p(\\mu)$, $1 \\le p \\le \\infty$.\n• **Contre-exemples** : $(\\mathcal{C}([0 ; 1]), \\|\\cdot\\|_1)$ n'est pas complet (des fonctions continues peuvent approcher en moyenne une fonction en escalier) ; $(\\mathbb{R}[X], \\|\\cdot\\|_\\infty)$ avec $\\|P\\|_\\infty$ le max des modules des coefficients n'est pas complet : $P_n = \\sum_{k=0}^n \\frac{X^k}{2^k}$ est de Cauchy sans limite polynomiale.\n• Un sous-espace d'un Banach est complet si et seulement s'il est fermé."
+        "content": "• **Espace de Banach** : espace vectoriel normé **complet**, c'est-à-dire dans lequel toute suite de Cauchy converge.\n• **Exemples** :\n  1. Tout espace normé de dimension finie (équivalence des normes et complétude de $\\mathbb{R}^n$).\n  2. $(\\mathcal{C}([a ; b], \\mathbb{K}), \\|\\cdot\\|_\\infty)$, et plus généralement l'espace des fonctions bornées d'un ensemble dans un Banach, muni de la norme uniforme.\n  3. Les espaces $\\ell^p$ et $L^p(\\mu)$, $1 \\le p \\le \\infty$ (complétude admise ici : théorème de Riesz-Fischer). Les espaces $L^p(\\mu)$ sont construits dans le chapitre L3-MES (Théorie de la mesure et intégration de Lebesgue), auquel on renvoie pour leur définition.\n• **Contre-exemples** : $(\\mathcal{C}([0 ; 1]), \\|\\cdot\\|_1)$ n'est pas complet (des fonctions continues peuvent approcher en moyenne une fonction en escalier) ; $(\\mathbb{R}[X], \\|\\cdot\\|_\\infty)$ avec $\\|P\\|_\\infty$ le max des modules des coefficients n'est pas complet : $P_n = \\sum_{k=0}^n \\frac{X^k}{2^k}$ est de Cauchy sans limite polynomiale.\n• Un sous-espace d'un Banach est complet si et seulement s'il est fermé."
       },
       {
         "title": "2. Critère des séries absolument convergentes",
@@ -587,7 +681,11 @@ window.MATHS_COURSES_L3 = {
       },
       {
         "title": "6. Baire, Banach-Steinhaus et point fixe de Picard",
-        "content": "• **Théorème de Baire** : dans un espace métrique **complet**, toute intersection dénombrable d'ouverts denses est dense ; de façon équivalente, une réunion dénombrable de fermés d'intérieur vide est d'intérieur vide.\n• **Banach-Steinhaus** : si $E$ est un **Banach**, $F$ un espace normé et $(T_i)_{i \\in I}$ une famille de $\\mathcal{L}_c(E, F)$ telle que $\\sup_i \\|T_i x\\| < +\\infty$ pour tout $x$, alors $\\sup_i \\|T_i\\| < +\\infty$.\n• **Application ouverte** : une application linéaire continue **surjective** entre deux Banach est ouverte ; si elle est bijective, son inverse est continu (isomorphisme de Banach).\n• **Point fixe de Picard** : soit $(X, d)$ complet non vide et $f : X \\to X$ **$k$-contractante** avec $k \\in [0 ; 1[$. Alors $f$ a un unique point fixe $x^{\\ast}$ et, pour tout $x_0$, la suite $x_{n+1} = f(x_n)$ converge vers $x^{\\ast}$ avec\n$$d(x_n, x^{\\ast}) \\le \\frac{k^n}{1 - k} \\, d(x_0, x_1)$$\n(La suite est de Cauchy car $d(x_n, x_{n+1}) \\le k^n d(x_0, x_1)$ ; sa limite est fixe par continuité de $f$ ; l'unicité vient de $d(a, b) = d(f(a), f(b)) \\le k \\, d(a, b)$.) C'est l'outil de base du théorème de Cauchy-Lipschitz."
+        "content": "• **Théorème de Baire** : dans un espace métrique **complet**, toute intersection dénombrable d'ouverts denses est dense ; de façon équivalente, une réunion dénombrable de fermés d'intérieur vide est d'intérieur vide.\n• **Banach-Steinhaus** : si $E$ est un **Banach**, $F$ un espace normé et $(T_i)_{i \\in I}$ une famille de $\\mathcal{L}_c(E, F)$ telle que $\\sup_i \\|T_i x\\| < +\\infty$ pour tout $x$, alors $\\sup_i \\|T_i\\| < +\\infty$.\n• **Application ouverte** : une application linéaire continue **surjective** entre deux Banach est ouverte ; si elle est bijective, son inverse est continu (isomorphisme de Banach).\n• **Point fixe de Picard** : soit $(X, d)$ complet non vide et $f : X \\to X$ **$k$-contractante** avec $k \\in [0 ; 1[$. Alors $f$ a un unique point fixe $x^{\\ast}$ et, pour tout $x_0$, la suite $x_{n+1} = f(x_n)$ converge vers $x^{\\ast}$ avec\n$$d(x_n, x^{\\ast}) \\le \\frac{k^n}{1 - k} \\, d(x_0, x_1)$$\n(La suite est de Cauchy car $d(x_n, x_{n+1}) \\le k^n d(x_0, x_1)$ ; sa limite est fixe par continuité de $f$ ; l'unicité vient de $d(a, b) = d(f(a), f(b)) \\le k \\, d(a, b)$.) C'est l'outil de base du théorème de Cauchy-Lipschitz (section 7)."
+      },
+      {
+        "title": "7. Application : théorème de Cauchy-Lipschitz et solutions maximales",
+        "content": "On étudie le problème de Cauchy $y' = f(t, y)$, $y(t_0) = y_0$, où $f$ est à valeurs dans $\\mathbb{R}^n$.\n\n**Théorème (cas globalement lipschitzien).** Soient $f : [a ; b] \\times \\mathbb{R}^n \\to \\mathbb{R}^n$ continue et $k > 0$ tels que $\\|f(t, y) - f(t, z)\\| \\le k \\|y - z\\|$ pour tous $t, y, z$. Alors, pour tous $t_0 \\in [a ; b]$ et $y_0 \\in \\mathbb{R}^n$, le problème a une unique solution sur $[a ; b]$.\n\n**Démonstration.**\n1. **Reformulation.** Soit $E = \\mathcal{C}([a ; b], \\mathbb{R}^n)$. Par le théorème fondamental de l'analyse, $y \\in E$ est solution si et seulement si $y$ est point fixe de $\\Phi : E \\to E$, $\\Phi(y)(t) = y_0 + \\int_{t_0}^t f(s, y(s)) \\, ds$.\n2. **Norme adaptée.** $\\|y\\|_{\\ast} = \\sup_{t \\in [a ; b]} e^{-2k|t - t_0|} \\|y(t)\\|$ est équivalente à la norme uniforme, donc $(E, \\|\\cdot\\|_{\\ast})$ est un Banach.\n3. **Contraction.** Pour $t \\ge t_0$,\n$$\\|\\Phi(y)(t) - \\Phi(z)(t)\\| \\le \\int_{t_0}^t k \\|y(s) - z(s)\\| \\, ds \\le k \\|y - z\\|_{\\ast} \\int_{t_0}^t e^{2k(s - t_0)} \\, ds \\le \\frac{1}{2} e^{2k(t - t_0)} \\|y - z\\|_{\\ast}$$\net de même pour $t \\le t_0$. Donc $\\|\\Phi(y) - \\Phi(z)\\|_{\\ast} \\le \\frac{1}{2} \\|y - z\\|_{\\ast}$, et le théorème de Picard conclut. $\\square$\n\nLes **itérées de Picard** $\\varphi_{j+1} = \\Phi(\\varphi_j)$, avec $\\varphi_0$ constante égale à $y_0$, convergent uniformément vers la solution. Pour une équation linéaire $y' = A(t)y + B(t)$ à coefficients continus sur un intervalle $I$, l'hypothèse est vérifiée sur chaque segment de $I$ : les solutions sont définies sur $I$ tout entier.\n\n• **Théorème de Cauchy-Lipschitz (version locale)** : soit $U$ un ouvert de $\\mathbb{R} \\times \\mathbb{R}^n$ et $f : U \\to \\mathbb{R}^n$ continue, localement lipschitzienne par rapport à $y$ (c'est le cas si $f$ est de classe $\\mathcal{C}^1$). Pour tout $(t_0, y_0) \\in U$, le problème de Cauchy a une solution sur un intervalle ouvert contenant $t_0$, et deux solutions de ce problème coïncident sur l'intersection de leurs intervalles de définition. Idée de la preuve : on applique Picard à $\\Phi$ sur une boule fermée de $\\mathcal{C}([t_0 - \\tau ; t_0 + \\tau], \\mathbb{R}^n)$, qui est un espace métrique complet, pour $\\tau$ assez petit.\n• **Solution maximale** : solution qu'on ne peut pas prolonger en une solution sur un intervalle strictement plus grand. Sous les hypothèses précédentes, chaque problème de Cauchy a une **unique solution maximale**, définie sur un intervalle ouvert (la réunion des intervalles de toutes ses solutions), et toute solution en est une restriction.\n• **Explosion en temps fini** (admis) : si $U = I \\times \\mathbb{R}^n$ avec $I$ intervalle ouvert et si la solution maximale est définie sur $]\\alpha ; \\beta[$ avec $\\beta < \\sup I$, alors $\\|y(t)\\| \\to +\\infty$ quand $t \\to \\beta^-$ ; de même en $\\alpha$ si $\\alpha > \\inf I$.\n• **Exemple** : pour $y' = y^2$, $y(0) = 1$, la fonction $(t, y) \\mapsto y^2$ est de classe $\\mathcal{C}^1$ sur $\\mathbb{R}^2$, mais pas globalement lipschitzienne en $y$. La solution maximale est $y(t) = \\frac{1}{1 - t}$ sur $]-\\infty ; 1[$ : elle explose en $1$."
       }
     ],
     "methods": [
@@ -617,7 +715,9 @@ window.MATHS_COURSES_L3 = {
       "L'identité du parallélogramme caractérise les normes hilbertiennes : sur $\\mathbb{R}^2$, $\\|\\cdot\\|_1$ ne la vérifie pas ($x = (1, 0)$, $y = (0, 1)$ : $4 + 4 \\neq 2(1 + 1)$).",
       "La complétude dépend de la norme : $\\mathcal{C}([0 ; 1])$ est complet pour $\\|\\cdot\\|_\\infty$ mais pas pour $\\|\\cdot\\|_1$.",
       "Pour Picard, « $|f(x) - f(y)| < |x - y|$ pour $x \\neq y$ » ne suffit pas : $f(x) = x + \\frac{1}{x}$ envoie $[1 ; +\\infty[$ dans lui-même, vérifie cette inégalité stricte, mais n'a aucun point fixe. Il faut une constante $k < 1$ uniforme.",
-      "Banach-Steinhaus suppose l'espace de départ complet ; sans complétude, une famille simplement bornée peut ne pas être uniformément bornée."
+      "Banach-Steinhaus suppose l'espace de départ complet ; sans complétude, une famille simplement bornée peut ne pas être uniformément bornée.",
+      "Sans hypothèse de Lipschitz, l'unicité peut tomber : le problème $y' = 2\\sqrt{|y|}$, $y(0) = 0$ admet la solution nulle et la solution valant $t^2$ sur $[0 ; +\\infty[$ et $0$ sur $]-\\infty ; 0]$.",
+      "La version locale de Cauchy-Lipschitz ne dit pas que la solution est définie sur tout l'intervalle : pour $y' = y^2$, $y(0) = 1$, la solution maximale s'arrête en $t = 1$ alors que l'équation a un sens sur $\\mathbb{R}$."
     ],
     "flashcards": [
       {
@@ -635,6 +735,14 @@ window.MATHS_COURSES_L3 = {
       {
         "q": "Caractérisation du projeté sur un convexe fermé non vide ?",
         "a": "$p = p_C(x)$ est l'unique point de $C$ tel que $\\text{Re}\\,\\langle x - p, y - p \\rangle \\le 0$ pour tout $y \\in C$."
+      },
+      {
+        "q": "Énoncer le théorème de Cauchy-Lipschitz local pour $y' = f(t, y)$.",
+        "a": "Si $f$ est continue et localement lipschitzienne en $y$ sur un ouvert $U$, tout problème de Cauchy de données dans $U$ a une unique solution maximale, définie sur un intervalle ouvert."
+      },
+      {
+        "q": "Comment une solution maximale de $y' = f(t, y)$ sur $I \\times \\mathbb{R}^n$ peut-elle s'arrêter avant le bord de $I$ ?",
+        "a": "En explosant : si elle est définie sur $]\\alpha ; \\beta[$ avec $\\beta < \\sup I$, alors $\\|y(t)\\| \\to +\\infty$ quand $t \\to \\beta^-$."
       },
       {
         "q": "Énoncer le théorème du point fixe de Picard.",
@@ -659,7 +767,7 @@ window.MATHS_COURSES_L3 = {
     "keyPoints": [
       {
         "title": "1. Convergence simple et uniforme des suites de fonctions",
-        "content": "Soit $(f_n)$ une suite de fonctions d'un ensemble $A$ dans $\\mathbb{K}$ (ou dans un espace normé).\n• **Convergence simple** vers $f$ : $\\forall x \\in A, \\; f_n(x) \\to f(x)$.\n• **Convergence uniforme** vers $f$ : $\\|f_n - f\\|_{\\infty, A} = \\sup_{x \\in A} |f_n(x) - f(x)| \\to 0$. L'entier $N$ du « $\\forall \\varepsilon, \\exists N$ » ne dépend plus de $x$.\n• Uniforme $\\implies$ simple ; la limite uniforme est nécessairement la limite simple.\n• **Critère de Cauchy uniforme** : $(f_n)$ converge uniformément sur $A$ si et seulement si $\\forall \\varepsilon > 0, \\exists N, \\forall p, q \\ge N, \\; \\|f_p - f_q\\|_\\infty \\le \\varepsilon$ (complétude de l'espace des fonctions bornées).\n• **Pour nier la convergence uniforme** : exhiber $x_n \\in A$ tels que $|f_n(x_n) - f(x_n)|$ ne tende pas vers $0$."
+        "content": "Soit $(f_n)$ une suite de fonctions d'un ensemble $A$ dans $\\mathbb{K}$ (ou, plus généralement, dans un espace de Banach, $|\\cdot|$ désignant alors sa norme).\n• **Convergence simple** vers $f$ : $\\forall x \\in A, \\; f_n(x) \\to f(x)$.\n• **Convergence uniforme** vers $f$ : $\\|f_n - f\\|_{\\infty, A} = \\sup_{x \\in A} |f_n(x) - f(x)| \\to 0$. L'entier $N$ du « $\\forall \\varepsilon, \\exists N$ » ne dépend plus de $x$.\n• Uniforme $\\implies$ simple ; la limite uniforme est nécessairement la limite simple.\n• **Critère de Cauchy uniforme** : $(f_n)$ converge uniformément sur $A$ si et seulement si $\\forall \\varepsilon > 0, \\exists N, \\forall p, q \\ge N, \\; \\|f_p - f_q\\|_\\infty \\le \\varepsilon$. La réciproque utilise la **complétude de l'espace d'arrivée** : à $x$ fixé, $(f_n(x))$ est de Cauchy, donc converge vers un $f(x)$, puis on fait tendre $q$ vers $+\\infty$ dans l'inégalité.\n• **Pour nier la convergence uniforme** : exhiber $x_n \\in A$ tels que $|f_n(x_n) - f(x_n)|$ ne tende pas vers $0$."
       },
       {
         "title": "2. Démonstration : continuité de la limite uniforme",
@@ -763,6 +871,10 @@ window.MATHS_COURSES_L3 = {
       {
         "title": "5. Comportement au bord : théorème radial d'Abel",
         "content": "• **Sur le cercle $|z| = R$** : tous les comportements sont possibles : $\\sum z^n$ diverge en tout point du cercle unité, $\\sum \\frac{z^n}{n^2}$ converge (normalement) sur tout le disque fermé, $\\sum \\frac{z^n}{n}$ diverge en $z = 1$ et converge en $z = -1$.\n• **Théorème de la limite radiale d'Abel** : soit $\\sum a_n x^n$ une série entière de rayon $R \\in ]0 ; +\\infty[$. Si $\\sum a_n R^n$ converge, alors $x \\mapsto \\sum a_n x^n$ est définie et continue sur $[0 ; R]$, et\n$$\\lim_{x \\to R^-} \\sum_{n=0}^\\infty a_n x^n = \\sum_{n=0}^\\infty a_n R^n$$\n• Idée de preuve (cas $R = 1$) : transformation d'Abel ; en notant $\\rho_n = \\sum_{k > n} a_k$, on a pour $x \\in [0 ; 1[$ : $\\sum a_n - \\sum a_n x^n = \\sum (1 - x^n) a_n$, que l'on réécrit à l'aide des restes $\\rho_n$, petits pour $n$ grand."
+      },
+      {
+        "title": "6. Fonctions analytiques et holomorphie",
+        "content": "• **Fonction développable en série entière** : soit $I$ un intervalle ouvert de $\\mathbb{R}$ et $x_0 \\in I$. Une fonction $f : I \\to \\mathbb{K}$ est développable en série entière en $x_0$ s'il existe $r > 0$ avec $]x_0 - r ; x_0 + r[ \\subset I$ et une suite $(a_n)$ telles que $f(x) = \\sum_{n \\ge 0} a_n (x - x_0)^n$ pour tout $x \\in ]x_0 - r ; x_0 + r[$.\n• **Fonction analytique** : $f$ est **analytique** sur $I$ si elle est développable en série entière en **tout** point de $I$. Une fonction analytique est de classe $\\mathcal{C}^\\infty$ et, au voisinage de chaque $x_0$, elle est égale à sa série de Taylor : $a_n = \\frac{f^{(n)}(x_0)}{n!}$. Les sommes, produits et dérivées de fonctions analytiques sont analytiques.\n• **La somme d'une série entière est analytique** : si $\\sum a_n x^n$ a pour rayon $R > 0$, sa somme est analytique sur $]-R ; R[$ ; en $x_0 \\in ]-R ; R[$, elle se redéveloppe en série entière de rayon au moins $R - |x_0|$ (on développe $(x_0 + h)^n$ par la formule du binôme puis on regroupe les termes, ce qui est licite par convergence absolue).\n• **Principe des zéros isolés** : si $f$ est analytique sur un intervalle $I$ et n'est pas identiquement nulle, chaque zéro de $f$ est isolé. Conséquence (**unicité du prolongement analytique**) : deux fonctions analytiques sur $I$ qui coïncident sur une partie ayant un point d'accumulation dans $I$ (par exemple sur un petit intervalle) sont égales sur tout $I$.\n• **Analytique est plus fort que $\\mathcal{C}^\\infty$** : $x \\mapsto e^{-1/x^2}$ (prolongée par $0$) est $\\mathcal{C}^\\infty$ sur $\\mathbb{R}$, mais sa série de Taylor en $0$ est nulle alors que la fonction ne l'est sur aucun voisinage de $0$ : elle n'est pas analytique en $0$.\n• **Holomorphie** : soit $U$ un ouvert de $\\mathbb{C}$. Une fonction $f : U \\to \\mathbb{C}$ est **holomorphe** si, en tout $z_0 \\in U$, le quotient $\\frac{f(z_0 + h) - f(z_0)}{h}$ a une limite quand $h \\to 0$ dans $\\mathbb{C}$. En écrivant $f = P + iQ$ avec $P$, $Q$ réelles de $(x, y)$, cela équivaut à : $P$ et $Q$ différentiables et **conditions de Cauchy-Riemann** $\\frac{\\partial P}{\\partial x} = \\frac{\\partial Q}{\\partial y}$, $\\frac{\\partial P}{\\partial y} = -\\frac{\\partial Q}{\\partial x}$. Exemple : $z \\mapsto \\bar{z}$ ($P = x$, $Q = -y$) n'est holomorphe nulle part, car $\\frac{\\partial P}{\\partial x} = 1 \\neq -1 = \\frac{\\partial Q}{\\partial y}$.\n• **Holomorphe et analytique** : la somme d'une série entière est holomorphe sur son disque ouvert de convergence (paragraphe 4). Réciproquement, on admet (théorie de Cauchy, en analyse complexe) que toute fonction holomorphe sur $U$ est développable en série entière sur tout disque ouvert $D(z_0, r) \\subset U$.\n• **Lecture complexe du rayon** : $x \\mapsto \\frac{1}{1 + x^2}$ est analytique sur tout $\\mathbb{R}$, mais son développement en $0$, $\\sum (-1)^n x^{2n}$, n'a pour rayon que $1$ : en variable complexe, $\\frac{1}{1 + z^2}$ n'est pas définie en $\\pm i$, points du cercle $|z| = 1$."
       }
     ],
     "methods": [
@@ -842,7 +954,7 @@ window.MATHS_COURSES_L3 = {
       },
       {
         "title": "3. Théorie $L^2$ : Bessel et Parseval",
-        "content": "On munit l'espace des fonctions $T$-périodiques de carré intégrable du produit scalaire $\\langle f, g \\rangle = \\frac{1}{T}\\int_0^T f \\bar{g}$ et de la norme $\\|f\\|_2$ associée. Les fonctions $e_n(t) = e^{in\\omega t}$, $n \\in \\mathbb{Z}$, forment une famille **orthonormée**, et $c_n(f) = \\langle f, e_n \\rangle$.\n• **Inégalité de Bessel** : $\\sum_{n \\in \\mathbb{Z}} |c_n(f)|^2 \\le \\|f\\|_2^2 = \\frac{1}{T}\\int_0^T |f|^2$.\n• **Égalité de Parseval** : pour toute $f$ de carré intégrable sur une période (en particulier continue par morceaux),\n$$\\sum_{n=-\\infty}^{+\\infty} |c_n(f)|^2 = \\frac{1}{T}\\int_0^T |f(t)|^2 \\, dt, \\quad \\text{et} \\quad \\|f - S_N(f)\\|_2 \\xrightarrow[N \\to \\infty]{} 0$$\n• **Forme réelle** : $|a_0|^2 + \\frac{1}{2}\\sum_{n \\ge 1} \\left(|a_n|^2 + |b_n|^2\\right) = \\frac{1}{T}\\int_0^T |f|^2$.\n• **Conséquences** : $(e_n)_{n \\in \\mathbb{Z}}$ est une base hilbertienne de $L^2$ ; une fonction continue dont tous les coefficients sont nuls est nulle ; deux fonctions continues ayant les mêmes coefficients sont égales."
+        "content": "On munit l'espace des fonctions $T$-périodiques de carré intégrable du produit scalaire $\\langle f, g \\rangle = \\frac{1}{T}\\int_0^T f \\bar{g}$ et de la norme $\\|f\\|_2$ associée. Le cadre naturel est l'espace $L^2$ défini dans le chapitre L3-MES (intégrale de Lebesgue) ; on admet ici ses propriétés, en particulier sa complétude et la densité des fonctions continues périodiques. Les fonctions $e_n(t) = e^{in\\omega t}$, $n \\in \\mathbb{Z}$, forment une famille **orthonormée**, et $c_n(f) = \\langle f, e_n \\rangle$.\n• **Inégalité de Bessel** : $\\sum_{n \\in \\mathbb{Z}} |c_n(f)|^2 \\le \\|f\\|_2^2 = \\frac{1}{T}\\int_0^T |f|^2$.\n• **Égalité de Parseval** : pour toute $f$ de carré intégrable sur une période (en particulier continue par morceaux),\n$$\\sum_{n=-\\infty}^{+\\infty} |c_n(f)|^2 = \\frac{1}{T}\\int_0^T |f(t)|^2 \\, dt, \\quad \\text{et} \\quad \\|f - S_N(f)\\|_2 \\xrightarrow[N \\to \\infty]{} 0$$\n• **Forme réelle** : $|a_0|^2 + \\frac{1}{2}\\sum_{n \\ge 1} \\left(|a_n|^2 + |b_n|^2\\right) = \\frac{1}{T}\\int_0^T |f|^2$.\n• **Conséquences** : $(e_n)_{n \\in \\mathbb{Z}}$ est une base hilbertienne de $L^2$ ; une fonction continue dont tous les coefficients sont nuls est nulle ; deux fonctions continues ayant les mêmes coefficients sont égales."
       },
       {
         "title": "4. Démonstration : inégalité de Bessel et égalité de Parseval",
@@ -910,13 +1022,15 @@ window.MATHS_COURSES_L3 = {
     ]
   },
   "L3-GPR": {
-    "title": "L3-GPR : Géométrie projective élémentaire",
+    "title": "L3-GPR : Géométrie affine, projective et inversion",
     "domain": "Géométrie",
     "objectives": [
       "Définir l'espace projectif $\\mathbb{P}(E)$, ses sous-espaces et les coordonnées homogènes.",
       "Définir les homographies et énoncer le théorème fondamental (repères projectifs).",
       "Définir le birapport de quatre points d'une droite projective et démontrer son invariance par homographie.",
-      "Relier géométrie affine et projective (points à l'infini, nature des coniques) et énoncer les théorèmes de Desargues et de Pappus."
+      "Relier géométrie affine et projective (points à l'infini, nature des coniques) et énoncer les théorèmes de Desargues et de Pappus.",
+      "Calculer avec les barycentres et les applications affines (partie linéaire, points fixes, homothéties et translations), énoncer les théorèmes de Ménélaüs et de Ceva.",
+      "Définir l'inversion plane, déterminer l'image d'une droite ou d'un cercle et faire le lien avec les homographies de $\\mathbb{P}^1(\\mathbb{C})$."
     ],
     "keyPoints": [
       {
@@ -941,7 +1055,15 @@ window.MATHS_COURSES_L3 = {
       },
       {
         "title": "6. Coniques et théorèmes d'incidence",
-        "content": "• **Conique projective** : $\\mathcal{C} = \\{[x] \\in \\mathbb{P}^2 \\mid q(x) = 0\\}$ où $q$ est une forme quadratique non nulle sur $\\mathbb{K}^3$ ; elle est **propre** (non dégénérée) si $q$ l'est.\n• **Classification** : sur $\\mathbb{C}$, toutes les coniques propres sont projectivement équivalentes à $x_0^2 + x_1^2 + x_2^2 = 0$. Sur $\\mathbb{R}$, une conique propre est soit vide ($x_0^2 + x_1^2 + x_2^2 = 0$), soit équivalente à $x_1^2 + x_2^2 - x_0^2 = 0$ (signature).\n• **Nature affine** dans la carte $x_0 = 1$ (conique propre non vide de $\\mathbb{P}^2(\\mathbb{R})$) : **ellipse** si elle ne rencontre pas la droite à l'infini $x_0 = 0$, **parabole** si elle lui est tangente (un point double), **hyperbole** si elle la coupe en deux points réels distincts (directions asymptotiques). Ellipse, parabole et hyperbole sont donc projectivement équivalentes.\n• **Théorème de Desargues** : deux triangles $ABC$ et $A'B'C'$ (sans sommet commun) sont en perspective depuis un point ($AA'$, $BB'$, $CC'$ concourantes) si et seulement s'ils sont en perspective par rapport à une droite (les points $AB \\cap A'B'$, $BC \\cap B'C'$, $CA \\cap C'A'$ sont alignés).\n• **Théorème de Pappus** : si $A, B, C$ sont sur une droite et $A', B', C'$ sur une autre, alors les points $AB' \\cap A'B$, $BC' \\cap B'C$, $CA' \\cap C'A$ sont alignés.\n• **Méthode** : envoyer à l'infini une droite bien choisie par homographie transforme souvent un énoncé projectif en un énoncé affine simple (concours $\\to$ parallélisme)."
+        "content": "• **Conique projective** : $\\mathcal{C} = \\{[x] \\in \\mathbb{P}^2 \\mid q(x) = 0\\}$ où $q$ est une forme quadratique non nulle sur $\\mathbb{K}^3$ ; elle est **propre** (non dégénérée) si $q$ l'est.\n• **Classification** : sur $\\mathbb{C}$, toutes les coniques propres sont projectivement équivalentes à $x_0^2 + x_1^2 + x_2^2 = 0$. Sur $\\mathbb{R}$, une conique propre est soit vide ($x_0^2 + x_1^2 + x_2^2 = 0$), soit équivalente à $x_1^2 + x_2^2 - x_0^2 = 0$ (signature).\n• **Nature affine** dans la carte $x_0 = 1$ (conique propre non vide de $\\mathbb{P}^2(\\mathbb{R})$) : **ellipse** si elle ne rencontre pas la droite à l'infini $x_0 = 0$, **parabole** si elle lui est tangente (un point double), **hyperbole** si elle la coupe en deux points réels distincts (directions asymptotiques). Ellipse, parabole et hyperbole sont donc projectivement équivalentes.\n• **Théorème de Desargues** : deux triangles $ABC$ et $A'B'C'$ (sans sommet commun) sont en perspective depuis un point ($AA'$, $BB'$, $CC'$ concourantes) si et seulement s'ils sont en perspective par rapport à une droite (les points $AB \\cap A'B'$, $BC \\cap B'C'$, $CA \\cap C'A'$ sont alignés).\n• **Théorème de Pappus** : soient $D$ et $D'$ deux droites distinctes du plan projectif, $A, B, C$ trois points distincts de $D$ et $A', B', C'$ trois points distincts de $D'$, tous ces points étant distincts de $D \\cap D'$. Alors les points $AB' \\cap A'B$, $BC' \\cap B'C$, $CA' \\cap C'A$ sont alignés.\n• **Méthode** : envoyer à l'infini une droite bien choisie par homographie transforme souvent un énoncé projectif en un énoncé affine simple (concours $\\to$ parallélisme)."
+      },
+      {
+        "title": "7. Géométrie affine : barycentres et applications affines",
+        "content": "• **Espace affine** : un ensemble $\\mathcal{E}$ muni d'une action libre et transitive $(A, \\vec u) \\mapsto A + \\vec u$ d'un espace vectoriel $E$, sa **direction**. On note $\\overrightarrow{AB}$ l'unique vecteur tel que $B = A + \\overrightarrow{AB}$, et l'on a la **relation de Chasles** $\\overrightarrow{AB} + \\overrightarrow{BC} = \\overrightarrow{AC}$. Un **sous-espace affine** est une partie $A + F$ où $F$ est un sous-espace vectoriel de $E$ ; un **repère affine** est une famille $(A_0, \\dots, A_n)$ telle que $(\\overrightarrow{A_0A_1}, \\dots, \\overrightarrow{A_0A_n})$ soit une base de $E$.\n• **Barycentre** : si $\\lambda_1 + \\dots + \\lambda_p = s \\neq 0$, il existe un unique point $G$ tel que $\\sum_i \\lambda_i \\overrightarrow{GA_i} = \\vec 0$, noté $\\mathrm{bar}\\{(A_i, \\lambda_i)\\}$ ; pour tout point $O$, $\\overrightarrow{OG} = \\frac{1}{s}\\sum_i \\lambda_i \\overrightarrow{OA_i}$. On peut remplacer une partie des points par leur barycentre affecté de la somme de leurs poids, si cette somme est non nulle (**associativité**).\n• **Coordonnées barycentriques** : dans un repère affine $(A_0, \\dots, A_n)$, tout point $M$ s'écrit de façon unique $M = \\mathrm{bar}\\{(A_i, x_i)\\}$ avec $\\sum_i x_i = 1$ (coordonnées **normalisées**). Pour un triangle non aplati $ABC$ : $M = \\mathrm{bar}\\{(A, \\alpha), (B, \\beta), (C, \\gamma)\\}$ avec $\\alpha + \\beta + \\gamma = 1$, c'est-à-dire $\\overrightarrow{AM} = \\beta \\overrightarrow{AB} + \\gamma \\overrightarrow{AC}$. Trois points sont alignés si et seulement si le déterminant de leurs coordonnées barycentriques est nul. Les coordonnées non normalisées $(x : y : z)$ sont des coordonnées homogènes du plan projectif complété, la droite à l'infini ayant pour équation $x + y + z = 0$.\n• **Application affine** : $f : \\mathcal{E} \\to \\mathcal{E}$ est **affine** s'il existe une application linéaire $\\vec f$ de $E$ dans $E$, sa **partie linéaire**, telle que $\\overrightarrow{f(M)f(N)} = \\vec f(\\overrightarrow{MN})$ pour tous $M, N$. En coordonnées : $f(X) = AX + B$, où $A$ est la matrice de $\\vec f$. Une application affine conserve les barycentres ; elle est bijective si et seulement si $\\vec f$ l'est. L'application $f \\mapsto \\vec f$ est un morphisme surjectif du groupe affine $\\text{GA}(\\mathcal{E})$ sur $\\text{GL}(E)$, dont le noyau est le sous-groupe distingué des **translations**.\n• **Points fixes** : si $1$ n'est pas valeur propre de $\\vec f$, $f$ possède un **unique** point fixe, solution de $(A - I)X = -B$. Sinon, l'ensemble des points fixes est vide ou est un sous-espace affine de direction $\\text{Ker}(\\vec f - \\text{Id})$.\n• **Homothéties et translations** : l'homothétie de centre $\\Omega$ et de rapport $k \\neq 0$ est $M \\mapsto \\Omega + k\\overrightarrow{\\Omega M}$, de partie linéaire $k\\,\\text{Id}$. Réciproquement, une application affine de partie linéaire $k\\,\\text{Id}$ est une translation si $k = 1$, et une homothétie de rapport $k$ de centre son unique point fixe si $k \\notin \\{0, 1\\}$. Donc la composée de deux homothéties de rapports $k_1$ et $k_2$ est une homothétie de rapport $k_1k_2$ si $k_1k_2 \\neq 1$, et une translation si $k_1k_2 = 1$.\n• **Ménélaüs et Ceva** : soit $ABC$ un triangle non aplati, $P \\in (BC)$, $Q \\in (CA)$, $R \\in (AB)$ distincts des sommets, et $\\alpha, \\beta, \\gamma$ les réels tels que $\\overrightarrow{PB} = \\alpha\\overrightarrow{PC}$, $\\overrightarrow{QC} = \\beta\\overrightarrow{QA}$, $\\overrightarrow{RA} = \\gamma\\overrightarrow{RB}$. Alors $P, Q, R$ sont alignés si et seulement si $\\alpha\\beta\\gamma = 1$ (**Ménélaüs**), et $(AP), (BQ), (CR)$ sont concourantes ou parallèles si et seulement si $\\alpha\\beta\\gamma = -1$ (**Ceva**)."
+      },
+      {
+        "title": "8. Inversion plane",
+        "content": "• **Définition** : dans le plan euclidien, l'**inversion** de centre $O$ et de puissance $k > 0$ associe à $M \\neq O$ le point $M'$ de la demi-droite $[OM)$ tel que $OM \\times OM' = k$, autrement dit $\\overrightarrow{OM'} = \\frac{k}{OM^2}\\overrightarrow{OM}$. En complexes, avec $O$ pour origine : $z \\mapsto \\frac{k}{\\bar z}$.\n• **Propriétés** : c'est une involution du plan privé de $O$ ; ses points fixes forment le **cercle d'inversion**, de centre $O$ et de rayon $\\sqrt{k}$. Elle n'est pas affine, mais pour $M, N \\neq O$ :\n$$M'N' = \\frac{k \\times MN}{OM \\times ON}$$\n(réduire $\\frac{k}{\\bar z} - \\frac{k}{\\bar w}$ au même dénominateur). Elle conserve les angles géométriques et renverse leur orientation.\n• **Images de droites et de cercles** (privés de $O$ le cas échéant) :\n  1. une droite passant par $O$ est sa propre image ;\n  2. une droite $D$ ne passant pas par $O$ a pour image le cercle de diamètre $[OH']$ privé de $O$, où $H'$ est l'image du projeté orthogonal $H$ de $O$ sur $D$. En effet, pour $M \\in D$, l'égalité $OM \\times OM' = OH \\times OH'$ montre que les triangles $OHM$ et $OM'H'$ sont semblables, donc rectangles respectivement en $H$ et en $M'$ ;\n  3. un cercle passant par $O$, privé de $O$, a pour image une droite ne passant pas par $O$, perpendiculaire au diamètre issu de $O$ ;\n  4. un cercle ne passant pas par $O$ a pour image un cercle ne passant pas par $O$, homothétique du premier dans l'homothétie de centre $O$ et de rapport $\\frac{k}{p}$, où $p$ est la puissance de $O$ par rapport à ce cercle.\n• **Lien avec les homographies** : en ajoutant un point $\\infty$, échangé avec $O$, l'inversion devient une bijection de $\\widehat{\\mathbb{C}} = \\mathbb{P}^1(\\mathbb{C})$, où droites et cercles forment une seule famille de « cercles-droites », conservée par les inversions. Comme $z \\mapsto \\frac{k}{\\bar z}$ est la composée de la conjugaison et de l'homographie $z \\mapsto \\frac{k}{z}$, le birapport des images de quatre points est le conjugué de leur birapport. Les inversions et les réflexions engendrent le **groupe circulaire**, formé des homographies de $\\mathbb{P}^1(\\mathbb{C})$ et de leurs composées avec la conjugaison."
       }
     ],
     "methods": [
@@ -964,6 +1086,26 @@ window.MATHS_COURSES_L3 = {
           "**Étape 3 (Images par $g$)** : $g(0) = 1$, $g(1) = \\frac{1}{2}$, $g(3) = \\frac{1}{4}$, $g\\left(\\frac{3}{5}\\right) = \\frac{5}{8}$. Alors $\\frac{\\left(\\frac{5}{8} - \\frac{1}{2}\\right)\\left(\\frac{1}{4} - 1\\right)}{\\left(\\frac{5}{8} - 1\\right)\\left(\\frac{1}{4} - \\frac{1}{2}\\right)} = \\frac{\\frac{1}{8} \\times \\left(-\\frac{3}{4}\\right)}{\\left(-\\frac{3}{8}\\right) \\times \\left(-\\frac{1}{4}\\right)} = \\frac{-\\frac{3}{32}}{\\frac{3}{32}} = -1$.",
           "**Conclusion** : $D$ a pour paramètre $\\frac{3}{5}$, et le birapport $-1$ est bien conservé par l'homographie $g$."
         ]
+      },
+      {
+        "title": "Méthode : Déterminer la nature d'une application affine du plan",
+        "example": "Le plan est rapporté à un repère orthonormé direct. Soit $f$ l'application du plan définie par $f(x ; y) = (-y + 3 ; x + 1)$. Déterminer sa nature.",
+        "steps": [
+          "**Étape 1 (Partie linéaire)** : $f(X) = AX + B$ avec $A = \\begin{pmatrix} 0 & -1 \\\\ 1 & 0 \\end{pmatrix}$ et $B = \\begin{pmatrix} 3 \\\\ 1 \\end{pmatrix}$. $A$ est la matrice de la rotation vectorielle d'angle $\\frac{\\pi}{2}$.",
+          "**Étape 2 (Valeur propre 1)** : $\\det(A - I_2) = \\begin{vmatrix} -1 & -1 \\\\ 1 & -1 \\end{vmatrix} = 2 \\neq 0$, donc $1$ n'est pas valeur propre : $f$ a un unique point fixe.",
+          "**Étape 3 (Point fixe)** : $f(x ; y) = (x ; y) \\iff x = -y + 3$ et $y = x + 1$, d'où $2x = 2$, soit $(x ; y) = (1 ; 2)$. On vérifie : $f(1 ; 2) = (-2 + 3 ; 1 + 1) = (1 ; 2)$.",
+          "**Conclusion** : $f$ est la rotation de centre $\\Omega(1 ; 2)$ et d'angle $\\frac{\\pi}{2}$."
+        ]
+      },
+      {
+        "title": "Méthode : Déterminer l'image d'une droite par une inversion",
+        "example": "Dans un repère orthonormé d'origine $O$, déterminer l'image de la droite $D$ d'équation $y = 3$ par l'inversion de centre $O$ et de puissance $12$.",
+        "steps": [
+          "**Étape 1 (Nature)** : $D$ ne passe pas par $O$, donc son image est un cercle passant par $O$, privé de $O$.",
+          "**Étape 2 (Projeté)** : le projeté orthogonal de $O$ sur $D$ est $H(0 ; 3)$, et $OH = 3$. Son image $H'$ est sur la demi-droite $[OH)$ et vérifie $OH' = \\frac{12}{3} = 4$ : $H'(0 ; 4)$.",
+          "**Étape 3 (Cercle)** : l'image est le cercle de diamètre $[OH']$ privé de $O$, de centre $(0 ; 2)$ et de rayon $2$.",
+          "**Conclusion** : contrôle avec $M(4 ; 3) \\in D$ : $OM^2 = 25$ et $M' = \\frac{12}{25}M = \\left(\\frac{48}{25} ; \\frac{36}{25}\\right)$, qui vérifie bien $x^2 + (y - 2)^2 = 4$."
+        ]
       }
     ],
     "traps": [
@@ -971,7 +1113,10 @@ window.MATHS_COURSES_L3 = {
       "Deux droites distinctes du plan projectif ne sont jamais disjointes : des droites affines parallèles se coupent en un point de la droite à l'infini.",
       "Une homographie de $\\mathbb{P}^n$ est déterminée par l'image de $n+2$ points en position générale, pas de $n+1$ : sur $\\mathbb{P}^1$, il faut trois points ; les homothéties $z \\mapsto \\alpha z$ fixent toutes $0$ et $\\infty$.",
       "Le birapport dépend de l'ordre des points et de la convention choisie : $[A, B, C, D]$ et $[A, B, D, C]$ sont inverses l'un de l'autre.",
-      "Milieu, parallélisme, distinction ellipse/parabole/hyperbole ne sont pas des notions projectives : elles dépendent du choix de la droite à l'infini."
+      "Milieu, parallélisme, distinction ellipse/parabole/hyperbole ne sont pas des notions projectives : elles dépendent du choix de la droite à l'infini.",
+      "Une translation n'a pas de rapport : si $k_1k_2 = 1$, la composée de deux homothéties est une translation, de partie linéaire $\\text{Id}$, et non une homothétie de rapport $1$ au sens usuel.",
+      "Les coordonnées barycentriques normalisées ont pour somme $1$ ; sans normalisation, elles ne sont définies qu'à un facteur non nul près.",
+      "L'inversion n'est pas définie en son centre et n'est pas affine : l'image d'une droite ne passant pas par le centre est un cercle, pas une droite."
     ],
     "flashcards": [
       {
@@ -996,24 +1141,38 @@ window.MATHS_COURSES_L3 = {
       },
       {
         "q": "Énoncer le théorème de Pappus.",
-        "a": "Si $A, B, C$ sont alignés et $A', B', C'$ alignés, les points $AB' \\cap A'B$, $BC' \\cap B'C$, $CA' \\cap C'A$ sont alignés."
+        "a": "Si $A, B, C$ sont trois points distincts d'une droite $D$, $A', B', C'$ trois points distincts d'une droite $D' \\neq D$, tous distincts de $D \\cap D'$, alors les points $AB' \\cap A'B$, $BC' \\cap B'C$, $CA' \\cap C'A$ sont alignés."
+      },
+      {
+        "q": "Comment caractériser les homothéties et translations parmi les applications affines ?",
+        "a": "Ce sont les applications affines de partie linéaire $k\\,\\text{Id}$, $k \\neq 0$ : translation si $k = 1$, homothétie de rapport $k$ sinon."
+      },
+      {
+        "q": "À quelle condition une application affine a-t-elle un unique point fixe ?",
+        "a": "Si et seulement si $1$ n'est pas valeur propre de sa partie linéaire : $(A - I)X = -B$ a alors une unique solution. Sinon, l'ensemble des points fixes est vide ou est un sous-espace affine de dimension au moins $1$."
+      },
+      {
+        "q": "Quelle est l'image, par une inversion de centre $O$, d'une droite ne passant pas par $O$ ?",
+        "a": "Le cercle de diamètre $[OH']$ privé de $O$, où $H'$ est l'image du projeté orthogonal de $O$ sur la droite."
       }
     ]
   },
   "L3-GDF": {
-    "title": "L3-GDF : Sous-variétés différentielles et espaces tangents",
+    "title": "L3-GDF : Sous-variétés, surfaces et courbures",
     "domain": "Géométrie Différentielle",
     "objectives": [
       "Énoncer les théorèmes d'inversion locale et des fonctions implicites, outils de base de la théorie.",
       "Définir une sous-variété de $\\mathbb{R}^n$ par équations, paramétrages ou graphes locaux, et reconnaître les points singuliers.",
       "Démontrer que l'espace tangent d'une sous-variété définie par une submersion est le noyau de la différentielle.",
       "Énoncer, justifier et appliquer le théorème des extrema liés (multiplicateurs de Lagrange).",
-      "Connaître les formes différentielles, le lemme de Poincaré et la formule de Stokes."
+      "Connaître les formes différentielles, le lemme de Poincaré et la formule de Stokes.",
+      "Calculer les deux formes fondamentales d'une surface de $\\mathbb{R}^3$, ses courbures principales, sa courbure de Gauss et sa courbure moyenne.",
+      "Énoncer le Theorema Egregium et le théorème de Gauss-Bonnet, et connaître les géodésiques, le genre et la caractéristique d'Euler."
     ],
     "keyPoints": [
       {
         "title": "1. Outils : inversion locale et fonctions implicites",
-        "content": "• **Théorème d'inversion locale** : soit $f : U \\to \\mathbb{R}^n$ de classe $\\mathcal{C}^p$ ($p \\ge 1$) sur un ouvert $U \\subset \\mathbb{R}^n$ et $a \\in U$ tel que $df(a)$ soit **inversible**. Il existe un ouvert $V \\ni a$ et un ouvert $W \\ni f(a)$ tels que $f : V \\to W$ soit un $\\mathcal{C}^p$-difféomorphisme.\n• **Théorème des fonctions implicites** : soit $F : U \\subset \\mathbb{R}^d \\times \\mathbb{R}^k \\to \\mathbb{R}^k$ de classe $\\mathcal{C}^p$, $(a, b) \\in U$ avec $F(a, b) = 0$ et $\\partial_y F(a, b)$ (matrice $k \\times k$) **inversible**. Il existe des voisinages ouverts $A \\ni a$, $B \\ni b$ et $g : A \\to B$ de classe $\\mathcal{C}^p$ tels que\n$$\\forall (x, y) \\in A \\times B, \\quad F(x, y) = 0 \\iff y = g(x)$$\net $dg(x) = -\\left(\\partial_y F(x, g(x))\\right)^{-1} \\circ \\partial_x F(x, g(x))$.\n• **Vocabulaire** : $f : U \\subset \\mathbb{R}^n \\to \\mathbb{R}^k$ est une **submersion** en $x$ si $df(x)$ est surjective (rang $k$) ; $\\varphi : V \\subset \\mathbb{R}^d \\to \\mathbb{R}^n$ est une **immersion** en $u$ si $d\\varphi(u)$ est injective (rang $d$)."
+        "content": "• **Théorème d'inversion locale** : soit $f : U \\to \\mathbb{R}^n$ de classe $\\mathcal{C}^p$ ($p \\ge 1$) sur un ouvert $U \\subset \\mathbb{R}^n$ et $a \\in U$ tel que $df(a)$ soit **inversible**. Il existe un ouvert $V \\ni a$ et un ouvert $W \\ni f(a)$ tels que $f : V \\to W$ soit un $\\mathcal{C}^p$-difféomorphisme.\n• **Théorème des fonctions implicites** : soit $F : U \\subset \\mathbb{R}^d \\times \\mathbb{R}^k \\to \\mathbb{R}^k$ de classe $\\mathcal{C}^p$, $(a, b) \\in U$ avec $F(a, b) = 0$ et $\\partial_y F(a, b)$ (matrice $k \\times k$) **inversible**. Il existe des voisinages ouverts $A \\ni a$, $B \\ni b$ et $g : A \\to B$ de classe $\\mathcal{C}^p$ tels que\n$$\\forall (x, y) \\in A \\times B, \\quad F(x, y) = 0 \\iff y = g(x)$$\net $dg(x) = -\\left(\\partial_y F(x, g(x))\\right)^{-1} \\circ \\partial_x F(x, g(x))$.\n• **Vocabulaire** : $f : U \\subset \\mathbb{R}^n \\to \\mathbb{R}^k$ est une **submersion** en $x$ si $df(x)$ est surjective (rang $k$) ; $\\varphi : V \\subset \\mathbb{R}^d \\to \\mathbb{R}^n$ est une **immersion** en $u$ si $d\\varphi(u)$ est injective (rang $d$). Un réel ou un vecteur $c$ est une **valeur régulière** de $f$ si $df(x)$ est surjective en tout point $x$ de $f^{-1}(\\{c\\})$ ; alors $f^{-1}(\\{c\\})$, s'il est non vide, est une sous-variété de dimension $n - k$."
       },
       {
         "title": "2. Sous-variétés de $\\mathbb{R}^n$ : définitions équivalentes",
@@ -1033,7 +1192,19 @@ window.MATHS_COURSES_L3 = {
       },
       {
         "title": "6. Formes différentielles et formule de Stokes",
-        "content": "• **1-formes** sur un ouvert $U$ de $\\mathbb{R}^n$ : $\\omega = \\sum_{i=1}^n A_i \\, dx_i$. **Dérivée extérieure** : $d\\omega = \\sum_{i < j}\\left(\\frac{\\partial A_j}{\\partial x_i} - \\frac{\\partial A_i}{\\partial x_j}\\right) dx_i \\wedge dx_j$.\n• $\\omega$ est **exacte** s'il existe $f$ telle que $\\omega = df$ ; **fermée** si $d\\omega = 0$. Toute forme exacte de classe $\\mathcal{C}^1$ est fermée (lemme de Schwarz : $d \\circ d = 0$).\n• **Lemme de Poincaré** : sur un ouvert **étoilé**, toute forme fermée de classe $\\mathcal{C}^1$ est exacte.\n• **Intégrale curviligne** : si $\\omega = df$ et $\\gamma$ est un chemin $\\mathcal{C}^1$ par morceaux de $A$ à $B$, $\\int_\\gamma \\omega = f(B) - f(A)$ ; en particulier l'intégrale sur un lacet est nulle.\n• **Formule de Stokes** : pour $M$ une sous-variété compacte orientée à bord de dimension $k$ (bord muni de l'orientation induite) et $\\omega$ une $(k-1)$-forme de classe $\\mathcal{C}^1$ au voisinage de $M$ :\n$$\\int_{\\partial M} \\omega = \\int_M d\\omega$$\nCas particuliers : formule de Green-Riemann ($k = 2$ dans le plan), formule d'Ostrogradski (flux et divergence), formule de Kelvin-Stokes (circulation et rotationnel)."
+        "content": "• **1-formes** sur un ouvert $U$ de $\\mathbb{R}^n$ : $\\omega = \\sum_{i=1}^n A_i \\, dx_i$. **Dérivée extérieure** : $d\\omega = \\sum_{i < j}\\left(\\frac{\\partial A_j}{\\partial x_i} - \\frac{\\partial A_i}{\\partial x_j}\\right) dx_i \\wedge dx_j$.\n• **$k$-formes** : une $k$-forme sur $U$ s'écrit $\\omega = \\sum_{i_1 < \\dots < i_k} A_{i_1 \\dots i_k} \\, dx_{i_1} \\wedge \\dots \\wedge dx_{i_k}$, où le produit extérieur $\\wedge$ est associatif et alterné ($dx_i \\wedge dx_j = -dx_j \\wedge dx_i$, donc $dx_i \\wedge dx_i = 0$). Une $0$-forme est une fonction. La dérivée extérieure envoie les $k$-formes sur les $(k+1)$-formes par $d\\left(A \\, dx_{i_1} \\wedge \\dots \\wedge dx_{i_k}\\right) = dA \\wedge dx_{i_1} \\wedge \\dots \\wedge dx_{i_k}$ (la formule ci-dessus est le cas $k = 1$).\n• $\\omega$ est **exacte** s'il existe $f$ telle que $\\omega = df$ ; **fermée** si $d\\omega = 0$. Toute forme exacte de classe $\\mathcal{C}^1$ est fermée (lemme de Schwarz : $d \\circ d = 0$).\n• **Lemme de Poincaré** : sur un ouvert **étoilé**, toute forme fermée de classe $\\mathcal{C}^1$ est exacte.\n• **Intégrale curviligne** : si $\\omega = df$ et $\\gamma$ est un chemin $\\mathcal{C}^1$ par morceaux de $A$ à $B$, $\\int_\\gamma \\omega = f(B) - f(A)$ ; en particulier l'intégrale sur un lacet est nulle.\n• **Sous-variété à bord** : $M$ de dimension $k$ est à bord si, près de chaque point, elle est difféomorphe à un ouvert du demi-espace $\\{x_k \\ge 0\\}$ de $\\mathbb{R}^k$ ; son **bord** $\\partial M$ est formé des points qui correspondent à $x_k = 0$ et c'est une sous-variété de dimension $k - 1$.\n• **Orientation** : orienter $M$, c'est choisir de façon continue, en chaque point $x$, une classe de bases de $T_xM$ (deux bases sont de même classe si le déterminant de passage est strictement positif). L'**orientation induite** sur $\\partial M$ : une base $(e_1, \\dots, e_{k-1})$ de $T_x\\partial M$ est directe si $(\\nu, e_1, \\dots, e_{k-1})$ est directe, où $\\nu$ est un vecteur tangent à $M$ sortant.\n• **Formule de Stokes** : pour $M$ une sous-variété compacte orientée à bord de dimension $k$ (bord muni de l'orientation induite) et $\\omega$ une $(k-1)$-forme de classe $\\mathcal{C}^1$ au voisinage de $M$ :\n$$\\int_{\\partial M} \\omega = \\int_M d\\omega$$\nCas particuliers : formule de Green-Riemann ($k = 2$ dans le plan), formule d'Ostrogradski (flux et divergence), formule de Kelvin-Stokes (circulation et rotationnel)."
+      },
+      {
+        "title": "7. Surfaces de $\\mathbb{R}^3$ : première forme fondamentale",
+        "content": "• **Nappe régulière** : $X : U \\subset \\mathbb{R}^2 \\to \\mathbb{R}^3$ de classe $\\mathcal{C}^3$, avec $X_u \\wedge X_v \\neq 0$ en tout point (c'est une immersion). Le plan tangent en $p = X(u, v)$ est $T_pS = \\text{Vect}(X_u, X_v)$, et la **normale unitaire** est $n = \\frac{X_u \\wedge X_v}{\\|X_u \\wedge X_v\\|}$.\n• **Première forme fondamentale** : c'est la restriction du produit scalaire à $T_pS$. Pour $h = aX_u + bX_v$, on a $\\mathrm{I}(h) = \\|h\\|^2 = Ea^2 + 2Fab + Gb^2$, avec\n$$E = \\|X_u\\|^2, \\quad F = \\langle X_u, X_v \\rangle, \\quad G = \\|X_v\\|^2$$\nOn écrit aussi $\\mathrm{I} = E \\, du^2 + 2F \\, du \\, dv + G \\, dv^2$.\n• **Longueurs et aires** : la longueur d'une courbe $t \\mapsto X(u(t), v(t))$ sur $[a ; b]$ vaut $\\int_a^b \\sqrt{Eu'^2 + 2Fu'v' + Gv'^2} \\, dt$. Comme $\\|X_u \\wedge X_v\\|^2 = EG - F^2$, l'aire de $X(D)$ vaut $\\iint_D \\sqrt{EG - F^2} \\, du \\, dv$.\n• **Graphe** $z = f(x, y)$, avec $X(x, y) = (x, y, f(x, y))$ : $E = 1 + f_x^2$, $F = f_x f_y$, $G = 1 + f_y^2$ et $EG - F^2 = 1 + f_x^2 + f_y^2$.\n• **Sphère de rayon $R$**, avec $X(\\theta, \\varphi) = (R\\cos\\varphi\\cos\\theta, R\\cos\\varphi\\sin\\theta, R\\sin\\varphi)$ : $E = R^2\\cos^2\\varphi$, $F = 0$, $G = R^2$.\n• **Isométrie locale** : application entre surfaces qui conserve la première forme fondamentale, donc les longueurs, les angles et les aires. Le cylindre de rayon $R$ a pour première forme $R^2 \\, d\\theta^2 + dz^2$ ; avec $w = R\\theta$, on obtient $dw^2 + dz^2$, celle du plan."
+      },
+      {
+        "title": "8. Deuxième forme fondamentale et courbures",
+        "content": "• **Application de Weingarten** : c'est $W_p = -dn_p$, endomorphisme de $T_pS$. Il est **symétrique** pour le produit scalaire de $T_pS$. L'application de Gauss $n$ dépend du choix d'orientation.\n• **Deuxième forme fondamentale** : $\\mathrm{II}(h, h') = \\langle W_p(h), h' \\rangle$. Dans la base $(X_u, X_v)$, ses coefficients sont\n$$L = \\langle X_{uu}, n \\rangle, \\quad M = \\langle X_{uv}, n \\rangle, \\quad N = \\langle X_{vv}, n \\rangle$$\n• **Matrice** : dans la base $(X_u, X_v)$, $W_p$ a pour matrice $\\begin{pmatrix} E & F \\\\ F & G \\end{pmatrix}^{-1} \\begin{pmatrix} L & M \\\\ M & N \\end{pmatrix}$.\n• **Courbures principales** : ce sont les valeurs propres réelles $k_1, k_2$ de $W_p$. Les directions propres sont les **directions principales**, orthogonales si $k_1 \\neq k_2$. La **courbure normale** dans la direction $h \\neq 0$ est $\\frac{\\mathrm{II}(h, h)}{\\mathrm{I}(h)}$, et elle varie entre $k_1$ et $k_2$.\n• **Courbures de Gauss et moyenne** :\n$$K = k_1 k_2 = \\frac{LN - M^2}{EG - F^2}, \\qquad H = \\frac{k_1 + k_2}{2} = \\frac{EN - 2FM + GL}{2(EG - F^2)}$$\nChanger l'orientation change le signe de $k_1, k_2$ et $H$, mais pas celui de $K$.\n• **Ombilics** : un point où $k_1 = k_2$. Tous les points d'une sphère ou d'un plan sont des ombilics. Une surface est **minimale** si $H = 0$ partout.\n• **Types de points** : **elliptique** si $K > 0$, **hyperbolique** si $K < 0$, **parabolique** si $K = 0$ et $W_p \\neq 0$, **planaire** si $W_p = 0$.\n• **Graphe** $z = f(x, y)$, avec $n$ orientée vers les $z$ croissants :\n$$K = \\frac{f_{xx}f_{yy} - f_{xy}^2}{(1 + f_x^2 + f_y^2)^2}$$\nEn un point critique de $f$, on a $E = G = 1$, $F = 0$, $(L, M, N) = (f_{xx}, f_{xy}, f_{yy})$ et $K = f_{xx}f_{yy} - f_{xy}^2$.\n• **Exemples** : sphère de rayon $R$, $K = \\frac{1}{R^2}$ et $|H| = \\frac{1}{R}$ ; cylindre de rayon $R$, $K = 0$ et $|H| = \\frac{1}{2R}$."
+      },
+      {
+        "title": "9. Theorema Egregium, géodésiques et Gauss-Bonnet",
+        "content": "Les résultats de cette partie sont admis.\n\n• **Theorema Egregium (Gauss)** : la courbure de Gauss $K$ ne dépend que de la première forme fondamentale et de ses dérivées : elle est conservée par isométrie locale. Dans un paramétrage où $F = 0$,\n$$K = -\\frac{1}{2\\sqrt{EG}}\\left[\\partial_u\\left(\\frac{G_u}{\\sqrt{EG}}\\right) + \\partial_v\\left(\\frac{E_v}{\\sqrt{EG}}\\right)\\right]$$\n• **Conséquences** : le cylindre, localement isométrique au plan, a $K = 0$. La sphère a $K = \\frac{1}{R^2} \\neq 0$ : aucun ouvert de la sphère n'est isométrique à un ouvert du plan, donc il n'existe pas de carte plane conservant les distances. La courbure moyenne $H$ n'est pas intrinsèque : le plan et le cylindre ont même première forme locale, mais pas même $H$.\n• **Géodésiques** : une courbe $\\gamma$ tracée sur $S$ est une géodésique si $\\gamma''(t)$ est normal à $S$ en tout point. Sa vitesse $\\|\\gamma'\\|$ est alors constante, et elle réalise localement le plus court chemin. Ce sont les droites sur le plan, les grands cercles parcourus à vitesse constante sur la sphère, les hélices, génératrices et cercles horizontaux sur le cylindre.\n• **Caractéristique d'Euler** : pour une triangulation d'une surface compacte, $\\chi(S) = s - a + f$ (sommets, arêtes, faces). Ce nombre ne dépend pas de la triangulation et il est invariant par homéomorphisme.\n• **Genre** : pour une surface compacte connexe orientable sans bord, le genre $g$ est le nombre d'anses, et $\\chi(S) = 2 - 2g$. La sphère a $g = 0$ et $\\chi = 2$ ; le tore a $g = 1$ et $\\chi = 0$.\n• **Gauss-Bonnet local** : pour un triangle $T$ dont les côtés sont des géodésiques et dont les angles intérieurs sont $\\alpha$, $\\beta$, $\\gamma$,\n$$\\iint_T K \\, dA = \\alpha + \\beta + \\gamma - \\pi$$\n• **Gauss-Bonnet global** : pour une surface compacte orientable sans bord, $\\iint_S K \\, dA = 2\\pi\\chi(S)$. Pour la sphère de rayon $R$ : $\\frac{1}{R^2} \\times 4\\pi R^2 = 4\\pi = 2\\pi \\times 2$."
       }
     ],
     "methods": [
@@ -1056,6 +1227,25 @@ window.MATHS_COURSES_L3 = {
           "**Étape 3 (Contrainte)** : $\\frac{1}{4\\lambda^2} + \\frac{1}{\\lambda^2} = 5 \\iff \\lambda^2 = \\frac{1}{4} \\iff \\lambda = \\pm\\frac{1}{2}$, d'où les points critiques $(1, 2)$ et $(-1, -2)$.",
           "**Conclusion** : $F(1, 2) = 5$ et $F(-1, -2) = -5$ ; le maximum vaut $5$ et le minimum $-5$ (cohérent avec Cauchy-Schwarz : $|x + 2y| \\le \\sqrt{5}\\sqrt{x^2 + y^2} = 5$)."
         ]
+      },
+      {
+        "title": "Méthode : Calculer les courbures d'un graphe en un point",
+        "example": "Calculer les formes fondamentales, $K$ et $H$ pour la surface $z = x^2 + y^2$, au point de paramètres $(1, 0)$, avec la normale orientée vers les $z$ croissants.",
+        "steps": [
+          "**Étape 1 (Dérivées)** : avec $f(x, y) = x^2 + y^2$, on a au point $(1, 0)$ : $f_x = 2$, $f_y = 0$, $f_{xx} = f_{yy} = 2$, $f_{xy} = 0$.",
+          "**Étape 2 (Première forme)** : $E = 1 + f_x^2 = 5$, $F = f_x f_y = 0$, $G = 1 + f_y^2 = 1$.",
+          "**Étape 3 (Deuxième forme)** : $X_x \\wedge X_y = (-f_x, -f_y, 1)$ a pour norme $\\sqrt{5}$. Donc $L = N = \\frac{2}{\\sqrt{5}}$ et $M = 0$.",
+          "**Conclusion** : $K = \\frac{LN - M^2}{EG - F^2} = \\frac{4/5}{5} = \\frac{4}{25}$ et $H = \\frac{EN - 2FM + GL}{2(EG - F^2)} = \\frac{5 \\times \\frac{2}{\\sqrt{5}} + \\frac{2}{\\sqrt{5}}}{10} = \\frac{6\\sqrt{5}}{25}$. Le point est elliptique, et il n'est pas un ombilic car $k_1 = \\frac{2\\sqrt{5}}{25}$ et $k_2 = \\frac{2\\sqrt{5}}{5}$ sont différentes."
+        ]
+      },
+      {
+        "title": "Méthode : Utiliser Gauss-Bonnet sur la sphère",
+        "example": "Sur la sphère de rayon $R$, calculer l'aire du triangle géodésique formé par un huitième de sphère (trois angles droits).",
+        "steps": [
+          "**Étape 1 (Courbure)** : sur la sphère, $K = \\frac{1}{R^2}$ est constante, donc $\\iint_T K \\, dA = \\frac{\\mathcal{A}(T)}{R^2}$.",
+          "**Étape 2 (Excès angulaire)** : Gauss-Bonnet donne $\\frac{\\mathcal{A}(T)}{R^2} = \\frac{\\pi}{2} + \\frac{\\pi}{2} + \\frac{\\pi}{2} - \\pi = \\frac{\\pi}{2}$.",
+          "**Conclusion** : $\\mathcal{A}(T) = \\frac{\\pi R^2}{2}$, ce qui est bien le huitième de $4\\pi R^2$."
+        ]
       }
     ],
     "traps": [
@@ -1063,7 +1253,9 @@ window.MATHS_COURSES_L3 = {
       "Les multiplicateurs de Lagrange donnent une condition nécessaire sous l'hypothèse de qualification. Sans elle, la conclusion peut tomber : $F(x, y) = x$ admet un minimum en $(0, 0)$ sur la courbe $y^2 = x^3$, mais $\\nabla g(0, 0) = (0, 0)$ et aucune relation $\\nabla F = \\lambda \\nabla g$ n'est possible.",
       "Un point critique de Lagrange n'est pas forcément un extremum : il faut conclure par compacité, par comparaison de valeurs ou par une étude du second ordre.",
       "L'image d'une immersion injective n'est pas toujours une sous-variété : une courbe en « huit » parcourue sans repasser par le même paramètre n'est pas homéomorphe à son image au point de croisement.",
-      "Une forme fermée n'est pas exacte sur un ouvert non étoilé : $\\omega = \\frac{-y \\, dx + x \\, dy}{x^2 + y^2}$ est fermée sur $\\mathbb{R}^2 \\setminus \\{0\\}$, mais son intégrale sur le cercle unité vaut $2\\pi \\neq 0$."
+      "Une forme fermée n'est pas exacte sur un ouvert non étoilé : $\\omega = \\frac{-y \\, dx + x \\, dy}{x^2 + y^2}$ est fermée sur $\\mathbb{R}^2 \\setminus \\{0\\}$, mais son intégrale sur le cercle unité vaut $2\\pi \\neq 0$.",
+      "En un point non critique d'un graphe, $K$ a pour dénominateur $(1 + f_x^2 + f_y^2)^2$ : la formule simplifiée $K = f_{xx}f_{yy} - f_{xy}^2$ n'est valable qu'aux points où le gradient de $f$ est nul.",
+      "Le Theorema Egregium concerne $K$, pas $H$ : la courbure moyenne n'est pas conservée par isométrie locale. De même, le signe de $k_1$, $k_2$ et $H$ dépend du choix de la normale, alors que celui de $K$ n'en dépend pas."
     ],
     "flashcards": [
       {
@@ -1089,6 +1281,26 @@ window.MATHS_COURSES_L3 = {
       {
         "q": "Énoncer la formule de Stokes.",
         "a": "Pour $M$ sous-variété compacte orientée à bord de dimension $k$ et $\\omega$ une $(k-1)$-forme $\\mathcal{C}^1$ : $\\int_{\\partial M}\\omega = \\int_M d\\omega$."
+      },
+      {
+        "q": "Coefficients de la première forme fondamentale d'une nappe $X(u, v)$ ?",
+        "a": "$E = \\|X_u\\|^2$, $F = \\langle X_u, X_v \\rangle$, $G = \\|X_v\\|^2$ ; l'aire est $\\iint \\sqrt{EG - F^2} \\, du \\, dv$."
+      },
+      {
+        "q": "Courbure de Gauss en fonction des deux formes fondamentales ?",
+        "a": "$K = \\frac{LN - M^2}{EG - F^2}$, avec $L = \\langle X_{uu}, n \\rangle$, $M = \\langle X_{uv}, n \\rangle$, $N = \\langle X_{vv}, n \\rangle$."
+      },
+      {
+        "q": "Que dit le Theorema Egregium ?",
+        "a": "La courbure de Gauss ne dépend que de la première forme fondamentale : elle est invariante par isométrie locale."
+      },
+      {
+        "q": "Énoncer le théorème de Gauss-Bonnet global.",
+        "a": "Pour une surface compacte orientable sans bord, $\\iint_S K \\, dA = 2\\pi\\chi(S)$, avec $\\chi(S) = 2 - 2g$ si elle est connexe de genre $g$."
+      },
+      {
+        "q": "Qu'est-ce qu'une géodésique d'une surface ?",
+        "a": "Une courbe tracée sur la surface dont l'accélération est normale à la surface ; sur la sphère, ce sont les grands cercles."
       }
     ]
   },
@@ -1100,7 +1312,8 @@ window.MATHS_COURSES_L3 = {
       "Connaître les méthodes itératives (Jacobi, Gauss-Seidel) et leur critère de convergence par le rayon spectral.",
       "Construire le polynôme d'interpolation de Lagrange et démontrer la formule de l'erreur d'interpolation.",
       "Utiliser les formules de quadrature (trapèzes, Simpson, Gauss) simples et composites, avec leur erreur.",
-      "Connaître la méthode de Newton et les schémas d'Euler et de Runge-Kutta pour les équations différentielles."
+      "Connaître la méthode de Newton et les schémas d'Euler et de Runge-Kutta pour les équations différentielles.",
+      "Résoudre un système symétrique défini positif par la méthode du gradient, approcher une valeur propre dominante par la puissance itérée et utiliser la décomposition en valeurs singulières."
     ],
     "keyPoints": [
       {
@@ -1122,6 +1335,10 @@ window.MATHS_COURSES_L3 = {
       {
         "title": "5. Intégration numérique",
         "content": "Une formule de quadrature $\\int_a^b f \\approx \\sum w_i f(x_i)$ est **de degré d'exactitude $m$** si elle est exacte pour tous les polynômes de degré $\\le m$ mais pas pour $X^{m+1}$.\n• **Trapèzes** : $\\int_a^b f \\approx \\frac{b-a}{2}(f(a) + f(b))$ ; degré 1 ; erreur $-\\frac{(b-a)^3}{12}f''(\\xi)$ pour $f \\in \\mathcal{C}^2$.\n• **Simpson** : $\\int_a^b f \\approx \\frac{b-a}{6}\\left(f(a) + 4f\\left(\\frac{a+b}{2}\\right) + f(b)\\right)$ ; degré 3 ; erreur $-\\frac{(b-a)^5}{2880}f^{(4)}(\\xi)$ pour $f \\in \\mathcal{C}^4$.\n• **Méthodes composites** : en découpant $[a ; b]$ en $N$ intervalles de longueur $H = \\frac{b-a}{N}$, l'erreur devient $-\\frac{(b-a)H^2}{12}f''(\\xi)$ (trapèzes, ordre 2) et $-\\frac{(b-a)H^4}{2880}f^{(4)}(\\xi)$ (Simpson, ordre 4).\n• **Gauss-Legendre** : avec $n+1$ nœuds choisis comme racines du polynôme de Legendre de degré $n+1$ (et des poids adaptés), la formule a le degré d'exactitude maximal $2n+1$.\n• **Newton** pour $f(x) = 0$ : $x_{k+1} = x_k - \\frac{f(x_k)}{f'(x_k)}$. Si $f \\in \\mathcal{C}^2$ et $r$ est une racine **simple** ($f'(r) \\neq 0$), la convergence est locale et **quadratique** : $|x_{k+1} - r| \\le C|x_k - r|^2$ pour $x_0$ assez proche de $r$.\n• **EDO** $y' = f(t, y)$, $f$ lipschitzienne en $y$ : Euler explicite $y_{n+1} = y_n + hf(t_n, y_n)$ est d'ordre 1 (erreur globale $O(h)$) ; Runge-Kutta classique (RK4) est d'ordre 4 (erreur globale $O(h^4)$). Les schémas explicites demandent un pas petit sur les problèmes raides."
+      },
+      {
+        "title": "6. Gradient, puissance itérée et valeurs singulières",
+        "content": "• **Formulation variationnelle** : pour $A$ symétrique définie positive, $J(x) = \\frac{1}{2}\\langle Ax, x \\rangle - \\langle b, x \\rangle$ a pour gradient $\\nabla J(x) = Ax - b$. Elle est strictement convexe et coercive, et son unique minimiseur est la solution de $Ax = b$.\n• **Gradient à pas fixe** : $x_{k+1} = x_k + \\alpha r_k$ avec $r_k = b - Ax_k = -\\nabla J(x_k)$. L'erreur vérifie $e_{k+1} = (I - \\alpha A)e_k$, et les valeurs propres de $I - \\alpha A$ sont les $1 - \\alpha\\lambda_i$ : la méthode converge pour tout $x_0$ si et seulement si $0 < \\alpha < \\frac{2}{\\lambda_{\\max}}$.\n• **Meilleur pas fixe** : $\\rho(I - \\alpha A) = \\max(|1 - \\alpha\\lambda_{\\min}|, |1 - \\alpha\\lambda_{\\max}|)$ est minimal pour $\\alpha^* = \\frac{2}{\\lambda_{\\min} + \\lambda_{\\max}}$ et vaut alors $\\frac{\\kappa_2(A) - 1}{\\kappa_2(A) + 1}$ : la convergence se dégrade quand le conditionnement augmente.\n• **Pas optimal à chaque itération** : $\\alpha_k = \\frac{\\|r_k\\|^2}{\\langle Ar_k, r_k \\rangle}$ minimise $\\alpha \\mapsto J(x_k + \\alpha r_k)$ ; deux résidus successifs sont alors orthogonaux.\n• **Gradient conjugué** : on remplace les résidus par des directions $A$-conjuguées ($\\langle Ad_i, d_j \\rangle = 0$ pour $i \\neq j$). En arithmétique exacte, la solution est atteinte en au plus $n$ itérations.\n• **Puissance itérée** : soit $A$ diagonalisable, de valeurs propres $|\\lambda_1| > |\\lambda_2| \\ge \\dots \\ge |\\lambda_n|$, et $x_0$ de composante non nulle sur un vecteur propre $v_1$ associé à $\\lambda_1$. On pose $x_{k+1} = \\frac{Ax_k}{\\|Ax_k\\|}$. La direction de $x_k$ tend vers celle de $v_1$ à la vitesse $\\left|\\frac{\\lambda_2}{\\lambda_1}\\right|^k$, et le **quotient de Rayleigh** $\\frac{\\langle Ax_k, x_k \\rangle}{\\langle x_k, x_k \\rangle}$ tend vers $\\lambda_1$, à la vitesse $\\left|\\frac{\\lambda_2}{\\lambda_1}\\right|^{2k}$ si $A$ est symétrique.\n• **Décomposition en valeurs singulières (SVD)** : toute $A \\in \\mathcal{M}_{m,n}(\\mathbb{R})$ de rang $r$ s'écrit $A = U\\Sigma\\,{}^tV$, avec $U$, $V$ orthogonales et $\\Sigma$ « diagonale » de coefficients $\\sigma_1 \\ge \\dots \\ge \\sigma_r > 0$. Les $\\sigma_i$ sont les racines carrées des valeurs propres strictement positives de ${}^tA A$ (qui est symétrique positive).\n• **Conséquences** : $\\|A\\|_2 = \\sigma_1$ ; si $A$ est carrée inversible, $\\kappa_2(A) = \\frac{\\sigma_1}{\\sigma_n}$. La troncature $A_k = \\sum_{i \\le k} \\sigma_i u_i \\, {}^tv_i$ réalise la meilleure approximation de rang $\\le k$ en norme 2, avec $\\|A - A_k\\|_2 = \\sigma_{k+1}$ (théorème d'Eckart-Young, admis)."
       }
     ],
     "methods": [
@@ -1151,12 +1368,25 @@ window.MATHS_COURSES_L3 = {
       "Pour une racine multiple, Newton ne converge que linéairement : pour $f(x) = x^2$, $x_{k+1} = \\frac{x_k}{2}$.",
       "Augmenter le nombre de nœuds équirépartis n'améliore pas forcément l'interpolation (phénomène de Runge) : préférer des nœuds de Tchebychev ou une interpolation par morceaux.",
       "Un petit déterminant ne signifie pas un mauvais conditionnement : $A = 10^{-1} I_{10}$ a pour déterminant $10^{-10}$ mais $\\kappa(A) = 1$.",
+      "Valeurs singulières et valeurs propres diffèrent en général : $\\begin{pmatrix} 1 & 1 \\\\ 0 & 1 \\end{pmatrix}$ a pour seule valeur propre $1$, mais ses valeurs singulières sont $\\frac{\\sqrt{5} \\pm 1}{2}$.",
       "Jacobi et Gauss-Seidel ne convergent pas pour toute matrice inversible : il faut vérifier $\\rho(B) < 1$ ou une condition suffisante (diagonale strictement dominante, matrice symétrique définie positive pour Gauss-Seidel)."
     ],
     "flashcards": [
       {
         "q": "Ordre de convergence de la méthode de Newton pour une racine simple ?",
         "a": "Ordre 2 (convergence quadratique locale), si $f$ est de classe $\\mathcal{C}^2$ et $f'(r) \\neq 0$."
+      },
+      {
+        "q": "Condition de convergence du gradient à pas fixe pour $A$ symétrique définie positive ?",
+        "a": "$0 < \\alpha < \\frac{2}{\\lambda_{\\max}}$ ; le meilleur pas fixe est $\\alpha^* = \\frac{2}{\\lambda_{\\min} + \\lambda_{\\max}}$."
+      },
+      {
+        "q": "Que calcule la méthode de la puissance itérée ?",
+        "a": "La valeur propre de plus grand module, si elle est strictement dominante, et un vecteur propre associé ; la vitesse dépend de $\\left|\\frac{\\lambda_2}{\\lambda_1}\\right|$."
+      },
+      {
+        "q": "Lien entre valeurs singulières et norme 2 ?",
+        "a": "$\\|A\\|_2 = \\sigma_1$, la plus grande valeur singulière ; pour $A$ inversible, $\\kappa_2(A) = \\frac{\\sigma_1}{\\sigma_n}$."
       },
       {
         "q": "Degré d'exactitude de la méthode de Simpson ?",
@@ -1209,7 +1439,7 @@ window.MATHS_COURSES_L3 = {
       },
       {
         "title": "5. Conditions de Karush-Kuhn-Tucker",
-        "content": "On considère $\\min f(x)$ sous $g_i(x) \\le 0$ ($1 \\le i \\le p$), avec $f, g_i$ de classe $\\mathcal{C}^1$ sur $\\mathbb{R}^n$.\n• **Conditions KKT** en $x^{\\ast}$ admissible : il existe $\\mu_1, \\dots, \\mu_p$ tels que\n$$\\nabla f(x^{\\ast}) + \\sum_{i=1}^p \\mu_i \\nabla g_i(x^{\\ast}) = 0, \\qquad \\mu_i \\ge 0, \\qquad \\mu_i\\, g_i(x^{\\ast}) = 0$$\n(les multiplicateurs des contraintes inactives sont nuls).\n• **Nécessité** : si $x^{\\ast}$ est un minimum local et si les contraintes sont **qualifiées** en $x^{\\ast}$ (par exemple contraintes affines, ou gradients des contraintes actives linéairement indépendants, ou, dans le cas convexe, condition de Slater : existence de $\\tilde{x}$ avec $g_i(\\tilde{x}) < 0$ pour tout $i$), alors les conditions KKT sont satisfaites.\n• **Suffisance** : si $f$ et les $g_i$ sont **convexes**, tout point admissible vérifiant KKT est un minimum global.\n• **Lien avec la programmation linéaire** : pour un programme linéaire, les multiplicateurs KKT sont une solution du dual et la condition $\\mu_i g_i(x^{\\ast}) = 0$ est exactement la condition des écarts complémentaires."
+        "content": "On considère $\\min f(x)$ sous $g_i(x) \\le 0$ ($1 \\le i \\le p$), avec $f, g_i$ de classe $\\mathcal{C}^1$ sur $\\mathbb{R}^n$.\n• **Conditions KKT** en $x^{\\ast}$ admissible : il existe $\\mu_1, \\dots, \\mu_p$ tels que\n$$\\nabla f(x^{\\ast}) + \\sum_{i=1}^p \\mu_i \\nabla g_i(x^{\\ast}) = 0, \\qquad \\mu_i \\ge 0, \\qquad \\mu_i\\, g_i(x^{\\ast}) = 0$$\n(les multiplicateurs des contraintes inactives sont nuls).\n• **Nécessité** : si $x^{\\ast}$ est un minimum local et si les contraintes sont **qualifiées** en $x^{\\ast}$ (par exemple contraintes affines, ou gradients des contraintes actives linéairement indépendants, ou, dans le cas convexe, condition de Slater : existence de $\\tilde{x}$ avec $g_i(\\tilde{x}) < 0$ pour tout $i$), alors les conditions KKT sont satisfaites.\n• **Suffisance** : si $f$ et les $g_i$ sont **convexes** (une fonction $h : \\mathbb{R}^n \\to \\mathbb{R}$ est convexe si $h\\big(tx + (1 - t)y\\big) \\le t\\,h(x) + (1 - t)\\,h(y)$ pour tous $x, y \\in \\mathbb{R}^n$ et tout $t \\in [0 ; 1]$ ; le cas d'une variable est traité au chapitre L1-CNT, section 10), tout point admissible vérifiant KKT est un minimum global.\n• **Lien avec la programmation linéaire** : pour un programme linéaire, les multiplicateurs KKT sont une solution du dual et la condition $\\mu_i g_i(x^{\\ast}) = 0$ est exactement la condition des écarts complémentaires."
       }
     ],
     "methods": [
@@ -1231,7 +1461,7 @@ window.MATHS_COURSES_L3 = {
           "**Étape 2 (Entrée)** : coûts réduits $\\bar{c}_1 = 3$, $\\bar{c}_2 = 2$ ; $x_1$ entre (plus grand coût réduit).",
           "**Étape 3 (Ratio)** : ligne 1 : $\\frac{4}{1} = 4$ ; ligne 2 : $\\frac{5}{2} = 2{,}5$. Le minimum est en ligne 2 : $s_2$ sort, pivot $2$.",
           "**Étape 4 (Pivot)** : $x_1 = 2{,}5 - 0{,}5x_2 - 0{,}5s_2$ ; la ligne 1 devient $1{,}5x_2 + s_1 - 0{,}5s_2 = 1{,}5$ ; $Z = 3(2{,}5 - 0{,}5x_2 - 0{,}5s_2) + 2x_2 = 7{,}5 + 0{,}5x_2 - 1{,}5s_2$.",
-          "**Étape 5 (Deuxième itération)** : $\\bar{c}_{x_2} = 0{,}5 > 0$, $x_2$ entre ; seul ratio : $\\frac{1{,}5}{1{,}5} = 1$ (ligne 1), $s_1$ sort. On obtient $x_2 = 1 - \\frac{2}{3}s_1 + \\frac{1}{3}s_2$, $x_1 = 2 + \\frac{1}{3}s_1 - \\frac{2}{3}s_2$ et $Z = 8 - \\frac{1}{3}s_1 - \\frac{4}{3}s_2$.",
+          "**Étape 5 (Deuxième itération)** : $\\bar{c}_{x_2} = 0{,}5 > 0$, $x_2$ entre ; ratios : ligne 1 : $\\frac{1{,}5}{1{,}5} = 1$ ; ligne 2 : $\\frac{2{,}5}{0{,}5} = 5$. Le minimum est en ligne 1 : $s_1$ sort. On obtient $x_2 = 1 - \\frac{2}{3}s_1 + \\frac{1}{3}s_2$, $x_1 = 2 + \\frac{1}{3}s_1 - \\frac{2}{3}s_2$ et $Z = 8 - \\frac{1}{3}s_1 - \\frac{4}{3}s_2$.",
           "**Conclusion** : tous les coûts réduits sont négatifs : l'optimum est $(x_1^{\\ast}, x_2^{\\ast}) = (2, 1)$, $Z^{\\ast} = 8$. Les opposés des coûts réduits des variables d'écart, $\\left(\\frac{1}{3}, \\frac{4}{3}\\right)$, sont la solution duale."
         ]
       }
@@ -1278,7 +1508,9 @@ window.MATHS_COURSES_L3 = {
       "Démontrer les inégalités de Markov et de Bienaymé-Tchebychev et la loi faible des grands nombres.",
       "Définir la fonction caractéristique et énoncer ses propriétés (moments, indépendance, caractérisation de la loi).",
       "Distinguer les convergences presque sûre, dans $L^p$, en probabilité et en loi, avec contre-exemples.",
-      "Énoncer la loi forte des grands nombres et le théorème central limite, et démontrer ce dernier par les fonctions caractéristiques."
+      "Énoncer la loi forte des grands nombres et le théorème central limite, et démontrer ce dernier par les fonctions caractéristiques.",
+      "Définir un vecteur gaussien, sa matrice de covariance, et caractériser l'indépendance de ses composantes.",
+      "Construire un estimateur (biais, risque, maximum de vraisemblance), un intervalle de confiance et un test d'hypothèses ; ajuster une régression linéaire simple."
     ],
     "keyPoints": [
       {
@@ -1295,15 +1527,31 @@ window.MATHS_COURSES_L3 = {
       },
       {
         "title": "4. Fonctions caractéristiques",
-        "content": "• **Définition** : $\\Phi_X(t) = \\mathbb{E}[e^{itX}]$, $t \\in \\mathbb{R}$ ; pour $X$ à densité, $\\Phi_X(t) = \\int e^{itx}f_X(x) \\, dx$.\n• **Propriétés** :\n  1. $\\Phi_X(0) = 1$, $|\\Phi_X(t)| \\le 1$, et $\\Phi_X$ est uniformément continue sur $\\mathbb{R}$ ; $\\Phi_{aX + b}(t) = e^{ibt}\\Phi_X(at)$.\n  2. **Indépendance** : si $X$ et $Y$ sont indépendantes, $\\Phi_{X+Y} = \\Phi_X \\, \\Phi_Y$.\n  3. **Moments** : si $\\mathbb{E}[|X|^k] < +\\infty$, $\\Phi_X$ est de classe $\\mathcal{C}^k$ et $\\Phi_X^{(j)}(0) = i^j\\,\\mathbb{E}[X^j]$ pour $j \\le k$. En particulier, si $\\mathbb{E}[X^2] < +\\infty$ : $\\Phi_X(t) = 1 + it\\,\\mathbb{E}[X] - \\frac{t^2}{2}\\mathbb{E}[X^2] + o(t^2)$.\n  4. **Caractérisation** : deux variables ont la même loi si et seulement si elles ont la même fonction caractéristique.\n• **Exemples** : $\\mathcal{N}(\\mu, \\sigma^2)$ : $\\Phi(t) = e^{i\\mu t - \\sigma^2t^2/2}$ ; $\\mathcal{E}(\\lambda)$ : $\\Phi(t) = \\frac{\\lambda}{\\lambda - it}$ ; loi de Cauchy de densité $\\frac{1}{\\pi(1 + x^2)}$ : $\\Phi(t) = e^{-|t|}$.\n• **Conséquence** : la somme de deux gaussiennes indépendantes $\\mathcal{N}(\\mu_1, \\sigma_1^2)$ et $\\mathcal{N}(\\mu_2, \\sigma_2^2)$ suit $\\mathcal{N}(\\mu_1 + \\mu_2, \\sigma_1^2 + \\sigma_2^2)$."
+        "content": "• **Définition** : $\\varphi_X(t) = \\mathbb{E}[e^{itX}]$, $t \\in \\mathbb{R}$ ; pour $X$ à densité, $\\varphi_X(t) = \\int e^{itx}f_X(x) \\, dx$.\n• **Propriétés** :\n  1. $\\varphi_X(0) = 1$, $|\\varphi_X(t)| \\le 1$, et $\\varphi_X$ est uniformément continue sur $\\mathbb{R}$ ; $\\varphi_{aX + b}(t) = e^{ibt}\\varphi_X(at)$.\n  2. **Indépendance** : si $X$ et $Y$ sont indépendantes, $\\varphi_{X+Y} = \\varphi_X \\, \\varphi_Y$.\n  3. **Moments** : si $\\mathbb{E}[|X|^k] < +\\infty$, $\\varphi_X$ est de classe $\\mathcal{C}^k$ et $\\varphi_X^{(j)}(0) = i^j\\,\\mathbb{E}[X^j]$ pour $j \\le k$. En particulier, si $\\mathbb{E}[X^2] < +\\infty$ : $\\varphi_X(t) = 1 + it\\,\\mathbb{E}[X] - \\frac{t^2}{2}\\mathbb{E}[X^2] + o(t^2)$.\n  4. **Caractérisation** : deux variables ont la même loi si et seulement si elles ont la même fonction caractéristique.\n• **Exemples** : $\\mathcal{N}(\\mu, \\sigma^2)$ : $\\varphi(t) = e^{i\\mu t - \\sigma^2t^2/2}$ ; $\\mathcal{E}(\\lambda)$ : $\\varphi(t) = \\frac{\\lambda}{\\lambda - it}$ ; loi de Cauchy de densité $\\frac{1}{\\pi(1 + x^2)}$ : $\\varphi(t) = e^{-|t|}$.\n• **Conséquence** : la somme de deux gaussiennes indépendantes $\\mathcal{N}(\\mu_1, \\sigma_1^2)$ et $\\mathcal{N}(\\mu_2, \\sigma_2^2)$ suit $\\mathcal{N}(\\mu_1 + \\mu_2, \\sigma_1^2 + \\sigma_2^2)$."
       },
       {
         "title": "5. Modes de convergence",
-        "content": "Soient $(X_n)$ et $X$ des variables aléatoires réelles.\n• **Presque sûre** : $\\mathbb{P}(X_n \\to X) = 1$.\n• **Dans $L^p$** ($p \\ge 1$) : $\\mathbb{E}[|X_n - X|^p] \\to 0$.\n• **En probabilité** : $\\forall \\varepsilon > 0$, $\\mathbb{P}(|X_n - X| > \\varepsilon) \\to 0$.\n• **En loi** : $\\mathbb{E}[g(X_n)] \\to \\mathbb{E}[g(X)]$ pour toute $g$ continue bornée ; de façon équivalente, $F_{X_n}(x) \\to F_X(x)$ en tout point $x$ où $F_X$ est **continue**. La convergence en loi ne concerne que les lois : les $X_n$ peuvent être définies sur des espaces différents.\n• **Théorème de Lévy** : $X_n \\xrightarrow{\\mathcal{L}} X$ si et seulement si $\\Phi_{X_n}(t) \\to \\Phi_X(t)$ pour tout $t \\in \\mathbb{R}$.\n• **Hiérarchie** : p.s. $\\implies$ en probabilité $\\implies$ en loi ; $L^p \\implies$ en probabilité (Markov) ; $L^q \\implies L^p$ pour $q \\ge p$. Réciproque partielle : la convergence en loi vers une **constante** implique la convergence en probabilité ; de toute suite convergeant en probabilité on peut extraire une sous-suite convergeant p.s."
+        "content": "Soient $(X_n)$ et $X$ des variables aléatoires réelles.\n• **Presque sûre** : $\\mathbb{P}(X_n \\to X) = 1$.\n• **Dans $L^p$** ($p \\ge 1$) : $\\mathbb{E}[|X_n - X|^p] \\to 0$.\n• **En probabilité** : $\\forall \\varepsilon > 0$, $\\mathbb{P}(|X_n - X| > \\varepsilon) \\to 0$.\n• **En loi** : $\\mathbb{E}[g(X_n)] \\to \\mathbb{E}[g(X)]$ pour toute $g$ continue bornée ; de façon équivalente, $F_{X_n}(x) \\to F_X(x)$ en tout point $x$ où $F_X$ est **continue**. La convergence en loi ne concerne que les lois : les $X_n$ peuvent être définies sur des espaces différents.\n• **Théorème de Lévy** : $X_n \\xrightarrow{\\mathcal{L}} X$ si et seulement si $\\varphi_{X_n}(t) \\to \\varphi_X(t)$ pour tout $t \\in \\mathbb{R}$.\n• **Hiérarchie** : p.s. $\\implies$ en probabilité $\\implies$ en loi ; $L^p \\implies$ en probabilité (Markov) ; $L^q \\implies L^p$ pour $q \\ge p$. Réciproque partielle : la convergence en loi vers une **constante** implique la convergence en probabilité ; de toute suite convergeant en probabilité on peut extraire une sous-suite convergeant p.s."
       },
       {
         "title": "6. Loi forte des grands nombres et théorème central limite",
         "content": "Soit $(X_n)_{n \\ge 1}$ une suite de variables **indépendantes et de même loi** (i.i.d.) et $S_n = X_1 + \\dots + X_n$.\n• **Loi forte des grands nombres** : si $\\mathbb{E}[|X_1|] < +\\infty$, $\\frac{S_n}{n} \\xrightarrow{\\text{p.s.}} \\mu = \\mathbb{E}[X_1]$. (La loi faible, en probabilité, a été démontrée au point 3 sous hypothèse $L^2$.)\n• **Théorème central limite** : si $\\mathbb{E}[X_1^2] < +\\infty$ et $\\sigma^2 = \\text{Var}(X_1) > 0$,\n$$Z_n = \\frac{S_n - n\\mu}{\\sigma\\sqrt{n}} = \\sqrt{n}\\,\\frac{\\bar{X}_n - \\mu}{\\sigma} \\xrightarrow[n \\to \\infty]{\\mathcal{L}} \\mathcal{N}(0, 1)$$\nComme la fonction de répartition $\\Phi_{\\mathcal{N}}$ de $\\mathcal{N}(0, 1)$ est continue, pour tous $a \\le b$ : $\\mathbb{P}(a \\le Z_n \\le b) \\to \\int_a^b \\frac{e^{-t^2/2}}{\\sqrt{2\\pi}} \\, dt$.\n• **Lecture** : $\\bar{X}_n - \\mu$ est de l'ordre de $\\frac{\\sigma}{\\sqrt{n}}$ ; d'où l'intervalle de confiance asymptotique $\\left[\\bar{X}_n \\pm 1{,}96\\frac{\\sigma}{\\sqrt{n}}\\right]$ au niveau $95\\,\\%$.\n• **Cas binomial (Moivre-Laplace)** : si $S_n \\sim \\mathcal{B}(n, p)$, $\\frac{S_n - np}{\\sqrt{np(1-p)}} \\xrightarrow{\\mathcal{L}} \\mathcal{N}(0, 1)$."
+      },
+      {
+        "title": "7. Vecteurs gaussiens",
+        "content": "• **Définition** : $X = (X_1, \\dots, X_n)$ est un **vecteur gaussien** si toute combinaison linéaire $\\langle u, X \\rangle = \\sum_i u_i X_i$ ($u \\in \\mathbb{R}^n$) suit une loi normale, les constantes étant vues comme des lois normales de variance nulle.\n• **Paramètres** : l'espérance $m = \\mathbb{E}[X]$ et la **matrice de covariance** $\\Gamma = (\\text{Cov}(X_i, X_j))_{i,j}$, symétrique positive puisque $\\text{Var}(\\langle u, X \\rangle) = {}^tu \\, \\Gamma \\, u \\ge 0$. La fonction caractéristique vaut\n$$\\varphi_X(u) = \\mathbb{E}\\left[e^{i\\langle u, X \\rangle}\\right] = \\exp\\left(i\\langle u, m \\rangle - \\frac{1}{2}\\,{}^tu \\, \\Gamma \\, u\\right)$$\nLa loi est donc entièrement déterminée par $(m, \\Gamma)$ ; on note $X \\sim \\mathcal{N}_n(m, \\Gamma)$.\n• **Image affine** : pour $A \\in \\mathcal{M}_{p,n}(\\mathbb{R})$ et $b \\in \\mathbb{R}^p$, $AX + b \\sim \\mathcal{N}_p(Am + b, A\\Gamma\\,{}^tA)$.\n• **Construction** : si $Z_1, \\dots, Z_n$ sont i.i.d. de loi $\\mathcal{N}(0, 1)$, alors $Z \\sim \\mathcal{N}_n(0, I_n)$. Pour $\\Gamma$ symétrique positive, on choisit $A$ telle que $A\\,{}^tA = \\Gamma$ (racine carrée ou Cholesky) : $m + AZ \\sim \\mathcal{N}_n(m, \\Gamma)$.\n• **Contre-exemple** : des composantes gaussiennes ne forment pas forcément un vecteur gaussien. Si $X \\sim \\mathcal{N}(0, 1)$ et si $\\varepsilon$, indépendante de $X$, vaut $\\pm 1$ avec probabilité $\\frac{1}{2}$, alors $Y = \\varepsilon X \\sim \\mathcal{N}(0, 1)$, mais $\\mathbb{P}(X + Y = 0) = \\frac{1}{2}$ : $X + Y$ n'est pas gaussienne.\n• **Indépendance** : si $(X, Y)$ est un vecteur gaussien (par blocs), $X$ et $Y$ sont indépendants **si et seulement si** $\\text{Cov}(X_i, Y_j) = 0$ pour tous $i, j$ : la fonction caractéristique se factorise alors. Les composantes d'un vecteur gaussien sont indépendantes si et seulement si $\\Gamma$ est diagonale.\n• **Lemme des coalitions** : si $X_1, \\dots, X_n$ sont indépendantes et si $f, g$ sont boréliennes, alors $f(X_1, \\dots, X_k)$ et $g(X_{k+1}, \\dots, X_n)$ sont indépendantes.\n• **Densité** : si $\\Gamma$ est inversible, $X$ admet pour densité\n$$f_X(x) = \\frac{1}{(2\\pi)^{n/2}\\sqrt{\\det \\Gamma}}\\exp\\left(-\\frac{1}{2}\\,{}^t(x - m)\\,\\Gamma^{-1}(x - m)\\right)$$\nSinon, $X$ prend presque sûrement ses valeurs dans un sous-espace affine strict de $\\mathbb{R}^n$ et n'a pas de densité."
+      },
+      {
+        "title": "8. Statistique : estimation",
+        "content": "Soit $(X_1, \\dots, X_n)$ un échantillon i.i.d. d'une loi dépendant d'un paramètre inconnu $\\theta$.\n• **Estimateur** : variable $T_n = g(X_1, \\dots, X_n)$ dont l'expression ne dépend pas de $\\theta$. Son **biais** est $\\mathbb{E}_\\theta[T_n] - \\theta$ ; il est **sans biais** si le biais est nul, **convergent** si $T_n \\xrightarrow{\\mathbb{P}} \\theta$. Le **risque quadratique** est\n$$R(T_n) = \\mathbb{E}_\\theta\\left[(T_n - \\theta)^2\\right] = \\text{Var}(T_n) + \\left(\\mathbb{E}_\\theta[T_n] - \\theta\\right)^2$$\n• **Moyenne empirique** : $\\bar{X}_n$ est sans biais pour $\\mu$, de risque $\\frac{\\sigma^2}{n}$, et convergente par la loi des grands nombres.\n• **Variance empirique** : $S_n^2 = \\frac{1}{n-1}\\sum_{i=1}^n (X_i - \\bar{X}_n)^2$ est sans biais pour $\\sigma^2$, alors que $\\frac{1}{n}\\sum_{i=1}^n (X_i - \\bar{X}_n)^2$ a pour espérance $\\frac{n-1}{n}\\sigma^2$.\n• **Maximum de vraisemblance** : pour des observations $x_1, \\dots, x_n$, la vraisemblance est $L(\\theta) = \\prod_i f_\\theta(x_i)$ (produit des densités, ou des probabilités ponctuelles dans le cas discret). L'estimateur $\\hat{\\theta}$ maximise $L$, le plus souvent via $\\ell = \\ln L$. Pour la loi $\\mathcal{E}(\\lambda)$ : $\\ell(\\lambda) = n \\ln \\lambda - \\lambda \\sum_i x_i$, d'où $\\hat{\\lambda} = \\frac{1}{\\bar{x}}$. Pour $n \\ge 2$, $\\mathbb{E}\\left[\\frac{1}{\\bar{X}_n}\\right] = \\frac{n}{n-1}\\lambda$ : cet estimateur est biaisé, mais convergent.\n• **Lois usuelles** : $\\chi^2(k)$ est la loi de $\\sum_{i=1}^k Z_i^2$ avec $Z_i$ i.i.d. de loi $\\mathcal{N}(0, 1)$ (espérance $k$, variance $2k$). La loi de Student $\\mathcal{T}(k)$ est celle de $\\frac{Z}{\\sqrt{Q/k}}$, avec $Z \\sim \\mathcal{N}(0, 1)$ et $Q \\sim \\chi^2(k)$ indépendantes.\n• **Théorème de Fisher** : si les $X_i$ sont i.i.d. de loi $\\mathcal{N}(\\mu, \\sigma^2)$, alors $\\bar{X}_n$ et $S_n^2$ sont indépendantes, $\\bar{X}_n \\sim \\mathcal{N}\\left(\\mu, \\frac{\\sigma^2}{n}\\right)$, $\\frac{(n-1)S_n^2}{\\sigma^2} \\sim \\chi^2(n-1)$ et donc $\\sqrt{n}\\,\\frac{\\bar{X}_n - \\mu}{S_n} \\sim \\mathcal{T}(n-1)$.\n• **Lemme de Slutsky** : si $U_n \\xrightarrow{\\mathcal{L}} U$ et si $V_n \\xrightarrow{\\mathbb{P}} c$ avec $c$ **constante**, alors $U_n V_n \\xrightarrow{\\mathcal{L}} cU$ et $U_n + V_n \\xrightarrow{\\mathcal{L}} U + c$. Avec le TCL, pour des $X_i$ i.i.d. de variance finie non nulle : $\\sqrt{n}\\,\\frac{\\bar{X}_n - \\mu}{S_n} \\xrightarrow{\\mathcal{L}} \\mathcal{N}(0, 1)$."
+      },
+      {
+        "title": "9. Statistique : intervalles de confiance et tests",
+        "content": "• **Intervalle de confiance** de niveau $1 - \\alpha$ : intervalle $I_n$ calculé à partir de l'échantillon, tel que $\\mathbb{P}_\\theta(\\theta \\in I_n) \\ge 1 - \\alpha$ pour tout $\\theta$ (asymptotique si cela n'a lieu qu'à la limite).\n• **Moyenne, $\\sigma$ connu, modèle gaussien** : $\\bar{x} \\pm z \\frac{\\sigma}{\\sqrt{n}}$, où $z$ est le quantile d'ordre $1 - \\frac{\\alpha}{2}$ de $\\mathcal{N}(0, 1)$ ($z \\approx 1{,}96$ pour $\\alpha = 5\\,\\%$).\n• **Moyenne, $\\sigma$ inconnu, modèle gaussien** : $\\bar{x} \\pm t \\frac{s}{\\sqrt{n}}$, où $t$ est le quantile d'ordre $1 - \\frac{\\alpha}{2}$ de $\\mathcal{T}(n-1)$.\n• **Cas asymptotique** : $\\bar{x} \\pm z \\frac{s}{\\sqrt{n}}$ (TCL et Slutsky). Pour une **proportion** : $\\hat{p} \\pm z\\sqrt{\\frac{\\hat{p}(1 - \\hat{p})}{n}}$.\n• **Test d'hypothèses** : on oppose $H_0$ à $H_1$ à l'aide d'une région de rejet. **Erreur de première espèce** : rejeter $H_0$ alors qu'elle est vraie ; sa probabilité maximale est le **niveau** $\\alpha$. **Erreur de seconde espèce** : conserver $H_0$ alors qu'elle est fausse. La **puissance** est la probabilité de rejeter $H_0$ quand $H_1$ est vraie.\n• **Test sur la moyenne, $\\sigma$ connu** : $Z = \\sqrt{n}\\,\\frac{\\bar{X}_n - m_0}{\\sigma}$ suit $\\mathcal{N}(0, 1)$ sous $H_0 : \\mu = m_0$ dans le modèle gaussien (et approximativement, par le TCL, pour $n$ grand sinon). Au niveau $5\\,\\%$ : contre $\\mu \\neq m_0$, on rejette si $|Z| > 1{,}96$ ; contre $\\mu > m_0$, on rejette si $Z > 1{,}645$. Si $\\sigma$ est inconnu, dans le modèle gaussien, on remplace $\\sigma$ par $S_n$ et le quantile gaussien par celui de $\\mathcal{T}(n-1)$ (pour $n$ grand et hors modèle gaussien, on garde le quantile gaussien, le test étant alors asymptotique).\n• **$p$-valeur** : probabilité, sous $H_0$, d'obtenir une statistique au moins aussi extrême que celle observée. On rejette au niveau $\\alpha$ si et seulement si $p \\le \\alpha$.\n• **Dualité** : le test bilatéral rejette $\\mu = m_0$ au niveau $\\alpha$ si et seulement si $m_0$ n'appartient pas à l'intervalle de confiance de niveau $1 - \\alpha$.\n• **Test du $\\chi^2$ d'adéquation** : pour $k$ catégories d'effectifs observés $N_j$ et $H_0$ : « les probabilités sont $p_1, \\dots, p_k$ », on a sous $H_0$ (résultat admis)\n$$D_n = \\sum_{j=1}^k \\frac{(N_j - np_j)^2}{np_j} \\xrightarrow{\\mathcal{L}} \\chi^2(k - 1)$$\nOn rejette $H_0$ si $D_n$ dépasse le quantile d'ordre $1 - \\alpha$ de $\\chi^2(k-1)$. En pratique, on demande $np_j \\ge 5$ pour tout $j$."
+      },
+      {
+        "title": "10. Régression linéaire simple",
+        "content": "• **Modèle** : $Y_i = ax_i + b + \\varepsilon_i$ pour $1 \\le i \\le n$, les $x_i$ étant déterministes et non tous égaux, les $\\varepsilon_i$ centrées, non corrélées, de même variance $\\sigma^2$.\n• **Moindres carrés** : on minimise $\\sum_i (y_i - ax_i - b)^2$. Avec $S_{xx} = \\sum_i (x_i - \\bar{x})^2$ et $S_{xy} = \\sum_i (x_i - \\bar{x})(y_i - \\bar{y})$,\n$$\\hat{a} = \\frac{S_{xy}}{S_{xx}}, \\qquad \\hat{b} = \\bar{y} - \\hat{a}\\,\\bar{x}$$\nLa droite passe donc par le point moyen $(\\bar{x}, \\bar{y})$.\n• **Propriétés** : $\\hat{a}$ et $\\hat{b}$ sont sans biais, $\\text{Var}(\\hat{a}) = \\frac{\\sigma^2}{S_{xx}}$, et $\\hat{\\sigma}^2 = \\frac{1}{n-2}\\sum_i \\hat{\\varepsilon}_i^2$, où $\\hat{\\varepsilon}_i = Y_i - \\hat{a}x_i - \\hat{b}$, est sans biais pour $\\sigma^2$.\n• **Qualité de l'ajustement** : $R^2 = \\frac{S_{xy}^2}{S_{xx}S_{yy}} \\in [0 ; 1]$ est le carré du coefficient de corrélation empirique ; il mesure la part de la variance des $y_i$ expliquée par la droite."
       }
     ],
     "methods": [
@@ -1311,10 +1559,20 @@ window.MATHS_COURSES_L3 = {
         "title": "Méthode : Démontrer le TCL à l'aide des fonctions caractéristiques",
         "example": "Soient $X_1, X_2, \\dots$ i.i.d. avec $\\mathbb{E}[X_1] = 0$ et $\\mathbb{E}[X_1^2] = 1$. Montrer que $Z_n = \\frac{1}{\\sqrt{n}}\\sum_{k=1}^n X_k$ converge en loi vers $\\mathcal{N}(0, 1)$.",
         "steps": [
-          "**Étape 1 (Développement de $\\Phi = \\Phi_{X_1}$)** : $X_1$ ayant un moment d'ordre 2, $\\Phi$ est $\\mathcal{C}^2$ et $\\Phi(u) = 1 - \\frac{u^2}{2} + u^2\\eta(u)$ avec $\\eta(u) \\to 0$ quand $u \\to 0$.",
-          "**Étape 2 (Indépendance)** : pour $t$ fixé, $\\Phi_{Z_n}(t) = \\Phi\\left(\\frac{t}{\\sqrt{n}}\\right)^n$, et l'on veut comparer cette quantité à $e^{-t^2/2} = \\left(e^{-t^2/(2n)}\\right)^n$.",
-          "**Étape 3 (Comparaison sans logarithme)** : pour $a, b \\in \\mathbb{C}$ de modules $\\le 1$, $|a^n - b^n| = \\left|(a - b)\\sum_{k=0}^{n-1} a^k b^{n-1-k}\\right| \\le n|a - b|$. Avec $a = \\Phi\\left(\\frac{t}{\\sqrt{n}}\\right)$ et $b = e^{-t^2/(2n)} = 1 - \\frac{t^2}{2n} + O\\left(\\frac{1}{n^2}\\right)$ : $\\left|\\Phi_{Z_n}(t) - e^{-t^2/2}\\right| \\le n\\left|\\frac{t^2}{n}\\eta\\left(\\frac{t}{\\sqrt{n}}\\right) + O\\left(\\frac{1}{n^2}\\right)\\right| \\xrightarrow[n \\to \\infty]{} 0$.",
+          "**Étape 1 (Développement de $\\varphi = \\varphi_{X_1}$)** : $X_1$ ayant un moment d'ordre 2, $\\varphi$ est $\\mathcal{C}^2$ et $\\varphi(u) = 1 - \\frac{u^2}{2} + u^2\\eta(u)$ avec $\\eta(u) \\to 0$ quand $u \\to 0$.",
+          "**Étape 2 (Indépendance)** : pour $t$ fixé, $\\varphi_{Z_n}(t) = \\varphi\\left(\\frac{t}{\\sqrt{n}}\\right)^n$, et l'on veut comparer cette quantité à $e^{-t^2/2} = \\left(e^{-t^2/(2n)}\\right)^n$.",
+          "**Étape 3 (Comparaison sans logarithme)** : pour $a, b \\in \\mathbb{C}$ de modules $\\le 1$, $|a^n - b^n| = \\left|(a - b)\\sum_{k=0}^{n-1} a^k b^{n-1-k}\\right| \\le n|a - b|$. Avec $a = \\varphi\\left(\\frac{t}{\\sqrt{n}}\\right)$ et $b = e^{-t^2/(2n)} = 1 - \\frac{t^2}{2n} + O\\left(\\frac{1}{n^2}\\right)$ : $\\left|\\varphi_{Z_n}(t) - e^{-t^2/2}\\right| \\le n\\left|\\frac{t^2}{n}\\eta\\left(\\frac{t}{\\sqrt{n}}\\right) + O\\left(\\frac{1}{n^2}\\right)\\right| \\xrightarrow[n \\to \\infty]{} 0$.",
           "**Conclusion** : $e^{-t^2/2}$ est la fonction caractéristique de $\\mathcal{N}(0, 1)$ ; par le théorème de Lévy, $Z_n \\xrightarrow{\\mathcal{L}} \\mathcal{N}(0, 1)$. Le cas général s'obtient en appliquant ce résultat à $\\frac{X_k - \\mu}{\\sigma}$."
+        ]
+      },
+      {
+        "title": "Méthode : Construire un intervalle de confiance et conduire un test sur une moyenne",
+        "example": "Sur un échantillon de taille $n = 100$ d'une loi d'écart type connu $\\sigma = 5$, on observe $\\bar{x} = 21{,}2$. Tester au niveau $5\\,\\%$ l'hypothèse $H_0 : \\mu = 20$ contre $H_1 : \\mu \\neq 20$.",
+        "steps": [
+          "**Étape 1 (Statistique)** : sous $H_0$, $Z = \\sqrt{n}\\,\\frac{\\bar{X}_n - 20}{\\sigma}$ suit approximativement $\\mathcal{N}(0, 1)$, par le TCL.",
+          "**Étape 2 (Valeur observée)** : $z = 10 \\times \\frac{21{,}2 - 20}{5} = 2{,}4$.",
+          "**Étape 3 (Décision)** : $|z| > 1{,}96$, donc on rejette $H_0$ au niveau $5\\,\\%$.",
+          "**Étape 4 (Contrôle par l'intervalle)** : la demi-largeur vaut $1{,}96 \\times \\frac{5}{10} = 0{,}98$, donc l'intervalle de confiance est $[20{,}22 ; 22{,}18]$. Il ne contient pas $20$ : la conclusion est la même."
         ]
       },
       {
@@ -1333,12 +1591,39 @@ window.MATHS_COURSES_L3 = {
       "Le TCL exige un moment d'ordre 2 : pour des variables de Cauchy i.i.d., $\\bar{X}_n$ suit encore la loi de Cauchy (sa fonction caractéristique est $e^{-|t|}$ pour tout $n$), et ni la loi des grands nombres ni le TCL ne s'appliquent.",
       "La convergence presque sûre n'implique pas la convergence dans $L^1$ : sur $[0 ; 1]$ muni de la mesure de Lebesgue, $X_n = n\\mathbf{1}_{]0 ; 1/n[}$ tend vers $0$ partout mais $\\mathbb{E}[X_n] = 1$.",
       "Non corrélées n'implique pas indépendantes : si $X \\sim \\mathcal{N}(0, 1)$ et $Y = X^2$, $\\text{Cov}(X, Y) = \\mathbb{E}[X^3] = 0$, mais $Y$ est une fonction de $X$.",
+      "Deux variables gaussiennes non corrélées ne sont indépendantes que si le **couple** est un vecteur gaussien : avec $Y = \\varepsilon X$ (section 7), $\\text{Cov}(X, Y) = \\mathbb{E}[\\varepsilon]\\,\\mathbb{E}[X^2] = 0$, alors que $|Y| = |X|$.",
+      "Ne pas rejeter $H_0$ ne démontre pas $H_0$ : le test n'a peut-être pas assez de puissance pour détecter l'écart.",
+      "Une fois les données observées, l'intervalle est fixe : le niveau $95\\,\\%$ décrit la procédure sur l'ensemble des échantillons, pas la probabilité que cet intervalle-là contienne $\\theta$.",
       "Une densité n'est pas une probabilité et peut dépasser 1 : la loi $\\mathcal{U}\\left(\\left[0 ; \\frac{1}{2}\\right]\\right)$ a pour densité $2$ sur $\\left[0 ; \\frac{1}{2}\\right]$."
     ],
     "flashcards": [
       {
         "q": "Énoncer le théorème central limite.",
         "a": "Si les $X_n$ sont i.i.d. avec $\\mathbb{E}[X_1^2] < \\infty$ et $\\sigma^2 > 0$, alors $\\sqrt{n}\\,\\frac{\\bar{X}_n - \\mu}{\\sigma} \\xrightarrow{\\mathcal{L}} \\mathcal{N}(0, 1)$."
+      },
+      {
+        "q": "Définir un vecteur gaussien.",
+        "a": "$X$ à valeurs dans $\\mathbb{R}^n$ est gaussien si toute combinaison linéaire de ses composantes suit une loi normale (éventuellement de variance nulle)."
+      },
+      {
+        "q": "Composantes d'un vecteur gaussien : quand sont-elles indépendantes ?",
+        "a": "Si et seulement si la matrice de covariance est diagonale. L'hypothèse de vecteur gaussien est indispensable."
+      },
+      {
+        "q": "Décomposer le risque quadratique d'un estimateur.",
+        "a": "$\\mathbb{E}[(T - \\theta)^2] = \\text{Var}(T) + (\\mathbb{E}[T] - \\theta)^2$ : variance plus carré du biais."
+      },
+      {
+        "q": "Demi-largeur de l'intervalle de confiance à $95\\,\\%$ d'une moyenne, $\\sigma$ connu ?",
+        "a": "$1{,}96\\,\\frac{\\sigma}{\\sqrt{n}}$."
+      },
+      {
+        "q": "Différence entre niveau et puissance d'un test ?",
+        "a": "Le niveau majore la probabilité de rejeter $H_0$ à tort ; la puissance est la probabilité de rejeter $H_0$ quand $H_1$ est vraie."
+      },
+      {
+        "q": "Coefficients de la droite des moindres carrés ?",
+        "a": "$\\hat{a} = \\frac{S_{xy}}{S_{xx}}$ et $\\hat{b} = \\bar{y} - \\hat{a}\\,\\bar{x}$."
       },
       {
         "q": "Énoncer l'inégalité de Bienaymé-Tchebychev.",
@@ -1350,7 +1635,7 @@ window.MATHS_COURSES_L3 = {
       },
       {
         "q": "Fonction caractéristique d'une somme de variables indépendantes ?",
-        "a": "$\\Phi_{X+Y} = \\Phi_X \\, \\Phi_Y$."
+        "a": "$\\varphi_{X+Y} = \\varphi_X \\, \\varphi_Y$."
       },
       {
         "q": "Définir la convergence en loi par les fonctions de répartition.",
@@ -1390,57 +1675,57 @@ window.MATHS_EXERCISES_L3 = {
       "tier": 2,
       "type": "mcq",
       "title": "Sous-groupes distingués et quotient",
-      "skill": "Condition pour munir $G/H$ d'une structure de groupe",
-      "statement": "Pour qu'un ensemble quotient $G/H$ puisse être muni d'une loi de groupe canonique rendant la projection $\\pi : G \\to G/H$ morphisme, il faut et il suffit que $H$ soit :",
+      "skill": "Reconnaître un sous-groupe distingué pour former un groupe quotient",
+      "statement": "Dans le groupe symétrique $\\mathfrak{S}_3$, lequel des sous-groupes suivants est distingué, de sorte que l'ensemble quotient correspondant soit un groupe ?",
       "options": [
-        "Un sous-groupe distingué (normal) de $G$",
-        "Un groupe abélien",
-        "D'ordre premier",
-        "D'indice 1"
+        "$\\mathfrak{A}_3 = \\{\\text{id}, (1\\,2\\,3), (1\\,3\\,2)\\}$",
+        "$\\{\\text{id}, (1\\,2)\\}$",
+        "$\\{\\text{id}, (1\\,3)\\}$",
+        "$\\{\\text{id}, (2\\,3)\\}$"
       ],
       "correctIndex": 0,
-      "answer": "Un sous-groupe distingué (normal) de $G$",
-      "hint1": "La loi quotient $(xH)(yH) = (xy)H$ doit être bien définie indépendamment des représentants.",
-      "hint2": "Avec $x' = xh_1$ et $y' = yh_2$, on a $x'y' = xy\\,(y^{-1}h_1 y)\\,h_2$ : quelle propriété de $H$ garantit que $y^{-1}h_1 y \\in H$ pour tout $y \\in G$ ?",
-      "solution": "L'ensemble des classes à gauche $G/H$ hérite d'une structure de groupe quotient si et seulement si $H$ est distingué dans $G$ (noté $H \\triangleleft G$)."
+      "answer": "$\\mathfrak{A}_3 = \\{\\text{id}, (1\\,2\\,3), (1\\,3\\,2)\\}$",
+      "hint1": "$H$ est distingué si $gHg^{-1} = H$ pour tout $g \\in G$ ; un sous-groupe d'indice $2$ l'est toujours.",
+      "hint2": "Calcule $(1\\,3)(1\\,2)(1\\,3)^{-1}$ : est-ce encore un élément de $\\{\\text{id}, (1\\,2)\\}$ ?",
+      "solution": "$\\mathfrak{A}_3$ est le noyau de la signature (il est aussi d'indice $2$), donc il est distingué et $\\mathfrak{S}_3/\\mathfrak{A}_3 \\simeq \\mathbb{Z}/2\\mathbb{Z}$. En revanche $(1\\,3)(1\\,2)(1\\,3)^{-1} = (2\\,3) \\notin \\{\\text{id}, (1\\,2)\\}$ : ce sous-groupe n'est pas distingué, et il en va de même des deux autres sous-groupes d'ordre $2$, conjugués du premier. Pour eux, la loi $(xH)(yH) = xyH$ n'est pas bien définie."
     },
     {
       "id": "L3-GRP1-3",
       "tier": 3,
       "type": "mcq",
       "title": "Premier théorème d'isomorphisme",
-      "skill": "Identifier le quotient $G / \\text{Ker}\\,\\varphi$",
-      "statement": "Si $\\varphi : G \\to G'$ est un morphisme de groupes, alors le premier théorème d'isomorphisme établit que :",
+      "skill": "Identifier le quotient $G / \\text{Ker}\\,\\varphi$ pour un morphisme explicite",
+      "statement": "Soit $\\varphi : \\mathbb{Z}/12\\mathbb{Z} \\to \\mathbb{Z}/12\\mathbb{Z}$, $\\bar{x} \\mapsto \\overline{3x}$. Que fournit le premier théorème d'isomorphisme ?",
       "options": [
-        "$G / \\text{Ker}(\\varphi) \\simeq \\text{Im}(\\varphi)$",
-        "$G / \\text{Im}(\\varphi) \\simeq \\text{Ker}(\\varphi)$",
-        "$G \\simeq \\text{Ker}(\\varphi) \\times \\text{Im}(\\varphi)$",
-        "$\\text{Ker}(\\varphi) = \\text{Im}(\\varphi)$"
+        "$\\text{Ker}\\,\\varphi = \\{\\bar{0}, \\bar{4}, \\bar{8}\\}$ et $(\\mathbb{Z}/12\\mathbb{Z})/\\text{Ker}\\,\\varphi \\simeq \\mathbb{Z}/4\\mathbb{Z}$",
+        "$\\text{Ker}\\,\\varphi = \\{\\bar{0}, \\bar{3}, \\bar{6}, \\bar{9}\\}$ et $(\\mathbb{Z}/12\\mathbb{Z})/\\text{Ker}\\,\\varphi \\simeq \\mathbb{Z}/3\\mathbb{Z}$",
+        "$\\text{Ker}\\,\\varphi = \\{\\bar{0}, \\bar{3}, \\bar{6}, \\bar{9}\\}$ et $(\\mathbb{Z}/12\\mathbb{Z})/\\text{Ker}\\,\\varphi \\simeq \\mathbb{Z}/4\\mathbb{Z}$",
+        "$\\text{Ker}\\,\\varphi = \\{\\bar{0}\\}$, donc $\\varphi$ est un isomorphisme"
       ],
       "correctIndex": 0,
-      "answer": "$G / \\text{Ker}(\\varphi) \\simeq \\text{Im}(\\varphi)$",
-      "hint1": "Le noyau $\\text{Ker}(\\varphi)$ est distingué dans $G$, donc le quotient $G / \\text{Ker}(\\varphi)$ est un groupe. Si $x$ et $y$ sont dans la même classe, que peux-tu dire de $\\varphi(x)$ et $\\varphi(y)$ ?",
-      "hint2": "L'application $\\bar{\\varphi} : x \\,\\text{Ker}\\,\\varphi \\mapsto \\varphi(x)$ est donc bien définie ; vérifie qu'elle est un morphisme injectif. Quelle est son image ?",
-      "solution": "Le premier théorème d'isomorphisme affirme que pour tout morphisme $\\varphi$, la projection au quotient induit un isomorphisme canonique $G / \\text{Ker}(\\varphi) \\simeq \\text{Im}(\\varphi)$."
+      "answer": "$\\text{Ker}\\,\\varphi = \\{\\bar{0}, \\bar{4}, \\bar{8}\\}$ et $(\\mathbb{Z}/12\\mathbb{Z})/\\text{Ker}\\,\\varphi \\simeq \\mathbb{Z}/4\\mathbb{Z}$",
+      "hint1": "Détermine le noyau (les $\\bar{x}$ tels que $12$ divise $3x$) et l'image de $\\varphi$ ; le théorème donne $G / \\text{Ker}\\,\\varphi \\simeq \\text{Im}\\,\\varphi$.",
+      "hint2": "$12 \\mid 3x$ équivaut à $4 \\mid x$ : le noyau a $3$ éléments. Combien d'éléments l'image possède-t-elle, et par quoi est-elle engendrée ?",
+      "solution": "$\\bar{x} \\in \\text{Ker}\\,\\varphi \\iff 12 \\mid 3x \\iff 4 \\mid x$, donc $\\text{Ker}\\,\\varphi = \\{\\bar{0}, \\bar{4}, \\bar{8}\\}$. L'image est $\\{\\bar{0}, \\bar{3}, \\bar{6}, \\bar{9}\\}$, sous-groupe cyclique d'ordre $4$ engendré par $\\bar{3}$. Le premier théorème d'isomorphisme donne $(\\mathbb{Z}/12\\mathbb{Z})/\\text{Ker}\\,\\varphi \\simeq \\text{Im}\\,\\varphi \\simeq \\mathbb{Z}/4\\mathbb{Z}$, en accord avec $12 = 3 \\times 4$. Le noyau n'étant pas trivial, $\\varphi$ n'est pas injective."
     },
     {
       "id": "L3-GRP1-4",
       "tier": 4,
       "type": "mcq",
       "title": "Groupes d'ordre premier",
-      "skill": "Classifier les groupes finis simples d'ordre premier",
-      "statement": "Tout groupe $G$ dont le cardinal est un nombre premier $p$ est nécessairement :",
+      "skill": "Utiliser le théorème de Lagrange dans un groupe d'ordre premier",
+      "statement": "Soit $G$ un groupe d'ordre $35$, et $H$, $K$ deux sous-groupes de $G$ d'ordres respectifs $5$ et $7$. Quelle affirmation est juste ?",
       "options": [
-        "Cyclique et isomorphe à $\\mathbb{Z}/p\\mathbb{Z}$",
-        "Non commutatif",
-        "Infini",
-        "Dépourvu de sous-groupes propres"
+        "$H \\cap K = \\{e\\}$, et tout élément de $H$ différent de $e$ engendre $H$",
+        "$H \\cap K$ peut être d'ordre $5$",
+        "$H \\cap K = \\{e\\}$, mais $H$ n'est pas forcément cyclique",
+        "$H$ est cyclique, mais un seul de ses éléments l'engendre"
       ],
       "correctIndex": 0,
-      "answer": "Cyclique et isomorphe à $\\mathbb{Z}/p\\mathbb{Z}$",
-      "hint1": "Prends un élément $x \\ne e$. L'ordre du sous-groupe $\\langle x \\rangle$ divise $p$.",
-      "hint2": "Comme $p$ est premier et $x \\ne e$, l'ordre est $p$, donc $\\langle x \\rangle = G$.",
-      "solution": "Pour tout élément $x \\ne e$, l'ordre de $x$ divise $p$ et est $>1$. Comme $p$ est premier, l'ordre est exactement $p$, donc $x$ engendre $G$. $G$ est cyclique isomorphe à $\\mathbb{Z}/p\\mathbb{Z}$."
+      "answer": "$H \\cap K = \\{e\\}$, et tout élément de $H$ différent de $e$ engendre $H$",
+      "hint1": "Applique le théorème de Lagrange à $H \\cap K$, sous-groupe à la fois de $H$ et de $K$, puis à $\\langle x \\rangle$ pour $x \\in H$, $x \\neq e$.",
+      "hint2": "$|H \\cap K|$ divise à la fois $5$ et $7$ ; et $|\\langle x \\rangle|$ divise $5$ sans valoir $1$.",
+      "solution": "L'ordre de $H \\cap K$ divise $5$ et $7$, qui sont premiers entre eux : il vaut $1$, donc $H \\cap K = \\{e\\}$. Dans $H$, d'ordre premier $5$, tout $x \\neq e$ engendre un sous-groupe dont l'ordre divise $5$ et dépasse $1$ : c'est $H$ tout entier. Ainsi $H \\simeq \\mathbb{Z}/5\\mathbb{Z}$, et ses $4$ éléments différents de $e$ en sont des générateurs."
     }
   ],
   "L3-GRP2": [
@@ -1467,58 +1752,58 @@ window.MATHS_EXERCISES_L3 = {
       "id": "L3-GRP2-2",
       "tier": 2,
       "type": "mcq",
-      "title": "Action par conjugaison et centre d'un p-groupe",
-      "skill": "Propriétés du centre d'un $p$-groupe",
-      "statement": "Si $G$ est un groupe d'ordre $p^k$ (avec $p$ premier et $k \\ge 1$), que peut-on affirmer sur son centre $Z(G)$ ?",
+      "title": "Équation aux classes et centre d'un p-groupe",
+      "skill": "Utiliser l'équation aux classes pour un groupe d'ordre $p^k$",
+      "statement": "Soit $G$ un groupe d'ordre $81 = 3^4$. L'équation aux classes s'écrit $81 = |Z(G)| + \\sum_i |\\Omega_i|$, où les $\\Omega_i$ sont les classes de conjugaison non réduites à un point. Qu'en déduit-on ?",
       "options": [
-        "Son centre est non trivial ($|Z(G)| \\ge p$)",
-        "$Z(G) = \\{e\\}$",
-        "$Z(G) = G$ toujours",
-        "$Z(G)$ est d'ordre infini"
+        "Chaque $|\\Omega_i|$ est un multiple de $3$, donc $3$ divise $|Z(G)|$ et $Z(G) \\neq \\{e\\}$",
+        "$|Z(G)| = 1$ est possible, puisque chaque $|\\Omega_i|$ divise $81$",
+        "$G$ est nécessairement abélien, puisque son centre n'est pas trivial",
+        "Chaque $|\\Omega_i|$ vaut $3$, donc $|Z(G)|$ peut valoir n'importe quel entier de la forme $81 - 3k$"
       ],
       "correctIndex": 0,
-      "answer": "Son centre est non trivial ($|Z(G)| \\ge p$)",
-      "hint1": "Applique la formule des classes : $|G| = |Z(G)| + \\sum |\\text{Orb}(x_i)|$.",
-      "hint2": "Chaque orbite non ponctuelle a une taille divisible par $p$ (elle divise $|G| = p^k$ et vaut plus que 1). Que peux-tu en déduire pour $|Z(G)|$, sachant que $e \\in Z(G)$ ?",
-      "solution": "Par la formule des classes, $|G| = |Z(G)| + \\sum [G : \\text{Stab}(x)]$. Comme $p$ divise $|G|$ et chaque terme de la somme, $p$ divise $|Z(G)|$. Donc $|Z(G)| \\ge p > 1$ : le centre d'un $p$-groupe n'est jamais trivial."
+      "answer": "Chaque $|\\Omega_i|$ est un multiple de $3$, donc $3$ divise $|Z(G)|$ et $Z(G) \\neq \\{e\\}$",
+      "hint1": "Le cardinal d'une classe de conjugaison est l'indice d'un centralisateur, donc un diviseur de $|G|$.",
+      "hint2": "Une classe non réduite à un point a un cardinal $3^j$ avec $j \\geq 1$ : regarde l'équation aux classes modulo $3$.",
+      "solution": "Chaque $|\\Omega_i| = [G : C_G(x_i)]$ divise $81$ et dépasse $1$ : c'est un multiple de $3$. Modulo $3$, l'équation donne $|Z(G)| \\equiv 81 \\equiv 0$, et comme $e \\in Z(G)$, on obtient $|Z(G)| \\geq 3$ : le centre n'est pas trivial. Cela ne rend pas $G$ abélien : le produit d'un groupe non abélien d'ordre $27$ par $\\mathbb{Z}/3\\mathbb{Z}$ est un groupe non abélien d'ordre $81$. Les classes peuvent aussi avoir $9$ ou $27$ éléments."
     },
     {
       "id": "L3-GRP2-3",
       "tier": 3,
       "type": "mcq",
       "title": "Formule de Burnside",
-      "skill": "Compter le nombre d'orbites d'une action",
-      "statement": "La formule de Burnside (ou lemme de Cauchy-Frobenius) donne le nombre d'orbites $N$ d'un groupe fini $G$ agissant sur $X$ :",
+      "skill": "Dénombrer des orbites avec la formule de Burnside",
+      "statement": "On colorie les $4$ sommets d'un carré avec $3$ couleurs, et l'on identifie deux coloriages qui se déduisent l'un de l'autre par une rotation du carré (groupe cyclique d'ordre $4$). Combien de coloriages distincts obtient-on ?",
       "options": [
-        "$N = \\frac{1}{|G|} \\sum_{g \\in G} |\\text{Fix}(g)|$",
-        "$N = \\sum_{g \\in G} |\\text{Fix}(g)|$",
-        "$N = \\frac{|X|}{|G|}$",
-        "$N = \\max_{g} |\\text{Fix}(g)|$"
+        "$24$",
+        "$21$",
+        "$27$",
+        "$81$"
       ],
       "correctIndex": 0,
-      "answer": "$N = \\frac{1}{|G|} \\sum_{g \\in G} |\\text{Fix}(g)|$",
-      "hint1": "Compte de deux façons l'ensemble des couples $(g, x) \\in G \\times X$ tels que $g \\cdot x = x$.",
-      "hint2": "On obtient $\\sum_{g} |\\text{Fix}(g)| = \\sum_{x} |\\text{Stab}(x)|$. Avec la formule orbite-stabilisateur, que vaut la contribution des $x$ d'une même orbite ?",
-      "solution": "D'après la formule de Burnside, le nombre d'orbites est égal à la moyenne arithmétique des cardinaux des ensembles de points fixes : $N = \\frac{1}{|G|} \\sum_{g \\in G} |\\text{Fix}(g)|$."
+      "answer": "$24$",
+      "hint1": "Formule de Burnside : le nombre d'orbites est la moyenne, sur les éléments du groupe, du nombre de coloriages fixés, $N = \\frac{1}{|G|}\\sum_{g \\in G} |\\text{Fix}(g)|$.",
+      "hint2": "L'identité fixe les $3^4 = 81$ coloriages et chaque rotation d'un quart de tour n'en fixe que $3$ ; compte ceux que fixe le demi-tour.",
+      "solution": "L'identité fixe $81$ coloriages ; les deux quarts de tour fixent seulement les $3$ coloriages unicolores ; le demi-tour fixe les coloriages où les sommets opposés ont la même couleur, soit $3^2 = 9$. Par la formule de Burnside, $N = \\frac{81 + 3 + 9 + 3}{4} = \\frac{96}{4} = 24$."
     },
     {
       "id": "L3-GRP2-4",
       "tier": 4,
       "type": "mcq",
       "title": "Théorèmes de Sylow",
-      "skill": "Existence et propriétés des $p$-sous-groupes de Sylow",
-      "statement": "Si $|G| = p^k m$ avec $p$ premier ne divisant pas $m$, que garantit le premier théorème de Sylow ?",
+      "skill": "Déterminer le nombre de sous-groupes de Sylow",
+      "statement": "Soit $G$ un groupe d'ordre $45 = 3^2 \\times 5$. Que peut-on affirmer sur ses sous-groupes de Sylow ?",
       "options": [
-        "Il existe au moins un sous-groupe d'ordre $p^k$ (appelé $p$-Sylow)",
-        "Tous les sous-groupes sont distingués",
-        "$G$ est abélien",
-        "Il existe un sous-groupe d'ordre $m$"
+        "$G$ possède un unique sous-groupe d'ordre $9$ et un unique sous-groupe d'ordre $5$, tous deux distingués",
+        "$G$ peut posséder $5$ sous-groupes d'ordre $9$",
+        "$G$ ne possède pas forcément de sous-groupe d'ordre $9$",
+        "$G$ possède un unique sous-groupe d'ordre $5$, mais peut posséder $3$ sous-groupes d'ordre $9$"
       ],
       "correctIndex": 0,
-      "answer": "Il existe au moins un sous-groupe d'ordre $p^k$ (appelé $p$-Sylow)",
-      "hint1": "Avec $|G| = p^k m$ et $p \\nmid m$, quelle est la plus grande puissance de $p$ qui divise $|G|$ ? Par Lagrange, un sous-groupe dont l'ordre est une puissance de $p$ a un ordre au plus égal à celle-ci.",
-      "hint2": "Teste les options sur $\\mathfrak{S}_3$, d'ordre $6 = 2 \\times 3$ : ce groupe est-il abélien ? Ses sous-groupes d'ordre 2 sont-ils distingués ? Quels sous-groupes d'ordre $2$ et $3$ possède-t-il ?",
-      "solution": "Le premier théorème de Sylow garantit l'existence d'au moins un sous-groupe d'ordre $p^k$, appelé $p$-sous-groupe de Sylow de $G$."
+      "answer": "$G$ possède un unique sous-groupe d'ordre $9$ et un unique sous-groupe d'ordre $5$, tous deux distingués",
+      "hint1": "Le premier théorème de Sylow donne l'existence des $p$-Sylow ; leur nombre $n_p$ vérifie $n_p \\equiv 1 \\pmod{p}$ et divise $\\frac{|G|}{p^k}$.",
+      "hint2": "$n_3$ divise $5$ et $n_5$ divise $9$ : teste les congruences modulo $3$ et modulo $5$.",
+      "solution": "Les $3$-Sylow, d'ordre $9$, et les $5$-Sylow, d'ordre $5$, existent. $n_3$ divise $5$ et $n_3 \\equiv 1 \\pmod{3}$ : comme $5 \\equiv 2 \\pmod{3}$, $n_3 = 1$. $n_5$ divise $9$ et $n_5 \\equiv 1 \\pmod{5}$ : parmi $1$, $3$, $9$, seul $1$ convient, donc $n_5 = 1$. Un $p$-Sylow unique est stable par conjugaison, donc distingué."
     }
   ],
   "L3-ANN": [
@@ -1546,57 +1831,57 @@ window.MATHS_EXERCISES_L3 = {
       "tier": 2,
       "type": "mcq",
       "title": "Construction des nombres complexes par quotient",
-      "skill": "Identifier un corps quotient de polynômes",
-      "statement": "À quel corps bien connu l'anneau quotient $\\mathbb{R}[X] / (X^2 + 1)$ est-il isomorphe ?",
+      "skill": "Calculer dans le quotient $\\mathbb{R}[X] / (X^2 + 1)$",
+      "statement": "Dans l'anneau $\\mathbb{R}[X] / (X^2 + 1)$, on note $x$ la classe de $X$. Que vaut $(2 + x)(1 - 3x)$ ?",
       "options": [
-        "$\\mathbb{C}$",
-        "$\\mathbb{R} \\times \\mathbb{R}$",
-        "$\\mathbb{R}$",
-        "$\\mathbb{H}$"
+        "$5 - 5x$",
+        "$-1 - 5x$",
+        "$2 - 3x$",
+        "$5 + 5x$"
       ],
       "correctIndex": 0,
-      "answer": "$\\mathbb{C}$",
-      "hint1": "$X^2 + 1$ est irréductible sur $\\mathbb{R}$, donc l'idéal $(X^2 + 1)$ est maximal.",
-      "hint2": "La classe de $X$ vérifie $X^2 = -1$, jouant le rôle de $i$.",
-      "solution": "Comme $X^2 + 1$ est irréductible dans $\\mathbb{R}[X]$, le quotient est un corps. Le morphisme d'évaluation $P \\mapsto P(i)$ induit un isomorphisme canonique $\\mathbb{R}[X]/(X^2+1) \\simeq \\mathbb{C}$."
+      "answer": "$5 - 5x$",
+      "hint1": "Dans le quotient, $x^2 + 1 = 0$, c'est-à-dire $x^2 = -1$ ; l'application qui envoie $x$ sur $i$ induit un isomorphisme avec $\\mathbb{C}$.",
+      "hint2": "Développe : $(2 + x)(1 - 3x) = 2 - 5x - 3x^2$, puis remplace $x^2$.",
+      "solution": "$(2 + x)(1 - 3x) = 2 - 6x + x - 3x^2 = 2 - 5x - 3x^2$, et $x^2 = -1$ dans le quotient, d'où $2 - 5x + 3 = 5 - 5x$. On retrouve le calcul dans $\\mathbb{C}$ : $(2 + i)(1 - 3i) = 5 - 5i$, puisque $\\mathbb{R}[X] / (X^2 + 1) \\simeq \\mathbb{C}$ par $x \\mapsto i$."
     },
     {
       "id": "L3-ANN-3",
       "tier": 3,
       "type": "mcq",
-      "title": "Anneaux principaux et bezoutiens",
-      "skill": "Propriétés des anneaux principaux",
-      "statement": "Dans un anneau principal (comme $\\mathbb{Z}$ ou $K[X]$), tout idéal $I$ :",
+      "title": "Anneaux principaux",
+      "skill": "Trouver un générateur d'un idéal de $K[X]$",
+      "statement": "Dans l'anneau principal $\\mathbb{R}[X]$, l'idéal $I = (X^2 - 1) + (X^2 - 3X + 2)$ est engendré par un seul polynôme. Lequel ?",
       "options": [
-        "Est engendré par un unique élément ($I = (a)$)",
-        "Est un corps",
-        "Est maximal",
-        "Est nul"
+        "$X - 1$",
+        "$X + 1$",
+        "$(X - 1)(X + 1)(X - 2)$",
+        "$1$, c'est-à-dire $I = \\mathbb{R}[X]$"
       ],
       "correctIndex": 0,
-      "answer": "Est engendré par un unique élément ($I = (a)$)",
-      "hint1": "Teste les options sur les idéaux $\\{0\\}$, $2\\mathbb{Z}$ et $4\\mathbb{Z}$ de $\\mathbb{Z}$ : $4\\mathbb{Z}$ est-il maximal ? est-il nul ? est-il un corps ?",
-      "hint2": "Dans $\\mathbb{Z}$, l'idéal $4\\mathbb{Z} + 6\\mathbb{Z}$ peut-il s'écrire $a\\mathbb{Z}$ pour un seul entier $a$ ? Lequel ? Rappelle la définition d'un anneau principal.",
-      "solution": "Par définition, un anneau est principal s'il est intègre et si chacun de ses idéaux est engendré par un seul élément : $\\forall I, \\exists a \\in A, I = aA = (a)$."
+      "answer": "$X - 1$",
+      "hint1": "L'idéal engendré par $A$ et $B$ est engendré par un plus grand commun diviseur de $A$ et $B$ ; une combinaison $UA + VB$ permet de le faire apparaître.",
+      "hint2": "$(X^2 - 1) - (X^2 - 3X + 2) = 3X - 3$ appartient à $I$ ; factorise aussi les deux polynômes.",
+      "solution": "$X^2 - 1 = (X - 1)(X + 1)$ et $X^2 - 3X + 2 = (X - 1)(X - 2)$ sont des multiples de $X - 1$, donc $I \\subset (X - 1)$. Inversement, $3X - 3 = (X^2 - 1) - (X^2 - 3X + 2) \\in I$, et $3$ est inversible dans $\\mathbb{R}$, donc $X - 1 \\in I$. Ainsi $I = (X - 1)$ : ce n'est pas $\\mathbb{R}[X]$, car $1$ n'est pas multiple de $X - 1$."
     },
     {
       "id": "L3-ANN-4",
       "tier": 4,
       "type": "mcq",
       "title": "Théorème des restes chinois",
-      "skill": "Isomorphisme d'anneaux pour des idéaux comaximaux",
-      "statement": "Si $m$ et $n$ sont deux entiers premiers entre eux, que garantit le théorème des restes chinois ?",
+      "skill": "Résoudre un système de congruences",
+      "statement": "On cherche les entiers $x$ tels que $x \\equiv 2 \\pmod{5}$ et $x \\equiv 3 \\pmod{7}$. Que donne le théorème des restes chinois ?",
       "options": [
-        "$\\mathbb{Z}/(mn)\\mathbb{Z} \\simeq \\mathbb{Z}/m\\mathbb{Z} \\times \\mathbb{Z}/n\\mathbb{Z}$",
-        "$\\mathbb{Z}/(mn)\\mathbb{Z} \\simeq \\mathbb{Z}/(m+n)\\mathbb{Z}$",
-        "$mn = m + n$",
-        "$\\mathbb{Z}/m\\mathbb{Z}$ est un sous-anneau de $\\mathbb{Z}/n\\mathbb{Z}$"
+        "$x \\equiv 17 \\pmod{35}$",
+        "$x \\equiv 23 \\pmod{35}$",
+        "$x \\equiv 12 \\pmod{35}$",
+        "Il n'y a pas de solution unique modulo $35$"
       ],
       "correctIndex": 0,
-      "answer": "$\\mathbb{Z}/(mn)\\mathbb{Z} \\simeq \\mathbb{Z}/m\\mathbb{Z} \\times \\mathbb{Z}/n\\mathbb{Z}$",
-      "hint1": "Deux idéaux comaximaux $I + J = A$ vérifient $A/(I \\cap J) \\simeq A/I \\times A/J$.",
-      "hint2": "Pour $\\text{pgcd}(m, n) = 1$, $(m) \\cap (n) = (mn)$.",
-      "solution": "Le théorème des restes chinois établit l'isomorphisme d'anneaux $\\mathbb{Z}/(mn)\\mathbb{Z} \\simeq \\mathbb{Z}/m\\mathbb{Z} \\times \\mathbb{Z}/n\\mathbb{Z}$ dès lors que $\\text{pgcd}(m, n) = 1$."
+      "answer": "$x \\equiv 17 \\pmod{35}$",
+      "hint1": "Comme $5 \\wedge 7 = 1$, l'application $\\mathbb{Z}/35\\mathbb{Z} \\to \\mathbb{Z}/5\\mathbb{Z} \\times \\mathbb{Z}/7\\mathbb{Z}$ est un isomorphisme d'anneaux : le système a une unique solution modulo $35$.",
+      "hint2": "Parcours les entiers $x \\equiv 3 \\pmod{7}$ : $3, 10, 17, \\dots$, jusqu'à en trouver un de reste $2$ modulo $5$.",
+      "solution": "$5 \\wedge 7 = 1$, donc $\\mathbb{Z}/35\\mathbb{Z} \\simeq \\mathbb{Z}/5\\mathbb{Z} \\times \\mathbb{Z}/7\\mathbb{Z}$ et la solution est unique modulo $35$. Parmi $3$, $10$, $17$, seul $17 = 3 \\times 5 + 2$ convient : $x \\equiv 17 \\pmod{35}$. Les autres propositions échouent : $23$ a pour restes $3$ et $2$ (inversés), $12$ a pour reste $5$ modulo $7$."
     }
   ],
   "L3-MET": [
@@ -1642,39 +1927,39 @@ window.MATHS_EXERCISES_L3 = {
       "id": "L3-MET-3",
       "tier": 3,
       "type": "mcq",
-      "title": "Intérieur, adhérence et frontière de Q",
+      "title": "Frontière de l'ensemble des inverses d'entiers",
       "skill": "Calculer adhérence, intérieur et frontière d'une partie",
-      "statement": "Dans $\\mathbb{R}$ muni de sa topologie usuelle, quelle est la frontière $\\mathrm{Fr}(\\mathbb{Q}) = \\overline{\\mathbb{Q}} \\setminus \\mathring{\\mathbb{Q}}$ de l'ensemble des rationnels ?",
+      "statement": "Dans $\\mathbb{R}$ muni de sa topologie usuelle, on pose $A = \\left\\{\\frac{1}{n} \\; ; \\; n \\in \\mathbb{N}^*\\right\\}$. Quelle est la frontière $\\mathrm{Fr}(A) = \\overline{A} \\setminus \\mathring{A}$ ?",
       "options": [
-        "$\\mathbb{R}$",
-        "$\\emptyset$",
-        "$\\mathbb{Q}$",
-        "$\\mathbb{R} \\setminus \\mathbb{Q}$"
+        "$A \\cup \\{0\\}$",
+        "$A$",
+        "$\\{0\\}$",
+        "$\\emptyset$"
       ],
       "correctIndex": 0,
-      "answer": "$\\mathbb{R}$",
-      "hint1": "$\\mathbb{Q}$ est dense dans $\\mathbb{R}$ : que vaut son adhérence ?",
-      "hint2": "Tout intervalle ouvert non vide contient des irrationnels : que vaut l'intérieur de $\\mathbb{Q}$ ?",
-      "solution": "1. Adhérence : tout intervalle $]x - \\varepsilon, x + \\varepsilon[$ contient un rationnel (densité de $\\mathbb{Q}$), donc $\\overline{\\mathbb{Q}} = \\mathbb{R}$.\n2. Intérieur : aucun intervalle ouvert non vide n'est inclus dans $\\mathbb{Q}$ (il contient des irrationnels, par densité de $\\mathbb{R} \\setminus \\mathbb{Q}$), donc $\\mathring{\\mathbb{Q}} = \\emptyset$.\n3. Frontière : $\\mathrm{Fr}(\\mathbb{Q}) = \\mathbb{R} \\setminus \\emptyset = \\mathbb{R}$.\n$\\mathbb{Q}$ n'est donc ni ouvert ni fermé dans $\\mathbb{R}$."
+      "answer": "$A \\cup \\{0\\}$",
+      "hint1": "Cherche les limites des suites d'éléments de $A$ : elles donnent l'adhérence.",
+      "hint2": "Chaque point de $A$ est isolé dans $A$ : un intervalle centré en $\\frac{1}{n}$ peut-il être inclus dans $A$ ?",
+      "solution": "1. Adhérence : $\\frac{1}{n} \\to 0$, donc $0 \\in \\overline{A}$. Réciproquement, si $x \\notin A \\cup \\{0\\}$, un petit intervalle centré en $x$ évite $A$ : c'est clair si $x < 0$ ou $x > 1$, et si $0 < x < 1$, seul un nombre fini d'éléments de $A$ sont $\\ge \\frac{x}{2}$. Donc $\\overline{A} = A \\cup \\{0\\}$.\n2. Intérieur : tout intervalle ouvert non vide est indénombrable, alors que $A$ est dénombrable. Donc $\\mathring{A} = \\emptyset$.\n3. Frontière : $\\mathrm{Fr}(A) = (A \\cup \\{0\\}) \\setminus \\emptyset = A \\cup \\{0\\}$.\nChaque $\\frac{1}{n}$ est un point isolé de $A$, et $0$ est adhérent à $A$ sans lui appartenir : $A$ n'est ni ouvert ni fermé."
     },
     {
       "id": "L3-MET-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Applications lipschitziennes et complétude",
-      "skill": "Continuité uniforme et conservation des suites de Cauchy",
-      "statement": "Si $f : E \\to F$ est une application $k$-lipschitzienne entre deux espaces métriques, alors $f$ transforme :",
+      "title": "Applications lipschitziennes et suites de Cauchy",
+      "skill": "Reconnaître une application qui conserve les suites de Cauchy",
+      "statement": "Laquelle des applications suivantes, définies sur $]0 ; 1]$ muni de la distance usuelle, transforme toute suite de Cauchy en une suite de Cauchy de $\\mathbb{R}$ ?",
       "options": [
-        "Toute suite de Cauchy de $E$ en une suite de Cauchy de $F$",
-        "Tout fermé de $E$ en un fermé de $F$",
-        "Tout ouvert de $E$ en un ouvert de $F$",
-        "Toute suite bornée en une suite convergente"
+        "$x \\mapsto 3x + \\sin x$",
+        "$x \\mapsto \\frac{1}{x}$",
+        "$x \\mapsto \\ln x$",
+        "$x \\mapsto \\sin\\left(\\frac{1}{x}\\right)$"
       ],
       "correctIndex": 0,
-      "answer": "Toute suite de Cauchy de $E$ en une suite de Cauchy de $F$",
-      "hint1": "$d_F(f(x_p), f(x_q)) \\le k d_E(x_p, x_q)$.",
-      "hint2": "Si $(x_n)$ est de Cauchy, $d_E(x_p, x_q) \\to 0$, d'où $d_F(f(x_p), f(x_q)) \\to 0$.",
-      "solution": "Puisque $d_F(f(x_p), f(x_q)) \\le k \\cdot d_E(x_p, x_q)$, l'image d'une suite de Cauchy est immédiatement une suite de Cauchy."
+      "answer": "$x \\mapsto 3x + \\sin x$",
+      "hint1": "Une application $k$-lipschitzienne vérifie $|f(x_n) - f(x_p)| \\leq k\\,|x_n - x_p|$ : elle transforme les suites de Cauchy en suites de Cauchy.",
+      "hint2": "Teste la suite de Cauchy $x_n = \\frac{1}{n}$ sur les trois dernières applications ; pour la première, majore la dérivée.",
+      "solution": "$f(x) = 3x + \\sin x$ vérifie $|f'(x)| = |3 + \\cos x| \\leq 4$, donc $f$ est $4$-lipschitzienne et conserve les suites de Cauchy. Pour les autres, la suite de Cauchy $x_n = \\frac{1}{n}$ (resp. $x_n = \\frac{1}{\\pi/2 + n\\pi}$ pour la dernière) donne $n$, $-\\ln n$ et $(-1)^n$, qui ne sont pas de Cauchy : ces applications sont continues mais non uniformément continues sur $]0 ; 1]$."
     }
   ],
   "L3-BAN": [
@@ -1684,7 +1969,7 @@ window.MATHS_EXERCISES_L3 = {
       "type": "mcq",
       "title": "Théorème du point fixe de Picard-Banach",
       "skill": "Énoncer le théorème de point fixe contractant",
-      "statement": "Soit $(E, d)$ un espace métrique complet et $f : E \\to E$ une application strictement contractante ($k < 1$). Que garantit le théorème de Banach ?",
+      "statement": "Soit $(E, d)$ un espace métrique complet non vide et $f : E \\to E$ une application strictement contractante ($k < 1$). Que garantit le théorème de Banach ?",
       "options": [
         "$f$ admet un unique point fixe",
         "$f$ admet une infinité de points fixes",
@@ -1695,26 +1980,26 @@ window.MATHS_EXERCISES_L3 = {
       "answer": "$f$ admet un unique point fixe",
       "hint1": "Considère la suite $x_{n+1} = f(x_n)$ : montre que $d(x_{n+1}, x_n) \\le k^n d(x_1, x_0)$, puis que la suite est de Cauchy.",
       "hint2": "La limite $\\ell$ existe par complétude et vérifie $f(\\ell) = \\ell$ par continuité. Si $a$ et $b$ sont deux points fixes, compare $d(a, b)$ et $k\\,d(a, b)$.",
-      "solution": "Le théorème du point fixe de Banach affirme que toute application strictement contractante d'un espace métrique complet dans lui-même possède un unique point fixe."
+      "solution": "Le théorème du point fixe de Banach affirme que toute application strictement contractante d'un espace métrique complet non vide dans lui-même possède un unique point fixe."
     },
     {
       "id": "L3-BAN-2",
       "tier": 2,
       "type": "mcq",
       "title": "Espace de Banach",
-      "skill": "Connaître la définition d'un espace de Banach",
-      "statement": "Un espace vectoriel normé $(E, \\|\\cdot\\|)$ est appelé un espace de Banach lorsqu'il est :",
+      "skill": "Reconnaître un espace complet",
+      "statement": "Lequel des espaces vectoriels normés suivants est un espace de Banach ?",
       "options": [
-        "Complet pour la distance induite par la norme",
-        "De dimension finie",
-        "Muni d'un produit scalaire",
-        "Séparable"
+        "$\\mathcal{C}([0 ; 1], \\mathbb{R})$ muni de $\\|f\\|_\\infty = \\sup_{[0 ; 1]} |f|$",
+        "$\\mathcal{C}([0 ; 1], \\mathbb{R})$ muni de $\\|f\\|_1 = \\int_0^1 |f(t)|\\,dt$",
+        "$\\mathbb{R}[X]$ muni de $\\|P\\|_\\infty = \\sup_{[0 ; 1]} |P|$",
+        "L'espace des suites réelles nulles à partir d'un certain rang, muni de $\\|u\\|_\\infty = \\sup_n |u_n|$"
       ],
       "correctIndex": 0,
-      "answer": "Complet pour la distance induite par la norme",
-      "hint1": "Compare des exemples : $\\mathbb{R}$ est un espace de Banach, $\\mathbb{Q}$ ne l'est pas, et $\\ell^\\infty$ en est un bien qu'il soit de dimension infinie. Quelle propriété des suites de Cauchy distingue $\\mathbb{R}$ de $\\mathbb{Q}$ ?",
-      "hint2": "S'il possède en plus un produit scalaire, c'est un espace de Hilbert.",
-      "solution": "Par définition, un espace de Banach est un espace vectoriel normé complet pour la métrique issue de sa norme."
+      "answer": "$\\mathcal{C}([0 ; 1], \\mathbb{R})$ muni de $\\|f\\|_\\infty = \\sup_{[0 ; 1]} |f|$",
+      "hint1": "Un espace est de Banach si toute suite de Cauchy y converge ; pour montrer qu'il ne l'est pas, exhibe une suite de Cauchy dont la limite sort de l'espace.",
+      "hint2": "Pense aux sommes partielles de $\\sum \\frac{X^k}{k!}$ dans $\\mathbb{R}[X]$, et aux suites $(1, \\frac{1}{2}, \\dots, \\frac{1}{n}, 0, 0, \\dots)$.",
+      "solution": "Une suite de Cauchy pour $\\|\\cdot\\|_\\infty$ converge uniformément, et une limite uniforme de fonctions continues est continue : $(\\mathcal{C}([0 ; 1]), \\|\\cdot\\|_\\infty)$ est complet. Les trois autres ne le sont pas : des fonctions continues affines par morceaux approchant une fonction en escalier forment une suite de Cauchy pour $\\|\\cdot\\|_1$ sans limite continue ; les sommes partielles de $\\sum \\frac{X^k}{k!}$ convergent uniformément sur $[0 ; 1]$ vers $e^x$, qui n'est pas polynomiale ; les suites $(1, \\frac{1}{2}, \\dots, \\frac{1}{n}, 0, \\dots)$ convergent vers $\\left(\\frac{1}{k}\\right)_{k \\geq 1}$, qui n'est pas nulle à partir d'un certain rang."
     },
     {
       "id": "L3-BAN-3",
@@ -1722,37 +2007,37 @@ window.MATHS_EXERCISES_L3 = {
       "type": "mcq",
       "title": "Un espace vectoriel normé non complet",
       "skill": "Montrer qu'un espace normé n'est pas complet",
-      "statement": "On munit $E = \\mathcal{C}([0,1], \\mathbb{R})$ de la norme $\\|f\\|_1 = \\int_0^1 |f(t)|\\,dt$. L'espace $(E, \\|\\cdot\\|_1)$ est-il un espace de Banach ?",
+      "statement": "On munit $E = \\mathcal{C}([0 ; 1], \\mathbb{R})$ de la norme $\\|f\\|_1 = \\int_0^1 |f(t)|\\,dt$. L'espace $(E, \\|\\cdot\\|_1)$ est-il un espace de Banach ?",
       "options": [
         "Non : une suite de fonctions continues qui approche une fonction échelon est de Cauchy pour $\\|\\cdot\\|_1$ mais n'a pas de limite continue",
-        "Oui : $\\mathcal{C}([0,1], \\mathbb{R})$ est complet pour toute norme",
-        "Oui : car $[0,1]$ est compact",
+        "Oui : $\\mathcal{C}([0 ; 1], \\mathbb{R})$ est complet pour toute norme",
+        "Oui : car $[0 ; 1]$ est compact",
         "Non : car $\\|\\cdot\\|_1$ n'est pas une norme sur $E$"
       ],
       "correctIndex": 0,
       "answer": "Non : une suite de fonctions continues qui approche une fonction échelon est de Cauchy pour $\\|\\cdot\\|_1$ mais n'a pas de limite continue",
-      "hint1": "Pense à $f_n$ valant $0$ sur $[0, \\frac12]$, $1$ sur $[\\frac12 + \\frac1n, 1]$ et affine entre les deux.",
-      "hint2": "Majore $\\|f_n - f_m\\|_1$ par l'aire d'un petit triangle, puis montre qu'une limite continue $f$ devrait valoir $0$ sur $[0,\\frac12]$ et $1$ sur $]\\frac12, 1]$.",
-      "solution": "Soit $f_n$ nulle sur $[0, \\frac12]$, égale à $1$ sur $[\\frac12 + \\frac1n, 1]$ et affine sur $[\\frac12, \\frac12 + \\frac1n]$. Pour $m \\ge n$, $f_n$ et $f_m$ ne diffèrent que sur $[\\frac12, \\frac12 + \\frac1n]$, où $|f_n - f_m| \\le 1$ : donc $\\|f_n - f_m\\|_1 \\le \\frac1n$, et la suite est de Cauchy.\nSi $f_n \\to f$ dans $(E, \\|\\cdot\\|_1)$ avec $f$ continue, alors $\\int_0^{1/2} |f| \\le \\|f_n - f\\|_1 \\to 0$, donc $f = 0$ sur $[0, \\frac12]$ ; et pour tout $a > \\frac12$, $\\int_a^1 |f - 1| \\le \\|f_n - f\\|_1$ dès que $\\frac12 + \\frac1n \\le a$, donc $f = 1$ sur $]\\frac12, 1]$. C'est incompatible avec la continuité de $f$ en $\\frac12$.\nConclusion : $(E, \\|\\cdot\\|_1)$ n'est pas complet (son complété est $L^1([0,1])$). En revanche, $(E, \\|\\cdot\\|_\\infty)$ est un Banach : la complétude dépend de la norme, ce qui n'est pas contradictoire car en dimension infinie les normes ne sont pas toutes équivalentes."
+      "hint1": "Pense, pour $n \\ge 2$, à $f_n$ valant $0$ sur $[0 ; \\frac12]$, $1$ sur $[\\frac12 + \\frac1n ; 1]$ et affine entre les deux.",
+      "hint2": "Majore $\\|f_n - f_m\\|_1$ par l'aire d'un petit triangle, puis montre qu'une limite continue $f$ devrait valoir $0$ sur $[0 ; \\frac12]$ et $1$ sur $]\\frac12 ; 1]$.",
+      "solution": "Pour $n \\ge 2$, soit $f_n$ nulle sur $[0 ; \\frac12]$, égale à $1$ sur $[\\frac12 + \\frac1n ; 1]$ et affine sur $[\\frac12 ; \\frac12 + \\frac1n]$. Pour $m \\ge n$, $f_n$ et $f_m$ ne diffèrent que sur $[\\frac12 ; \\frac12 + \\frac1n]$, où $|f_n - f_m| \\le 1$ : donc $\\|f_n - f_m\\|_1 \\le \\frac1n$, et la suite est de Cauchy.\nSi $f_n \\to f$ dans $(E, \\|\\cdot\\|_1)$ avec $f$ continue, alors $\\int_0^{1/2} |f| \\le \\|f_n - f\\|_1 \\to 0$, donc $f = 0$ sur $[0 ; \\frac12]$ ; et pour tout $a > \\frac12$, $\\int_a^1 |f - 1| \\le \\|f_n - f\\|_1$ dès que $\\frac12 + \\frac1n \\le a$, donc $f = 1$ sur $]\\frac12 ; 1]$. C'est incompatible avec la continuité de $f$ en $\\frac12$.\nConclusion : $(E, \\|\\cdot\\|_1)$ n'est pas complet (son complété est $L^1([0 ; 1])$). En revanche, $(E, \\|\\cdot\\|_\\infty)$ est un Banach : la complétude dépend de la norme, ce qui n'est pas contradictoire car en dimension infinie les normes ne sont pas toutes équivalentes."
     },
     {
       "id": "L3-BAN-4",
       "tier": 4,
       "type": "mcq",
       "title": "Théorème de Baire",
-      "skill": "Propriétés des espaces de Baire",
-      "statement": "Dans un espace métrique complet $(E, d)$, que stipule le théorème de Baire pour toute suite $(O_n)$ d'ouverts denses ?",
+      "skill": "Appliquer le théorème de Baire",
+      "statement": "Pourquoi l'espace $\\mathbb{R}[X]$, muni de n'importe quelle norme, n'est-il jamais un espace de Banach ?",
       "options": [
-        "L'intersection $\\bigcap_{n=1}^\\infty O_n$ est dense dans $E$",
-        "L'intersection est vide",
-        "L'intersection est compacte",
-        "L'union est fermée"
+        "Il est réunion dénombrable des sous-espaces $\\mathbb{R}_n[X]$, fermés et d'intérieur vide, ce que le théorème de Baire interdit dans un espace complet",
+        "Parce qu'il est de dimension infinie, et qu'aucun espace vectoriel normé de dimension infinie n'est complet",
+        "Parce que $\\|P\\|_\\infty = \\sup_{[0 ; 1]} |P|$ n'est pas une norme sur $\\mathbb{R}[X]$",
+        "L'affirmation est fausse : il est complet pour la norme somme des valeurs absolues des coefficients"
       ],
       "correctIndex": 0,
-      "answer": "L'intersection $\\bigcap_{n=1}^\\infty O_n$ est dense dans $E$",
-      "hint1": "Pour montrer qu'une partie est dense, il suffit de montrer qu'elle rencontre toute boule ouverte $B_0$ de $E$.",
-      "hint2": "Construis des boules fermées emboîtées $\\overline{B}_n \\subset O_n \\cap B_{n-1}$ de rayons tendant vers $0$ ; leurs centres forment une suite de Cauchy. Où se trouve sa limite ?",
-      "solution": "Le théorème de Baire énonce que dans tout espace métrique complet (ou localement compact), toute intersection dénombrable d'ouverts denses est dense."
+      "answer": "Il est réunion dénombrable des sous-espaces $\\mathbb{R}_n[X]$, fermés et d'intérieur vide, ce que le théorème de Baire interdit dans un espace complet",
+      "hint1": "Théorème de Baire : dans un espace complet, une réunion dénombrable de fermés d'intérieur vide est d'intérieur vide.",
+      "hint2": "Les $\\mathbb{R}_n[X]$ sont de dimension finie, donc fermés ; un sous-espace strict ne contient aucune boule.",
+      "solution": "$\\mathbb{R}[X] = \\bigcup_{n \\geq 0} \\mathbb{R}_n[X]$. Chaque $\\mathbb{R}_n[X]$ est de dimension finie, donc complet et fermé ; c'est un sous-espace strict, donc d'intérieur vide (un sous-espace qui contient une boule contient tout l'espace, par homothétie). Si $\\mathbb{R}[X]$ était complet, le théorème de Baire rendrait cette réunion d'intérieur vide, alors qu'elle est l'espace entier. L'argument vaut pour toute norme, alors que $\\mathcal{C}([0 ; 1])$ muni de $\\|\\cdot\\|_\\infty$, de dimension infinie, est complet."
     }
   ],
   "L3-CMP": [
@@ -1771,7 +2056,7 @@ window.MATHS_EXERCISES_L3 = {
       ],
       "correctIndex": 0,
       "answer": "Fermée et bornée",
-      "hint1": "C'est le théorème de Borel-Lebesgue (ou Heine-Borel) en dimension finie.",
+      "hint1": "C'est le théorème de Heine-Borel, valable en dimension finie.",
       "hint2": "Attention : cette équivalence est fausse en dimension infinie d'après le théorème de Riesz !",
       "solution": "D'après le théorème de Heine-Borel, dans $\\mathbb{R}^n$ (ou tout EVN de dimension finie), une partie est compacte si et seulement si elle est fermée et bornée."
     },
@@ -1781,18 +2066,18 @@ window.MATHS_EXERCISES_L3 = {
       "type": "mcq",
       "title": "Théorème de Heine et continuité uniforme",
       "skill": "Déduire la continuité uniforme sur un compact",
-      "statement": "Que garantit le théorème de Heine pour une fonction $f : K \\to \\mathbb{R}$ continue sur un espace métrique compact $K$ ?",
+      "statement": "Parmi les fonctions suivantes, laquelle est uniformément continue sur l'ensemble indiqué ?",
       "options": [
-        "$f$ est uniformément continue sur $K$",
-        "$f$ est dérivable sur $K$",
-        "$f$ est lipschitzienne sur $K$",
-        "$f$ est une fonction constante"
+        "$x \\mapsto \\sqrt{x}$ sur $[0 ; 1]$",
+        "$x \\mapsto x^2$ sur $\\mathbb{R}$",
+        "$x \\mapsto \\frac{1}{x}$ sur $]0 ; 1]$",
+        "$x \\mapsto \\sin\\left(\\frac{1}{x}\\right)$ sur $]0 ; 1]$"
       ],
       "correctIndex": 0,
-      "answer": "$f$ est uniformément continue sur $K$",
-      "hint1": "Le pas $\\delta$ dans la définition de la continuité dépend-il du point $x$ sur un compact ?",
-      "hint2": "La compacité permet d'extraire un sous-recouvrement fini de boules et de choisir un $\\delta$ global uniforme.",
-      "solution": "Le théorème de Heine énonce que toute application continue définie sur un espace métrique compact est uniformément continue."
+      "answer": "$x \\mapsto \\sqrt{x}$ sur $[0 ; 1]$",
+      "hint1": "Le théorème de Heine s'applique à une fonction continue sur un compact. Lequel des quatre ensembles est compact ?",
+      "hint2": "Pour les trois autres, cherche deux suites $(x_n)$ et $(y_n)$ avec $|x_n - y_n| \\to 0$ mais $|f(x_n) - f(y_n)|$ qui ne tend pas vers $0$.",
+      "solution": "$[0 ; 1]$ est fermé et borné, donc compact, et $\\sqrt{\\cdot}$ y est continue : par le théorème de Heine, elle est uniformément continue (sans être lipschitzienne, à cause de la tangente verticale en $0$). Les trois autres ne le sont pas : pour $x^2$, $x_n = n + \\frac{1}{n}$ et $y_n = n$ donnent $x_n^2 - y_n^2 = 2 + \\frac{1}{n^2} \\geq 2$ ; pour $\\frac{1}{x}$, $x_n = \\frac{1}{n}$ et $y_n = \\frac{1}{2n}$ donnent $|f(x_n) - f(y_n)| = n$ ; pour $\\sin\\left(\\frac{1}{x}\\right)$, $x_n = \\frac{1}{2n\\pi}$ et $y_n = \\frac{1}{2n\\pi + \\pi/2}$ donnent $|f(x_n) - f(y_n)| = 1$. Dans chaque cas $|x_n - y_n| \\to 0$ : les ensembles $\\mathbb{R}$ et $]0 ; 1]$ ne sont pas compacts et Heine ne s'applique pas."
     },
     {
       "id": "L3-CMP-3",
@@ -1800,18 +2085,18 @@ window.MATHS_EXERCISES_L3 = {
       "type": "mcq",
       "title": "Propriété de Bolzano-Weierstrass",
       "skill": "Caractériser la compacité séquentielle",
-      "statement": "Soit $K$ un sous-ensemble d'un espace métrique $(E, d)$. Quelle propriété séquentielle équivaut à la compacité de $K$ ?",
+      "statement": "Dans $\\mathbb{R}$, on considère $L = \\left\\{\\frac{1}{n} : n \\geq 1\\right\\}$ et $K = L \\cup \\{0\\}$. Quelle affirmation est vraie ?",
       "options": [
-        "Toute suite d'éléments de $K$ admet une valeur d'adhérence dans $K$ (sous-suite convergente)",
-        "Toute suite d'éléments de $K$ est monotone",
-        "Toute suite de Cauchy dans $K$ est bornée",
-        "Toute suite d'éléments de $K$ est convergente"
+        "$K$ est compact, mais pas $L$ : la suite $\\left(\\frac{1}{n}\\right)$ n'a aucune sous-suite convergeant dans $L$",
+        "$K$ et $L$ sont tous deux compacts, car ils sont bornés",
+        "$L$ est compact, mais pas $K$",
+        "Ni $K$ ni $L$ n'est compact, car ils sont infinis"
       ],
       "correctIndex": 0,
-      "answer": "Toute suite d'éléments de $K$ admet une valeur d'adhérence dans $K$ (sous-suite convergente)",
-      "hint1": "C'est la propriété de Bolzano-Weierstrass.",
-      "hint2": "Élimine les options avec la suite $((-1)^n)$ dans le compact $[-1, 1]$ : est-elle convergente ? monotone ? Possède-t-elle une sous-suite convergente ?",
-      "solution": "Dans un espace métrique, un ensemble est compact si et seulement s'il vérifie la propriété de Bolzano-Weierstrass : toute suite d'éléments de $K$ admet une sous-suite convergente dont la limite appartient à $K$."
+      "answer": "$K$ est compact, mais pas $L$ : la suite $\\left(\\frac{1}{n}\\right)$ n'a aucune sous-suite convergeant dans $L$",
+      "hint1": "Dans un espace métrique, $K$ est compact si et seulement si toute suite de $K$ admet une sous-suite convergeant dans $K$ (Bolzano-Weierstrass).",
+      "hint2": "Vers quoi converge toute sous-suite de $\\left(\\frac{1}{n}\\right)$ ? Ce point appartient-il à $L$ ? à $K$ ?",
+      "solution": "Toute sous-suite de $\\left(\\frac{1}{n}\\right)$ converge vers $0$, qui n'est pas dans $L$ : $L$ ne vérifie pas la propriété de Bolzano-Weierstrass, il n'est pas compact (bien que borné). Pour $K$ : une suite de $K$ prend soit une infinité de fois une même valeur (sous-suite constante, donc convergente dans $K$), soit une infinité de valeurs distinctes $\\frac{1}{n_k}$ avec $n_k \\to +\\infty$ quitte à extraire, d'où une sous-suite qui tend vers $0 \\in K$. Donc $K$ est compact (c'est aussi un fermé borné de $\\mathbb{R}$). Être infini n'empêche pas d'être compact."
     },
     {
       "id": "L3-CMP-4",
@@ -1819,18 +2104,18 @@ window.MATHS_EXERCISES_L3 = {
       "type": "mcq",
       "title": "Connexité et TVI généralisé",
       "skill": "Comprendre l'image continue d'un espace connexe",
-      "statement": "Soit $E$ un espace topologique connexe et $f : E \\to \\mathbb{R}$ une application continue. Quelle est la nature de l'image directe $f(E)$ ?",
+      "statement": "Laquelle des parties suivantes de $\\mathbb{R}$ peut être l'image $f(\\mathbb{R}^2)$ d'une application continue $f : \\mathbb{R}^2 \\to \\mathbb{R}$ ?",
       "options": [
-        "$f(E)$ est un intervalle de $\\mathbb{R}$",
-        "$f(E)$ est un ensemble fini",
-        "$f(E)$ est obligatoirement un segment fermé $[a, b]$",
-        "$f(E)$ est un ouvert de $\\mathbb{R}$"
+        "$]0 ; 1]$",
+        "$\\{0 ; 1\\}$",
+        "$[0 ; 1] \\cup [2 ; 3]$",
+        "$\\mathbb{Z}$"
       ],
       "correctIndex": 0,
-      "answer": "$f(E)$ est un intervalle de $\\mathbb{R}$",
-      "hint1": "L'image continue d'un connexe est connexe.",
-      "hint2": "Quelles sont les seules parties connexes de la droite réelle $\\mathbb{R}$ ?",
-      "solution": "L'image continue d'un espace connexe est connexe. Comme les seules parties connexes de $\\mathbb{R}$ sont les intervalles, $f(E)$ est nécessairement un intervalle de $\\mathbb{R}$ (généralisation du Théorème des Valeurs Intermédiaires)."
+      "answer": "$]0 ; 1]$",
+      "hint1": "$\\mathbb{R}^2$ est connexe (et même connexe par arcs), et l'image continue d'un connexe est connexe.",
+      "hint2": "Les parties connexes de $\\mathbb{R}$ sont les intervalles. Pour l'intervalle proposé, cherche une fonction explicite, par exemple de la forme $\\frac{1}{1 + \\dots}$.",
+      "solution": "$\\mathbb{R}^2$ est connexe, donc $f(\\mathbb{R}^2)$ est une partie connexe de $\\mathbb{R}$, c'est-à-dire un intervalle. $\\{0 ; 1\\}$, $[0 ; 1] \\cup [2 ; 3]$ et $\\mathbb{Z}$ ne sont pas des intervalles : ils sont exclus. En revanche $]0 ; 1]$ est atteint : $f(x, y) = \\frac{1}{1 + x^2 + y^2}$ est continue, vaut $1$ en $(0, 0)$, prend des valeurs strictement positives, et tend vers $0$ quand $x \\to +\\infty$ ; par le théorème des valeurs intermédiaires sur $t \\mapsto f(t, 0)$, son image est exactement $]0 ; 1]$."
     }
   ],
   "L3-SDF": [
@@ -1840,18 +2125,18 @@ window.MATHS_EXERCISES_L3 = {
       "type": "mcq",
       "title": "Convergence simple vs uniforme",
       "skill": "Distinguer les modes de convergence d'une suite de fonctions",
-      "statement": "Soit la suite de fonctions $f_n(x) = x^n$ définies sur $[0, 1]$. Quelle affirmation est exacte ?",
+      "statement": "Soit la suite de fonctions $f_n(x) = x^n$ définies sur $[0 ; 1]$. Quelle affirmation est exacte ?",
       "options": [
-        "$(f_n)$ converge simplement sur $[0, 1]$, mais pas uniformément car la limite est discontinue",
-        "$(f_n)$ converge uniformément sur $[0, 1]$ vers la fonction nulle",
-        "$(f_n)$ converge normalement sur $[0, 1]$",
-        "$(f_n)$ ne converge simplement en aucun point de $[0, 1]$"
+        "$(f_n)$ converge simplement sur $[0 ; 1]$, mais pas uniformément car la limite est discontinue",
+        "$(f_n)$ converge uniformément sur $[0 ; 1]$ vers la fonction nulle",
+        "$(f_n)$ converge normalement sur $[0 ; 1]$",
+        "$(f_n)$ ne converge simplement en aucun point de $[0 ; 1]$"
       ],
       "correctIndex": 0,
-      "answer": "$(f_n)$ converge simplement sur $[0, 1]$, mais pas uniformément car la limite est discontinue",
-      "hint1": "Calcule la limite simple pour $x \\in [0, 1[$ puis pour $x = 1$.",
+      "answer": "$(f_n)$ converge simplement sur $[0 ; 1]$, mais pas uniformément car la limite est discontinue",
+      "hint1": "Calcule la limite simple pour $x \\in [0 ; 1[$ puis pour $x = 1$.",
       "hint2": "Si la convergence était uniforme, la limite d'une suite de fonctions continues serait continue.",
-      "solution": "La limite simple est $f(x) = 0$ si $x \\in [0, 1[$ et $f(1) = 1$. Comme les $f_n$ sont continues et la limite $f$ est discontinue en 1, la convergence ne peut pas être uniforme sur $[0, 1]$."
+      "solution": "La limite simple est $f(x) = 0$ si $x \\in [0 ; 1[$ et $f(1) = 1$. Comme les $f_n$ sont continues et la limite $f$ est discontinue en 1, la convergence ne peut pas être uniforme sur $[0 ; 1]$."
     },
     {
       "id": "L3-SDF-2",
@@ -1864,7 +2149,7 @@ window.MATHS_EXERCISES_L3 = {
         "Oui, car $\\|u_n\\|_\\infty = \\frac{1}{n^2}$ et $\\sum \\frac{1}{n^2}$ converge (Riemann $\\alpha=2$)",
         "Non, elle converge seulement simplement",
         "Non, le cosinus oscille donc la série diverge",
-        "Oui, mais uniquement sur $[-1, 1]$"
+        "Oui, mais uniquement sur $[-1 ; 1]$"
       ],
       "correctIndex": 0,
       "answer": "Oui, car $\\|u_n\\|_\\infty = \\frac{1}{n^2}$ et $\\sum \\frac{1}{n^2}$ converge (Riemann $\\alpha=2$)",
@@ -1877,38 +2162,38 @@ window.MATHS_EXERCISES_L3 = {
       "tier": 3,
       "type": "mcq",
       "title": "Continuité de la somme d'une série de fonctions",
-      "skill": "Appliquer le théorème de continuité sous convergence uniforme",
-      "statement": "Soit $\\sum u_n$ une série de fonctions continues sur un intervalle $I$. Quelle condition garantit que la somme $S(x) = \\sum_{n=0}^\\infty u_n(x)$ est continue sur $I$ ?",
+      "skill": "Utiliser la continuité de la somme pour exclure la convergence uniforme",
+      "statement": "On considère la série de fonctions continues $\\sum_{n \\geq 0} x^n(1 - x)$ sur $[0 ; 1]$. Que peut-on affirmer ?",
       "options": [
-        "La convergence uniforme de $\\sum u_n$ sur tout segment compact de $I$",
-        "La convergence simple de $\\sum u_n$ en tout point de $I$",
-        "L'intégrabilité de chaque $u_n$",
-        "La décroissance de la suite $(u_n)$"
+        "Sa somme vaut $1$ sur $[0 ; 1[$ et $0$ en $1$ : elle n'est pas continue, donc la convergence n'est pas uniforme sur $[0 ; 1]$",
+        "Elle converge uniformément sur $[0 ; 1]$, donc sa somme est continue",
+        "Elle diverge en $x = 1$",
+        "Sa somme vaut $\\frac{1}{1 - x}$ sur $[0 ; 1[$"
       ],
       "correctIndex": 0,
-      "answer": "La convergence uniforme de $\\sum u_n$ sur tout segment compact de $I$",
-      "hint1": "La continuité est une propriété locale : pour l'établir en $x_0 \\in I$, il suffit de travailler sur un segment $[a, b] \\subset I$ voisinage de $x_0$ (relativement à $I$).",
-      "hint2": "La convergence simple ne conserve pas la continuité (pense à $x^n$ sur $[0, 1]$). Quel mode de convergence la conserve ?",
-      "solution": "D'après le théorème de continuité, si chaque $u_n$ est continue et si la série converge uniformément sur tout segment inclus dans $I$, alors la somme $S$ est continue sur $I$."
+      "answer": "Sa somme vaut $1$ sur $[0 ; 1[$ et $0$ en $1$ : elle n'est pas continue, donc la convergence n'est pas uniforme sur $[0 ; 1]$",
+      "hint1": "Calcule la somme : pour $x \\in [0 ; 1[$, c'est une série géométrique ; traite $x = 1$ à part.",
+      "hint2": "Pour $x \\in [0 ; 1[$, $(1 - x)\\sum_{n \\geq 0} x^n = (1 - x) \\times \\frac{1}{1 - x}$. Une limite uniforme de fonctions continues est continue : conclus.",
+      "solution": "Pour $x \\in [0 ; 1[$, $\\sum_{n \\geq 0} x^n(1 - x) = (1 - x) \\times \\frac{1}{1 - x} = 1$ ; en $x = 1$, tous les termes sont nuls et la somme vaut $0$. La somme est donc discontinue en $1$. Si la convergence était uniforme sur $[0 ; 1]$, la somme de cette série de fonctions continues serait continue : la convergence n'est pas uniforme (elle l'est en revanche sur tout segment $[0 ; a]$ avec $a < 1$)."
     },
     {
       "id": "L3-SDF-4",
       "tier": 4,
       "type": "mcq",
       "title": "Dérivation terme à terme",
-      "skill": "Vérifier les hypothèses du théorème de dérivation terme à terme",
-      "statement": "Pour affirmer que $\\left(\\sum_{n=0}^\\infty u_n(x)\\right)' = \\sum_{n=0}^\\infty u_n'(x)$ sur un intervalle $I$ pour des fonctions $\\mathcal{C}^1$, quelle condition fondamentale doit vérifier la série des dérivées $\\sum u_n'$ ?",
+      "skill": "Justifier une dérivation terme à terme",
+      "statement": "Soit $S(x) = \\sum_{n \\geq 1} \\frac{\\sin(nx)}{n^3}$ pour $x \\in \\mathbb{R}$. Que peut-on affirmer ?",
       "options": [
-        "Converger uniformément sur tout segment compact de $I$",
-        "Converger simplement en au moins un point",
-        "Avoir des termes tous positifs",
-        "Être bornée par 1"
+        "$S$ est de classe $\\mathcal{C}^1$ et $S'(x) = \\sum_{n \\geq 1} \\frac{\\cos(nx)}{n^2}$",
+        "On ne peut pas dériver terme à terme, car $\\sum \\frac{\\cos(nx)}{n^2}$ ne converge pas uniformément sur $\\mathbb{R}$",
+        "$S$ est de classe $\\mathcal{C}^1$ et $S'(x) = \\sum_{n \\geq 1} \\frac{\\cos(nx)}{n^3}$",
+        "$S$ est de classe $\\mathcal{C}^1$ et $S'(0) = 0$"
       ],
       "correctIndex": 0,
-      "answer": "Converger uniformément sur tout segment compact de $I$",
-      "hint1": "Écris $u_n(x) = u_n(x_0) + \\int_{x_0}^x u_n'(t)\\,dt$ et somme : quel mode de convergence de $\\sum u_n'$ permet d'intervertir somme et intégrale sur un segment ?",
-      "hint2": "La série initiale $\\sum u_n$ n'a besoin de converger qu'en un seul point $x_0$.",
-      "solution": "Le théorème de dérivation terme à terme requiert que chaque $u_n$ soit $\\mathcal{C}^1$, que $\\sum u_n(x_0)$ converge en un point, et que la série des dérivées $\\sum u_n'$ converge uniformément sur tout segment compact de $I$."
+      "answer": "$S$ est de classe $\\mathcal{C}^1$ et $S'(x) = \\sum_{n \\geq 1} \\frac{\\cos(nx)}{n^2}$",
+      "hint1": "Théorème : si $\\sum u_n$ converge en un point et si $\\sum u_n'$ converge uniformément sur $I$, alors la somme est $\\mathcal{C}^1$ et se dérive terme à terme.",
+      "hint2": "$|u_n'(x)| = \\frac{|\\cos(nx)|}{n^2} \\leq \\frac{1}{n^2}$ : quelle convergence obtiens-tu pour $\\sum u_n'$ ?",
+      "solution": "Les $u_n(x) = \\frac{\\sin(nx)}{n^3}$ sont $\\mathcal{C}^1$, $\\sum u_n$ converge (normalement) et $|u_n'(x)| = \\frac{|\\cos(nx)|}{n^2} \\leq \\frac{1}{n^2}$ : $\\sum u_n'$ converge normalement, donc uniformément, sur $\\mathbb{R}$. Ainsi $S$ est $\\mathcal{C}^1$ et $S'(x) = \\sum_{n \\geq 1} \\frac{\\cos(nx)}{n^2}$. En particulier $S'(0) = \\sum_{n \\geq 1} \\frac{1}{n^2} = \\frac{\\pi^2}{6} \\neq 0$."
     }
   ],
   "L3-SER": [
@@ -1937,7 +2222,7 @@ window.MATHS_EXERCISES_L3 = {
       "type": "mcq",
       "title": "Développement en série entière géométrique",
       "skill": "Déterminer la somme d'une série entière géométrique dérivée",
-      "statement": "Pour tout $x \\in ]-1, 1[$, que vaut la somme de la série entière $\\sum_{n=1}^\\infty n x^{n-1}$ ?",
+      "statement": "Pour tout $x \\in ]-1 ; 1[$, que vaut la somme de la série entière $\\sum_{n=1}^\\infty n x^{n-1}$ ?",
       "options": [
         "$\\frac{1}{(1-x)^2}$",
         "$\\frac{1}{1-x}$",
@@ -1948,45 +2233,45 @@ window.MATHS_EXERCISES_L3 = {
       "answer": "$\\frac{1}{(1-x)^2}$",
       "hint1": "Remarque que $n x^{n-1} = (x^n)'$.",
       "hint2": "Dérive terme à terme la série géométrique $\\sum_{n=0}^\\infty x^n = \\frac{1}{1-x}$.",
-      "solution": "Sur $]-1, 1[$, $\\sum_{n=0}^\\infty x^n = \\frac{1}{1-x}$. Par dérivation terme à terme d'une série entière sur son disque ouvert de convergence : $\\sum_{n=1}^\\infty n x^{n-1} = \\left(\\frac{1}{1-x}\\right)' = \\frac{1}{(1-x)^2}$."
+      "solution": "Sur $]-1 ; 1[$, $\\sum_{n=0}^\\infty x^n = \\frac{1}{1-x}$. Par dérivation terme à terme d'une série entière sur son disque ouvert de convergence : $\\sum_{n=1}^\\infty n x^{n-1} = \\left(\\frac{1}{1-x}\\right)' = \\frac{1}{(1-x)^2}$."
     },
     {
       "id": "L3-SER-3",
       "tier": 3,
       "type": "mcq",
       "title": "Théorème de la limite radiale d'Abel",
-      "skill": "Étudier le comportement d'une série entière au bord du disque",
-      "statement": "Soit $f(x) = \\sum_{n=0}^\\infty a_n x^n$ de rayon de convergence $R = 1$. Si la série numérique $\\sum a_n$ converge, que garantit le théorème radial d'Abel ?",
+      "skill": "Calculer la somme d'une série numérique avec le théorème d'Abel",
+      "statement": "Pour $x \\in ]-1 ; 1[$, $\\ln(1 + x) = \\sum_{n \\geq 1} \\frac{(-1)^{n+1}}{n} x^n$ (rayon de convergence $1$). Qu'apporte le théorème radial d'Abel ?",
       "options": [
-        "$\\lim_{x \\to 1^-} f(x) = \\sum_{n=0}^\\infty a_n$",
-        "$f$ est prolongeable par continuité sur $\\mathbb{R}$ tout entier",
-        "$\\sum a_n$ est absolument convergente",
-        "$\\lim_{x \\to 1^-} f'(x) = 0$"
+        "$\\sum_{n \\geq 1} \\frac{(-1)^{n+1}}{n} = \\ln 2$",
+        "$\\sum_{n \\geq 1} \\frac{1}{n} = \\ln 2$",
+        "$\\sum_{n \\geq 1} \\frac{(-1)^{n+1}}{n} = -\\ln 2$",
+        "Rien, car la série $\\sum \\frac{(-1)^{n+1}}{n}$ ne converge pas absolument"
       ],
       "correctIndex": 0,
-      "answer": "$\\lim_{x \\to 1^-} f(x) = \\sum_{n=0}^\\infty a_n$",
-      "hint1": "Les options portent sur le comportement de $f$ au bord, en $x = 1$ : que vaudrait formellement $f(1)$ ?",
-      "hint2": "Le théorème d'Abel est un résultat de continuité : si $\\sum a_n$ converge, la série $\\sum a_n x^n$ converge uniformément sur $[0, 1]$. Qu'en déduis-tu pour $f$ en $1^-$ ?",
-      "solution": "Le théorème de la limite radiale d'Abel affirme que si $\\sum a_n R^n$ converge, alors la fonction somme $f(x)$ est continue à gauche en $R$, de sorte que $\\lim_{x \\to R^-} f(x) = \\sum_{n=0}^\\infty a_n R^n$."
+      "answer": "$\\sum_{n \\geq 1} \\frac{(-1)^{n+1}}{n} = \\ln 2$",
+      "hint1": "Le théorème d'Abel demande seulement la convergence de $\\sum a_n$ ; il donne alors $\\lim_{x \\to 1^-} \\sum a_n x^n = \\sum a_n$.",
+      "hint2": "$\\sum \\frac{(-1)^{n+1}}{n}$ converge par le critère des séries alternées, et $\\ln(1 + x) \\to \\ln 2$ quand $x \\to 1^-$.",
+      "solution": "La série $\\sum \\frac{(-1)^{n+1}}{n}$ converge (critère des séries alternées), sans converger absolument : cela suffit pour appliquer le théorème d'Abel. Il donne $\\sum_{n \\geq 1} \\frac{(-1)^{n+1}}{n} = \\lim_{x \\to 1^-} \\ln(1 + x) = \\ln 2$. La série harmonique $\\sum \\frac{1}{n}$, elle, diverge."
     },
     {
       "id": "L3-SER-4",
       "tier": 4,
       "type": "mcq",
       "title": "Produit de Cauchy de deux séries entières",
-      "skill": "Déterminer les coefficients du produit de séries entières",
-      "statement": "Si $f(z) = \\sum a_n z^n$ (rayon $R_a$) et $g(z) = \\sum b_n z^n$ (rayon $R_b$), quel est le coefficient $c_n$ de la série produit $f(z)g(z) = \\sum c_n z^n$ ?",
+      "skill": "Calculer les coefficients d'un produit de Cauchy",
+      "statement": "Les séries entières $\\sum_{n \\geq 0} x^n$ et $\\sum_{n \\geq 0} (-1)^n x^n$ ont pour rayon $1$. Quel est le coefficient $c_n$ de leur produit de Cauchy $\\sum_{n \\geq 0} c_n x^n$ ?",
       "options": [
-        "$c_n = \\sum_{k=0}^n a_k b_{n-k}$",
-        "$c_n = a_n b_n$",
-        "$c_n = \\sum_{k=0}^n a_k + b_{n-k}$",
-        "$c_n = \\frac{a_n + b_n}{2}$"
+        "$c_n = 1$ si $n$ est pair, $c_n = 0$ si $n$ est impair",
+        "$c_n = (-1)^n$",
+        "$c_n = n + 1$",
+        "$c_n = 0$ pour tout $n \\geq 1$"
       ],
       "correctIndex": 0,
-      "answer": "$c_n = \\sum_{k=0}^n a_k b_{n-k}$",
-      "hint1": "Formule du produit de convolution discret ou produit de Cauchy.",
-      "hint2": "Développe $(a_0 + a_1 z + a_2 z^2)(b_0 + b_1 z + b_2 z^2)$ et regroupe les termes en $z^2$ : quels produits $a_i b_j$ apparaissent ?",
-      "solution": "Le produit de Cauchy de deux séries entières a pour terme général $c_n = \\sum_{k=0}^n a_k b_{n-k}$, et son rayon de convergence vérifie $R_c \\ge \\min(R_a, R_b)$."
+      "answer": "$c_n = 1$ si $n$ est pair, $c_n = 0$ si $n$ est impair",
+      "hint1": "Produit de Cauchy : $c_n = \\sum_{k=0}^n a_k b_{n-k}$.",
+      "hint2": "Ici $c_n = \\sum_{k=0}^n (-1)^{n-k}$, somme alternée de $n + 1$ termes égaux à $\\pm 1$ ; tu peux contrôler avec $\\frac{1}{1 - x} \\times \\frac{1}{1 + x}$.",
+      "solution": "$c_n = \\sum_{k=0}^n 1 \\times (-1)^{n-k}$ : les termes valent alternativement $1$ et $-1$, en commençant et en finissant par $(-1)^n$ et $1$. La somme vaut $1$ si $n + 1$ est impair, c'est-à-dire si $n$ est pair, et $0$ sinon. On retrouve $\\frac{1}{1 - x} \\times \\frac{1}{1 + x} = \\frac{1}{1 - x^2} = \\sum_{p \\geq 0} x^{2p}$ pour $|x| < 1$."
     }
   ],
   "L3-FOU": [
@@ -2006,7 +2291,7 @@ window.MATHS_EXERCISES_L3 = {
       "correctIndex": 0,
       "answer": "$\\frac{f(x^+) + f(x^-)}{2}$",
       "hint1": "En un point où $f$ est continue, la série de Fourier converge vers $f(x)$ : quelles options redonnent bien $f(x)$ dans ce cas ?",
-      "hint2": "Teste sur le créneau impair ($f = -1$ sur $]-\\pi, 0[$, $f = 1$ sur $]0, \\pi[$) : sa série de Fourier ne contient que des sinus. Que vaut-elle en $x = 0$ ?",
+      "hint2": "Teste sur le créneau impair ($f = -1$ sur $]-\\pi ; 0[$, $f = 1$ sur $]0 ; \\pi[$) : sa série de Fourier ne contient que des sinus. Que vaut-elle en $x = 0$ ?",
       "solution": "D'après le théorème de Dirichlet, sous ces hypothèses de régularité, la série de Fourier converge en tout point $x$ vers la moyenne des limites à droite et à gauche : $\\frac{f(x^+) + f(x^-)}{2}$."
     },
     {
@@ -2014,19 +2299,19 @@ window.MATHS_EXERCISES_L3 = {
       "tier": 2,
       "type": "mcq",
       "title": "Coefficients de Fourier d'une fonction paire",
-      "skill": "Propriétés de parité des coefficients de Fourier",
-      "statement": "Si $f$ est une fonction $2\\pi$-périodique et paire, que valent ses coefficients de Fourier $b_n = \\frac{1}{\\pi} \\int_{-\\pi}^\\pi f(t) \\sin(nt) dt$ ?",
+      "skill": "Exploiter la parité pour calculer des coefficients de Fourier",
+      "statement": "Soit $f$ la fonction $2\\pi$-périodique telle que $f(t) = t^2$ sur $[-\\pi ; \\pi]$, avec $a_n = \\frac{1}{\\pi}\\int_{-\\pi}^{\\pi} f(t)\\cos(nt)\\,dt$ et $b_n = \\frac{1}{\\pi}\\int_{-\\pi}^{\\pi} f(t)\\sin(nt)\\,dt$. Que valent ses coefficients pour $n \\geq 1$ ?",
       "options": [
-        "$b_n = 0$ pour tout $n \\ge 1$",
-        "$b_n = a_n$",
-        "$b_n = 1$",
-        "$b_n = \\frac{1}{n}$"
+        "$b_n = 0$ et $a_n = \\frac{4(-1)^n}{n^2}$",
+        "$a_n = 0$ et $b_n = \\frac{4(-1)^n}{n^2}$",
+        "$b_n = 0$ et $a_n = \\frac{4}{n^2}$",
+        "$a_n = 0$ et $b_n = \\frac{2(-1)^{n+1}}{n}$"
       ],
       "correctIndex": 0,
-      "answer": "$b_n = 0$ pour tout $n \\ge 1$",
-      "hint1": "Le produit d'une fonction paire par une fonction impaire ($\\sin(nt)$) est une fonction impaire.",
-      "hint2": "L'intégrale d'une fonction impaire sur un intervalle symétrique $[-\\pi, \\pi]$ est nulle.",
-      "solution": "Comme $t \\mapsto f(t)\\sin(nt)$ est impaire, son intégrale sur $[-\\pi, \\pi]$ est nulle. Ainsi $b_n = 0$ pour tout $n \\ge 1$."
+      "answer": "$b_n = 0$ et $a_n = \\frac{4(-1)^n}{n^2}$",
+      "hint1": "$f$ est paire, donc $t \\mapsto f(t)\\sin(nt)$ est impaire et son intégrale sur $[-\\pi ; \\pi]$ est nulle ; pour $a_n$, utilise la parité puis intègre par parties.",
+      "hint2": "$a_n = \\frac{2}{\\pi}\\int_0^\\pi t^2\\cos(nt)\\,dt$ ; une première intégration par parties donne $-\\frac{2}{n}\\int_0^\\pi t\\sin(nt)\\,dt$ pour l'intégrale.",
+      "solution": "$f$ est paire, donc $b_n = 0$. Ensuite $\\int_0^\\pi t^2\\cos(nt)\\,dt = -\\frac{2}{n}\\int_0^\\pi t\\sin(nt)\\,dt$ et $\\int_0^\\pi t\\sin(nt)\\,dt = \\left[-\\frac{t\\cos(nt)}{n}\\right]_0^\\pi + \\frac{1}{n}\\int_0^\\pi \\cos(nt)\\,dt = -\\frac{\\pi(-1)^n}{n}$. D'où $a_n = \\frac{2}{\\pi} \\times \\frac{2\\pi(-1)^n}{n^2} = \\frac{4(-1)^n}{n^2}$."
     },
     {
       "id": "L3-FOU-3",
@@ -2034,37 +2319,37 @@ window.MATHS_EXERCISES_L3 = {
       "type": "mcq",
       "title": "Formule de Parseval pour séries de Fourier",
       "skill": "Calculer la somme de séries d'inverses de carrés via Parseval",
-      "statement": "L'égalité de Parseval relie l'énergie de $f$ aux coefficients de Fourier réels selon :",
+      "statement": "Soit $f$ réelle, $2\\pi$-périodique et continue par morceaux. On pose, pour $n \\ge 0$, $a_n = \\frac{1}{\\pi}\\int_{-\\pi}^{\\pi} f(t)\\cos(nt)\\,dt$ et, pour $n \\ge 1$, $b_n = \\frac{1}{\\pi}\\int_{-\\pi}^{\\pi} f(t)\\sin(nt)\\,dt$. Attention : avec cette convention, $a_0$ est le double de la moyenne de $f$, alors que dans le cours $a_0$ désigne la moyenne. L'égalité de Parseval s'écrit :",
       "options": [
         "$\\frac{1}{2\\pi} \\int_{-\\pi}^\\pi |f(t)|^2 dt = \\frac{a_0^2}{4} + \\frac{1}{2} \\sum_{n=1}^\\infty (a_n^2 + b_n^2)$",
         "$\\int_{-\\pi}^\\pi |f(t)|^2 dt = \\sum_{n=1}^\\infty a_n b_n$",
-        "$\\frac{1}{\\pi} \\int_{-\\pi}^\\pi f(t) dt = a_0$",
+        "$\\frac{1}{2\\pi} \\int_{-\\pi}^\\pi |f(t)|^2 dt = a_0^2 + \\frac{1}{2} \\sum_{n=1}^\\infty (a_n^2 + b_n^2)$",
         "$\\sum (a_n + b_n) = 0$"
       ],
       "correctIndex": 0,
       "answer": "$\\frac{1}{2\\pi} \\int_{-\\pi}^\\pi |f(t)|^2 dt = \\frac{a_0^2}{4} + \\frac{1}{2} \\sum_{n=1}^\\infty (a_n^2 + b_n^2)$",
       "hint1": "Teste avec $f(t) = \\cos t$ (donc $a_1 = 1$, tous les autres coefficients nuls) : calcule $\\frac{1}{2\\pi}\\int_{-\\pi}^{\\pi} \\cos^2 t\\,dt$ et compare aux options.",
-      "hint2": "Teste aussi $f = 1$ : avec la convention $a_0 = \\frac{1}{\\pi}\\int_{-\\pi}^{\\pi} f(t)\\,dt = 2$, le membre de gauche vaut $1$. Quelle formule redonne $1$ ?",
-      "solution": "La formule de Parseval assure l'égalité des normes $L^2$ et $\\ell^2$ : $\\frac{1}{2\\pi}\\int_{-\\pi}^\\pi |f(t)|^2 dt = \\frac{a_0^2}{4} + \\frac{1}{2}\\sum_{n=1}^\\infty (a_n^2 + b_n^2)$."
+      "hint2": "Teste aussi $f = 1$ : ici $a_0 = 2$ et le membre de gauche vaut $1$. Quelle formule redonne $1$ ?",
+      "solution": "La formule de Parseval assure l'égalité des normes $L^2$ et $\\ell^2$ : $\\frac{1}{2\\pi}\\int_{-\\pi}^\\pi |f(t)|^2 dt = \\frac{a_0^2}{4} + \\frac{1}{2}\\sum_{n=1}^\\infty (a_n^2 + b_n^2)$. Si $a_0$ désigne la moyenne de $f$, comme dans le cours, le premier terme s'écrit $a_0^2$."
     },
     {
       "id": "L3-FOU-4",
       "tier": 4,
       "type": "mcq",
       "title": "Lemme de Riemann-Lebesgue",
-      "skill": "Comportement asymptotique des coefficients de Fourier",
-      "statement": "Pour toute fonction $f \\in L^1([-\\pi, \\pi])$, quelle est la limite quand $n \\to +\\infty$ de $\\int_{-\\pi}^\\pi f(t) e^{-int} dt$ ?",
+      "skill": "Appliquer le lemme de Riemann-Lebesgue à une fonction intégrable non bornée",
+      "statement": "Que vaut $\\lim_{n \\to +\\infty} \\int_{-\\pi}^{\\pi} \\frac{\\cos(nt)}{\\sqrt{|t|}}\\,dt$ ?",
       "options": [
         "$0$",
-        "$1$",
-        "$+\\infty$",
-        "$f(0)$"
+        "$+\\infty$, car l'intégrande n'est pas bornée au voisinage de $0$",
+        "$4\\sqrt{\\pi}$",
+        "La limite n'existe pas, car $\\cos(nt)$ ne converge pas"
       ],
       "correctIndex": 0,
       "answer": "$0$",
-      "hint1": "Commence par $f = \\mathbf{1}_{[a, b]}$ : calcule $\\int_a^b e^{-int}\\,dt$ pour $n \\ne 0$ et majore son module.",
-      "hint2": "Ce module est majoré par $\\frac{2}{n}$ : que se passe-t-il quand $n \\to +\\infty$ ? On passe ensuite à toute $f \\in L^1$ par densité des fonctions en escalier.",
-      "solution": "D'après le lemme de Riemann-Lebesgue, les coefficients de Fourier de toute fonction intégrable tendent vers zéro à l'infini : $\\lim_{n \\to \\pm\\infty} c_n(f) = 0$."
+      "hint1": "Lemme de Riemann-Lebesgue : pour $f$ intégrable sur $[-\\pi ; \\pi]$, $\\int_{-\\pi}^{\\pi} f(t)\\cos(nt)\\,dt \\to 0$.",
+      "hint2": "Vérifie que $t \\mapsto \\frac{1}{\\sqrt{|t|}}$ est intégrable sur $[-\\pi ; \\pi]$ : calcule $\\int_0^\\pi t^{-1/2}\\,dt$.",
+      "solution": "$\\int_0^\\pi t^{-1/2}\\,dt = 2\\sqrt{\\pi}$ est fini, donc $f(t) = |t|^{-1/2}$ est intégrable sur $[-\\pi ; \\pi]$ (d'intégrale $4\\sqrt{\\pi}$), bien qu'elle ne soit pas bornée. Le lemme de Riemann-Lebesgue s'applique : $\\int_{-\\pi}^{\\pi} f(t)\\cos(nt)\\,dt \\to 0$. La valeur $4\\sqrt{\\pi}$ est l'intégrale pour $n = 0$, pas la limite."
     }
   ],
   "L3-GPR": [
@@ -2092,19 +2377,19 @@ window.MATHS_EXERCISES_L3 = {
       "tier": 2,
       "type": "mcq",
       "title": "Intersection de deux droites projectives",
-      "skill": "Propriété fondamentale du plan projectif",
-      "statement": "Dans le plan projectif $\\mathbb{P}^2(K)$, deux droites projectives distinctes :",
+      "skill": "Calculer le point commun de deux droites du plan projectif",
+      "statement": "Dans $\\mathbb{P}^2(\\mathbb{R})$, en coordonnées homogènes $[x : y : z]$, quel est le point commun aux droites d'équations $x - 2y + z = 0$ et $2x + y - 3z = 0$ ?",
       "options": [
-        "Se coupent toujours en exactement un point",
-        "Peuvent être strictement parallèles",
-        "Ne se coupent jamais",
-        "Ont une infinité de points communs"
+        "$[1 : 1 : 1]$",
+        "$[1 : -2 : 1]$",
+        "$[2 : 1 : -3]$",
+        "Ces deux droites n'ont aucun point commun"
       ],
       "correctIndex": 0,
-      "answer": "Se coupent toujours en exactement un point",
-      "hint1": "Dans le plan projectif, les droites affines parallèles se coupent en un point à l'infini.",
-      "hint2": "Deux plans vectoriels distincts de $K^3$ s'intersectent selon une droite vectorielle.",
-      "solution": "Contrairement au plan affine, dans le plan projectif, deux droites distinctes se coupent toujours en un point unique (les droites parallèles s'y coupent sur la droite de l'infini)."
+      "answer": "$[1 : 1 : 1]$",
+      "hint1": "Deux droites distinctes de $\\mathbb{P}^2$ se coupent en exactement un point ; ses coordonnées forment un vecteur non nul orthogonal aux deux vecteurs de coefficients, par exemple leur produit vectoriel.",
+      "hint2": "Calcule $(1, -2, 1) \\wedge (2, 1, -3)$ : la première coordonnée vaut $(-2) \\times (-3) - 1 \\times 1 = 5$.",
+      "solution": "$(1, -2, 1) \\wedge (2, 1, -3) = (5, 5, 5)$, donc le point commun est $[5 : 5 : 5] = [1 : 1 : 1]$. Vérification : $1 - 2 + 1 = 0$ et $2 + 1 - 3 = 0$. Les points $[1 : -2 : 1]$ et $[2 : 1 : -3]$ ne vérifient pas les équations : ce sont les coefficients des droites, pas des points de leur intersection."
     },
     {
       "id": "L3-GPR-3",
@@ -2130,19 +2415,19 @@ window.MATHS_EXERCISES_L3 = {
       "tier": 4,
       "type": "mcq",
       "title": "Théorème de Desargues",
-      "skill": "Homologie et perspective projective",
-      "statement": "Le théorème de Desargues énonce que deux triangles sont en perspective depuis un point si et seulement si :",
+      "skill": "Interpréter le théorème de Desargues dans le complété projectif",
+      "statement": "Dans le plan affine réel, $A'B'C'$ est l'image du triangle $ABC$ par l'homothétie de centre $O$ et de rapport $2$ ; les deux triangles sont donc en perspective depuis $O$. Où se coupent les côtés correspondants $(AB)$ et $(A'B')$, $(BC)$ et $(B'C')$, $(CA)$ et $(C'A')$ dans le plan projectif complété ?",
       "options": [
-        "Les points d'intersection de leurs côtés correspondants sont alignés",
-        "Ils sont isométriques",
-        "Leurs aires sont égales",
-        "Ils sont inscrits dans une même conique"
+        "Sur la droite à l'infini : les côtés correspondants sont parallèles, et cette droite est l'axe de Desargues",
+        "Tous en $O$",
+        "Nulle part, si bien que le théorème de Desargues ne s'applique pas",
+        "En trois points non alignés"
       ],
       "correctIndex": 0,
-      "answer": "Les points d'intersection de leurs côtés correspondants sont alignés",
-      "hint1": "$ABC$ et $A'B'C'$ sont en perspective depuis un point $O$ lorsque les droites $(AA')$, $(BB')$, $(CC')$ sont concourantes. Le théorème donne une condition « duale », portant sur les côtés.",
-      "hint2": "Considère $P = (BC) \\cap (B'C')$, $Q = (CA) \\cap (C'A')$ et $R = (AB) \\cap (A'B')$ : quelle propriété d'incidence ces trois points vérifient-ils ?",
-      "solution": "Le théorème de Desargues affirme l'équivalence entre la perspective ponctuelle (droites reliant les sommets concourantes) et la perspective axiale (intersections des côtés homologues alignées)."
+      "answer": "Sur la droite à l'infini : les côtés correspondants sont parallèles, et cette droite est l'axe de Desargues",
+      "hint1": "Une homothétie transforme une droite en une droite parallèle ; dans le complété projectif, deux droites parallèles distinctes se coupent en un point de la droite à l'infini.",
+      "hint2": "$(AB)$ et $(A'B')$ sont parallèles et distinctes, car le rapport vaut $2 \\neq 1$ : leur point commun est le point à l'infini de direction $\\overrightarrow{AB}$.",
+      "solution": "$\\overrightarrow{A'B'} = 2\\overrightarrow{AB}$ : les côtés correspondants sont parallèles et distincts, et se coupent dans le complété projectif aux points à l'infini de directions $\\overrightarrow{AB}$, $\\overrightarrow{BC}$ et $\\overrightarrow{CA}$. Ces trois points sont sur la droite à l'infini, donc alignés, comme l'affirme le théorème de Desargues pour deux triangles en perspective depuis un point. $O$ n'est sur aucun de ces côtés en général."
     }
   ],
   "L3-GDF": [
@@ -2170,19 +2455,19 @@ window.MATHS_EXERCISES_L3 = {
       "tier": 2,
       "type": "mcq",
       "title": "Espace tangent à la sphère unité",
-      "skill": "Calculer l'espace tangent $T_x M$",
-      "statement": "Pour la sphère unité $S^2 = \\{x \\in \\mathbb{R}^3 \\mid \\|x\\|^2 = 1\\}$, quel est l'espace tangent $T_x S^2$ au point $x$ ?",
+      "skill": "Décrire le plan tangent à une sous-variété définie par une équation",
+      "statement": "Lequel des vecteurs suivants appartient au plan tangent $T_x S^2$ à la sphère unité $S^2 = \\{x \\in \\mathbb{R}^3 \\mid \\|x\\|^2 = 1\\}$ au point $x = \\left(\\frac{1}{3}, \\frac{2}{3}, \\frac{2}{3}\\right)$ ?",
       "options": [
-        "L'orthogonal du vecteur $x$ : $x^\\perp = \\{v \\in \\mathbb{R}^3 \\mid \\langle x, v \\rangle = 0\\}$",
-        "La droite $\\mathbb{R} x$",
-        "$\\mathbb{R}^3$ tout entier",
-        "Le point $x$ uniquement"
+        "$(2, -1, 0)$",
+        "$(1, 2, 2)$",
+        "$(0, 1, 1)$",
+        "$(2, 1, 0)$"
       ],
       "correctIndex": 0,
-      "answer": "L'orthogonal du vecteur $x$ : $x^\\perp = \\{v \\in \\mathbb{R}^3 \\mid \\langle x, v \\rangle = 0\\}$",
-      "hint1": "$S^2 = f^{-1}(\\{1\\})$ avec $f(x) = \\|x\\|^2$. $df_x(v) = 2\\langle x, v \\rangle$.",
-      "hint2": "L'espace tangent à une ligne de niveau régulière est le noyau $\\text{Ker}(df_x)$ : décris géométriquement ce noyau.",
-      "solution": "Comme $f(x) = \\langle x, x \\rangle$, la différentielle est $df_x(v) = 2\\langle x, v \\rangle$. L'espace tangent est son noyau, soit le plan orthogonal $x^\\perp$."
+      "answer": "$(2, -1, 0)$",
+      "hint1": "$S^2 = F^{-1}(\\{1\\})$ avec $F(x) = \\|x\\|^2$, et $dF_x(v) = 2\\langle x, v \\rangle$ ne s'annule pas identiquement : $T_x S^2 = \\text{Ker}\\,dF_x = x^\\perp$.",
+      "hint2": "Calcule $\\langle x, v \\rangle$ pour chaque vecteur ; par exemple, pour $(2, -1, 0)$, on trouve $\\frac{2}{3} - \\frac{2}{3} + 0$.",
+      "solution": "$T_x S^2 = x^\\perp$. On a $\\langle x, (2, -1, 0) \\rangle = \\frac{2}{3} - \\frac{2}{3} = 0$, tandis que $\\langle x, (1, 2, 2) \\rangle = 3$, $\\langle x, (0, 1, 1) \\rangle = \\frac{4}{3}$ et $\\langle x, (2, 1, 0) \\rangle = \\frac{4}{3}$. Seul $(2, -1, 0)$ est tangent ; $(1, 2, 2) = 3x$ est normal à la sphère."
     },
     {
       "id": "L3-GDF-3",
@@ -2208,19 +2493,19 @@ window.MATHS_EXERCISES_L3 = {
       "tier": 4,
       "type": "mcq",
       "title": "Courbure de Gauss de la sphère et Theorema Egregium",
-      "skill": "Calculer une courbure de Gauss et utiliser le Theorema Egregium",
-      "statement": "Soit $S$ la sphère de centre $O$ et de rayon $R > 0$ dans $\\mathbb{R}^3$. Quelle est sa courbure de Gauss $K$, et qu'en déduit-on grâce au Theorema Egregium de Gauss ?",
+      "skill": "Calculer la courbure de Gauss d'une sphère et en tirer une conséquence",
+      "statement": "Quelle est la courbure de Gauss $K$ de la sphère de rayon $3$ dans $\\mathbb{R}^3$, et qu'en déduit-on grâce au Theorema Egregium ?",
       "options": [
-        "$K = \\frac{1}{R^2}$ en tout point ; aucun ouvert de la sphère n'est isométrique à un ouvert du plan",
-        "$K = \\frac{1}{R}$ en tout point ; la sphère est localement isométrique au plan",
-        "$K = 0$ car la sphère est une surface de révolution",
-        "$K = R^2$ ; une carte plane conservant les distances existe"
+        "$K = \\frac{1}{9}$ en tout point ; aucune carte d'un ouvert de cette sphère dans le plan ne conserve les longueurs",
+        "$K = \\frac{1}{3}$ en tout point ; aucune carte d'un ouvert de cette sphère dans le plan ne conserve les longueurs",
+        "$K = 9$ en tout point ; une projection bien choisie conserve les longueurs",
+        "$K = \\frac{1}{9}$ en tout point ; une projection bien choisie conserve les longueurs"
       ],
       "correctIndex": 0,
-      "answer": "$K = \\frac{1}{R^2}$ en tout point ; aucun ouvert de la sphère n'est isométrique à un ouvert du plan",
-      "hint1": "La normale unitaire sortante est $N(p) = \\frac{p}{R}$ : calcule sa différentielle (l'application de Weingarten).",
-      "hint2": "$dN_p = \\frac{1}{R}\\,\\mathrm{Id}$ : les deux courbures principales valent $\\frac1R$ (au signe près selon l'orientation), et $K = k_1 k_2$.",
-      "solution": "La normale unitaire est $N(p) = \\frac{p}{R}$, donc $dN_p = \\frac1R \\mathrm{Id}_{T_pS}$ : tous les points sont ombilics, de courbures principales $k_1 = k_2 = \\frac1R$ (au signe près, qui disparaît dans le produit). D'où $K = k_1 k_2 = \\frac{1}{R^2} > 0$.\nLe Theorema Egregium affirme que $K$ ne dépend que de la première forme fondamentale : elle est conservée par isométrie locale. Le plan ayant $K = 0$, aucun ouvert de la sphère n'est isométrique à un ouvert du plan : il n'existe pas de carte géographique plane respectant toutes les distances."
+      "answer": "$K = \\frac{1}{9}$ en tout point ; aucune carte d'un ouvert de cette sphère dans le plan ne conserve les longueurs",
+      "hint1": "Pour la sphère de rayon $R$, les deux courbures principales valent $\\frac{1}{R}$ en tout point et $K$ est leur produit ; le Theorema Egregium affirme que $K$ est invariante par isométrie locale.",
+      "hint2": "Ici $K = \\frac{1}{3} \\times \\frac{1}{3}$ ; le plan a une courbure de Gauss nulle.",
+      "solution": "Les courbures principales valent $\\frac{1}{3}$, donc $K = \\frac{1}{9}$ en tout point. Le Theorema Egregium montre que $K$ ne dépend que de la première forme fondamentale : une isométrie locale conserve $K$. Comme le plan a une courbure nulle, aucun ouvert de la sphère n'est isométrique à un ouvert du plan, et aucune carte plane ne conserve les longueurs."
     }
   ],
   "L3-NUM": [
@@ -2247,58 +2532,58 @@ window.MATHS_EXERCISES_L3 = {
       "id": "L3-NUM-2",
       "tier": 2,
       "type": "mcq",
-      "title": "Conditionnement d'un système linéaire",
-      "skill": "Estimer la sensibilité d'un système numérique $Ax = b$",
-      "statement": "Le conditionnement $\\text{cond}(A) = \\|A\\| \\cdot \\|A^{-1}\\|$ d'une matrice inversible vérifie toujours :",
+      "title": "Conditionnement et propagation d'une erreur",
+      "skill": "Majorer l'erreur relative à l'aide du conditionnement",
+      "statement": "Soit $A = \\begin{pmatrix} 2 & 1 \\\\ 1 & 1 \\end{pmatrix}$. On résout $Ax = b$ avec un second membre $b + \\delta b$ entaché d'une erreur relative $\\frac{\\|\\delta b\\|_\\infty}{\\|b\\|_\\infty} \\le 10^{-3}$. Quel majorant de l'erreur relative $\\frac{\\|\\delta x\\|_\\infty}{\\|x\\|_\\infty}$ donne le conditionnement $\\text{cond}_\\infty(A)$ ?",
       "options": [
-        "$\\text{cond}(A) \\ge 1$",
-        "$\\text{cond}(A) \\le 1$",
-        "$\\text{cond}(A) = 0$",
-        "$\\text{cond}(A) < 0$"
+        "$9 \\times 10^{-3}$",
+        "$3 \\times 10^{-3}$",
+        "$10^{-3}$",
+        "$\\frac{1}{9} \\times 10^{-3}$"
       ],
       "correctIndex": 0,
-      "answer": "$\\text{cond}(A) \\ge 1$",
-      "hint1": "$\\|I_n\\| = \\|A A^{-1}\\| \\le \\|A\\| \\|A^{-1}\\|$. Pour une norme subordonnée, $\\|I_n\\| = 1$.",
-      "hint2": "Plus le conditionnement est proche de 1, plus le système est bien conditionné.",
-      "solution": "Comme $1 = \\|I_n\\| = \\|A A^{-1}\\| \\le \\|A\\| \\|A^{-1}\\| = \\text{cond}(A)$, le conditionnement est toujours supérieur ou égal à 1."
+      "answer": "$9 \\times 10^{-3}$",
+      "hint1": "On a $\\frac{\\|\\delta x\\|}{\\|x\\|} \\le \\text{cond}(A) \\frac{\\|\\delta b\\|}{\\|b\\|}$ avec $\\text{cond}_\\infty(A) = \\|A\\|_\\infty \\|A^{-1}\\|_\\infty$, où $\\|M\\|_\\infty$ est le maximum des sommes des modules des coefficients d'une ligne.",
+      "hint2": "$\\det A = 1$ et $A^{-1} = \\begin{pmatrix} 1 & -1 \\\\ -1 & 2 \\end{pmatrix}$ : calcule $\\|A\\|_\\infty$ et $\\|A^{-1}\\|_\\infty$.",
+      "solution": "$\\|A\\|_\\infty = \\max(2 + 1, 1 + 1) = 3$ et $A^{-1} = \\begin{pmatrix} 1 & -1 \\\\ -1 & 2 \\end{pmatrix}$, donc $\\|A^{-1}\\|_\\infty = \\max(2, 3) = 3$. Ainsi $\\text{cond}_\\infty(A) = 9$ et $\\frac{\\|\\delta x\\|_\\infty}{\\|x\\|_\\infty} \\le 9 \\times 10^{-3}$ : l'erreur relative sur la solution peut être jusqu'à $9$ fois celle sur les données (on a toujours $\\text{cond}(A) \\ge 1$)."
     },
     {
       "id": "L3-NUM-3",
       "tier": 3,
       "type": "mcq",
-      "title": "Méthode de Gauss-Seidel",
-      "skill": "Convergence d'une méthode itérative",
-      "statement": "Pour résoudre $Ax = b$, la méthode itérative de Gauss-Seidel converge pour tout vecteur initial $x_0$ si la matrice $A$ est :",
+      "title": "Gauss-Seidel : vérifier une hypothèse de convergence",
+      "skill": "Reconnaître une matrice pour laquelle la méthode de Gauss-Seidel converge",
+      "statement": "Pour laquelle de ces matrices $A$ la méthode de Gauss-Seidel appliquée à $Ax = b$ converge-t-elle pour tout vecteur initial ?",
       "options": [
-        "Symétrique définie positive (ou à diagonale strictement dominante)",
-        "Nilpotente",
-        "Orthogonale",
-        "Anti-symétrique"
+        "$A = \\begin{pmatrix} 3 & 1 & 1 \\\\ 1 & 4 & 2 \\\\ 1 & 1 & 3 \\end{pmatrix}$",
+        "$A = \\begin{pmatrix} 1 & 2 \\\\ 2 & 1 \\end{pmatrix}$",
+        "$A = \\begin{pmatrix} 1 & 3 \\\\ 1 & 2 \\end{pmatrix}$",
+        "$A = \\begin{pmatrix} 2 & 1 \\\\ 3 & 1 \\end{pmatrix}$"
       ],
       "correctIndex": 0,
-      "answer": "Symétrique définie positive (ou à diagonale strictement dominante)",
-      "hint1": "Avec $A = D - E - F$ ($D$ diagonale, $-E$ et $-F$ parties strictement inférieure et supérieure), Gauss-Seidel s'écrit $(D - E)x_{k+1} = F x_k + b$. Pour une matrice antisymétrique, $D$ est nulle : la méthode est-elle même définie ?",
-      "hint2": "La méthode converge pour tout $x_0$ si et seulement si le rayon spectral de $(D - E)^{-1}F$ est strictement inférieur à $1$. Quelles hypothèses du cours sur $A$ assurent cette condition ?",
-      "solution": "La méthode de Gauss-Seidel converge inconditionnellement dès que la matrice $A$ est symétrique définie positive ou à diagonale strictement dominante."
+      "answer": "$A = \\begin{pmatrix} 3 & 1 & 1 \\\\ 1 & 4 & 2 \\\\ 1 & 1 & 3 \\end{pmatrix}$",
+      "hint1": "Cherche une matrice à diagonale strictement dominante ($|a_{ii}| > \\sum_{j \\neq i} |a_{ij}|$ pour chaque ligne) ou symétrique définie positive : la méthode converge alors. Pour exclure les autres, calcule le rayon spectral de la matrice d'itération.",
+      "hint2": "Pour $A = \\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}$, la matrice d'itération de Gauss-Seidel a pour valeurs propres $0$ et $\\frac{bc}{ad}$ : calcule ce quotient pour chacune des matrices $2 \\times 2$.",
+      "solution": "La matrice $3 \\times 3$ est à diagonale strictement dominante ($3 > 1 + 1$, $4 > 1 + 2$, $3 > 1 + 1$), donc Gauss-Seidel converge pour tout vecteur initial. Pour une matrice $2 \\times 2$, le rayon spectral de la matrice d'itération est $\\left|\\frac{bc}{ad}\\right|$ : il vaut $4$ pour $\\begin{pmatrix} 1 & 2 \\\\ 2 & 1 \\end{pmatrix}$ (symétrique mais non positive : valeurs propres $3$ et $-1$), et $\\frac{3}{2}$ pour les deux autres. Ces trois rayons spectraux sont $> 1$ : la méthode diverge pour presque tout vecteur initial."
     },
     {
       "id": "L3-NUM-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Décomposition en valeurs singulières (SVD)",
-      "skill": "Factorisation $A = U \\Sigma \\,{}^t V$",
-      "statement": "Pour toute matrice rectangulaire $A \\in \\mathcal{M}_{m,n}(\\mathbb{R})$, les valeurs singulières de $A$ sont :",
+      "title": "Valeurs singulières d'une matrice 2 × 2",
+      "skill": "Calculer les valeurs singulières d'une matrice",
+      "statement": "Quelles sont les valeurs singulières de $A = \\begin{pmatrix} 3 & 0 \\\\ 4 & 5 \\end{pmatrix}$ ?",
       "options": [
-        "Les racines carrées des valeurs propres positives de ${}^t A A$",
-        "Les valeurs propres de $A$",
-        "Les éléments diagonaux de $A$",
-        "Les déterminants des blocs de $A$"
+        "$3\\sqrt{5}$ et $\\sqrt{5}$",
+        "$3$ et $5$",
+        "$45$ et $5$",
+        "$5\\sqrt{2}$ et $0$"
       ],
       "correctIndex": 0,
-      "answer": "Les racines carrées des valeurs propres positives de ${}^t A A$",
-      "hint1": "${}^t A A$ est une matrice symétrique semi-définie positive.",
-      "hint2": "Écris $A = U \\Sigma\\,{}^tV$ avec $U, V$ orthogonales et $\\Sigma$ « diagonale » de coefficients $\\sigma_i \\ge 0$ : que vaut ${}^tA A$ ? Quelles sont ses valeurs propres ?",
-      "solution": "Par définition, les valeurs singulières de $A$ sont les racines carrées des valeurs propres de la matrice symétrique semi-définie positive ${}^t A A$."
+      "answer": "$3\\sqrt{5}$ et $\\sqrt{5}$",
+      "hint1": "Les valeurs singulières de $A$ sont les racines carrées des valeurs propres de la matrice symétrique positive $\\,{}^tA A$ (et non les valeurs propres de $A$).",
+      "hint2": "$\\,{}^tA A = \\begin{pmatrix} 25 & 20 \\\\ 20 & 25 \\end{pmatrix}$ : teste les vecteurs $(1, 1)$ et $(1, -1)$.",
+      "solution": "$\\,{}^tA A = \\begin{pmatrix} 3 & 4 \\\\ 0 & 5 \\end{pmatrix} \\begin{pmatrix} 3 & 0 \\\\ 4 & 5 \\end{pmatrix} = \\begin{pmatrix} 25 & 20 \\\\ 20 & 25 \\end{pmatrix}$, de valeurs propres $45$ (vecteur $(1, 1)$) et $5$ (vecteur $(1, -1)$). Les valeurs singulières sont donc $\\sqrt{45} = 3\\sqrt{5}$ et $\\sqrt{5}$. Contrôle : leur produit vaut $15 = |\\det A|$. Les valeurs propres de $A$, $3$ et $5$, sont différentes car $A$ n'est pas normale."
     }
   ],
   "L3-PROG": [
@@ -2325,58 +2610,77 @@ window.MATHS_EXERCISES_L3 = {
       "id": "L3-PROG-2",
       "tier": 2,
       "type": "mcq",
-      "title": "Règle de la variable entrante dans le simplexe",
-      "skill": "Appliquer le critère de Dantzig sur les coûts réduits",
-      "statement": "Dans l'algorithme du simplexe en maximisation, comment choisit-on la variable hors-base entrante selon la règle de Dantzig ?",
+      "title": "Premier pivot du simplexe : variable entrante et sortante",
+      "skill": "Appliquer la règle de Dantzig puis le test du ratio",
+      "statement": "On maximise $Z = 4x_1 + 7x_2 + 2x_3$ sous les contraintes $x_1 + 2x_2 + x_3 \\le 10$, $3x_1 + x_2 \\le 15$, $x_2 + x_3 \\le 4$ et $x_1, x_2, x_3 \\ge 0$. On part de la base des variables d'écart $e_1, e_2, e_3$ (une par contrainte, dans cet ordre). Avec la règle de Dantzig, quelle variable entre dans la base et laquelle en sort ?",
       "options": [
-        "On choisit la variable ayant le coût réduit strictement positif le plus grand ($\\bar{c}_e = \\max_{j} \\bar{c}_j > 0$)",
-        "On choisit la variable ayant le coût réduit le plus négatif",
-        "On choisit la variable ayant la plus grande valeur dans le vecteur $b$",
-        "On choisit arbitrairement n'importe quelle variable de base"
+        "$x_2$ entre et $e_3$ sort",
+        "$x_2$ entre et $e_1$ sort",
+        "$x_2$ entre et $e_2$ sort",
+        "$x_1$ entre et $e_2$ sort"
       ],
       "correctIndex": 0,
-      "answer": "On choisit la variable ayant le coût réduit strictement positif le plus grand ($\\bar{c}_e = \\max_{j} \\bar{c}_j > 0$)",
-      "hint1": "Un coût réduit positif $\\bar{c}_j > 0$ indique que faire croître $x_j$ augmentera la fonction objectif.",
-      "hint2": "S'il y a plusieurs candidates à coût réduit positif, laquelle fait croître le plus l'objectif par unité d'augmentation de la variable entrante ?",
-      "solution": "En maximisation, le critère de Dantzig prescrit de faire entrer en base la variable hors-base $x_e$ dont le coût réduit est le plus grand strictement positif : $\\bar{c}_e = \\max_{j \\in N} \\bar{c}_j > 0$. Si tous les coûts réduits sont $\\le 0$, la solution actuelle est optimale."
+      "answer": "$x_2$ entre et $e_3$ sort",
+      "hint1": "La variable entrante est celle de plus grand coefficient strictement positif dans $Z$. La variable sortante est donnée par le plus petit rapport $\\frac{b_i}{a_{i,e}}$ parmi les lignes où le coefficient $a_{i,e}$ de la variable entrante est strictement positif.",
+      "hint2": "$x_2$ entre (coefficient $7$). Ses coefficients dans les contraintes sont $2$, $1$ et $1$ : calcule les rapports $\\frac{10}{2}$, $\\frac{15}{1}$ et $\\frac{4}{1}$.",
+      "solution": "Le plus grand coefficient de $Z$ est $7$ : $x_2$ entre. Les rapports sont $\\frac{10}{2} = 5$, $\\frac{15}{1} = 15$ et $\\frac{4}{1} = 4$ : le minimum, $4$, est atteint sur la troisième contrainte, donc $e_3$ sort. On peut augmenter $x_2$ jusqu'à $4$ ; au-delà, $e_3 = 4 - x_2 - x_3$ deviendrait négative. Le nouveau sommet est $(x_1, x_2, x_3) = (0, 4, 0)$, avec $Z = 28$."
     },
     {
       "id": "L3-PROG-3",
       "tier": 3,
       "type": "mcq",
-      "title": "Test du ratio minimum et variable sortante",
-      "skill": "Déterminer la variable qui quitte la base pour préserver l'admissibilité",
-      "statement": "Lors d'une itération du simplexe avec colonne pivot $A_e$, la variable de base sortante est déterminée par :",
+      "title": "Simplexe : reconnaître un problème non borné",
+      "skill": "Interpréter une colonne pivot sans coefficient positif",
+      "statement": "On maximise $Z = 2x_1 + 3x_2$ sous les contraintes $x_1 - x_2 \\le 4$, $x_1 - 2x_2 \\le 3$ et $x_1, x_2 \\ge 0$. Partant de la base des variables d'écart, la règle de Dantzig fait entrer $x_2$. Que peut-on conclure ?",
       "options": [
-        "Le minimum des ratios $\\frac{\\bar{b}_i}{\\bar{a}_{i, e}}$ pour les lignes où $\\bar{a}_{i, e} > 0$",
-        "Le maximum des ratios $\\frac{\\bar{b}_i}{\\bar{a}_{i, e}}$",
-        "La ligne où $\\bar{a}_{i, e}$ est le plus proche de 0",
-        "La ligne où le terme indépendant $\\bar{b}_i$ est négatif"
+        "Le problème est non borné : $Z$ peut être rendu arbitrairement grand",
+        "$x_2$ entre et la première variable d'écart sort, avec le rapport $4$",
+        "L'optimum est atteint en $(0, 0)$ car aucun rapport n'est positif",
+        "Le problème n'a aucune solution admissible"
       ],
       "correctIndex": 0,
-      "answer": "Le minimum des ratios $\\frac{\\bar{b}_i}{\\bar{a}_{i, e}}$ pour les lignes où $\\bar{a}_{i, e} > 0$",
-      "hint1": "En augmentant la variable entrante $x_e$, les composantes de base deviennent $x_{B(i)} = \\bar{b}_i - \\bar{a}_{i, e} x_e$.",
-      "hint2": "Si $\\bar{a}_{i,e} \\le 0$, $x_{B(i)}$ ne diminue pas ; si $\\bar{a}_{i,e} > 0$, elle s'annule pour $x_e = \\bar{b}_i / \\bar{a}_{i,e}$. Jusqu'où peut-on augmenter $x_e$ sans qu'aucune variable ne devienne négative ?",
-      "solution": "Pour préserver la positivité de toutes les variables (admissibilité), la variable de base qui quitte la base est celle dont la valeur s'annule en premier : $i^* = \\arg \\min \\{ \\frac{\\bar{b}_i}{\\bar{a}_{i,e}} \\mid \\bar{a}_{i,e} > 0 \\}$."
+      "answer": "Le problème est non borné : $Z$ peut être rendu arbitrairement grand",
+      "hint1": "Le test du ratio ne porte que sur les lignes où le coefficient de la variable entrante est strictement positif. Si aucune ligne ne convient, la variable entrante peut croître sans limite.",
+      "hint2": "Les coefficients de $x_2$ dans les contraintes sont $-1$ et $-2$. Teste les points $(0, t)$ avec $t \\ge 0$ : sont-ils admissibles ? que vaut $Z$ ?",
+      "solution": "Les coefficients de $x_2$ dans les deux contraintes, $-1$ et $-2$, sont négatifs : augmenter $x_2$ ne fait qu'augmenter les variables d'écart, aucune ne s'annule et aucune variable ne sort. Concrètement, pour tout $t \\ge 0$, le point $(0, t)$ est admissible ($-t \\le 4$, $-2t \\le 3$) et $Z = 3t \\to +\\infty$. Le problème est non borné ; il est pourtant admissible, puisque $(0, 0)$ convient."
     },
     {
       "id": "L3-PROG-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Théorème des écarts complémentaires",
-      "skill": "Vérifier l'optimalité conjointe primale/duale",
-      "statement": "Soient $x^*$ et $y^*$ des solutions admissibles respectives du problème primal ($\\max {}^t c x$ sous $Ax \\le b, x \\ge 0$) et dual ($\\min {}^t b y$ sous ${}^t A y \\ge c, y \\ge 0$). Quelle condition caractérise leur optimalité conjointe ?",
+      "title": "Écarts complémentaires : retrouver la solution duale",
+      "skill": "Déduire une solution duale optimale des écarts complémentaires",
+      "statement": "On maximise $Z = 3x_1 + 2x_2$ sous $x_1 + x_2 \\le 4$, $x_1 + 3x_2 \\le 6$, $x \\ge 0$. Le dual est : minimiser $4y_1 + 6y_2$ sous $y_1 + y_2 \\ge 3$, $y_1 + 3y_2 \\ge 2$, $y \\ge 0$. On admet que $x^* = (4, 0)$ est optimal. À l'aide des écarts complémentaires, déterminer la solution duale optimale $y^*$.",
       "options": [
-        "$y_i^* (b - Ax^*)_i = 0$ pour tout $i$ et $x_j^* ({}^t A y^* - c)_j = 0$ pour tout $j$",
-        "$x^* = y^*$ obligatoirement",
-        "${}^t c x^* < {}^t b y^*$, strictement",
-        "$\\det(A) = 0$"
+        "$y^* = (3, 0)$",
+        "$y^* = (0, 3)$",
+        "$y^* = (2, 1)$",
+        "$y^* = (1, 2)$"
       ],
       "correctIndex": 0,
-      "answer": "$y_i^* (b - Ax^*)_i = 0$ pour tout $i$ et $x_j^* ({}^t A y^* - c)_j = 0$ pour tout $j$",
-      "hint1": "Pour $x^*, y^*$ admissibles : ${}^tc\\,x^* \\le {}^ty^* A x^* \\le {}^tb\\,y^*$. Par dualité, l'optimalité conjointe équivaut à ${}^tc\\,x^* = {}^tb\\,y^*$ : les deux inégalités doivent être des égalités.",
-      "hint2": "Si une contrainte primale n'est pas saturée ($(b - Ax^*)_i > 0$), la variable duale associée doit être nulle ($y_i^* = 0$).",
-      "solution": "D'après le théorème des écarts complémentaires, deux solutions admissibles sont optimales si et seulement si pour tout $i$, $y_i^*(b_i - (Ax^*)_i) = 0$ (le produit du multiplicateur par la variable d'écart est nul) et pour tout $j$, $x_j^*(({}^t A y^*)_j - c_j) = 0$."
+      "answer": "$y^* = (3, 0)$",
+      "hint1": "Écarts complémentaires : si une contrainte du primal n'est pas saturée en $x^*$, la variable duale associée est nulle ; si $x_j^* > 0$, la $j$-ième contrainte du dual est saturée en $y^*$.",
+      "hint2": "En $x^* = (4, 0)$ : $x_1 + 3x_2 = 4 < 6$, donc $y_2^* = 0$ ; et $x_1^* = 4 > 0$, donc $y_1^* + y_2^* = 3$.",
+      "solution": "En $x^* = (4, 0)$, la seconde contrainte n'est pas saturée ($4 < 6$), donc $y_2^* = 0$. Comme $x_1^* > 0$, la première contrainte duale est saturée : $y_1^* + y_2^* = 3$, d'où $y_1^* = 3$. On vérifie que $y^* = (3, 0)$ est admissible ($y_1 + 3y_2 = 3 \\ge 2$) et que les valeurs coïncident : $4 \\times 3 + 6 \\times 0 = 12 = 3 \\times 4 + 2 \\times 0$. Le vecteur $(2, 1)$ est admissible pour le dual mais donne $14 > 12$ : il n'est pas optimal."
+    },
+    {
+      "id": "L3-PROG-5",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Conditions KKT : multiplicateur et conclusion",
+      "skill": "Calculer un multiplicateur de Karush-Kuhn-Tucker et conclure dans le cas convexe",
+      "statement": "On considère le problème : minimiser $f(x, y) = x^2 + y^2$ sous la contrainte $g(x, y) = 2 - x - y \\le 0$. Au point admissible $(1, 1)$, que vaut le multiplicateur $\\mu$ des conditions de Karush-Kuhn-Tucker, et que peut-on en conclure ?",
+      "options": [
+        "$\\mu = 2 \\ge 0$ ; comme $f$ et $g$ sont convexes, $(1, 1)$ est un minimum global",
+        "$\\mu = -2 < 0$ ; les conditions KKT ne sont donc pas vérifiées et $(1, 1)$ n'est pas un minimum",
+        "$\\mu = 1$ ; les conditions KKT ne garantissent ici qu'un minimum local",
+        "$\\mu = 0$ ; la contrainte n'est pas active en $(1, 1)$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\mu = 2 \\ge 0$ ; comme $f$ et $g$ sont convexes, $(1, 1)$ est un minimum global",
+      "hint1": "Écris la condition de stationnarité $\\nabla f(x^{\\ast}) + \\mu \\nabla g(x^{\\ast}) = 0$ et calcule les deux gradients au point considéré.",
+      "hint2": "En $(1, 1)$, $\\nabla g = (-1, -1)$ et la contrainte est saturée. Calcule $\\nabla f(1, 1)$, puis regarde quelle hypothèse sur $f$ et $g$ rend les conditions KKT suffisantes.",
+      "solution": "On a $\\nabla f(1, 1) = (2, 2)$ et $\\nabla g(1, 1) = (-1, -1)$. La stationnarité donne $2 - \\mu = 0$, soit $\\mu = 2 \\ge 0$. La contrainte est active ($g(1, 1) = 0$), donc $\\mu\\, g(1, 1) = 0$ : les conditions KKT sont vérifiées. Comme $f$ est convexe et $g$ affine, ces conditions sont suffisantes : $(1, 1)$ est un minimum global, de valeur $2$."
     }
   ],
   "L3-MES": [
@@ -2395,66 +2699,66 @@ window.MATHS_EXERCISES_L3 = {
       ],
       "correctIndex": 0,
       "answer": "Il existe $g \\in L^1$ positive telle que $|f_n| \\le g$ presque partout",
-      "hint1": "Teste $f_n = n\\,\\mathbf{1}_{]0, 1/n[}$ sur $[0, 1]$ : elle tend vers $0$ presque partout sur un espace de mesure finie. Que vaut $\\int f_n$ ? Quelles options ce contre-exemple élimine-t-il ?",
-      "hint2": "Dans ce contre-exemple, $\\sup_n f_n(x)$ est de l'ordre de $\\frac{1}{x}$ : cette enveloppe est-elle intégrable sur $[0, 1]$ ? Quelle hypothèse sur une enveloppe des $|f_n|$ empêcherait ce phénomène ?",
+      "hint1": "Teste $f_n = n\\,\\mathbf{1}_{]0 ; 1/n[}$ sur $[0 ; 1]$ : elle tend vers $0$ presque partout sur un espace de mesure finie. Que vaut $\\int f_n$ ? Quelles options ce contre-exemple élimine-t-il ?",
+      "hint2": "Dans ce contre-exemple, $\\sup_n f_n(x)$ est de l'ordre de $\\frac{1}{x}$ : cette enveloppe est-elle intégrable sur $[0 ; 1]$ ? Quelle hypothèse sur une enveloppe des $|f_n|$ empêcherait ce phénomène ?",
       "solution": "Le théorème de convergence dominée de Lebesgue requiert l'existence d'une fonction intégrable dominante $g \\in L^1$ telle que $|f_n| \\le g$ p.p."
     },
     {
       "id": "L3-MES-2",
       "tier": 2,
       "type": "mcq",
-      "title": "Lemme de Fatou",
+      "title": "Lemme de Fatou sur un exemple",
       "skill": "Appliquer l'inégalité de Fatou",
-      "statement": "Pour toute suite $(f_n)$ de fonctions mesurables positives, le lemme de Fatou établit que :",
+      "statement": "Sur $\\mathbb{R}$ muni de la mesure de Lebesgue, on pose $f_n = \\mathbf{1}_{[n ; n+1]}$ pour $n \\ge 1$. Que valent les deux membres de l'inégalité de Fatou $\\int \\liminf_{n \\to \\infty} f_n \\le \\liminf_{n \\to \\infty} \\int f_n$ ?",
       "options": [
-        "$\\int \\liminf_{n \\to \\infty} f_n \\le \\liminf_{n \\to \\infty} \\int f_n$",
-        "$\\int \\liminf f_n = \\lim \\int f_n$",
-        "$\\int f_n$ converge obligatoirement",
-        "$\\liminf f_n = 0$"
+        "$\\int \\liminf f_n = 0$ et $\\liminf \\int f_n = 1$ : l'inégalité est stricte",
+        "$\\int \\liminf f_n = 0$ et $\\liminf \\int f_n = 0$ : il y a égalité",
+        "$\\int \\liminf f_n = 1$ et $\\liminf \\int f_n = 1$ : il y a égalité",
+        "$\\int \\liminf f_n = 1$ et $\\liminf \\int f_n = 0$ : Fatou est en défaut car les $f_n$ ne sont pas dominées"
       ],
       "correctIndex": 0,
-      "answer": "$\\int \\liminf_{n \\to \\infty} f_n \\le \\liminf_{n \\to \\infty} \\int f_n$",
-      "hint1": "Pose $g_n = \\inf_{k \\ge n} f_k$ : la suite $(g_n)$ est croissante, positive, et tend vers $\\liminf f_n$.",
-      "hint2": "Applique la convergence monotone à $(g_n)$, puis utilise $g_n \\le f_k$ pour tout $k \\ge n$ : quelle inégalité obtiens-tu entre $\\int g_n$ et $\\inf_{k \\ge n} \\int f_k$ ?",
-      "solution": "Le lemme de Fatou énonce l'inégalité $\\int \\liminf f_n \\, d\\mu \\le \\liminf \\int f_n \\, d\\mu$ pour toute suite de fonctions mesurables positives."
+      "answer": "$\\int \\liminf f_n = 0$ et $\\liminf \\int f_n = 1$ : l'inégalité est stricte",
+      "hint1": "Calcule séparément les deux membres : la limite inférieure ponctuelle $\\liminf f_n(x)$ pour $x$ fixé, puis la suite des intégrales $\\int f_n$.",
+      "hint2": "Pour $x$ fixé, $f_n(x) = 0$ dès que $n > x$ ; et $\\int f_n$ est la longueur de $[n ; n+1]$.",
+      "solution": "Pour tout $x \\in \\mathbb{R}$, $f_n(x) = 0$ dès que $n > x$, donc $\\liminf f_n = 0$ et $\\int \\liminf f_n = 0$. Pour tout $n$, $\\int f_n = \\lambda([n ; n+1]) = 1$, donc $\\liminf \\int f_n = 1$. L'inégalité de Fatou $0 \\le 1$ est stricte : la masse « s'échappe à l'infini ». Aucune fonction intégrable ne domine les $f_n$ (une telle fonction vaudrait au moins $1$ sur $[1 ; +\\infty[$), ce qui explique que le théorème de convergence dominée ne s'applique pas. Fatou, lui, ne demande que la positivité : il n'est jamais en défaut."
     },
     {
       "id": "L3-MES-3",
       "tier": 3,
       "type": "mcq",
-      "title": "Théorème de convergence monotone de Beppo Levi",
-      "skill": "Permutation limite et intégrale pour suite croissante positive",
-      "statement": "Pour une suite croissante $(f_n)$ de fonctions mesurables positives tendant vers $f$, que garantit le théorème de Beppo Levi ?",
+      "title": "Convergence monotone : intégrer une série terme à terme",
+      "skill": "Permuter série et intégrale pour des fonctions positives",
+      "statement": "Pour $x \\in [0 ; 1[$, on a $-\\ln(1 - x) = \\sum_{n \\ge 1} \\frac{x^n}{n}$. On admet que $\\sum_{n \\ge 1} \\frac{1}{n^2} = \\frac{\\pi^2}{6}$. Que vaut $I = \\int_0^1 \\frac{-\\ln(1 - x)}{x} \\, dx$ ?",
       "options": [
-        "$\\lim_{n \\to \\infty} \\int f_n = \\int f$",
-        "$f$ est bornée",
-        "$\\int f = 0$",
-        "La suite des intégrales oscille"
+        "$I = \\frac{\\pi^2}{6}$",
+        "$I = +\\infty$, à cause de la singularité en $x = 1$",
+        "$I = \\frac{\\pi^2}{12}$",
+        "$I = 1$"
       ],
       "correctIndex": 0,
-      "answer": "$\\lim_{n \\to \\infty} \\int f_n = \\int f$",
-      "hint1": "Par croissance, $f_n \\le f$, donc la suite $(\\int f_n)$ est croissante et majorée par $\\int f$. Reste à obtenir l'inégalité inverse.",
-      "hint2": "Fixe une fonction étagée $0 \\le s \\le f$ et $c \\in ]0, 1[$ : les ensembles $\\{f_n \\ge c\\,s\\}$ croissent vers l'espace entier. Minore $\\int f_n$ par $c \\int_{\\{f_n \\ge cs\\}} s$ et fais tendre $n \\to \\infty$ (le résultat reste valable si $\\int f = +\\infty$).",
-      "solution": "Le théorème de Beppo Levi (ou de la convergence monotone) garantit que pour toute suite croissante de fonctions mesurables positives, on a $\\int \\lim f_n = \\lim \\int f_n$."
+      "answer": "$I = \\frac{\\pi^2}{6}$",
+      "hint1": "Écris $\\frac{-\\ln(1 - x)}{x}$ comme une série de fonctions **positives** sur $]0 ; 1[$ : le théorème de convergence monotone (appliqué aux sommes partielles) permet alors d'intégrer terme à terme, sans hypothèse de domination.",
+      "hint2": "On a $\\frac{-\\ln(1 - x)}{x} = \\sum_{n \\ge 1} \\frac{x^{n-1}}{n}$, et $\\int_0^1 \\frac{x^{n-1}}{n} \\, dx = \\frac{1}{n^2}$.",
+      "solution": "Pour $x \\in ]0 ; 1[$, $\\frac{-\\ln(1 - x)}{x} = \\sum_{n \\ge 1} \\frac{x^{n-1}}{n}$, série de fonctions mesurables positives. Les sommes partielles forment une suite croissante de fonctions positives, donc par convergence monotone $I = \\sum_{n \\ge 1} \\int_0^1 \\frac{x^{n-1}}{n} \\, dx = \\sum_{n \\ge 1} \\frac{1}{n^2} = \\frac{\\pi^2}{6}$. En particulier, $I$ est finie : la singularité logarithmique en $1$ est intégrable."
     },
     {
       "id": "L3-MES-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Inégalité de Hölder pour les espaces Lp",
-      "skill": "Relation entre exposants conjugués",
-      "statement": "Pour $1 < p, q < \\infty$ vérifiant $\\frac{1}{p} + \\frac{1}{q} = 1$, l'inégalité de Hölder assure que :",
+      "title": "Inégalité de Hölder : comparer deux normes Lp",
+      "skill": "Choisir des exposants conjugués pour comparer des normes",
+      "statement": "Sur $[0 ; 2]$ muni de la mesure de Lebesgue, quelle est la plus petite constante $C$ telle que $\\|f\\|_2 \\le C \\|f\\|_4$ pour toute $f \\in L^4([0 ; 2])$ ?",
       "options": [
-        "$\\|fg\\|_1 \\le \\|f\\|_p \\|g\\|_q$",
-        "$\\|fg\\|_1 = \\|f\\|_p + \\|g\\|_q$",
-        "$\\|f + g\\|_p \\le \\|f\\|_p + \\|g\\|_p$",
-        "$\\|fg\\|_p \\le \\|f\\|_p \\|g\\|_p$"
+        "$C = 2^{1/4}$",
+        "$C = 1$",
+        "$C = \\sqrt{2}$",
+        "$C = 2$"
       ],
       "correctIndex": 0,
-      "answer": "$\\|fg\\|_1 \\le \\|f\\|_p \\|g\\|_q$",
-      "hint1": "Généralisation de Cauchy-Schwarz pour $p=q=2$.",
-      "hint2": "Permet ensuite de démontrer l'inégalité de Minkowski (l'inégalité triangulaire de $L^p$).",
-      "solution": "L'inégalité de Hölder établit que pour deux exposants conjugués $\\frac{1}{p} + \\frac{1}{q} = 1$, on a $\\int |fg| \\, d\\mu \\le \\left(\\int |f|^p\\right)^{1/p} \\left(\\int |g|^q\\right)^{1/q}$."
+      "answer": "$C = 2^{1/4}$",
+      "hint1": "Écris $\\int |f|^2 = \\int |f|^2 \\times 1$ et applique l'inégalité de Hölder avec des exposants conjugués bien choisis ; puis cherche un cas d'égalité pour montrer que la constante obtenue est la meilleure.",
+      "hint2": "Avec les exposants $2$ et $2$ : $\\int_0^2 |f|^2 \\le \\left(\\int_0^2 |f|^4\\right)^{1/2} \\left(\\int_0^2 1\\right)^{1/2}$. Teste ensuite une fonction constante.",
+      "solution": "Par Hölder (exposants $2$ et $2$, appliqué à $|f|^2$ et $1$) : $\\|f\\|_2^2 = \\int_0^2 |f|^2 \\le \\left(\\int_0^2 |f|^4\\right)^{1/2} \\sqrt{2} = \\sqrt{2}\\,\\|f\\|_4^2$, d'où $\\|f\\|_2 \\le 2^{1/4} \\|f\\|_4$. Pour $f = 1$ : $\\|f\\|_2 = \\sqrt{2}$ et $\\|f\\|_4 = 2^{1/4}$, donc l'égalité est atteinte et $C = 2^{1/4}$ est optimale. Plus généralement, sur un espace de mesure finie, $\\|f\\|_p \\le \\mu(X)^{\\frac{1}{p} - \\frac{1}{q}} \\|f\\|_q$ pour $p \\le q$, d'où $L^q \\subset L^p$."
     }
   ],
   "L3-PRC": [
@@ -2474,65 +2778,65 @@ window.MATHS_EXERCISES_L3 = {
       "correctIndex": 0,
       "answer": "La loi normale centrée réduite $\\mathcal{N}(0, 1)$",
       "hint1": "Calcule $\\mathbb{E}[Z_n]$ et $\\text{Var}(Z_n)$ : cela rend déjà invraisemblables la constante $\\mu$ et la loi $\\mathcal{U}(0, 1)$ (d'espérance $\\frac12$).",
-      "hint2": "Avec $Y_i = \\frac{X_i - \\mu}{\\sigma}$, on a $\\phi_{Z_n}(t) = \\left(\\phi_{Y_1}\\!\\left(\\frac{t}{\\sqrt{n}}\\right)\\right)^n = \\left(1 - \\frac{t^2}{2n} + o\\left(\\frac{1}{n}\\right)\\right)^n$. Quelle est sa limite, et de quelle loi est-ce la fonction caractéristique ?",
+      "hint2": "Avec $Y_i = \\frac{X_i - \\mu}{\\sigma}$, on a $\\varphi_{Z_n}(t) = \\left(\\varphi_{Y_1}\\!\\left(\\frac{t}{\\sqrt{n}}\\right)\\right)^n = \\left(1 - \\frac{t^2}{2n} + o\\left(\\frac{1}{n}\\right)\\right)^n$. Quelle est sa limite, et de quelle loi est-ce la fonction caractéristique ?",
       "solution": "D'après le Théorème Central Limite, la somme renormalisée $Z_n$ converge en loi vers la loi gaussienne $\\mathcal{N}(0, 1)$."
     },
     {
       "id": "L3-PRC-2",
       "tier": 2,
       "type": "mcq",
-      "title": "Fonction caractéristique d'une gaussienne",
-      "skill": "Connaître la transformée de Fourier probabiliste d'une loi normale",
-      "statement": "Si $X \\sim \\mathcal{N}(0, \\sigma^2)$, quelle est sa fonction caractéristique $\\phi_X(t) = \\mathbb{E}[e^{itX}]$ ?",
+      "title": "Fonction caractéristique d'une combinaison de gaussiennes",
+      "skill": "Identifier une loi à l'aide des fonctions caractéristiques",
+      "statement": "Soient $X \\sim \\mathcal{N}(1, 4)$ et $Y \\sim \\mathcal{N}(-2, 5)$ indépendantes (le second paramètre est la variance). En calculant la fonction caractéristique de $X + 2Y$, déterminer sa loi.",
       "options": [
-        "$e^{-\\frac{\\sigma^2 t^2}{2}}$",
-        "$e^{it\\sigma}$",
-        "$\\frac{1}{1 + \\sigma^2 t^2}$",
-        "$\\cos(\\sigma t)$"
+        "$\\mathcal{N}(-3, 24)$",
+        "$\\mathcal{N}(-3, 14)$",
+        "$\\mathcal{N}(-1, 9)$",
+        "$\\mathcal{N}(-3, 2\\sqrt{6})$"
       ],
       "correctIndex": 0,
-      "answer": "$e^{-\\frac{\\sigma^2 t^2}{2}}$",
-      "hint1": "La transformée de Fourier d'une gaussienne est encore une gaussienne.",
-      "hint2": "Pour $Y \\sim \\mathcal{N}(0, 1)$, dériver sous l'intégrale puis intégrer par parties donne $\\phi_Y'(t) = -t\\,\\phi_Y(t)$ avec $\\phi_Y(0) = 1$. Résous, puis utilise $X = \\sigma Y$, d'où $\\phi_X(t) = \\phi_Y(\\sigma t)$.",
-      "solution": "Par calcul intégral ou équation différentielle, la fonction caractéristique d'une variable normale $X \\sim \\mathcal{N}(0, \\sigma^2)$ est $\\phi_X(t) = e^{-\\frac{\\sigma^2 t^2}{2}}$."
+      "answer": "$\\mathcal{N}(-3, 24)$",
+      "hint1": "Par indépendance, $\\varphi_{X + 2Y}(t) = \\varphi_X(t)\\,\\varphi_Y(2t)$, et pour $Z \\sim \\mathcal{N}(m, s^2)$, $\\varphi_Z(t) = e^{imt - \\frac{s^2 t^2}{2}}$. Une fonction caractéristique détermine la loi.",
+      "hint2": "$\\varphi_X(t) = e^{it - 2t^2}$ et $\\varphi_Y(2t) = e^{-4it - 10t^2}$ : fais le produit et identifie.",
+      "solution": "$\\varphi_{X + 2Y}(t) = \\varphi_X(t)\\,\\varphi_Y(2t) = e^{it - 2t^2} \\, e^{-4it - 10t^2} = e^{-3it - \\frac{24 t^2}{2}}$. On reconnaît la fonction caractéristique de $\\mathcal{N}(-3, 24)$, et la fonction caractéristique caractérise la loi. On retrouve $\\mathbb{E}[X + 2Y] = 1 - 4 = -3$ et $\\text{Var}(X + 2Y) = 4 + 4 \\times 5 = 24$ : le coefficient $2$ est élevé au carré dans la variance."
     },
     {
       "id": "L3-PRC-3",
       "tier": 3,
       "type": "mcq",
-      "title": "Vecteurs gaussiens et indépendance",
-      "skill": "Propriété d'indépendance pour les variables conjointement gaussiennes",
-      "statement": "Si $(X, Y)$ forme un vecteur gaussien dans $\\mathbb{R}^2$, la condition nécessaire et suffisante pour que $X$ et $Y$ soient indépendantes est :",
+      "title": "Vecteur gaussien : rendre deux variables indépendantes",
+      "skill": "Utiliser la caractérisation de l'indépendance dans un vecteur gaussien",
+      "statement": "Soient $X$ et $Z$ indépendantes de loi $\\mathcal{N}(0, 1)$, et $Y = 2X + Z$. Pour quel réel $a$ les variables $Y$ et $X - aY$ sont-elles indépendantes ?",
       "options": [
-        "$\\text{Cov}(X, Y) = 0$",
-        "$\\mathbb{E}[X] = \\mathbb{E}[Y]$",
-        "$\\text{Var}(X) = \\text{Var}(Y)$",
-        "$X$ et $Y$ sont positives"
+        "$a = \\frac{2}{5}$",
+        "$a = 2$",
+        "$a = \\frac{1}{2}$",
+        "Aucun réel $a$ : $Y$ dépend toujours de $X$"
       ],
       "correctIndex": 0,
-      "answer": "$\\text{Cov}(X, Y) = 0$",
-      "hint1": "Pour des variables quelconques, non-corrélation n'implique pas indépendance.",
-      "hint2": "La fonction caractéristique d'un vecteur gaussien ne dépend que de son espérance et de sa matrice de covariance. À quelle condition sur cette matrice se factorise-t-elle en $\\phi_X(s)\\,\\phi_Y(t)$ ?",
-      "solution": "Dans le cas particulier fondamental des vecteurs gaussiens, deux composantes sont indépendantes si et seulement si leur covariance est nulle : $\\text{Cov}(X, Y) = 0$."
+      "answer": "$a = \\frac{2}{5}$",
+      "hint1": "$(Y, X - aY)$ est l'image du vecteur gaussien $(X, Z)$ par une application linéaire : c'est un vecteur gaussien, donc ses composantes sont indépendantes si et seulement si leur covariance est nulle.",
+      "hint2": "$\\text{Cov}(Y, X) = 2$ et $\\text{Var}(Y) = 4 + 1 = 5$ : écris $\\text{Cov}(Y, X - aY) = \\text{Cov}(Y, X) - a\\,\\text{Var}(Y)$.",
+      "solution": "$(Y, X - aY)$ est l'image linéaire du vecteur gaussien $(X, Z)$, donc c'est un vecteur gaussien : ses composantes sont indépendantes si et seulement si $\\text{Cov}(Y, X - aY) = 0$. Or $\\text{Cov}(Y, X) = 2\\,\\text{Var}(X) = 2$ et $\\text{Var}(Y) = 4 + 1 = 5$, d'où $\\text{Cov}(Y, X - aY) = 2 - 5a$, nul pour $a = \\frac{2}{5}$. C'est la décomposition $X = \\frac{2}{5} Y + \\left(X - \\frac{2}{5} Y\\right)$ en une partie expliquée par $Y$ et un résidu indépendant de $Y$."
     },
     {
       "id": "L3-PRC-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Loi forte des grands nombres",
-      "skill": "Convergence presque sûre de la moyenne empirique",
-      "statement": "Soit $(X_n)$ une suite de variables i.i.d. intégrables d'espérance $\\mu$. Quel type de convergence garantit la Loi Forte des Grands Nombres (Kolmogorov) pour $\\bar{X}_n = \\frac{1}{n}\\sum_{i=1}^n X_i$ ?",
+      "title": "Loi forte des grands nombres et méthode de Monte-Carlo",
+      "skill": "Appliquer la loi forte des grands nombres à une fonction de variables uniformes",
+      "statement": "Soit $(U_i)_{i \\ge 1}$ une suite de variables i.i.d. de loi uniforme sur $[0 ; 1]$, et $M_n = \\frac{1}{n} \\sum_{i=1}^n \\frac{4}{1 + U_i^2}$. Vers quoi $M_n$ converge-t-elle presque sûrement ?",
       "options": [
-        "Convergence presque sûre vers $\\mu$ ($\\bar{X}_n \\xrightarrow{p.s.} \\mu$)",
-        "Convergence en loi uniquement",
-        "Convergence uniforme",
-        "Convergence vers une variable aléatoire gaussienne"
+        "$\\pi$",
+        "$2$",
+        "$\\frac{\\pi}{4}$",
+        "$M_n$ ne converge qu'en loi, vers une variable gaussienne"
       ],
       "correctIndex": 0,
-      "answer": "Convergence presque sûre vers $\\mu$ ($\\bar{X}_n \\xrightarrow{p.s.} \\mu$)",
-      "hint1": "La loi faible donne la convergence en probabilité de $\\bar{X}_n$ vers la constante $\\mu$ ; la loi forte donne un mode strictement plus fort. Une limite gaussienne ou une convergence « en loi uniquement » sont-elles compatibles avec cela ?",
-      "hint2": "Parmi les modes de convergence de variables aléatoires (en loi, en probabilité, presque sûre, $L^p$), lequel est plus fort que la convergence en probabilité tout en portant sur chaque trajectoire $\\omega$ ?",
-      "solution": "La loi forte des grands nombres de Kolmogorov établit que si $\\mathbb{E}[|X_1|] < \\infty$, la moyenne empirique converge presque sûrement vers $\\mu$ : $\\mathbb{P}\\left(\\lim_{n \\to \\infty} \\frac{1}{n}\\sum_{i=1}^n X_i = \\mu\\right) = 1$."
+      "answer": "$\\pi$",
+      "hint1": "Pose $X_i = \\frac{4}{1 + U_i^2}$ : vérifie que ces variables sont i.i.d. et intégrables, puis applique la loi forte des grands nombres. La limite est $\\mathbb{E}[X_1]$.",
+      "hint2": "Pour $U$ de densité $\\mathbf{1}_{[0 ; 1]}$, $\\mathbb{E}[h(U)] = \\int_0^1 h(u) \\, du$ : ici, $\\mathbb{E}[X_1] = \\int_0^1 \\frac{4}{1 + u^2} \\, du$.",
+      "solution": "Les $X_i = \\frac{4}{1 + U_i^2}$ sont i.i.d. (fonctions des $U_i$) et bornées par $4$, donc intégrables. Par la loi forte des grands nombres, $M_n \\to \\mathbb{E}[X_1] = \\int_0^1 \\frac{4}{1 + u^2} \\, du = 4 \\arctan 1 = \\pi$ presque sûrement. Le théorème central limite précise la vitesse : $\\sqrt{n}(M_n - \\pi)$ converge en loi vers une gaussienne centrée, ce qui ne contredit pas la convergence presque sûre de $M_n$ vers $\\pi$."
     }
   ]
 };
@@ -2567,7 +2871,7 @@ Le groupe $G$ est abélien.`
 
 ### Exercice 1 : Équivalence des normes en dimension finie et contre-exemple (8 points)
 1. Énoncer le théorème d'équivalence des normes sur un espace vectoriel de dimension finie.
-2. Soit $E = \\mathcal{C}([0, 1], \\mathbb{R})$. On considère les normes $\\|f\\|_1 = \\int_0^1 |f(t)| dt$ et $\\|f\\|_\\infty = \\sup_{t \\in [0, 1]} |f(t)|$.
+2. Soit $E = \\mathcal{C}([0 ; 1], \\mathbb{R})$. On considère les normes $\\|f\\|_1 = \\int_0^1 |f(t)| dt$ et $\\|f\\|_\\infty = \\sup_{t \\in [0 ; 1]} |f(t)|$.
    a. Montrer que $\\|f\\|_1 \\le \\|f\\|_\\infty$ pour tout $f \\in E$.
    b. En considérant la suite de fonctions $f_n(t) = t^n$ pour $n \\ge 1$, montrer que ces deux normes ne sont pas équivalentes sur $E$.
    c. En déduire que $E$ est de dimension infinie.
@@ -2580,8 +2884,8 @@ $$\\forall y \\in B(x, r_x), \\quad d_F(f(x), f(y)) < \\frac{\\varepsilon}{2}$$
 3. En considérant le recouvrement ouvert $K \\subset \\bigcup_{x \\in K} B(x, \\frac{r_x}{2})$, démontrer que $f$ est uniformément continue sur $K$ (Théorème de Heine).`,
       "solution": `### Correction Exercice 1
 1. Sur un $\\mathbb{R}$-espace vectoriel de dimension finie, toutes les normes sont équivalentes : pour toutes normes $N_1, N_2$, $\\exists \\alpha, \\beta > 0$ tels que $\\alpha N_1(x) \\le N_2(x) \\le \\beta N_1(x)$.
-2. a. Pour tout $t \\in [0, 1]$, $|f(t)| \\le \\|f\\|_\\infty$, d'où en intégrant : $\\|f\\|_1 = \\int_0^1 |f(t)| dt \\le \\int_0^1 \\|f\\|_\\infty dt = \\|f\\|_\\infty$.
-b. Pour $f_n(t) = t^n$ : $\\|f_n\\|_\\infty = \\sup_{t \\in [0, 1]} t^n = 1$.
+2. a. Pour tout $t \\in [0 ; 1]$, $|f(t)| \\le \\|f\\|_\\infty$, d'où en intégrant : $\\|f\\|_1 = \\int_0^1 |f(t)| dt \\le \\int_0^1 \\|f\\|_\\infty dt = \\|f\\|_\\infty$.
+b. Pour $f_n(t) = t^n$ : $\\|f_n\\|_\\infty = \\sup_{t \\in [0 ; 1]} t^n = 1$.
 En revanche, $\\|f_n\\|_1 = \\int_0^1 t^n dt = \\left[ \\frac{t^{n+1}}{n+1} \\right]_0^1 = \\frac{1}{n+1}$.
 S'il existait $C > 0$ tel que $\\|f\\|_\\infty \\le C \\|f\\|_1$ pour tout $f$, on aurait $1 \\le \\frac{C}{n+1}$ pour tout $n \\ge 1$, ce qui est absurde quand $n \\to \\infty$. Les normes ne sont pas équivalentes.
 c. Comme deux normes ne sont pas équivalentes sur $E$, d'après le théorème d'équivalence en dimension finie, $E$ est nécessairement de dimension infinie.
@@ -2683,22 +2987,22 @@ La dualité forte est parfaitement vérifiée : $\\max (P) = \\min (D) = 21$.`
       "filename": "TD_L3_Analyse_Numerique.md",
       "statement": `## Travaux Dirigés L3 : Analyse Numérique Matricielle et Interpolation
 
-### Exercice 1 : Factorisation de Cholesky $A = L L^T$ (10 points)
+### Exercice 1 : Factorisation de Cholesky $A = L {}^tL$ (10 points)
 Soit la matrice symétrique réelle suivante :
 $$A = \\begin{pmatrix} 4 & 2 & -2 \\\\ 2 & 10 & 5 \\\\ -2 & 5 & 14 \\end{pmatrix}$$
 1. Rappeler la définition d'une matrice symétrique définie positive et énoncer le critère de Sylvester (mineurs dominants).
 2. Vérifier que $A$ est symétrique définie positive à l'aide des déterminants de ses mineurs principaux de Gauss.
-3. Calculer pas à pas les coefficients de la matrice triangulaire inférieure $L = \\begin{pmatrix} \\ell_{11} & 0 & 0 \\\\ \\ell_{21} & \\ell_{22} & 0 \\\\ \\ell_{31} & \\ell_{32} & \\ell_{33} \\end{pmatrix}$ à diagonale strictement positive telle que $A = L L^T$.
+3. Calculer pas à pas les coefficients de la matrice triangulaire inférieure $L = \\begin{pmatrix} \\ell_{11} & 0 & 0 \\\\ \\ell_{21} & \\ell_{22} & 0 \\\\ \\ell_{31} & \\ell_{32} & \\ell_{33} \\end{pmatrix}$ à diagonale strictement positive telle que $A = L {}^tL$.
 4. Expliquer comment cette factorisation permet de résoudre efficacement le système linéaire $A x = b$.
 
 ### Exercice 2 : Interpolation Polynomiale de Lagrange et Erreur (10 points)
 Soient trois points d'interpolation distincts $x_0 = 0, x_1 = 1, x_2 = 2$ et les valeurs associées $y_0 = 1, y_1 = 3, y_2 = 2$.
 1. Écrire les trois polynômes élémentaires de Lagrange $L_0(x), L_1(x), L_2(x)$ associés à ces nœuds.
 2. En déduire le polynôme d'interpolation de Lagrange $P_2(x) = \\sum_{i=0}^2 y_i L_i(x)$ sous forme développée.
-3. On suppose que ces données proviennent d'une fonction $f$ de classe $\\mathcal{C}^3([0, 2])$ vérifiant $|f^{(3)}(t)| \\le M_3$ pour tout $t \\in [0, 2]$.
-   Rappeler la formule de l'erreur d'interpolation et donner une majoration uniforme de $|f(x) - P_2(x)|$ sur $[0, 2]$ en fonction de $M_3$.`,
+3. On suppose que ces données proviennent d'une fonction $f$ de classe $\\mathcal{C}^3([0 ; 2])$ vérifiant $|f^{(3)}(t)| \\le M_3$ pour tout $t \\in [0 ; 2]$.
+   Rappeler la formule de l'erreur d'interpolation et donner une majoration uniforme de $|f(x) - P_2(x)|$ sur $[0 ; 2]$ en fonction de $M_3$.`,
       "solution": `### Correction Exercice 1
-1. Une matrice symétrique $A \\in \\mathcal{S}_n(\\mathbb{R})$ est définie positive si pour tout $x \\in \\mathbb{R}^n \\setminus \\{0\\}$, $x^T A x > 0$.
+1. Une matrice symétrique $A \\in \\mathcal{S}_n(\\mathbb{R})$ est définie positive si pour tout $x \\in \\mathbb{R}^n \\setminus \\{0\\}$, $\\,{}^tx\\,A x > 0$.
 Critère de Sylvester : $A$ est définie positive ssi tous ses mineurs principaux dominants $\\Delta_k = \\det(A_{1..k, 1..k})$ sont strictement positifs pour $k = 1, \\dots, n$.
 2. Mineurs dominants :
 $\\Delta_1 = 4 > 0$.
@@ -2716,10 +3020,10 @@ Tous les mineurs étant strictement positifs, $A$ est symétrique définie posit
 - Colonne 3 :
   $\\ell_{33} = \\sqrt{a_{33} - (\\ell_{31}^2 + \\ell_{32}^2)} = \\sqrt{14 - (1 + 4)} = \\sqrt{9} = 3$.
 D'où la matrice $L = \\begin{pmatrix} 2 & 0 & 0 \\\\ 1 & 3 & 0 \\\\ -1 & 2 & 3 \\end{pmatrix}$.
-Vérification : $L L^T = \\begin{pmatrix} 2 & 0 & 0 \\\\ 1 & 3 & 0 \\\\ -1 & 2 & 3 \\end{pmatrix} \\begin{pmatrix} 2 & 1 & -1 \\\\ 0 & 3 & 2 \\\\ 0 & 0 & 3 \\end{pmatrix} = \\begin{pmatrix} 4 & 2 & -2 \\\\ 2 & 10 & 5 \\\\ -2 & 5 & 14 \\end{pmatrix} = A$.
-4. Résolution de $Ax = b \\iff L (L^T x) = b$ :
+Vérification : $L {}^tL = \\begin{pmatrix} 2 & 0 & 0 \\\\ 1 & 3 & 0 \\\\ -1 & 2 & 3 \\end{pmatrix} \\begin{pmatrix} 2 & 1 & -1 \\\\ 0 & 3 & 2 \\\\ 0 & 0 & 3 \\end{pmatrix} = \\begin{pmatrix} 4 & 2 & -2 \\\\ 2 & 10 & 5 \\\\ -2 & 5 & 14 \\end{pmatrix} = A$.
+4. Résolution de $Ax = b \\iff L ({}^tL\\,x) = b$ :
 - Résolution du système triangulaire inférieur par descente : $L y = b$ (coût en $O(n^2/2)$).
-- Résolution du système triangulaire supérieur par remontée : $L^T x = y$ (coût en $O(n^2/2)$).
+- Résolution du système triangulaire supérieur par remontée : $\\,{}^tL\\,x = y$ (coût en $O(n^2/2)$).
 Cette méthode évite le calcul d'inverse et ne requiert pas de pivotage car les pivots de Cholesky sont garantis stables.
 
 ### Correction Exercice 2
@@ -2732,15 +3036,15 @@ $P_2(x) = 1 \\cdot L_0(x) + 3 \\cdot L_1(x) + 2 \\cdot L_2(x)$
 $P_2(x) = \\frac{x^2 - 3x + 2}{2} + 3(-x^2 + 2x) + 2\\frac{x^2 - x}{2} = \\left(\\frac{1}{2} - 3 + 1\\right) x^2 + \\left(-\\frac{3}{2} + 6 - 1\\right) x + 1 = -\\frac{3}{2} x^2 + \\frac{7}{2} x + 1$.
 Vérification : $P_2(0) = 1$, $P_2(1) = -1.5 + 3.5 + 1 = 3$, $P_2(2) = -6 + 7 + 1 = 2$.
 3. Formule d'erreur de Cauchy :
-Pour tout $x \\in [0, 2]$, il existe $\\xi_x \\in ]0, 2[$ tel que :
+Pour tout $x \\in [0 ; 2]$, il existe $\\xi_x \\in ]0 ; 2[$ tel que :
 $$f(x) - P_2(x) = \\frac{f^{(3)}(\\xi_x)}{3!} (x-0)(x-1)(x-2)$$
 Posons $\\omega(x) = x(x-1)(x-2) = x^3 - 3x^2 + 2x$.
 Sa dérivée $\\omega'(x) = 3x^2 - 6x + 2$ s'annule pour $x = \\frac{6 \\pm \\sqrt{12}}{6} = 1 \\pm \\frac{\\sqrt{3}}{3}$.
 Pour $x = 1 - \\frac{1}{\\sqrt{3}}$ :
 $\\omega(x) = \\left(1 - \\frac{1}{\\sqrt{3}}\\right)\\left(-\\frac{1}{\\sqrt{3}}\\right)\\left(-1 - \\frac{1}{\\sqrt{3}}\\right) = -\\frac{1}{\\sqrt{3}}\\left(\\frac{1}{3} - 1\\right) = \\frac{2}{3\\sqrt{3}}$.
-Donc $\\max_{x \\in [0, 2]} |\\omega(x)| = \\frac{2}{3\\sqrt{3}} = \\frac{2\\sqrt{3}}{9} \\approx 0.385$.
-D'où la majoration uniforme sur $[0, 2]$ :
-$$\\sup_{x \\in [0, 2]} |f(x) - P_2(x)| \\le \\frac{M_3}{6} \\cdot \\frac{2\\sqrt{3}}{9} = \\frac{M_3 \\sqrt{3}}{27}$$`
+Donc $\\max_{x \\in [0 ; 2]} |\\omega(x)| = \\frac{2}{3\\sqrt{3}} = \\frac{2\\sqrt{3}}{9} \\approx 0.385$.
+D'où la majoration uniforme sur $[0 ; 2]$ :
+$$\\sup_{x \\in [0 ; 2]} |f(x) - P_2(x)| \\le \\frac{M_3}{6} \\cdot \\frac{2\\sqrt{3}}{9} = \\frac{M_3 \\sqrt{3}}{27}$$`
     }
   ]
 };

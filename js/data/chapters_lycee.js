@@ -152,9 +152,9 @@ const MATHS_CHAPTERS_LYCEE = [
     "icon": "function",
     "badge": "Architecte des Fonctions",
     "color": "#3b82f6",
-    "description": "Définitions, courbes, signe et variations des fonctions valeur absolue, carré x², inverse 1/x, racine carrée √x et cube x³ ; position relative de y = x et y = x² ; démonstrations des variations des fonctions carré et inverse.",
+    "description": "Définitions, courbes, signe et variations des fonctions valeur absolue, carré x² et inverse 1/x ; pour aller plus loin, variations des fonctions racine carrée √x et cube x³ ; position relative de y = x et y = x² ; démonstrations des variations des fonctions carré et inverse.",
     "skills": [
-      "Connaître les courbes, le signe et les variations des fonctions valeur absolue, carré, inverse, racine carrée et cube",
+      "Connaître les courbes, le signe et les variations des fonctions valeur absolue, carré et inverse (pour aller plus loin : racine carrée et cube)",
       "Résoudre des équations et inéquations du type f(x) = k ou f(x) < k avec une fonction de référence",
       "Comparer f(a) et f(b) et démontrer les variations des fonctions carré et inverse"
     ]
@@ -190,7 +190,7 @@ const MATHS_CHAPTERS_LYCEE = [
     "icon": "arrow-up-right",
     "badge": "Pilote Vectoriel",
     "color": "#b45309",
-    "description": "Définition géométrique d'un vecteur, égalité, somme (relation de Chasles), coordonnées, norme, critère de colinéarité xy' - yx' = 0.",
+    "description": "Définition géométrique d'un vecteur, égalité, représentants, vecteur nul, somme (relation de Chasles), produit par un réel, coordonnées, norme, critère de colinéarité xy' - yx' = 0.",
     "skills": [
       "Construire et combiner des vecteurs géométriquement avec Chasles",
       "Calculer les coordonnées et la norme d'un vecteur",
@@ -228,9 +228,9 @@ const MATHS_CHAPTERS_LYCEE = [
     "icon": "bar-chart-2",
     "badge": "Analyste de Données",
     "color": "#7c3aed",
-    "description": "Moyenne pondérée et linéarité, médiane, quartiles, écart-type, diagrammes en boîte, histogrammes et séries regroupées en classes, tableau croisé de deux variables qualitatives, fréquences marginales et conditionnelles.",
+    "description": "Moyenne pondérée et linéarité, médiane, quartiles, écart type, diagrammes en boîte, histogrammes et séries regroupées en classes, tableau croisé de deux variables qualitatives, fréquences marginales et conditionnelles.",
     "skills": [
-      "Calculer et interpréter moyenne, médiane, quartiles et écart-type, y compris pour une série regroupée en classes",
+      "Calculer et interpréter moyenne, médiane, quartiles et écart type, y compris pour une série regroupée en classes",
       "Comparer deux séries à l'aide d'indicateurs et de diagrammes en boîte",
       "Compléter un tableau croisé et calculer des fréquences marginales et conditionnelles"
     ]
@@ -384,7 +384,7 @@ const MATHS_CHAPTERS_LYCEE = [
     "icon": "layers",
     "badge": "Séquenceur Temporel",
     "color": "#1d4ed8",
-    "description": "Définition d'une suite, formes explicites u_n = f(n) et récurrentes u_(n+1) = f(u_n), représentation graphique en toile d'araignée, sens de variation (u_(n+1) - u_n).",
+    "description": "Définition d'une suite, formes explicites uₙ = f(n) et récurrentes uₙ₊₁ = f(uₙ), représentation graphique en toile d'araignée, sens de variation (uₙ₊₁ − uₙ).",
     "skills": [
       "Calculer les termes d'une suite définie de manière explicite ou par récurrence",
       "Représenter graphiquement les premiers termes d'une suite récurrente",
@@ -403,10 +403,10 @@ const MATHS_CHAPTERS_LYCEE = [
     "icon": "repeat",
     "badge": "Architecte des Suites",
     "color": "#1e40af",
-    "description": "Définitions, raison r ou q, formule explicite du terme général u_n, somme des termes consécutifs (somme des entiers, somme des puissances de q), limites intuitives.",
+    "description": "Définitions, raison r ou q, formule explicite du terme général uₙ, somme des termes consécutifs (somme des entiers, somme des puissances de q), limites intuitives.",
     "skills": [
       "Identifier la nature d'une suite arithmétique ou géométrique",
-      "Exprimer le terme général u_n en fonction de n",
+      "Exprimer le terme général $u_n$ en fonction de $n$",
       "Calculer la somme de termes consécutifs d'une suite arithmétique ou géométrique"
     ]
   },
@@ -578,7 +578,7 @@ const MATHS_CHAPTERS_LYCEE = [
     "icon": "anchor",
     "badge": "Pont de Continuité",
     "color": "#075985",
-    "description": "Limites aux bornes, asymptotes horizontales, verticales et obliques, notion de continuité, Théorème des Valeurs Intermédiaires (TVI) et corollaire de la stricte monotonie (bijection).",
+    "description": "Limites aux bornes, asymptotes horizontales, verticales et obliques, notion de continuité, Théorème des Valeurs Intermédiaires (TVI), y compris pour une fonction strictement monotone.",
     "skills": [
       "Déterminer les asymptotes à la courbe d'une fonction",
       "Démontrer qu'une fonction est continue sur un intervalle",
@@ -692,7 +692,7 @@ const MATHS_CHAPTERS_LYCEE = [
     "icon": "radio",
     "badge": "Maître des Ondes",
     "color": "#0369a1",
-    "description": "Dérivées de sin et cos, de sin(ax+b) et cos(ax+b), parité et 2π-périodicité, variations et courbes, limite de sin(x)/x en 0, résolution d'équations et d'inéquations trigonométriques sur un intervalle.",
+    "description": "Dérivées de sin et cos, de sin(ax+b) et cos(ax+b), parité et 2π-périodicité, variations et courbes (pour aller plus loin : limite de sin(x)/x en 0), résolution d'équations et d'inéquations trigonométriques sur un intervalle.",
     "skills": [
       "Dériver des fonctions construites à partir de sin et cos et étudier leurs variations",
       "Exploiter la parité et la périodicité pour réduire l'intervalle d'étude",
@@ -901,11 +901,258 @@ const MATHS_CHAPTERS_LYCEE = [
     "icon": "share-2",
     "badge": "Maître des Matrices",
     "color": "#831843",
-    "description": "Matrices (lignes, colonnes, carrées), addition, multiplication matricielle, matrice inverse, puissances de matrices M^n, graphes probabilistes et état stable d'une chaîne de Markov.",
+    "description": "Matrices (lignes, colonnes, carrées), addition, multiplication matricielle, matrice inverse, puissances de matrices M^n, graphes probabilistes et distributions invariantes d'une chaîne de Markov.",
     "skills": [
       "Multiplier des matrices et calculer l'inverse d'une matrice carrée d'ordre 2 ou 3",
       "Exprimer un système linéaire sous forme matricielle AX = B",
-      "Modéliser une évolution par un graphe probabiliste et déterminer son état stable"
+      "Modéliser une évolution par un graphe probabiliste et déterminer sa distribution invariante"
+    ]
+  },
+  {
+    "id": "1TC1",
+    "level": "1tc",
+    "domain": "nombres",
+    "domainName": "Nombres et calculs",
+    "folder": "1TC1_Automatismes",
+    "num": "1TC1",
+    "title": "Automatismes : proportions, pourcentages et évolutions",
+    "shortTitle": "Automatismes & Pourcentages",
+    "icon": "percent",
+    "badge": "As des Pourcentages",
+    "color": "#0369a1",
+    "description": "Calcul numérique et littéral sans calculatrice, proportion d'une proportion, pourcentages, évolutions successives et réciproques, coefficient multiplicateur, ordres de grandeur.",
+    "skills": [
+      "Calculer une proportion, un pourcentage et appliquer un taux d'évolution",
+      "Enchaîner des évolutions avec les coefficients multiplicateurs et trouver une évolution réciproque",
+      "Mobiliser les automatismes de calcul de l'épreuve anticipée sans calculatrice"
+    ]
+  },
+  {
+    "id": "1TC2",
+    "level": "1tc",
+    "domain": "algo",
+    "domainName": "Probabilités et Statistiques",
+    "folder": "1TC2_Information_chiffree",
+    "num": "1TC2",
+    "title": "Information chiffrée : tableaux croisés, nuages de points et ajustement affine",
+    "shortTitle": "Tableaux croisés & Ajustement",
+    "icon": "bar-chart-2",
+    "badge": "Lecteur de Données",
+    "color": "#0e7490",
+    "description": "Tableaux croisés d'effectifs, fréquences marginales et conditionnelles, séries à deux variables, nuage de points, point moyen, ajustement affine et prévisions par interpolation ou extrapolation.",
+    "skills": [
+      "Lire et compléter un tableau croisé, calculer une fréquence marginale ou conditionnelle",
+      "Représenter une série à deux variables et calculer son point moyen",
+      "Utiliser une droite d'ajustement pour interpoler ou extrapoler avec un regard critique"
+    ]
+  },
+  {
+    "id": "1TC3",
+    "level": "1tc",
+    "domain": "algo",
+    "domainName": "Probabilités et Statistiques",
+    "folder": "1TC3_Probabilites_conditionnelles",
+    "num": "1TC3",
+    "title": "Probabilités conditionnelles, indépendance et répétition d'épreuves",
+    "shortTitle": "Probabilités conditionnelles",
+    "icon": "git-branch",
+    "badge": "Arboriste des Hasards",
+    "color": "#7c3aed",
+    "description": "Probabilité conditionnelle P_A(B), tableaux croisés et arbres pondérés, formule des probabilités totales, événements indépendants, répétition de deux ou trois épreuves identiques et indépendantes.",
+    "skills": [
+      "Calculer une probabilité conditionnelle à partir d'un tableau ou d'un arbre pondéré",
+      "Appliquer la formule des probabilités totales",
+      "Reconnaître des événements indépendants et modéliser une répétition d'épreuves"
+    ]
+  },
+  {
+    "id": "1TC4",
+    "level": "1tc",
+    "domain": "fonctions",
+    "domainName": "Analyse et Fonctions",
+    "folder": "1TC4_Croissance_lineaire",
+    "num": "1TC4",
+    "title": "Croissance linéaire : suites arithmétiques et fonctions affines",
+    "shortTitle": "Croissance linéaire",
+    "icon": "trending-up",
+    "badge": "Bâtisseur de Droites",
+    "color": "#15803d",
+    "description": "Variations absolues constantes, suites arithmétiques (terme général, représentation par des points alignés), fonctions affines, taux de variation, modélisation d'une évolution linéaire et recherche de seuil.",
+    "skills": [
+      "Reconnaître une croissance linéaire et calculer un terme d'une suite arithmétique",
+      "Déterminer une fonction affine à partir de deux valeurs",
+      "Modéliser une situation de croissance linéaire et déterminer un seuil"
+    ]
+  },
+  {
+    "id": "1TC5",
+    "level": "1tc",
+    "domain": "fonctions",
+    "domainName": "Analyse et Fonctions",
+    "folder": "1TC5_Modeles_quadratiques",
+    "num": "1TC5",
+    "title": "Modèles quadratiques : paraboles et forme factorisée",
+    "shortTitle": "Modèles quadratiques",
+    "icon": "activity",
+    "badge": "Lanceur de Paraboles",
+    "color": "#b45309",
+    "description": "Fonctions x ↦ ax², paraboles, symétrie et sommet, fonctions du second degré données sous forme factorisée a(x − x₁)(x − x₂) : racines, signe, axe de symétrie, extremum, modélisation de trajectoires et de surfaces.",
+    "skills": [
+      "Associer une parabole à une fonction x ↦ ax² et interpréter le signe de a",
+      "Lire les racines et le signe d'une fonction donnée sous forme factorisée",
+      "Déterminer le sommet d'une parabole et l'extremum dans un problème"
+    ]
+  },
+  {
+    "id": "1TC6",
+    "level": "1tc",
+    "domain": "fonctions",
+    "domainName": "Analyse et Fonctions",
+    "folder": "1TC6_Croissance_exponentielle",
+    "num": "1TC6",
+    "title": "Croissance exponentielle : suites géométriques et taux moyen",
+    "shortTitle": "Croissance exponentielle",
+    "icon": "zap",
+    "badge": "Maître des Intérêts",
+    "color": "#be123c",
+    "description": "Variations relatives constantes, suites géométriques de raison positive, fonctions x ↦ aˣ, comparaison des croissances linéaire et exponentielle, taux d'évolution moyen et recherche de seuil.",
+    "skills": [
+      "Reconnaître une croissance exponentielle et calculer un terme d'une suite géométrique",
+      "Passer d'un taux d'évolution à une raison et calculer un taux moyen",
+      "Comparer un modèle linéaire et un modèle exponentiel et déterminer un seuil"
+    ]
+  },
+  {
+    "id": "1T1",
+    "level": "1techno",
+    "domain": "nombres",
+    "domainName": "Automatismes et Logique",
+    "folder": "1T1_Automatismes_logique",
+    "num": "1T1",
+    "title": "Automatismes, ensembles et logique",
+    "shortTitle": "Automatismes & Logique",
+    "icon": "check-square",
+    "badge": "Logicien Express",
+    "color": "#0369a1",
+    "description": "Automatismes de calcul (fractions, puissances, pourcentages, proportions), ensembles (intersection, réunion, complémentaire), connecteurs logiques, quantificateurs, implication, contre-exemple.",
+    "skills": [
+      "Calculer sans calculatrice avec des fractions, des puissances et des pourcentages",
+      "Décrire un ensemble, une intersection, une réunion et un complémentaire",
+      "Utiliser les connecteurs « et », « ou », une implication et un contre-exemple"
+    ]
+  },
+  {
+    "id": "1T2",
+    "level": "1techno",
+    "domain": "algo",
+    "domainName": "Algorithmique et Programmation",
+    "folder": "1T2_Algorithmique_Python",
+    "num": "1T2",
+    "title": "Algorithmique Python : listes, compteurs et accumulateurs",
+    "shortTitle": "Python & Listes",
+    "icon": "terminal",
+    "badge": "Codeur Méthodique",
+    "color": "#334155",
+    "description": "Variables, affectations, instructions conditionnelles, boucles bornées et non bornées, fonctions, listes en Python, parcours d'une liste, compteurs, accumulateurs et algorithmes de seuil.",
+    "skills": [
+      "Lire et compléter un programme Python utilisant une boucle et une liste",
+      "Écrire un compteur ou un accumulateur dans une boucle",
+      "Programmer la recherche d'un seuil avec une boucle while"
+    ]
+  },
+  {
+    "id": "1T3",
+    "level": "1techno",
+    "domain": "fonctions",
+    "domainName": "Analyse et Fonctions",
+    "folder": "1T3_Suites",
+    "num": "1T3",
+    "title": "Suites arithmétiques et géométriques",
+    "shortTitle": "Suites arithm. & géom.",
+    "icon": "fast-forward",
+    "badge": "Explorateur de Suites",
+    "color": "#15803d",
+    "description": "Suites numériques, relation de récurrence et terme général, suites arithmétiques et géométriques, sens de variation, représentation graphique, somme de termes consécutifs, modélisation d'évolutions discrètes.",
+    "skills": [
+      "Reconnaître une suite arithmétique ou géométrique et en donner le terme général",
+      "Calculer un terme et étudier le sens de variation",
+      "Calculer une somme de termes consécutifs et modéliser une évolution"
+    ]
+  },
+  {
+    "id": "1T4",
+    "level": "1techno",
+    "domain": "fonctions",
+    "domainName": "Analyse et Fonctions",
+    "folder": "1T4_Fonctions_second_degre",
+    "num": "1T4",
+    "title": "Fonctions : taux de variation et second degré",
+    "shortTitle": "Taux de variation & 2nd degré",
+    "icon": "sliders",
+    "badge": "Dompteur de Courbes",
+    "color": "#b45309",
+    "description": "Taux de variation entre deux valeurs, fonctions de référence, fonctions polynômes du second degré, parabole, racine évidente et factorisation a(x − x₁)(x − x₂), signe et extremum, fonctions polynômes de degré 3 de la forme a(x − x₁)(x − x₂)(x − x₃).",
+    "skills": [
+      "Calculer un taux de variation et l'interpréter",
+      "Factoriser un trinôme connaissant une racine et étudier son signe",
+      "Déterminer l'extremum d'une fonction du second degré dans un problème"
+    ]
+  },
+  {
+    "id": "1T5",
+    "level": "1techno",
+    "domain": "fonctions",
+    "domainName": "Analyse et Fonctions",
+    "folder": "1T5_Derivation",
+    "num": "1T5",
+    "title": "Dérivation : nombre dérivé, tangente et variations",
+    "shortTitle": "Dérivation & Variations",
+    "icon": "arrow-up-right",
+    "badge": "Pilote des Tangentes",
+    "color": "#be123c",
+    "description": "Nombre dérivé comme limite du taux de variation, coefficient directeur et équation de la tangente, fonctions dérivées des fonctions polynômes de degré au plus 3, signe de la dérivée et sens de variation, extremums.",
+    "skills": [
+      "Lire et calculer un nombre dérivé et déterminer l'équation d'une tangente",
+      "Calculer la dérivée d'une fonction polynôme de degré au plus 3",
+      "Étudier les variations et les extremums d'une fonction à partir du signe de sa dérivée"
+    ]
+  },
+  {
+    "id": "1T6",
+    "level": "1techno",
+    "domain": "algo",
+    "domainName": "Probabilités et Statistiques",
+    "folder": "1T6_Statistiques_deux_variables",
+    "num": "1T6",
+    "title": "Statistiques à deux variables",
+    "shortTitle": "Stats à deux variables",
+    "icon": "bar-chart",
+    "badge": "Analyste des Nuages",
+    "color": "#0e7490",
+    "description": "Tableaux croisés et fréquences conditionnelles, séries statistiques à deux variables, nuage de points, point moyen, ajustement affine, interpolation et extrapolation.",
+    "skills": [
+      "Calculer des fréquences marginales et conditionnelles dans un tableau croisé",
+      "Représenter un nuage de points et calculer le point moyen",
+      "Utiliser un ajustement affine pour faire une prévision"
+    ]
+  },
+  {
+    "id": "1T7",
+    "level": "1techno",
+    "domain": "algo",
+    "domainName": "Probabilités et Statistiques",
+    "folder": "1T7_Probabilites_variables_aleatoires",
+    "num": "1T7",
+    "title": "Probabilités : conditionnement, variables aléatoires et échantillonnage",
+    "shortTitle": "Probas & Variables aléatoires",
+    "icon": "dices",
+    "badge": "Stratège du Hasard",
+    "color": "#7c3aed",
+    "description": "Probabilités conditionnelles, arbres pondérés, probabilités totales, variable aléatoire réelle, loi de probabilité, espérance, épreuve et loi de Bernoulli, répétition d'épreuves, simulation et fluctuation d'échantillonnage.",
+    "skills": [
+      "Calculer une probabilité conditionnelle et utiliser un arbre pondéré",
+      "Déterminer la loi d'une variable aléatoire et calculer son espérance",
+      "Modéliser une épreuve de Bernoulli, sa répétition et simuler un échantillon"
     ]
   }
 ];

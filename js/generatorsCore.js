@@ -18,7 +18,52 @@ window.MathsGenerators = {
   _recentGeneratedStatements: {},
   _recentStorageKey: 'maths_recent_rituel_statements_v2',
 
+  // Empreinte courte (FNV-1a 32 bits) : l'historique ne conserve pas le texte des énoncés.
+  _statementKey(statement) {
+    const s = String(statement);
+    let h = 0x811c9dc5;
+    for (let i = 0; i < s.length; i++) {
+      h ^= s.charCodeAt(i);
+      h = Math.imul(h, 0x01000193);
+    }
+    return '#' + (h >>> 0).toString(36);
+  },
+
+  // Générateur à graine (mulberry32) initialisé par un hachage du texte : même texte, même suite de tirages
+  seededRandom(text) {
+    let h = 1779033703 ^ text.length;
+    for (let i = 0; i < text.length; i++) {
+      h = Math.imul(h ^ text.charCodeAt(i), 3432918353);
+      h = (h << 13) | (h >>> 19);
+    }
+    h = Math.imul(h ^ (h >>> 16), 2246822507);
+    h = Math.imul(h ^ (h >>> 13), 3266489909);
+    h ^= h >>> 16;
+    return () => {
+      h = (h + 0x6D2B79F5) | 0;
+      let t = Math.imul(h ^ (h >>> 15), 1 | h);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  },
+
+  /** Exécute fn avec Math.random remplacé par le générateur à graine, restauré même en cas d'exception. */
+  withSeed(text, fn) {
+    const saved = Math.random;
+    Math.random = this.seededRandom(text);
+    try {
+      return fn();
+    } finally {
+      Math.random = saved;
+    }
+  },
+
+  // Série commune : seuls les énoncés de la série comptent, l'historique de l'élève ne doit pas changer les tirages
   _getRecentHistory(chapterId) {
+    return this._sharedHistory || this._personalHistory(chapterId);
+  },
+
+  _personalHistory(chapterId) {
     if (!this._recentGeneratedStatements) this._recentGeneratedStatements = {};
     if (!this._recentGeneratedStatements[chapterId]) {
       try {
@@ -27,11 +72,15 @@ window.MathsGenerators = {
           if (raw) {
             const parsed = JSON.parse(raw);
             if (parsed && typeof parsed === 'object') {
+              // Anciens historiques : énoncés complets, SVG compris, remplacés par leur empreinte
+              Object.keys(parsed).forEach(k => {
+                parsed[k] = Array.isArray(parsed[k]) ? parsed[k].map(e => (/^#[0-9a-z]{1,7}$/.test(e) ? e : this._statementKey(e))) : [];
+              });
               this._recentGeneratedStatements = parsed;
             }
           }
         }
-      } catch (e) {}
+      } catch (e) { /* historique illisible ou stockage indisponible : on repart de zéro */ }
       if (!this._recentGeneratedStatements[chapterId]) {
         this._recentGeneratedStatements[chapterId] = [];
       }
@@ -41,17 +90,18 @@ window.MathsGenerators = {
 
   _saveRecentStatement(chapterId, statement) {
     if (!statement) return;
-    const list = this._getRecentHistory(chapterId);
-    const already = list.indexOf(statement);
+    const list = this._personalHistory(chapterId);
+    const key = this._statementKey(statement);
+    const already = list.indexOf(key);
     if (already !== -1) list.splice(already, 1); // un énoncé revu repasse en fin de liste (le plus récent)
-    list.push(statement);
+    list.push(key);
     if (list.length > 50) list.shift();
     this._recentGeneratedStatements[chapterId] = list;
     try {
       if (typeof window !== 'undefined' && window.localStorage) {
         window.localStorage.setItem(this._recentStorageKey, JSON.stringify(this._recentGeneratedStatements));
       }
-    } catch (e) {}
+    } catch (e) { /* stockage plein ou indisponible : l'historique reste en mémoire */ }
   },
 
   // Utilitaires aléatoires et arithmétiques
@@ -226,7 +276,7 @@ window.MathsGenerators = {
 
   /**
    * Filet de sécurité typographique appliqué à toutes les questions générées :
-   *  - dans les formules ($…$) : "+ -3" → "- 3", "- -3" → "+ 3", "1x" → "x", "x^1" → "x", "2.5" → "2{,}5" ;
+   *  - dans les formules ($…$) : "+ -3" → "- 3", "- -3" → "+ 3", "1x" → "x", "x^1" → "x", "2.5" → "2{,}5", "2 + (3)" → "2 + 3" ;
    *  - dans le texte : "2.5" → "2,5" (les balises HTML/SVG ne sont pas modifiées).
    * Le champ `answer` des questions à saisie n'est pas converti en virgule (le validateur accepte les deux).
    */
@@ -236,10 +286,27 @@ window.MathsGenerators = {
     s = s.replace(/\+\s*-\s*(?!>)/g, '- ').replace(/-\s*-\s*(?!>)/g, '+ ').replace(/\+\s*\+\s*/g, '+ ').replace(/-\s*\+\s*/g, '- ');
     // Coefficient 1 devant une variable
     s = s.replace(/(^|[\s(\[=+\-])1([xyn])(?![a-zA-Z])/g, '$1$2');
-    // Exposant 1 sur une lettre
-    s = s.replace(/([a-zA-Z])\^\{1\}(?![\d])/g, '$1').replace(/([a-zA-Z])\^1(?![\d{])/g, '$1');
+    // Exposant 1 sur une lettre, sauf dans l'identité a^1 = a : c'est la convention énoncée, la simplifier donnerait a = a
+    s = s.replace(/([a-zA-Z])\^(?:\{1\}(?!\d)|1(?![\d{]))/g, (m, c, i, all) => {
+      const estIdentite = !/[\w\\]$/.test(all.slice(0, i)) && new RegExp(`^\\s*=\\s*${c}(?![\\w{^])`).test(all.slice(i + m.length));
+      return estIdentite ? m : c;
+    });
     // Point décimal → virgule française
     s = s.replace(/(\d)\.(\d)/g, '$1{,}$2');
+    // Parenthèses inutiles autour d'un nombre ou d'une fraction positifs, entre opérateurs
+    s = s.replace(/\\left\((\d+(?:\{,\}\d+)?|\\d?frac\{\d+\}\{\d+\})\\right\)|\((\d+(?:\{,\}\d+)?)\)/g, (m, a, b, i, all) => {
+      const before = all.slice(0, i).trimEnd();
+      const after = all.slice(i + m.length).trimStart();
+      if (!before && !after) return m; // repère d'équation : (1)
+      const leftOk = !before || /(?:=|\+|\(|\\times|\\div|\\implies|\\iff|\\approx)$/.test(before)
+        || /[\w)}\]]\s*-$/.test(before);
+      const rightOk = !after || /^(?:=|\+|-|\)|\}|\]|,|;|<|>|\\times|\\div|\\implies|\\iff|\\approx|\\le|\\ge|\\right)/.test(after)
+        || (after[0] === '^' && /^\d+$/.test(a || b)); // (5)^2 → 5^2, mais (0{,}5)^2 garde ses parenthèses
+      return leftOk && rightOk ? (a || b) : m;
+    });
+    // Membre répété dans une chaîne de calcul : "A = B = B" → "A = B" (une vérification « 4 = 4 » reste)
+    const membres = s.split('=');
+    if (membres.length > 2) s = membres.filter((m, i) => !i || m.trim() !== membres[i - 1].trim()).join('=').trimEnd();
     return s;
   },
 
@@ -253,8 +320,10 @@ window.MathsGenerators = {
     while ((m = re.exec(str))) {
       out += fixText(str.slice(last, m.index));
       if (m[1]) {
-        // SVG : on ne corrige que les nœuds texte
-        out += m[1].replace(/>([^<]*)</g, (mm, txt) => '>' + fixText(txt) + '<');
+        // SVG : nœuds texte corrigés ; dans les balises, bruit flottant des coordonnées arrondi au centième
+        out += m[1]
+          .replace(/<[^>]*>/g, tag => tag.replace(/-?\d+(?:\.\d+)?e-\d+|-?\d+\.\d{3,}/gi, n => String(+(+n).toFixed(2))))
+          .replace(/>([^<]*)</g, (mm, txt) => '>' + fixText(txt) + '<');
       } else if (m[2]) {
         // balise HTML ou bloc de code (Python…) : inchangé
         out += m[2];
@@ -387,8 +456,9 @@ window.MathsGenerators = {
           const pool = matchingTierExos.length > 0 ? matchingTierExos : exos;
           // Priorité aux exercices pas encore vus ; si tous l'ont été, tirage parmi la moitié la plus anciennement vue
           const seen = this._getRecentHistory(chapterId);
-          const unseen = pool.filter(e => !seen.includes(e.statement));
-          const oldest = pool.slice().sort((a, b) => seen.indexOf(a.statement) - seen.indexOf(b.statement))
+          const seenRank = e => seen.indexOf(this._statementKey(e.statement));
+          const unseen = pool.filter(e => seenRank(e) === -1);
+          const oldest = pool.slice().sort((a, b) => seenRank(a) - seenRank(b))
             .slice(0, Math.ceil(pool.length / 2));
           const base = this.randChoice(unseen.length > 0 ? unseen : oldest);
           if (typeof window !== 'undefined' && window.MathsAdvancedGenerators && typeof window.MathsAdvancedGenerators.mutateExercise === 'function') {
@@ -430,10 +500,11 @@ window.MathsGenerators = {
 
     if (q && q.statement) {
       const recent = this._getRecentHistory(chapterId);
-      if (recent.includes(q.statement) && _variationAttempt < 15) {
+      if (recent.includes(this._statementKey(q.statement)) && _variationAttempt < 15) {
         return this.generateForChapter(chapterId, resolvedTier, mastery, _variationAttempt + 1);
       }
-      this._saveRecentStatement(chapterId, q.statement);
+      // Pendant un tri de candidats (pickRitualQuestion), seul l'énoncé finalement retenu entre dans l'historique
+      if (!this._noRecentSave) this._saveRecentStatement(chapterId, q.statement);
     }
 
     if (q) {
@@ -467,7 +538,10 @@ window.MathsGenerators = {
     if (!exo.options || exo.options.length <= 1) return exo;
 
     let correctIdx = (exo.correctIndex !== undefined) ? exo.correctIndex : exo.options.indexOf(exo.answer);
-    if (correctIdx === -1) correctIdx = 0;
+    if (correctIdx < 0 || correctIdx >= exo.options.length) {
+      console.error('QCM non mélangé (bonne réponse introuvable) :', exo.id || exo.statement);
+      return exo;
+    }
 
     // Déduplication défensive des options
     const uniqueOptions = [];
@@ -507,11 +581,97 @@ window.MathsGenerators = {
   },
 
   /**
+   * Une question convient-elle à un rituel (automatisme sans calculatrice, énoncé court) ?
+   * Reprend le filtre des automatismes du brevet (MathsExamTools.needsCalculator) ; la longueur
+   * est mesurée hors figure et hors consigne de saisie, pour écarter les problèmes à plusieurs étapes.
+   */
+  _ritualLength(q) {
+    return String(q.statement)
+      .replace(/<svg[\s\S]*?<\/svg>/gi, '')
+      .replace(/<[^>]+>/g, '')
+      .replace(/^\s*\*\(?Saisir[^\n]*\*\s*$/gim, '')
+      .replace(/\s+/g, ' ')
+      .trim().length;
+  },
+
+  _ritualNeedsCalculator(q) {
+    const tools = typeof window !== 'undefined' ? window.MathsExamTools : null;
+    return tools && typeof tools.needsCalculator === 'function'
+      ? tools.needsCalculator(q)
+      : /calculatrice|arrondi|valeur approch|\\approx|≈|Arc(cos|sin|tan)/i.test(`${q.statement}\n${q.solution || ''}\n${q.hint1 || ''}`);
+  },
+
+  isRitualQuestion(q) {
+    if (!q || !q.statement) return false;
+    if (this._ritualNeedsCalculator(q)) return false;
+    return this._ritualLength(q) <= this.RITUAL_MAX_LENGTH;
+  },
+
+  RITUAL_MAX_LENGTH: 260,
+
+  /**
+   * Tire une question de rituel : quelques tirages au palier demandé, puis au palier juste en dessous
+   * (la progression de la série est gardée) ; à défaut, la plus courte des questions sans calculatrice
+   * tirées, sinon la plus courte de toutes.
+   * `used` (facultatif) : énoncés déjà présents dans la série, à ne pas répéter.
+   */
+  pickRitualQuestion(chapterId, tier = 1, used = null) {
+    // Les candidats écartés ne doivent pas entrer dans l'historique des énoncés récents :
+    // on suspend l'enregistrement pendant les tirages, puis on enregistre le seul énoncé retenu.
+    const prev = this._noRecentSave;
+    this._noRecentSave = true;
+    let q = null;
+    try { q = this._pickRitualCandidate(chapterId, tier, used); } finally { this._noRecentSave = prev; }
+    if (q && q.statement && !prev) this._saveRecentStatement(chapterId, q.statement);
+    return q;
+  },
+
+  _pickRitualCandidate(chapterId, tier = 1, used = null) {
+    const candidates = [];
+    const tryTier = (t, tries) => {
+      for (let k = 0; k < tries; k++) {
+        let q = null;
+        try { q = this.generateForChapter(chapterId, t); } catch (e) { q = null; }
+        if (!q || !q.statement) continue;
+        if (used && used.has(q.statement)) continue;
+        if (this.isRitualQuestion(q)) return q;
+        candidates.push(q);
+      }
+      return null;
+    };
+    const start = Math.max(1, Math.min(4, tier || 1));
+    for (let t = start; t >= Math.max(1, start - 1); t--) {
+      const q = tryTier(t, t === start ? 6 : 4);
+      if (q) return q;
+    }
+    if (!candidates.length) {
+      let q = null;
+      try { q = this.generateForChapter(chapterId, start); } catch (e) { q = null; }
+      return q;
+    }
+    const calc = q => (this._ritualNeedsCalculator(q) ? 1 : 0);
+    candidates.sort((a, b) => (calc(a) - calc(b)) || (this._ritualLength(a) - this._ritualLength(b)));
+    if (calc(candidates[0])) {
+      // Sans calculatrice avant tout : paliers plus bas, en acceptant un énoncé plus long
+      for (let t = start - 2; t >= 1; t--) {
+        for (let k = 0; k < 6; k++) {
+          let q = null;
+          try { q = this.generateForChapter(chapterId, t); } catch (e) { q = null; }
+          if (q && q.statement && !(used && used.has(q.statement)) && !this._ritualNeedsCalculator(q)) return q;
+        }
+      }
+    }
+    return candidates[0];
+  },
+
+  /**
    * Génère une série de N questions aléatoires pour un ou plusieurs chapitres
    * avec une progression de difficulté automatique et calibrée (Paliers 1 à 4)
    * et renouvellement garanti à chaque tirage.
+   * Option `ritual` : questions de rituel (sans calculatrice, énoncé court), voir pickRitualQuestion.
    */
-  generateSeries(chapterIds = ['N1'], count = 5) {
+  generateSeries(chapterIds = ['N1'], count = 5, options = {}) {
+    const ritual = !!(options && options.ritual);
     const series = [];
     const usedStatementsInSeries = new Set();
     const validChaps = (chapterIds && chapterIds.length) ? chapterIds : ['N1'];
@@ -519,7 +679,7 @@ window.MathsGenerators = {
     // Répartition équilibrée et aléatoire des chapitres sélectionnés
     let chapterPlan = [];
     while (chapterPlan.length < count) {
-      const batch = [...validChaps].sort(() => Math.random() - 0.5);
+      const batch = this.shuffle(validChaps);
       chapterPlan = chapterPlan.concat(batch);
     }
     chapterPlan = chapterPlan.slice(0, count);
@@ -545,9 +705,9 @@ window.MathsGenerators = {
         tier = Math.max(1, Math.min(4, tier + delta));
       }
 
-      let q = this.generateForChapter(cid, tier);
+      let q = ritual ? this.pickRitualQuestion(cid, tier, usedStatementsInSeries) : this.generateForChapter(cid, tier);
       let attempts = 0;
-      while (q && q.statement && usedStatementsInSeries.has(q.statement) && attempts < 16) {
+      while (!ritual && q && q.statement && usedStatementsInSeries.has(q.statement) && attempts < 16) {
         // En cas de doublon, tenter soit une nouvelle génération sur ce palier, soit un palier alternatif
         const altTier = attempts < 5 ? tier : ((attempts % 4) + 1);
         q = this.generateForChapter(cid, altTier);

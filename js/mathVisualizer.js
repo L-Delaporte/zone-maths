@@ -63,10 +63,6 @@
       this.ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
     },
 
-    setMode(mode) {
-      this.switchMode(mode);
-    },
-
     switchMode(mode) {
       if (!mode) mode = 'torus';
       this.activeMode = mode;

@@ -13,14 +13,15 @@
 
   const PROOF_COURSES = {
     "L1-PRF": {
-      "title": "L1-PRF : Démonstrations fondamentales de L1 (Analyse & Algèbre)",
+      "title": "L1-PRF : Démonstrations fondamentales de L1 (analyse et algèbre)",
       "level": "L1",
       "objectives": [
         "Rédiger une démonstration complète du théorème des valeurs intermédiaires par dichotomie, en justifiant chaque passage à la limite.",
         "Construire une extraction convergente (Bolzano-Weierstrass) en explicitant le choix des indices $\\varphi(k)$.",
         "Démontrer les théorèmes de Rolle et des accroissements finis à partir du théorème des bornes atteintes.",
         "Démontrer le théorème du rang à l'aide du théorème de la base incomplète.",
-        "Repérer l'hypothèse utilisée à chaque étape d'une preuve et produire un contre-exemple lorsqu'elle manque."
+        "Repérer l'hypothèse utilisée à chaque étape d'une preuve et produire un contre-exemple lorsqu'elle manque.",
+        "Connaître l'argument des preuves courtes classiques de L1 et savoir où chacune est rédigée."
       ],
       "keyPoints": [
         {
@@ -38,6 +39,10 @@
         {
           "title": "4. Théorème du rang pour les applications linéaires",
           "content": "• **Énoncé** : soient $E, F$ deux $\\mathbb{K}$-espaces vectoriels, $E$ de dimension finie $n$, et $u \\in \\mathcal{L}(E, F)$. Alors $\\mathrm{Im}(u)$ est de dimension finie et\n$$\\dim E = \\dim \\ker u + \\mathrm{rg}(u).$$\n\n• **Démonstration (base incomplète)** :\n1. $\\ker u$ est un sous-espace de $E$, de dimension $k \\le n$ ; soit $(e_1, \\dots, e_k)$ une base de $\\ker u$ (famille vide si $k = 0$).\n2. Par le théorème de la base incomplète, on la complète en une base $(e_1, \\dots, e_n)$ de $E$.\n3. **Famille génératrice** : pour $x = \\sum_{i=1}^{n} \\lambda_i e_i$, on a $u(x) = \\sum_{i=k+1}^{n} \\lambda_i u(e_i)$ puisque $u(e_i) = 0$ pour $i \\le k$ ; donc $(u(e_{k+1}), \\dots, u(e_n))$ engendre $\\mathrm{Im}(u)$.\n4. **Famille libre** : si $\\sum_{i=k+1}^{n} \\mu_i u(e_i) = 0$, alors $v = \\sum_{i=k+1}^{n} \\mu_i e_i$ vérifie $u(v) = 0$, donc $v \\in \\ker u$ et il existe $\\nu_1, \\dots, \\nu_k$ tels que $v = \\sum_{j=1}^{k} \\nu_j e_j$. Ainsi $\\sum_{j=1}^{k} \\nu_j e_j - \\sum_{i=k+1}^{n} \\mu_i e_i = 0$ ; la famille $(e_1, \\dots, e_n)$ étant libre, tous les coefficients sont nuls, en particulier $\\mu_{k+1} = \\dots = \\mu_n = 0$.\n5. $(u(e_{k+1}), \\dots, u(e_n))$ est donc une base de $\\mathrm{Im}(u)$ et $\\mathrm{rg}(u) = n - k$.\n\n• **Forme géométrique** : $u$ induit un isomorphisme de tout supplémentaire de $\\ker u$ dans $E$ sur $\\mathrm{Im}(u)$.\n• **Conséquence** : si $\\dim E = \\dim F < +\\infty$, alors $u$ injective $\\iff$ $u$ surjective $\\iff$ $u$ bijective. C'est faux en dimension infinie : la dérivation $P \\mapsto P'$ de $\\mathbb{R}[X]$ est surjective mais pas injective."
+        },
+        {
+          "title": "5. Autres démonstrations classiques de L1",
+          "content": "Les exercices de ce chapitre portent aussi sur des preuves courtes. Voici l'argument de chacune et l'endroit où elle est rédigée.\n\n• **Unicité de la limite** (chapitre L1-SUI, section 1) : si $u_n \\to \\ell$ et $u_n \\to \\ell'$ avec $\\ell \\ne \\ell'$, on applique la définition avec $\\varepsilon$ petit devant $|\\ell - \\ell'|$, puis l'inégalité triangulaire. Avec des inégalités strictes, $\\varepsilon = \\frac{|\\ell - \\ell'|}{2}$ donne $|\\ell - \\ell'| < |\\ell - \\ell'|$ ; avec des inégalités larges, on prend $\\varepsilon = \\frac{|\\ell - \\ell'|}{3}$.\n• **Irrationalité de $\\sqrt{2}$** (chapitre L1-REL, section 3) : de $p^2 = 2q^2$ on tire que $p$ est pair, car le carré d'un entier impair est impair (contraposée), puis que $q$ est pair, ce qui contredit l'irréductibilité de $\\frac{p}{q}$.\n• **Infinité des nombres premiers** : si $p_1, \\dots, p_n$ étaient tous les nombres premiers, l'entier $N = p_1 \\cdots p_n + 1 \\ge 2$ aurait un diviseur premier $p$. Si $p$ était l'un des $p_i$, il diviserait $N - p_1 \\cdots p_n = 1$, ce qui est impossible. On ne prétend pas que $N$ soit premier.\n• **Somme géométrique** : pour $q \\ne 1$ et $S_n = 1 + q + \\dots + q^n$, on a $S_n - q S_n = 1 - q^{n+1}$, donc $S_n = \\frac{1 - q^{n+1}}{1 - q}$.\n• **Inégalité triangulaire** (énoncée au chapitre L1-REL, section 1) : $(|x| + |y|)^2 - |x + y|^2 = 2(|xy| - xy) \\ge 0$, et les deux nombres comparés sont positifs, ce qui permet de conclure sans carrés.\n• **Limite monotone** (chapitre L1-SUI, section 3) : $\\ell = \\sup \\{u_n\\}$ étant le plus petit majorant, $\\ell - \\varepsilon$ ne majore pas la suite ; la croissance donne ensuite $\\ell - \\varepsilon < u_n \\le \\ell$ à partir d'un certain rang.\n• **Récurrence** (chapitre L1-LOG, section 2) : l'hérédité doit être démontrée pour **tout** rang à partir de l'initialisation, y compris le plus petit ; une preuve qui ne fonctionne qu'à partir du rang suivant ne démontre rien.\n• **Composée injective** (chapitre L1-LOG, section 4) : si $g \\circ f$ est injective, alors $f$ est injective ; $g$ ne l'est pas forcément.\n• **Inégalité de Cauchy-Schwarz** (preuve complète et cas d'égalité : chapitre L2-PRF, section 1) : si $y \\ne 0$, $P(t) = \\|x + t y\\|^2$ est un trinôme du second degré positif sur $\\mathbb{R}$, donc de discriminant négatif ou nul ; le cas $y = 0$ se traite à part."
         }
       ],
       "methods": [
@@ -97,11 +102,11 @@
         },
         {
           "title": "2. Théorème spectral pour les endomorphismes symétriques réels",
-          "content": "• **Énoncé** : soit $E$ un espace euclidien de dimension $n \\ge 1$ et $u \\in \\mathcal{L}(E)$ **symétrique** ($\\langle u(x), y \\rangle = \\langle x, u(y) \\rangle$ pour tous $x, y$). Alors $E$ admet une base orthonormée formée de vecteurs propres de $u$. Version matricielle : pour $A \\in \\mathcal{S}_n(\\mathbb{R})$, il existe $P \\in O_n(\\mathbb{R})$ telle que $P^{-1} A P = P^{\\top} A P$ soit diagonale.\n\n• **Démonstration (récurrence sur $n$)** :\n1. **Existence d'une valeur propre réelle** : soit $A$ la matrice de $u$ dans une base **orthonormée** ; elle est réelle et symétrique. Par le théorème de d'Alembert-Gauss, $\\chi_A$ a une racine $\\lambda \\in \\mathbb{C}$ ; soit $X \\in \\mathbb{C}^n \\setminus \\{0\\}$ avec $A X = \\lambda X$. D'une part $\\bar{X}^{\\top} A X = \\lambda \\, \\bar{X}^{\\top} X$. D'autre part, $A$ étant réelle et symétrique, $\\bar{X}^{\\top} A X = (A \\bar{X})^{\\top} X = (\\overline{A X})^{\\top} X = \\bar{\\lambda} \\, \\bar{X}^{\\top} X$. Comme $\\bar{X}^{\\top} X = \\sum |x_i|^2 > 0$, on obtient $\\lambda = \\bar{\\lambda}$, donc $\\lambda \\in \\mathbb{R}$, et la matrice réelle $A - \\lambda I_n$ n'est pas inversible : $u$ a un vecteur propre dans $E$.\n2. **Initialisation** : si $n = 1$, tout vecteur unitaire convient.\n3. **Stabilité de l'orthogonal** : soit $e_1$ un vecteur propre unitaire, $u(e_1) = \\lambda_1 e_1$, et $H = \\{e_1\\}^{\\perp}$, de dimension $n - 1$. Pour $y \\in H$ : $\\langle u(y), e_1 \\rangle = \\langle y, u(e_1) \\rangle = \\lambda_1 \\langle y, e_1 \\rangle = 0$, donc $u(H) \\subset H$.\n4. **Hérédité** : l'endomorphisme induit $u_H$ est symétrique pour le produit scalaire restreint à $H$ ; par hypothèse de récurrence, $H$ admet une base orthonormée $(e_2, \\dots, e_n)$ de vecteurs propres de $u_H$, donc de $u$.\n5. La famille $(e_1, \\dots, e_n)$ est orthonormée (car $e_1 \\perp H$) et formée de vecteurs propres de $u$.\n\n• **Complément** : des sous-espaces propres associés à des valeurs propres distinctes sont orthogonaux, car $\\lambda \\langle x, y \\rangle = \\langle u(x), y \\rangle = \\langle x, u(y) \\rangle = \\mu \\langle x, y \\rangle$.\n• **Contre-exemple** : la matrice complexe symétrique $\\begin{pmatrix} 1 & i \\\\ i & -1 \\end{pmatrix}$ a un carré nul sans être nulle : elle n'est pas diagonalisable. L'hypothèse « réelle » est indispensable (l'analogue complexe porte sur les matrices hermitiennes)."
+          "content": "• **Énoncé** : soit $E$ un espace euclidien de dimension $n \\ge 1$ et $u \\in \\mathcal{L}(E)$ **symétrique** ($\\langle u(x), y \\rangle = \\langle x, u(y) \\rangle$ pour tous $x, y$). Alors $E$ admet une base orthonormée formée de vecteurs propres de $u$. Version matricielle : pour $A \\in \\mathcal{S}_n(\\mathbb{R})$, il existe $P \\in O_n(\\mathbb{R})$ telle que $P^{-1} A P = {}^t P A P$ soit diagonale.\n\n• **Démonstration (récurrence sur $n$)** :\n1. **Existence d'une valeur propre réelle** : soit $A$ la matrice de $u$ dans une base **orthonormée** ; elle est réelle et symétrique. Par le théorème de d'Alembert-Gauss, $\\chi_A$ a une racine $\\lambda \\in \\mathbb{C}$ ; soit $X \\in \\mathbb{C}^n \\setminus \\{0\\}$ avec $A X = \\lambda X$. D'une part ${}^t\\bar{X} A X = \\lambda \\, {}^t\\bar{X} X$. D'autre part, $A$ étant réelle et symétrique, ${}^t\\bar{X} A X = {}^t(A \\bar{X}) X = {}^t(\\overline{A X}) X = \\bar{\\lambda} \\, {}^t\\bar{X} X$. Comme ${}^t\\bar{X} X = \\sum |x_i|^2 > 0$, on obtient $\\lambda = \\bar{\\lambda}$, donc $\\lambda \\in \\mathbb{R}$, et la matrice réelle $A - \\lambda I_n$ n'est pas inversible : $u$ a un vecteur propre dans $E$.\n2. **Initialisation** : si $n = 1$, tout vecteur unitaire convient.\n3. **Stabilité de l'orthogonal** : soit $e_1$ un vecteur propre unitaire, $u(e_1) = \\lambda_1 e_1$, et $H = \\{e_1\\}^{\\perp}$, de dimension $n - 1$. Pour $y \\in H$ : $\\langle u(y), e_1 \\rangle = \\langle y, u(e_1) \\rangle = \\lambda_1 \\langle y, e_1 \\rangle = 0$, donc $u(H) \\subset H$.\n4. **Hérédité** : l'endomorphisme induit $u_H$ est symétrique pour le produit scalaire restreint à $H$ ; par hypothèse de récurrence, $H$ admet une base orthonormée $(e_2, \\dots, e_n)$ de vecteurs propres de $u_H$, donc de $u$.\n5. La famille $(e_1, \\dots, e_n)$ est orthonormée (car $e_1 \\perp H$) et formée de vecteurs propres de $u$.\n\n• **Complément** : des sous-espaces propres associés à des valeurs propres distinctes sont orthogonaux, car $\\lambda \\langle x, y \\rangle = \\langle u(x), y \\rangle = \\langle x, u(y) \\rangle = \\mu \\langle x, y \\rangle$.\n• **Contre-exemple** : la matrice complexe symétrique $\\begin{pmatrix} 1 & i \\\\ i & -1 \\end{pmatrix}$ a un carré nul sans être nulle : elle n'est pas diagonalisable. L'hypothèse « réelle » est indispensable (l'analogue complexe porte sur les matrices hermitiennes)."
         },
         {
           "title": "3. Théorème de Cayley-Hamilton (preuve par la comatrice)",
-          "content": "• **Énoncé** : pour $A \\in \\mathcal{M}_n(\\mathbb{K})$ et $\\chi_A(X) = \\det(X I_n - A) = \\sum_{k=0}^{n} a_k X^k$ (avec $a_n = 1$), on a\n$$\\chi_A(A) = \\sum_{k=0}^{n} a_k A^k = 0.$$\n\n• **Démonstration** :\n1. La relation $M \\, \\mathrm{com}(M)^{\\top} = \\det(M) \\, I_n$ est valable pour toute matrice $M$ à coefficients dans un anneau commutatif, en particulier dans $\\mathbb{K}[X]$. Avec $M = X I_n - A$ et $B(X) = \\mathrm{com}(X I_n - A)^{\\top}$ : $(X I_n - A) \\, B(X) = \\chi_A(X) \\, I_n$.\n2. Les coefficients de $B(X)$ sont des cofacteurs, déterminants de taille $n - 1$ dont les coefficients sont de degré au plus 1 : ils sont de degré au plus $n - 1$. On écrit $B(X) = \\sum_{k=0}^{n-1} X^k B_k$ avec $B_k \\in \\mathcal{M}_n(\\mathbb{K})$.\n3. En développant et en identifiant les coefficients (matriciels) de chaque puissance de $X$ :\n$$-A B_0 = a_0 I_n, \\qquad B_{k-1} - A B_k = a_k I_n \\ (1 \\le k \\le n - 1), \\qquad B_{n-1} = I_n.$$\n4. On multiplie à gauche la relation d'indice $k$ par $A^k$ et on additionne :\n$$\\chi_A(A) = -A B_0 + \\sum_{k=1}^{n-1} \\left( A^k B_{k-1} - A^{k+1} B_k \\right) + A^n B_{n-1}.$$\nLa somme centrale est télescopique et vaut $A B_0 - A^n B_{n-1}$ : il reste $\\chi_A(A) = 0$.\n\n• **Sophisme à éviter** : « $\\chi_A(A) = \\det(A I_n - A) = \\det(0) = 0$ » est faux : $\\chi_A(A)$ est une **matrice** obtenue en substituant $A$ dans le polynôme développé, alors que le calcul proposé produit un scalaire.\n• **Application** : si $A$ est inversible, $a_0 = \\chi_A(0) = (-1)^n \\det A \\ne 0$ et $A^{-1} = -\\frac{1}{a_0} \\left( A^{n-1} + a_{n-1} A^{n-2} + \\dots + a_1 I_n \\right)$."
+          "content": "• **Énoncé** : pour $A \\in \\mathcal{M}_n(\\mathbb{K})$ et $\\chi_A(X) = \\det(X I_n - A) = \\sum_{k=0}^{n} a_k X^k$ (avec $a_n = 1$), on a\n$$\\chi_A(A) = \\sum_{k=0}^{n} a_k A^k = 0.$$\n\n• **Démonstration** :\n1. La relation $M \\, {}^t\\mathrm{com}(M) = \\det(M) \\, I_n$ est valable pour toute matrice $M$ à coefficients dans un anneau commutatif, en particulier dans $\\mathbb{K}[X]$. Avec $M = X I_n - A$ et $B(X) = {}^t\\mathrm{com}(X I_n - A)$ : $(X I_n - A) \\, B(X) = \\chi_A(X) \\, I_n$.\n2. Les coefficients de $B(X)$ sont des cofacteurs, déterminants de taille $n - 1$ dont les coefficients sont de degré au plus 1 : ils sont de degré au plus $n - 1$. On écrit $B(X) = \\sum_{k=0}^{n-1} X^k B_k$ avec $B_k \\in \\mathcal{M}_n(\\mathbb{K})$.\n3. En développant et en identifiant les coefficients (matriciels) de chaque puissance de $X$ :\n$$-A B_0 = a_0 I_n, \\qquad B_{k-1} - A B_k = a_k I_n \\ (1 \\le k \\le n - 1), \\qquad B_{n-1} = I_n.$$\n4. On multiplie à gauche la relation d'indice $k$ par $A^k$ et on additionne :\n$$\\chi_A(A) = -A B_0 + \\sum_{k=1}^{n-1} \\left( A^k B_{k-1} - A^{k+1} B_k \\right) + A^n B_{n-1}.$$\nLa somme centrale est télescopique et vaut $A B_0 - A^n B_{n-1}$ : il reste $\\chi_A(A) = 0$.\n\n• **Sophisme à éviter** : « $\\chi_A(A) = \\det(A I_n - A) = \\det(0) = 0$ » est faux : $\\chi_A(A)$ est une **matrice** obtenue en substituant $A$ dans le polynôme développé, alors que le calcul proposé produit un scalaire.\n• **Application** : si $A$ est inversible, $a_0 = \\chi_A(0) = (-1)^n \\det A \\ne 0$ et $A^{-1} = -\\frac{1}{a_0} \\left( A^{n-1} + a_{n-1} A^{n-2} + \\dots + a_1 I_n \\right)$."
         },
         {
           "title": "4. Lemme d'Abel et rayon de convergence",
@@ -141,7 +146,7 @@
         },
         {
           "q": "Quelle identité est le point de départ de la preuve de Cayley-Hamilton par la comatrice ?",
-          "a": "$(X I_n - A) \\, \\mathrm{com}(X I_n - A)^{\\top} = \\chi_A(X) \\, I_n$, valable dans $\\mathcal{M}_n(\\mathbb{K}[X])$."
+          "a": "$(X I_n - A) \\, {}^t\\mathrm{com}(X I_n - A) = \\chi_A(X) \\, I_n$, valable dans $\\mathcal{M}_n(\\mathbb{K}[X])$."
         },
         {
           "q": "Que donne le lemme d'Abel si $(a_n z_0^n)$ est bornée ?",
@@ -231,18 +236,19 @@
         chapterId: 'L1-PRF',
         tier: 1,
         title: "TVI : Hypothèse indispensable de continuité",
-        statement: "Dans le Théorème des Valeurs Intermédiaires (TVI), quelle hypothèse sur la fonction $f : [a, b] \\to \\mathbb{R}$ est **indispensable** pour garantir l'existence d'une racine lorsque $f(a)f(b) < 0$ ?",
+        statement: "Dans le Théorème des Valeurs Intermédiaires (TVI), quelle hypothèse sur la fonction $f : [a ; b] \\to \\mathbb{R}$ est **indispensable** pour garantir l'existence d'une racine lorsque $f(a)f(b) < 0$ ?",
         type: "mcq",
         options: [
-          "La continuité de f sur le segment [a, b]",
-          "La dérivabilité de f sur l'intervalle ouvert ]a, b[",
-          "La stricte monotonie de f sur [a, b]",
-          "La convexité de f sur [a, b]"
+          "La continuité de $f$ sur le segment $[a ; b]$",
+          "La dérivabilité de $f$ sur l'intervalle ouvert $]a ; b[$",
+          "La stricte monotonie de $f$ sur $[a ; b]$",
+          "La convexité de $f$ sur $[a ; b]$"
         ],
         correctIndex: 0,
-        answer: "La continuité de f sur le segment [a, b]",
-        hint1: "Si une fonction fait un 'saut' sans être continue (ex: fonction signe), elle peut passer du négatif au positif sans jamais s'annuler.",
-        solution: "La continuité est indispensable : la fonction définie par $f(x) = -1$ sur $[0, 1[$ et $f(1) = 1$ vérifie $f(0)f(1) = -1 < 0$, mais ne s'annule jamais sur $[0, 1]$ car elle n'est pas continue en 1."
+        answer: "La continuité de $f$ sur le segment $[a ; b]$",
+        hint1: "Si une fonction fait un « saut » sans être continue (par exemple $f(x) = -1$ si $x < 0$ et $f(x) = 1$ si $x \\ge 0$, sur $[-1 ; 1]$), elle peut passer du négatif au positif sans jamais s'annuler.",
+        hint2: "Relis la preuve par dichotomie : quelle propriété de $f$ permet de passer à la limite dans $f(a_n) \\le 0 \\le f(b_n)$ ?",
+        solution: "La continuité est indispensable : la fonction définie par $f(x) = -1$ sur $[0 ; 1[$ et $f(1) = 1$ vérifie $f(0)f(1) = -1 < 0$, mais ne s'annule jamais sur $[0 ; 1]$ car elle n'est pas continue en 1."
       },
       {
         id: 'L1-PRF-2',
@@ -260,7 +266,8 @@
         correctIndex: 0,
         answer: "Bornée",
         hint1: "La suite $u_n = n$ ne possède aucune sous-suite convergente car elle n'est pas bornée.",
-        solution: "L'hypothèse essentielle est que $(u_n)$ soit bornée. Cela garantit qu'elle est confinée dans un segment compact $[a, b]$, sur lequel la méthode de dichotomie s'applique."
+        hint2: "La preuve commence par enfermer tous les termes de la suite dans un même segment $[a_0 ; b_0]$ : quelle propriété de la suite le permet ?",
+        solution: "L'hypothèse essentielle est que $(u_n)$ soit bornée. Cela garantit qu'elle est confinée dans un segment compact $[a ; b]$, sur lequel la méthode de dichotomie s'applique."
       },
       // Palier 2 : Guidé - Lemmes d'articulation
       {
@@ -268,7 +275,7 @@
         chapterId: 'L1-PRF',
         tier: 2,
         title: "TVI par dichotomie : Vitesse de convergence de la longueur",
-        statement: "Dans la démonstration du TVI par dichotomie sur le segment initial $[a, b]$, quelle est la longueur du segment $[a_n, b_n]$ à l'étape $n$ ?",
+        statement: "Dans la démonstration du TVI par dichotomie sur le segment initial $[a ; b]$, quelle est la longueur du segment $[a_n ; b_n]$ à l'étape $n$ ?",
         type: "mcq",
         options: [
           "$$\\frac{b - a}{2^n}$$",
@@ -279,6 +286,7 @@
         correctIndex: 0,
         answer: "$$\\frac{b - a}{2^n}$$",
         hint1: "À chaque étape, on coupe le segment en deux moitiés égales.",
+        hint2: "Exprime $b_{n+1} - a_{n+1}$ en fonction de $b_n - a_n$ : quelle est la nature de la suite $(b_n - a_n)$ ?",
         solution: "À chaque étape, la longueur est divisée par 2 : $b_n - a_n = \\frac{b-a}{2^n}$. Comme $2^n \\to +\\infty$, cette longueur tend géométriquement vers 0, ce qui démontre que $(a_n)$ et $(b_n)$ sont adjacentes."
       },
       {
@@ -289,14 +297,15 @@
         statement: "Soit $u \\in \\mathcal{L}(E, F)$ avec $\\dim(E) = n$ et $(e_1, \\dots, e_k)$ une base de $\\ker(u)$ complétée en une base $(e_1, \\dots, e_n)$ de $E$. Pourquoi la famille $(u(e_{k+1}), \\dots, u(e_n))$ est-elle libre ?",
         type: "mcq",
         options: [
-          "Car si $\\sum_{i=k+1}^n \\lambda_i u(e_i) = 0$, alors $\\sum_{i=k+1}^n \\lambda_i e_i \\in \\ker(u)$, ce qui impose $\\lambda_i = 0$ par indépendance de la base de E",
-          "Car l'application u est injective sur E tout entier",
-          "Car dim(F) est nécessairement supérieure ou égale à n",
-          "Car u est un isomorphisme"
+          "Car si $\\sum_{i=k+1}^n \\lambda_i u(e_i) = 0$, alors $\\sum_{i=k+1}^n \\lambda_i e_i \\in \\ker(u)$, ce qui impose $\\lambda_i = 0$ par indépendance de la base de $E$",
+          "Car l'application $u$ est injective sur $E$ tout entier",
+          "Car $\\dim(F)$ est nécessairement supérieure ou égale à $n$",
+          "Car $u$ est un isomorphisme"
         ],
         correctIndex: 0,
-        answer: "Car si $\\sum_{i=k+1}^n \\lambda_i u(e_i) = 0$, alors $\\sum_{i=k+1}^n \\lambda_i e_i \\in \\ker(u)$, ce qui impose $\\lambda_i = 0$ par indépendance de la base de E",
+        answer: "Car si $\\sum_{i=k+1}^n \\lambda_i u(e_i) = 0$, alors $\\sum_{i=k+1}^n \\lambda_i e_i \\in \\ker(u)$, ce qui impose $\\lambda_i = 0$ par indépendance de la base de $E$",
         hint1: "Si $\\sum_{i>k} \\lambda_i u(e_i) = 0$, la linéarité donne $u\\left(\\sum_{i>k} \\lambda_i e_i\\right) = 0$ : où se trouve alors $\\sum_{i>k} \\lambda_i e_i$, et que donne son écriture dans la base $(e_1, \\dots, e_k)$ ?",
+        hint2: "Écris $\\sum_{i>k} \\lambda_i e_i = \\sum_{j \\le k} \\nu_j e_j$, puis fais tout passer dans un même membre : quelle propriété de $(e_1, \\dots, e_n)$ peux-tu alors utiliser ?",
         solution: "Par linéarité, $\\sum_{i=k+1}^n \\lambda_i u(e_i) = u(\\sum_{i=k+1}^n \\lambda_i e_i) = 0$, donc $v = \\sum_{i=k+1}^n \\lambda_i e_i \\in \\ker(u) = \\mathrm{Vect}(e_1, \\dots, e_k)$. Comme $(e_1, \\dots, e_n)$ est libre, les coordonnées sur les deux sous-espaces en somme directe sont toutes nulles : $\\lambda_i = 0$."
       },
       // Palier 3 : Examen - Détection de sophismes
@@ -308,14 +317,15 @@
         statement: "Un étudiant écrit : *« Comme $a_n \\to c$ avec $f(a_n) < 0$ pour tout $n$, on a nécessairement $f(c) < 0$ »*. Quels sont les **deux sophismes** commis dans cette déduction ?",
         type: "mcq",
         options: [
-          "Le passage à la limite préserve les inégalités larges ($\\le 0$ et non $< 0$) et suppose que f est continue en c",
-          "Le théorème des suites adjacentes n'autorise pas la convergence vers c",
-          "La suite an ne peut pas être croissante",
-          "Il est interdit d'appliquer la fonction f aux termes de la suite"
+          "Le passage à la limite préserve les inégalités larges ($\\le 0$ et non $< 0$) et suppose que $f$ est continue en $c$",
+          "Le théorème des suites adjacentes n'autorise pas la convergence vers $c$",
+          "La suite $(a_n)$ ne peut pas être croissante",
+          "Il est interdit d'appliquer la fonction $f$ aux termes de la suite"
         ],
         correctIndex: 0,
-        answer: "Le passage à la limite préserve les inégalités larges ($\\le 0$ et non $< 0$) et suppose que f est continue en c",
+        answer: "Le passage à la limite préserve les inégalités larges ($\\le 0$ et non $< 0$) et suppose que $f$ est continue en $c$",
         hint1: "Pense à la suite $u_n = -\\frac{1}{n} < 0$ : sa limite est $0$, une inégalité stricte peut donc devenir large à la limite. Et l'égalité $\\lim f(a_n) = f(\\lim a_n)$ demande une hypothèse sur $f$ : laquelle ?",
+        hint2: "Prends $f = -1$ sur $[0 ; 1[$, $f(1) = 1$ et $a_n = 1 - \\frac{1}{n+1}$ : compare les signes de $f(a_n)$ et de $f(1)$.",
         solution: "1. Le passage à la limite change les inégalités strictes en inégalités larges : $x_n < 0 \\implies \\lim x_n \\le 0$.\n2. On ne peut écrire $\\lim f(a_n) = f(c)$ que si $f$ est continue en $c$."
       },
       // Palier 4 : Rigueur - Reconstitution complète
@@ -324,8 +334,9 @@
         chapterId: 'L1-PRF',
         tier: 4,
         title: "Reconstitution : Ordre des étapes de Bolzano-Weierstrass",
-        statement: "Pour prouver le théorème de Bolzano-Weierstrass par dichotomie, quel est l'enchaînement logique rigoureux ?\n\n1. Extraction d'une sous-suite d'indices $\\varphi(k+1) > \\varphi(k)$\n2. Encadrement dans un segment initial borné $[a_0, b_0]$\n3. Division par deux et application du principe des tiroirs\n4. Conclusion par le théorème des segments emboîtés ($u_{\\varphi(k)} \\to \\ell$)",
-        type: "mcq",
+        statement: "Pour prouver le théorème de Bolzano-Weierstrass par dichotomie, quel est l'enchaînement logique rigoureux ?\n\n1. Extraction d'une sous-suite d'indices $\\varphi(k+1) > \\varphi(k)$\n2. Encadrement dans un segment initial borné $[a_0 ; b_0]$\n3. Division par deux et application du principe des tiroirs\n4. Conclusion par le théorème des suites adjacentes appliqué aux bornes $(a_k)$ et $(b_k)$ ($u_{\\varphi(k)} \\to \\ell$)",
+        type: "order",
+        orderSteps: ["Extraction d'une sous-suite d'indices $\\varphi(k+1) > \\varphi(k)$", "Encadrement dans un segment initial borné $[a_0 ; b_0]$", "Division par deux et application du principe des tiroirs", "Conclusion par le théorème des suites adjacentes appliqué aux bornes $(a_k)$ et $(b_k)$ ($u_{\\varphi(k)} \\to \\ell$)"],
         options: [
           "Étape 2 → Étape 3 → Étape 1 → Étape 4",
           "Étape 1 → Étape 2 → Étape 3 → Étape 4",
@@ -335,7 +346,8 @@
         correctIndex: 0,
         answer: "Étape 2 → Étape 3 → Étape 1 → Étape 4",
         hint1: "Demande-toi ce dont chaque étape a besoin : peut-on couper un segment en deux avant de l'avoir construit ? peut-on choisir $\\varphi(k+1)$ avant de connaître le segment de l'étape $k+1$ ?",
-        solution: "L'ordre logique canonique est :\n1. Confinement initial dans $[a_0, b_0]$ car la suite est bornée (Étape 2).\n2. Construction des segments emboîtés par dichotomie et tiroirs (Étape 3).\n3. Choix itératif des indices croissants $\\varphi(k)$ (Étape 1).\n4. Convergence de la sous-suite vers le point d'intersection unique (Étape 4)."
+        hint2: "Commence par l'étape qui utilise l'hypothèse « suite bornée » ; demande-toi ensuite quel objet doit déjà exister pour choisir un indice au rang $k+1$.",
+        solution: "L'ordre logique canonique est :\n1. Confinement initial dans $[a_0 ; b_0]$ car la suite est bornée (Étape 2).\n2. Construction des segments emboîtés par dichotomie et tiroirs (Étape 3).\n3. Choix itératif des indices croissants $\\varphi(k)$ (Étape 1).\n4. Les suites $(a_k)$ et $(b_k)$ des bornes sont adjacentes : elles convergent vers une même limite $\\ell$, et $a_k \\le u_{\\varphi(k)} \\le b_k$ donne $u_{\\varphi(k)} \\to \\ell$ (Étape 4)."
       },
       // Compléments : démonstrations classiques de L1 (paliers 1 à 4)
       {
@@ -462,20 +474,20 @@
         id: 'L1-PRF-13',
         chapterId: 'L1-PRF',
         tier: 3,
-        title: "Chasse aux sophismes : « N = p₁⋯pₙ + 1 est premier »",
+        title: "Chasse aux sophismes : « N = p₁⋯pₙ + 1 est premier », une étape non justifiée",
         statement: "Un étudiant rédige ainsi la preuve d'Euclide : *« Supposons qu'il n'y ait qu'un nombre fini de premiers $p_1, \\dots, p_n$. Alors $N = p_1 \\cdots p_n + 1$ n'est divisible par aucun $p_i$, donc $N$ est un nombre premier, différent des $p_i$ : contradiction. »* Que penser de cette rédaction ?",
         type: "mcq",
         options: [
-          "L'affirmation « $N$ est premier » n'est pas justifiée et fausse en général ($2 \\cdot 3 \\cdot 5 \\cdot 7 \\cdot 11 \\cdot 13 + 1 = 59 \\times 509$) ; la conclusion correcte est que $N$ a un diviseur premier hors de la liste",
+          "L'étape « $N$ est premier » n'est pas justifiée : elle repose sur l'existence d'un diviseur premier de $N$, qui ne peut être aucun des $p_i$ ; hors de l'hypothèse, l'affirmation est d'ailleurs fausse ($2 \\cdot 3 \\cdot 5 \\cdot 7 \\cdot 11 \\cdot 13 + 1 = 59 \\times 509$)",
           "La rédaction est parfaitement correcte",
           "L'erreur est que $N$ peut être divisible par l'un des $p_i$",
           "L'erreur est qu'il faudrait poser $N = p_1 \\cdots p_n - 1$"
         ],
         correctIndex: 0,
-        answer: "L'affirmation « $N$ est premier » n'est pas justifiée et fausse en général ($2 \\cdot 3 \\cdot 5 \\cdot 7 \\cdot 11 \\cdot 13 + 1 = 59 \\times 509$) ; la conclusion correcte est que $N$ a un diviseur premier hors de la liste",
-        hint1: "Testez l'affirmation sur des listes réelles de premiers consécutifs : $2$, puis $2, 3$, puis $2, 3, 5$, et ainsi de suite jusqu'à $13$.",
-        hint2: "Un entier peut n'être divisible par aucun nombre d'une liste de premiers sans être premier lui-même : il peut avoir des diviseurs premiers plus grands que ceux de la liste.",
-        solution: "Dans le cadre de l'hypothèse absurde, le raisonnement fonctionne si l'on conclut correctement : $N \\ge 2$ a un diviseur premier, qui n'est aucun des $p_i$, d'où la contradiction. En revanche, la phrase « $N$ est un nombre premier » est présentée comme un fait général, ce qui est **faux** : $2 \\times 3 \\times 5 \\times 7 \\times 11 \\times 13 + 1 = 30\\,031 = 59 \\times 509$.\nUne rédaction rigoureuse dit : **$N$ admet un diviseur premier $p$, et $p$ n'est pas dans la liste**. C'est cette version qui s'adapte aussi en preuve directe : toute liste finie de premiers peut être complétée.",
+        answer: "L'étape « $N$ est premier » n'est pas justifiée : elle repose sur l'existence d'un diviseur premier de $N$, qui ne peut être aucun des $p_i$ ; hors de l'hypothèse, l'affirmation est d'ailleurs fausse ($2 \\cdot 3 \\cdot 5 \\cdot 7 \\cdot 11 \\cdot 13 + 1 = 59 \\times 509$)",
+        hint1: "Demande-toi quel résultat permet de passer de « aucun $p_i$ ne divise $N$ » à « $N$ est premier » : est-il énoncé dans la rédaction ?",
+        hint2: "Tout entier $N \\ge 2$ admet un diviseur premier : sous l'hypothèse absurde, où ce diviseur devrait-il se trouver ? Hors de l'hypothèse, teste l'affirmation avec $N = 2 \\cdot 3 \\cdot 5 \\cdot 7 \\cdot 11 \\cdot 13 + 1$.",
+        solution: "Sous l'hypothèse absurde, la conclusion « $N$ est premier » est en fait vraie : si $N$ était composé, il aurait un diviseur premier, forcément dans la liste, ce qui est exclu. Le défaut est que la rédaction **ne le justifie pas** : tout repose sur le fait que $N \\ge 2$ admet un diviseur premier, argument qui n'est jamais énoncé. Et prise hors de l'hypothèse, comme un fait général, l'affirmation est **fausse** : $2 \\times 3 \\times 5 \\times 7 \\times 11 \\times 13 + 1 = 30\\,031 = 59 \\times 509$ ; ce contre-exemple ne réfute donc que la généralisation, pas le raisonnement par l'absurde.\nUne rédaction rigoureuse dit : **$N \\ge 2$ admet un diviseur premier $p$, et $p$ n'est aucun des $p_i$, sinon $p$ diviserait $N - p_1 \\cdots p_n = 1$**. C'est cette version qui s'adapte aussi en preuve directe : toute liste finie de premiers peut être complétée.",
         skill: "Analyser une erreur"
       },
       {
@@ -551,9 +563,9 @@
         type: "mcq",
         options: [
           "Car ${}^t \\bar{X} A X = \\lambda \\|X\\|^2 = \\bar{\\lambda} \\|X\\|^2$ avec $\\|X\\|^2 > 0$",
-          "Car le déterminant de A est toujours strictement positif",
+          "Car le déterminant de $A$ est toujours strictement positif",
           "Car toute matrice carrée admet uniquement des valeurs propres réelles",
-          "Car la trace de A est nulle"
+          "Car la trace de $A$ est nulle"
         ],
         correctIndex: 0,
         answer: "Car ${}^t \\bar{X} A X = \\lambda \\|X\\|^2 = \\bar{\\lambda} \\|X\\|^2$ avec $\\|X\\|^2 > 0$",
@@ -588,15 +600,15 @@
         statement: "Pourquoi l'argument *« $\\chi_A(A) = \\det(A \\cdot I_n - A) = \\det(0) = 0$ »* est-il un **sophisme mathématique grossier** rejeté aux examens ?",
         type: "mcq",
         options: [
-          "Car $\\det(X I_n - A)$ est un scalaire obtenu en évaluant une indéterminée scalaire X, et non en substituant une matrice dans le déterminant",
-          "Car det(0) est différent de 0 pour les matrices carrées",
+          "Car $\\det(X I_n - A)$ est un polynôme en l'indéterminée $X$ : on y substitue $A$ après développement, et non à l'intérieur du déterminant",
+          "Car $\\det(0)$ est différent de $0$ pour les matrices carrées",
           "Car le polynôme caractéristique n'admet jamais de racine",
           "Car Cayley-Hamilton ne s'applique qu'aux matrices nilpotentes"
         ],
         correctIndex: 0,
-        answer: "Car $\\det(X I_n - A)$ est un scalaire obtenu en évaluant une indéterminée scalaire X, et non en substituant une matrice dans le déterminant",
-        hint1: "$\\chi_A(X)$ est un polynôme scalaire $P(X) = X^n + \\dots$. $P(A)$ est une matrice, alors que $\\det(0)$ est le nombre zéro !",
-        solution: "Le polynôme caractéristique $\\chi_A(X) = \\det(X I_n - A)$ est un polynôme scalaire en la variable $X$. Évaluer $\\chi_A(A)$ consiste à remplacer la variable scalaire $X$ par la matrice $A$ dans l'expression développée $\\sum a_k X^k$, ce qui donne une matrice $n \\times n$. Remplacer $X$ par $A$ à l'intérieur du déterminant n'a aucun sens mathématique (on obtiendrait un scalaire $\\det(0) = 0$ et non la matrice nulle $0_{\\mathcal{M}_n}$)."
+        answer: "Car $\\det(X I_n - A)$ est un polynôme en l'indéterminée $X$ : on y substitue $A$ après développement, et non à l'intérieur du déterminant",
+        hint1: "$\\chi_A(X)$ est un polynôme à coefficients scalaires $P(X) = X^n + \\dots$. $P(A)$ est une matrice, alors que $\\det(0)$ est le nombre zéro !",
+        solution: "Le polynôme caractéristique $\\chi_A(X) = \\det(X I_n - A)$ est un polynôme à coefficients scalaires en l'indéterminée $X$. Évaluer $\\chi_A(A)$ consiste à remplacer l'indéterminée $X$ par la matrice $A$ dans l'expression développée $\\sum a_k X^k$, ce qui donne une matrice $n \\times n$. Remplacer $X$ par $A$ à l'intérieur du déterminant ne calcule pas $\\chi_A(A)$ (on obtiendrait un scalaire $\\det(0) = 0$ et non la matrice nulle $0_{\\mathcal{M}_n}$)."
       },
       // Palier 4 : Rigueur - Dérivation sous l'intégrale
       {
@@ -604,18 +616,39 @@
         chapterId: 'L2-PRF',
         tier: 4,
         title: "Intégrales à paramètres : Hypothèse d'accroissements finis",
-        statement: "Dans la démonstration de la dérivabilité de $F(x) = \\int_I f(x, t) dt$ sous l'hypothèse de domination $|\\frac{\\partial f}{\\partial x}(x, t)| \\le g(t)$ avec $g \\in L^1(I)$, quel théorème fondamental applique-t-on au taux d'accroissement $\\frac{f(x+h, t) - f(x, t)}{h}$ ?",
+        statement: "Dans la démonstration de la dérivabilité de $F(x) = \\int_I f(x, t) dt$ sous l'hypothèse de domination $|\\frac{\\partial f}{\\partial x}(x, t)| \\le g(t)$ avec $g$ intégrable sur $I$, quel théorème fondamental applique-t-on au taux d'accroissement $\\frac{f(x+h, t) - f(x, t)}{h}$ ?",
         type: "mcq",
         options: [
-          "Le Théorème des Accroissements Finis (TAF) par rapport à la variable x pour t fixé",
-          "Le Théorème de Fubini sur le produit I × [x, x+h]",
+          "Le Théorème des Accroissements Finis (TAF) par rapport à la variable $x$ pour $t$ fixé",
+          "Le Théorème de Fubini sur le produit $I \\times [x ; x+h]$",
           "La formule d'inversion de Fourier",
           "Le Théorème de Weierstrass de densité polynomiale"
         ],
         correctIndex: 0,
-        answer: "Le Théorème des Accroissements Finis (TAF) par rapport à la variable x pour t fixé",
-        hint1: "Pour $t$ fixé, $x \\mapsto f(x, t)$ est dérivable, donc il existe $c \\in ]x, x+h[$ tel que le taux vaille la dérivée en $c$.",
-        solution: "Pour chaque $t$ fixé, la fonction $u \\mapsto f(u, t)$ est dérivable. D'après le TAF, il existe $\\theta \\in ]x, x+h[$ tel que $\\frac{f(x+h, t) - f(x, t)}{h} = \\frac{\\partial f}{\\partial x}(\\theta, t)$. La domination donne alors $|\\frac{f(x+h, t) - f(x, t)}{h}| \\le g(t)$, ce qui autorise le passage à la limite par convergence dominée."
+        answer: "Le Théorème des Accroissements Finis (TAF) par rapport à la variable $x$ pour $t$ fixé",
+        hint1: "Pour $t$ fixé, $x \\mapsto f(x, t)$ est dérivable, donc il existe $c \\in ]x ; x+h[$ tel que le taux vaille la dérivée en $c$.",
+        solution: "Pour chaque $t$ fixé, la fonction $u \\mapsto f(u, t)$ est dérivable. D'après le TAF, il existe $\\theta \\in ]x ; x+h[$ tel que $\\frac{f(x+h, t) - f(x, t)}{h} = \\frac{\\partial f}{\\partial x}(\\theta, t)$. La domination donne alors $|\\frac{f(x+h, t) - f(x, t)}{h}| \\le g(t)$, ce qui autorise le passage à la limite par convergence dominée."
+      },
+      // Palier 3 : Contre-exemple - Théorème spectral sur C
+      {
+        id: 'L2-PRF-5',
+        chapterId: 'L2-PRF',
+        tier: 3,
+        title: "Théorème spectral : l'hypothèse « réelle » est indispensable",
+        statement: "Soit $A = \\begin{pmatrix} 1 & i \\\\ i & -1 \\end{pmatrix} \\in \\mathcal{M}_2(\\mathbb{C})$, symétrique ($ {}^t A = A$) mais à coefficients complexes. Que montre le calcul de $A^2$ ?",
+        type: "mcq",
+        options: [
+          "$A^2 = 0$ et $A \\neq 0$ : $A$ est nilpotente non nulle, donc non diagonalisable ; le théorème spectral ne s'étend pas aux matrices symétriques complexes",
+          "$A^2 = I_2$ : $A$ est diagonalisable, comme le prévoit le théorème spectral",
+          "$A^2 = 2A$ : $A$ est un multiple d'un projecteur, donc diagonalisable",
+          "$A^2 = -I_2$ : les valeurs propres de $A$ sont $\\pm i$, non réelles, mais $A$ reste diagonalisable dans une base orthonormée"
+        ],
+        correctIndex: 0,
+        answer: "$A^2 = 0$ et $A \\neq 0$ : $A$ est nilpotente non nulle, donc non diagonalisable ; le théorème spectral ne s'étend pas aux matrices symétriques complexes",
+        hint1: "Calcule $A^2$ coefficient par coefficient, en utilisant $i^2 = -1$.",
+        hint2: "Le coefficient en position $(1, 1)$ de $A^2$ vaut $1 \\cdot 1 + i \\cdot i = 0$. Si tous les coefficients sont nuls, quelle est la seule valeur propre possible de $A$, et quelle serait alors la matrice diagonale semblable à $A$ ?",
+        solution: "$A^2 = \\begin{pmatrix} 1 + i^2 & i - i \\\\ i - i & i^2 + 1 \\end{pmatrix} = 0$. Donc $A$ est nilpotente : sa seule valeur propre est $0$. Si $A$ était diagonalisable, elle serait semblable à la matrice nulle, donc nulle, ce qui est faux.\nAinsi une matrice symétrique ($ {}^t A = A$) à coefficients complexes peut ne pas être diagonalisable. Dans la preuve du théorème spectral, l'étape « les valeurs propres sont réelles » utilise $\\,{}^t \\bar{X} A X = \\bar{\\lambda}\\|X\\|^2$, qui repose sur $\\bar{A} = A$ : c'est exactement ce qui manque ici. Le bon analogue complexe concerne les matrices hermitiennes ($\\,{}^t \\bar{A} = A$).",
+        skill: "Raisonner"
       }
     ],
 
@@ -626,16 +659,16 @@
         chapterId: 'L3-PRF',
         tier: 1,
         title: "TCD : Pourquoi la domination intégrable g est indispensable",
-        statement: "Considérons sur $[0, 1]$ la suite de fonctions $f_n(x) = n \\mathbf{1}_{]0, 1/n]}(x)$. On a $f_n(x) \\to 0$ simplement pour tout $x \\in [0, 1]$. Pourquoi $\\int_0^1 f_n(x) dx$ ne tend-elle pas vers $\\int_0^1 0 dx = 0$ ?",
+        statement: "Considérons sur $[0 ; 1]$ la suite de fonctions $f_n(x) = n \\mathbf{1}_{]0 ; 1/n]}(x)$. On a $f_n(x) \\to 0$ simplement pour tout $x \\in [0 ; 1]$. Pourquoi $\\int_0^1 f_n(x) dx$ ne tend-elle pas vers $\\int_0^1 0 dx = 0$ ?",
         type: "mcq",
         options: [
-          "Car il n'existe aucune fonction dominante $g \\in L^1([0, 1])$ qui majore $|f_n|$ pour tout n (la plus petite majorante, $\\lfloor 1/x \\rfloor \\ge 1/x - 1$, n'est pas intégrable)",
-          "Car l'intégrale de Lebesgue n'est pas définie sur [0, 1]",
-          "Car les fonctions fn ne sont pas boréliennes",
-          "Car l'intervalle [0, 1] n'est pas compact"
+          "Car il n'existe aucune fonction dominante $g \\in L^1([0 ; 1])$ qui majore $|f_n|$ pour tout $n$ (la plus petite majorante, $\\lfloor 1/x \\rfloor \\ge 1/x - 1$, n'est pas intégrable)",
+          "Car l'intégrale de Lebesgue n'est pas définie sur $[0 ; 1]$",
+          "Car les fonctions $f_n$ ne sont pas boréliennes",
+          "Car l'intervalle $[0 ; 1]$ n'est pas compact"
         ],
         correctIndex: 0,
-        answer: "Car il n'existe aucune fonction dominante $g \\in L^1([0, 1])$ qui majore $|f_n|$ pour tout n (la plus petite majorante, $\\lfloor 1/x \\rfloor \\ge 1/x - 1$, n'est pas intégrable)",
+        answer: "Car il n'existe aucune fonction dominante $g \\in L^1([0 ; 1])$ qui majore $|f_n|$ pour tout $n$ (la plus petite majorante, $\\lfloor 1/x \\rfloor \\ge 1/x - 1$, n'est pas intégrable)",
         hint1: "Calcule $\\int_0^1 f_n(x) dx$ : elle vaut $n \\times (1/n) = 1$ pour tout $n$, donc tend vers 1 et non 0 !",
         solution: "Pour tout $n$, $\\int_0^1 f_n = n \\times \\frac{1}{n} = 1 \\ne 0$. L'hypothèse de domination $|f_n| \\le g \\in L^1$ est en défaut : toute majorante vérifie $g \\ge \\sup_n f_n = \\lfloor 1/x \\rfloor \\ge \\frac{1}{x} - 1$ sur $]0 ; 1]$, qui n'est pas intégrable. Le TCD ne peut donc pas s'appliquer sans hypothèse de domination intégrable."
       },
@@ -644,19 +677,19 @@
         id: 'L3-PRF-2',
         chapterId: 'L3-PRF',
         tier: 2,
-        title: "Preuve du TCD : Rôle du Lemme de Fatou sur g + fn",
-        statement: "Dans la démonstration du Théorème de Convergence Dominée, pour quelle raison applique-t-on le lemme de Fatou à la suite $h_n = g + f_n$ ?",
+        title: "Preuve du TCD : Rôle du Lemme de Fatou sur $g + f_n$",
+        statement: "Le cours démontre le Théorème de Convergence Dominée en appliquant le lemme de Fatou à $2g - |f_n - f|$. Dans une variante de la preuve, pour quelle raison applique-t-on le lemme de Fatou à la suite $h_n = g + f_n$ ?",
         type: "mcq",
         options: [
           "Car le lemme de Fatou exige des fonctions positives, or $|f_n| \\le g \\implies g + f_n \\ge 0$",
-          "Car la fonction g + fn est toujours dérivable",
-          "Car g + fn est une suite de fonctions étagées",
+          "Car la fonction $g + f_n$ est toujours dérivable",
+          "Car $(g + f_n)$ est une suite de fonctions étagées",
           "Car cela permet d'éliminer la mesure de l'espace"
         ],
         correctIndex: 0,
         answer: "Car le lemme de Fatou exige des fonctions positives, or $|f_n| \\le g \\implies g + f_n \\ge 0$",
         hint1: "Le lemme de Fatou est le résultat fondamental pour les suites de fonctions positives mesurables.",
-        solution: "Le lemme de Fatou ne s'applique qu'aux suites de fonctions positives. L'hypothèse de domination $|f_n| \\le g$ p.p. assure précisément que $g + f_n \\ge 0$ et $g - f_n \\ge 0$, permettant d'obtenir les deux inégalités $\\int f \\le \\liminf \\int f_n$ et $\\limsup \\int f_n \\le \\int f$."
+        solution: "Le lemme de Fatou ne s'applique qu'aux suites de fonctions positives. L'hypothèse de domination $|f_n| \\le g$ p.p. assure précisément que $g + f_n \\ge 0$ et $g - f_n \\ge 0$, permettant d'obtenir les deux inégalités $\\int f \\le \\liminf \\int f_n$ et $\\limsup \\int f_n \\le \\int f$. La suite $h_n = 2g - |f_n - f|$ utilisée dans le cours est elle aussi positive, car $|f_n - f| \\le |f_n| + |f| \\le 2g$ p.p., et donne directement $\\int |f_n - f| \\to 0$."
       },
       // Palier 3 : Examen - Banach-Steinhaus & Baire
       {
@@ -668,9 +701,9 @@
         type: "mcq",
         options: [
           "Pour appliquer le théorème de Baire à la réunion dénombrable de fermés $E = \\bigcup_{n=1}^\\infty F_n$, qui assure qu'un des fermés est d'intérieur non vide",
-          "Pour assurer que les opérateurs Ti sont inversibles",
+          "Pour assurer que les opérateurs $T_i$ sont inversibles",
           "Pour affirmer que la boule unité est compacte",
-          "Pour justifier que la famille Ti est dénombrable"
+          "Pour justifier que la famille $(T_i)$ est dénombrable"
         ],
         correctIndex: 0,
         answer: "Pour appliquer le théorème de Baire à la réunion dénombrable de fermés $E = \\bigcup_{n=1}^\\infty F_n$, qui assure qu'un des fermés est d'intérieur non vide",
@@ -687,9 +720,9 @@
         type: "mcq",
         options: [
           "Car $d\\varphi_y(0) = \\mathrm{Id} - df(0) = 0$, donc par continuité de $df$ en 0, $\\|d\\varphi_y(x)\\| \\le 1/2$ sur $\\bar{B}(0, r)$, et l'IAF conclut",
-          "Car f est un polynôme de degré 1",
-          "Car toute fonction de classe C1 est automatiquement lipschitzienne sur l'espace entier",
-          "Car y est de norme nulle"
+          "Car $f$ est un polynôme de degré $1$",
+          "Car toute fonction de classe $\\mathcal{C}^1$ est automatiquement lipschitzienne sur l'espace entier",
+          "Car $y$ est de norme nulle"
         ],
         correctIndex: 0,
         answer: "Car $d\\varphi_y(0) = \\mathrm{Id} - df(0) = 0$, donc par continuité de $df$ en 0, $\\|d\\varphi_y(x)\\| \\le 1/2$ sur $\\bar{B}(0, r)$, et l'IAF conclut",

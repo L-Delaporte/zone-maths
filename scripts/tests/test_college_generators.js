@@ -228,7 +228,7 @@ const FORMAT_RULES = [
   [/\+\s*-(?!>)|(?<![<-])-\s*-(?![->])|\+\s*\+|(?<![\\a-z])-\s*\+/, 'SIGNES (+ - / - -)'],
   [/(^|[^\d.,{}\\a-zA-Z_^])1[a-z](?![a-zA-Z])/, 'COEF_1 (1x)'],
   [/(^|[^\d.,{}\\a-zA-Z_^])0[a-z](?![a-zA-Z])/, 'COEF_0 (0x)'],
-  [/[a-zA-Z]\^\{?1\}?(?![\d.,])/, 'EXPOSANT_1 (x^1)'],
+  [/([a-zA-Z])\^\{?1\}?(?![\d.,])(?!\s*=\s*\1(?![\w{^]))/, 'EXPOSANT_1 (x^1)'], // sauf l'identité a^1 = a, énoncée telle quelle dans le cours
   [/(?:[a-z)]|\^\{?\d\}?)\s*[+-]\s*0(?![\d.,{]|\s*[\d,.])/, 'PLUS_ZERO (x + 0)'],
   [/\d\.\d/, 'POINT_DECIMAL (virgule attendue)'],
   [/\^-\d/, 'EXPOSANT_NEGATIF_SANS_ACCOLADES']

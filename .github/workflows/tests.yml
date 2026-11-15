@@ -1,0 +1,35 @@
+# Tests à chaque push et pull request, sans dépendance à installer.
+# GitHub Pages publie main sans attendre ce résultat : voir « Intégration continue » dans README.md.
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/tests/run.js
+
+  # Parcours réels dans Chrome. Job distinct et non bloquant : un aléa du navigateur ne doit pas masquer run.js.
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    continue-on-error: true
+    env:
+      CHROME_BIN: google-chrome
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/tests/e2e_brave.js

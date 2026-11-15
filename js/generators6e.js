@@ -7,7 +7,7 @@
  * ajoutées à l'objet global window.MathsGenerators (helpers du cœur réutilisés : randInt, randChoice,
  * shuffle, gcd, simplifyFraction, resolveTier, renderScratch…).
  *
- * Paliers : 1 Socle & Automatismes · 2 Entraînement guidé · 3 Approfondissement · 4 Défi 5ème.
+ * Paliers : 1 Socle & Automatismes · 2 Entraînement guidé · 3 Approfondissement · 4 Défi.
  *
  * Chaque question générée porte un champ `_v` (données de vérification : { k: 'clé', ...paramètres })
  * exploité par scripts/tests/test_6eme.js pour recalculer indépendamment la réponse attendue.
@@ -155,7 +155,7 @@
     /** En-tête commun d'une question 6ème. */
     _6A_q(id, t, skill, o) {
       const q = Object.assign({ chapterId: id, tier: t, skill }, o);
-      if (t === 4 && q.title && !/^Défi 5ème/.test(q.title)) q.title = `Défi 5ème : ${q.title}`;
+      if (t === 4 && q.title && !/^Défi/.test(q.title)) q.title = `Défi : ${q.title}`;
       return q;
     },
 
@@ -220,7 +220,7 @@
           title: 'Fraction décimale et écriture à virgule',
           statement: `Donner l'écriture décimale (à virgule) de la fraction décimale :\n$$\\frac{${this._6tex(n)}}{${this._6tex(d)}}$$`,
           type: 'exact', answer: this._6ans(val), placeholder: PH_DEC,
-          hint1: `Diviser par $${this._6tex(d)}$ revient à « décaler » les chiffres de ${String(d).length - 1} rang(s) vers la droite.`,
+          hint1: `Diviser par $${this._6tex(d)}$ revient à « décaler » les chiffres de ${String(d).length - 1} rang${String(d).length > 2 ? 's' : ''} vers la droite.`,
           hint2: `Le dernier chiffre du numérateur doit se retrouver au rang des ${d === 10 ? 'dixièmes' : d === 100 ? 'centièmes' : 'millièmes'}.`,
           solution: `Diviser par $${this._6tex(d)}$ rend chaque chiffre $${this._6tex(d)}$ fois plus petit : le chiffre des unités de $${this._6tex(n)}$ passe au rang des ${d === 10 ? 'dixièmes' : d === 100 ? 'centièmes' : 'millièmes'}.\n$$\\frac{${this._6tex(n)}}{${this._6tex(d)}} = ${this._6tex(val)}$$`,
           _v: { k: '6N1.fracdec', n, d }
@@ -235,9 +235,9 @@
           const ans = Math.floor(m / u.q);
           return this._6A_q(id, t, sk, {
             title: 'Nombre total d\'unités d\'un rang',
-            statement: `Combien y a-t-il de ${u.nom} **en tout** dans le nombre $${this._6tex(m / 100)}$ ?\n*(On compte uniquement les ${u.nom} entiers.)*`,
+            statement: `Combien y a-t-il ${this._6D1de(u.nom)} **en tout** dans le nombre $${this._6tex(m / 100)}$ ?\n*(On compte uniquement les ${u.nom} ${u.q >= 100 ? 'entières' : 'entiers'}.)*`,
             type: 'exact', answer: String(ans), placeholder: PH_INT,
-            hint1: `Ne pas confondre « le chiffre des ${u.nom} » et « le nombre de ${u.nom} ».`,
+            hint1: `Ne pas confondre « le chiffre des ${u.nom} » et « le nombre ${u.nom === 'unités' ? "d'" : 'de '}${u.nom} ».`,
             hint2: `On lit tous les chiffres situés à gauche du rang des ${u.nom}, ce rang compris.`,
             solution: `On garde les chiffres jusqu'au rang des ${u.nom} inclus : $${this._6tex(m / 100)}$ contient **${ans}** ${u.nom}.`,
             _v: { k: '6N1.total', m, q: u.q }
@@ -377,7 +377,7 @@
         });
       }
 
-      // Palier 4 : Défi 5ème
+      // Palier 4 : Défi
       const sub = this.randChoice(['devinette', 'somme_frac', 'conversion', 'plus_grand']);
       if (sub === 'devinette') {
         const u = this.randInt(1, 4), f = this.randInt(0, 9), g = this.randInt(1, 9);
@@ -497,7 +497,7 @@
             type: 'exact', answer: this._6ans(val), placeholder: PH_DEC,
             hint1: 'Entre deux graduations entières, il y a 10 petits intervalles : chacun vaut un dixième.',
             hint2: 'Repère la graduation entière située juste avant le point, puis compte les petites graduations à partir d\'elle.',
-            solution: `Chaque petite graduation vaut $0{,}1$. Le point A est à ${k} graduations de $${s}$ : son abscisse est **$${tx(val)}$**.`,
+            solution: `Chaque petite graduation vaut $0{,}1$. Le point A est à ${k} graduation${k > 1 ? 's' : ''} de $${s}$ : son abscisse est **$${tx(val)}$**.`,
             _v: { k: '6N2.abscisse', s, j: k, div: 10 }
           });
         }
@@ -568,7 +568,7 @@
             type: 'exact', answer: this._6ans(val), placeholder: PH_DEC,
             hint1: 'Calcule l\'écart entre les deux graduations numérotées, puis divise-le par le nombre de petits intervalles.',
             hint2: 'Un dixième partagé en 10 parts égales donne des centièmes : chaque petite graduation vaut un centième.',
-            solution: `Chaque petite graduation vaut $0{,}01$. B est à ${k} graduations de $${tx(s)}$ : $${tx(s)} + ${tx(k / 100)} = ${tx(val)}$.`,
+            solution: `Chaque petite graduation vaut $0{,}01$. B est à ${k} graduation${k > 1 ? 's' : ''} de $${tx(s)}$ : $${tx(s)} + ${tx(k / 100)} = ${tx(val)}$.`,
             _v: { k: '6N2.abscisse', s: s10 / 10, j: k, div: 100 }
           });
         }
@@ -607,7 +607,8 @@
         const sub = this.randChoice(['intercaler', 'ranger', 'pas', 'arrondi_dizaine']);
         if (sub === 'intercaler') {
           const n = this.randInt(10, 199);
-          const k = this.randInt(1, 9);
+          // k différent du chiffre des dixièmes : sinon le distracteur « chiffres inversés » serait la bonne réponse
+          let k; do { k = this.randInt(1, 9); } while (k === n % 10);
           const correct = `$${tx((n * 10 + k) / 100)}$`;
           const q = this._6A_q(id, t, sk, {
             title: 'Intercaler un nombre décimal',
@@ -620,7 +621,8 @@
           return this._6mcq(q, correct, [
             `$${tx((n * 10 + 10 + k) / 100)}$`,
             `$${tx((n * 10 - 10 + k) / 100)}$`,
-            `$${tx((n * 10 + k * 10 + 100) / 100)}$`
+            // Erreur type : chiffres des dixièmes et des centièmes inversés
+            `$${tx((Math.floor(n / 10) * 100 + k * 10 + n % 10) / 100)}$`
           ]);
         }
         if (sub === 'ranger') {
@@ -714,7 +716,7 @@
           type: 'exact', answer: this._6ans(val), placeholder: PH_DEC,
           hint1: `L'écart entre les deux graduations repérées est $0{,}01$, partagé en 10 parts égales.`,
           hint2: 'Chaque petite graduation vaut donc un millième : $0{,}001$.',
-          solution: `Chaque petite graduation vaut $0{,}001$. C est à ${k} graduations de $${tx(s)}$ : $${tx(s)} + ${tx(k / 1000)} = ${tx(val)}$.`,
+          solution: `Chaque petite graduation vaut $0{,}001$. C est à ${k} graduation${k > 1 ? 's' : ''} de $${tx(s)}$ : $${tx(s)} + ${tx(k / 1000)} = ${tx(val)}$.`,
           _v: { k: '6N2.abscisse', s, j: k, div: 1000 }
         });
       }
@@ -979,8 +981,9 @@
             statement: `Calculer :\n$$${tx(x)} \\${op} ${tx(m)}$$`,
             type: 'exact', answer: this._6ans(res), placeholder: PH_DEC,
             hint1: op === 'times' ? `Multiplier par $${tx(m)}$ : chaque chiffre prend une valeur $${tx(m)}$ fois plus grande.` : `Diviser par $${tx(m)}$ : chaque chiffre prend une valeur $${tx(m)}$ fois plus petite.`,
-            hint2: `Les chiffres se décalent de ${String(m).length - 1} rang(s) vers la ${op === 'times' ? 'gauche' : 'droite'}.`,
-            solution: `${op === 'times' ? 'Multiplier' : 'Diviser'} par $${tx(m)}$ rend chaque chiffre $${tx(m)}$ fois plus ${op === 'times' ? 'grand' : 'petit'} : les chiffres se décalent de ${String(m).length - 1} rang(s) vers la ${op === 'times' ? 'gauche' : 'droite'} (on complète par des zéros si besoin).\n$$${tx(x)} \\${op} ${tx(m)} = ${tx(res)}$$`,
+            hint2: `Les chiffres se décalent de ${String(m).length - 1} rang${String(m).length > 2 ? 's' : ''} vers la ${op === 'times' ? 'gauche' : 'droite'}.`,
+            solution: `${op === 'times' ? 'Multiplier' : 'Diviser'} par $${tx(m)}$ rend chaque chiffre $${tx(m)}$ fois plus ${op === 'times' ? 'grand' : 'petit'} : les chiffres se décalent de ${String(m).length - 1} rang${String(m).length > 2 ? 's' : ''} vers la ${op === 'times' ? 'gauche' : 'droite'} (on complète par des zéros si besoin).\n$$${tx(x)} \\${op} ${tx(m)} = ${tx(res)}$$`,
+            _hintLeakOk: res === String(m).length - 1, // nombre de rangs cité par l'indice, pas la réponse
             _v: { k: '6N4.prod', f: [[Math.round(x * 1000), 1000], op === 'times' ? [m, 1] : [1, m]] }
           });
         }
@@ -993,8 +996,9 @@
             statement: `Calculer :\n$$${tx(x)} \\times ${tx(1 / m)}$$`,
             type: 'exact', answer: this._6ans(res), placeholder: PH_DEC,
             hint1: `Multiplier par $${tx(1 / m)}$, c'est diviser par $${tx(m)}$.`,
-            hint2: `Les chiffres se décalent de ${String(m).length - 1} rang(s) vers la droite.`,
-            solution: `Multiplier par $${tx(1 / m)}$, c'est prendre $${tx(1 / m)}$ fois le nombre, c'est-à-dire le diviser par $${tx(m)}$ : les chiffres se décalent de ${String(m).length - 1} rang(s) vers la droite.\n$$${tx(x)} \\times ${tx(1 / m)} = ${tx(x)} \\div ${tx(m)} = ${tx(res)}$$`,
+            hint2: `Les chiffres se décalent de ${String(m).length - 1} rang${String(m).length > 2 ? 's' : ''} vers la droite.`,
+            solution: `Multiplier par $${tx(1 / m)}$, c'est prendre $${tx(1 / m)}$ fois le nombre, c'est-à-dire le diviser par $${tx(m)}$ : les chiffres se décalent de ${String(m).length - 1} rang${String(m).length > 2 ? 's' : ''} vers la droite.\n$$${tx(x)} \\times ${tx(1 / m)} = ${tx(x)} \\div ${tx(m)} = ${tx(res)}$$`,
+            _hintLeakOk: res === m || res === String(m).length - 1, // diviseur ou nombre de rangs cités par l'indice, pas la réponse
             _v: { k: '6N4.prod', f: [[Math.round(x * 100), 100], [1, m]] }
           });
         }
@@ -1037,7 +1041,7 @@
             type: 'exact', answer: this._6ans(res), placeholder: PH_DEC,
             hint1: 'Compte le nombre total de chiffres après la virgule dans les deux facteurs.',
             hint2: 'Le nombre de chiffres après la virgule du produit est la somme des nombres de chiffres après la virgule des deux facteurs.',
-            solution: `**Étape 1 :** $${tx(A)}$ a ${s1} chiffre(s) après la virgule et $${tx(B)}$ en a ${s2}.\n**Étape 2 :** le produit en a donc $${s1} + ${s2} = ${s1 + s2}$ : on place la virgule dans $${tx(a * b)}$.\n$$${tx(A)} \\times ${tx(B)} = ${tx(res)}$$`,
+            solution: `**Étape 1 :** $${tx(A)}$ a ${s1} chiffre${s1 > 1 ? 's' : ''} après la virgule et $${tx(B)}$ en a ${s2}.\n**Étape 2 :** le produit en a donc $${s1} + ${s2} = ${s1 + s2}$ : on place la virgule dans $${tx(a * b)}$.\n$$${tx(A)} \\times ${tx(B)} = ${tx(res)}$$`,
             _v: { k: '6N4.prod', f: [[a, Math.pow(10, s1)], [b, Math.pow(10, s2)]] }
           });
         }
@@ -1104,17 +1108,21 @@
       // Palier 4
       const sub = this.randChoice(['facteur', 'produit3', 'comparaison']);
       if (sub === 'facteur') {
-        const x = this.randInt(11, 9999) / this.randChoice([10, 100]);
-        const m = this.randChoice([10, 100, 1000, 0.1, 0.01, 0.001]);
-        const y = this._6r(x * m);
+        // On réutilise un produit connu : deux facteurs d'échelle à comparer, puis à combiner.
+        const nz = () => { let v; do { v = this.randInt(12, 98); } while (v % 10 === 0); return v; };
+        const a = nz(), b = nz(), c = a * b;
+        const [ea, ec] = this.randChoice([[-1, 1], [-1, -3], [-1, -2], [-2, -1], [-2, -3], [-2, 1], [1, -1], [1, -2], [1, 2]]);
+        const p10 = e => Math.pow(10, e);
+        const A = this._6r(a * p10(ea)), C = this._6r(c * p10(ec)), m = this._6r(b * p10(ec - ea));
+        const rel = e => (e > 0 ? `en multipliant par $${tx(p10(e))}$` : `en divisant par $${tx(p10(-e))}$`);
         return this._6A_q(id, t, 'Raisonner', {
           title: 'Facteur manquant',
-          statement: `Compléter :\n$$${tx(x)} \\times \\dots = ${tx(y)}$$`,
-          type: 'exact', answer: this._6ans(m), placeholder: 'Ex : 0,01',
-          hint1: 'Compare la position des chiffres dans les deux nombres : de combien de rangs se sont-ils décalés ?',
-          hint2: 'Quand les chiffres « montent » d\'un rang (nombre plus grand), on a multiplié par dix ; quand ils « descendent » d\'un rang, on a multiplié par un dixième.',
-          solution: `Les chiffres de $${tx(x)}$ et de $${tx(y)}$ sont les mêmes : seule la virgule a bougé, de ${String(Math.round(Math.max(m, 1 / m))).length - 1} rang(s) vers la ${m > 1 ? 'droite (le nombre devient plus grand)' : 'gauche (le nombre devient plus petit)'}.\n${m > 1 ? `On a donc multiplié par $${tx(m)}$` : `On a donc divisé par $${tx(1 / m)}$, c'est-à-dire multiplié par $${tx(m)}$`} :\n$$${tx(x)} \\times ${tx(m)} = ${tx(y)}$$`,
-          _v: { k: '6N4.facteur', x100: Math.round(x * 100), y1e5: Math.round(y * 1e5) }
+          statement: `On sait que $${a} \\times ${b} = ${tx(c)}$.\nSans poser de multiplication, compléter :\n$$${tx(A)} \\times \\dots = ${tx(C)}$$`,
+          type: 'exact', answer: this._6ans(m), placeholder: PH_DEC,
+          hint1: `Compare $${tx(A)}$ avec $${a}$, puis $${tx(C)}$ avec $${tx(c)}$ : par combien chaque nombre a-t-il été multiplié ou divisé ?`,
+          hint2: `On passe de $${a}$ à $${tx(A)}$ ${rel(ea)}. Cherche comment passer de $${tx(c)}$ à $${tx(C)}$, puis déduis-en ce que devient le facteur $${b}$.`,
+          solution: `**Étape 1 :** on passe de $${a}$ à $${tx(A)}$ ${rel(ea)}.\n**Étape 2 :** on passe de $${tx(c)}$ à $${tx(C)}$ ${rel(ec)}.\n**Étape 3 :** pour que le produit devienne $${tx(C)}$ alors que le premier facteur est devenu $${tx(A)}$, on obtient le facteur manquant à partir de $${b}$ ${rel(ec - ea)}.\n$$${tx(A)} \\times ${tx(m)} = ${tx(C)}$$`,
+          _v: { k: '6N4.facteur', x100: Math.round(A * 100), y1e5: Math.round(C * 1e5) }
         });
       }
       if (sub === 'produit3') {
@@ -1141,7 +1149,7 @@
         title: 'Multiplier par un nombre plus petit que 1',
         statement: `Sans effectuer le calcul, compléter : le produit $${tx(x)} \\times ${tx(f)}$ est … $${tx(x)}$.`,
         hint1: 'Compare le second facteur à 1.',
-        hint2: 'Multiplier par un nombre inférieur à 1 donne un résultat inférieur au nombre de départ ; multiplier par un nombre supérieur à 1 donne un résultat supérieur.',
+        hint2: 'Pour un nombre de départ positif non nul, multiplier par un nombre inférieur à 1 donne un résultat inférieur à ce nombre ; multiplier par un nombre supérieur à 1 donne un résultat supérieur.',
         solution: `Comme $${tx(f)}$ est ${kind === 'lt' ? 'plus petit que 1' : kind === 'gt' ? 'plus grand que 1' : 'égal à 1'}, le produit est **${correct}** $${tx(x)}$ (il vaut $${tx(this._6r(x * f))}$).`,
         _v: { k: '6N4.compare', x10: Math.round(x * 10), f10: Math.round(f * 10) }
       });
@@ -1194,16 +1202,14 @@
           });
           return this._6mcq(q, correct, ['Oui', 'Non']);
         }
-        const k = this.randChoice([2, 3, 5, 9, 10]);
+        const k = this.randChoice([2, 5, 10]);
         const good = k * this.randInt(12, 1111);
         const nums = [good];
         // Distracteurs « pièges » : critère d'un autre diviseur appliqué par erreur
         const sumDig = c => String(c).split('').reduce((a, b) => a + +b, 0);
         const trap = {
           2: c => c % 2 === 1 && +String(c)[0] % 2 === 0,          // premier chiffre pair, unités impaires
-          3: c => [3, 6, 9].includes(c % 10),                      // se termine par 3, 6 ou 9
           5: c => sumDig(c) % 5 === 0 || String(c).includes('5'),  // somme des chiffres multiple de 5, ou un 5 ailleurs
-          9: c => c % 3 === 0 || c % 10 === 9,                     // divisible par 3 seulement, ou se termine par 9
           10: c => c % 5 === 0                                     // se termine par 5
         }[k];
         for (let tries = 0; nums.length < 3 && tries < 500; tries++) {
@@ -1214,7 +1220,7 @@
           const c = this.randInt(100, 9999);
           if (c % k !== 0 && !nums.includes(c)) nums.push(c);
         }
-        const crit = { 2: 'son chiffre des unités est 0, 2, 4, 6 ou 8', 3: 'la somme de ses chiffres est divisible par 3', 5: 'son chiffre des unités est 0 ou 5', 9: 'la somme de ses chiffres est divisible par 9', 10: 'son chiffre des unités est 0' }[k];
+        const crit = { 2: 'son chiffre des unités est 0, 2, 4, 6 ou 8', 5: 'son chiffre des unités est 0 ou 5', 10: 'son chiffre des unités est 0' }[k];
         const q = this._6A_q(id, t, 'Raisonner', {
           title: `Critère de divisibilité par ${k}`,
           statement: this.randChoice([
@@ -1332,6 +1338,7 @@
         const L = [4, 6, 8, 9, 10, 12, 15, 18, 20];
         const a = this.randChoice(L), b = this.randChoice(L.filter(x => x !== a));
         const g = this.gcd(a, b), l = a * b / g;
+        const listeM = x => Array.from({ length: l / x }, (_, i) => x * (i + 1)).map(v => (v === l ? `**${v}**` : v)).join(', ');
         const ctx = this.randChoice([
           ['Deux bus partent ensemble du terminus à 7 h. Le premier repasse toutes les', 'minutes et le second toutes les', 'Dans combien de minutes repartiront-ils de nouveau ensemble pour la première fois ?'],
           ['Deux phares s\'allument en même temps. Le premier s\'allume toutes les', 'secondes et le second toutes les', 'Au bout de combien de secondes s\'allumeront-ils de nouveau ensemble pour la première fois ?'],
@@ -1343,12 +1350,12 @@
           type: 'exact', answer: String(l), placeholder: PH_INT,
           hint1: `Écris la liste des multiples de ${a} et celle des multiples de ${b}.`,
           hint2: 'Cherche le plus petit nombre (non nul) présent dans les deux listes.',
-          solution: `Multiples de ${a} : ${[1, 2, 3, 4, 5, 6].map(i => a * i).join(', ')}…\nMultiples de ${b} : ${[1, 2, 3, 4, 5, 6].map(i => b * i).join(', ')}…\nLe premier multiple commun est **${l}**.`,
+          solution: `Multiples de ${a} : ${listeM(a)}…\nMultiples de ${b} : ${listeM(b)}…\nLe premier nombre présent dans les deux listes est **${l}** : c'est le premier multiple commun ($${l} = ${a} \\times ${l / a} = ${b} \\times ${l / b}$).`,
           _v: { k: '6N5.ppcm', a, b }
         });
       }
       if (sub === 'commun') {
-        const pairs = [[2, 3], [2, 5], [3, 5], [4, 5], [3, 4], [2, 9], [5, 9], [4, 9]];
+        const pairs = [[2, 5], [4, 5], [2, 7], [5, 7], [4, 7], [5, 6], [5, 8], [7, 8]];
         const [a, b] = this.randChoice(pairs);
         const N = this.randInt(100, 999);
         const l = a * b;
@@ -1374,13 +1381,15 @@
           missing = (9 - (s % 9)) % 9;
         } while (missing === 0);
         const shown = digits.map((d, i) => (i === pos ? '\\square' : String(d))).join('');
+        const known = digits.reduce((a2, d, i) => a2 + (i === pos ? 0 : d), 0);
         return this._6A_q(id, t, 'Raisonner', {
           title: 'Chiffre manquant et divisibilité par 9',
-          statement: `Quel chiffre faut-il écrire à la place de $\\square$ pour que le nombre $${shown}$ soit divisible par $9$ ?`,
+          statement: `**Pour aller plus loin** (critère étudié en 5e) : un nombre est divisible par $9$ si la somme de ses chiffres est un multiple de $9$.\nQuel chiffre faut-il écrire à la place de $\\square$ pour que le nombre $${shown}$ soit divisible par $9$ ?`,
           type: 'exact', answer: String(missing), placeholder: 'Ex : 4',
-          hint1: 'Un nombre est divisible par 9 si la somme de ses chiffres est un multiple de 9.',
-          hint2: 'Calcule la somme des chiffres connus, puis cherche ce qu\'il manque pour atteindre un multiple de 9.',
-          solution: `Somme des chiffres connus : $${digits.filter((d, i) => i !== pos).join(' + ')} = ${digits.reduce((a2, d, i) => a2 + (i === pos ? 0 : d), 0)}$. Il faut ajouter **${missing}** pour obtenir un multiple de 9.`,
+          hint1: 'Calcule la somme des chiffres connus, puis cherche ce qu\'il manque pour atteindre un multiple de 9.',
+          hint2: `Les chiffres connus donnent l'addition $${digits.filter((d, i) => i !== pos).join(' + ')}$. Calcule-la, puis cherche le multiple de $9$ immédiatement supérieur.`,
+          solution: `Somme des chiffres connus : $${digits.filter((d, i) => i !== pos).join(' + ')} = ${known}$. Le multiple de $9$ suivant est $${known + missing}$ : il faut ajouter **${missing}**.`,
+          _hintLeakOk: true, // chiffres connus cités par l'indice, pas le chiffre cherché
           _v: { k: '6N5.chiffre9', digits, pos }
         });
       }
@@ -1391,7 +1400,7 @@
         statement: `Aujourd'hui, nous sommes ${JOURS6[start]}.\n**Quel jour de la semaine serons-nous dans ${N} jours ?**`,
         hint1: 'Une semaine compte 7 jours : tous les 7 jours, on retombe sur le même jour.',
         hint2: `Effectue la division euclidienne de ${N} par 7 et utilise le reste.`,
-        solution: `$${N} = 7 \\times ${Math.floor(N / 7)} + ${N % 7}$. Après ${Math.floor(N / 7)} semaines complètes, on est encore ${JOURS6[start]} ; on avance ensuite de ${N % 7} jour(s) : ce sera **${correct}**.`,
+        solution: `$${N} = 7 \\times ${Math.floor(N / 7)} + ${N % 7}$. Après ${Math.floor(N / 7)} semaines complètes, on est encore ${JOURS6[start]} ; on avance ensuite de ${N % 7} jour${N % 7 > 1 ? 's' : ''} : ce sera **${correct}**.`,
         _v: { k: '6N5.jour', start, N }
       });
       return this._6mcq(q, correct, this.shuffle(JOURS6.filter(j => j !== correct)));
@@ -1553,7 +1562,7 @@
             type: 'exact', answer: this._6fracAns(n, d), placeholder: 'Ex : 5/3',
             hint1: `Chaque unité est partagée en $${d}$ parts égales : repère ce que vaut une petite graduation.`,
             hint2: `Compte le nombre de graduations entre $0$ et le point ${L}.`,
-            solution: `Le point ${L} est à $${n}$ graduations de l'origine, chacune valant $${F(1, d)}$ : son abscisse est $${F(n, d)}$.`,
+            solution: `Le point ${L} est à $${n}$ graduation${n > 1 ? 's' : ''} de l'origine, chacune valant $${F(1, d)}$ : son abscisse est $${F(n, d)}$.`,
             skill: 'Représenter',
             _v: { k: '6N6.line', n, d }
           });
@@ -1581,7 +1590,7 @@
           const k = this.randInt(2, 9);
           return mk({
             title: 'Simplifier une fraction',
-            statement: `Simplifier la fraction suivante et donner le résultat sous forme de fraction irréductible :\n$$${F(a * k, b * k)}$$`,
+            statement: `Simplifier au maximum la fraction suivante :\n$$${F(a * k, b * k)}$$`,
             type: 'exact', answer: this._6fracAns(a, b), placeholder: 'Ex : 2/3',
             hint1: `Cherche un diviseur commun à $${a * k}$ et $${b * k}$ (pense aux tables de multiplication).`,
             hint2: `$${a * k}$ et $${b * k}$ sont tous les deux dans la table de $${k}$.`,
@@ -1656,17 +1665,17 @@
         do { d = this.randInt(2, 12); n = this.randInt(d + 1, 12 * d); } while (n % d === 0);
         return mk({
           title: 'Encadrer une fraction entre deux entiers',
-          statement: `Trouver l'entier $e$ tel que :\n$$e < ${F(n, d)} < e + 1$$`,
+          statement: `On encadre $${F(n, d)}$ entre deux nombres entiers consécutifs.\n**Quel est le plus petit de ces deux entiers ?**`,
           type: 'exact', answer: String(Math.floor(n / d)),
           hint1: `Cherche le plus grand multiple de $${d}$ inférieur à $${n}$.`,
-          hint2: 'Rappel : un entier $e$ s\'écrit comme une fraction de même dénominateur ; deux fractions de même dénominateur se rangent comme leurs numérateurs.',
-          solution: `Étape 1 : $${d} \\times ${Math.floor(n / d)} = ${d * Math.floor(n / d)}$ et $${d} \\times ${Math.floor(n / d) + 1} = ${d * (Math.floor(n / d) + 1)}$, donc $${d * Math.floor(n / d)} < ${n} < ${d * (Math.floor(n / d) + 1)}$.\nÉtape 2 : $${F(d * Math.floor(n / d), d)} < ${F(n, d)} < ${F(d * (Math.floor(n / d) + 1), d)}$, c'est-à-dire $${Math.floor(n / d)} < ${F(n, d)} < ${Math.floor(n / d) + 1}$.\nDonc $e = ${Math.floor(n / d)}$.`,
+          hint2: 'Rappel : un entier s\'écrit comme une fraction de même dénominateur ; deux fractions de même dénominateur se rangent comme leurs numérateurs.',
+          solution: `Étape 1 : $${d} \\times ${Math.floor(n / d)} = ${d * Math.floor(n / d)}$ et $${d} \\times ${Math.floor(n / d) + 1} = ${d * (Math.floor(n / d) + 1)}$, donc $${d * Math.floor(n / d)} < ${n} < ${d * (Math.floor(n / d) + 1)}$.\nÉtape 2 : $${F(d * Math.floor(n / d), d)} < ${F(n, d)} < ${F(d * (Math.floor(n / d) + 1), d)}$, c'est-à-dire $${Math.floor(n / d)} < ${F(n, d)} < ${Math.floor(n / d) + 1}$.\nLe plus petit des deux entiers est $${Math.floor(n / d)}$.`,
           skill: 'Comparer',
           _v: { k: '6N6.frame', n, d }
         });
       }
 
-      // t === 4 : Défi 5ème
+      // t === 4 : Défi
       const sub = this.randChoice(['order', 'between', 'from_mixed', 'percent']);
       if (sub === 'order') {
         const b = this.randInt(2, 5);
@@ -1683,7 +1692,7 @@
         const askMax = Math.random() < 0.5;
         const best = list.reduce((acc, f) => ((askMax ? f[0] / f[1] > acc[0] / acc[1] : f[0] / f[1] < acc[0] / acc[1]) ? f : acc));
         const q = mk({
-          title: `Défi 5ème : la plus ${askMax ? 'grande' : 'petite'} fraction`,
+          title: `Défi : la plus ${askMax ? 'grande' : 'petite'} fraction`,
           statement: `Quelle est la plus ${askMax ? 'grande' : 'petite'} des fractions suivantes ?\n$$${list.map(f => F(f[0], f[1])).join(' \\; ; \\; ')}$$`,
           hint1: `Écris toutes les fractions avec le dénominateur commun $${4 * b}$.`,
           hint2: 'Avec le même dénominateur, la plus grande fraction est celle qui a le plus grand numérateur.',
@@ -1696,12 +1705,12 @@
       if (sub === 'between') {
         const b = this.randInt(2, 12), a = this.randInt(1, 3 * b);
         return mk({
-          title: 'Défi 5ème : intercaler une fraction',
-          statement: `Trouver le nombre entier $n$ tel que :\n$$${F(a, b)} < ${F('n', 2 * b)} < ${F(a + 1, b)}$$`,
+          title: 'Défi : intercaler une fraction',
+          statement: `Quel nombre entier faut-il écrire à la place de $\\square$ pour que :\n$$${F(a, b)} < ${F('\\square', 2 * b)} < ${F(a + 1, b)}$$`,
           type: 'exact', answer: String(2 * a + 1),
           hint1: `Écris les deux fractions encadrantes avec le dénominateur $${2 * b}$.`,
           hint2: 'Rappel : on obtient une fraction égale en multipliant le numérateur et le dénominateur par un même nombre ; à dénominateur égal, on compare les numérateurs.',
-          solution: `Étape 1 : $${F(a, b)} = ${F(2 * a, 2 * b)}$ et $${F(a + 1, b)} = ${F(2 * a + 2, 2 * b)}$ (on multiplie par $2$).\nÉtape 2 : on cherche $n$ tel que $${F(2 * a, 2 * b)} < ${F('n', 2 * b)} < ${F(2 * a + 2, 2 * b)}$, donc $${2 * a} < n < ${2 * a + 2}$.\nLe seul entier qui convient est $n = ${2 * a + 1}$.`,
+          solution: `Étape 1 : $${F(a, b)} = ${F(2 * a, 2 * b)}$ et $${F(a + 1, b)} = ${F(2 * a + 2, 2 * b)}$ (on multiplie par $2$).\nÉtape 2 : on veut $${F(2 * a, 2 * b)} < ${F('\\square', 2 * b)} < ${F(2 * a + 2, 2 * b)}$ : le nombre écrit à la place de $\\square$ doit être compris entre $${2 * a}$ et $${2 * a + 2}$.\nLe seul entier qui convient est $${2 * a + 1}$.`,
           skill: 'Raisonner',
           _v: { k: '6N6.between', a, b }
         });
@@ -1711,19 +1720,19 @@
         do { d = this.randInt(2, 12); r = this.randInt(1, d - 1); } while (this.gcd(r, d) !== 1);
         const e = this.randInt(1, 9);
         return mk({
-          title: 'Défi 5ème : du nombre mixte à la fraction',
-          statement: `Écrire le nombre suivant sous la forme d'une seule fraction irréductible :\n$$${e} + ${F(r, d)}$$`,
+          title: 'Défi : du nombre mixte à la fraction',
+          statement: `Écrire le nombre suivant sous la forme d'une seule fraction simplifiée au maximum :\n$$${e} + ${F(r, d)}$$`,
           type: 'exact', answer: this._6fracAns(e * d + r, d), placeholder: 'Ex : 17/5',
           hint1: `Écris l'entier $${e}$ sous la forme d'une fraction de dénominateur $${d}$.`,
           hint2: 'Rappel : un entier s\'écrit comme une fraction de dénominateur choisi : le numérateur est l\'entier multiplié par ce dénominateur.',
-          solution: `Étape 1 : $${e} = ${F(`${e} \\times ${d}`, d)} = ${F(e * d, d)}$.\nÉtape 2 : $${F(e * d, d)} + ${F(r, d)} = ${F(`${e * d} + ${r}`, d)} = ${F(e * d + r, d)}$.\nDonc $${e} + ${F(r, d)} = ${F(e * d + r, d)}$ (irréductible).`,
+          solution: `Étape 1 : $${e} = ${F(`${e} \\times ${d}`, d)} = ${F(e * d, d)}$.\nÉtape 2 : $${F(e * d, d)} + ${F(r, d)} = ${F(`${e * d} + ${r}`, d)} = ${F(e * d + r, d)}$.\nDonc $${e} + ${F(r, d)} = ${F(e * d + r, d)}$ (on ne peut plus la simplifier).`,
           _v: { k: '6N6.frommixed', e, r, d }
         });
       }
       const b = this.randChoice([2, 4, 5, 10, 20, 25, 50]);
       const a = this.randInt(1, b - 1);
       return mk({
-        title: 'Défi 5ème : fraction et pourcentage',
+        title: 'Défi : fraction et pourcentage',
         statement: `Écrire la fraction $${F(a, b)}$ sous la forme d'un pourcentage.\n**Compléter : $${F(a, b)} = \\square \\, \\%$** (donner le nombre seul).`,
         type: 'exact', answer: this._6ans(a * 100 / b),
         hint1: 'Un pourcentage est une fraction de dénominateur $100$.',
@@ -1740,7 +1749,7 @@
       const t = this.resolveTier(tier);
       const F = (n, d) => `\\frac{${n}}{${d}}`;
       const mk = (o) => this._6qB('6N7', t, Object.assign({ placeholder: 'Ex : 7/6' }, o));
-      const irr = 'Donner le résultat sous forme de fraction irréductible (ou d\'un nombre entier).';
+      const irr = 'Donner le résultat sous forme de fraction simplifiée au maximum (ou d\'un nombre entier).';
       const res = (n, d) => { const [a, b] = this.simplifyFraction(n, d); return b === 1 ? `${a}` : F(a, b); };
       const simpStep = (n, d) => { const [a, b] = this.simplifyFraction(n, d); return (a === n) ? '' : ` = ${b === 1 ? a : F(a, b)}`; };
 
@@ -1900,11 +1909,11 @@
         const u = this.randInt(2, 25);
         return mk({
           title: 'Retrouver le tout à partir d\'une fraction',
-          statement: `Les $${F(a, b)}$ d'un nombre valent $${a * u}$.\n**Quel est ce nombre ?**`,
+          statement: `${a > 1 ? 'Les ' : ''}$${F(a, b)}$ d'un nombre ${a > 1 ? 'valent' : 'vaut'} $${a * u}$.\n**Quel est ce nombre ?**`,
           type: 'exact', answer: String(b * u), placeholder: 'Ex : 40',
-          hint1: `$${a}$ parts sur $${b}$ valent $${a * u}$ : combien vaut une part ?`,
-          hint2: `Rappel : $${F(a, b)}$ d'un nombre, ce sont $${a}$ parts parmi $${b}$ parts égales ; le nombre entier correspond aux $${b}$ parts.`,
-          solution: `Étape 1 : $${a}$ part${a > 1 ? 's' : ''} valent $${a * u}$, donc une part vaut $${a * u} \\div ${a} = ${u}$.\nÉtape 2 : le nombre compte $${b}$ parts : $${b} \\times ${u} = ${b * u}$.\nVérification : $${F(a, b)} \\times ${b * u} = ${a * u}$. Le nombre cherché est $${b * u}$.`,
+          hint1: a > 1 ? `$${a}$ parts sur $${b}$ valent $${a * u}$ : combien vaut une part ?` : `Une part sur $${b}$ vaut $${a * u}$ : combien de parts faut-il pour obtenir le nombre entier ?`,
+          hint2: `Rappel : $${F(a, b)}$ d'un nombre, ${a > 1 ? 'ce sont' : 'c\'est'} $${a}$ part${a > 1 ? 's' : ''} parmi $${b}$ parts égales ; le nombre entier correspond aux $${b}$ parts.`,
+          solution: `Étape 1 : ${a > 1 ? `$${a}$ parts valent $${a * u}$, donc une part vaut $${a * u} \\div ${a} = ${u}$` : `une part vaut $${u}$`}.\nÉtape 2 : le nombre compte $${b}$ parts : $${b} \\times ${u} = ${b * u}$.\nVérification : $${F(a, b)} \\times ${b * u} = ${a * u}$. Le nombre cherché est $${b * u}$.`,
           skill: 'Résoudre',
           _v: { k: '6N7.reverse', a, b, val: a * u }
         });
@@ -1921,7 +1930,7 @@
         const rest = N - N / b * a - N / D * c;
         const name = this.randChoice(['Une association', 'Une famille', 'Une équipe', 'Une classe']);
         return mk({
-          title: 'Défi 5ème : budget et fractions',
+          title: 'Défi : budget et fractions',
           statement: `${name} dispose de $${N}$ €. Elle dépense les $${F(a, b)}$ de cette somme pour un voyage et les $${F(c, D)}$ pour du matériel.\n**Combien d'euros lui reste-t-il ?**`,
           type: 'exact', answer: String(rest), placeholder: 'Ex : 150',
           hint1: `Calcule chaque dépense : $${F(a, b)}$ de $${N}$, puis $${F(c, D)}$ de $${N}$.`,
@@ -1934,7 +1943,7 @@
       if (sub === 'mult_add') {
         const d = this.randInt(2, 12), a = this.randInt(1, d), k = this.randInt(2, 6), c = this.randInt(1, 2 * d);
         return mk({
-          title: 'Défi 5ème : priorités avec des fractions',
+          title: 'Défi : priorités avec des fractions',
           statement: `Calculer :\n$$${k} \\times ${F(a, d)} + ${F(c, d)}$$\n${irr}`,
           type: 'exact', answer: this._6fracAns(k * a + c, d),
           hint1: 'La multiplication est prioritaire sur l\'addition.',
@@ -1950,7 +1959,7 @@
         if (a * k + c >= D) return this.generate6N7(4, mastery);
         const n = D - a * k - c;
         return mk({
-          title: 'Défi 5ème : compléter jusqu\'à 1',
+          title: 'Défi : compléter jusqu\'à 1',
           statement: `Quelle fraction faut-il ajouter à $${F(a, b)} + ${F(c, D)}$ pour obtenir $1$ ?\n${irr}`,
           type: 'exact', answer: this._6fracAns(n, D),
           hint1: `$1 = ${F(D, D)}$.`,
@@ -1965,7 +1974,7 @@
       const a = this.randInt(1, d1), c = this.randInt(1, d2), e = this.randInt(1, d3);
       const n = a * 4 + c * 2 + e;
       return mk({
-        title: 'Défi 5ème : somme de trois fractions',
+        title: 'Défi : somme de trois fractions',
         statement: `Calculer :\n$$${F(a, d1)} + ${F(c, d2)} + ${F(e, d3)}$$\n${irr}`,
         type: 'exact', answer: this._6fracAns(n, d3),
         hint1: `Le dénominateur commun est $${d3}$.`,
@@ -2040,7 +2049,7 @@
           const thing = this.randChoice(['jetons', 'carreaux', 'allumettes', 'perles']);
           return mk({
             title: 'Motif évolutif',
-            statement: `On construit une suite de motifs. L'étape $1$ compte $${a}$ ${thing}. À chaque nouvelle étape, on ajoute $${d}$ ${thing}.\n**Combien de ${thing} compte l'étape $${n}$ ?**`,
+            statement: `On construit une suite de motifs. L'étape $1$ compte $${a}$ ${thing}. À chaque nouvelle étape, on ajoute $${d}$ ${thing}.\n**Combien ${this._6D1de(thing)} compte l'étape $${n}$ ?**`,
             type: 'exact', answer: String(a + (n - 1) * d),
             hint1: `De l'étape $1$ à l'étape $${n}$, on ajoute des ${thing} $${n - 1}$ fois.`,
             hint2: 'Rappel : dans un motif régulier, on ajoute toujours le même nombre d\'objets pour passer d\'une étape à la suivante.',
@@ -2102,7 +2111,7 @@
             type: 'exact', answer: String(u),
             hint1: `Fais un schéma en barres : la cousine a 1 barre, ${name} en a $${k}$. Combien de barres l'écart représente-t-il ?`,
             hint2: 'Rappel : l\'écart entre les deux quantités correspond exactement aux barres que l\'une possède en plus de l\'autre.',
-            solution: `L'écart de $${u * (k - 1)}$ correspond à $${k - 1}$ barre(s) : une barre vaut $${u * (k - 1)} \\div ${k - 1} = ${u}$.\nLa cousine a $${u}$ images.`,
+            solution: `L'écart de $${u * (k - 1)}$ correspond à $${k - 1}$ barre${k - 1 > 1 ? 's' : ''} : une barre vaut $${u * (k - 1)} \\div ${k - 1} = ${u}$.\nLa cousine a $${u}$ images.`,
             skill: 'Modéliser',
             _v: { k: '6N8.bardiff', kk: k, dd: u * (k - 1) }
           });
@@ -2111,7 +2120,7 @@
         const thing = this.randChoice(['jetons', 'carreaux', 'allumettes', 'cubes']);
         return mk({
           title: 'Motif évolutif : étape éloignée',
-          statement: `Dans une suite de motifs, l'étape $1$ compte $${a}$ ${thing} et l'on ajoute $${d}$ ${thing} à chaque étape.\n**Combien de ${thing} compte l'étape $${n}$ ?**`,
+          statement: `Dans une suite de motifs, l'étape $1$ compte $${a}$ ${thing} et l'on ajoute $${d}$ ${thing} à chaque étape.\n**Combien ${this._6D1de(thing)} compte l'étape $${n}$ ?**`,
           type: 'exact', answer: String(a + (n - 1) * d),
           hint1: 'Inutile de dessiner toutes les étapes : cherche une règle de calcul.',
           hint2: 'Rappel : entre l\'étape 1 et l\'étape $n$, on effectue $n - 1$ ajouts identiques.',
@@ -2128,7 +2137,7 @@
         const per = shape === 'squares' ? 3 : 2;
         const fig = this._6matchRowB(3, shape);
         return mk({
-          title: 'Défi 5ème : motif d\'allumettes',
+          title: 'Défi : motif d\'allumettes',
           statement: `On construit une rangée de ${shape === 'squares' ? 'carrés' : 'triangles'} accolés avec des allumettes :\n${fig}**Combien d'allumettes faut-il pour l'étape $${n}$ ?**`,
           type: 'exact', answer: String(per * n + 1),
           hint1: shape === 'squares' ? 'Compte : étape 1 → 4, étape 2 → 7, étape 3 → 10. De combien augmente-t-on à chaque étape ?' : 'Compte : étape 1 → 3, étape 2 → 5, étape 3 → 7. De combien augmente-t-on à chaque étape ?',
@@ -2142,7 +2151,7 @@
         const a = this.randInt(3, 12), d = this.randInt(2, 8), n = this.randInt(8, 40);
         const N = a + (n - 1) * d;
         return mk({
-          title: 'Défi 5ème : retrouver l\'étape',
+          title: 'Défi : retrouver l\'étape',
           statement: `Dans une suite de motifs, l'étape $1$ compte $${a}$ jetons et l'on ajoute $${d}$ jetons à chaque étape.\n**À quelle étape le motif compte-t-il $${N}$ jetons ?**`,
           type: 'exact', answer: String(n),
           hint1: `Combien de jetons ont été ajoutés depuis l'étape $1$ ?`,
@@ -2154,7 +2163,7 @@
       if (sub === 'balance') {
         const k = this.randInt(2, 7), x = this.randInt(3, 30), a = this.randInt(2, 40);
         return mk({
-          title: 'Défi 5ème : la balance',
+          title: 'Défi : la balance',
           statement: `Sur une balance en équilibre, on a d'un côté $${k}$ sacs identiques et une masse de $${a}$ g, de l'autre côté une masse de $${k * x + a}$ g.\n**Quelle est la masse d'un sac, en grammes ?**`,
           type: 'exact', answer: String(x),
           hint1: `Traduis par une égalité à trou : $${k} \\times ${S} + ${a} = ${k * x + a}$.`,
@@ -2168,8 +2177,8 @@
       const s = this._6r(2 * p + dd);
       const [o1, o2] = this.randChoice([['une gomme', 'un cahier'], ['un stylo', 'un classeur'], ['un ballon', 'une raquette'], ['une règle', 'un compas']]);
       return mk({
-        title: 'Défi 5ème : deux prix inconnus',
-        statement: `Ensemble, ${o1} et ${o2} coûtent $${this._6eurTexB(s)}$ €. ${o2.charAt(0).toUpperCase() + o2.slice(1)} coûte $${this._6eurTexB(dd)}$ € de plus que ${o1}.\n**Quel est le prix de ${o1}, en euros ?**`,
+        title: 'Défi : deux prix inconnus',
+        statement: `Ensemble, ${o1} et ${o2} coûtent $${this._6eurTexB(s)}$ €. ${o2.charAt(0).toUpperCase() + o2.slice(1)} coûte $${this._6eurTexB(dd)}$ € de plus qu'${o1}.\n**Quel est le prix d'${o1}, en euros ?**`,
         type: 'exact', answer: this._6ans(p), placeholder: 'Ex : 3,5',
         hint1: 'Schéma en barres : deux barres égales (le prix le plus bas) et un morceau en plus (l\'écart).',
         hint2: 'Rappel : si l\'on retire l\'écart du prix total, il reste deux fois le prix le plus bas.',
@@ -2185,14 +2194,21 @@
     generate6P1(tier = 1, mastery = 0) {
       const t = this.resolveTier(tier);
       const mk = (o) => this._6qB('6P1', t, Object.assign({ skill: 'Résoudre' }, o));
-      const items = [['croissants', 'croissant'], ['cahiers', 'cahier'], ['stylos', 'stylo'], ['tickets de bus', 'ticket'], ['baguettes', 'baguette'], ['places de cinéma', 'place'], ['pots de peinture', 'pot']];
+      // [pluriel, singulier, prix mini et maxi en euros (palier 1), prix mini et maxi en dixièmes d'euro (palier 2)]
+      const items = [['croissants', 'croissant', 1, 2, 8, 16], ['cahiers', 'cahier', 2, 5, 15, 45], ['stylos', 'stylo', 1, 3, 5, 25], ['tickets de bus', 'ticket', 1, 3, 12, 25], ['baguettes', 'baguette', 1, 2, 9, 14], ['places de cinéma', 'place', 7, 12, 65, 120], ['pots de peinture', 'pot', 9, 25, 85, 240]];
+      // Barre d'échelle graphique : le segment représente 1 cm du document.
+      const scaleBar = (R) => {
+        const trait = 'stroke="var(--text-main, #334155)" stroke-width="3"';
+        return this._6svg(170, 60, `<line x1="35" y1="30" x2="135" y2="30" ${trait}/><line x1="35" y1="23" x2="35" y2="37" ${trait}/><line x1="135" y1="23" x2="135" y2="37" ${trait}/>` +
+          this._6svgText(85, 20, '1 cm', { size: 13 }) + this._6svgText(85, 52, `${R} m`, { size: 13 }), 190);
+      };
       const table = (h1, h2, r1, r2) => `$$\\begin{array}{|l|${r1.map(() => 'c').join('|')}|}\\hline \\text{${h1}} & ${r1.join(' & ')} \\\\ \\hline \\text{${h2}} & ${r2.join(' & ')} \\\\ \\hline \\end{array}$$`;
 
       if (t === 1) {
         const sub = this.randChoice(['mult_lin', 'is_prop', 'recipe']);
         if (sub === 'mult_lin') {
-          const [pl] = this.randChoice(items);
-          const n = this.randInt(2, 6), k = this.randInt(2, 5), price = this.randInt(2, 25);
+          const [pl, , pMin, pMax] = this.randChoice(items);
+          const n = this.randInt(2, 6), k = this.randInt(2, 5), price = this.randInt(pMin, pMax);
           const P = n * price;
           return mk({
             title: 'Linéarité multiplicative',
@@ -2209,11 +2225,11 @@
           const xs = this.shuffle([1, 2, 3, 4, 5, 6, 8, 10]).slice(0, 3).sort((a, b) => a - b);
           const isP = Math.random() < 0.5;
           const ys = xs.map(x => x * coef);
-          if (!isP) { const i = this.randInt(0, 2); ys[i] += this.randChoice([-2, -1, 1, 2, 3]); }
+          if (!isP) { const i = this.randInt(0, 2); ys[i] += this.randChoice(ys[i] > 2 ? [-2, -1, 1, 2, 3] : [-1, 1, 2, 3]); }
           const prop = ys.every((y, i) => y * xs[0] === ys[0] * xs[i]);
           const q = mk({
             title: 'Reconnaître un tableau de proportionnalité',
-            statement: `Ce tableau est-il un tableau de proportionnalité ?\n${table('Quantité', 'Prix (€)', xs, ys)}`,
+            statement: `Ce tableau est-il un tableau de proportionnalité ?\n${table("Nombre d'articles", 'Prix (€)', xs, ys)}`,
             hint1: 'Dans un tableau de proportionnalité, on passe de la première ligne à la seconde en multipliant toujours par le même nombre.',
             hint2: `Calcule $${ys[0]} \\div ${xs[0]}$, $${ys[1]} \\div ${xs[1]}$ et $${ys[2]} \\div ${xs[2]}$.`,
             solution: prop ? `On multiplie toujours par $${coef}$ : c'est un tableau de proportionnalité.` : `Les quotients ne sont pas tous égaux (on ne multiplie pas toujours par le même nombre) : ce n'est pas un tableau de proportionnalité.`,
@@ -2229,7 +2245,7 @@
         const p2 = half ? p / 2 : p * f;
         return mk({
           title: 'Adapter une recette',
-          statement: `Pour $${p}$ personnes, une recette demande $${qty}$ ${ing[1]} de ${ing[0]}.\n**Quelle quantité de ${ing[0]} faut-il pour $${p2}$ personnes ?** (en ${ing[1]})`,
+          statement: `Pour $${p}$ personnes, une recette demande $${qty}$ ${ing[1]} de ${ing[0]}.\n**Quelle quantité de ${ing[0]} faut-il pour $${p2}$ ${p2 > 1 ? 'personnes' : 'personne'} ?** (en ${ing[1]})`,
           type: 'exact', answer: String(qty * p2 / p),
           hint1: 'Les quantités sont proportionnelles au nombre de personnes.',
           hint2: 'Rappel : dans une situation de proportionnalité, si l\'on multiplie (ou divise) une quantité par un nombre, l\'autre est multipliée (ou divisée) par le même nombre.',
@@ -2241,32 +2257,43 @@
       if (t === 2) {
         const sub = this.randChoice(['unit', 'additive', 'percent', 'coef']);
         if (sub === 'unit') {
-          const [pl] = this.randChoice(items);
-          const n = this.randInt(2, 9), u = this.randInt(5, 60) / 10;
+          const [pl, , , , uMin, uMax] = this.randChoice(items);
+          const n = this.randInt(2, 9), u = this.randInt(uMin, uMax) / 10;
           let m; do { m = this.randInt(2, 12); } while (m % n === 0 || n % m === 0);
           const P = this._6r(n * u);
           return mk({
-            title: 'Passage par l\'unité',
+            title: 'Passage à l\'unité',
             statement: `$${n}$ ${pl} coûtent $${this._6eurTexB(P)}$ €. Le prix est proportionnel au nombre d'articles.\n**Combien coûtent $${m}$ ${pl} ?**`,
             type: 'exact', answer: this._6ans(u * m), placeholder: 'Ex : 7,2',
             hint1: 'Calcule d\'abord le prix d\'un seul article.',
-            hint2: 'Rappel : passage par l\'unité : on divise le prix total par le nombre d\'articles pour obtenir le prix d\'un article.',
+            hint2: 'Rappel : passage à l\'unité : on divise le prix total par le nombre d\'articles pour obtenir le prix d\'un article.',
             solution: `Prix d'un article : $${this._6eurTexB(P)} \\div ${n} = ${this._6eurTexB(u)}$ €.\nPrix de $${m}$ articles : $${this._6eurTexB(u)} \\times ${m} = ${this._6eurTexB(u * m)}$ €.`,
             _v: { k: '6P1.lin', n, P, m }
           });
         }
         if (sub === 'additive') {
-          const c = this.randInt(2, 15);
-          const a = this.randInt(2, 9), b = this.randInt(2, 9);
-          const unit = this.randChoice([['Durée (min)', 'Distance (km)'], ['Masse (kg)', 'Prix (€)'], ['Nombre de pages', 'Temps (min)']]);
+          // Coefficients propres à chaque contexte, pour que les valeurs restent réalistes.
+          const unit = this.randChoice([['Durée (min)', 'Distance (m)', [60, 70, 75, 80, 90, 100, 150, 200]], ['Masse (kg)', 'Prix (€)', [2, 3, 4, 5, 6]], ['Nombre de pages', 'Temps (min)', [2, 3, 4, 5, 6, 8, 10, 12, 15]]]);
+          const c = this.randChoice(unit[2]);
+          const a = this.randInt(2, 9);
+          let b; do { b = this.randInt(2, 9); } while (b === a);
+          const tx = v => this._6tex(v);
+          // Combinaison des deux colonnes connues (somme, double plus une, différence).
+          const combos = [
+            [a + b, `${a} + ${b}`, `${tx(a * c)} + ${tx(b * c)}`],
+            [2 * a + b, `2 \\times ${a} + ${b}`, `2 \\times ${tx(a * c)} + ${tx(b * c)}`],
+            [a + 2 * b, `${a} + 2 \\times ${b}`, `${tx(a * c)} + 2 \\times ${tx(b * c)}`]
+          ];
+          if (b > a && b - a !== a) combos.push([b - a, `${b} - ${a}`, `${tx(b * c)} - ${tx(a * c)}`]);
+          const [cible, ex, ey] = this.randChoice(combos);
           return mk({
-            title: 'Linéarité additive',
-            statement: `Ce tableau est un tableau de proportionnalité. Compléter la case vide.\n${table(unit[0], unit[1], [a, b, a + b], [a * c, b * c, '\\square'])}`,
-            type: 'exact', answer: String((a + b) * c),
-            hint1: `$${a + b} = ${a} + ${b}$.`,
-            hint2: `On peut additionner les valeurs correspondantes : $${a * c} + ${b * c}$.`,
-            solution: `Comme $${a + b} = ${a} + ${b}$, la valeur cherchée est $${a * c} + ${b * c} = ${(a + b) * c}$.`,
-            _v: { k: '6P1.lin', n: a, P: a * c, m: a + b }
+            title: 'Linéarité : combiner deux colonnes',
+            statement: `Ce tableau est un tableau de proportionnalité. Compléter la case vide.\n${table(unit[0], unit[1], [a, b, cible], [tx(a * c), tx(b * c), '\\square'])}`,
+            type: 'exact', answer: String(cible * c),
+            hint1: 'Cherche comment obtenir le nombre de la case du haut à partir des deux autres nombres de la première ligne (somme, double, différence) : dans un tableau de proportionnalité, on fait le même calcul sur la deuxième ligne.',
+            hint2: `Ici, $${cible} = ${ex}$.`,
+            solution: `Comme $${cible} = ${ex}$, la valeur cherchée est $${ey} = ${tx(cible * c)}$.`,
+            _v: { k: '6P1.lin2', a, b, c, cible }
           });
         }
         if (sub === 'percent') {
@@ -2283,15 +2310,36 @@
             _v: { k: '6P1.percent', p, N }
           });
         }
-        const k = this.randInt(2, 15) * (Math.random() < 0.3 ? 0.5 : 1);
-        const xs = this.shuffle([2, 3, 4, 5, 6, 8, 10]).slice(0, 3).sort((a, b) => a - b);
+        // Toujours deux grandeurs nommées, avec leur unité : la proportionnalité ne porte jamais sur des suites de nombres.
+        const eur = x => this._6eurTexB(x), num = x => this._6tex(x);
+        const entiers = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
+        const cx = this.randChoice([
+          { h1: 'Nombre de cahiers', h2: 'Prix (€)', ks: [1.5, 2, 2.5, 3, 3.5, 4, 4.5], fmt: eur,
+            intro: 'Le prix payé est proportionnel au nombre de cahiers achetés.', sens: v => `un cahier coûte $${eur(v)}$ €` },
+          { h1: 'Masse de pommes (kg)', h2: 'Prix (€)', ks: [1.5, 2, 2.5, 3, 3.5], fmt: eur,
+            intro: 'Le prix payé est proportionnel à la masse de pommes achetée.', sens: v => `un kilogramme de pommes coûte $${eur(v)}$ €` },
+          { h1: 'Nombre de sachets', h2: 'Nombre de bonbons', ks: entiers(6, 15), fmt: num,
+            intro: 'Tous les sachets contiennent le même nombre de bonbons.', sens: v => `chaque sachet contient $${num(v)}$ bonbons` },
+          { h1: 'Durée de marche (h)', h2: 'Distance (km)', ks: [3, 3.5, 4, 4.5, 5], fmt: num, xs: [2, 3, 4, 5, 6],
+            intro: 'Une randonneuse marche à vitesse constante.', sens: v => `la randonneuse parcourt $${num(v)}$ km en une heure` },
+          { h1: "Durée d'impression (min)", h2: 'Nombre de pages', ks: entiers(4, 15), fmt: num,
+            intro: 'Une imprimante imprime toujours au même rythme.', sens: v => `l'imprimante imprime $${num(v)}$ pages par minute` },
+          { h1: 'Durée (min)', h2: "Volume d'eau (L)", ks: entiers(6, 15), fmt: num,
+            intro: 'Un robinet coule toujours avec le même débit.', sens: v => `le robinet débite $${num(v)}$ L d'eau par minute` },
+          { h1: 'Nombre de boîtes', h2: "Nombre d'œufs", ks: [6, 12], fmt: num,
+            intro: "Toutes les boîtes contiennent le même nombre d'œufs.", sens: v => `chaque boîte contient $${num(v)}$ œufs` },
+          { h1: 'Nombre de tours de piste', h2: 'Distance (m)', ks: [200, 250, 300, 400], fmt: num,
+            intro: 'Un coureur fait plusieurs tours de la même piste.', sens: v => `un tour de piste mesure $${num(v)}$ m` }
+        ]);
+        const k = this.randChoice(cx.ks);
+        const xs = this.shuffle(cx.xs || [2, 3, 4, 5, 6, 8, 10]).slice(0, 3).sort((a, b) => a - b);
         return mk({
           title: 'Coefficient de proportionnalité',
-          statement: `Ce tableau est un tableau de proportionnalité.\n${table('Grandeur A', 'Grandeur B', xs, xs.map(x => this._6tex(x * k)))}\n**Par quel nombre multiplie-t-on la première ligne pour obtenir la seconde ?**`,
+          statement: `${cx.intro} Ce tableau est un tableau de proportionnalité.\n${table(cx.h1, cx.h2, xs, xs.map(x => cx.fmt(x * k)))}\n**Par quel nombre multiplie-t-on chaque valeur de la première ligne pour obtenir la valeur correspondante de la seconde ?**`,
           type: 'exact', answer: this._6ans(k), placeholder: 'Ex : 2,5',
           hint1: 'Divise un nombre de la deuxième ligne par le nombre correspondant de la première ligne.',
-          hint2: `$${this._6tex(xs[0] * k)} \\div ${xs[0]}$.`,
-          solution: `$${this._6tex(xs[0] * k)} \\div ${xs[0]} = ${this._6tex(k)}$ : le coefficient de proportionnalité est $${this._6tex(k)}$.`,
+          hint2: `Dans la première colonne : $${xs[0]} \\times \\square = ${cx.fmt(xs[0] * k)}$.`,
+          solution: `$${cx.fmt(xs[0] * k)} \\div ${xs[0]} = ${this._6tex(k)}$ : le coefficient de proportionnalité est $${this._6tex(k)}$.\nAutrement dit, ${cx.sens(k)}.`,
           skill: 'Calculer',
           _v: { k: '6P1.coef', x: xs[0], y: this._6r(xs[0] * k) }
         });
@@ -2300,56 +2348,64 @@
       if (t === 3) {
         const sub = this.randChoice(['scale', 'scale_rev', 'fourth', 'discount']);
         if (sub === 'scale') {
-          const E = this.randChoice([100, 200, 500, 1000, 2000, 5000, 10000, 25000, 50000]);
+          const R = this.randChoice([2, 5, 10, 20, 50, 100, 250, 500]);
           const d = this.randInt(2, 15);
-          const real_m = d * E / 100;
+          const real_m = d * R;
+          const doc = R <= 20 ? 'plan' : 'carte';
+          const le = doc === 'plan' ? 'le plan' : 'la carte';
           return mk({
             title: 'Utiliser une échelle',
-            statement: `Sur un plan à l'échelle $\\frac{1}{${E}}$, deux points sont distants de $${d}$ cm.\n**Quelle est la distance réelle, en mètres ?**`,
+            statement: `Sur ${doc === 'plan' ? 'un plan' : 'une carte'}, l'échelle graphique indique que $1$ cm représente $${R}$ m.\n${scaleBar(R)}Deux points sont distants de $${d}$ cm sur ${le}.\n**Quelle est la distance réelle, en mètres ?**`,
             type: 'exact', answer: this._6ans(real_m),
-            hint1: `À l'échelle $\\frac{1}{${E}}$, $1$ cm sur le plan représente $${this._6tex(E)}$ cm en réalité.`,
-            hint2: 'Rappel : un mètre vaut cent centimètres ; pour convertir des centimètres en mètres, on divise donc par cent.',
-            solution: `Distance réelle : $${d} \\times ${this._6tex(E)} = ${this._6tex(d * E)}$ cm $= ${this._6tex(real_m)}$ m.`,
-            _v: { k: '6P1.scale', d, E }
+            hint1: `Chaque centimètre sur ${le} représente la même longueur réelle : c'est une situation de proportionnalité.`,
+            hint2: `$${d}$ cm, c'est $${d}$ fois $1$ cm : la distance réelle est donc $${d}$ fois plus grande que $${R}$ m.`,
+            solution: `$1$ cm représente $${R}$ m, donc $${d}$ cm représentent $${d} \\times ${R}$ m $= ${this._6tex(real_m)}$ m.`,
+            _v: { k: '6P1.scale', d, E: R * 100 }
           });
         }
         if (sub === 'scale_rev') {
-          const E = this.randChoice([1000, 2000, 5000, 10000, 20000, 50000, 100000]);
-          const d = this.randInt(1, 20);
-          const real_m = d * E / 100;
+          const R = this.randChoice([10, 20, 50, 100, 200, 500, 1000]);
+          const d = this.randInt(2, 20);
+          const real_m = d * R;
+          const plan = R <= 50;
+          const le = plan ? 'le plan' : 'la carte';
+          const objets = plan ? 'Deux bâtiments' : (real_m >= 2000 ? 'Deux villages' : 'Deux carrefours');
           return mk({
             title: 'Échelle : du réel au plan',
-            statement: `Une carte est à l'échelle $\\frac{1}{${E}}$. Deux villages sont à $${this._6tex(real_m)}$ m l'un de l'autre.\n**Quelle distance les sépare sur la carte, en centimètres ?**`,
+            statement: `Sur ${plan ? 'un plan' : 'une carte'}, l'échelle graphique indique que $1$ cm représente $${this._6tex(R)}$ m.\n${scaleBar(this._6txt(R))}${objets} sont à $${this._6tex(real_m)}$ m l'un de l'autre.\n**Quelle distance les sépare sur ${le}, en centimètres ?**`,
             type: 'exact', answer: String(d),
-            hint1: 'Convertis d\'abord la distance réelle en centimètres.',
-            hint2: `Rappel : $1 \\text{ m} = 100 \\text{ cm}$ ; à l'échelle $\\frac{1}{${this._6tex(E)}}$, les longueurs réelles sont $${this._6tex(E)}$ fois plus grandes que sur la carte.`,
-            solution: `Étape 1 : $${this._6tex(real_m)}$ m $= ${this._6tex(real_m * 100)}$ cm.\nÉtape 2 : sur la carte, la longueur est $${this._6tex(E)}$ fois plus petite : $${this._6tex(real_m * 100)} \\div ${this._6tex(E)} = ${d}$.\nLa distance sur la carte est $${d}$ cm.`,
-            _v: { k: '6P1.scalerev', real_m, E }
+            hint1: `Les longueurs sur ${le} et les longueurs réelles sont proportionnelles : compare la distance réelle à la longueur représentée par $1$ cm.`,
+            hint2: `On cherche par quel nombre multiplier $${this._6tex(R)}$ m pour obtenir $${this._6tex(real_m)}$ m.`,
+            solution: `$1$ cm représente $${this._6tex(R)}$ m, et $${this._6tex(real_m)} \\div ${this._6tex(R)} = ${d}$.\nLa distance sur ${le} est donc $${d}$ cm.`,
+            _v: { k: '6P1.scalerev', real_m, E: R * 100 }
           });
         }
         if (sub === 'fourth') {
-          const x1 = this.randChoice([2, 3, 4, 5, 6, 8]), u = this.randInt(2, 30);
-          let x2; do { x2 = this.randInt(3, 20); } while (x2 % x1 === 0 || x1 % x2 === 0);
-          const ctx = this.randChoice([
-            [`Un robinet remplit $${x1 * u}$ L en $${x1}$ minutes.`, `Combien de litres remplit-il en $${x2}$ minutes ?`],
-            [`Une voiture consomme $${x1 * u}$ L de carburant pour $${x1}$ centaines de kilomètres.`, `Combien consomme-t-elle pour $${x2}$ centaines de kilomètres ?`],
-            [`Un cycliste roulant à vitesse constante parcourt $${x1 * u}$ km en $${x1}$ heures.`, `Quelle distance parcourt-il en $${x2}$ heures ?`],
-            [`$${x1}$ kg de pommes coûtent $${x1 * u}$ €.`, `Combien coûtent $${x2}$ kg de ces pommes ?`]
+          // Bornes propres à chaque contexte, pour que les valeurs restent réalistes.
+          const s = this.randChoice([
+            { uMin: 6, uMax: 20, x1s: [2, 3, 4, 5, 6, 8], x2Max: 20, txt: (A, x, y) => [`Un robinet remplit $${A}$ L en $${x}$ minutes.`, `Combien de litres remplit-il en $${y}$ minutes ?`] },
+            { uMin: 4, uMax: 9, x1s: [2, 3, 4, 5, 6, 8], x2Max: 20, txt: (A, x, y) => [`Une voiture consomme $${A}$ L de carburant pour $${x}$ centaines de kilomètres.`, `Combien consomme-t-elle pour $${y}$ centaines de kilomètres ?`] },
+            { uMin: 12, uMax: 20, x1s: [2, 3, 4, 5], x2Max: 7, txt: (A, x, y) => [`Un cycliste roulant à vitesse constante parcourt $${A}$ km en $${x}$ heures.`, `Quelle distance parcourt-il en $${y}$ heures ?`] },
+            { uMin: 2, uMax: 5, x1s: [2, 3, 4, 5, 6, 8], x2Max: 9, txt: (A, x, y) => [`$${x}$ kg de pommes coûtent $${A}$ €.`, `Combien coûtent $${y}$ kg de ces pommes ?`] }
           ]);
+          const x1 = this.randChoice(s.x1s), u = this.randInt(s.uMin, s.uMax);
+          let x2; do { x2 = this.randInt(3, s.x2Max); } while (x2 % x1 === 0 || x1 % x2 === 0);
+          const ctx = s.txt(x1 * u, x1, x2);
           return mk({
-            title: 'Quatrième proportionnelle',
+            title: 'Calculer une valeur manquante',
             statement: `${ctx[0]} On suppose que c'est une situation de proportionnalité.\n**${ctx[1]}**`,
             type: 'exact', answer: String(u * x2),
-            hint1: 'Passe par l\'unité : calcule la quantité correspondant à $1$.',
+            hint1: 'Utilise le passage à l\'unité : calcule la quantité correspondant à $1$.',
             hint2: 'Rappel : dans une situation de proportionnalité, on peut calculer la valeur correspondant à 1, puis multiplier.',
             solution: `Pour $1$ : $${x1 * u} \\div ${x1} = ${u}$. Pour $${x2}$ : $${u} \\times ${x2} = ${u * x2}$.`,
             _v: { k: '6P1.lin', n: x1, P: x1 * u, m: x2 }
           });
         }
         const p = this.randChoice([10, 20, 25, 50, 30, 15]);
-        const N = this.randInt(2, 40) * 20;
+        // Prix de départ (multiples de 20 €) propres à chaque article, pour rester réalistes.
+        const [obj, nMin, nMax] = this.randChoice([['un vélo', 5, 30], ['un manteau', 3, 10], ['une console', 10, 25], ['un sac à dos', 1, 5], ['une paire de chaussures', 2, 8]]);
+        const N = this.randInt(nMin, nMax) * 20;
         const final = N - N * p / 100;
-        const obj = this.randChoice(['un vélo', 'un manteau', 'une console', 'un sac à dos', 'une paire de chaussures']);
         return mk({
           title: 'Réduction en pourcentage',
           statement: `${obj.charAt(0).toUpperCase() + obj.slice(1)} coûte $${N}$ €. Pendant les soldes, son prix baisse de $${p} \\, \\%$.\n**Quel est son nouveau prix, en euros ?**`,
@@ -2365,36 +2421,35 @@
       // t === 4
       const sub = this.randChoice(['scale_find', 'which_prop', 'offers', 'recipe_dec']);
       if (sub === 'scale_find') {
-        const E = this.randChoice([50, 100, 200, 250, 500, 1000, 2000, 5000, 10000]);
+        const R = this.randChoice([0.5, 1, 2, 2.5, 5, 10, 20, 50, 100]);
         const d = this.randInt(2, 12);
-        const real_cm = d * E;
-        const real_m = real_cm / 100;
+        const real_m = this._6r(d * R);
         return mk({
-          title: 'Défi 5ème : déterminer une échelle',
-          statement: `Sur un plan, une longueur réelle de $${this._6tex(real_m)}$ m est représentée par $${d}$ cm.\nL'échelle s'écrit $\\frac{1}{E}$. **Quelle est la valeur de $E$ ?**`,
-          type: 'exact', answer: String(E),
-          hint1: 'Exprime les deux longueurs dans la même unité (le centimètre).',
-          hint2: 'Rappel : à l\'échelle $\\frac{1}{E}$, une longueur de 1 cm sur le plan représente $E$ cm en réalité (les deux longueurs doivent être exprimées dans la même unité).',
-          solution: `$${this._6tex(real_cm)} \\div ${d} = ${this._6tex(E)}$ : $1$ cm sur le plan représente $${this._6tex(E)}$ cm en réalité, donc $E = ${this._6tex(E)}$.`,
-          _v: { k: '6P1.scalefind', d, real_m }
+          title: 'Défi : déterminer une échelle',
+          statement: `L'échelle graphique d'un plan a été effacée. On sait seulement qu'une longueur réelle de $${this._6tex(real_m)}$ m est représentée par $${d}$ cm sur ce plan.\n**Pour refaire l'échelle graphique, quelle longueur réelle, en mètres, faut-il écrire en face de $1$ cm ?**`,
+          type: 'exact', answer: this._6ans(R), placeholder: 'Ex : 2,5',
+          hint1: 'Les longueurs sur le plan et les longueurs réelles sont proportionnelles : passe par la longueur réelle représentée par $1$ cm.',
+          hint2: `$${d}$ cm représentent $${this._6tex(real_m)}$ m : partage cette longueur réelle en $${d}$ parts égales.`,
+          solution: `$${this._6tex(real_m)} \\div ${d} = ${this._6tex(R)}$ : $1$ cm sur le plan représente $${this._6tex(R)}$ m.`,
+          _v: { k: '6P1.scaleunit', d, real_m }
         });
       }
       if (sub === 'which_prop') {
         const a = this.randInt(2, 9), b = this.randInt(10, 15), c = this.randInt(2, 9);
         const props = [
-          `Le prix payé pour des baguettes à $${this._6tex(a / 10 + 1)}$ € l'une et le nombre de baguettes achetées.`,
+          `Le prix payé pour des baguettes à $${this._6eurTexB(a / 10 + 1)}$ € l'une et le nombre de baguettes achetées.`,
           `Le périmètre d'un carré et la longueur de son côté.`,
           `La distance parcourue à la vitesse constante de $${b * 5}$ km/h et la durée du trajet.`,
-          `La masse de $${c}$ sacs de riz identiques et le nombre de sacs.`,
+          `La masse totale de plusieurs sacs de riz identiques et le nombre de sacs.`,
           `La quantité de farine et le nombre de crêpes, en suivant toujours la même recette.`,
-          `Le nombre de tickets de bus achetés au tarif unique de $${this._6tex(c / 10 + 1)}$ € et le prix payé.`,
+          `Le nombre de tickets de bus achetés au tarif unique de $${this._6eurTexB(c / 10 + 1)}$ € et le prix payé.`,
           `Le nombre de tours de piste de $${b * 20}$ m effectués et la distance parcourue.`,
           `La quantité d'essence achetée à prix fixe par litre et le prix payé.`
         ];
         const nonProps = [
           `La taille d'un enfant et son âge.`,
           `L'aire d'un carré et la longueur de son côté.`,
-          `Le prix d'un taxi avec une prise en charge de $${a}$ € puis $${this._6tex(c / 10 + 1)}$ € par km, et la distance parcourue.`,
+          `Le prix d'un taxi avec une prise en charge de $${a}$ € puis $${this._6eurTexB(c / 10 + 1)}$ € par km, et la distance parcourue.`,
           `La température extérieure et l'heure de la journée.`,
           `Le nombre de buts marqués par une équipe et le nombre de matchs joués.`,
           `La masse d'une personne et sa taille.`,
@@ -2408,7 +2463,7 @@
           `Pour un exposé, ${nom} a relevé quatre situations où deux grandeurs varient ensemble.\n`, `${nom} doit classer des situations en deux groupes : proportionnalité ou non.\n`]);
         const correct = this.randChoice(neg ? nonProps : props);
         const q = mk({
-          title: 'Défi 5ème : reconnaître la proportionnalité',
+          title: 'Défi : reconnaître la proportionnalité',
           statement: intro + (neg ? 'Parmi ces situations, laquelle **ne relève pas** de la proportionnalité ?' : this.randChoice(['Parmi ces situations, laquelle relève de la **proportionnalité** ?', 'Dans laquelle de ces situations les deux grandeurs sont-elles **proportionnelles** ?'])),
           hint1: 'Deux grandeurs sont proportionnelles si l\'on passe de l\'une à l\'autre en multipliant toujours par le même nombre.',
           hint2: 'Si l\'on double l\'une, l\'autre doit doubler aussi.',
@@ -2422,35 +2477,39 @@
       }
       if (sub === 'offers') {
         const n1 = this.randChoice([2, 3, 4, 5]), n2 = this.randChoice([6, 8, 10, 12]);
-        const u1 = this.randInt(10, 40) / 10;
-        let u2 = this.randInt(10, 40) / 10;
+        // Prix à l'unité en dixièmes d'euro, propres à chaque produit.
+        const [prod, uMin, uMax] = this.randChoice([['yaourts', 3, 9], ['briques de jus', 6, 18], ['boîtes de thon', 12, 35], ['paquets de mouchoirs', 5, 20]]);
+        const u1 = this.randInt(uMin, uMax) / 10;
+        let u2 = this.randInt(uMin, uMax) / 10;
         if (Math.random() < 0.2) u2 = u1;
         const P1 = this._6r(n1 * u1), P2 = this._6r(n2 * u2);
-        const prod = this.randChoice(['yaourts', 'briques de jus', 'boîtes de thon', 'paquets de mouchoirs']);
         const correct = u1 < u2 ? 'Offre A' : (u1 > u2 ? 'Offre B' : 'Les deux offres se valent');
         const q = mk({
-          title: 'Défi 5ème : comparer deux offres',
+          title: 'Défi : comparer deux offres',
           statement: `Au supermarché :\n• **Offre A** : $${n1}$ ${prod} pour $${this._6eurTexB(P1)}$ € ;\n• **Offre B** : $${n2}$ ${prod} pour $${this._6eurTexB(P2)}$ €.\n**Quelle offre est la plus avantageuse ?**`,
           hint1: 'Calcule le prix d\'un article dans chaque offre.',
           hint2: 'Rappel : pour comparer deux offres, on compare les prix pour une même quantité, par exemple le prix d\'un seul article.',
-          solution: `Offre A : $${this._6eurTexB(P1)} \\div ${n1} = ${this._6eurTexB(u1)}$ € l'article. Offre B : $${this._6eurTexB(P2)} \\div ${n2} = ${this._6eurTexB(u2)}$ € l'article.\nRéponse : ${correct.toLowerCase()}.`,
+          solution: `Offre A : $${this._6eurTexB(P1)} \\div ${n1} = ${this._6eurTexB(u1)}$ € l'article. Offre B : $${this._6eurTexB(P2)} \\div ${n2} = ${this._6eurTexB(u2)}$ € l'article.\nRéponse : ${correct}.`,
           skill: 'Raisonner',
           _v: { k: '6P1.offers', n1, P1, n2, P2 }
         });
         return this._6mcq(q, correct, ['Offre A', 'Offre B', 'Les deux offres se valent']);
       }
-      const p = this.randChoice([4, 6, 8]), per = this.randInt(15, 60) / 2;
-      const qty = this._6r(p * per);
-      let p2; do { p2 = this.randInt(3, 15); } while (p2 === p);
-      const ing = this.randChoice(['farine', 'sucre', 'beurre', 'chocolat', 'riz']);
+      // Recette à deux ingrédients : c'est l'ingrédient qui manque en premier qui limite.
+      const p = this.randChoice([4, 6, 8]);
+      const g = this.randChoice([25, 30, 40, 50, 60, 75]), bb = this.randChoice([10, 15, 20, 25]);
+      let nF, nB;
+      do { nF = this.randInt(5, 15); nB = this.randInt(5, 15); } while (nF === nB || nF === p || nB === p);
+      const FA = g * nF, BA = bb * nB, rep = Math.min(nF, nB);
       return mk({
-        title: 'Défi 5ème : recette et passage par l\'unité',
-        statement: `Pour $${p}$ personnes, il faut $${this._6tex(qty)}$ g de ${ing}.\n**Quelle masse de ${ing} faut-il pour $${p2}$ personnes, en grammes ?**`,
-        type: 'exact', answer: this._6ans(per * p2), placeholder: 'Ex : 157,5',
-        hint1: 'Calcule la masse nécessaire pour une seule personne.',
-        hint2: 'Rappel : passage par l\'unité : on calcule d\'abord la masse pour une personne, puis on multiplie par le nombre de personnes.',
-        solution: `Pour $1$ personne : $${this._6tex(qty)} \\div ${p} = ${this._6tex(per)}$ g.\nPour $${p2}$ personnes : $${this._6tex(per)} \\times ${p2} = ${this._6tex(per * p2)}$ g.`,
-        _v: { k: '6P1.lin', n: p, P: qty, m: p2 }
+        title: 'Défi : recette et ingrédient limitant',
+        statement: `Pour $${p}$ personnes, une recette demande $${this._6tex(p * g)}$ g de farine et $${this._6tex(p * bb)}$ g de beurre. Les quantités sont proportionnelles au nombre de personnes.\nIl reste $${this._6tex(FA)}$ g de farine et $${this._6tex(BA)}$ g de beurre.\n**Pour combien de personnes au maximum peut-on préparer la recette ?**`,
+        type: 'exact', answer: String(rep), placeholder: 'Ex : 9',
+        hint1: 'Calcule la quantité de chaque ingrédient pour une seule personne, puis le nombre de personnes que permet chaque stock : c\'est l\'ingrédient qui manque en premier qui fixe le maximum.',
+        hint2: `Ici, pour une personne il faut $${this._6tex(p * g)} \\div ${p}$ g de farine et $${this._6tex(p * bb)} \\div ${p}$ g de beurre.`,
+        solution: `Pour $1$ personne : $${this._6tex(p * g)} \\div ${p} = ${g}$ g de farine et $${this._6tex(p * bb)} \\div ${p} = ${bb}$ g de beurre.\nFarine : $${this._6tex(FA)} \\div ${g} = ${nF}$ personnes. Beurre : $${this._6tex(BA)} \\div ${bb} = ${nB}$ personnes.\nC'est ${nF < nB ? 'la farine' : 'le beurre'} qui limite : on peut préparer la recette pour $${rep}$ personnes au maximum.`,
+        skill: 'Raisonner',
+        _v: { k: '6P1.limit', p, F: p * g, B: p * bb, FA, BA }
       });
     }
   });
@@ -2470,7 +2529,7 @@
     /** Fabrique commune des questions 6M. */
     _6mQ(ch, t, o, skill = 'Calculer') {
       const q = Object.assign({ chapterId: ch, tier: t, skill }, o);
-      if (t === 4 && q.title && !/^Défi 5ème/.test(q.title)) q.title = `Défi 5ème : ${q.title}`;
+      if (t === 4 && q.title && !/^Défi/.test(q.title)) q.title = `Défi : ${q.title}`;
       if (q.type === 'exact' && !q.placeholder) q.placeholder = 'Ex : 12,5';
       return q;
     },
@@ -2582,7 +2641,6 @@
       const U = ['km', 'hm', 'dam', 'm', 'dm', 'cm', 'mm'];
       const T = x => this._6tex(x), X = x => this._6txt(x), A = x => this._6ans(x);
       const mk = (o, sk) => this._6mQ('6M1', t, o, sk);
-      const convHint2 = "Dans le tableau de conversion, chaque unité vaut dix fois l'unité située juste à sa droite : on décale la virgule d'un rang par colonne.";
 
       const conv = (decimal) => {
         let from, to, val, res;
@@ -2599,15 +2657,17 @@
           }
           res = this._6r(val * Math.pow(10, to - from));
           const dec = (String(res).split('.')[1] || '').length;
-          if (dec <= 3 && res < 1e7) break;
+          // L'égalité rappelée dans les indices ne doit pas donner la réponse.
+          if (dec <= 3 && res < 1e7 && val !== 1 && res !== 1 && res !== Math.pow(10, Math.abs(to - from))) break;
         }
+        const k = Math.abs(to - from), F = Math.pow(10, k), big = U[Math.min(from, to)], small = U[Math.max(from, to)], down = to > from;
         return mk({
           title: decimal ? 'Conversion de longueurs (nombres décimaux)' : 'Conversion de longueurs',
           statement: `Compléter la conversion suivante :\n$$${T(val)}${this._6mU(U[from])} = \\dots${this._6mU(U[to])}$$\n*(Donner seulement le nombre.)*`,
           type: 'exact', answer: A(res),
-          hint1: `Place ${X(val)} dans le tableau de conversion (km, hm, dam, m, dm, cm, mm), le chiffre des unités dans la colonne « ${U[from]} ».`,
-          hint2: convHint2,
-          solution: `On passe des ${U[from]} aux ${U[to]} : ${Math.abs(to - from)} colonne(s) vers la ${to > from ? 'droite (on multiplie' : 'gauche (on divise'} par ${X(Math.pow(10, Math.abs(to - from)))}).\n$$${T(val)}${this._6mU(U[from])} = ${T(res)}${this._6mU(U[to])}$$`,
+          hint1: `Écris l'égalité qui relie les deux unités : combien de ${small} y a-t-il dans $1${this._6mU(big)}$ ? Dans l'ordre km, hm, dam, m, dm, cm, mm, chaque unité vaut dix fois celle qui la suit.`,
+          hint2: `$1${this._6mU(big)} = ${T(F)}${this._6mU(small)}$. Tu passes à une unité plus ${down ? 'petite : il en faut davantage, donc multiplie' : 'grande : il en faut moins, donc divise'} par ce nombre.`,
+          solution: `$1${this._6mU(big)} = ${T(F)}${this._6mU(small)}$, donc on ${down ? 'multiplie' : 'divise'} par $${T(F)}$ : chaque chiffre ${down ? 'avance' : 'recule'} ${k === 1 ? "d'un rang" : `de ${k} rangs`} vers la ${down ? 'gauche' : 'droite'}.\n$$${T(val)}${this._6mU(U[from])} = ${T(res)}${this._6mU(U[to])}$$`,
           _v: { k: '6M1.conv', val, from: U[from], to: U[to] }
         }, 'Convertir');
       };
@@ -2716,12 +2776,12 @@
           const res = this._6r(3.14 * d);
           const giv = isR ? `de rayon $${r}\\text{ cm}$` : `de diamètre $${d}\\text{ cm}$`;
           return mk({
-            title: "Longueur d'un cercle (valeur approchée)",
-            statement: `On considère un cercle ${giv}.\n${this._6mCircleSvg(isR ? `${r} cm` : `${d} cm`, isR)}\n**Calculer la longueur de ce cercle en cm, en prenant $3{,}14$ comme valeur approchée de $\\pi$.**`,
+            title: "Périmètre d'un disque (valeur approchée)",
+            statement: `On considère un disque ${giv}.\n${this._6mCircleSvg(isR ? `${r} cm` : `${d} cm`, isR)}\n**Calculer le périmètre de ce disque en cm, en prenant $3{,}14$ comme valeur approchée de $\\pi$.**`,
             type: 'exact', answer: A(res),
-            hint1: 'La longueur d\'un cercle est proportionnelle à son diamètre : $\\mathcal{P} = \\pi \\times D$.',
-            hint2: isR ? 'Attention : on te donne le rayon. Le diamètre est le double du rayon, puis $\\mathcal{P} \\approx 3{,}14 \\times D$.' : 'On remplace $\\pi$ par $3{,}14$ : $\\mathcal{P} \\approx 3{,}14 \\times D$.',
-            solution: `${isR ? `$D = 2 \\times ${r} = ${d}\\text{ cm}$.\n` : ''}$$\\mathcal{P} = \\pi \\times D \\approx 3{,}14 \\times ${d} = ${T(res)}\\text{ cm}$$`,
+            hint1: 'Le périmètre d\'un disque s\'obtient en multipliant son diamètre par $\\pi$ : $P = \\pi \\times d$.',
+            hint2: isR ? 'Attention : on te donne le rayon. Le diamètre est le double du rayon, puis $P \\approx 3{,}14 \\times d$.' : 'On remplace $\\pi$ par $3{,}14$ : $P \\approx 3{,}14 \\times d$.',
+            solution: `${isR ? `$d = 2 \\times ${r} = ${d}\\text{ cm}$.\n` : ''}$$P = \\pi \\times d \\approx 3{,}14 \\times ${d} = ${T(res)}\\text{ cm}$$`,
             _v: { k: '6M1.circ', d }
           });
         }
@@ -2732,11 +2792,11 @@
           const fmt = k => `$${k}\\pi${this._6mU(u)}$`;
           const correct = fmt(2 * r);
           const q = mk({
-            title: "Longueur exacte d'un cercle",
-            statement: `Un cercle a ${isR ? `un rayon de $${r}${this._6mU(u)}$` : `un diamètre de $${2 * r}${this._6mU(u)}$`}.\n**Quelle est la valeur exacte de sa longueur ?**`,
-            hint1: 'La longueur d\'un cercle de diamètre $D$ est $\\pi \\times D$.',
+            title: "Périmètre exact d'un disque",
+            statement: `Un disque a ${isR ? `un rayon de $${r}${this._6mU(u)}$` : `un diamètre de $${2 * r}${this._6mU(u)}$`}.\n**Quelle est la valeur exacte de son périmètre ?**`,
+            hint1: 'Le périmètre d\'un disque de diamètre $d$ est $\\pi \\times d$.',
             hint2: isR ? 'On te donne le rayon : le diamètre en est le double. La valeur exacte s\'écrit avec la lettre $\\pi$.' : 'La valeur exacte garde la lettre $\\pi$ : on ne remplace pas $\\pi$ par $3{,}14$.',
-            solution: `$$\\mathcal{P} = \\pi \\times ${2 * r} = ${2 * r}\\pi${this._6mU(u)}$$`,
+            solution: `$$P = \\pi \\times ${2 * r} = ${2 * r}\\pi${this._6mU(u)}$$`,
             _v: { k: '6M1.circExact', r, u }
           });
           return this._6mcq(q, correct, [fmt(r), fmt(r * r), fmt(4 * r), fmt(2 * r + 2)]);
@@ -2757,17 +2817,17 @@
         const d = this.randInt(2, 40);
         const L = this._6r(3.14 * d);
         return mk({
-          title: 'Retrouver le diamètre d\'un cercle',
-          statement: `En prenant $3{,}14$ comme valeur approchée de $\\pi$, la longueur d'un cercle vaut $${T(L)}\\text{ cm}$.\n**Quel est son diamètre, en cm ?**`,
+          title: 'Retrouver le diamètre d\'un disque',
+          statement: `En prenant $3{,}14$ comme valeur approchée de $\\pi$, on obtient pour le périmètre d'un disque la valeur $${T(L)}\\text{ cm}$.\n**Quel est son diamètre, en cm ?**`,
           type: 'exact', answer: String(d),
-          hint1: 'Longueur du cercle $= 3{,}14 \\times D$ : on cherche $D$.',
-          hint2: 'Longueur d\'un cercle : $\\mathcal{P} = \\pi \\times D$ ; pour retrouver un facteur, on divise le produit par l\'autre facteur.',
-          solution: `$3{,}14 \\times D = ${T(L)}$, donc $D = ${T(L)} \\div 3{,}14 = ${d}\\text{ cm}$.`,
+          hint1: 'Périmètre du disque $\\approx 3{,}14 \\times d$ : on cherche $d$.',
+          hint2: 'Pour retrouver un facteur, on divise le produit par l\'autre facteur.',
+          solution: `$3{,}14 \\times d \\approx ${T(L)}$, donc $d \\approx ${T(L)} \\div 3{,}14 = ${d}\\text{ cm}$.`,
           _v: { k: '6M1.circInv', L }
         }, 'Raisonner');
       }
 
-      // t === 4 : Défi 5ème
+      // t === 4 : Défi
       const st = this.randChoice(['stade', 'sqhalf', 'fence', 'wheel']);
       if (st === 'stade') {
         const L = this.randInt(20, 120), d = this.randInt(10, 60);
@@ -2777,8 +2837,8 @@
           statement: `Une piste est formée de deux segments de longueur $${L}\\text{ m}$ et de deux demi-cercles de diamètre $${d}\\text{ m}$.\n${this._6mStadeSvg(`${L} m`, `${d} m`)}\n**Calculer la longueur d'un tour de piste en m (prendre $3{,}14$ pour $\\pi$).**`,
           type: 'exact', answer: A(res),
           hint1: 'Deux demi-cercles de même diamètre forment un cercle entier.',
-          hint2: 'Longueur d\'un cercle de diamètre $D$ : $\\pi \\times D$. N\'oublie pas les deux segments droits.',
-          solution: `Les deux demi-cercles forment un cercle de diamètre $${d}\\text{ m}$ : $3{,}14 \\times ${d} = ${T(this._6r(3.14 * d))}\\text{ m}$.\n$$\\text{Tour} = 2 \\times ${L} + ${T(this._6r(3.14 * d))} = ${T(res)}\\text{ m}$$`,
+          hint2: 'Périmètre d\'un disque de diamètre $d$ : $\\pi \\times d$. N\'oublie pas les deux segments droits.',
+          solution: `Les deux demi-cercles forment un cercle de diamètre $${d}\\text{ m}$, qui mesure $\\pi \\times ${d} \\approx 3{,}14 \\times ${d} = ${T(this._6r(3.14 * d))}\\text{ m}$.\n$$\\text{Tour} \\approx 2 \\times ${L} + ${T(this._6r(3.14 * d))} = ${T(res)}\\text{ m}$$`,
           _v: { k: '6M1.stade', L, d }
         }, 'Modéliser');
       }
@@ -2790,8 +2850,8 @@
           statement: `La figure est formée d'un carré de côté $${c}\\text{ cm}$ et d'un demi-cercle de diamètre égal au côté du carré.\n${this._6mSqHalfSvg(`${c} cm`)}\n**Calculer le périmètre de la figure en cm (prendre $3{,}14$ pour $\\pi$).**`,
           type: 'exact', answer: A(res),
           hint1: 'Le côté du carré en pointillés n\'est pas sur le contour : seuls 3 côtés comptent.',
-          hint2: 'Un demi-cercle mesure la moitié de la longueur du cercle de même diamètre : $\\pi \\times D \\div 2$.',
-          solution: `Trois côtés du carré : $3 \\times ${c} = ${3 * c}\\text{ cm}$.\nDemi-cercle : $3{,}14 \\times ${c} \\div 2 = ${T(this._6r(3.14 * c / 2))}\\text{ cm}$.\n$$P = ${3 * c} + ${T(this._6r(3.14 * c / 2))} = ${T(res)}\\text{ cm}$$`,
+          hint2: 'Un demi-cercle mesure la moitié du périmètre du disque de même diamètre : $\\pi \\times d \\div 2$.',
+          solution: `Trois côtés du carré : $3 \\times ${c} = ${3 * c}\\text{ cm}$.\nDemi-cercle : $\\pi \\times ${c} \\div 2 \\approx 3{,}14 \\times ${c} \\div 2 = ${T(this._6r(3.14 * c / 2))}\\text{ cm}$.\n$$P \\approx ${3 * c} + ${T(this._6r(3.14 * c / 2))} = ${T(res)}\\text{ cm}$$`,
           _v: { k: '6M1.sqhalf', c }
         }, 'Modéliser');
       }
@@ -2816,9 +2876,9 @@
         title: 'La roue de vélo',
         statement: `Une roue de vélo a un diamètre de $${d}\\text{ cm}$. Elle fait ${n} tours complets sans glisser.\n**Quelle distance le vélo a-t-il parcourue, en cm ? (prendre $3{,}14$ pour $\\pi$)**`,
         type: 'exact', answer: A(res),
-        hint1: 'À chaque tour, le vélo avance de la longueur du cercle de la roue.',
-        hint2: 'En un tour, la roue avance de la longueur de son cercle : $\\pi \\times D \\approx 3{,}14 \\times D$.',
-        solution: `Un tour : $3{,}14 \\times ${d} = ${T(this._6r(3.14 * d))}\\text{ cm}$.\n$$${n} \\times ${T(this._6r(3.14 * d))} = ${T(res)}\\text{ cm}$$`,
+        hint1: 'À chaque tour, le vélo avance d\'une distance égale au périmètre de la roue.',
+        hint2: 'En un tour, la roue avance de son périmètre : $\\pi \\times d \\approx 3{,}14 \\times d$.',
+        solution: `Un tour : $\\pi \\times ${d} \\approx 3{,}14 \\times ${d} = ${T(this._6r(3.14 * d))}\\text{ cm}$.\nLa distance parcourue vaut environ :\n$$${n} \\times ${T(this._6r(3.14 * d))} = ${T(res)}\\text{ cm}$$`,
         _v: { k: '6M1.wheel', d, n }
       }, 'Modéliser');
     },
@@ -2833,26 +2893,27 @@
       const mk = (o, sk) => this._6mQ('6M2', t, o, sk);
 
       const conv = (level) => {
+        // Conversions limitées à m² ↔ dm² et dm² ↔ cm², fondées sur 1 m² = 100 dm² et 1 dm² = 100 cm²
         let from, to, val, res;
         for (let guard = 0; guard < 80; guard++) {
-          const i = this.randInt(2, 5);
-          const j = level === 1 ? i + 1 : this.randInt(i + 1, Math.min(6, i + 2));
+          const i = this.randInt(3, 4), j = i + 1;
           const toSmall = Math.random() < 0.55;
           from = toSmall ? i : j; to = toSmall ? j : i;
           if (level === 1) val = toSmall ? this.randInt(2, 95) : this.randInt(1, 99) * 100;
           else val = this._6r(this.randInt(11, 999) / Math.pow(10, this.randInt(0, 2)));
           res = this._6r(val * Math.pow(100, to - from));
           const dec = (String(res).split('.')[1] || '').length;
-          if (dec <= 4 && res < 1e7) break;
+          // 10 et 100 figurent dans l'indice (carré de 10 sur 10) et val = 100 redonne l'égalité du cours.
+          if (dec <= 3 && res < 1e7 && res !== 10 && res !== 100 && val !== 100) break;
         }
-        const k = Math.abs(to - from);
+        const big = U[Math.min(from, to)], small = U[Math.max(from, to)];
         return mk({
-          title: level === 1 ? "Conversion d'aires" : "Conversion d'aires (plusieurs rangs)",
+          title: level === 1 ? "Conversion d'aires" : "Conversion d'aires (nombres décimaux)",
           statement: `Compléter la conversion suivante :\n$$${T(val)}${this._6mU(U[from], 2)} = \\dots${this._6mU(U[to], 2)}$$\n*(Donner seulement le nombre.)*`,
           type: 'exact', answer: A(res),
-          hint1: 'Pour les aires, chaque unité vaut 100 fois l\'unité immédiatement inférieure : le tableau a deux colonnes par unité.',
-          hint2: `Entre deux unités d'aire voisines, on multiplie ou on divise par cent ; ici, l'écart est de ${['', 'un rang', 'deux rangs', 'trois rangs', 'quatre rangs'][k] || 'plusieurs rangs'}.`,
-          solution: `$1${this._6mU(U[Math.min(from, to)], 2)} = ${T(Math.pow(100, k))}${this._6mU(U[Math.max(from, to)], 2)}$, donc :\n$$${T(val)}${this._6mU(U[from], 2)} = ${T(res)}${this._6mU(U[to], 2)}$$`,
+          hint1: `Imagine un carré de $1${this._6mU(big)}$ de côté, pavé par des carrés de $1${this._6mU(small)}$ de côté : combien de rangées, et combien de carreaux dans chaque rangée ?`,
+          hint2: `Comme $1${this._6mU(big)} = 10${this._6mU(small)}$, on a $1${this._6mU(big, 2)} = 10 \\times 10${this._6mU(small, 2)}$. Demande-toi si tu passes à une unité plus petite (il en faut davantage) ou plus grande (il en faut moins).`,
+          solution: `Comme $1${this._6mU(big, 2)} = 100${this._6mU(small, 2)}$, on ${to > from ? 'multiplie' : 'divise'} par $100$ :\n$$${T(val)}${this._6mU(U[from], 2)} = ${T(res)}${this._6mU(U[to], 2)}$$`,
           _v: { k: '6M2.conv', val, from: U[from], to: U[to] }
         }, 'Convertir');
       };
@@ -2922,7 +2983,7 @@
         const shape = L === l ? `un carré de côté $${L}\\text{ cm}$` : `un rectangle de $${L}\\text{ cm}$ sur $${l}\\text{ cm}$`;
         const q = mk({
           title: 'Ne pas confondre aire et périmètre',
-          statement: `On considère ${shape}.\n**Quel est son ${what} ?**`,
+          statement: `On considère ${shape}.\n**${what === 'aire' ? 'Quelle' : 'Quel'} est son ${what} ?**`,
           hint1: "Le périmètre est une longueur (le tour, en cm) ; l'aire mesure la surface (en cm²).",
           hint2: 'Rectangle : périmètre $P = 2 \\times (L + \\ell)$ (en cm) ; aire $\\mathcal{A} = L \\times \\ell$ (en cm²).',
           solution: what === 'aire'
@@ -2983,11 +3044,11 @@
         const a = this.randInt(3, 20), b = this.randInt(3, 20);
         const res = this._6r(a * b / 2);
         return mk({
-          title: "Aire d'un triangle rectangle",
+          title: "Défi : aire d'un triangle rectangle (pour aller plus loin)",
           statement: `Le triangle ci-dessous est rectangle ; ses côtés de l'angle droit mesurent $${a}\\text{ cm}$ et $${b}\\text{ cm}$.\n${this._6mTriSvg(`${a} cm`, `${b} cm`)}\n**Calculer son aire en cm².** *(Astuce : c'est la moitié d'un rectangle.)*`,
           type: 'exact', answer: A(res),
           hint1: `Deux triangles identiques à celui-ci forment un rectangle de $${a}\\text{ cm}$ sur $${b}\\text{ cm}$.`,
-          hint2: 'Un triangle rectangle est la moitié d\'un rectangle : son aire vaut $\\frac{a \\times b}{2}$, où $a$ et $b$ sont les côtés de l\'angle droit.',
+          hint2: 'Un triangle rectangle est la moitié d\'un rectangle de mêmes dimensions : calcule l\'aire de ce rectangle, puis prends-en la moitié.',
           solution: `Rectangle : $${a} \\times ${b} = ${a * b}\\text{ cm}^2$. Le triangle en est la moitié :\n$$\\mathcal{A} = ${a * b} \\div 2 = ${T(res)}\\text{ cm}^2$$`,
           _v: { k: '6M2.tri', a, b }
         }, 'Raisonner');
@@ -3050,8 +3111,8 @@
 
       const conv = (decimal) => {
         const pairs = decimal
-          ? [['L', 'cm³'], ['cm³', 'L'], ['L', 'mL'], ['mL', 'L'], ['dm³', 'cm³'], ['cL', 'L'], ['L', 'cL'], ['m³', 'L'], ['L', 'm³'], ['dL', 'cm³']]
-          : [['L', 'cm³'], ['dm³', 'L'], ['L', 'dm³'], ['cm³', 'mL'], ['L', 'mL'], ['dm³', 'cm³'], ['cm³', 'L'], ['mL', 'L']];
+          ? [['L', 'mL'], ['mL', 'L'], ['cL', 'L'], ['L', 'cL'], ['dL', 'L'], ['L', 'dL'], ['dL', 'mL'], ['mL', 'cL'], ['cL', 'dL']]
+          : [['L', 'mL'], ['mL', 'L'], ['L', 'cL'], ['cL', 'L'], ['L', 'dL'], ['dL', 'L'], ['dL', 'cL'], ['cL', 'mL']];
         let from, to, val, res;
         for (let guard = 0; guard < 80; guard++) {
           [from, to] = this.randChoice(pairs);
@@ -3059,16 +3120,16 @@
           else val = V[from] >= V[to] ? this.randInt(2, 60) : this.randInt(1, 40) * (V[to] / V[from]);
           res = this._6r(val * V[from] / V[to]);
           const dec = (String(res).split('.')[1] || '').length;
-          // 100 et 1 000 figurent dans l'indice (égalités à connaître) : on les écarte
-          if (dec <= 3 && res < 1e7 && res !== 100 && res !== 1000) break;
+          // 1, 10, 100 et 1 000 figurent dans le rappel (égalités à connaître) : on les écarte
+          if (dec <= 3 && res < 1e7 && ![1, 10, 100, 1000].includes(res)) break;
         }
         return mk({
-          title: decimal ? 'Volumes et contenances (décimaux)' : 'Volumes et contenances',
-          statement: `Compléter :\n$$${T(val)}${tex(from)} = \\dots${tex(to)}$$\n*(Rappel : $1\\text{ L} = 1\\text{ dm}^3 = 1\\,000\\text{ cm}^3$ et $1\\text{ mL} = 1\\text{ cm}^3$.)*`,
+          title: decimal ? 'Contenances (décimaux)' : 'Contenances',
+          statement: `Compléter :\n$$${T(val)}${tex(from)} = \\dots${tex(to)}$$\n*(Rappel : $1\\text{ L} = 10\\text{ dL} = 100\\text{ cL} = 1\\,000\\text{ mL}$.)*`,
           type: 'exact', answer: A(res),
-          hint1: `Passe si besoin par une unité intermédiaire (le cm³ ou le L) pour aller des ${from} aux ${to}.`,
-          hint2: 'Égalités à connaître : 1 L = 1 dm³ = 1 000 cm³ = 1 000 mL ; 1 L = 100 cL ; 1 m³ = 1 000 L ; 1 mL = 1 cm³.',
-          solution: `On passe par le centimètre cube ($1\\text{ cm}^3 = 1\\text{ mL}$ et $1\\text{ L} = 1\\,000\\text{ cm}^3$) :\n$$${T(val)}${tex(from)} = ${T(this._6r(val * V[from]))}\\text{ cm}^3 = ${T(res)}${tex(to)}$$\nRéponse : **$${T(res)}$** ${to}.`,
+          hint1: 'Range les unités dans l\'ordre L, dL, cL, mL : chaque unité vaut 10 fois la suivante.',
+          hint2: `Des ${from} aux ${to}, l'unité est ${V[from] > V[to] ? 'plus petite' : 'plus grande'} : le nombre obtenu sera donc ${V[from] > V[to] ? 'plus grand' : 'plus petit'} que $${T(val)}$.`,
+          solution: `On utilise $1\\text{ L} = 10\\text{ dL} = 100\\text{ cL} = 1\\,000\\text{ mL}$ :\n$$${T(val)}${tex(from)}${from === 'mL' || to === 'mL' ? '' : ` = ${T(this._6r(val * V[from]))}\\text{ mL}`} = ${T(res)}${tex(to)}$$\nRéponse : **$${T(res)}$** ${to}.`,
           _v: { k: '6M3.conv', val, from, to }
         }, 'Convertir');
       };
@@ -3088,15 +3149,14 @@
             _v: { k: '6M3.count', a, b, c }
           });
         }
-        const c = this.randInt(2, 12);
-        const u = this.randChoice(['cm', 'm', 'dm', 'mm']);
+        const c = this.randInt(2, 10);
         return mk({
-          title: "Volume d'un cube",
-          statement: `Un cube a une arête de $${c}${this._6mU(u)}$.\n**Calculer son volume en ${u}³.**`,
+          title: 'Un grand cube de petits cubes',
+          statement: `Un grand cube plein est construit avec des petits cubes de $1\\text{ cm}^3$ : il y a ${c} petits cubes sur chaque arête.\n**Quel est le volume du grand cube, en cm³ ?**`,
           type: 'exact', answer: String(c * c * c),
-          hint1: 'Volume du cube = arête × arête × arête.',
-          hint2: 'Cube d\'arête $a$ : $\\mathcal{V} = a \\times a \\times a$ ; l\'unité est l\'unité de longueur « au cube ».',
-          solution: `$$\\mathcal{V} = ${c} \\times ${c} \\times ${c} = ${c * c * c}${this._6mU(u, 3)}$$`,
+          hint1: 'Compte les petits cubes d\'une couche, puis le nombre de couches.',
+          hint2: `Une couche est un carré de ${c} rangées de ${c} petits cubes.`,
+          solution: `Une couche : $${c} \\times ${c} = ${c * c}$ petits cubes. Il y a ${c} couches :\n$$${c * c} \\times ${c} = ${T(c * c * c)}\\text{ petits cubes, soit } ${T(c * c * c)}\\text{ cm}^3$$`,
           _v: { k: '6M3.cube', c }
         });
       }
@@ -3106,41 +3166,40 @@
         if (st === 'conv') return conv(true);
         if (st === 'pave') {
           const L = this.randInt(3, 15), l = this.randInt(2, 10), h = this.randInt(2, 12);
-          const u = this.randChoice(['cm', 'm', 'dm']);
           return mk({
-            title: "Volume d'un pavé droit",
-            statement: `Calculer le volume du pavé droit ci-dessous en ${u}³ (figure non à l'échelle).\n${this._6mPaveSvg(`${L} ${u}`, `${l} ${u}`, `${h} ${u}`)}`,
+            title: 'Remplir un pavé avec des cubes',
+            statement: `On remplit exactement un pavé droit de $${L}\\text{ cm}$ de long, $${l}\\text{ cm}$ de large et $${h}\\text{ cm}$ de haut avec des cubes de $1\\text{ cm}$ d'arête (figure non à l'échelle).\n${this._6mPaveSvg(`${L} cm`, `${l} cm`, `${h} cm`)}\n**Quel est son volume, en cm³ ?**`,
             type: 'exact', answer: String(L * l * h),
-            hint1: 'Volume du pavé droit = Longueur × largeur × hauteur.',
-            hint2: 'Pavé droit : $\\mathcal{V} = L \\times \\ell \\times h$, les trois longueurs étant dans la même unité.',
-            solution: `$$\\mathcal{V} = ${L} \\times ${l} \\times ${h} = ${L * l * h}${this._6mU(u, 3)}$$`,
+            hint1: 'Imagine le remplissage couche par couche : compte les cubes posés sur le fond, puis le nombre de couches.',
+            hint2: `Sur le fond, il y a ${L} rangées de ${l} cubes.`,
+            solution: `**Étape 1 :** une couche sur le fond contient $${L} \\times ${l} = ${L * l}$ cubes.\n**Étape 2 :** il y a ${h} couches : $$${L * l} \\times ${h} = ${T(L * l * h)}\\text{ cubes, soit } ${T(L * l * h)}\\text{ cm}^3$$`,
             _v: { k: '6M3.pave', L, l, h }
           });
         }
         const L = this.randInt(3, 15), l = this.randInt(2, 10), h = this.randInt(2, 12);
         const Vol = L * l * h;
         return mk({
-          title: 'Retrouver la hauteur d\'un pavé',
-          statement: `Un pavé droit a un volume de $${Vol}\\text{ cm}^3$. Sa base est un rectangle de $${L}\\text{ cm}$ sur $${l}\\text{ cm}$.\n**Quelle est sa hauteur, en cm ?**`,
-          type: 'exact', answer: String(h),
-          hint1: 'Calcule d\'abord l\'aire de la base, puis cherche par quel nombre il faut la multiplier pour obtenir le volume.',
-          hint2: 'Pavé droit : $\\mathcal{V} = L \\times \\ell \\times h$ = (aire de la base) × hauteur.',
-          solution: `**Étape 1 :** aire de la base : $${L} \\times ${l} = ${L * l}\\text{ cm}^2$.\n**Étape 2 :** $${L * l} \\times h = ${Vol}$, donc $h = ${Vol} \\div ${L * l} = ${h}$.\nLa hauteur du pavé est **$${h}\\text{ cm}$**.`,
+          title: 'Retrouver le nombre de couches',
+          statement: `Un pavé droit plein est formé de $${T(Vol)}$ cubes de $1\\text{ cm}^3$. Sa couche du bas compte ${L} cubes de long et ${l} cubes de large.\n**Combien de couches ce pavé a-t-il ?**`,
+          type: 'exact', answer: String(h), placeholder: 'Ex : 5',
+          hint1: 'Calcule d\'abord le nombre de cubes d\'une couche, puis cherche combien de couches il faut pour atteindre le total.',
+          hint2: `Une couche contient ${L} × ${l} cubes : cherche par quel nombre la multiplier pour obtenir $${T(Vol)}$.`,
+          solution: `**Étape 1 :** une couche contient $${L} \\times ${l} = ${L * l}$ cubes.\n**Étape 2 :** $${L * l} \\times n = ${T(Vol)}$, donc $n = ${T(Vol)} \\div ${L * l} = ${h}$.\nLe pavé a **${h} couches**.`,
           _v: { k: '6M3.height', V: Vol, L, l }
         }, 'Raisonner');
       }
 
       if (t === 3) {
-        const st = this.randChoice(['aqua', 'pavedec', 'remove']);
+        const st = this.randChoice(['remove', 'remove', 'aqua', 'pavedec']);
         if (st === 'aqua') {
           const L = 5 * this.randInt(6, 20), l = 5 * this.randInt(4, 10), h = 5 * this.randInt(4, 10);
           const res = this._6r(L * l * h / 1000);
           return mk({
-            title: "Contenance d'un aquarium",
-            statement: `Un aquarium a la forme d'un pavé droit de $${L}\\text{ cm}$ de long, $${l}\\text{ cm}$ de large et $${h}\\text{ cm}$ de haut.\n${this._6mPaveSvg(`${L} cm`, `${l} cm`, `${h} cm`)}\n**Quelle est sa contenance, en litres ?**`,
+            title: "Pour aller plus loin : contenance d'un aquarium",
+            statement: `**Pour aller plus loin** : on admet que $1\\text{ L} = 1\\,000\\text{ cm}^3$.\nUn aquarium a la forme d'un pavé droit de $${L}\\text{ cm}$ de long, $${l}\\text{ cm}$ de large et $${h}\\text{ cm}$ de haut.\n${this._6mPaveSvg(`${L} cm`, `${l} cm`, `${h} cm`)}\n**Quelle est sa contenance, en litres ?**`,
             type: 'exact', answer: A(res),
             hint1: 'Calcule le volume en cm³, puis convertis : 1 L = 1 000 cm³.',
-            hint2: 'Pavé droit : $\\mathcal{V} = L \\times \\ell \\times h$ ; contenance : $1\\text{ L} = 1\\text{ dm}^3 = 1\\,000\\text{ cm}^3$.',
+            hint2: `Une couche posée sur le fond contient ${L} × ${l} cubes de $1\\text{ cm}^3$, et il y a ${h} couches.`,
             solution: `**Étape 1 :** $$\\mathcal{V} = ${L} \\times ${l} \\times ${h} = ${T(L * l * h)}\\text{ cm}^3$$\n**Étape 2 :** $1\\text{ L} = 1\\,000\\text{ cm}^3$, donc on divise par $1\\,000$ : $${T(L * l * h)}\\text{ cm}^3 = ${T(res)}\\text{ L}$.\nL'aquarium contient **$${T(res)}\\text{ L}$**.`,
             _v: { k: '6M3.aqua', L, l, h }
           }, 'Modéliser');
@@ -3149,8 +3208,8 @@
           const L = this._6r(this.randInt(15, 95) / 10), l = this.randInt(2, 8), h = this.randInt(2, 9);
           const res = this._6r(L * l * h);
           return mk({
-            title: "Volume d'un pavé (décimaux)",
-            statement: `Un pavé droit mesure $${T(L)}\\text{ m}$ sur $${l}\\text{ m}$ sur $${h}\\text{ m}$.\n**Calculer son volume en m³.**`,
+            title: "Pour aller plus loin : volume d'un pavé (décimaux)",
+            statement: `**Pour aller plus loin** : le volume d'un pavé droit se calcule en multipliant ses trois dimensions, même décimales.\nUn pavé droit mesure $${T(L)}\\text{ m}$ sur $${l}\\text{ m}$ sur $${h}\\text{ m}$.\n**Calculer son volume en m³.**`,
             type: 'exact', answer: A(res),
             hint1: 'Volume = Longueur × largeur × hauteur.',
             hint2: 'Pavé droit : $\\mathcal{V} = L \\times \\ell \\times h$. On peut multiplier dans l\'ordre que l\'on veut : commence par les deux entiers.',
@@ -3165,14 +3224,14 @@
           statement: `Léa construit un pavé de ${a} cubes de long, ${b} cubes de large et ${c} cubes de haut, avec des cubes de $1\\text{ cm}^3$. Puis elle retire ${r} cubes de la couche du dessus.\n**Quel est le volume du solide obtenu, en cm³ ?**`,
           type: 'exact', answer: String(a * b * c - r),
           hint1: 'Calcule d\'abord le nombre de cubes du pavé complet.',
-          hint2: 'Nombre de cubes d\'un pavé = (cubes en longueur) × (cubes en largeur) × (cubes en hauteur) ; chaque cube vaut 1 cm³.',
-          solution: `$$${a} \\times ${b} \\times ${c} - ${r} = ${a * b * c} - ${r} = ${a * b * c - r}\\text{ cm}^3$$`,
+          hint2: `Une couche contient ${a} × ${b} cubes et il y a ${c} couches ; pense ensuite aux cubes retirés.`,
+          solution: `Une couche : $${a} \\times ${b} = ${a * b}$ cubes. Avec ${c} couches : $${a * b} \\times ${c} = ${a * b * c}$ cubes.\nOn retire ${r} cubes : $$${a * b * c} - ${r} = ${a * b * c - r}\\text{ cubes, soit } ${a * b * c - r}\\text{ cm}^3$$`,
           _v: { k: '6M3.remove', a, b, c, r }
         }, 'Raisonner');
       }
 
       // t === 4
-      const st = this.randChoice(['fill', 'fit', 'level']);
+      const st = this.randChoice(['fit', 'fit', 'fill', 'level']);
       if (st === 'fill') {
         let L, l, h, Vol, divs;
         do {
@@ -3184,7 +3243,7 @@
         const d = this.randChoice(divs);
         return mk({
           title: 'Remplir une cuve',
-          statement: `Une cuve a la forme d'un pavé droit de $${L}\\text{ dm}$ sur $${l}\\text{ dm}$ sur $${h}\\text{ dm}$. Un robinet débite ${d} litres par minute.\n**Combien de minutes faut-il pour remplir la cuve vide ?**`,
+          statement: `**Pour aller plus loin** : on admet que $1\\text{ dm}^3 = 1\\text{ L}$.\nUne cuve a la forme d'un pavé droit de $${L}\\text{ dm}$ sur $${l}\\text{ dm}$ sur $${h}\\text{ dm}$. Un robinet débite ${d} litres par minute.\n**Combien de minutes faut-il pour remplir la cuve vide ?**`,
           type: 'exact', answer: String(Vol / d),
           hint1: 'Calcule le volume de la cuve en litres, puis cherche combien de minutes il faut au robinet pour le fournir.',
           hint2: 'Pavé droit : $\\mathcal{V} = L \\times \\ell \\times h$ ; $1\\text{ dm}^3 = 1\\text{ L}$.',
@@ -3210,7 +3269,7 @@
       const Vl = this._6r(L * l * hh / 1000);
       return mk({
         title: "Hauteur d'eau dans un aquarium",
-        statement: `Le fond d'un aquarium est un rectangle de $${L}\\text{ cm}$ sur $${l}\\text{ cm}$. On y verse $${T(Vl)}\\text{ L}$ d'eau.\n**À quelle hauteur, en cm, l'eau monte-t-elle ?**`,
+        statement: `**Pour aller plus loin** : on admet que $1\\text{ L} = 1\\,000\\text{ cm}^3$.\nLe fond d'un aquarium est un rectangle de $${L}\\text{ cm}$ sur $${l}\\text{ cm}$. On y verse $${T(Vl)}\\text{ L}$ d'eau.\n**À quelle hauteur, en cm, l'eau monte-t-elle ?**`,
         type: 'exact', answer: String(hh),
         hint1: 'Convertis le volume d\'eau en cm³ : 1 L = 1 000 cm³.',
         hint2: 'L\'eau forme un pavé droit : $\\mathcal{V} = (\\text{aire du fond}) \\times h$, donc $h = \\mathcal{V} \\div (\\text{aire du fond})$.',
@@ -3435,7 +3494,7 @@
 
     _6E_q(ch, t, o) {
       const q = Object.assign({ chapterId: ch, tier: t, skill: 'Raisonner' }, o);
-      if (t === 4 && !/^Défi 5ème/.test(q.title)) q.title = 'Défi 5ème : ' + q.title;
+      if (t === 4 && !/^Défi/.test(q.title)) q.title = 'Défi : ' + q.title;
       if (q.type === 'exact' && !q.placeholder) q.placeholder = 'Ex : 12';
       return q;
     },
@@ -3781,17 +3840,25 @@
         else d = Math.abs(r1 - r2) - 1;
       } while (d <= 0);
       const opts = ['aucun point', 'un seul point', 'deux points', 'une infinité de points'];
-      const n = (d < r1 + r2 && d > Math.abs(r1 - r2)) ? 2 : (d === r1 + r2 || d === Math.abs(r1 - r2)) ? 1 : 0;
+      const som = r1 + r2, eca = Math.abs(r1 - r2);
+      const n = (d < som && d > eca) ? 2 : (d === som || d === eca) ? 1 : 0;
       const correct = opts[n];
+      const [gr, pe, cG] = r1 >= r2 ? [r1, r2, P] : [r2, r1, Q];
+      const pourquoi = n === 2
+        ? `$${eca} < ${d} < ${som}$ : la distance $${P}${Q}$ est strictement comprise entre l'écart et la somme des rayons, donc les cercles se coupent en **deux points**.`
+        : n === 1
+          ? (d === som
+            ? `$${d} = ${som}$ : la distance entre les centres est égale à la somme des rayons : les cercles se touchent en **un seul point**, situé sur le segment $[${P}${Q}]$.`
+            : `$${d} = ${eca}$ : la distance entre les centres est égale à l'écart des rayons : le petit cercle touche le grand de l'intérieur, en **un seul point**.`)
+          : d > som
+            ? `$${d} > ${som}$ : les centres sont trop éloignés. Si un même point était sur les deux cercles, le trajet de $${P}$ à $${Q}$ en passant par ce point mesurerait $${som}$ cm, moins que le segment $[${P}${Q}]$, qui est pourtant le plus court chemin de $${P}$ à $${Q}$. C'est impossible : il n'y a **aucun point**.`
+            : `$${d} < ${eca}$ : les centres sont très proches et le petit cercle est entièrement à l'intérieur du grand. En effet, le point du petit cercle le plus éloigné de $${cG}$ n'est qu'à $${d} + ${pe} = ${d + pe}$ cm de $${cG}$, donc à moins de $${gr}$ cm, le rayon du grand cercle. Les deux cercles ne se touchent pas : il n'y a **aucun point**.`;
       return this._6E_mcq(ch, t, {
         title: 'Points à distances données de deux points',
         statement: `On a $${P}${Q} = ${d}$ cm. **Combien existe-t-il de points situés à la fois à $${r1}$ cm de $${P}$ et à $${r2}$ cm de $${Q}$ ?**`,
         hint1: `Ces points sont sur le cercle de centre $${P}$ de rayon $${r1}$ cm et sur le cercle de centre $${Q}$ de rayon $${r2}$ cm.`,
         hint2: `Compare $${P}${Q}$ avec la somme $${r1} + ${r2}$ et avec la différence des rayons.`,
-        solution: `On cherche les points communs aux deux cercles. Ici $${P}${Q} = ${d}$, $${r1} + ${r2} = ${r1 + r2}$ et l'écart des rayons vaut $${Math.abs(r1 - r2)}$.\n` +
-          (n === 2 ? 'La distance est strictement comprise entre les deux : les cercles se coupent en **deux points**.' :
-            n === 1 ? 'La distance est égale à la somme (ou à l’écart) des rayons : les cercles se touchent en **un seul point**.' :
-              'Les cercles ne se rencontrent pas : il n’y a **aucun point**.'),
+        solution: `On cherche les points communs aux deux cercles. Ici $${P}${Q} = ${d}$, $${r1} + ${r2} = ${som}$ et l'écart des rayons vaut $${eca}$.\n${pourquoi}`,
         _v: { k: '6G1.inter', r1, r2, d }
       }, correct, opts.filter(o => o !== correct));
     },
@@ -3808,6 +3875,140 @@
       if (t === 1) {
         const sub = this.randChoice(['def', 'dist', 'conserv', 'axes']);
         if (sub === 'def') {
+          const form = this.randChoice(['def', 'nom', 'contre', 'equi', 'figure']);
+          if (form === 'figure') {
+            // Reconnaissance sur figure codée : une seule des quatre droites est perpendiculaire à [PQ] en son milieu
+            const [P, Q, I] = this._6E_pts(3);
+            const th = this.randChoice([-25, -15, -8, 0, 8, 15, 25]) * Math.PI / 180;
+            const sg = this.randChoice([-1, 1]);
+            const phi = this.randInt(115, 125);
+            const cx = 170, cy = 128;
+            const u = [Math.cos(th), -Math.sin(th)], n = [-Math.sin(th), -Math.cos(th)];
+            const at = (a, b) => [Math.round((cx + a * u[0] + b * n[0]) * 10) / 10, Math.round((cy + a * u[1] + b * n[1]) * 10) / 10];
+            const noms = this.shuffle(['1', '2', '3', '4']);
+            // off : position (le long du segment) du point où la droite coupe [PQ] ; ang : angle avec [PQ], en degrés
+            const lignes = [
+              { nom: noms[0], off: 0, ang: 90, role: 'med' },
+              { nom: noms[1], off: 50 * sg, ang: 90, role: 'perp' },
+              { nom: noms[2], off: -80 * sg, ang: 90, role: 'bout' },
+              { nom: noms[3], off: 0, ang: sg > 0 ? phi : 180 - phi, role: 'obli' }
+            ];
+            const trait = 'stroke="var(--text-main, #334155)" stroke-width="1.6"';
+            let s = '';
+            for (const l of lignes) {
+              const a = l.ang * Math.PI / 180, va = Math.cos(a), vb = Math.sin(a);
+              const [x1, y1] = at(l.off - 85 * va, -85 * vb), [x2, y2] = at(l.off + 85 * va, 85 * vb);
+              s += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#2563eb" stroke-width="1.8"/>`;
+              const [tx, ty] = at(l.off + 99 * va, 99 * vb);
+              s += this._6svgText(tx, ty + 4, `(d${'₀₁₂₃₄'[+l.nom]})`, { size: 13, fill: '#2563eb', weight: '700' });
+              if (l.ang === 90) {
+                // Codage de l'angle droit, du côté intérieur du segment
+                const d = l.off > 0 ? -9 : 9;
+                const [ax, ay] = at(l.off + d, 0), [bx, by] = at(l.off + d, 9), [ex, ey] = at(l.off, 9);
+                s += `<polyline points="${ax},${ay} ${bx},${by} ${ex},${ey}" fill="none" ${trait}/>`;
+              }
+            }
+            const [px, py] = at(-80, 0), [qx, qy] = at(80, 0);
+            s += `<line x1="${px}" y1="${py}" x2="${qx}" y2="${qy}" stroke="var(--text-main, #0f172a)" stroke-width="2.4"/>`;
+            for (const e of [-80, 80]) {
+              const [a1, b1] = at(e, -5), [a2, b2] = at(e, 5);
+              s += `<line x1="${a1}" y1="${b1}" x2="${a2}" y2="${b2}" stroke="var(--text-main, #0f172a)" stroke-width="2"/>`;
+            }
+            for (const e of [-30, 30]) {
+              // Codage du milieu : un même petit trait sur chacune des deux moitiés
+              const [a1, b1] = at(e - 2, -6), [a2, b2] = at(e + 2, 6);
+              s += `<line x1="${a1}" y1="${b1}" x2="${a2}" y2="${b2}" stroke="#dc2626" stroke-width="2"/>`;
+            }
+            const [ix, iy] = at(0, 0);
+            s += `<circle cx="${ix}" cy="${iy}" r="2.6" fill="var(--text-main, #0f172a)"/>`;
+            const [lpx, lpy] = at(-95, -14), [lqx, lqy] = at(95, -14), [lix, liy] = at(-14 * sg, -17);
+            s += this._6svgText(lpx, lpy + 4, P, { size: 14, weight: '700' }) + this._6svgText(lqx, lqy + 4, Q, { size: 14, weight: '700' }) + this._6svgText(lix, liy + 4, I, { size: 13, weight: '700' });
+            const fig = this._6svg(340, 256, s, 340);
+            const dn = role => `$(d_${lignes.find(l => l.role === role).nom})$`;
+            const correct = `la droite ${dn('med')}`;
+            return this._6E_mcq(ch, t, {
+              title: 'Reconnaître la médiatrice sur une figure',
+              statement: `Sur la figure codée ci-dessous, le point $${I}$ est le milieu du segment $[${P}${Q}]$.\n${fig}\n**Laquelle de ces droites est la médiatrice du segment $[${P}${Q}]$ ?**`,
+              hint1: 'La médiatrice d\'un segment doit remplir deux conditions à la fois : être perpendiculaire au segment (codage de l\'angle droit) et passer par son milieu (codage des longueurs égales).',
+              hint2: `Ici, la droite ${dn('obli')} passe bien par $${I}$, mais elle n'est pas perpendiculaire à $[${P}${Q}]$ : ce n'est pas elle. Regarde maintenant les droites qui portent un angle droit.`,
+              solution: `**Étape 1 :** les droites ${dn('med')}, ${dn('perp')} et ${dn('bout')} sont perpendiculaires à $[${P}${Q}]$ (angle droit codé) ; ${dn('obli')} ne l'est pas.\n**Étape 2 :** parmi ces trois droites, seule ${dn('med')} passe par le milieu $${I}$ de $[${P}${Q}]$ : ${dn('perp')} coupe le segment ailleurs et ${dn('bout')} passe par une extrémité.\n**Conclusion :** la médiatrice de $[${P}${Q}]$ est ${correct}.`,
+              skill: 'Chercher',
+              _v: { k: '6G2.fig', lignes: lignes.map(l => ({ nom: l.nom, off: l.off, ang: l.ang })) }
+            }, correct, lignes.filter(l => l.role !== 'med').map(l => `la droite $(d_${l.nom})$`));
+          }
+          if (form === 'nom') {
+            // Sens inverse : les deux conditions sont données, on nomme la droite
+            const [P, Q] = this._6E_pts(2);
+            const correct = `la médiatrice du segment $[${P}${Q}]$`;
+            return this._6E_mcq(ch, t, {
+              title: 'Nommer la médiatrice',
+              statement: `La droite $(d)$ est perpendiculaire au segment $[${P}${Q}]$ et passe par son milieu. **Comment appelle-t-on la droite $(d)$ ?**`,
+              hint1: 'Relis la définition des droites particulières liées à un segment : laquelle est caractérisée par un angle droit et par le milieu ?',
+              hint2: `Le milieu de $[${P}${Q}]$ est un point, pas une droite ; et $(d)$ coupe $(${P}${Q})$ en formant un angle droit.`,
+              solution: `Une droite perpendiculaire à un segment en son milieu est, par définition, la **médiatrice** de ce segment.\n**Conclusion :** $(d)$ est ${correct}.`,
+              skill: 'Communiquer',
+              _v: { k: '6G2.nom', P, Q }
+            }, correct, [
+              `le milieu du segment $[${P}${Q}]$`,
+              `une parallèle à la droite $(${P}${Q})$`,
+              `la droite $(${P}${Q})$`
+            ]);
+          }
+          if (form === 'contre') {
+            // Contre-exemples : une seule des deux conditions est remplie
+            const [P, Q, I] = this._6E_pts(3);
+            const manque = this.randChoice(['perp', 'milieu']);
+            let donnees, _v;
+            if (manque === 'perp') {
+              const a = this.randChoice([this.randInt(30, 80), this.randInt(100, 150)]);
+              donnees = `La droite $(d)$ coupe le segment $[${P}${Q}]$ en son milieu $${I}$, et l'un des angles formés par $(d)$ et $[${P}${Q}]$ mesure $${a}^\\circ$.`;
+              _v = { k: '6G2.contre', manque, a, P, Q };
+            } else {
+              const u = this.randInt(2, 9), v = u + this.randChoice([1, 2, 3, 4, 5]);
+              const [x, y] = this.randInt(0, 1) ? [u, v] : [v, u];
+              donnees = `La droite $(d)$ est perpendiculaire au segment $[${P}${Q}]$ et le coupe au point $${I}$, avec $${P}${I} = ${x}$ cm et $${I}${Q} = ${y}$ cm.`;
+              _v = { k: '6G2.contre', manque, x, y, P, Q };
+            }
+            const correct = manque === 'perp'
+              ? `Non, car $(d)$ n'est pas perpendiculaire à $[${P}${Q}]$.`
+              : `Non, car $(d)$ ne passe pas par le milieu de $[${P}${Q}]$.`;
+            return this._6E_mcq(ch, t, {
+              title: 'Reconnaître une médiatrice',
+              statement: `${donnees}\n**La droite $(d)$ est-elle la médiatrice du segment $[${P}${Q}]$ ?**`,
+              hint1: 'La médiatrice doit remplir deux conditions à la fois : être perpendiculaire au segment et passer par son milieu. Vérifie-les une par une.',
+              hint2: manque === 'perp'
+                ? `$(d)$ passe bien par le milieu de $[${P}${Q}]$. Regarde maintenant l'angle qu'elle forme avec le segment.`
+                : `$(d)$ est bien perpendiculaire à $[${P}${Q}]$. Regarde maintenant si $${I}$ est le milieu du segment.`,
+              solution: manque === 'perp'
+                ? `**Étape 1 :** $(d)$ passe par le milieu $${I}$ de $[${P}${Q}]$ : cette condition est remplie.\n**Étape 2 :** un angle de $${_v.a}^\\circ$ n'est pas un angle droit : $(d)$ n'est pas perpendiculaire à $[${P}${Q}]$.\n**Conclusion :** ${correct}`
+                : `**Étape 1 :** $(d)$ est perpendiculaire à $[${P}${Q}]$ : cette condition est remplie.\n**Étape 2 :** $${P}${I} = ${_v.x}$ cm et $${I}${Q} = ${_v.y}$ cm ne sont pas égales : $${I}$ n'est pas le milieu de $[${P}${Q}]$.\n**Conclusion :** ${correct}`,
+              skill: 'Raisonner',
+              _v
+            }, correct, [
+              `Oui, car $(d)$ coupe le segment $[${P}${Q}]$.`,
+              manque === 'perp' ? `Oui, car $(d)$ passe par le milieu de $[${P}${Q}]$.` : `Oui, car $(d)$ est perpendiculaire à $[${P}${Q}]$.`,
+              manque === 'perp' ? `Non, car $(d)$ ne passe pas par le milieu de $[${P}${Q}]$.` : `Non, car $(d)$ n'est pas perpendiculaire à $[${P}${Q}]$.`
+            ]);
+          }
+          if (form === 'equi') {
+            // Propriété caractéristique : point donné par ses distances, on le situe
+            const [P, Q, M] = this._6E_pts(3);
+            const x = this.randInt(3, 12), pq = this.randInt(2, 2 * x - 1);
+            const correct = `$${M}$ appartient à la médiatrice du segment $[${P}${Q}]$.`;
+            return this._6E_mcq(ch, t, {
+              title: 'Point à égale distance de deux points',
+              statement: `On a $${P}${Q} = ${pq}$ cm. Le point $${M}$ vérifie $${M}${P} = ${x}$ cm et $${M}${Q} = ${x}$ cm. **Que peut-on affirmer ?**`,
+              hint1: `Compare les distances $${M}${P}$ et $${M}${Q}$, puis rappelle-toi la propriété caractéristique de la médiatrice.`,
+              hint2: `$${M}$ est à la même distance de $${P}$ et de $${Q}$. Pour le milieu, compare $${M}${P} + ${M}${Q}$ avec $${P}${Q}$.`,
+              solution: `**Étape 1 :** $${M}${P} = ${M}${Q} = ${x}$ cm : $${M}$ est équidistant de $${P}$ et de $${Q}$.\n**Étape 2 :** tout point équidistant des extrémités d'un segment appartient à sa médiatrice.\n**Étape 3 :** $${M}$ n'est pas le milieu de $[${P}${Q}]$ : sinon on aurait $${M}${P} + ${M}${Q} = ${P}${Q}$, or $${x} + ${x} = ${2 * x}$ et $${P}${Q} = ${pq}$.\n**Conclusion :** ${correct}`,
+              skill: 'Raisonner',
+              _v: { k: '6G2.equi', x, pq, P, Q, M }
+            }, correct, [
+              `$${M}$ est le milieu du segment $[${P}${Q}]$.`,
+              `$${M}$ appartient à la droite $(${P}${Q})$.`,
+              `$${M}$ appartient à la perpendiculaire à $(${P}${Q})$ passant par $${P}$.`
+            ]);
+          }
           const [P, Q] = this._6E_pts(2);
           const correct = `la droite perpendiculaire à $[${P}${Q}]$ en son milieu`;
           return this._6E_mcq(ch, t, {
@@ -4166,7 +4367,7 @@
             statement: `La demi-droite $[${O}${M})$ est la bissectrice de l'angle $${ang(P, O, Q)}$, qui mesure $${x}^\\circ$. **Combien mesure l'angle $${ang(P, O, M)}$, en degrés ?**`,
             type: 'exact', answer: A(x / 2), placeholder: 'Ex : 35',
             hint1: `Fais un schéma à main levée : la bissectrice $[${O}${M})$ coupe l'angle $${ang(P, O, Q)}$ en deux morceaux. Que peux-tu dire de ces deux morceaux ?`,
-            hint2: 'La bissectrice d’un angle est la demi-droite qui partage cet angle en deux angles adjacents de même mesure.',
+            hint2: 'La bissectrice d’un angle partage cet angle en deux angles adjacents de même mesure.',
             solution: `**Étape 1 :** $[${O}${M})$ est la bissectrice de $${ang(P, O, Q)}$, donc $${ang(P, O, M)} = ${ang(M, O, Q)}$.\n**Étape 2 :** ces deux angles se partagent $${x}^\\circ$ : $${ang(P, O, M)} = ${x}^\\circ \\div 2 = ${W(x / 2)}^\\circ$.\n**Conclusion :** $${ang(P, O, M)} = ${W(x / 2)}^\\circ$.`,
             _v: { k: '6G3.half', x }
           });
@@ -4184,7 +4385,8 @@
           });
         }
         let a, b;
-        do { a = this.randInt(40, 170); b = this.randInt(40, 170); } while (360 - a - b < 30 || 360 - a - b > 200);
+        // La somme des deux angles donnés dépasse 180° : l'angle cherché reste saillant (entre 30° et 179°).
+        do { a = this.randInt(40, 170); b = this.randInt(40, 170); } while (360 - a - b < 30 || a + b <= 180);
         const fig = this._6E_rays(O, [{ deg: 0, label: P }, { deg: a, label: Q }, { deg: a + b, label: R }], [{ from: 0, to: a, text: `${a}°` }, { from: a, to: a + b, text: `${b}°`, color: '#059669' }, { from: a + b, to: 360, text: '?', color: '#dc2626' }]);
         return this._6E_q(ch, t, {
           title: 'Angles autour d’un point',
@@ -4201,20 +4403,16 @@
       const sub = this.randChoice(['secantes', 'biss_plat', 'horloge']);
       const [P, O, Q, R, S, D] = this._6E_pts(6);
       if (sub === 'secantes') {
-        const x = this.randInt(25, 155);
-        const askOpp = Math.random() < 0.4;
-        const target = askOpp ? ang(Q, O, S) : this.randChoice([ang(Q, O, R), ang(P, O, S)]);
-        const val = askOpp ? x : 180 - x;
+        const x = 2 * this.randInt(13, 77);
+        const halfQ = (180 - x) / 2;
         return this._6E_q(ch, t, {
-          title: 'Droites sécantes : les quatre angles',
-          statement: `Les droites $(${P}${Q})$ et $(${R}${S})$ se coupent en $${O}$ (les points $${P}$, $${O}$, $${Q}$ sont alignés, ainsi que $${R}$, $${O}$, $${S}$). On sait que $${ang(P, O, R)} = ${x}^\\circ$. **Combien mesure l'angle $${target}$, en degrés ?**`,
-          type: 'exact', answer: A(val),
-          hint1: 'Deux angles adjacents formant un angle plat sont supplémentaires.',
-          hint2: 'Deux angles opposés par le sommet ont la même mesure.',
-          solution: askOpp
-            ? `$${target}$ et $${ang(P, O, R)}$ sont opposés par le sommet : $${target} = ${x}^\\circ$.`
-            : `$${target}$ et $${ang(P, O, R)}$ sont adjacents et forment un angle plat : $${target} = 180^\\circ - ${x}^\\circ = ${180 - x}^\\circ$.`,
-          _v: { k: '6G3.secantes', x, opp: askOpp }
+          title: 'Droites sécantes et bissectrice',
+          statement: `Les droites $(${P}${Q})$ et $(${R}${S})$ se coupent en $${O}$ (les points $${P}$, $${O}$, $${Q}$ sont alignés, ainsi que $${R}$, $${O}$, $${S}$). On sait que $${ang(P, O, R)} = ${x}^\\circ$. La demi-droite $[${O}${D})$ partage l'angle $${ang(R, O, Q)}$ en deux angles de même mesure. **Combien mesure l'angle $${ang(D, O, S)}$, en degrés ?**`,
+          type: 'exact', answer: A(x + halfQ),
+          hint1: `Cherche d'abord $${ang(R, O, Q)}$, qui forme un angle plat avec $${ang(P, O, R)}$, puis $${ang(Q, O, S)}$, qui est opposé par le sommet à $${ang(P, O, R)}$.`,
+          hint2: `$${ang(R, O, Q)} = 180^\\circ - ${x}^\\circ$ ; prends-en la moitié pour obtenir $${ang(D, O, Q)}$, puis décompose $${ang(D, O, S)}$ en deux angles adjacents.`,
+          solution: `**Étape 1 :** $${ang(R, O, Q)} = 180^\\circ - ${x}^\\circ = ${180 - x}^\\circ$, car $${ang(P, O, R)}$ et $${ang(R, O, Q)}$ sont adjacents et forment un angle plat.\n**Étape 2 :** $[${O}${D})$ partage cet angle en deux angles égaux, donc $${ang(D, O, Q)} = ${180 - x}^\\circ \\div 2 = ${halfQ}^\\circ$.\n**Étape 3 :** $${ang(Q, O, S)}$ et $${ang(P, O, R)}$ sont opposés par le sommet : $${ang(Q, O, S)} = ${x}^\\circ$.\n**Étape 4 :** $${ang(D, O, S)} = ${ang(D, O, Q)} + ${ang(Q, O, S)} = ${halfQ}^\\circ + ${x}^\\circ = ${x + halfQ}^\\circ$.`,
+          _v: { k: '6G3.bissplat', x }
         });
       }
       if (sub === 'biss_plat') {
@@ -4399,18 +4597,21 @@
       const sub = this.randChoice(['cercle', 'ext', 'deux']);
       const [P, Q, R, D, O] = this._6E_pts(5);
       if (sub === 'cercle') {
-        const r = Math.random() < 0.6 ? this.randInt(2, 15) : this.randInt(21, 99) / 10;
+        const r = Math.random() < 0.6 ? this.randInt(3, 15) : this.randInt(31, 99) / 10;
+        const c = this.randInt(2, Math.floor(2 * r) - 1);
+        const d = this.randInt(2, Math.floor(2 * r) - 1);
+        const p = this._6r(2 * r + c);
         const ask = this.randInt(0, 2);
-        const q = [`le diamètre du cercle circonscrit au triangle $${P}${Q}${R}$`, `la somme $${O}${Q} + ${O}${R}$`, `la somme $${O}${P} + ${O}${Q} + ${O}${R}$`][ask];
-        const val = [2 * r, 2 * r, 3 * r][ask];
+        const q = [`la somme $${O}${P} + ${O}${Q} + ${O}${R}$`, `le périmètre du triangle $${O}${Q}${R}$`, `le diamètre du cercle circonscrit au triangle $${P}${Q}${R}$`][ask];
+        const val = this._6r([3 * r, 2 * r + d, 2 * r][ask]);
         return this._6E_q(ch, t, {
           title: 'Médiatrices et cercle circonscrit',
-          statement: `Les médiatrices des côtés du triangle $${P}${Q}${R}$ se coupent en $${O}$, et $${O}${P} = ${W(r)}$ cm. **Calcule ${q}, en cm.**`,
+          statement: `Les médiatrices des côtés du triangle $${P}${Q}${R}$ se coupent en $${O}$. Le triangle $${O}${P}${Q}$ a pour périmètre $${W(p)}$ cm et $${P}${Q} = ${c}$ cm.${ask === 1 ? ` De plus, $${Q}${R} = ${d}$ cm.` : ''} **Calcule ${q}, en cm.**`,
           type: 'exact', answer: A(val),
-          hint1: `$${O}$ est sur chaque médiatrice : il est à la même distance des trois sommets.`,
-          hint2: `$${O}${P} = ${O}${Q} = ${O}${R}$ : c'est le rayon du cercle circonscrit, de centre $${O}$.`,
-          solution: `$${O}${P} = ${O}${Q} = ${O}${R} = ${W(r)}$ cm (rayon du cercle circonscrit).\nRésultat : $${W(this._6r(val))}$ cm.`,
-          _v: { k: '6G4.mul', a: ask === 2 ? 3 : 2, b: r }
+          hint1: `$${O}$ est sur chaque médiatrice : il est à la même distance des trois sommets. Sers-toi ensuite du périmètre de $${O}${P}${Q}$.`,
+          hint2: `$${O}${P} = ${O}${Q}$, donc $${O}${P} + ${O}${Q} = ${W(p)} - ${c}$ : déduis-en la longueur $${O}${P}$, qui est le rayon du cercle circonscrit.`,
+          solution: `**Étape 1 :** $${O}$ est sur les médiatrices des côtés, donc $${O}${P} = ${O}${Q} = ${O}${R}$.\n**Étape 2 :** dans le triangle $${O}${P}${Q}$, $${O}${P} + ${O}${Q} = ${W(p)} - ${c} = ${W(this._6r(2 * r))}$ cm, donc $${O}${P} = ${W(this._6r(2 * r))} \\div 2 = ${W(r)}$ cm.\n**Étape 3 :** ${ask === 0 ? `$${O}${P} + ${O}${Q} + ${O}${R} = 3 \\times ${W(r)}$` : ask === 1 ? `le périmètre de $${O}${Q}${R}$ vaut $${W(r)} + ${W(r)} + ${d}$` : `le diamètre vaut $2 \\times ${W(r)}$`}, soit **$${W(val)}$ cm**.`,
+          _v: { k: '6G4.circ', p, c, d, ask }
         });
       }
       if (sub === 'ext') {
@@ -4489,9 +4690,9 @@
         const val = [6, 12, 8][prop];
         return this._6E_q(ch, t, {
           title: 'Faces, arêtes et sommets',
-          statement: `On assimile ${o[0]} à un ${o[1]}. **Combien de ${pn} possède ce solide ?**`,
+          statement: `On assimile ${o[0]} à un ${o[1]}. **Combien ${this._6D1de(pn)} possède ce solide ?**`,
           type: 'exact', answer: A(val), placeholder: 'Ex : 4',
-          hint1: `Dessine le solide en perspective et compte méthodiquement les ${pn} : ceux du dessus, ceux du dessous, puis ceux qui relient le dessus au dessous.`,
+          hint1: `Dessine le solide en perspective et compte méthodiquement ${['les faces : celle du dessus, celle du dessous, puis celles des côtés', 'les arêtes : celles du dessus, celles du dessous, puis celles qui relient le dessus au dessous', 'les sommets : ceux du dessus, puis ceux du dessous'][prop]}.`,
           hint2: 'Une face est une surface plane qui limite le solide ; une arête est le segment commun à deux faces ; un sommet est un point où se rejoignent plusieurs arêtes.',
           solution: `**Méthode :** on compte ${prop === 0 ? 'le dessus, le dessous et les 4 faces latérales' : prop === 1 ? 'les 4 arêtes du dessus, les 4 du dessous et les 4 arêtes verticales' : 'les 4 sommets du dessus et les 4 du dessous'}.\nUn ${o[1]} possède 6 faces, 12 arêtes et 8 sommets.\n**Conclusion :** la réponse est **${val}**.`,
           skill: 'Communiquer',
@@ -4749,17 +4950,83 @@
       return this.shuffle(cands.filter(c => c !== this._6Fcell(end)));
     },
 
+    /** Cases successives d'un programme, instruction par instruction : une chaîne « C3 → E3 → E5 » par répétition. */
+    _6Ftrace(start, moves, reps = 1) {
+      let [c, r] = start;
+      const tours = [];
+      for (let k = 0; k < reps; k++) {
+        const cells = [this._6Fcell([c, r])];
+        for (const [d, nb] of moves) {
+          c += this._6FDIRS[d].dx * nb;
+          r += this._6FDIRS[d].dy * nb;
+          cells.push(this._6Fcell([c, r]));
+        }
+        tours.push(cells.join(' → '));
+      }
+      return tours;
+    },
+
+    /** Texte d'une carte d'un programme de calcul : [op, a] → « ajouter $a$ ». */
+    _6Fcarte([o, a]) {
+      return o === '+' ? `ajouter $${a}$` : o === '-' ? `retirer $${a}$` : `multiplier par $${a}$`;
+    },
+
+    /** Liste numérotée des cartes d'un programme, pour un énoncé. */
+    _6FlisteCartes(ops) {
+      return ops.map((op, i) => `${i + 1}. carte « ${this._6Fcarte(op)} »`).join('\n');
+    },
+
+    /** Exécute les cartes depuis l'entrée x : sortie, calculs LaTeX, premier calcul sans son résultat, étapes du corrigé. */
+    _6FexecCartes(x, ops) {
+      const sym = o => (o === '*' ? '\\times' : o);
+      let v = x;
+      const calculs = ops.map(([o, a]) => {
+        const nv = o === '+' ? v + a : o === '-' ? v - a : v * a;
+        const tex = `${v} ${sym(o)} ${a} = ${nv}`;
+        v = nv;
+        return tex;
+      });
+      return {
+        out: v,
+        calculs,
+        premier: `${x} ${sym(ops[0][0])} ${ops[0][1]}`,
+        etapes: calculs.map((c, i) => `Carte ${i + 1} (« ${this._6Fcarte(ops[i])} ») : $${c}$.`).join('\n')
+      };
+    },
+
+    /** Tire une entrée et n cartes d'opérations différentes, sans résultat intermédiaire négatif ou nul. */
+    _6FtireCartes(n, xMax = 15) {
+      for (let tries = 0; tries < 200; tries++) {
+        const x = this.randInt(2, xMax);
+        const ops = this.shuffle([['+', this.randInt(2, 12)], ['*', this.randInt(2, 6)], ['-', this.randInt(1, 9)]]).slice(0, n);
+        let v = x, ok = true;
+        for (const [o, a] of ops) {
+          v = o === '+' ? v + a : o === '-' ? v - a : v * a;
+          if (v <= 0) { ok = false; break; }
+        }
+        if (ok) return { x, ops };
+      }
+      return { x: 5, ops: [['+', 3], ['*', 2]] };
+    },
+
     // =====================================================================
     // 6D1 — Organisation et gestion de données
     // =====================================================================
     _6D1contexts: [
-      { theme: "le sport préféré des élèves de 6e", q: "élèves ont choisi", unit: 'élèves', col: 'Sport', cats: ['Football', 'Basket', 'Natation', 'Tennis', 'Judo', 'Danse', 'Escalade'] },
+      { theme: "le sport préféré d'élèves interrogés lors d'une enquête", q: "élèves ont choisi", unit: 'élèves', col: 'Sport', cats: ['Football', 'Basket', 'Natation', 'Tennis', 'Judo', 'Danse', 'Escalade'] },
       { theme: "le nombre de livres empruntés au CDI chaque jour", q: "livres ont été empruntés le", unit: 'livres', col: 'Jour', cats: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'] },
       { theme: "le moyen de transport utilisé pour venir au collège", q: "élèves viennent", unit: 'élèves', col: 'Transport', cats: ['À pied', 'Vélo', 'Bus', 'Voiture', 'Trottinette', 'Train'] },
-      { theme: "l'animal de compagnie des élèves de la classe", q: "élèves ont comme animal", unit: 'élèves', col: 'Animal', cats: ['Chat', 'Chien', 'Lapin', 'Poisson', 'Hamster', 'Oiseau'] },
+      { theme: "l'animal de compagnie d'élèves interrogés lors d'une enquête", q: "élèves ont comme animal", unit: 'élèves', col: 'Animal', cats: ['Chat', 'Chien', 'Lapin', 'Poisson', 'Hamster', 'Oiseau'] },
       { theme: "le nombre de crêpes vendues à la kermesse selon le parfum", q: "crêpes vendues au parfum", unit: 'crêpes', col: 'Parfum', cats: ['Sucre', 'Chocolat', 'Confiture', 'Caramel', 'Miel', 'Citron'] },
-      { theme: "la couleur préférée des élèves interrogés", q: "élèves préfèrent", unit: 'élèves', col: 'Couleur', cats: ['Bleu', 'Rouge', 'Vert', 'Jaune', 'Violet', 'Noir'] }
+      { theme: "la couleur préférée des élèves interrogés", q: "élèves préfèrent", unit: 'élèves', col: 'Couleur', cats: ['Bleu', 'Rouge', 'Vert', 'Jaune', 'Violet', 'Noir'] },
+      { theme: "le nombre de déchets ramassés sur une plage, selon leur type", q: "déchets ramassés", unit: 'déchets', col: 'Déchet', cats: ['Plastique', 'Verre', 'Métal', 'Papier', 'Mégots', 'Tissu'] },
+      { theme: "le nombre d'oiseaux observés dans un parc, selon leur espèce", q: "oiseaux observés", unit: 'oiseaux', col: 'Espèce', cats: ['Moineau', 'Mésange', 'Merle', 'Pigeon', 'Rouge-gorge', 'Hirondelle'] },
+      { theme: "le nombre d'insectes pollinisateurs comptés dans un jardin, selon leur espèce", q: "insectes comptés", unit: 'insectes', col: 'Insecte', cats: ['Abeille', 'Bourdon', 'Papillon', 'Syrphe', 'Guêpe'] },
+      { theme: "le nombre d'orages recensés dans une région, selon le mois", q: "orages recensés", unit: 'orages', col: 'Mois', cats: ['Mai', 'Juin', 'Juillet', 'Août', 'Septembre'] }
     ],
+
+    /** « de déchets », mais « d'élèves », « d'oiseaux » : élision devant une voyelle. */
+    _6D1de(unit) { return (/^[aeiouyàâéèêî]/i.test(unit) ? "d'" : 'de ') + unit; },
 
     _6D1pick(nCats, minV, maxV, distinct = false) {
       const ctx = this.randChoice(this._6D1contexts);
@@ -4789,7 +5056,7 @@
 
     generate6D1(tier = 1, mastery = 0) {
       const t = this.resolveTier(tier);
-      const base = (title, extra) => Object.assign({ chapterId: '6D1', tier: t, title: t === 4 ? `Défi 5ème : ${title}` : title, skill: 'Représenter' }, extra);
+      const base = (title, extra) => Object.assign({ chapterId: '6D1', tier: t, title: t === 4 ? `Défi : ${title}` : title, skill: 'Représenter' }, extra);
 
       if (t === 1) {
         const sub = this.randChoice(['lire', 'max', 'total']);
@@ -4851,11 +5118,11 @@
           const [a, b] = idx;
           const table = this._6Ftable([ctx.col, ...cats], [['Effectif', ...vals.map(String)]]);
           return base("Comparer deux effectifs", {
-            statement: `Le tableau ci-dessous présente ${ctx.theme}.${table}**Combien de ${ctx.unit} de plus compte la catégorie « ${cats[a]} » par rapport à la catégorie « ${cats[b]} » ?**`,
+            statement: `Le tableau ci-dessous présente ${ctx.theme}.${table}**Combien ${this._6D1de(ctx.unit)} de plus compte la catégorie « ${cats[a]} » par rapport à la catégorie « ${cats[b]} » ?**`,
             type: 'exact', answer: String(vals[a] - vals[b]), placeholder: 'Ex : 7',
             hint1: "« Combien de plus » : on calcule une différence.",
             hint2: "Pour savoir de combien un nombre dépasse un autre, on soustrait le plus petit du plus grand.",
-            solution: `$$${vals[a]} - ${vals[b]} = ${vals[a] - vals[b]}$$\nLa catégorie « ${cats[a]} » compte $${vals[a] - vals[b]}$ ${ctx.unit} de plus.`,
+            solution: `$$${vals[a]} - ${vals[b]} = ${vals[a] - vals[b]}$$\nLa catégorie « ${cats[a]} » compte $${vals[a] - vals[b]}$ ${vals[a] - vals[b] > 1 ? ctx.unit : ctx.unit.replace(/[sx]$/, '')} de plus.`,
             _v: { k: '6D1.diff', vals, a, b }
           });
         }
@@ -4931,7 +5198,7 @@
         if (mode === 'sum2') { [i, j] = this.shuffle(cats.map((_, k) => k)).slice(0, 2); }
         const ans = mode === 'sum2' ? vals[i] + vals[j] : vals.reduce((a, b) => a + b, 0);
         const question = mode === 'sum2'
-          ? `Combien de ${ctx.unit} au total pour les catégories « ${cats[i]} » et « ${cats[j]} » réunies ?`
+          ? `Combien ${this._6D1de(ctx.unit)} au total pour les catégories « ${cats[i]} » et « ${cats[j]} » réunies ?`
           : `Quel est l'effectif total représenté par ce diagramme ?`;
         return base("Exploiter un diagramme en barres", {
           statement: `Le diagramme en barres ci-dessous représente ${ctx.theme}.\n${this._6Fbars(cats, vals, step, ctx.unit)}\n**${question}**`,
@@ -4945,7 +5212,7 @@
         });
       }
 
-      // t === 4 : Défi 5ème
+      // t === 4 : Défi
       const sub = this.randChoice(['moyenne', 'pourcent', 'filter2', 'etendue']);
       if (sub === 'moyenne') {
         const k = this.randChoice([4, 5, 5, 8, 10]);
@@ -5078,11 +5345,42 @@
 
     generate6D2(tier = 1, mastery = 0) {
       const t = this.resolveTier(tier);
-      const base = (title, extra) => Object.assign({ chapterId: '6D2', tier: t, title: t === 4 ? `Défi 5ème : ${title}` : title, skill: 'Raisonner' }, extra);
+      const base = (title, extra) => Object.assign({ chapterId: '6D2', tier: t, title: t === 4 ? `Défi : ${title}` : title, skill: 'Raisonner' }, extra);
       const LBL = { c: 'Certain', i: 'Impossible', p: 'Possible (ni certain, ni impossible)' };
 
       if (t === 1) {
         const sub = this.randChoice(['vocabDe', 'vocabUrne', 'between', 'de']);
+        if (sub === 'vocabDe' && Math.random() < 0.5) {
+          // Sens inverse : la catégorie est donnée, on cherche l'événement qui lui correspond
+          const n = this.randChoice([6, 6, 8, 10, 12]);
+          const cat = this.randChoice(['i', 'c', 'p']);
+          const catOf = ev => ev.fav.length === 0 ? 'i' : ev.fav.length === n ? 'c' : 'p';
+          let good = null;
+          const bads = [];
+          for (let it = 0; it < 400 && (!good || bads.length < 3); it++) {
+            const ev = this._6D2event(n, true);
+            if (good && ev.txt === good.txt) continue;
+            if (bads.some(b => b.txt === ev.txt)) continue;
+            if (catOf(ev) === cat) { if (!good) good = ev; }
+            else if (bads.length < 3 && !(cat !== 'p' && bads.length === 2 && bads.every(b => catOf(b) === catOf(ev)))) bads.push(ev);
+          }
+          if (good && bads.length === 3) {
+            const nomCat = { i: 'impossible', c: 'certain', p: 'possible sans être certain' }[cat];
+            const why = ev => {
+              const k = ev.fav.length;
+              return k === 0 ? 'aucune face ne convient' : k === n ? 'toutes les faces conviennent' : k === 1 ? `seule la face ${ev.fav[0]} convient` : `seules les faces ${ev.fav.join(', ')} conviennent`;
+            };
+            const q = base("Vocabulaire du hasard (choisir l'événement)", {
+              statement: `On lance un dé équilibré à ${n} faces numérotées de 1 à ${n}.\n**Parmi les événements suivants, lequel est ${nomCat} ?**`,
+              hint1: "Un événement certain se réalise toujours ; un événement impossible ne se réalise jamais ; un événement possible se réalise parfois.",
+              hint2: `Pour chaque événement, liste les faces du dé (de 1 à ${n}) qui le réalisent.`,
+              solution: [good, ...bads].map(ev => `• « ${ev.txt} » : ${why(ev)}, l'événement est **${{ i: 'impossible', c: 'certain', p: 'possible' }[catOf(ev)]}**.`).join('\n') +
+                `\n**Conclusion :** l'événement ${nomCat} est « ${good.txt} ».`,
+              _v: { k: '6D2.vocabChoix', n, cat, txt: good.txt }
+            });
+            return this._6mcq(q, good.txt, bads.map(b => b.txt));
+          }
+        }
         if (sub === 'vocabDe') {
           const n = this.randChoice([6, 6, 8, 10, 12]);
           const ev = this._6D2event(n, true);
@@ -5149,7 +5447,7 @@
           type: 'exact', answer: `1/${n}`, placeholder: 'Ex : 1/6',
           hint1: "Le dé est équilibré : toutes les faces ont la même chance de sortir.",
           hint2: `Il y a $${n}$ issues possibles et une seule est favorable.`,
-          solution: `Une issue favorable sur $${n}$ issues équiprobables :\n$$P = \\frac{1}{${n}}$$`,
+          solution: `Une issue favorable sur $${n}$ issues équiprobables :\n$$\\text{probabilité} = \\frac{1}{${n}}$$`,
           _v: { k: '6D2.de', n, f }
         });
       }
@@ -5163,11 +5461,11 @@
           do { j = this.randInt(0, u.cols.length - 1); } while (u.counts[j] === tot);
           const k = u.counts[j];
           return base("Probabilité dans une urne", {
-            statement: `Une urne opaque contient ${u.txt}, indiscernables au toucher. On tire une boule au hasard.\n**Quelle est la probabilité de tirer une boule ${u.cols[j][0]} ?** (fraction irréductible a/b)`,
+            statement: `Une urne opaque contient ${u.txt}, indiscernables au toucher. On tire une boule au hasard.\n**Quelle est la probabilité de tirer une boule ${u.cols[j][0]} ?** (fraction simplifiée au maximum, écrite a/b)`,
             type: 'exact', answer: this._6fracAns(k, tot), placeholder: 'Ex : 2/5',
             hint1: "Compte toutes les boules de l'urne, puis celles de la couleur demandée.",
             hint2: "Quand les issues sont équiprobables, probabilité d'un événement = nombre d'issues favorables ÷ nombre total d'issues.",
-            solution: `**Étape 1.** Les boules sont indiscernables au toucher : chaque boule a la même chance d'être tirée. Il y a $${u.counts.join(' + ')} = ${tot}$ boules en tout.\n**Étape 2.** $${k}$ d'entre elles sont ${k > 1 ? u.cols[j][1] : u.cols[j][0]} : $P = \\frac{${k}}{${tot}}${this.gcd(k, tot) > 1 ? ` = ${this.formatFraction(k, tot)}` : ''}$.\nLa probabilité de tirer une boule ${u.cols[j][0]} est **$${this.formatFraction(k, tot)}$**.`,
+            solution: `**Étape 1.** Les boules sont indiscernables au toucher : chaque boule a la même chance d'être tirée. Il y a $${u.counts.join(' + ')} = ${tot}$ boules en tout.\n**Étape 2.** $${k}$ d'entre elles sont ${k > 1 ? u.cols[j][1] : u.cols[j][0]} : la probabilité est $\\frac{${k}}{${tot}}${this.gcd(k, tot) > 1 ? ` = ${this.formatFraction(k, tot)}` : ''}$.\nLa probabilité de tirer une boule ${u.cols[j][0]} est **$${this.formatFraction(k, tot)}$**.`,
             _v: { k: '6D2.urne', counts: u.counts, j }
           });
         }
@@ -5179,11 +5477,11 @@
           const color = this.randChoice([...new Set(sectors)]);
           const k = sectors.filter(s => s === color).length;
           return base("Probabilité avec une roue de loterie", {
-            statement: `Une roue de loterie est partagée en ${n} secteurs identiques. On la fait tourner et on regarde le secteur indiqué par la flèche.\n${this._6D2wheel(sectors)}\n**Quelle est la probabilité que la flèche s'arrête sur un secteur ${color} ?** (fraction irréductible a/b)`,
+            statement: `Une roue de loterie est partagée en ${n} secteurs identiques. On la fait tourner et on regarde le secteur indiqué par la flèche.\n${this._6D2wheel(sectors)}\n**Quelle est la probabilité que la flèche s'arrête sur un secteur ${color} ?** (fraction simplifiée au maximum, écrite a/b)`,
             type: 'exact', answer: this._6fracAns(k, n), placeholder: 'Ex : 3/8',
             hint1: "Les secteurs sont identiques : chacun a la même chance d'être désigné.",
             hint2: `Compte les secteurs de couleur ${color} parmi les $${n}$ secteurs.`,
-            solution: `Il y a $${k}$ secteurs ${color}${k > 1 ? 's' : ''} sur $${n}$ :\n$$P = \\frac{${k}}{${n}}${this.gcd(k, n) > 1 ? ` = ${this.formatFraction(k, n)}` : ''}$$`,
+            solution: `Il y a $${k}$ secteur${k > 1 ? 's' : ''} ${color}${k > 1 ? 's' : ''} sur $${n}$ :\n$$\\text{probabilité} = \\frac{${k}}{${n}}${this.gcd(k, n) > 1 ? ` = ${this.formatFraction(k, n)}` : ''}$$`,
             _v: { k: '6D2.roue', sectors, color }
           });
         }
@@ -5192,11 +5490,11 @@
         do { ev = this._6D2event(n, false); } while (ev.fav.length === 0 || ev.fav.length === n);
         const k = ev.fav.length;
         return base("Probabilité d'un événement avec un dé", {
-          statement: `On lance un dé équilibré à ${n} faces numérotées de 1 à ${n}.\n**Quelle est la probabilité de l'événement « ${ev.txt} » ?** (fraction irréductible a/b)`,
+          statement: `On lance un dé équilibré à ${n} faces numérotées de 1 à ${n}.\n**Quelle est la probabilité de l'événement « ${ev.txt} » ?** (fraction simplifiée au maximum, écrite a/b)`,
           type: 'exact', answer: this._6fracAns(k, n), placeholder: 'Ex : 1/2',
           hint1: "Liste les issues favorables à l'événement.",
           hint2: `Il y a $${n}$ issues équiprobables en tout.`,
-          solution: `Issues favorables : ${ev.fav.join(' ; ')}, soit $${k}$ issue${k > 1 ? 's' : ''} sur $${n}$.\n$$P = \\frac{${k}}{${n}}${this.gcd(k, n) > 1 ? ` = ${this.formatFraction(k, n)}` : ''}$$`,
+          solution: `Issues favorables : ${ev.fav.join(' ; ')}, soit $${k}$ issue${k > 1 ? 's' : ''} sur $${n}$.\n$$\\text{probabilité} = \\frac{${k}}{${n}}${this.gcd(k, n) > 1 ? ` = ${this.formatFraction(k, n)}` : ''}$$`,
           _v: { k: '6D2.deEvt', n, kind: ev.kind, m: ev.m }
         });
       }
@@ -5209,7 +5507,7 @@
           const j = this.randInt(0, u.cols.length - 1);
           const k = tot - u.counts[j];
           return base("Probabilité de « ne pas obtenir »", {
-            statement: `Une urne opaque contient ${u.txt}. On tire une boule au hasard.\n**Quelle est la probabilité de ne PAS tirer une boule ${u.cols[j][0]} ?** (fraction irréductible a/b)`,
+            statement: `Une urne opaque contient ${u.txt}. On tire une boule au hasard.\n**Quelle est la probabilité de ne PAS tirer une boule ${u.cols[j][0]} ?** (fraction simplifiée au maximum, écrite a/b)`,
             type: 'exact', answer: this._6fracAns(k, tot), placeholder: 'Ex : 3/4',
             hint1: `Compte les boules qui ne sont pas ${u.cols[j][1]}.`,
             hint2: "Probabilité = nombre d'issues favorables ÷ nombre total d'issues ; ici les issues favorables sont toutes les boules d'une autre couleur.",
@@ -5222,13 +5520,19 @@
           let r2 = this.randInt(1, 8), b2 = this.randInt(1, 8);
           if (Math.random() < 0.2) { const m = this.randInt(2, 3); r2 = r1 * m; b2 = b1 * m; }
           const A = "Urne A", B = "Urne B", E = "Les deux urnes donnent la même chance";
-          const lhs = r1 * (r2 + b2), rhs = r2 * (r1 + b1);
+          const d1 = r1 + b1, d2 = r2 + b2;
+          const same = d1 === d2;
+          // Plus petit dénominateur commun : on ne multiplie jamais les dénominateurs sans nécessité
+          const L = d1 * d2 / this.gcd(d1, d2);
+          const n1 = r1 * (L / d1), n2 = r2 * (L / d2);
+          const lhs = r1 * d2, rhs = r2 * d1;
           const ans = lhs > rhs ? A : lhs < rhs ? B : E;
+          const cmp = n1 > n2 ? '>' : n1 < n2 ? '<' : '=';
           const q = base("Comparer deux probabilités", {
             statement: `L'urne A contient ${r1} boule${r1 > 1 ? 's' : ''} rouge${r1 > 1 ? 's' : ''} et ${b1} boule${b1 > 1 ? 's' : ''} bleue${b1 > 1 ? 's' : ''}.\nL'urne B contient ${r2} boule${r2 > 1 ? 's' : ''} rouge${r2 > 1 ? 's' : ''} et ${b2} boule${b2 > 1 ? 's' : ''} bleue${b2 > 1 ? 's' : ''}.\nOn veut tirer une boule rouge. **Dans quelle urne a-t-on le plus de chances d'y parvenir ?**`,
             hint1: "Calcule la probabilité de tirer une boule rouge dans chaque urne.",
-            hint2: "Pour comparer deux fractions, mets-les au même dénominateur.",
-            solution: `Urne A : $P = \\frac{${r1}}{${r1 + b1}}$. Urne B : $P = \\frac{${r2}}{${r2 + b2}}$.\nAu même dénominateur : $\\frac{${r1 * (r2 + b2)}}{${(r1 + b1) * (r2 + b2)}}$ et $\\frac{${r2 * (r1 + b1)}}{${(r1 + b1) * (r2 + b2)}}$.\nRéponse : **${ans}**.`,
+            hint2: same ? "Les deux fractions ont déjà le même dénominateur : compare leurs numérateurs." : "Pour comparer deux fractions, écris-les avec le plus petit dénominateur commun.",
+            solution: `Urne A : $P = \\frac{${r1}}{${d1}}$. Urne B : $P = \\frac{${r2}}{${d2}}$.\n${same ? 'Les dénominateurs sont déjà égaux : on compare directement les numérateurs' : `Au même dénominateur $${L}$ : $\\frac{${n1}}{${L}}$ et $\\frac{${n2}}{${L}}$. On compare les numérateurs`} : $${n1} ${cmp} ${n2}$.\nRéponse : **${ans}**.`,
             _v: { k: '6D2.compare', r1, b1, r2, b2 }
           });
           return this._6mcq(q, ans, [A, B, E]);
@@ -5242,7 +5546,7 @@
         const k = w.split('').filter(ch => mode === 'voyelle' ? isV(ch) : mode === 'consonne' ? !isV(ch) : ch === letter).length;
         const evTxt = mode === 'voyelle' ? 'tirer une voyelle' : mode === 'consonne' ? 'tirer une consonne' : `tirer la lettre ${letter}`;
         return base("Probabilité avec des lettres", {
-          statement: `On écrit chaque lettre du mot **${w}** sur un carton (un carton par lettre). On mélange les cartons et on en tire un au hasard.\n**Quelle est la probabilité de ${evTxt} ?** (fraction irréductible a/b)${mode !== 'lettre' ? '\n*(Voyelles : A, E, I, O, U, Y.)*' : ''}`,
+          statement: `On écrit chaque lettre du mot **${w}** sur un carton (un carton par lettre). On mélange les cartons et on en tire un au hasard.\n**Quelle est la probabilité de ${evTxt} ?** (fraction simplifiée au maximum, écrite a/b)${mode !== 'lettre' ? '\n*(Voyelles : A, E, I, O, U, Y.)*' : ''}`,
           type: 'exact', answer: this._6fracAns(k, w.length), placeholder: 'Ex : 2/7',
           hint1: "Compte les lettres du mot (un carton par lettre, lettres répétées comprises), puis les cartons qui réalisent l'événement.",
           hint2: "Chaque carton a la même chance d'être tiré : probabilité = nombre de cartons favorables ÷ nombre total de cartons.",
@@ -5251,7 +5555,7 @@
         });
       }
 
-      // t === 4 : Défi 5ème
+      // t === 4 : Défi
       const sub = this.randChoice(['freq', 'ajout', 'freqProba']);
       if (sub === 'freq') {
         const N = this.randChoice([10, 20, 25, 40, 50, 100, 200]);
@@ -5279,11 +5583,11 @@
           x = p * m - r;
         } while (x < 1);
         return base("Ajouter des boules pour atteindre une probabilité", {
-          statement: `Une urne contient ${r} boule${r > 1 ? 's' : ''} rouge${r > 1 ? 's' : ''} et ${b} boules bleues. On ajoute des boules rouges.\n**Combien de boules rouges faut-il ajouter pour que la probabilité de tirer une boule rouge soit égale à $\\frac{${p}}{${qd}}$ ?**`,
+          statement: `Une urne contient ${r} boule${r > 1 ? 's' : ''} rouge${r > 1 ? 's' : ''} et ${b} boule${b > 1 ? 's' : ''} bleue${b > 1 ? 's' : ''}. On ajoute des boules rouges.\n**Combien de boules rouges faut-il ajouter pour que la probabilité de tirer une boule rouge soit égale à $\\frac{${p}}{${qd}}$ ?**`,
           type: 'exact', answer: String(x), placeholder: 'Ex : 4',
           hint1: "Le nombre de boules bleues ne change pas : cherche combien il doit y avoir de boules en tout pour que les bleues occupent la bonne part.",
           hint2: `Tirer une rouge et tirer une bleue sont deux événements contraires : la somme de leurs probabilités est celle de l'événement certain. Si les rouges forment $${p}$ parts sur $${qd}$, les bleues forment les parts restantes.`,
-          solution: `Il faut $${p} \\times ${m} = ${r + x}$ boules rouges pour $${b}$ bleues (total $${r + x + b}$, et $\\frac{${r + x}}{${r + x + b}} = \\frac{${p}}{${qd}}$).\nOn doit ajouter $${r + x} - ${r} = ${x}$ boules rouges.`,
+          solution: `${m === 1 ? `Il faut $${r + x}$ boules rouges pour $${b}$ boule${b > 1 ? 's' : ''} bleue${b > 1 ? 's' : ''} (total $${r + x + b}$ : la probabilité vaut alors $\\frac{${p}}{${qd}}$).` : `Il faut $${p} \\times ${m} = ${r + x}$ boules rouges pour $${b}$ boules bleues (total $${r + x + b}$, et $\\frac{${r + x}}{${r + x + b}} = \\frac{${p}}{${qd}}$).`}\nOn doit ajouter $${r + x} - ${r} = ${x}$ boule${x > 1 ? 's' : ''} rouge${x > 1 ? 's' : ''}.`,
           _v: { k: '6D2.ajout', r, b, p, q: qd }
         });
       }
@@ -5326,7 +5630,7 @@
     // =====================================================================
     generate6A1(tier = 1, mastery = 0) {
       const t = this.resolveTier(tier);
-      const base = (title, extra) => Object.assign({ chapterId: '6A1', tier: t, title: t === 4 ? `Défi 5ème : ${title}` : title, skill: 'Modéliser' }, extra);
+      const base = (title, extra) => Object.assign({ chapterId: '6A1', tier: t, title: t === 4 ? `Défi : ${title}` : title, skill: 'Modéliser' }, extra);
       const gridIntro = (start) => `Un robot R se déplace sur le quadrillage ci-dessous (colonnes A à H, lignes 1 à 8). Il part de la case **${this._6Fcell(start)}**.\n${this._6Fgrid(start)}`;
       const progList = (moves) => moves.map(m => `- avancer de ${this._6FmoveTxt(m)}`).join('\n');
 
@@ -5338,32 +5642,21 @@
             statement: `${gridIntro(start)}\nIl exécute dans l'ordre les instructions suivantes :\n\n${progList(moves)}\n\n**Sur quelle case arrive-t-il ?**`,
             hint1: "Exécute les instructions une par une, dans l'ordre, en suivant le robot avec ton doigt.",
             hint2: "Droite/gauche : on change de colonne (lettre). Haut/bas : on change de ligne (numéro).",
-            solution: `On suit le trajet case par case : le robot arrive en **${this._6Fcell(end)}**.`,
+            solution: `On suit le trajet en notant la case atteinte après chaque instruction : ${this._6Ftrace(start, moves)[0]}.\nLe robot arrive en **${this._6Fcell(end)}**.`,
             _v: { k: '6A1.case', start, moves, reps: 1 }
           });
           return this._6mcq(q, this._6Fcell(end), this._6FcellDistractors(start, moves, 1, end));
         }
         if (sub === 'calc') {
-          const x = this.randInt(2, 15);
-          const op = this.randChoice(['+', '-', '*']);
-          const a = op === '*' ? this.randInt(2, 9) : this.randInt(2, 20);
-          const xx = op === '-' ? x + a : x;
-          const res = op === '+' ? xx + a : op === '-' ? xx - a : xx * a;
-          const sym = op === '*' ? '\\times' : op;
-          const html = this.renderScratch([
-            'quand drapeau cliqué',
-            'demander [Choisis un nombre] et attendre',
-            'mettre [N] à (réponse)',
-            `mettre [N] à (N ${op} ${a})`,
-            'dire (N)'
-          ]);
-          return base("Programme de calcul (Scratch)", {
-            statement: `On exécute le script suivant :\n${html}\n**Si l'on répond $${xx}$, quel nombre le lutin dit-il ?**`,
-            type: 'exact', answer: String(res), placeholder: 'Ex : 12',
-            hint1: "La variable N prend d'abord la valeur de la réponse, puis elle est modifiée.",
-            hint2: "Le bloc « mettre N à (…) » remplace l'ancienne valeur de N par le résultat du calcul entre parenthèses.",
-            solution: `N vaut d'abord $${xx}$, puis $${xx} ${sym} ${a} = ${res}$. Le lutin dit $${res}$.`,
-            _v: { k: '6A1.calc', x: xx, ops: [[op, a]] }
+          const { x, ops } = this._6FtireCartes(2);
+          const r = this._6FexecCartes(x, ops);
+          return base("Programme de calcul à cartes", {
+            statement: `Un programme de calcul s'écrit avec des cartes, à appliquer dans l'ordre :\n\n${this._6FlisteCartes(ops)}\n\nOn donne le nombre $${x}$ en **entrée**. **Quel nombre obtient-on en sortie ?**`,
+            type: 'exact', answer: String(r.out), placeholder: 'Ex : 12',
+            hint1: "Applique les cartes dans l'ordre : le nombre obtenu avec une carte est le nombre de départ de la carte suivante.",
+            hint2: `Commence par calculer $${r.premier}$.`,
+            solution: `L'entrée est $${x}$.\n${r.etapes}\nLa sortie est **$${r.out}$**.`,
+            _v: { k: '6A1.calc', x, ops }
           });
         }
         const { start, moves } = this._6FrandomProg(this.randInt(3, 4), 4);
@@ -5387,7 +5680,7 @@
             statement: `${gridIntro(start)}\nIl exécute le programme suivant :\n\n**Répéter ${reps} fois :**\n${progList(moves)}\n\n**Sur quelle case arrive-t-il ?**`,
             hint1: `Les deux instructions sont exécutées ${reps} fois de suite, dans l'ordre.`,
             hint2: "Tu peux calculer le déplacement d'une seule répétition puis le multiplier.",
-            solution: `Une répétition déplace le robot ; après ${reps} répétitions il arrive en **${this._6Fcell(end)}**.`,
+            solution: `On note la case atteinte après chaque instruction.\n${this._6Ftrace(start, moves, reps).map((tr, i) => `Répétition ${i + 1} : ${tr}.`).join('\n')}\nAprès ${reps} répétitions, le robot arrive en **${this._6Fcell(end)}**.`,
             _v: { k: '6A1.case', start, moves, reps }
           });
           return this._6mcq(q, this._6Fcell(end), this._6FcellDistractors(start, moves, reps, end));
@@ -5411,20 +5704,13 @@
             _v: { k: '6A1.poly', n: P[0], d }
           });
         }
-        const s0 = this.randInt(0, 20), k = this.randInt(3, 10), a = this.randInt(2, 15);
-        const html = this.renderScratch([
-          'quand drapeau cliqué',
-          `mettre [S] à ${s0}`,
-          `répéter ${k} fois`,
-          `    ajouter ${a} à [S]`,
-          'dire (S)'
-        ]);
-        return base("Variable et boucle", {
-          statement: `On exécute le script suivant :\n${html}\n**Quel nombre le lutin dit-il à la fin ?**`,
+        const s0 = this.randInt(1, 20), k = this.randInt(3, 10), a = this.randInt(2, 15);
+        return base("Répéter une carte (boucle)", {
+          statement: `Un programme de calcul reçoit le nombre $${s0}$ en **entrée**. Il exécute :\n\n**Répéter ${k} fois :**\n- carte « ajouter $${a}$ »\n\n**Quel nombre obtient-on en sortie ?**`,
           type: 'exact', answer: String(s0 + k * a), placeholder: 'Ex : 50',
-          hint1: `On ajoute $${a}$ à S, et cela $${k}$ fois.`,
-          hint2: "« Ajouter a à S » augmente la valeur de S de a ; dans une boucle « répéter n fois », cela se produit n fois.",
-          solution: `$$S = ${s0} + ${k} \\times ${a} = ${s0} + ${k * a} = ${s0 + k * a}$$`,
+          hint1: `La boucle applique la carte $${k}$ fois de suite : à chaque passage, on ajoute $${a}$ au nombre obtenu au passage précédent.`,
+          hint2: `Commence par calculer $${s0} + ${a}$ : c'est le nombre obtenu après le premier passage.`,
+          solution: `**Étape 1.** La boucle applique $${k}$ fois la carte : elle ajoute en tout $${k} \\times ${a} = ${k * a}$.\n**Étape 2.** On part de l'entrée : $${s0} + ${k * a} = ${s0 + k * a}$.\nLa sortie est **$${s0 + k * a}$**.`,
           _v: { k: '6A1.score', s0, n: k, a }
         });
       }
@@ -5433,11 +5719,19 @@
         const sub = this.randChoice(['depart', 'calc2', 'nbRep']);
         if (sub === 'depart') {
           const { start, moves, end } = this._6FrandomProg(3, 3);
+          let cur = end.slice();
+          const retour = moves.slice().reverse().map(m => {
+            const dir = this._6FDIRS[m[0]];
+            const prev = [cur[0] - dir.dx * m[1], cur[1] - dir.dy * m[1]];
+            const txt = `on annule « ${this._6FmoveTxt(m)} » : de ${this._6Fcell(cur)} on revient en ${this._6Fcell(prev)}`;
+            cur = prev;
+            return txt;
+          });
           const q = base("Retrouver la case de départ", {
             statement: `Un robot se déplace sur un quadrillage (colonnes A à H, lignes 1 à 8, la ligne 1 étant en bas). Il exécute les instructions :\n\n${progList(moves)}\n\nIl arrive sur la case **${this._6Fcell(end)}**. **De quelle case est-il parti ?**`,
             hint1: "Remonte le programme à l'envers : pars de la case d'arrivée et effectue les déplacements inverses, en commençant par la dernière instruction.",
             hint2: "L'inverse de « droite » est « gauche », l'inverse de « haut » est « bas ».",
-            solution: `En inversant les déplacements depuis ${this._6Fcell(end)}, on retrouve la case de départ **${this._6Fcell(start)}**.`,
+            solution: `On remonte le programme depuis ${this._6Fcell(end)}, en commençant par la dernière instruction : ${retour.join(' ; ')}.\nLa case de départ est **${this._6Fcell(start)}**.`,
             _v: { k: '6A1.depart', end, moves }
           });
           const inv = moves.map(([d, n]) => [d, -n]);
@@ -5445,33 +5739,14 @@
           return this._6mcq(q, this._6Fcell(start), [...wrong, this._6Fcell(end)]);
         }
         if (sub === 'calc2') {
-          const x = this.randInt(2, 12);
-          const pool = [['+', this.randInt(2, 12)], ['*', this.randInt(2, 6)], ['-', this.randInt(1, 9)]];
-          const ops = this.shuffle(pool).slice(0, this.randChoice([2, 3]));
-          // éviter les résultats négatifs
-          let v = x;
-          for (const [o, a] of ops) v = o === '+' ? v + a : o === '-' ? v - a : v * a;
-          if (v < 0) ops.reverse();
-          let val = x;
-          const steps = [];
-          for (const [o, a] of ops) {
-            const nv = o === '+' ? val + a : o === '-' ? val - a : val * a;
-            steps.push(`$${val} ${o === '*' ? '\\times' : o} ${a} = ${nv}$`);
-            val = nv;
-          }
-          const html = this.renderScratch([
-            'quand drapeau cliqué',
-            'demander [Choisis un nombre] et attendre',
-            'mettre [N] à (réponse)',
-            ...ops.map(([o, a]) => `mettre [N] à (N ${o} ${a})`),
-            'dire (N)'
-          ]);
-          return base("Programme de calcul à plusieurs étapes", {
-            statement: `On exécute le script suivant :\n${html}\n**Si l'on répond $${x}$, quel nombre le lutin dit-il ?**`,
-            type: 'exact', answer: String(val), placeholder: 'Ex : 30',
-            hint1: "Les blocs s'exécutent de haut en bas : chaque calcul utilise la nouvelle valeur de N.",
-            hint2: "Le bloc « mettre N à (…) » remplace l'ancienne valeur de N par le résultat du calcul entre parenthèses.",
-            solution: `Étapes : ${steps.join(' ; puis ')}.\nLe lutin dit $${val}$.`,
+          const { x, ops } = this._6FtireCartes(this.randChoice([2, 3]), 12);
+          const r = this._6FexecCartes(x, ops);
+          return base("Programme de calcul à plusieurs cartes", {
+            statement: `Un programme de calcul s'écrit avec plusieurs cartes, à appliquer dans l'ordre :\n\n${this._6FlisteCartes(ops)}\n\nOn donne le nombre $${x}$ en **entrée**. **Quel nombre obtient-on en sortie ?**`,
+            type: 'exact', answer: String(r.out), placeholder: 'Ex : 30',
+            hint1: "Les cartes s'appliquent de haut en bas : chaque calcul part du nombre que la carte précédente vient de donner.",
+            hint2: `Commence par calculer $${r.premier}$, puis applique la carte suivante à ce résultat.`,
+            solution: `L'entrée est $${x}$.\n${r.etapes}\nLa sortie est **$${r.out}$**.`,
             _v: { k: '6A1.calc', x, ops }
           });
         }
@@ -5492,7 +5767,7 @@
         });
       }
 
-      // t === 4 : Défi 5ème
+      // t === 4 : Défi
       const sub = this.randChoice(['condition', 'angle', 'imbrique', 'choixProg']);
       if (sub === 'condition') {
         const s = this.randInt(5, 30), a = this.randInt(2, 9), b = this.randInt(2, 6);
@@ -5511,7 +5786,7 @@
           'dire (N)'
         ]);
         return base("Instruction conditionnelle (Scratch)", {
-          statement: `On exécute le script suivant :\n${html}\n**Si l'on répond $${x}$, quel nombre le lutin dit-il ?**`,
+          statement: `**Pour aller plus loin** (au-delà du programme de 6e) : ce script utilise une **variable** N et une **instruction conditionnelle** « si … alors … sinon », qui n'exécute qu'une des deux parties selon que la condition est vraie ou fausse.\nOn exécute le script suivant :\n${html}\n**Si l'on répond $${x}$, quel nombre le lutin dit-il ?**`,
           type: 'exact', answer: String(res), placeholder: 'Ex : 24',
           hint1: `Teste d'abord la condition : $${x}$ est-il strictement ${mode === 'sup' ? 'supérieur' : 'inférieur'} à $${s}$ ?`,
           hint2: "Dans un bloc « si … alors … sinon », une seule des deux parties est exécutée : celle du « alors » si la condition est vraie, celle du « sinon » si elle est fausse.",
@@ -5584,7 +5859,7 @@
         statement: `Un robot part de la case **${this._6Fcell(start)}** et doit arriver sur la case **${this._6Fcell(target)}** (T).\n${this._6Fgrid(start, target)}\n**Quel programme convient ?** (→ droite, ← gauche, ↑ haut, ↓ bas ; les nombres sont des cases)`,
         hint1: "Teste chaque programme en simulant les déplacements sur le quadrillage.",
         hint2: "Calcule le déplacement total horizontal et vertical de chaque programme.",
-        solution: `Le programme « ${correct} » amène bien le robot de ${this._6Fcell(start)} à ${goodKey}.`,
+        solution: `Le programme « ${correct} » amène bien le robot de ${this._6Fcell(start)} à ${goodKey}. On note la case atteinte après chaque instruction.\n${this._6Ftrace(start, good.moves, good.reps).map((tr, i) => `Répétition ${i + 1} : ${tr}.`).join('\n')}\nLes autres programmes arrivent sur une autre case ou font sortir le robot du quadrillage.`,
         _v: { k: '6A1.choixProg', start, target, progs: [good, ...variants].map(p => ({ moves: p.moves, reps: p.reps, label: fmt(p) })) }
       });
       return this._6mcq(q, correct, opts);
@@ -5703,7 +5978,7 @@
   const DIAG = {
     barres: 'Un diagramme en barres',
     circ: 'Un diagramme circulaire',
-    courbe: 'Un graphique (points reliés) en fonction du temps',
+    courbe: 'Une courbe (points reliés) en fonction du temps',
     double: 'Un tableau à double entrée'
   };
   const DIAG_CTX = [
@@ -5736,11 +6011,11 @@
       title: 'Choisir une représentation adaptée',
       statement: `${txt}\n**${this.randChoice(['Quelle représentation est la plus adaptée ?', 'Quel type de représentation faut-il choisir ?', 'Quelle représentation convient le mieux ?'])}**`,
       hint1: 'Repère le mot-clé de la consigne : comparer des catégories ? montrer des parts d\'un tout ? suivre une évolution dans le temps ? croiser deux critères ?',
-      hint2: 'Diagramme en barres : comparer des effectifs. Diagramme circulaire : parts d\'un tout. Graphique en fonction du temps : évolution. Tableau à double entrée : deux critères à la fois.',
+      hint2: 'Diagramme en barres : comparer des effectifs. Diagramme circulaire : parts d\'un tout. Courbe : évolution au cours du temps. Tableau à double entrée : deux critères à la fois.',
       solution: {
         barres: 'On veut **comparer des effectifs** de différentes catégories : la hauteur des barres permet de les comparer d\'un coup d\'œil. On choisit **un diagramme en barres**.',
         circ: 'On veut montrer **la part de chaque catégorie dans un tout** : chaque secteur du disque représente une part du total. On choisit **un diagramme circulaire**.',
-        courbe: 'On veut suivre **une évolution au cours du temps** : on place les mesures en fonction du temps et on relie les points. On choisit **un graphique en fonction du temps**.',
+        courbe: 'On veut suivre **une évolution au cours du temps** : on place les mesures en fonction du temps et on relie les points. On choisit **une courbe**.',
         double: 'Chaque donnée dépend de **deux critères** à la fois : un tableau avec un critère en ligne et l\'autre en colonne convient. On choisit **un tableau à double entrée**.'
       }[type],
       _v: { k: '6D1.choixdiag', type }
@@ -5811,7 +6086,7 @@
     const { ctx, cats } = pick;
     return this._6A_q('6D1', 4, 'Raisonner', {
       title: 'Proportion lue sur un diagramme en barres',
-      statement: `Le diagramme en barres ci-dessous représente ${ctx.theme}.\n${this._6Fbars(cats, vals, step, ctx.unit)}\n**Quelle fraction de l'effectif total représente la catégorie « ${cats[i]} » ?** (fraction irréductible a/b)`,
+      statement: `Le diagramme en barres ci-dessous représente ${ctx.theme}.\n${this._6Fbars(cats, vals, step, ctx.unit)}\n**Quelle fraction de l'effectif total représente la catégorie « ${cats[i]} » ?** (fraction simplifiée au maximum, écrite a/b)`,
       type: 'exact', answer: this._6fracAns(vals[i], tot), placeholder: 'Ex : 2/5',
       hint1: 'Il faut deux nombres : l\'effectif de la catégorie (une barre) et l\'effectif total (toutes les barres).',
       hint2: 'Proportion d\'une catégorie = effectif de la catégorie ÷ effectif total ; on simplifie ensuite la fraction en divisant le numérateur et le dénominateur par un même nombre.',
@@ -5820,12 +6095,351 @@
     });
   });
 
+  // P1 : lire un diagramme circulaire (pollution, biodiversité, météo…)
+  const PIE_COL = ['rgba(37,99,235,0.75)', 'rgba(245,158,11,0.8)', 'rgba(16,185,129,0.75)', 'rgba(168,85,247,0.7)'];
+  const pieSvg = (G0, cats, parts, denom) => {
+    const cx = 170, cy = 110, r = 78;
+    const pt = a => [cx + r * Math.sin(a), cy - r * Math.cos(a)].map(x => Math.round(x * 100) / 100);
+    let a = 0, inner = '';
+    parts.forEach((p, i) => {
+      const a2 = a + (2 * Math.PI * p) / denom;
+      const [x1, y1] = pt(a), [x2, y2] = pt(a2);
+      inner += `<path d="M${cx} ${cy} L${x1} ${y1} A${r} ${r} 0 0 1 ${x2} ${y2} Z" fill="${PIE_COL[i % PIE_COL.length]}" stroke="var(--text-main, #334155)" stroke-width="1.5"/>`;
+      const m = (a + a2) / 2;
+      inner += G0._6svgText(Math.round(cx + (r + 10) * Math.sin(m)), Math.round(cy - (r + 10) * Math.cos(m) + 4), cats[i], { size: 12, weight: '700', anchor: Math.sin(m) >= 0 ? 'start' : 'end' });
+      a = a2;
+    });
+    return G0._6svg(340, 220, inner, 340);
+  };
+  const CIRC_CTX = [
+    { txt: T => `Sur une plage, des bénévoles ont ramassé $${T}$ déchets`, unit: 'déchets', what: 'selon leur type', cats: ['Plastique', 'Verre', 'Métal', 'Papier', 'Mégots'] },
+    { txt: T => `Dans un parc, $${T}$ oiseaux ont été observés`, unit: 'oiseaux', what: 'selon leur espèce', cats: ['Moineau', 'Mésange', 'Merle', 'Pigeon', 'Rouge-gorge'] },
+    { txt: T => `Dans un jardin, $${T}$ insectes pollinisateurs ont été comptés`, unit: 'insectes', what: 'selon leur espèce', cats: ['Abeille', 'Bourdon', 'Papillon', 'Syrphe'] },
+    { txt: T => `Sur une parcelle de forêt, $${T}$ arbres ont été recensés`, unit: 'arbres', what: 'selon leur essence', cats: ['Chêne', 'Hêtre', 'Pin', 'Bouleau', 'Sapin'] },
+    { txt: T => `Pendant $${T}$ jours, un élève a noté le temps qu'il faisait à midi`, unit: 'jours', what: 'selon le temps observé', cats: ['Soleil', 'Nuages', 'Pluie', 'Vent'] },
+    { txt: T => `$${T}$ élèves ont été interrogés sur leur moyen de transport`, unit: 'élèves', what: 'selon le moyen utilisé', cats: ['À pied', 'Vélo', 'Bus', 'Voiture'] }
+  ];
+  G._6X_add('6D1', 1, function () {
+    const ctx = this.randChoice(CIRC_CTX);
+    const parts = this.shuffle(this.randChoice([[4, 2, 1, 1], [4, 2, 2]]).slice());
+    const cats = this.shuffle(ctx.cats.slice()).slice(0, parts.length);
+    const T = this.randChoice([16, 24, 32, 40, 48, 64, 80, 120, 160]);
+    let mode = this.randChoice(['max', 'moitie', 'quart', 'effectif']);
+    if (mode === 'quart' && parts.filter(p => p === 2).length !== 1) mode = 'moitie';
+    const intro = `${ctx.txt(T)}. Le diagramme circulaire ci-dessous montre la répartition de ces ${ctx.unit} ${ctx.what}.\n${pieSvg(this, cats, parts, 8)}\n`;
+    if (mode === 'effectif') {
+      const idxs = parts.map((p, j) => (p >= 2 ? j : -1)).filter(j => j >= 0);
+      const i = this.randChoice(idxs);
+      const half = parts[i] === 4;
+      const div = half ? 2 : 4;
+      const ans = T / div;
+      return this._6A_q('6D1', 1, 'Représenter', {
+        title: 'Lire un diagramme circulaire',
+        statement: `${intro}**Combien y a-t-il ${this._6D1de(ctx.unit)} dans la catégorie « ${cats[i]} » ?**`,
+        type: 'exact', answer: String(ans), placeholder: 'Ex : 12',
+        hint1: `Le disque entier représente les $${T}$ ${ctx.unit}. Quelle fraction du disque la part « ${cats[i]} » occupe-t-elle ?`,
+        hint2: 'Un demi-disque représente la moitié du total ; un quart de disque en représente le quart.',
+        solution: `La part « ${cats[i]} » est ${half ? 'un demi-disque' : 'un quart de disque'} : elle représente ${half ? 'la moitié' : 'le quart'} du total.\n$$${T} \\div ${div} = ${ans}$$\nIl y a **$${ans}$** ${ctx.unit} dans la catégorie « ${cats[i]} ».`,
+        _v: { k: '6D1.circ', cats, parts, mode, i, T, denom: 8 }
+      });
+    }
+    const want = mode === 'quart' ? 2 : 4;
+    const i = parts.indexOf(want);
+    const question = mode === 'max' ? 'Quelle catégorie occupe la plus grande part du disque ?' : mode === 'moitie' ? 'Quelle catégorie représente la moitié du total ?' : 'Quelle catégorie représente le quart du total ?';
+    const q = this._6A_q('6D1', 1, 'Représenter', {
+      title: 'Lire un diagramme circulaire',
+      statement: `${intro}**${question}**`,
+      hint1: 'Le disque entier représente le total : chaque part est proportionnelle à son effectif.',
+      hint2: mode === 'quart' ? 'Un quart de disque est limité par deux rayons perpendiculaires.' : mode === 'moitie' ? 'Un demi-disque est limité par un diamètre.' : 'Compare la place occupée par chaque part sur le disque.',
+      solution: `La part « ${cats[i]} » est ${want === 4 ? 'un demi-disque' : 'un quart de disque'} : elle représente ${want === 4 ? 'la moitié' : 'le quart'} du total.\nLa réponse est **${cats[i]}**.`,
+      _v: { k: '6D1.circ', cats, parts, mode, i, T, denom: 8 }
+    });
+    return this._6mcq(q, cats[i], cats.filter((_, j) => j !== i));
+  });
+
+  // P2 : lire une courbe (climat, pollution, biodiversité)
+  const crbSvg = (G0, labels, vals, step, axe) => {
+    const x0 = 40, y0 = 185, top = 22;
+    const m = Math.max(...vals) / step + 1;
+    const dy = (y0 - top) / m;
+    const X = i => 65 + i * 50;
+    const Y = v => Math.round((y0 - (v / step) * dy) * 10) / 10;
+    let inner = '';
+    for (let k = 0; k <= m; k++) {
+      const y = Math.round((y0 - k * dy) * 10) / 10;
+      if (k) inner += `<line x1="${x0}" y1="${y}" x2="350" y2="${y}" stroke="rgba(100,116,139,0.35)" stroke-width="1"/>`;
+      inner += G0._6svgText(x0 - 6, y + 4, String(k * step), { size: 11, anchor: 'end', weight: '500' });
+    }
+    labels.forEach((l, i) => { inner += G0._6svgText(X(i), 203, l, { size: 11, weight: '700' }); });
+    inner += `<line x1="${x0}" y1="${y0}" x2="350" y2="${y0}" stroke="var(--text-main, #334155)" stroke-width="2"/><line x1="${x0}" y1="${y0}" x2="${x0}" y2="10" stroke="var(--text-main, #334155)" stroke-width="2"/>`;
+    inner += `<polyline points="${vals.map((v, i) => `${X(i)},${Y(v)}`).join(' ')}" fill="none" stroke="#dc2626" stroke-width="2"/>`;
+    vals.forEach((v, i) => { inner += `<circle cx="${X(i)}" cy="${Y(v)}" r="3.5" fill="#dc2626"/>`; });
+    inner += G0._6svgText(46, 14, axe, { size: 11, weight: '700', anchor: 'start' });
+    return G0._6svg(360, 212, inner, 360);
+  };
+  const MOIS_A = [['janv.', 'mars', 'mai', 'juil.', 'sept.', 'nov.'], ['janvier', 'mars', 'mai', 'juillet', 'septembre', 'novembre']];
+  const MOIS_N = [['nov.', 'déc.', 'janv.', 'févr.', 'mars', 'avr.'], ['novembre', 'décembre', 'janvier', 'février', 'mars', 'avril']];
+  const MOIS_E = [['avr.', 'mai', 'juin', 'juil.', 'août', 'sept.'], ['avril', 'mai', 'juin', 'juillet', 'août', 'septembre']];
+  const ANNEES = [['2019', '2020', '2021', '2022', '2023', '2024'], ['2019', '2020', '2021', '2022', '2023', '2024']];
+  const HEURES = [['8 h', '10 h', '12 h', '14 h', '16 h', '18 h'], ['8 h', '10 h', '12 h', '14 h', '16 h', '18 h']];
+  const CRB_CTX = [
+    { txt: "la température relevée à midi, le 15 de six mois d'une même année", sujet: 'la température', pron: 'elle', axe: 'Température (°C)', u: '°C', steps: [2, 4, 5], t: MOIS_A, prep: 'en', prof: [2, 3, 5, 7, 6, 3] },
+    { txt: "la température de l'air relevée au cours d'une journée", sujet: 'la température', pron: 'elle', axe: 'Température (°C)', u: '°C', steps: [2, 4, 5], t: HEURES, prep: 'à', prof: [2, 4, 6, 7, 5, 3] },
+    { txt: 'la hauteur de neige mesurée à une station de montagne, le 1er de chaque mois', sujet: 'la hauteur de neige', pron: 'elle', axe: 'Hauteur de neige (cm)', u: 'cm', steps: [10, 20], t: MOIS_N, prep: 'en', prof: [1, 3, 5, 7, 5, 2] },
+    { txt: 'le nombre de papillons comptés chaque mois dans un jardin', sujet: 'le nombre de papillons', pron: 'il', axe: 'Papillons', steps: [5, 10], t: MOIS_E, prep: 'en', prof: [1, 3, 5, 7, 5, 2] },
+    { txt: 'la masse de déchets ramassés chaque mois sur une plage', sujet: 'la masse de déchets', pron: 'elle', axe: 'Masse (kg)', u: 'kg', steps: [5, 10, 20], t: MOIS_E, prep: 'en' },
+    { txt: "le nombre d'hirondelles comptées chaque année dans un village", sujet: "le nombre d'hirondelles", pron: 'il', axe: 'Hirondelles', steps: [2, 5, 10], t: ANNEES, prep: 'en' }
+  ];
+  G._6X_add('6D1', 2, function () {
+    const ctx = this.randChoice(CRB_CTX);
+    const step = this.randChoice(ctx.steps);
+    const [labels, long] = ctx.t;
+    let raw;
+    // Saison ou journée : une allure plausible, légèrement perturbée, plutôt que des valeurs quelconques
+    do {
+      raw = ctx.prof ? ctx.prof.map(k => Math.min(7, Math.max(1, k + this.randInt(-1, 1)))) : labels.map(() => this.randInt(1, 7));
+    } while (new Set(raw).size < 3 || raw.filter(x => x === Math.max(...raw)).length !== 1);
+    const vals = raw.map(k => k * step);
+    const mode = this.randChoice(['lire', 'ecart', 'max']);
+    const svg = crbSvg(this, labels, vals, step, ctx.axe);
+    const intro = `La courbe ci-dessous donne ${ctx.txt}.\n${svg}\n`;
+    // Unité de la mesure dans les conclusions rédigées (la saisie reste le nombre seul)
+    const un = ctx.u ? ` ${ctx.u}` : '';
+    if (mode === 'max') {
+      const i = vals.indexOf(Math.max(...vals));
+      const q = this._6A_q('6D1', 2, 'Représenter', {
+        title: 'Lire une courbe',
+        statement: `${intro}**À quel moment la valeur relevée est-elle la plus grande ?**`,
+        hint1: 'Cherche le point le plus haut de la courbe.',
+        hint2: 'Descends ensuite de ce point jusqu\'à l\'axe horizontal pour lire le moment.',
+        solution: `Le point le plus haut de la courbe correspond à **${long[i]}**, à la hauteur $${vals[i]}$${un}.`,
+        _v: { k: '6D1.courbe', vals, long, mode, a: i, b: i }
+      });
+      return this._6mcq(q, long[i], this.shuffle(long.filter((_, j) => j !== i)));
+    }
+    if (mode === 'lire') {
+      const a = this.randInt(0, labels.length - 1);
+      return this._6A_q('6D1', 2, 'Représenter', {
+        title: 'Lire une courbe',
+        statement: `${intro}**Quelle est la valeur relevée ${ctx.prep} ${long[a]} ?** (donne seulement le nombre)`,
+        type: 'exact', answer: String(vals[a]), placeholder: 'Ex : 12',
+        hint1: `Repère ${ctx.prep === 'à' ? long[a] : `« ${long[a]} »`} sur l'axe horizontal, monte jusqu'au point, puis lis sa hauteur sur l'axe vertical.`,
+        hint2: `L'axe vertical est gradué de $${step}$ en $${step}$.`,
+        _hintLeakOk: vals[a] === step, // graduation citée par l'indice, pas la réponse
+        solution: `**Étape 1.** L'axe vertical est gradué de $${step}$ en $${step}$.\n**Étape 2.** Pour ${long[a]}, le point est à la hauteur $${vals[a]}$.\nLa valeur relevée ${ctx.prep} ${long[a]} est **$${vals[a]}$${un}**.`,
+        _v: { k: '6D1.courbe', vals, long, mode, a, b: a }
+      });
+    }
+    let a, b;
+    do { a = this.randInt(0, labels.length - 2); b = this.randInt(a + 1, labels.length - 1); } while (vals[a] === vals[b]);
+    const up = vals[b] > vals[a];
+    const ans = Math.abs(vals[b] - vals[a]);
+    return this._6A_q('6D1', 2, 'Représenter', {
+      title: 'Lire une courbe',
+      statement: `${intro}**De combien ${ctx.sujet} a-t-${ctx.pron} ${up ? 'augmenté' : 'diminué'} entre ${long[a]} et ${long[b]} ?** (donne seulement le nombre)`,
+      type: 'exact', answer: String(ans), placeholder: 'Ex : 8',
+      hint1: 'Lis la valeur de chaque point sur l\'axe vertical, puis calcule la différence.',
+      hint2: `L'axe vertical est gradué de $${step}$ en $${step}$ : compte les graduations qui séparent les deux points.`,
+      _hintLeakOk: ans === step, // graduation citée par l'indice, pas la réponse
+      solution: `**Étape 1.** ${ctx.prep === 'à' ? 'À' : 'En'} ${long[a]}, la valeur est $${vals[a]}$ ; ${ctx.prep} ${long[b]}, elle est $${vals[b]}$.\n**Étape 2.** $${Math.max(vals[a], vals[b])} - ${Math.min(vals[a], vals[b])} = ${ans}$.\n${ctx.sujet[0].toUpperCase() + ctx.sujet.slice(1)} a ${up ? 'augmenté' : 'diminué'} de **$${ans}$${un}**.`,
+      _v: { k: '6D1.courbe', vals, long, mode, a, b }
+    });
+  });
+
+  // P2 : planifier une enquête ou une série de mesures
+  const ENQ_BANK = [
+    { id: 'pop1', type: 'pop', txt: "Un groupe d'élèves veut savoir quel sport préfèrent les élèves de 6e de son collège.", q: 'Qui faut-il interroger ?', bon: 'Des élèves de chacune des classes de 6e', mauv: ['Seulement les élèves du club de football', 'Seulement ses amis', 'Seulement les élèves de 3e'] },
+    { id: 'pop2', type: 'pop', txt: 'Un groupe d\'élèves veut connaître le temps de trajet des élèves pour venir au collège.', q: 'Qui faut-il interroger ?', bon: 'Des élèves venant de différents quartiers, par différents moyens de transport', mauv: ['Seulement les élèves qui viennent à pied', 'Seulement les élèves qui prennent le bus', "Seulement les élèves d'une même rue"] },
+    { id: 'pop3', type: 'pop', txt: "Une mairie veut savoir si les habitants d'un quartier souhaitent plus de pistes cyclables.", q: 'Qui faut-il interroger ?', bon: 'Des habitants de tout le quartier, à différents moments de la journée', mauv: ["Seulement des cyclistes, à la sortie d'un magasin de vélos", 'Seulement des automobilistes, sur un parking', 'Seulement les employés de la mairie'] },
+    { id: 'pop4', type: 'pop', txt: 'Des élèves veulent savoir si les repas de la cantine plaisent aux élèves du collège.', q: 'Qui faut-il interroger ?', bon: 'Des élèves de tous les niveaux qui mangent à la cantine', mauv: ['Seulement les élèves qui rentrent déjeuner chez eux', 'Seulement les cuisiniers de la cantine', 'Seulement leurs camarades de classe'] },
+    { id: 'que1', type: 'que', txt: 'Une classe veut connaître le temps que chaque élève passe devant un écran.', q: 'Quelle question faut-il poser ?', bon: 'Combien de minutes as-tu passées devant un écran hier ?', mauv: ['Passes-tu trop de temps devant les écrans ?', 'Aimes-tu les écrans ?', 'Les écrans sont-ils dangereux ?'] },
+    { id: 'que2', type: 'que', txt: 'Une classe veut connaître le nombre de livres lus par chaque élève le mois dernier.', q: 'Quelle question faut-il poser ?', bon: 'Combien de livres as-tu lus le mois dernier ?', mauv: ['Lis-tu beaucoup ?', 'La lecture est-elle importante ?', 'Quel est le meilleur livre du monde ?'] },
+    { id: 'que3', type: 'que', txt: 'Une classe veut savoir dans combien de familles on trie le verre à la maison.', q: 'Quelle question faut-il poser ?', bon: 'Chez toi, trie-t-on le verre : oui ou non ?', mauv: ["Que penses-tu de l'environnement ?", 'Les déchets sont-ils un problème ?', 'Le tri est-il une bonne idée ?'] },
+    { id: 'que4', type: 'que', txt: 'Un club veut connaître le nombre de trajets faits à vélo par chaque élève la semaine dernière.', q: 'Quelle question faut-il poser ?', bon: 'Combien de trajets as-tu faits à vélo la semaine dernière ?', mauv: ['Aimes-tu le vélo ?', 'Fais-tu souvent du vélo ?', 'Le vélo est-il mieux que la voiture ?'] },
+    { id: 'mes1', type: 'mes', txt: "Des élèves veulent comparer, jour après jour, la température de l'air dans la cour.", q: 'Comment doivent-ils faire les mesures ?', bon: 'Chaque jour à la même heure, au même endroit, avec le même thermomètre', mauv: ['À une heure différente chaque jour, pour varier', 'À un endroit différent chaque jour, pour varier', 'En notant les températures de mémoire à la fin de la semaine'] },
+    { id: 'mes2', type: 'mes', txt: "Des élèves veulent comparer, d'un jour à l'autre, le nombre d'oiseaux présents dans un jardin.", q: 'Comment doivent-ils faire les comptages ?', bon: 'Chaque jour à la même heure, pendant la même durée, depuis le même endroit', mauv: ['Dix minutes un jour et une heure le lendemain', 'Le matin à un endroit, le soir à un autre', "En ne comptant que les oiseaux qu'ils trouvent jolis"] },
+    { id: 'mes3', type: 'mes', txt: 'Une classe veut relever la pluie tombée chaque jour pendant un mois.', q: 'Comment doit-elle faire les mesures ?', bon: "Avec le même pluviomètre, chaque matin à la même heure, en notant aussitôt la hauteur d'eau", mauv: ['Seulement les jours où il pleut fort', 'En estimant à l\'œil la pluie tombée', 'Avec un récipient différent chaque jour'] },
+    { id: 'mes4', type: 'mes', txt: 'Des élèves veulent suivre, semaine après semaine, la masse de déchets de la cantine.', q: 'Comment doivent-ils faire les mesures ?', bon: 'Le même jour de chaque semaine, avec la même balance', mauv: ['Seulement quand les poubelles débordent', 'En estimant la masse à l\'œil', 'En changeant de balance chaque semaine'] }
+  ];
+  const ENQ_TXT = {
+    pop: {
+      title: 'Planifier une enquête : qui interroger ?',
+      hint1: 'Les personnes interrogées doivent représenter tout le groupe étudié.',
+      hint2: 'Élimine les choix qui ne retiennent qu\'une partie du groupe ou qui favorisent une réponse.',
+      sol: 'Pour obtenir des réponses qui valent pour tout un groupe, on interroge des personnes de tout ce groupe, sans favoriser une réponse.'
+    },
+    que: {
+      title: 'Planifier une enquête : choisir la question',
+      hint1: 'Une bonne question donne des réponses précises, faciles à regrouper et à compter.',
+      hint2: 'Élimine les questions dont la réponse dépend de l\'avis de chacun (« souvent », « beaucoup », « trop »).',
+      sol: 'Seule une question précise donne des réponses que l\'on peut regrouper et compter.'
+    },
+    mes: {
+      title: 'Planifier une série de mesures',
+      hint1: 'Pour comparer des mesures, il faut les faire dans les mêmes conditions.',
+      hint2: 'Élimine ce qui change d\'une mesure à l\'autre : l\'heure, l\'endroit, l\'instrument ou la durée.',
+      sol: 'Pour pouvoir comparer les résultats, on garde les mêmes conditions à chaque mesure et on note chaque résultat aussitôt.'
+    }
+  };
+  G._6X_add('6D1', 2, function () {
+    const s = this.randChoice(ENQ_BANK);
+    const t = ENQ_TXT[s.type];
+    const q = this._6A_q('6D1', 2, 'Raisonner', {
+      title: t.title,
+      statement: `${s.txt}\n**${s.q}**`,
+      hint1: t.hint1,
+      hint2: t.hint2,
+      solution: `${t.sol}\nLa bonne réponse est : **${s.bon}**`,
+      _v: { k: '6D1.enquete', id: s.id }
+    });
+    return this._6mcq(q, s.bon, s.mauv);
+  });
+
+  // P3 : exploiter une série de mesures consignée dans un tableau
+  const REL_JOURS = ['Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.', 'Dim.'];
+  const REL_CTX = [
+    { id: 'pluie', txt: 'Une classe a relevé chaque matin, avec le même pluviomètre, la hauteur d\'eau tombée en $24$ heures.', col: 'Pluie (mm)', u: 'mm', n: 7, min: 1, max: 14 },
+    { id: 'temp', txt: 'Des élèves ont relevé chaque jour à $8$ h, avec le même thermomètre, la température de l\'air dans la cour.', col: 'Température (°C)', n: 5, min: 3, max: 18 },
+    { id: 'oiseaux', txt: 'Chaque matin, des élèves ont compté pendant $10$ minutes les oiseaux posés dans le jardin du collège.', col: 'Oiseaux', u: 'oiseaux', n: 5, min: 2, max: 16 }
+  ];
+  G._6X_add('6D1', 3, function () {
+    const ctx = this.randChoice(REL_CTX);
+    const jours = REL_JOURS.slice(0, ctx.n);
+    let vals;
+    do {
+      vals = jours.map(() => (ctx.id === 'pluie' && Math.random() < 0.35 ? 0 : this.randInt(ctx.min, ctx.max)));
+    } while (new Set(vals).size < 3 || vals.every(v => v === 0) || (ctx.id === 'pluie' && !vals.includes(0)));
+    const modes = ctx.id === 'pluie' ? ['jours', 'seuil', 'total', 'somme'] : ctx.id === 'temp' ? ['seuil'] : ['seuil', 'total'];
+    const mode = this.randChoice(modes);
+    const sorted = [...new Set(vals)].sort((a, b) => a - b);
+    // En mode « somme », le seuil laisse au moins deux valeurs distinctes au-dessus : il y a toujours une addition à faire.
+    const cand = sorted.slice(0, mode === 'somme' ? -2 : -1);
+    const s = this.randChoice(cand.filter(v => v > 0).length ? cand.filter(v => v > 0) : cand);
+    const table = this._6Ftable(['Jour', ...jours], [[ctx.col, ...vals.map(String)]]);
+    const intro = `${ctx.txt}${table}`;
+    const sel = jours.map((j, i) => i).filter(i => vals[i] > s);
+    const fmt = idx => idx.map(i => `${jours[i]} ($${vals[i]}$)`).join(', ');
+    const nbJours = k => `**$${k}$** jour${k > 1 ? 's' : ''}`;
+    const retenus = sel.length > 1 ? 'Jours retenus' : 'Jour retenu';
+    const total = vals.reduce((a, b) => a + b, 0);
+    const sumOfSel = sel.reduce((a, i) => a + vals[i], 0);
+    const common = { title: 'Exploiter une série de mesures', _v: { k: '6D1.releve', vals, mode, s } };
+    if (mode === 'jours') {
+      const pluie = jours.map((j, i) => i).filter(i => vals[i] > 0);
+      return this._6A_q('6D1', 3, 'Représenter', Object.assign(common, {
+        statement: `${intro}**Pendant combien de jours a-t-il plu ?**`,
+        type: 'exact', answer: String(pluie.length), placeholder: 'Ex : 4',
+        hint1: `Dans la ligne « ${ctx.col} », compte les jours dont la valeur n'est pas $0$.`,
+        hint2: '$0$ mm signifie qu\'il n\'a pas plu ce jour-là.',
+        solution: `Il a plu : ${fmt(pluie)}.\nCela fait ${nbJours(pluie.length)}.`
+      }));
+    }
+    if (mode === 'total') {
+      const quest = ctx.id === 'pluie' ? 'Quelle hauteur d\'eau, en mm, est tombée en tout ?' : 'Combien d\'oiseaux ont été comptés en tout ?';
+      return this._6A_q('6D1', 3, 'Représenter', Object.assign(common, {
+        statement: `${intro}**${quest}**`,
+        type: 'exact', answer: String(total), placeholder: 'Ex : 25',
+        hint1: `Additionne toutes les valeurs de la ligne « ${ctx.col} ».`,
+        hint2: 'Regroupe les nombres dont la somme est ronde pour calculer plus vite.',
+        solution: `$$${vals.join(' + ')} = ${total}$$\nLe total est **$${total}$ ${ctx.u}**.`
+      }));
+    }
+    if (mode === 'somme') {
+      return this._6A_q('6D1', 3, 'Représenter', Object.assign(common, {
+        statement: `${intro}**Quelle hauteur d'eau, en mm, est tombée au total pendant les jours où il est tombé strictement plus de $${s}$ mm ?**`,
+        type: 'exact', answer: String(sumOfSel), placeholder: 'Ex : 18',
+        hint1: `Garde seulement les jours où la valeur est strictement supérieure à $${s}$, puis additionne leurs valeurs.`,
+        hint2: `« Strictement plus de $${s}$ » : $${s}$ ne convient pas.`,
+        solution: `${retenus} : ${fmt(sel)}.\n$$${sel.map(i => vals[i]).join(' + ')} = ${sumOfSel}$$\nIl est tombé **$${sumOfSel}$** mm ces jours-là.`
+      }));
+    }
+    const quest = ctx.id === 'pluie' ? `Combien de jours est-il tombé strictement plus de $${s}$ mm d'eau ?`
+      : ctx.id === 'temp' ? `Combien de jours a-t-on relevé une température strictement supérieure à $${s}$ °C ?`
+        : `Combien de jours a-t-on compté strictement plus de $${s}$ oiseaux ?`;
+    return this._6A_q('6D1', 3, 'Représenter', Object.assign(common, {
+      statement: `${intro}**${quest}**`,
+      type: 'exact', answer: String(sel.length), placeholder: 'Ex : 3',
+      hint1: `Parcours la ligne « ${ctx.col} » et repère les cases strictement supérieures à $${s}$.`,
+      hint2: `« Strictement » : la valeur $${s}$ elle-même ne convient pas.`,
+      solution: `${retenus} : ${fmt(sel)}.\nCela fait ${nbJours(sel.length)}.`
+    }));
+  });
+
   // ===================================================================
   // 6D2 — Probabilités
   // ===================================================================
   G._6X_origWeight('6D2', 2, 3);
   G._6X_origWeight('6D2', 3, 3);
   G._6X_origWeight('6D2', 4, 3);
+  G._6X_origWeight('6D2', 1, 4);
+
+  // P1 : passer de « a chances sur b » à une écriture de la probabilité
+  const chances = (a, b) => `${a} chance${a > 1 ? 's' : ''} sur ${b}`;
+  const chancesTex = (a, b) => `$${a}$ chance${a > 1 ? 's' : ''} sur $${b}$`;
+  const CH_FRAME = [
+    p => `À la loterie de la kermesse, on a ${p} de tirer un ticket gagnant.`,
+    p => `Le bulletin météo annonce ${p} qu'il pleuve demain.`,
+    p => `Dans ce sac de billes, on a ${p} de tirer une bille rouge.`,
+    p => `La flèche de cette roue a ${p} de s'arrêter sur le bleu.`,
+    p => `Avec ce jeu de cartes, on a ${p} de tirer la carte gagnante.`
+  ];
+  G._6X_add('6D2', 1, function () {
+    const mode = this.randChoice(['fraction', 'decimal', 'pourcent', 'reciproque']);
+    if (mode === 'decimal' || mode === 'pourcent') {
+      const b = this.randChoice([2, 4, 5, 10, 20, 25, 50, 100]);
+      const a = this.randInt(1, b - 1);
+      const k = 100 / b;
+      const p = a * k;
+      const intro = this.randChoice(CH_FRAME)(chancesTex(a, b));
+      if (mode === 'pourcent') {
+        return this._6A_q('6D2', 1, 'Calculer', {
+          title: 'Des chances au pourcentage',
+          statement: `${intro}\n**Quelle est cette probabilité en pourcentage ?** (réponse sans le symbole %)`,
+          type: 'exact', answer: String(p), placeholder: 'Ex : 30',
+          hint1: 'Écris d\'abord la fraction : le nombre de chances au numérateur, le nombre total au dénominateur.',
+          hint2: b === 100
+            ? 'Un pourcentage est une fraction de dénominateur $100$ : regarde le dénominateur de la fraction obtenue.'
+            : 'Un pourcentage est une fraction de dénominateur $100$ : cherche la fraction égale ayant ce dénominateur.',
+          solution: b === 100
+            ? `« ${chancesTex(a, b)} » s'écrit $\\frac{${a}}{100}$.\nCette fraction a déjà le dénominateur $100$ : il n'y a pas à l'amplifier.\nLa probabilité est de **$${p}\\,\\%$**.`
+            : `« ${chancesTex(a, b)} » s'écrit $\\frac{${a}}{${b}}$.\n$$\\frac{${a}}{${b}} = \\frac{${a} \\times ${k}}{${b} \\times ${k}} = \\frac{${p}}{100}$$\nLa probabilité est de **$${p}\\,\\%$**.`,
+          _v: { k: '6D2.chances', a, b, mode }
+        });
+      }
+      const val = this._6r(a / b);
+      return this._6A_q('6D2', 1, 'Calculer', {
+        title: 'Des chances à l\'écriture décimale',
+        statement: `${intro}\n**Quelle est cette probabilité, en écriture décimale ?**`,
+        type: 'exact', answer: this._6ans(val), placeholder: 'Ex : 0,3',
+        hint1: 'Écris d\'abord la fraction : le nombre de chances au numérateur, le nombre total au dénominateur.',
+        hint2: 'Cherche la fraction égale de dénominateur $10$ ou $100$, ou divise le numérateur par le dénominateur.',
+        solution: `« ${chancesTex(a, b)} » s'écrit $\\frac{${a}}{${b}}$.\n$$\\frac{${a}}{${b}} = ${a} \\div ${b} = ${this._6tex(val)}$$\nLa probabilité est **$${this._6tex(val)}$**.`,
+        _v: { k: '6D2.chances', a, b, mode }
+      });
+    }
+    let a, b;
+    do { b = this.randChoice([3, 4, 5, 6, 7, 8, 9, 10, 12, 20]); a = this.randInt(1, b - 1); } while (this.gcd(a, b) !== 1);
+    if (mode === 'fraction') {
+      return this._6A_q('6D2', 1, 'Représenter', {
+        title: 'Des chances à la fraction',
+        statement: `${this.randChoice(CH_FRAME)(chancesTex(a, b))}\n**Écris cette probabilité sous la forme d'une fraction.** (réponse sous la forme a/b)`,
+        type: 'exact', answer: `${a}/${b}`, placeholder: 'Ex : 3/10',
+        hint1: 'Dans « a chances sur b », a est le nombre de chances et b le nombre total de cas.',
+        hint2: 'Le nombre de chances va au numérateur, le nombre total de cas au dénominateur.',
+        solution: `« ${chancesTex(a, b)} » s'écrit avec le numérateur $${a}$ et le dénominateur $${b}$.\nLa probabilité est **$\\frac{${a}}{${b}}$**.`,
+        _v: { k: '6D2.chances', a, b, mode }
+      });
+    }
+    const q = this._6A_q('6D2', 1, 'Représenter', {
+      title: 'De la fraction aux chances',
+      statement: `Une probabilité est égale à $\\frac{${a}}{${b}}$.\n**Quelle phrase dit la même chose ?**`,
+      hint1: 'Le numérateur donne le nombre de chances, le dénominateur le nombre total de cas.',
+      hint2: 'On lit la fraction de haut en bas : « tant de chances sur tant ».',
+      solution: `$\\frac{${a}}{${b}}$ se lit « ${chancesTex(a, b)} ».\nLa bonne phrase est **${chances(a, b)}**.`,
+      _v: { k: '6D2.chances', a, b, mode }
+    });
+    return this._6mcq(q, chances(a, b), [chances(b, a), chances(a, a + b), chances(b - a, b)]);
+  });
 
   const ECH = {
     0: '0 : impossible',
@@ -5848,7 +6462,7 @@
       statement: `Une urne opaque contient ${u.txt}. On tire une boule au hasard.\nOù se place l'événement « ${ev} » sur l'échelle des probabilités ?`,
       hint1: 'Compte les boules favorables et compare-les à la moitié du nombre total de boules.',
       hint2: 'Une probabilité est un nombre entre 0 (événement impossible) et 1 (événement certain) ; elle vaut 1/2 quand il y a autant d\'issues favorables que d\'issues défavorables.',
-      solution: `**Étape 1.** Il y a $${tot}$ boules en tout et $${fav}$ réalisent l'événement : $P = ${fracTex(this, fav, tot)}$.\n**Étape 2.** La moitié des boules est $${this._6tex(tot / 2)}$ ; or $${fav}$ ${key === 'low' ? '<' : key === 'half' ? '=' : '>'} $${this._6tex(tot / 2)}$.\nL'événement se place donc dans la zone **« ${ECH[key]} »**.`,
+      solution: `**Étape 1.** Il y a $${tot}$ boules en tout et $${fav}$ ${fav > 1 ? "réalisent" : "réalise"} l'événement : la probabilité est $${fracTex(this, fav, tot)}$.\n**Étape 2.** La moitié des boules est $${this._6tex(tot / 2)}$ ; or $${fav}$ ${key === 'low' ? '<' : key === 'half' ? '=' : '>'} $${this._6tex(tot / 2)}$.\nL'événement se place donc dans la zone **« ${ECH[key]} »**.`,
       _v: { k: '6D2.echelle', counts: u.counts, j, mode }
     });
     return this._6mcq(q, ECH[key], ['low', 'half', 'high', 0, 1].filter(x => x !== key).map(x => ECH[x]), 5);
@@ -5858,19 +6472,19 @@
   G._6X_add('6D2', 2, function () {
     const tot = this.randChoice([4, 5, 10, 20, 25, 50]);
     const ctx = this.randChoice([
-      { obj: 'tickets de tombola', win: 'gagnants', one: 'un ticket', ev: 'tirer un ticket gagnant' },
-      { obj: 'cartes', win: 'rouges', one: 'une carte', ev: 'tirer une carte rouge' },
-      { obj: 'jetons', win: 'marqués d\'une étoile', one: 'un jeton', ev: 'tirer un jeton marqué d\'une étoile' }
+      { obj: 'tickets de tombola', win: 'gagnants', win1: 'gagnant', one: 'un ticket', ev: 'tirer un ticket gagnant' },
+      { obj: 'cartes', win: 'rouges', win1: 'rouge', one: 'une carte', ev: 'tirer une carte rouge' },
+      { obj: 'jetons', win: 'marqués d\'une étoile', win1: 'marqué d\'une étoile', one: 'un jeton', ev: 'tirer un jeton marqué d\'une étoile' }
     ]);
     const k = this.randInt(1, tot - 1);
     const p = this._6r(k / tot);
     return this._6A_q('6D2', 2, 'Calculer', {
       title: 'Probabilité en écriture décimale',
-      statement: `Un sac contient ${tot} ${ctx.obj}, dont ${k} ${ctx.win}. On tire ${ctx.one} au hasard.\n**Quelle est la probabilité de ${ctx.ev} ?** (écriture décimale)`,
+      statement: `Un sac contient ${tot} ${ctx.obj}, dont ${k} ${k > 1 ? ctx.win : ctx.win1}. On tire ${ctx.one} au hasard.\n**Quelle est la probabilité de ${ctx.ev} ?** (écriture décimale)`,
       type: 'exact', answer: this._6ans(p), placeholder: 'Ex : 0,25',
       hint1: 'Écris d\'abord la probabilité sous forme de fraction, puis transforme-la en écriture décimale.',
       hint2: 'Probabilité = nombre d\'issues favorables ÷ nombre d\'issues possibles (toutes équiprobables). Pour obtenir l\'écriture décimale, on cherche une fraction égale de dénominateur 10, 100…',
-      solution: `**Étape 1.** Il y a $${tot}$ issues équiprobables, dont $${k}$ favorables : $P = \\frac{${k}}{${tot}}$.\n**Étape 2.** $\\frac{${k}}{${tot}} = \\frac{${k * (100 / tot)}}{100} = ${this._6tex(p)}$.\nLa probabilité est **$${this._6tex(p)}$**.`,
+      solution: `**Étape 1.** Il y a $${tot}$ issues équiprobables, dont $${k}$ ${k > 1 ? 'favorables' : 'favorable'} : la probabilité est $\\frac{${k}}{${tot}}$.\n**Étape 2.** $\\frac{${k}}{${tot}} = \\frac{${k * (100 / tot)}}{100} = ${this._6tex(p)}$.\nLa probabilité est **$${this._6tex(p)}$**.`,
       _v: { k: '6D2.dec', k1: k, tot }
     });
   });
@@ -5903,7 +6517,7 @@
     const ang = (360 * ks[j]) / n;
     return this._6A_q('6D2', 3, 'Raisonner', {
       title: 'Roue de loterie à secteurs inégaux',
-      statement: `Une roue de loterie est partagée en secteurs **de tailles différentes** (les angles sont indiqués). On la fait tourner et on regarde la couleur indiquée par la flèche.\n${wheelUneven(this, parts, n)}\n**Quelle est la probabilité que la flèche s'arrête sur le ${cols[j]} ?** (fraction irréductible a/b)`,
+      statement: `Une roue de loterie est partagée en secteurs **de tailles différentes** (les angles sont indiqués). On la fait tourner et on regarde la couleur indiquée par la flèche.\n${wheelUneven(this, parts, n)}\n**Quelle est la probabilité que la flèche s'arrête sur le ${cols[j]} ?** (fraction simplifiée au maximum, écrite a/b)`,
       type: 'exact', answer: this._6fracAns(ks[j], n), placeholder: 'Ex : 3/8',
       hint1: 'Les couleurs n\'ont pas la même chance de sortir : la probabilité dépend de la part du disque occupée par la couleur.',
       hint2: 'Un tour complet mesure $360^\\circ$ : un secteur d\'angle $a^\\circ$ occupe la fraction $\\frac{a}{360}$ du disque.',
@@ -5966,7 +6580,7 @@
     const fav = u.counts[b] - (a === b ? x : 0);
     return this._6A_q('6D2', 4, 'Raisonner', {
       title: 'Modifier le contenu d\'une urne',
-      statement: `Une urne opaque contient ${u.txt}. Avant le tirage, on **retire ${x} ${pl(x, 'boule ' + u.cols[a][0], 'boules ' + u.cols[a][1])}** de l'urne. On tire ensuite une boule au hasard.\n**Quelle est la probabilité de tirer une boule ${u.cols[b][0]} ?** (fraction irréductible a/b)`,
+      statement: `Une urne opaque contient ${u.txt}. Avant le tirage, on **retire ${x} ${pl(x, 'boule ' + u.cols[a][0], 'boules ' + u.cols[a][1])}** de l'urne. On tire ensuite une boule au hasard.\n**Quelle est la probabilité de tirer une boule ${u.cols[b][0]} ?** (fraction simplifiée au maximum, écrite a/b)`,
       type: 'exact', answer: this._6fracAns(fav, tot), placeholder: 'Ex : 3/10',
       hint1: 'Commence par écrire le nouveau contenu de l\'urne : combien de boules de chaque couleur, et combien en tout ?',
       hint2: 'Probabilité = nombre d\'issues favorables ÷ nombre total d\'issues, calculée avec le contenu de l\'urne au moment du tirage.',
@@ -6030,13 +6644,47 @@
       type: 'exact', answer: String(moves[idx][1]), placeholder: 'Ex : 2',
       hint1: 'Compare la case atteinte et la case visée : de combien de cases le robot s\'est-il trompé, et dans quelle direction ?',
       hint2: 'Déboguer un programme, c\'est l\'exécuter pas à pas pour repérer l\'instruction qui ne produit pas l\'effet voulu, puis la corriger.',
-      solution: `**Étape 1.** Le robot arrive en ${this._6Fcell(reached)} au lieu de ${this._6Fcell(end)} : l'écart vient de l'instruction ${idx + 1} (« ${this._6FmoveTxt([moves[idx][0], wrong])} »).\n**Étape 2.** ${wrong > moves[idx][1] ? `Il est allé ${wrong - moves[idx][1]} case${wrong - moves[idx][1] > 1 ? 's' : ''} trop loin` : `Il lui manque ${moves[idx][1] - wrong} case${moves[idx][1] - wrong > 1 ? 's' : ''}`} ${this._6FDIRS[moves[idx][0]].txt} : $${wrong} ${wrong > moves[idx][1] ? '-' : '+'} ${Math.abs(wrong - moves[idx][1])} = ${moves[idx][1]}$.\nIl faut écrire **$${moves[idx][1]}$** dans l'instruction ${idx + 1}.`,
+      solution: `**Étape 1.** On suit le programme écrit par Lina : ${this._6Ftrace(start, moves.map((m, i) => (i === idx ? [m[0], wrong] : m)))[0]}. Le robot arrive en ${this._6Fcell(reached)} au lieu de ${this._6Fcell(end)} : l'écart vient de l'instruction ${idx + 1} (« ${this._6FmoveTxt([moves[idx][0], wrong])} »).\n**Étape 2.** ${wrong > moves[idx][1] ? `Il est allé ${wrong - moves[idx][1]} case${wrong - moves[idx][1] > 1 ? 's' : ''} trop loin` : `Il lui manque ${moves[idx][1] - wrong} case${moves[idx][1] - wrong > 1 ? 's' : ''}`} ${this._6FDIRS[moves[idx][0]].txt} : $${wrong} ${wrong > moves[idx][1] ? '-' : '+'} ${Math.abs(wrong - moves[idx][1])} = ${moves[idx][1]}$.\nIl faut écrire **$${moves[idx][1]}$** dans l'instruction ${idx + 1}.`,
       _v: { k: '6A1.bug', start, end, moves: moves.map((m, i) => (i === idx ? [m[0], null] : m)), idx }
     });
   });
 
-  // P3 : variable modifiée dans une boucle
+  // P3 : répéter une séquence de cartes (boucle sur un programme de calcul, sans variable)
   G._6X_add('6A1', 3, function () {
+    const mode = this.randChoice(['double', 'mixte', 'alterne']);
+    let x, k, ops, hint2;
+    if (mode === 'double') {
+      x = this.randInt(1, 6); k = this.randInt(3, 5); ops = [['*', 2]];
+      hint2 = `Premier passage : calcule $${x} \\times 2$. Le passage suivant repart de ce résultat.`;
+    } else if (mode === 'mixte') {
+      const a = this.randInt(1, 4);
+      x = this.randInt(1, 5); k = this.randInt(2, 4); ops = [['+', a], ['*', 2]];
+      hint2 = `Premier passage : calcule $${x} + ${a}$, puis multiplie le résultat par $2$.`;
+    } else {
+      const b = this.randInt(1, 6), a = b + this.randInt(1, 5);
+      x = this.randInt(2, 12); k = this.randInt(3, 6); ops = [['+', a], ['-', b]];
+      hint2 = `À chaque passage, on ajoute $${a}$ puis on retire $${b}$ : cherche de combien le nombre augmente en un passage.`;
+    }
+    let n = x;
+    const tours = [];
+    for (let i = 0; i < k; i++) {
+      const r = this._6FexecCartes(n, ops);
+      tours.push(`Passage ${i + 1} : ${r.calculs.map(c => `$${c}$`).join(' ; puis ')}.`);
+      n = r.out;
+    }
+    return this._6A_q('6A1', 3, 'Modéliser', {
+      title: 'Répéter une séquence de cartes',
+      statement: `Un programme de calcul reçoit le nombre $${x}$ en **entrée**. Il exécute :\n\n**Répéter ${k} fois :**\n${ops.map(op => `- carte « ${this._6Fcarte(op)} »`).join('\n')}\n\n**Quel nombre obtient-on en sortie ?**`,
+      type: 'exact', answer: String(n), placeholder: 'Ex : 48',
+      hint1: 'Note le nombre obtenu à la fin de chaque passage dans la boucle : c\'est le nombre de départ du passage suivant.',
+      hint2,
+      solution: `**Étape 1.** On exécute la boucle passage par passage.\n${tours.join('\n')}\n**Étape 2.** Après le dernier passage, la sortie est **$${n}$**.`,
+      _v: { k: '6A1.boucleCartes', x, ops, n: k }
+    });
+  });
+
+  // P4 : variable modifiée dans une boucle (Défi : au-delà du programme de 6e)
+  G._6X_add('6A1', 4, function () {
     const mode = this.randChoice(['double', 'somme', 'mixte']);
     let lines, ans, sol, v;
     if (mode === 'double') {
@@ -6062,9 +6710,9 @@
       sol = `À chaque tour : ${st.join(' ; ')}.`;
       v = { mode, x, a, n: k };
     }
-    return this._6A_q('6A1', 3, 'Modéliser', {
+    return this._6A_q('6A1', 4, 'Modéliser', {
       title: 'Variable modifiée dans une boucle',
-      statement: `On exécute le script suivant :\n${this.renderScratch(lines)}\n**Quel nombre le lutin dit-il à la fin ?**`,
+      statement: `**Pour aller plus loin** : une **variable** garde un nombre en mémoire, et ce nombre peut changer pendant le programme.\nOn exécute le script suivant :\n${this.renderScratch(lines)}\n**Quel nombre le lutin dit-il à la fin ?**`,
       type: 'exact', answer: String(ans), placeholder: 'Ex : 48',
       hint1: 'Fais un tableau avec une ligne par tour de boucle et note la valeur de chaque variable à la fin du tour.',
       hint2: 'Une variable garde sa valeur d\'un tour de boucle au suivant : chaque instruction utilise la valeur la plus récente.',
@@ -6079,18 +6727,18 @@
     const pool = this.shuffle([['+', this.randInt(2, 12)], ['*', this.randInt(2, 5)], ['-', this.randInt(1, 9)]]).slice(0, this.randChoice([2, 3]));
     let v = x; const fw = [];
     for (const [o, a] of pool) { const nv = o === '+' ? v + a : o === '-' ? v - a : v * a; fw.push([v, o, a, nv]); v = nv; }
-    if (fw.some(s => s[3] < 0)) return null;
+    if (fw.some(s => s[3] <= 0)) return null;
     const res = v;
     const sym = o => (o === '*' ? '\\times' : o);
     const inv = { '+': '-', '-': '+', '*': '\\div' };
     const back = fw.slice().reverse().map(([a0, o, a, nv]) => `$${nv} ${inv[o]} ${a} = ${a0}$`);
     return this._6A_q('6A1', 4, 'Raisonner', {
-      title: 'Retrouver le nombre choisi',
-      statement: `On exécute le script suivant :\n${this.renderScratch(['quand drapeau cliqué', 'demander [Choisis un nombre] et attendre', 'mettre [N] à (réponse)', ...pool.map(([o, a]) => `mettre [N] à (N ${o} ${a})`), 'dire (N)'])}\nLe lutin dit $${res}$. **Quel nombre a-t-on choisi ?**`,
+      title: 'Retrouver le nombre en entrée',
+      statement: `Un programme de calcul s'écrit avec des cartes, à appliquer dans l'ordre :\n\n${this._6FlisteCartes(pool)}\n\nLe nombre obtenu en **sortie** est $${res}$. **Quel nombre a-t-on donné en entrée ?**`,
       type: 'exact', answer: String(x), placeholder: 'Ex : 7',
-      hint1: 'Remonte le programme à l\'envers : pars du résultat et défais les instructions en commençant par la dernière.',
-      hint2: 'Pour défaire « ajouter » on soustrait, pour défaire « soustraire » on ajoute, pour défaire « multiplier » on divise.',
-      solution: `**Étape 1.** On remonte les instructions de la dernière à la première : ${back.join(' ; puis ')}.\n**Étape 2 (vérification).** ${fw.map(([a0, o, a, nv]) => `$${a0} ${sym(o)} ${a} = ${nv}$`).join(' ; ')}.\nLe nombre choisi est **$${x}$**.`,
+      hint1: 'Remonte le programme à l\'envers : pars de la sortie et défais les cartes en commençant par la dernière.',
+      hint2: 'Pour défaire « ajouter » on retire, pour défaire « retirer » on ajoute, pour défaire « multiplier » on divise.',
+      solution: `**Étape 1.** On remonte les cartes de la dernière à la première : ${back.join(' ; puis ')}.\n**Étape 2 (vérification).** ${fw.map(([a0, o, a, nv]) => `$${a0} ${sym(o)} ${a} = ${nv}$`).join(' ; ')}.\nLe nombre donné en entrée est **$${x}$**.`,
       _v: { k: '6A1.inverse', ops: pool, res }
     });
   });
@@ -6108,7 +6756,7 @@
   const PRENOMS = ['Léa', 'Hugo', 'Inès', 'Noah', 'Jade', 'Adam', 'Chloé', 'Rayan', 'Lina', 'Tom', 'Zoé', 'Malo', 'Sacha', 'Nina'];
   const mk = (id, t, o) => {
     const q = Object.assign({ chapterId: id, tier: t, skill: 'Calculer' }, o);
-    if (t === 4 && q.title && !/^Défi 5ème/.test(q.title)) q.title = `Défi 5ème : ${q.title}`;
+    if (t === 4 && q.title && !/^Défi/.test(q.title)) q.title = `Défi : ${q.title}`;
     if (q.type === 'exact' && !q.placeholder) q.placeholder = 'Ex : 12';
     return q;
   };
@@ -6188,9 +6836,42 @@
       type: 'exact', answer: String(n), placeholder: 'Ex : 3',
       hint1: 'Écris d\'abord le nombre décimal sous la forme d\'une fraction de dénominateur 100.',
       hint2: 'On obtient une fraction égale en divisant (ou multipliant) le numérateur et le dénominateur par un même nombre non nul.',
-      solution: `Étape 1 : $${this._6tex(N / 100)} = ${F(N, 100)}$ (le dernier chiffre est au rang des centièmes).\nÉtape 2 : $100 \\div ${d} = ${m}$, donc on divise aussi le numérateur par $${m}$ : $${N} \\div ${m} = ${n}$.\nAinsi $${this._6tex(N / 100)} = ${F(n, d)}$ : le nombre manquant est $${n}$.`,
+      solution: `Étape 1 : ${N % 10 === 0 ? `on écrit le nombre avec deux chiffres après la virgule : $${this._6tex(N / 100)} = ${this._6tex(N / 100)}0 = ${F(N, 100)}$ (le $0$ ajouté est au rang des centièmes).` : `$${this._6tex(N / 100)} = ${F(N, 100)}$ (le dernier chiffre est au rang des centièmes).`}\nÉtape 2 : $100 \\div ${d} = ${m}$, donc on divise aussi le numérateur par $${m}$ : $${N} \\div ${m} = ${n}$.\nAinsi $${this._6tex(N / 100)} = ${F(n, d)}$ : le nombre manquant est $${n}$.`,
       skill: 'Représenter',
       _v: { k: '6N6.dec2frac', N, d }
+    });
+  });
+
+  // Arrondi d'un nombre non décimal : quotient dont la division ne s'arrête pas, ou nombre π.
+  G._6X_add('6N6', 2, function () {
+    if (Math.random() < 0.2) {
+      const [rang, ans, suivant, chiffre, p] = this.randChoice([['dixième', '3,1', 'des centièmes', 4, 10], ['centième', '3,14', 'des millièmes', 1, 100], ['millième', '3,142', 'des dix-millièmes', 5, 1000]]);
+      return mk('6N6', 2, {
+        title: 'Arrondir le nombre π',
+        statement: `Le nombre $\\pi$ n'est pas un nombre décimal : il a une infinité de décimales, et il commence par $3{,}14159\\ldots$\n**Donner l'arrondi de $\\pi$ au ${rang}.**`,
+        type: 'exact', answer: ans, placeholder: 'Ex : 3,1',
+        hint1: 'Pour arrondir, regarde le chiffre juste après le rang demandé.',
+        hint2: `Ici, il faut lire le chiffre ${suivant} de $3{,}14159\\ldots$`,
+        solution: `Le chiffre ${suivant} est $${chiffre}$ : ${chiffre >= 5 ? 'on prend la valeur supérieure' : 'on garde la valeur inférieure'}.\nDonc $\\pi \\approx ${ans.replace(',', '{,}')}$ (arrondi au ${rang}).`,
+        skill: 'Calculer',
+        _v: { k: '6N6.arrpi', p }
+      });
+    }
+    let a, b;
+    do { b = this.randChoice([3, 6, 7, 9, 11]); a = this.randInt(1, 12 * b); } while (a % b === 0 || (b === 6 && a % 3 === 0));
+    const [rang, p] = this.randChoice([['dixième', 10], ['centième', 100]]);
+    const debut = (Math.floor(a / b * 10000) / 10000).toFixed(4).replace('.', '{,}');
+    const chiffre = Math.floor(a / b * p * 10) % 10;
+    const r = this._6r(Math.round(a / b * p) / p);
+    return mk('6N6', 2, {
+      title: 'Arrondir un quotient non décimal',
+      statement: `Le nombre $${F(a, b)}$ n'est pas un nombre décimal : la division de $${a}$ par $${b}$ ne s'arrête jamais.\n**Donner l'arrondi de $${F(a, b)}$ au ${rang}.**`,
+      type: 'exact', answer: this._6ans(r), placeholder: 'Ex : 0,33',
+      hint1: 'Pose la division sur quelques décimales, puis regarde le chiffre juste après le rang demandé.',
+      hint2: `Repère dans ta division le chiffre juste après le rang des ${rang}s : il indique si tu gardes la valeur inférieure ou si tu prends la valeur supérieure.`,
+      solution: `Étape 1 : $${a} \\div ${b} = ${debut}\\ldots$\nÉtape 2 : le chiffre juste après le rang des ${rang}s est $${chiffre}$, donc on ${chiffre >= 5 ? 'prend la valeur supérieure' : 'garde la valeur inférieure'}.\nConclusion : $${F(a, b)} \\approx ${this._6tex(r)}$ (arrondi au ${rang}).`,
+      skill: 'Calculer',
+      _v: { k: '6N6.arrq', a, b, p }
     });
   });
 
@@ -6200,11 +6881,11 @@
     const ans = below ? k * d - 1 : k * d + 1;
     return mk('6N6', 3, {
       title: 'Comparer une fraction à un entier',
-      statement: `Quel est le **${below ? 'plus grand' : 'plus petit'}** nombre entier $n$ tel que :\n$$${F('n', d)} ${below ? '<' : '>'} ${k}$$`,
+      statement: `Quel est le **${below ? 'plus grand' : 'plus petit'}** nombre entier que l'on peut écrire à la place de $\\square$ pour que :\n$$${F('\\square', d)} ${below ? '<' : '>'} ${k}$$`,
       type: 'exact', answer: String(ans),
       hint1: `Écris l'entier $${k}$ sous la forme d'une fraction de dénominateur $${d}$.`,
       hint2: 'Deux fractions de même dénominateur sont rangées dans le même ordre que leurs numérateurs.',
-      solution: `Étape 1 : $${k} = ${F(k * d, d)}$.\nÉtape 2 : on veut $${F('n', d)} ${below ? '<' : '>'} ${F(k * d, d)}$, c'est-à-dire $n ${below ? '<' : '>'} ${k * d}$.\nLe ${below ? 'plus grand' : 'plus petit'} entier qui convient est $n = ${ans}$.`,
+      solution: `Étape 1 : $${k} = ${F(k * d, d)}$.\nÉtape 2 : on veut $${F('\\square', d)} ${below ? '<' : '>'} ${F(k * d, d)}$ : le nombre écrit à la place de $\\square$ doit être ${below ? 'plus petit' : 'plus grand'} que $${k * d}$.\nLe ${below ? 'plus grand' : 'plus petit'} entier qui convient est $${ans}$.`,
       skill: 'Comparer',
       _v: { k: '6N6.maxnum', d, kk: k, below }
     });
@@ -6258,11 +6939,11 @@
     const part = ctx.tot / b, ans = part * a;
     return mk('6N7', 1, {
       title: 'Fraction d\'une unité de mesure',
-      statement: `Combien de ${ctx.small} y a-t-il dans $${F(a, b)}$ de ${ctx.big} ?`,
+      statement: `Combien de ${ctx.small} y a-t-il dans $${F(a, b)}$ ${ctx.big === 'heure' ? "d'heure" : `de ${ctx.big}`} ?`,
       type: 'exact', answer: String(ans), placeholder: 'Ex : 45',
       hint1: `Commence par écrire combien de ${ctx.small} il y a dans ${ctx.big === 'heure' ? 'une heure entière' : `un ${ctx.big} entier`}.`,
       hint2: `Prendre $${F(a, b)}$ d'une quantité : on la partage en $${b}$ parts égales (division par $${b}$), puis on prend $${a}$ part${a > 1 ? 's' : ''} (multiplication par $${a}$).`,
-      solution: `Étape 1 : ${ctx.big === 'heure' ? 'une heure' : `un ${ctx.big}`} vaut $${this._6tex(ctx.tot)}$ ${ctx.small}.\nÉtape 2 : $${this._6tex(ctx.tot)} \\div ${b} = ${this._6tex(part)}$, puis $${this._6tex(part)} \\times ${a} = ${this._6tex(ans)}$.\nIl y a $${this._6tex(ans)}$ ${ctx.small} dans $${F(a, b)}$ de ${ctx.big}.`,
+      solution: `Étape 1 : ${ctx.big === 'heure' ? 'une heure' : `un ${ctx.big}`} vaut $${this._6tex(ctx.tot)}$ ${ctx.small}.\nÉtape 2 : $${this._6tex(ctx.tot)} \\div ${b} = ${this._6tex(part)}$, puis $${this._6tex(part)} \\times ${a} = ${this._6tex(ans)}$.\nIl y a $${this._6tex(ans)}$ ${ctx.small} dans $${F(a, b)}$ ${ctx.big === 'heure' ? "d'heure" : `de ${ctx.big}`}.`,
       skill: 'Calculer',
       _v: { k: '6N7.ofunit', a, b, tot: ctx.tot }
     });
@@ -6273,7 +6954,7 @@
     let a, b; do { b = this.randInt(3, 15); a = this.randInt(1, b - 1); } while (this.gcd(a, b) !== 1);
     return mk('6N7', 2, {
       title: 'Compléter pour obtenir 1',
-      statement: `Quelle fraction faut-il ajouter à $${F(a, b)}$ pour obtenir $1$ ?\nDonner le résultat sous forme de fraction irréductible.`,
+      statement: `Quelle fraction faut-il ajouter à $${F(a, b)}$ pour obtenir $1$ ?\nDonner le résultat sous forme de fraction simplifiée au maximum.`,
       type: 'exact', answer: this._6fracAns(b - a, b), placeholder: 'Ex : 3/7',
       hint1: `Écris $1$ sous la forme d'une fraction de dénominateur $${b}$.`,
       hint2: 'Pour soustraire deux fractions de même dénominateur, on soustrait les numérateurs et on garde le dénominateur.',
@@ -6286,7 +6967,7 @@
     const n = this.randInt(1, 6);
     return mk('6N7', 2, {
       title: 'Différence d\'un entier et d\'une fraction',
-      statement: `Calculer :\n$$${n} - ${F(a, b)}$$\nDonner le résultat sous forme de fraction irréductible.`,
+      statement: `Calculer :\n$$${n} - ${F(a, b)}$$\nDonner le résultat sous forme de fraction simplifiée au maximum.`,
       type: 'exact', answer: this._6fracAns(n * b - a, b), placeholder: 'Ex : 7/4',
       hint1: `Écris l'entier $${n}$ sous la forme d'une fraction de dénominateur $${b}$.`,
       hint2: 'Un entier $n$ s\'écrit $\\frac{n \\times b}{b}$ ; on soustrait ensuite les numérateurs en gardant le dénominateur commun.',
@@ -6302,24 +6983,121 @@
     const name = this.randChoice(PRENOMS);
     return mk('6N7', 3, {
       title: 'Problème : retrouver le total à partir du reste',
-      statement: `${name} a dépensé les $${F(a, b)}$ de son argent de poche. Il lui reste $${R}$ €.\n**Combien avait-il (ou elle) d'argent de poche au départ, en euros ?**`,
+      statement: `${name} a dépensé ${a > 1 ? 'les ' : ''}$${F(a, b)}$ de son argent de poche. Il lui reste $${R}$ €.\n**Quel était le montant de son argent de poche au départ, en euros ?**`,
       type: 'exact', answer: String(b * u), placeholder: 'Ex : 60',
       hint1: 'Commence par trouver la fraction de l\'argent de poche qui reste.',
       hint2: `Le tout correspond à $1 = ${F(b, b)}$. Si plusieurs parts valent une certaine somme, une part vaut cette somme divisée par le nombre de parts.`,
-      solution: `Étape 1 : il reste $${F(b, b)} - ${F(a, b)} = ${F(b - a, b)}$ de l'argent de poche.\nÉtape 2 : $${b - a}$ part${b - a > 1 ? 's' : ''} sur $${b}$ valent $${R}$ €, donc une part vaut $${R} \\div ${b - a} = ${u}$ €.\nÉtape 3 : le total compte $${b}$ parts : $${b} \\times ${u} = ${b * u}$ €.\n${name} avait $${b * u}$ € au départ.`,
+      solution: `Étape 1 : il reste $${F(b, b)} - ${F(a, b)} = ${F(b - a, b)}$ de l'argent de poche.\nÉtape 2 : ${b - a > 1 ? `$${b - a}$ parts sur $${b}$ valent $${R}$ €, donc une part vaut $${R} \\div ${b - a} = ${u}$ €` : `$1$ part sur $${b}$ vaut $${R}$ €`}.\nÉtape 3 : le total compte $${b}$ parts : $${b} \\times ${u} = ${b * u}$ €.\n${name} avait $${b * u}$ € au départ.`,
       skill: 'Résoudre',
       _v: { k: '6N7.whole2', a, b, R }
     });
   });
 
+  // Dénominateurs quelconques, cas simples : les deux dénominateurs sont premiers entre eux,
+  // donc leur produit est le plus petit multiple commun et le résultat est toujours irréductible.
+  G._6X_add('6N7', 3, function () {
+    let [d1, d2] = this.randChoice([[2, 3], [2, 5], [3, 4], [3, 5], [4, 5], [2, 7], [3, 7], [5, 6]]);
+    if (Math.random() < 0.5) [d1, d2] = [d2, d1];
+    let a, c;
+    do { a = this.randInt(1, 2 * d1 - 1); } while (this.gcd(a, d1) !== 1);
+    do { c = this.randInt(1, 2 * d2 - 1); } while (this.gcd(c, d2) !== 1);
+    const moins = Math.random() < 0.4;
+    if (moins && a * d2 < c * d1) { [a, c] = [c, a]; [d1, d2] = [d2, d1]; }
+    const D = d1 * d2, A = a * d2, C = c * d1, N = moins ? A - C : A + C, op = moins ? '-' : '+';
+    return mk('6N7', 3, {
+      title: 'Fractions de dénominateurs quelconques',
+      statement: `Calculer :\n$$${F(a, d1)} ${op} ${F(c, d2)}$$\nDonner le résultat sous forme de fraction simplifiée au maximum.`,
+      type: 'exact', answer: this._6fracAns(N, D), placeholder: 'Ex : 3/4',
+      hint1: 'Aucun des deux dénominateurs n\'est multiple de l\'autre : cherche d\'abord un multiple commun aux deux.',
+      hint2: `Le produit des dénominateurs convient : $${F(a, d1)} = ${F(`${a} \\times ${d2}`, `${d1} \\times ${d2}`)}$. Fais de même pour l'autre fraction.`,
+      solution: `Étape 1 : un multiple commun de $${d1}$ et $${d2}$ est $${d1} \\times ${d2} = ${D}$.\nÉtape 2 : $${F(a, d1)} = ${F(`${a} \\times ${d2}`, `${d1} \\times ${d2}`)} = ${F(A, D)}$ et $${F(c, d2)} = ${F(`${c} \\times ${d1}`, `${d2} \\times ${d1}`)} = ${F(C, D)}$.\nÉtape 3 : $$${F(A, D)} ${op} ${F(C, D)} = ${F(N, D)}$$\nCette fraction ne peut plus être simplifiée.`,
+      _v: { k: '6N7.addany', a, d1, c, d2, op }
+    });
+  });
+
+  // Inventer un problème : reconnaître l'énoncé qui correspond à un calcul donné.
+  G._6X_add('6N7', 3, function () {
+    const de = u => this._6D1de(u);
+    if (Math.random() < 0.5) {
+      const [cont, unit] = this.randChoice([['Une boîte', 'billes'], ['Un carton', 'livres'], ['Un sac', 'bonbons'], ['Un panier', 'pommes'], ['Une caisse', 'oranges'], ['Un album', 'images']]);
+      const [a, b] = this.randChoice([[2, 3], [3, 4], [2, 5], [3, 5], [4, 5], [5, 6], [3, 8], [5, 8], [7, 10], [3, 10]]);
+      const Q = b * this.randInt(4, 12);
+      const bon = `${cont} contient $${Q}$ ${unit}. On en retire les $${F(a, b)}$. Combien ${de(unit)} retire-t-on ?`;
+      const q = mk('6N7', 3, {
+        title: 'Inventer un problème : le bon énoncé',
+        statement: `${this.randChoice(PRENOMS)} doit inventer un problème dont la réponse se calcule par $${F(a, b)} \\times ${Q}$.\n**Quel énoncé convient ?**`,
+        hint1: `Prendre les $${F(a, b)}$ d'une quantité, c'est multiplier cette quantité par $${F(a, b)}$.`,
+        hint2: `Pour chaque énoncé, demande-toi si l'on cherche la part retirée, ce qu'il reste ou autre chose.`,
+        solution: `$${F(a, b)} \\times ${Q}$ donne la quantité qui correspond aux $${F(a, b)}$ de $${Q}$ ${unit} : c'est donc la part **retirée**.\nLa question « Combien en reste-t-il ? » se calculerait avec $${F(b - a, b)} \\times ${Q}$, et un partage en $${b}$ parts égales avec $${Q} \\div ${b}$.`,
+        skill: 'Modéliser',
+        _v: { k: '6N7.invente', bon }
+      });
+      return this._6mcq(q, bon, [
+        `${cont} contient $${Q}$ ${unit}. On en retire les $${F(a, b)}$. Combien en reste-t-il ?`,
+        `${cont} contient $${Q}$ ${unit}. On en ajoute $${b}$. Combien y en a-t-il maintenant ?`,
+        `On répartit $${Q}$ ${unit} en $${b}$ tas égaux. Combien y en a-t-il dans chaque tas ?`
+      ]);
+    }
+    let a, b, d;
+    do { d = this.randInt(5, 12); a = this.randInt(1, d - 2); b = this.randInt(1, d - a - 1); } while (a === b || 2 * (a + b) === d);
+    const [p1, p2] = this.shuffle(PRENOMS).slice(0, 2);
+    const obj = this.randChoice(['un gâteau', 'une tarte', 'une pizza', 'une tablette de chocolat']);
+    const intro = `${p1} mange $${F(a, d)}$ d'${obj} et ${p2} en mange $${F(b, d)}$.`;
+    const bon = `${intro} Quelle fraction a été mangée en tout ?`;
+    const q = mk('6N7', 3, {
+      title: 'Inventer un problème : le bon énoncé',
+      statement: `${this.randChoice(PRENOMS)} doit inventer un problème dont la réponse se calcule par $${F(a, d)} + ${F(b, d)}$.\n**Quel énoncé convient ?**`,
+      hint1: 'Une somme de fractions sert à regrouper deux parts du même tout.',
+      hint2: 'Pour chaque énoncé, écris le calcul qui répond à la question posée.',
+      solution: `$${F(a, d)} + ${F(b, d)}$ regroupe les deux parts : c'est la fraction **mangée en tout**.\nCe qu'il reste se calculerait avec $1 - ${F(a, d)} - ${F(b, d)}$, et l'écart entre les deux parts par une soustraction.`,
+      skill: 'Modéliser',
+      _v: { k: '6N7.invente', bon }
+    });
+    return this._6mcq(q, bon, [
+      `${intro} Quelle fraction en reste-t-il ?`,
+      `${intro} Quelle différence y a-t-il entre les deux parts ?`,
+      `${intro} Si l'on réunissait ces deux parts pour les partager en deux parts égales, quelle fraction représenterait chaque part ?`
+    ]);
+  });
+
   G._6X_origWeight('6N7', 4, 4);
   G._6X_add('6N7', 4, function () {
-    let a, b; do { b = this.randChoice([3, 4, 5, 6, 8, 10]); a = this.randInt(1, b - 1); } while (this.gcd(a, b) !== 1);
+    const valides = [];
+    for (const [p, q] of [[2, 3], [2, 5], [3, 4], [3, 5], [4, 5], [2, 7], [3, 7], [5, 6]]) {
+      for (let x = 1; x < p; x++) for (let y = 1; y < q; y++) {
+        if (this.gcd(x, p) === 1 && this.gcd(y, q) === 1 && x * q + y * p < p * q) valides.push([x, p, y, q]);
+      }
+    }
+    let [a, d1, c, d2] = this.randChoice(valides);
+    if (Math.random() < 0.5) [a, d1, c, d2] = [c, d2, a, d1];
+    const D = d1 * d2, A = a * d2, C = c * d1, N = A + C, name = this.randChoice(PRENOMS);
+    const Fa = F(a, d1), Fc = F(c, d2);
+    const ctx = this.randChoice([
+      [`On plante des légumes sur $${Fa}$ d'un jardin et des fleurs sur $${Fc}$ de ce jardin.`, 'Quelle fraction du jardin reste-t-il à planter ?'],
+      [`Pour aller au collège, ${name} fait $${Fa}$ du trajet à pied et $${Fc}$ du trajet en bus. Le reste se fait à vélo.`, 'Quelle fraction du trajet se fait à vélo ?'],
+      [`${name} dépense $${Fa}$ de son argent de poche en livres et $${Fc}$ de son argent de poche en jeux.`, 'Quelle fraction de son argent de poche lui reste-t-il ?'],
+      [`${name} lit $${Fa}$ d'un roman le samedi et $${Fc}$ de ce roman le dimanche.`, 'Quelle fraction du roman reste-t-il à lire ?']
+    ]);
+    return mk('6N7', 4, {
+      title: 'Reste d\'un tout avec deux fractions',
+      statement: `${ctx[0]}\n**${ctx[1]}** Donner le résultat sous forme de fraction simplifiée au maximum.`,
+      type: 'exact', answer: this._6fracAns(D - N, D), placeholder: 'Ex : 3/4',
+      hint1: 'Le tout correspond à $1$. Ajoute d\'abord les deux fractions : aucun des deux dénominateurs n\'est multiple de l\'autre, il faut donc un multiple commun.',
+      hint2: `Le produit des dénominateurs convient : $${Fa} = ${F(`${a} \\times ${d2}`, `${d1} \\times ${d2}`)}$. Fais de même pour l'autre fraction, puis retire la somme du tout.`,
+      solution: `Étape 1 : un multiple commun de $${d1}$ et $${d2}$ est $${d1} \\times ${d2} = ${D}$.\nÉtape 2 : $${Fa} = ${F(A, D)}$ et $${Fc} = ${F(C, D)}$, donc la somme vaut $${F(A, D)} + ${F(C, D)} = ${F(N, D)}$.\nÉtape 3 : le tout vaut $${F(D, D)}$, donc il reste $${F(D, D)} - ${F(N, D)} = ${F(D - N, D)}$.\nCette fraction ne peut plus être simplifiée.`,
+      skill: 'Résoudre',
+      _v: { k: '6N7.restany', a, d1, c, d2 }
+    });
+  });
+
+  G._6X_add('6N7', 4, function () {
+    // a >= 2 : avec a = 1, l'étape « valeur d'une part », qui fait l'intérêt du défi, disparaîtrait.
+    let a, b; do { b = this.randChoice([3, 4, 5, 6, 8, 10]); a = this.randInt(2, b - 1); } while (this.gcd(a, b) !== 1);
     const u = this.randInt(3, 40), V = a * u;
-    const obj = this.randChoice([['Une cuve', 'L'], ['Un réservoir', 'L'], ['Une piscine gonflable', 'L'], ['Un arrosoir géant', 'L']]);
+    const obj = this.randChoice([['Une cuve', 'L', 'e', 'elle', 'la'], ['Un réservoir', 'L', '', 'il', 'le'], ['Une piscine gonflable', 'L', 'e', 'elle', 'la'], ['Un arrosoir géant', 'L', '', 'il', 'le']]);
     return mk('6N7', 4, {
       title: 'Remplir un réservoir',
-      statement: `${obj[0]} est remplie aux $${F(a, b)}$ de sa capacité : elle contient $${V}$ ${obj[1]}.\n**Combien de litres faut-il encore ajouter pour la remplir complètement ?**`,
+      statement: `${obj[0]} est rempli${obj[2]} aux $${F(a, b)}$ de sa capacité : ${obj[3]} contient $${V}$ ${obj[1]}.\n**Combien de litres faut-il encore ajouter pour ${obj[4]} remplir complètement ?**`,
       type: 'exact', answer: String((b - a) * u), placeholder: 'Ex : 15',
       hint1: 'Deux étapes : trouve ce que représente une part de la capacité, puis la fraction qui manque.',
       hint2: `Si $${F(a, b)}$ d'une quantité valent un nombre, alors $${F(1, b)}$ de cette quantité vaut ce nombre divisé par $${a}$.`,
@@ -6436,13 +7214,14 @@
     const [p1, p2] = this.shuffle(PRENOMS).slice(0, 2);
     const obj = this.randChoice(['billes', 'cartes', 'timbres', 'images']);
     const askBig = Math.random() < 0.5;
+    const voyelle = /^[AEIOUH]/.test(p1);
     return mk('6N8', 3, {
       title: 'Somme et différence de deux nombres inconnus',
-      statement: `Ensemble, ${p1} et ${p2} ont $${S}$ ${obj}. ${p2} en a $${D}$ de plus que ${p1}.\n**Combien de ${obj} a ${askBig ? p2 : p1} ?**`,
+      statement: `Ensemble, ${p1} et ${p2} ont $${S}$ ${obj}. ${p2} en a $${D}$ de plus ${voyelle ? "qu'" : 'que '}${p1}.\n**Combien ${this._6D1de(obj)} a ${askBig ? p2 : p1} ?**`,
       type: 'exact', answer: String(askBig ? big : small),
-      hint1: `Fais un schéma en barres : la barre de ${p2} est celle de ${p1} avec un morceau de $${D}$ en plus.`,
+      hint1: `Fais un schéma en barres : la barre ${/^[AEIOUH]/.test(p2) ? "d'" : 'de '}${p2} est celle ${voyelle ? "d'" : 'de '}${p1} avec un morceau de $${D}$ en plus.`,
       hint2: 'Si l\'on retire l\'écart du total, il reste deux parts égales.',
-      solution: `Étape 1 : on retire l'écart : $${S} - ${D} = ${2 * small}$ ; il reste deux parts égales à la part de ${p1}.\nÉtape 2 : ${p1} a $${2 * small} \\div 2 = ${small}$ ${obj}.\nÉtape 3 : ${p2} a $${small} + ${D} = ${big}$ ${obj}.\nVérification : $${small} + ${big} = ${S}$. Réponse : $${askBig ? big : small}$ ${obj}.`,
+      solution: `Étape 1 : on retire l'écart : $${S} - ${D} = ${2 * small}$ ; il reste deux parts égales à la part ${voyelle ? "d'" : 'de '}${p1}.\nÉtape 2 : ${p1} a $${2 * small} \\div 2 = ${small}$ ${obj}.\nÉtape 3 : ${p2} a $${small} + ${D} = ${big}$ ${obj}.\nVérification : $${small} + ${big} = ${S}$. Réponse : $${askBig ? big : small}$ ${obj}.`,
       skill: 'Modéliser',
       _v: { k: '6N8.sumdiff', S, D, askBig }
     });
@@ -6524,8 +7303,10 @@
   });
   G._6X_add('6P1', 1, function () {
     const p = this.randChoice([10, 25, 50]);
-    const N = (p === 25 ? 4 : (p === 50 ? 2 : 10)) * this.randInt(2, 30);
-    const obj = this.randChoice(['Un pull', 'Un jeu de société', 'Une lampe', 'Un ballon', 'Un livre']);
+    const pas = p === 25 ? 4 : (p === 50 ? 2 : 10);
+    // Prix maximal propre à chaque article, pour rester réaliste.
+    const [obj, pMax] = this.randChoice([['Un pull', 60], ['Un jeu de société', 60], ['Une lampe', 80], ['Un ballon', 40], ['Un livre', 30]]);
+    const N = pas * this.randInt(Math.ceil(8 / pas), Math.floor(pMax / pas));
     const how = p === 50 ? 'la moitié' : (p === 25 ? 'le quart' : 'le dixième');
     const div = p === 50 ? 2 : (p === 25 ? 4 : 10);
     return mk('6P1', 1, {
@@ -6539,9 +7320,10 @@
     });
   });
   G._6X_add('6P1', 1, function () {
-    const u = this.randInt(2, 9), a = this.randInt(2, 5);
+    // Prix unitaire entier propre à chaque article, pour rester réaliste.
+    const it = this.randChoice([['cahiers', 'cahiers', 2, 5], ['sandwichs', 'sandwichs', 4, 8], ['tickets de bus', 'tickets', 2, 3], ['places de musée', 'places', 6, 12]]);
+    const u = this.randInt(it[2], it[3]), a = this.randInt(2, 5);
     let b; do { b = this.randInt(2, 7); } while (b === a);
-    const it = this.randChoice([['cahiers', 'cahiers'], ['croissants', 'croissants'], ['tickets de bus', 'tickets'], ['places de musée', 'places']]);
     return mk('6P1', 1, {
       title: 'Linéarité additive',
       statement: `Le prix est proportionnel au nombre d'articles.\n• $${a}$ ${it[0]} coûtent $${a * u}$ €.\n• $${b}$ ${it[0]} coûtent $${b * u}$ €.\n**Combien coûtent $${a + b}$ ${it[1]} ?**`,
@@ -6553,13 +7335,42 @@
       _v: { k: '6P1.addlin', a, A: a * u, b, B: b * u }
     });
   });
+  // Notations symboliques : flèche ou parenthèses, toujours avec les noms et les unités des grandeurs.
+  G._6X_add('6P1', 1, function () {
+    const c = this.randChoice([
+      { a: 'places de concert', b: '€', min: 12, max: 30, txt: 'Le prix payé est proportionnel au nombre de places achetées.', g: 'Le prix' },
+      { a: 'cahiers', b: '€', min: 2, max: 5, txt: 'Le prix payé est proportionnel au nombre de cahiers achetés.', g: 'Le prix' },
+      { a: 'kg de pommes', b: '€', min: 2, max: 5, txt: 'Le prix payé est proportionnel à la masse de pommes achetée.', g: 'Le prix' },
+      { a: 'sachets', b: 'bonbons', min: 6, max: 15, txt: 'Tous les sachets contiennent le même nombre de bonbons.', g: 'Le nombre de bonbons' },
+      { a: 'h de marche', b: 'km', min: 3, max: 5, txt: 'Une randonneuse marche à vitesse constante.', g: 'La distance', e: 'e' },
+      { a: 'min', b: 'L d\'eau', min: 6, max: 15, txt: 'Un robinet coule toujours avec le même débit.', g: 'Le volume d\'eau' }
+    ]);
+    const u = this.randInt(c.min, c.max), n = this.randInt(2, 5), k = this.randInt(2, 5);
+    const inverse = Math.random() < 0.35; // on passe de la plus grande valeur à la plus petite
+    const n1 = inverse ? n * k : n, n2 = inverse ? n : n * k, v1 = n1 * u, v2 = n2 * u;
+    const fleche = Math.random() < 0.5;
+    const note = (x, y) => (fleche ? `$${x}$ ${c.a} $\\longrightarrow$ $${y}$ ${c.b}` : `($${x}$ ${c.a} ; $${y}$ ${c.b})`);
+    return mk('6P1', 1, {
+      title: fleche ? 'Compléter une notation avec une flèche' : 'Compléter une notation avec des parenthèses',
+      statement: `${c.txt} On a noté :\n${note(n1, v1)}.\n**Quel nombre faut-il écrire à la place du carré ?** ${note(n2, '\\square')}.`,
+      type: 'exact', answer: String(v2), placeholder: 'Ex : 45',
+      hint1: inverse ? `Compare d'abord les valeurs de la première grandeur : $${n1}$, c'est combien de fois $${n2}$ ?` : `Compare d'abord les valeurs de la première grandeur : $${n2}$, c'est combien de fois $${n1}$ ?`,
+      hint2: `${c.g} est ${inverse ? 'divisé' : 'multiplié'}${c.e || ''} par ce même nombre.`,
+      solution: inverse
+        ? `$${n2} = ${n1} \\div ${k}$ : on divise par $${k}$, donc on divise aussi la seconde grandeur par $${k}$ : $${v1} \\div ${k} = ${v2}$.\nOn peut écrire : ${note(n2, v2)}.`
+        : `$${n2} = ${n1} \\times ${k}$ : on multiplie par $${k}$, donc on multiplie aussi la seconde grandeur par $${k}$ : $${v1} \\times ${k} = ${v2}$.\nOn peut écrire : ${note(n2, v2)}.`,
+      skill: 'Représenter',
+      _v: { k: '6P1.lin', n: n1, P: v1, m: n2 }
+    });
+  });
 
   G._6X_origWeight('6P1', 2, 4);
   G._6X_add('6P1', 2, function () {
-    const N = this.randChoice([20, 25, 50, 200, 300, 400, 500]);
+    // Totaux propres à chaque contexte, pour rester réalistes (une classe de 20 élèves, un collège de 400).
+    const ctx = this.randChoice([['Une classe compte', 'élèves', 'sont demi-pensionnaires', 'd\'élèves demi-pensionnaires', [20, 25]], ['Un collège compte', 'élèves', 'sont demi-pensionnaires', 'd\'élèves demi-pensionnaires', [200, 300, 400, 500]], ['Une salle de concert contient', 'places', 'sont occupées', 'de places occupées', [200, 300, 400, 500]], ['Un verger compte', 'arbres', 'sont des pommiers', 'de pommiers', [20, 25, 50, 200, 300]]]);
+    const N = this.randChoice(ctx[4]);
     let p; do { p = this.randChoice([10, 20, 25, 30, 40, 50, 60, 75, 80, 90]); } while ((N * p) % 100 !== 0);
     const M = N * p / 100;
-    const ctx = this.randChoice([['Un collège compte', 'élèves', 'sont demi-pensionnaires', 'd\'élèves demi-pensionnaires'], ['Une salle de concert contient', 'places', 'sont occupées', 'de places occupées'], ['Un verger compte', 'arbres', 'sont des pommiers', 'de pommiers']]);
     return mk('6P1', 2, {
       title: 'Exprimer une proportion en pourcentage',
       statement: `${ctx[0]} $${N}$ ${ctx[1]}, dont $${M}$ ${ctx[2]}.\n**Quel est le pourcentage ${ctx[3]} ?** (donner le nombre seul, sans le symbole %)`,
@@ -6575,9 +7386,10 @@
   G._6X_origWeight('6P1', 3, 4);
   G._6X_add('6P1', 3, function () {
     const p = this.randChoice([5, 10, 15, 20, 25, 50]);
-    const N = this.randInt(2, 40) * 20;
+    // Prix de départ (multiples de 20 €) propres à chaque contexte, pour rester réalistes.
+    const [obj, nMin, nMax] = this.randChoice([['de l\'abonnement de transport', 2, 12], ['de la cotisation au club de sport', 3, 15], ['du loyer d\'un garage', 3, 8], ['de l\'abonnement à la médiathèque', 1, 3]]);
+    const N = this.randInt(nMin, nMax) * 20;
     const inc = N * p / 100;
-    const obj = this.randChoice(['de l\'abonnement de transport', 'de la cotisation au club de sport', 'du loyer d\'un garage', 'de l\'abonnement à la médiathèque']);
     return mk('6P1', 3, {
       title: 'Augmentation en pourcentage',
       statement: `Le prix ${obj}, qui était de $${N}$ €, augmente de $${p} \\, \\%$.\n**Quel est le nouveau prix, en euros ?**`,
@@ -6598,7 +7410,7 @@
       statement: `Une recette pour $${p}$ personnes demande $${q}$ g de ${ing}. On utilise $${this._6tex(Q)}$ g de ${ing} en respectant les proportions.\n**Pour combien de personnes prépare-t-on la recette ?**`,
       type: 'exact', answer: String(n2), placeholder: 'Ex : 9',
       hint1: 'Calcule d\'abord la masse nécessaire pour une seule personne.',
-      hint2: 'Passage par l\'unité : dans une situation de proportionnalité, on calcule d\'abord la valeur correspondant à 1.',
+      hint2: 'Passage à l\'unité : dans une situation de proportionnalité, on calcule d\'abord la valeur correspondant à 1.',
       solution: `Étape 1 : pour $1$ personne : $${q} \\div ${p} = ${g}$ g de ${ing}.\nÉtape 2 : nombre de personnes : $${this._6tex(Q)} \\div ${g} = ${n2}$.\nOn prépare la recette pour $${n2}$ personnes.`,
       _v: { k: '6P1.recipeinv', p, q, Q }
     });
@@ -6606,18 +7418,20 @@
 
   G._6X_origWeight('6P1', 4, 4);
   G._6X_add('6P1', 4, function () {
-    const base = this.randChoice([10, 15, 20]), dd = this.randInt(4, 30);
+    const base = this.randChoice([10, 15, 20]);
+    // Vitesses réalistes (km/h) propres à chaque véhicule ; dd est la distance parcourue en « base » minutes.
+    const [veh, verbe, il, vMin, vMax] = this.randChoice([['Un train', 'roule', 'il', 90, 180], ['Un car', 'roule', 'il', 60, 90], ['Une voiture', 'roule', 'elle', 60, 120], ['Un bateau', 'navigue', 'il', 15, 45]]);
+    const dd = this.randInt(Math.ceil(vMin * base / 60), Math.floor(vMax * base / 60));
     const i = this.randInt(2, 4);
     let j; do { j = this.randInt(4, 10); } while (j === i || j % i === 0);
     const m1 = base * i, m2 = base * j;
-    const veh = this.randChoice(['Un train', 'Un car', 'Une voiture', 'Un bateau']);
     return mk('6P1', 4, {
       title: 'Vitesse constante et durées',
-      statement: `${veh} roule à vitesse constante. Il parcourt $${dd * i}$ km en ${dur(m1)}.\n**Quelle distance parcourt-il en ${dur(m2)}, en km ?**`,
+      statement: `${veh} ${verbe} à vitesse constante. ${il === 'il' ? 'Il' : 'Elle'} parcourt $${dd * i}$ km en ${dur(m1)}.\n**Quelle distance parcourt-${il} en ${dur(m2)}, en km ?**`,
       type: 'exact', answer: String(dd * j), placeholder: 'Ex : 105',
       hint1: 'Convertis les deux durées en minutes, puis cherche une durée « simple » contenue un nombre entier de fois dans chacune.',
       hint2: 'À vitesse constante, la distance parcourue est proportionnelle à la durée du trajet.',
-      solution: `Étape 1 : ${dur(m1)} $= ${m1}$ min et ${dur(m2)} $= ${m2}$ min.\nÉtape 2 : en $${base}$ min, il parcourt $${dd * i} \\div ${i} = ${dd}$ km (car $${m1} = ${i} \\times ${base}$).\nÉtape 3 : $${m2} = ${j} \\times ${base}$, donc il parcourt $${j} \\times ${dd} = ${dd * j}$ km.\nEn ${dur(m2)}, il parcourt $${dd * j}$ km.`,
+      solution: `Étape 1 : exprimées en minutes, les deux durées sont $${m1}$ min et $${m2}$ min.\nÉtape 2 : en $${base}$ min, ${il} parcourt $${dd * i} \\div ${i} = ${dd}$ km (car $${m1} = ${i} \\times ${base}$).\nÉtape 3 : $${m2} = ${j} \\times ${base}$, donc ${il} parcourt $${j} \\times ${dd} = ${dd * j}$ km.\nEn ${dur(m2)}, ${il} parcourt $${dd * j}$ km.`,
       skill: 'Résoudre',
       _v: { k: '6P1.speed', D: dd * i, m1, m2 }
     });
@@ -6633,11 +7447,11 @@
     } while (p1 === p2 || n1 === n2 || (a1 > a2) === (p1 > p2) && Math.random() < 0.6);
     return mk('6P1', 4, {
       title: 'Comparer deux proportions',
-      statement: `Dans la classe A, $${a1}$ élèves sur $${n1}$ font partie d'un club sportif. Dans la classe B, ce sont $${a2}$ élèves sur $${n2}$.\n**Quel est le plus grand des deux pourcentages d'élèves inscrits dans un club ?** (donner le nombre seul)`,
+      statement: `Dans le club A, $${a1}$ adhérents sur $${n1}$ participent à un tournoi. Dans le club B, ce sont $${a2}$ adhérents sur $${n2}$.\n**Quel est le plus grand des deux pourcentages d'adhérents participant à un tournoi ?** (donner le nombre seul)`,
       type: 'exact', answer: String(Math.max(p1, p2)), placeholder: 'Ex : 64',
-      hint1: 'Les effectifs des classes sont différents : compare des proportions, pas des nombres d\'élèves. Exprime chacune sur 100.',
+      hint1: 'Les effectifs des clubs sont différents : compare des proportions, pas des nombres d\'adhérents. Exprime chacune sur 100.',
       hint2: 'Un pourcentage est une fraction de dénominateur 100 ; on obtient une fraction égale en multipliant numérateur et dénominateur par un même nombre.',
-      solution: `Étape 1 : classe A : $${F(a1, n1)} = ${F(`${a1} \\times ${100 / n1}`, `${n1} \\times ${100 / n1}`)} = ${F(p1, 100)}$, soit $${p1} \\, \\%$.\nÉtape 2 : classe B : $${F(a2, n2)} = ${F(`${a2} \\times ${100 / n2}`, `${n2} \\times ${100 / n2}`)} = ${F(p2, 100)}$, soit $${p2} \\, \\%$.\nLe plus grand pourcentage est $${Math.max(p1, p2)} \\, \\%$ (classe ${p1 > p2 ? 'A' : 'B'})${(a1 > a2) !== (p1 > p2) ? ', alors que cette classe compte moins d\'inscrits' : ''}.`,
+      solution: `Étape 1 : club A : $${F(a1, n1)} = ${F(`${a1} \\times ${100 / n1}`, `${n1} \\times ${100 / n1}`)} = ${F(p1, 100)}$, soit $${p1} \\, \\%$.\nÉtape 2 : club B : $${F(a2, n2)} = ${F(`${a2} \\times ${100 / n2}`, `${n2} \\times ${100 / n2}`)} = ${F(p2, 100)}$, soit $${p2} \\, \\%$.\nLe plus grand pourcentage est $${Math.max(p1, p2)} \\, \\%$ (club ${p1 > p2 ? 'A' : 'B'})${a1 !== a2 && (a1 > a2) !== (p1 > p2) ? ', alors que ce club compte moins de participants' : ''}.`,
       skill: 'Raisonner',
       _v: { k: '6P1.pctcmp', a1, n1, a2, n2 }
     });
@@ -6700,6 +7514,44 @@
     }, 'Calculer');
   });
 
+  G._6X_origWeight('6M1', 2, 4);
+  G._6X_add('6M1', 2, function () {
+    const T = x => this._6tex(x);
+    if (Math.random() < 0.6) {
+      const objet = this.randChoice([
+        { nom: 'un verre', dmin: 6, dmax: 9 },
+        { nom: 'une boîte de conserve', dmin: 7, dmax: 12 },
+        { nom: 'un couvercle', dmin: 10, dmax: 16 },
+        { nom: 'une assiette', dmin: 20, dmax: 27 },
+        { nom: 'une horloge murale', dmin: 25, dmax: 35 },
+        { nom: 'une roue de vélo', dmin: 55, dmax: 70 }
+      ]);
+      const d = this.randInt(objet.dmin, objet.dmax);
+      const P = Math.round((Math.PI * d + this.randInt(-2, 2) * 0.1) * 2) / 2;
+      const q = Math.round(P / d * 100) / 100;
+      return this._6mQ('6M1', 2, {
+        title: 'Mesurer le rapport du périmètre au diamètre',
+        statement: `On entoure ${objet.nom} d'une ficelle pour mesurer son tour : on trouve $P = ${T(P)}\\text{ cm}$. Son diamètre mesure $d = ${d}\\text{ cm}$.\n**Calculer le quotient $P \\div d$, arrondi au centième.** *(Calculatrice permise.)*`,
+        type: 'exact', answer: this._6ans(q), placeholder: 'Ex : 2,75',
+        hint1: 'Divise la longueur du tour par le diamètre.',
+        hint2: `Calcule $${T(P)} \\div ${d}$, puis regarde le troisième chiffre après la virgule pour arrondir au centième.`,
+        solution: `$$P \\div d = ${T(P)} \\div ${d} \\approx ${T(q)}$$\nCe quotient est proche de $\\pi$, qui vaut environ $3{,}14$ : le périmètre d'un disque vaut un peu plus de $3$ fois son diamètre. Les petits écarts viennent de la précision des mesures.`,
+        _v: { k: '6M1.rapport', P, d }
+      }, 'Calculer');
+    }
+    const d = this.randInt(4, 40);
+    const opt = (a, b) => `entre $${a}\\text{ cm}$ et $${b}\\text{ cm}$`;
+    const q = this._6mQ('6M1', 2, {
+      title: "Encadrer le périmètre d'un disque",
+      statement: `Pour tout disque, le quotient du périmètre par le diamètre est le même : le périmètre vaut un peu plus de $3$ fois le diamètre.\nUn disque a pour diamètre $${d}\\text{ cm}$.\n**Sans utiliser la formule, entre quelles valeurs se trouve son périmètre ?**`,
+      hint1: 'Multiplie le diamètre par le nombre indiqué dans l\'énoncé : le périmètre dépasse légèrement ce résultat.',
+      hint2: `Calcule $3 \\times ${d}$ : c'est le plus petit des deux nombres cherchés.`,
+      solution: `$3 \\times ${d} = ${3 * d}$ et $4 \\times ${d} = ${4 * d}$. Le périmètre vaut un peu plus de $3$ fois le diamètre, et moins de $4$ fois : il est compris **${opt(3 * d, 4 * d)}**.`,
+      _v: { k: '6M1.encadre', d }
+    }, 'Raisonner');
+    return this._6mcq(q, opt(3 * d, 4 * d), [opt(d, 2 * d), opt(2 * d, 3 * d), opt(4 * d, 5 * d)]);
+  });
+
   G._6X_origWeight('6M1', 3, 4);
   G._6X_add('6M1', 3, function () {
     const d = this.randInt(4, 40);
@@ -6711,10 +7563,10 @@
       statement: `Un demi-disque a pour diamètre $${d}\\text{ cm}$.\n**Calculer son périmètre en cm, en prenant $3{,}14$ comme valeur approchée de $\\pi$.**`,
       type: 'exact', answer: this._6ans(per),
       hint1: "Le contour d'un demi-disque est formé de deux parties : un demi-cercle et… un segment. Lequel ?",
-      hint2: 'Longueur d\'un cercle de diamètre $d$ : $\\pi \\times d$ ; un demi-cercle en mesure la moitié.',
-      solution: `**Étape 1 :** le demi-cercle mesure la moitié de la longueur du cercle : $3{,}14 \\times ${d} \\div 2 = ${T(half)}\\text{ cm}$.\n` +
+      hint2: 'Périmètre d\'un disque de diamètre $d$ : $\\pi \\times d$ ; un demi-cercle en mesure la moitié.',
+      solution: `**Étape 1 :** le demi-cercle mesure la moitié du périmètre du disque : $\\pi \\times ${d} \\div 2 \\approx 3{,}14 \\times ${d} \\div 2 = ${T(half)}\\text{ cm}$.\n` +
         `**Étape 2 :** le contour comprend aussi le diamètre, qui mesure $${d}\\text{ cm}$.\n` +
-        `$$P = ${T(half)} + ${d} = ${T(per)}\\text{ cm}$$\nLe périmètre du demi-disque est d'environ **$${T(per)}\\text{ cm}$**.`,
+        `$$P \\approx ${T(half)} + ${d} = ${T(per)}\\text{ cm}$$\nLe périmètre du demi-disque est d'environ **$${T(per)}\\text{ cm}$**.`,
       _v: { k: '6M1.demidisque', d }
     }, 'Calculer');
   });
@@ -6731,8 +7583,8 @@
       statement: `Une roue a un diamètre de $${d}\\text{ cm}$. Le vélo doit parcourir $${T(Dm)}\\text{ m}$.\n**Combien de tours complets la roue fait-elle sur ce trajet ?** *(Prendre $3{,}14$ pour $\\pi$.)*`,
       type: 'exact', answer: String(nb), placeholder: 'Ex : 250',
       hint1: 'Calcule la distance parcourue en un tour de roue, puis cherche combien de fois elle « rentre » dans la distance totale (même unité !).',
-      hint2: "En un tour, la roue avance de la longueur de son cercle : $\\pi \\times d$. Et $1\\text{ m} = 100\\text{ cm}$.",
-      solution: `**Étape 1 :** un tour de roue : $3{,}14 \\times ${d} = ${T(tour)}\\text{ cm}$.\n` +
+      hint2: "En un tour, la roue avance de son périmètre : $\\pi \\times d$. Et $1\\text{ m} = 100\\text{ cm}$.",
+      solution: `**Étape 1 :** un tour de roue : $\\pi \\times ${d} \\approx 3{,}14 \\times ${d} = ${T(tour)}\\text{ cm}$.\n` +
         `**Étape 2 :** on convertit : $${T(Dm)}\\text{ m} = ${T(Dm * 100)}\\text{ cm}$.\n` +
         `**Étape 3 :** $${T(Dm * 100)} \\div ${T(tour)} \\approx ${T(Math.floor(Dm * 100 / tour * 100) / 100)}$.\n` +
         `La roue fait donc **${nb} tours complets** (le tour suivant n'est pas terminé).`,
@@ -6760,7 +7612,8 @@
   G._6X_add('6M2', 1, function () {
     const items = [
       ['la surface d\'un terrain de football', 'm²'], ['la surface d\'une page de cahier', 'cm²'],
-      ['la surface d\'un timbre', 'mm²'], ['la surface d\'une région française', 'km²'],
+      ['la surface de la tête d\'une épingle', 'mm²'], ['la surface d\'une région française', 'km²'],
+      ['la surface d\'une carte à jouer', 'cm²'],
       ['le tour d\'un jardin', 'm'], ['la superficie d\'un appartement', 'm²']
     ];
     const [obj, u] = this.randChoice(items);
@@ -6780,7 +7633,76 @@
     return this._6mcq(q, fmt(u), opts);
   });
 
+  // Comparer deux aires par pavage (programme : comparaison, carreaux unités)
+  G._6X_add('6M2', 1, function () {
+    const want = this.randChoice(['A', 'B', 'egal']);
+    const tot = hs => hs.reduce((s, x) => s + x, 0);
+    let hsA, hsB, a, b;
+    do {
+      hsA = gridHeights(this); hsB = gridHeights(this);
+      a = tot(hsA); b = tot(hsB);
+    } while (hsA.join() === hsB.join() || (want === 'egal' ? a !== b : want === 'A' ? a <= b : a >= b));
+    const c = 20, gap = 2, hm = Math.max(...hsA, ...hsB), nA = hsA.length, nB = hsB.length;
+    const nx = nA + nB + gap + 2, ny = hm + 2;
+    let s = '';
+    for (let i = 0; i <= nx; i++) s += `<line x1="${i * c}" y1="0" x2="${i * c}" y2="${ny * c}" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/>`;
+    for (let j = 0; j <= ny; j++) s += `<line x1="0" y1="${j * c}" x2="${nx * c}" y2="${j * c}" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/>`;
+    const draw = (hs, ox, col, edge) => hs.forEach((h, i) => {
+      for (let k = 0; k < h; k++) s += `<rect x="${(ox + i) * c}" y="${(ny - 1 - (k + 1)) * c}" width="${c}" height="${c}" fill="${col}" stroke="${edge}" stroke-width="1.4"/>`;
+    });
+    draw(hsA, 1, 'rgba(37, 99, 235, 0.35)', '#1e3a8a');
+    draw(hsB, nA + 1 + gap, 'rgba(16, 185, 129, 0.35)', '#065f46');
+    s += this._6svgText((1 + nA / 2) * c, ny * c - 5, 'A', { size: 13, weight: '800' });
+    s += this._6svgText((nA + 1 + gap + nB / 2) * c, ny * c - 5, 'B', { size: 13, weight: '800' });
+    const fig = this._6svg(nx * c, ny * c, s, 320);
+    const opts = ['la figure $A$', 'la figure $B$', 'les deux figures ont la même aire'];
+    const correct = want === 'A' ? opts[0] : want === 'B' ? opts[1] : opts[2];
+    const q = this._6mQ('6M2', 1, {
+      title: 'Comparer deux aires en comptant les carreaux',
+      statement: `Les figures $A$ et $B$ sont dessinées sur le même quadrillage.\n${fig}**Laquelle a la plus grande aire ?**`,
+      hint1: 'Compte les carreaux recouverts par chaque figure, puis compare les deux nombres.',
+      hint2: 'Deux figures recouvrant le même nombre de carreaux identiques ont la même aire, même si leurs formes sont différentes.',
+      solution: `On compte les carreaux, colonne par colonne.\n• Figure $A$ : $${hsA.join(' + ')} = ${a}$ carreaux.\n• Figure $B$ : $${hsB.join(' + ')} = ${b}$ carreaux.\n${want === 'egal' ? `Les deux figures recouvrent le même nombre de carreaux : **elles ont la même aire**.` : `Comme $${Math.max(a, b)} > ${Math.min(a, b)}$, c'est **la figure $${want}$** qui a la plus grande aire.`}`,
+      _v: { k: '6M2.cmppav', hsA, hsB }
+    }, 'Raisonner');
+    return this._6mcq(q, correct, opts.filter(o => o !== correct));
+  });
+
   G._6X_origWeight('6M2', 2, 4);
+  // Découper et recoller : l'aire est conservée, le périmètre pas toujours
+  G._6X_add('6M2', 2, function () {
+    const same = Math.random() < 0.35;
+    let w, h, c;
+    do { w = this.randInt(4, 9); h = this.randInt(1, 4); c = this.randInt(Math.ceil(w / 2), w - 1); } while ((h === w - c) !== same);
+    const u = 20, nx = w + c + 4, ny = 2 * h + 2;
+    const X0 = (w + 3) * u, yB = (2 * h + 1) * u, yM = yB - h * u, yT = yB - 2 * h * u;
+    let s = '';
+    for (let i = 0; i <= nx; i++) s += `<line x1="${i * u}" y1="0" x2="${i * u}" y2="${ny * u}" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/>`;
+    for (let j = 0; j <= ny; j++) s += `<line x1="0" y1="${j * u}" x2="${nx * u}" y2="${j * u}" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/>`;
+    const blue = 'rgba(37, 99, 235, 0.35)', green = 'rgba(16, 185, 129, 0.35)', ink = 'var(--text-main, #334155)';
+    s += `<rect x="${u}" y="${yM}" width="${c * u}" height="${h * u}" fill="${blue}"/><rect x="${(1 + c) * u}" y="${yM}" width="${(w - c) * u}" height="${h * u}" fill="${green}"/>`;
+    s += `<rect x="${u}" y="${yM}" width="${w * u}" height="${h * u}" fill="none" stroke="${ink}" stroke-width="2"/>`;
+    s += `<line x1="${(1 + c) * u}" y1="${yM}" x2="${(1 + c) * u}" y2="${yB}" stroke="${ink}" stroke-width="1.8" stroke-dasharray="5 4"/>`;
+    s += `<rect x="${X0}" y="${yM}" width="${c * u}" height="${h * u}" fill="${blue}"/><rect x="${X0}" y="${yT}" width="${(w - c) * u}" height="${h * u}" fill="${green}"/>`;
+    s += `<polygon points="${X0},${yT} ${X0 + (w - c) * u},${yT} ${X0 + (w - c) * u},${yM} ${X0 + c * u},${yM} ${X0 + c * u},${yB} ${X0},${yB}" fill="none" stroke="${ink}" stroke-width="2"/>`;
+    s += `<line x1="${X0}" y1="${yM}" x2="${X0 + (w - c) * u}" y2="${yM}" stroke="${ink}" stroke-width="1.8" stroke-dasharray="5 4"/>`;
+    s += this._6svgText((1 + w / 2) * u, ny * u - 5, 'Figure 1', { size: 13, weight: '700' });
+    s += this._6svgText(X0 + c * u / 2, ny * u - 5, 'Figure 2', { size: 13, weight: '700' });
+    const fig = this._6svg(nx * u, ny * u, s, 360);
+    const OK_SAME = 'elle a la même aire et le même périmètre', OK_DIFF = 'elle a la même aire, mais un périmètre différent';
+    const correct = same ? OK_SAME : OK_DIFF;
+    const p1 = 2 * (w + h), p2 = 2 * c + 4 * h;
+    const sides = [w - c, h, 2 * c - w, h, c, 2 * h].filter(x => x > 0);
+    const q = this._6mQ('6M2', 2, {
+      title: 'Découper et recoller : aire et périmètre',
+      statement: `La figure 2 est obtenue en découpant la figure 1 le long du pointillé, puis en recollant les deux morceaux sans trou ni chevauchement.\n${fig}**Que peut-on dire de la figure 2 par rapport à la figure 1 ?**`,
+      hint1: 'Les morceaux sont les mêmes : demande-toi ce que cela entraîne pour la surface, puis compte les côtés de carreaux sur le contour de chaque figure.',
+      hint2: 'Découper et recoller sans trou ni chevauchement ne change pas l\'aire ; le périmètre, lui, peut changer : fais le tour de chaque figure.',
+      solution: `**Aire :** les deux figures sont formées des mêmes morceaux, recollés sans trou ni chevauchement, donc elles ont la même aire ($${w * h}$ carreaux).\n**Périmètre**, en côtés de carreau :\n• Figure 1 : $2 \\times (${w} + ${h}) = ${p1}$.\n• Figure 2, en faisant le tour du contour : $${sides.join(' + ')} = ${p2}$.\n**Conclusion :** ${same ? `les deux périmètres sont égaux : la figure 2 a **la même aire et le même périmètre**.` : `$${p1} \\neq ${p2}$ : la figure 2 a **la même aire, mais un périmètre différent**.`}`,
+      _v: { k: '6M2.recolle', w, h, c }
+    }, 'Raisonner');
+    return this._6mcq(q, correct, this.shuffle([same ? OK_DIFF : OK_SAME, 'elle a une aire différente, mais le même périmètre', 'elle a une aire et un périmètre différents']));
+  });
   G._6X_add('6M2', 2, function () {
     // rectangle a × b et carré de côté c : comparer aires ou périmètres
     let a, b, c;
@@ -6818,7 +7740,40 @@
     }, 'Calculer');
   });
 
-  G._6X_origWeight('6M2', 3, 3);
+  G._6X_origWeight('6M2', 3, 4);
+  // Figure en escalier découpée en trois rectangles (sans triangle)
+  G._6X_add('6M2', 3, function () {
+    let w, h;
+    do {
+      w = [this.randInt(2, 6), this.randInt(2, 6), this.randInt(2, 6)];
+      h = [this.randInt(6, 12), this.randInt(4, 9), this.randInt(2, 6)];
+    } while (!(h[0] > h[1] && h[1] > h[2]) || w[0] + w[1] + w[2] > 14);
+    const areas = [w[0] * h[0], w[1] * h[1], w[2] * h[2]];
+    const tot = areas[0] + areas[1] + areas[2];
+    const sw = w[0] + w[1] + w[2], sx = 260 / sw, sy = 120 / h[0], x0 = 14, yB = 134;
+    const r = v => Math.round(v * 10) / 10;
+    const X = [x0, r(x0 + w[0] * sx), r(x0 + (w[0] + w[1]) * sx), r(x0 + sw * sx)];
+    const Y = [r(yB - h[0] * sy), r(yB - h[1] * sy), r(yB - h[2] * sy)];
+    const ink = 'var(--text-main, #334155)';
+    let s = `<polygon points="${X[0]},${yB} ${X[0]},${Y[0]} ${X[1]},${Y[0]} ${X[1]},${Y[1]} ${X[2]},${Y[1]} ${X[2]},${Y[2]} ${X[3]},${Y[2]} ${X[3]},${yB}" fill="rgba(16, 185, 129, 0.15)" stroke="${ink}" stroke-width="2"/>`;
+    s += `<line x1="${X[1]}" y1="${Y[1]}" x2="${X[1]}" y2="${yB}" stroke="${ink}" stroke-width="1.4" stroke-dasharray="4 3"/>`;
+    s += `<line x1="${X[2]}" y1="${Y[2]}" x2="${X[2]}" y2="${yB}" stroke="${ink}" stroke-width="1.4" stroke-dasharray="4 3"/>`;
+    for (let i = 0; i < 3; i++) {
+      const mx = r((X[i] + X[i + 1]) / 2);
+      s += this._6svgText(mx, yB + 16, `${w[i]} cm`);
+      s += this._6svgText(mx, r((Y[i] + yB) / 2) + 4, `${h[i]} cm`);
+    }
+    const fig = this._6svg(290, 156, s, 340);
+    return this._6mQ('6M2', 3, {
+      title: 'Aire d’une figure découpée en rectangles',
+      statement: `Tous les angles de cette figure sont droits (figure non à l'échelle). Les pointillés la partagent en trois rectangles : la largeur de chacun est indiquée en dessous, sa hauteur à l'intérieur.\n${fig}**Calculer l'aire de cette figure en cm².**`,
+      type: 'exact', answer: String(tot), placeholder: 'Ex : 86',
+      hint1: 'Calcule séparément l\'aire de chacun des trois rectangles, puis additionne.',
+      hint2: 'Pour chaque rectangle, multiplie la largeur indiquée en dessous par la hauteur indiquée à l\'intérieur. Commence par le rectangle de gauche.',
+      solution: `**Étape 1 :** rectangle de gauche : $${w[0]} \\times ${h[0]} = ${areas[0]}\\text{ cm}^2$.\n**Étape 2 :** rectangle du milieu : $${w[1]} \\times ${h[1]} = ${areas[1]}\\text{ cm}^2$.\n**Étape 3 :** rectangle de droite : $${w[2]} \\times ${h[2]} = ${areas[2]}\\text{ cm}^2$.\n**Conclusion :** $$\\mathcal{A} = ${areas[0]} + ${areas[1]} + ${areas[2]} = ${tot}\\text{ cm}^2$$`,
+      _v: { k: '6M2.decoupe', w, h }
+    }, 'Modéliser');
+  });
   G._6X_add('6M2', 3, function () {
     let a, b, h;
     do { a = this.randInt(3, 14); b = this.randInt(2, 10); h = this.randInt(2, 10); } while ((b * h) % 2 !== 0);
@@ -6834,11 +7789,11 @@
     s += this._6svgText(x0 - 6, (y0 + y1) / 2 + 4, `${h} cm`, { anchor: 'end' });
     const fig = this._6svg(240, Math.round(y1 + 26), s, 300);
     return this._6mQ('6M2', 3, {
-      title: 'Aire par découpage : rectangle et triangle rectangle',
+      title: 'Pour aller plus loin : aire par découpage en rectangle et triangle rectangle',
       statement: `La figure ci-dessous a deux angles droits (dimensions en cm, figure non à l'échelle). Le pointillé la partage en un rectangle et un triangle rectangle.\n${fig}**Calculer l'aire de cette figure en cm².**`,
       type: 'exact', answer: this._6ans(tot),
       hint1: 'Calcule séparément l\'aire du rectangle et celle du triangle rectangle (cherche d\'abord la base du triangle), puis additionne.',
-      hint2: 'Un triangle rectangle dont les côtés de l\'angle droit mesurent $a$ et $b$ est la moitié d\'un rectangle : son aire vaut $\\frac{a \\times b}{2}$.',
+      hint2: 'Une diagonale coupe un rectangle en deux triangles rectangles identiques : le triangle est la moitié d\'un rectangle dont tu peux calculer l\'aire.',
       solution: `**Étape 1 (rectangle) :** $${a} \\times ${h} = ${rect}\\text{ cm}^2$.\n` +
         `**Étape 2 (triangle rectangle) :** sa base mesure $${a + b} - ${a} = ${b}\\text{ cm}$ et sa hauteur $${h}\\text{ cm}$ ; c'est la moitié d'un rectangle de $${b}\\text{ cm}$ sur $${h}\\text{ cm}$ : $${b} \\times ${h} \\div 2 = ${this._6tex(tri)}\\text{ cm}^2$.\n` +
         `**Étape 3 :** $$\\mathcal{A} = ${rect} + ${this._6tex(tri)} = ${this._6tex(tot)}\\text{ cm}^2$$`,
@@ -6849,22 +7804,40 @@
   // =====================================================================
   // 6M3 — Volumes
   // =====================================================================
+  // Assemblages de cubes de 1 cm d'arête : colonnes entièrement visibles (figure _6E_iso, hauteurs décroissantes vers l'avant).
+  const ISO_6M3 = 'Il n’y a aucun trou : sous chaque cube visible, la colonne est remplie jusqu’au sol.';
+  const sumH = h => h.flat().reduce((s, v) => s + v, 0);
+  const pilesH = h => h.flat().filter(v => v > 0).join(' + ');
+  const asmQ = (g, t, title, nx, ny, hm) => {
+    const h = g._6E_heap(nx, ny, hm), n = sumH(h);
+    return g._6mQ('6M3', t, {
+      title,
+      statement: `Cet assemblage est formé de cubes de $1\\text{ cm}$ d'arête.\n${g._6E_iso(h)}\n${ISO_6M3}\n**Quel est son volume, en cm³ ?**`,
+      type: 'exact', answer: String(n), placeholder: 'Ex : 14',
+      hint1: 'Compte pile par pile : regarde le nombre de cubes de chaque colonne.',
+      hint2: 'Chaque cube a un volume de $1\\text{ cm}^3$ : le volume en cm³ est le nombre total de cubes.',
+      solution: `Nombres de cubes des piles : $${pilesH(h)} = ${n}$ cubes.\nChaque cube a un volume de $1\\text{ cm}^3$, donc le volume est **$${n}\\text{ cm}^3$**.`,
+      _v: { k: '6M3.asm', h }
+    }, 'Représenter');
+  };
   G._6X_origWeight('6M3', 1, 3);
   G._6X_add('6M3', 1, function () {
     const items = [
-      ['le volume d\'eau d\'une piscine', 'm³'], ['le volume d\'une benne de camion', 'm³'],
-      ['la contenance d\'une bouteille d\'eau', 'L'], ['la contenance d\'un réservoir de voiture', 'L'],
-      ['la contenance d\'une cuillère à café', 'mL'], ['la contenance d\'une seringue', 'mL']
+      ['le volume d\'un dé à jouer', 'cm³', 'un volume'], ['le volume d\'un morceau de sucre', 'cm³', 'un volume'],
+      ['le volume d\'une petite gomme', 'cm³', 'un volume'],
+      ['la contenance d\'une bouteille d\'eau', 'L', 'une contenance'], ['la contenance d\'un réservoir de voiture', 'L', 'une contenance'],
+      ['la contenance d\'une cuillère à café', 'mL', 'une contenance'], ['la contenance d\'une seringue', 'mL', 'une contenance'],
+      ['la longueur d\'un crayon', 'cm', 'une longueur'], ['l\'aire d\'une carte postale', 'cm²', 'une aire']
     ];
-    const [obj, u] = this.randChoice(items);
-    const fmt = x => (x === 'm³' ? '$\\text{m}^3$' : x === 'm²' ? '$\\text{m}^2$' : `$\\text{${x}}$`);
-    const others = ['m³', 'L', 'mL', 'm²'].filter(x => x !== u);
+    const [obj, u, nature] = this.randChoice(items);
+    const fmt = x => (x === 'cm³' ? '$\\text{cm}^3$' : x === 'cm²' ? '$\\text{cm}^2$' : `$\\text{${x}}$`);
+    const others = { 'cm³': ['cm', 'cm²', 'L'], L: ['cm', 'cm²', 'mL'], mL: ['cm', 'cm²', 'L'], cm: ['cm²', 'cm³', 'L'], 'cm²': ['cm', 'cm³', 'L'] }[u];
     const q = this._6mQ('6M3', 1, {
-      title: 'Choisir une unité de volume adaptée',
+      title: 'Choisir une unité adaptée',
       statement: `Quelle est l'unité la mieux adaptée pour exprimer **${obj}** ?`,
-      hint1: 'Imagine la taille de l\'objet : tient-il dans une main, dans une cuisine, ou faut-il un camion ?',
-      hint2: '$1\\text{ m}^3 = 1\\,000\\text{ L}$ et $1\\text{ L} = 1\\,000\\text{ mL}$. Attention : le m² est une unité d\'aire, pas de volume.',
-      solution: `Il s'agit d'un volume (ou d'une contenance). Compte tenu de la taille de l'objet, l'unité adaptée est **${fmt(u)}**.\n(Le $\\text{m}^2$ mesure une aire : il ne convient jamais pour un volume.)`,
+      hint1: 'Cherche d\'abord ce que l\'on mesure : une longueur, une aire, un volume ou une contenance.',
+      hint2: 'Le cm mesure une longueur, le cm² une aire, le cm³ le volume d\'un solide ; le L et le mL mesurent la contenance d\'un récipient.',
+      solution: `On mesure ici ${nature}. Compte tenu de la taille de l'objet, l'unité adaptée est **${fmt(u)}**.`,
       _v: { k: '6M3.unite', obj, u }
     }, 'Communiquer');
     return this._6mcq(q, fmt(u), others.map(fmt));
@@ -6881,23 +7854,59 @@
       statement: `Avec des cubes de $1\\text{ cm}^3$, ${this.randChoice(PRENOMS)} construit deux pavés droits :\n• le pavé A : ${A[0]} cubes de long, ${A[1]} de large et ${A[2]} de haut ;\n• le pavé B : ${B[0]} cubes de long, ${B[1]} de large et ${B[2]} de haut.\n**Quelle est la différence entre les deux volumes, en cm³ ?**`,
       type: 'exact', answer: String(Math.abs(vA - vB)), placeholder: 'Ex : 6',
       hint1: 'Calcule le nombre de cubes de chaque pavé (cubes par couche × nombre de couches), puis fais la différence.',
-      hint2: 'Volume d\'un pavé droit : longueur × largeur × hauteur.',
+      hint2: `Pavé A : une couche contient ${A[0]} × ${A[1]} cubes, et il y a ${A[2]} couche${A[2] > 1 ? 's' : ''}.`,
       solution: `**Pavé A :** $${A[0]} \\times ${A[1]} \\times ${A[2]} = ${vA}$ cubes, soit $${vA}\\text{ cm}^3$.\n**Pavé B :** $${B[0]} \\times ${B[1]} \\times ${B[2]} = ${vB}$ cubes, soit $${vB}\\text{ cm}^3$.\nDifférence : $${Math.max(vA, vB)} - ${Math.min(vA, vB)} = ${Math.abs(vA - vB)}$. Le pavé ${vA > vB ? 'A' : 'B'} a **$${Math.abs(vA - vB)}\\text{ cm}^3$** de plus.`,
       _v: { k: '6M3.compare', A, B }
     }, 'Calculer');
   });
 
+  G._6X_add('6M3', 1, function () {
+    return asmQ(this, 1, 'Volume d\'un assemblage de cubes', this.randInt(2, 3), this.randInt(2, 3), 3);
+  });
+  G._6X_add('6M3', 1, function () {
+    const wantEq = Math.random() < 0.3;
+    let a, b, na, nb, tries = 0;
+    do {
+      a = this._6E_heap(this.randInt(2, 3), this.randInt(2, 3), 3);
+      b = this._6E_heap(this.randInt(2, 3), this.randInt(2, 3), 3);
+      na = sumH(a); nb = sumH(b);
+    } while (((wantEq ? na !== nb : na === nb) || JSON.stringify(a) === JSON.stringify(b)) && ++tries < 300);
+    const OA = 'L\'assemblage A', OB = 'L\'assemblage B', EQ = 'Ils ont le même volume';
+    const correct = na > nb ? OA : na < nb ? OB : EQ;
+    const q = this._6mQ('6M3', 1, {
+      title: 'Comparer deux assemblages',
+      statement: `Ces deux assemblages sont formés de cubes de $1\\text{ cm}$ d'arête.\n**Assemblage A :**\n${this._6E_iso(a)}\n**Assemblage B :**\n${this._6E_iso(b)}\n${ISO_6M3}\n**Lequel a le plus grand volume ?**`,
+      hint1: 'Compte les cubes de chaque assemblage, pile par pile.',
+      hint2: 'Le volume en cm³ est égal au nombre de cubes : compare les deux totaux.',
+      solution: `**Assemblage A :** $${pilesH(a)} = ${na}$ cubes.\n**Assemblage B :** $${pilesH(b)} = ${nb}$ cubes.\n` + (na === nb ? `Les deux contiennent ${na} cubes : **ils ont le même volume**, même si leurs formes sont différentes.` : `$${Math.max(na, nb)} > ${Math.min(na, nb)}$ : **l'assemblage ${na > nb ? 'A' : 'B'}** a le plus grand volume.`),
+      _v: { k: '6M3.asmcmp', a, b }
+    }, 'Représenter');
+    return this._6mcq(q, correct, [OA, OB, EQ, 'On ne peut pas comparer']);
+  });
+  G._6X_add('6M3', 1, function () {
+    const n = this.randInt(6, 30), c = this.randInt(2, 9);
+    return this._6mQ('6M3', 1, {
+      title: 'Compter par couches',
+      statement: `Un pavé droit plein est formé de couches identiques de cubes de $1\\text{ cm}^3$. Chaque couche contient ${n} cubes et il y a ${c} couches.\n**Quel est le volume du pavé, en cm³ ?**`,
+      type: 'exact', answer: String(n * c), placeholder: 'Ex : 48',
+      hint1: 'Toutes les couches contiennent le même nombre de cubes : le nombre total s\'obtient par une multiplication.',
+      hint2: `Il faut répéter ${c} fois la couche de ${n} cubes.`,
+      solution: `$$${n} \\times ${c} = ${n * c}\\text{ cubes, soit } ${n * c}\\text{ cm}^3$$`,
+      _v: { k: '6M3.couche', n, c }
+    }, 'Calculer');
+  });
+
   G._6X_origWeight('6M3', 2, 3);
   G._6X_add('6M3', 2, function () {
-    const a = this.randInt(4, 12);
+    const a = this.randInt(4, 10);
     const V = a * a * a;
     return this._6mQ('6M3', 2, {
-      title: "Retrouver l'arête d'un cube",
-      statement: `Un cube a un volume de $${this._6tex(V)}\\text{ cm}^3$.\n**Quelle est la longueur de son arête, en cm ?**`,
+      title: "Retrouver l'arête d'un grand cube",
+      statement: `Un grand cube plein est formé de $${this._6tex(V)}$ petits cubes de $1\\text{ cm}^3$.\n**Combien de petits cubes y a-t-il sur une arête ?**`,
       type: 'exact', answer: String(a), placeholder: 'Ex : 4',
-      hint1: 'Essaie des nombres entiers : $2 \\times 2 \\times 2$, $3 \\times 3 \\times 3$… jusqu\'à retrouver le volume.',
-      hint2: "Volume d'un cube d'arête $a$ : $\\mathcal{V} = a \\times a \\times a$.",
-      solution: `On cherche le nombre $a$ tel que $a \\times a \\times a = ${this._6tex(V)}$.\nOr $${a} \\times ${a} \\times ${a} = ${a * a} \\times ${a} = ${this._6tex(V)}$.\nL'arête du cube mesure **$${a}\\text{ cm}$**.`,
+      hint1: 'Essaie des nombres entiers : $2 \\times 2 \\times 2$, $3 \\times 3 \\times 3$… jusqu\'à retrouver le nombre de petits cubes.',
+      hint2: 'Si une arête compte $n$ petits cubes, il y a $n$ couches de $n \\times n$ petits cubes.',
+      solution: `On cherche le nombre $n$ de petits cubes sur une arête, tel que $n \\times n \\times n = ${this._6tex(V)}$.\nOr $${a} \\times ${a} \\times ${a} = ${a * a} \\times ${a} = ${this._6tex(V)}$.\nIl y a **${a} petits cubes** sur chaque arête.`,
       _v: { k: '6M3.arete', V }
     }, 'Raisonner');
   });
@@ -6907,14 +7916,75 @@
     const res = this._6r(V / 1000);
     if ([1, 3, 1000].includes(res)) return null;
     return this._6mQ('6M3', 2, {
-      title: "Contenance d'une boîte en litres",
-      statement: `Une boîte en forme de pavé droit mesure intérieurement $${L}\\text{ cm}$ sur $${l}\\text{ cm}$ sur $${h}\\text{ cm}$.\n**Quelle est sa contenance, en litres ?**`,
+      title: "Pour aller plus loin : contenance d'une boîte en litres",
+      statement: `**Pour aller plus loin** : on admet que $1\\text{ L} = 1\\,000\\text{ cm}^3$.\nUne boîte en forme de pavé droit mesure intérieurement $${L}\\text{ cm}$ sur $${l}\\text{ cm}$ sur $${h}\\text{ cm}$.\n**Quelle est sa contenance, en litres ?**`,
       type: 'exact', answer: this._6ans(res), placeholder: 'Ex : 1,5',
       hint1: 'Calcule d\'abord le volume en cm³, puis convertis-le en litres.',
-      hint2: '$1\\text{ L} = 1\\text{ dm}^3 = 1\\,000\\text{ cm}^3$.',
+      hint2: `Une couche sur le fond contient ${L} × ${l} cubes de $1\\text{ cm}^3$, et il y a ${h} couches.`,
       solution: `**Étape 1 :** $\\mathcal{V} = ${L} \\times ${l} \\times ${h} = ${this._6tex(V)}\\text{ cm}^3$.\n**Étape 2 :** $1\\text{ L} = 1\\,000\\text{ cm}^3$, donc on divise par $1\\,000$ : $${this._6tex(V)} \\div 1\\,000 = ${this._6tex(res)}$.\nLa boîte contient **$${this._6tex(res)}\\text{ L}$**.`,
       _v: { k: '6M3.boiteL', L, l, h }
     }, 'Calculer');
+  });
+
+  G._6X_add('6M3', 2, function () {
+    return asmQ(this, 2, 'Volume d\'un grand assemblage', this.randInt(3, 4), this.randInt(2, 3), this.randInt(3, 4));
+  });
+  G._6X_add('6M3', 2, function () {
+    const nx = this.randInt(2, 3), ny = this.randInt(2, 3), hm = this.randInt(2, 3);
+    const P = nx * ny * hm;
+    let h, n;
+    do {
+      h = this._6E_heap(nx, ny, hm).map(r => r.map(v => Math.max(v, 1)));
+      h[0][0] = hm;
+      n = sumH(h);
+    } while (n >= P);
+    const ans = P - n;
+    return this._6mQ('6M3', 2, {
+      title: 'Compléter pour obtenir un pavé',
+      statement: `Cet assemblage est formé de cubes de $1\\text{ cm}$ d'arête.\n${this._6E_iso(h)}\n${ISO_6M3}\nOn veut le compléter pour obtenir un pavé droit plein de ${hm} couches, chaque couche contenant ${nx * ny} cubes.\n**Combien de cubes faut-il ajouter ?**`,
+      type: 'exact', answer: String(ans), placeholder: 'Ex : 7',
+      hint1: 'Calcule le nombre de cubes du pavé complet, puis celui de l\'assemblage, et fais la différence.',
+      hint2: `Le pavé complet a ${hm} couches de ${nx * ny} cubes.`,
+      solution: `**Étape 1 :** pavé complet : $${nx * ny} \\times ${hm} = ${P}$ cubes.\n**Étape 2 :** assemblage : $${pilesH(h)} = ${n}$ cubes.\n**Étape 3 :** $${P} - ${n} = ${ans}$. Il faut ajouter **${ans} cube${ans > 1 ? 's' : ''}**.`,
+      _v: { k: '6M3.completer', h, nx, ny, hm }
+    }, 'Raisonner');
+  });
+  G._6X_add('6M3', 2, function () {
+    const m = this.randInt(3, 6), p = this.randInt(2, 4);
+    const h = [];
+    for (let i = 0; i < m; i++) h.push(Array(p).fill(m - i));
+    const tr = []; let S = 0;
+    for (let k = m; k >= 1; k--) { tr.push(k); S += k; }
+    return this._6mQ('6M3', 2, {
+      title: 'Les cubes d\'un escalier',
+      statement: `Cet escalier est formé de cubes de $1\\text{ cm}$ d'arête : il a ${m} marches et il est large de ${p} cubes.\n${this._6E_iso(h)}\n${ISO_6M3}\n**Quel est son volume, en cm³ ?**`,
+      type: 'exact', answer: String(S * p), placeholder: 'Ex : 30',
+      hint1: 'Compte les cubes d\'une tranche de l\'escalier vue de côté, puis multiplie par le nombre de tranches.',
+      hint2: `Dans une tranche, la colonne la plus haute a ${m} cubes, puis chaque colonne a un cube de moins que la précédente.`,
+      solution: `**Étape 1 :** une tranche contient $${tr.join(' + ')} = ${S}$ cubes.\n**Étape 2 :** il y a ${p} tranches : $$${S} \\times ${p} = ${S * p}\\text{ cubes, soit } ${S * p}\\text{ cm}^3$$`,
+      _v: { k: '6M3.escalier', m, p }
+    }, 'Raisonner');
+  });
+  G._6X_add('6M3', 2, function () {
+    const a = this.randInt(2, 6), b = this.randInt(2, 6), c = this.randInt(2, 6), V = a * b * c;
+    const key = x => x.slice().sort((p, q) => p - q).join(',');
+    const opts = [];
+    for (let L = 2; L <= 12; L++) for (let l = 2; l <= L; l++) {
+      if (V % (L * l) !== 0) continue;
+      const hh = V / (L * l);
+      if (hh >= 2 && hh <= 12 && key([L, l, hh]) !== key([a, b, c])) opts.push([L, l, hh]);
+    }
+    if (!opts.length) return null;
+    const [L, l, hh] = this.randChoice(opts);
+    return this._6mQ('6M3', 2, {
+      title: 'Même nombre de cubes, autre forme',
+      statement: `${this.randChoice(PRENOMS)} construit un pavé droit plein avec des cubes de $1\\text{ cm}^3$ : ${a} cubes de long, ${b} de large et ${c} de haut.\nLe pavé est ensuite démonté et tous les cubes sont réutilisés pour construire un autre pavé plein, dont chaque couche compte ${L} cubes de long et ${l} cubes de large.\n**Combien de couches ce nouveau pavé a-t-il ?**`,
+      type: 'exact', answer: String(hh), placeholder: 'Ex : 3',
+      hint1: 'Le nombre de cubes ne change pas : calcule-le, puis cherche le nombre de couches du nouveau pavé.',
+      hint2: `Chaque couche du nouveau pavé contient ${L} × ${l} cubes.`,
+      solution: `**Étape 1 :** nombre de cubes : $${a} \\times ${b} \\times ${c} = ${V}$.\n**Étape 2 :** une couche du nouveau pavé : $${L} \\times ${l} = ${L * l}$ cubes.\n**Étape 3 :** $${V} \\div ${L * l} = ${hh}$. Le nouveau pavé a **${hh} couches** : les deux pavés ont le même volume, $${V}\\text{ cm}^3$, avec des formes différentes.`,
+      _v: { k: '6M3.memevol', a, b, c, L, l }
+    }, 'Raisonner');
   });
 
   G._6X_origWeight('6M3', 3, 3);
@@ -6923,12 +7993,12 @@
     const c = this.randInt(1, a - 1), h2 = this.randInt(1, 4);
     const v1 = a * b * h1, v2 = c * b * h2, tot = v1 + v2;
     return this._6mQ('6M3', 3, {
-      title: 'Volume d\'un solide composé de deux pavés',
-      statement: `Un escalier en béton est formé de deux pavés droits posés l'un sur l'autre :\n• en bas, un pavé de $${a}\\text{ dm}$ de long, $${b}\\text{ dm}$ de large et $${h1}\\text{ dm}$ de haut ;\n• au-dessus, un pavé de $${c}\\text{ dm}$ de long, $${b}\\text{ dm}$ de large et $${h2}\\text{ dm}$ de haut.\n**Quel est le volume de béton, en dm³ ?**`,
+      title: 'Volume d\'un assemblage de deux blocs',
+      statement: `Avec des cubes de $1\\text{ cm}$ d'arête, ${this.randChoice(PRENOMS)} construit un solide formé de deux pavés droits posés l'un sur l'autre :\n• en bas, un pavé de ${a} cubes de long, ${b} de large et ${h1} de haut ;\n• au-dessus, un pavé de ${c} cube${c > 1 ? 's' : ''} de long, ${b} de large et ${h2} de haut.\n**Quel est le volume du solide, en cm³ ?**`,
       type: 'exact', answer: String(tot), placeholder: 'Ex : 84',
-      hint1: 'Calcule le volume de chaque pavé séparément, puis additionne.',
-      hint2: 'Volume d\'un pavé droit : $\\mathcal{V} = L \\times \\ell \\times h$ (dans la même unité de longueur).',
-      solution: `**Étape 1 :** pavé du bas : $${a} \\times ${b} \\times ${h1} = ${v1}\\text{ dm}^3$.\n**Étape 2 :** pavé du haut : $${c} \\times ${b} \\times ${h2} = ${v2}\\text{ dm}^3$.\n**Étape 3 :** $$\\mathcal{V} = ${v1} + ${v2} = ${tot}\\text{ dm}^3$$\nIl faut **$${tot}\\text{ dm}^3$** de béton (soit ${tot} L).`,
+      hint1: 'Compte les cubes de chaque pavé séparément, puis additionne.',
+      hint2: `Pavé du bas : des couches de ${a} × ${b} cubes, et il y a ${h1} couche${h1 > 1 ? 's' : ''}.`,
+      solution: `**Étape 1 :** pavé du bas : $${a} \\times ${b} \\times ${h1} = ${v1}$ cubes.\n**Étape 2 :** pavé du haut : $${c} \\times ${b} \\times ${h2} = ${v2}$ cubes.\n**Étape 3 :** $$${v1} + ${v2} = ${tot}\\text{ cubes, soit } ${tot}\\text{ cm}^3$$`,
       _v: { k: '6M3.compose', a, b, h1, c, h2 }
     }, 'Modéliser');
   });
@@ -6943,14 +8013,63 @@
     if (!choices.length) return null;
     const [L, l, h] = this.randChoice(choices);
     return this._6mQ('6M3', 3, {
-      title: 'Remplir des verres',
-      statement: `Un récipient en forme de pavé droit mesure intérieurement $${L}\\text{ cm}$ sur $${l}\\text{ cm}$ sur $${h}\\text{ cm}$. Il est plein de jus de fruits.\n**Combien de verres de $${verre}\\text{ cL}$ peut-on remplir ?**`,
+      title: 'Pour aller plus loin : remplir des verres',
+      statement: `**Pour aller plus loin** : on admet que $1\\text{ cm}^3 = 1\\text{ mL}$.\nUn récipient en forme de pavé droit mesure intérieurement $${L}\\text{ cm}$ sur $${l}\\text{ cm}$ sur $${h}\\text{ cm}$. Il est plein de jus de fruits.\n**Combien de verres de $${verre}\\text{ cL}$ peut-on remplir ?**`,
       type: 'exact', answer: String(nb), placeholder: 'Ex : 12',
       hint1: 'Calcule le volume en cm³, convertis-le en centilitres, puis partage en verres.',
       hint2: '$1\\text{ cm}^3 = 1\\text{ mL}$ et $1\\text{ cL} = 10\\text{ mL}$.',
       solution: `**Étape 1 :** $\\mathcal{V} = ${L} \\times ${l} \\times ${h} = ${this._6tex(V)}\\text{ cm}^3 = ${this._6tex(V)}\\text{ mL}$.\n**Étape 2 :** $${this._6tex(V)}\\text{ mL} = ${this._6tex(totCl)}\\text{ cL}$ (on divise par 10).\n**Étape 3 :** $${this._6tex(totCl)} \\div ${verre} = ${nb}$.\nOn peut remplir **${nb} verres**.`,
       _v: { k: '6M3.verres', L, l, h, verre }
     }, 'Modéliser');
+  });
+
+  G._6X_add('6M3', 3, function () {
+    return asmQ(this, 3, 'Volume d\'un assemblage', this.randInt(3, 4), this.randInt(3, 4), this.randInt(3, 4));
+  });
+  G._6X_add('6M3', 3, function () {
+    const n = this.randInt(3, 5), e = this.randInt(2, Math.min(n, 4));
+    const h = [];
+    for (let i = 0; i < n; i++) { h.push([]); for (let j = 0; j < n; j++) h[i].push(Math.min(e, n - Math.max(i, j))); }
+    const cs = []; let tot = 0;
+    for (let k = 0; k < e; k++) { cs.push((n - k) * (n - k)); tot += (n - k) * (n - k); }
+    return this._6mQ('6M3', 3, {
+      title: 'Un empilement de couches carrées',
+      statement: `Cet empilement est formé de cubes de $1\\text{ cm}$ d'arête. La couche du bas est un carré de ${n} cubes de côté et chaque couche posée au-dessus a un côté plus court d'un cube. Il y a ${e} couches.\n${this._6E_iso(h)}\n**Quel est son volume, en cm³ ?**`,
+      type: 'exact', answer: String(tot), placeholder: 'Ex : 30',
+      hint1: 'Calcule le nombre de cubes de chaque couche, en partant du bas, puis additionne.',
+      hint2: `La couche du bas contient ${n} × ${n} cubes ; la suivante est un carré de ${n - 1} cubes de côté.`,
+      solution: `Couche par couche, en partant du bas : $${cs.join(' + ')} = ${tot}$ cubes.\nLe volume est **$${tot}\\text{ cm}^3$**.`,
+      _v: { k: '6M3.pyramide', n, e }
+    }, 'Raisonner');
+  });
+  G._6X_add('6M3', 3, function () {
+    const a = this.randInt(3, 7), b = this.randInt(2, 5), c = this.randInt(2, 5);
+    const r = this.randInt(2, Math.min(a * b - 1, 6));
+    const tot = a * b * c, ans = tot - r * c;
+    return this._6mQ('6M3', 3, {
+      title: 'Retirer des colonnes de cubes',
+      statement: `Un pavé droit plein est formé de cubes de $1\\text{ cm}^3$ : ${a} cubes de long, ${b} de large et ${c} de haut. On retire ${r} colonnes entières, chacune allant du haut du pavé jusqu'au sol.\n**Quel est le volume du solide obtenu, en cm³ ?**`,
+      type: 'exact', answer: String(ans), placeholder: 'Ex : 36',
+      hint1: 'Calcule le nombre de cubes du pavé complet, puis le nombre de cubes retirés.',
+      hint2: `Une colonne contient autant de cubes que le pavé a de couches, soit ${c} cubes.`,
+      solution: `**Étape 1 :** pavé complet : $${a} \\times ${b} \\times ${c} = ${tot}$ cubes.\n**Étape 2 :** cubes retirés : $${r} \\times ${c} = ${r * c}$.\n**Étape 3 :** $$${tot} - ${r * c} = ${ans}\\text{ cubes, soit } ${ans}\\text{ cm}^3$$`,
+      _v: { k: '6M3.trou', a, b, c, r }
+    }, 'Raisonner');
+  });
+  G._6X_add('6M3', 3, function () {
+    const h = this._6E_heap(3, this.randInt(2, 3), 3), n = sumH(h);
+    let p, q, r;
+    do { p = this.randInt(3, 5); q = this.randInt(2, 4); r = this.randInt(2, 4); } while (p * q * r - n < 2);
+    const ans = p * q * r - n;
+    return this._6mQ('6M3', 3, {
+      title: 'Comparer un assemblage et un pavé',
+      statement: `Voici un assemblage de cubes de $1\\text{ cm}^3$.\n${this._6E_iso(h)}\n${ISO_6M3}\nUn pavé droit plein mesure ${p} cubes de long, ${q} de large et ${r} de haut.\n**De combien de cm³ le volume du pavé dépasse-t-il celui de l'assemblage ?**`,
+      type: 'exact', answer: String(ans), placeholder: 'Ex : 12',
+      hint1: 'Compte les cubes de chaque solide, puis fais la différence.',
+      hint2: `Pavé : une couche contient ${p} × ${q} cubes, et il y a ${r} couches.`,
+      solution: `**Assemblage :** $${pilesH(h)} = ${n}$ cubes.\n**Pavé :** $${p} \\times ${q} \\times ${r} = ${p * q * r}$ cubes.\nDifférence : $${p * q * r} - ${n} = ${ans}$. Le pavé a **$${ans}\\text{ cm}^3$** de plus.`,
+      _v: { k: '6M3.cmpdiff', h, p, q, r }
+    }, 'Raisonner');
   });
 
   G._6X_origWeight('6M3', 4, 3);
@@ -6961,14 +8080,71 @@
     const mot = k === 2 ? 'double' : 'triple';
     return this._6mQ('6M3', 4, {
       title: 'Agrandir un cube',
-      statement: `Un cube a une arête de $${a}\\text{ cm}$. On construit un second cube dont l'arête est le ${mot} de la première.\n` +
+      statement: `Un cube plein est formé de petits cubes de $1\\text{ cm}^3$, avec ${a} petits cubes sur chaque arête. On construit un second cube avec le ${mot} de petits cubes sur chaque arête.\n` +
         (ask === 'vol' ? '**Quel est le volume du second cube, en cm³ ?**' : '**Par combien le volume a-t-il été multiplié ?**'),
       type: 'exact', answer: String(ask === 'vol' ? V2 : V2 / V1), placeholder: 'Ex : 8',
-      hint1: 'Calcule la nouvelle arête, puis le volume des deux cubes. Le volume n\'est pas multiplié par le même nombre que l\'arête !',
-      hint2: 'Volume d\'un cube d\'arête $a$ : $a \\times a \\times a$ (l\'arête intervient trois fois).',
-      solution: `**Étape 1 :** nouvelle arête : $${k} \\times ${a} = ${k * a}\\text{ cm}$.\n**Étape 2 :** volumes : $${a} \\times ${a} \\times ${a} = ${V1}\\text{ cm}^3$ et $${k * a} \\times ${k * a} \\times ${k * a} = ${this._6tex(V2)}\\text{ cm}^3$.\n` +
+      hint1: 'Calcule le nouveau nombre de petits cubes sur une arête, puis le nombre de petits cubes des deux solides. Le volume n\'est pas multiplié par le même nombre que l\'arête !',
+      hint2: 'Un cube de $n$ petits cubes par arête contient $n$ couches de $n \\times n$ petits cubes.',
+      solution: `**Étape 1 :** nouvelle arête : $${k} \\times ${a} = ${k * a}$ petits cubes.\n**Étape 2 :** premier cube : $${a} \\times ${a} \\times ${a} = ${V1}$ petits cubes ; second cube : $${k * a} \\times ${k * a} \\times ${k * a} = ${this._6tex(V2)}$ petits cubes.\n` +
         (ask === 'vol' ? `Le second cube a un volume de **$${this._6tex(V2)}\\text{ cm}^3$**.` : `**Étape 3 :** $${this._6tex(V2)} \\div ${V1} = ${V2 / V1}$ : le volume est multiplié par **${V2 / V1}** ($= ${k} \\times ${k} \\times ${k}$), et non par ${k}.`),
       _v: { k: '6M3.agrandir', a, kf: k, ask }
+    }, 'Raisonner');
+  });
+  G._6X_add('6M3', 4, function () {
+    const n = this.randInt(3, 7), ask = this.randChoice(['deux', 'une', 'aucune']), k = n - 2;
+    const pc = x => `${x} petit${x > 1 ? 's' : ''} cube${x > 1 ? 's' : ''}`;
+    const d = {
+      deux: {
+        q: 'ont exactement deux faces peintes', fin: 'avec exactement deux faces peintes', ans: 12 * k,
+        h2: `Ces petits cubes sont sur les arêtes du grand cube, sans les sommets : sur une arête de ${n} petits cubes, on retire ceux des deux extrémités.`,
+        sol: `Ils sont sur les arêtes, sans les sommets. Sur une arête, il y en a $${n} - 2 = ${k}$. Le grand cube a $12$ arêtes : $$12 \\times ${k} = ${12 * k}$$`
+      },
+      une: {
+        q: 'ont exactement une face peinte', fin: 'avec exactement une face peinte', ans: 6 * k * k,
+        h2: 'Ces petits cubes sont sur les faces du grand cube, sans toucher aucune arête : sur chaque face, on retire le contour.',
+        sol: `Ils sont sur les faces, sans toucher aucune arête. Sur chaque face, il reste un carré dont le côté compte $${n} - 2 = ${k}$ petit${k > 1 ? 's' : ''} cube${k > 1 ? 's' : ''}, soit $${k} \\times ${k} = ${k * k}$ par face. Le grand cube a $6$ faces : $$6 \\times ${k * k} = ${6 * k * k}$$`
+      },
+      aucune: {
+        q: 'n\'ont aucune face peinte', fin: 'sans aucune face peinte', ans: k * k * k,
+        h2: 'Ces petits cubes sont à l\'intérieur : ils forment un cube plus petit, plus court de deux petits cubes sur chaque arête.',
+        sol: `Ils forment un cube intérieur dont l'arête compte $${n} - 2 = ${k}$ petit${k > 1 ? 's' : ''} cube${k > 1 ? 's' : ''} : $$${k} \\times ${k} \\times ${k} = ${k * k * k}$$`
+      }
+    }[ask];
+    return this._6mQ('6M3', 4, {
+      title: 'Un grand cube peint',
+      statement: `Un grand cube plein est formé de petits cubes de $1\\text{ cm}^3$, avec ${n} petits cubes sur chaque arête. On peint toutes les faces extérieures du grand cube.\n**Combien de petits cubes ${d.q} ?**`,
+      type: 'exact', answer: String(d.ans), placeholder: 'Ex : 24',
+      hint1: 'Repère où se trouvent ces petits cubes : aux sommets, sur les arêtes, sur les faces ou à l\'intérieur du grand cube.',
+      hint2: d.h2,
+      solution: `${d.sol}\nIl y a **${pc(d.ans)}** ${d.fin}.`,
+      _v: { k: '6M3.peint', n, ask }
+    }, 'Raisonner');
+  });
+  G._6X_add('6M3', 4, function () {
+    const n = this.randChoice([3, 5, 7, 9]), t = this.randInt(1, 3);
+    const N = n * n * n, R = t * n - (t - 1), ans = N - R;
+    const txt = t === 1 ? 'un tunnel qui passe' : t === 2 ? 'deux tunnels perpendiculaires qui passent' : 'trois tunnels perpendiculaires deux à deux qui passent';
+    return this._6mQ('6M3', 4, {
+      title: 'Percer un grand cube',
+      statement: `Un grand cube plein est formé de petits cubes de $1\\text{ cm}^3$, avec ${n} petits cubes sur chaque arête. On perce ${txt} par le petit cube central : un tunnel retire une file droite de petits cubes, d'une face du grand cube à la face opposée.\n**Combien de petits cubes reste-t-il ?**`,
+      type: 'exact', answer: String(ans), placeholder: 'Ex : 120',
+      hint1: t === 1 ? 'Calcule le nombre de petits cubes du grand cube, puis retire ceux de la file.' : 'Calcule le nombre de petits cubes du grand cube, puis ceux qui sont retirés : les tunnels ont en commun le petit cube central, qu\'il ne faut compter qu\'une fois.',
+      hint2: `Une file d'une face à la face opposée contient ${n} petits cubes.`,
+      solution: `**Étape 1 :** grand cube : $${n} \\times ${n} \\times ${n} = ${this._6tex(N)}$ petits cubes.\n**Étape 2 :** petits cubes retirés : ` + (t === 1 ? `$${n}$.` : `$${Array(t).fill(n).join(' + ')} - ${t - 1} = ${R}$ (le petit cube central n'est compté qu'une fois).`) + `\n**Étape 3 :** $${this._6tex(N)} - ${R} = ${this._6tex(ans)}$. Il reste **${this._6tex(ans)} petits cubes**.`,
+      _v: { k: '6M3.tunnel', n, t }
+    }, 'Raisonner');
+  });
+  G._6X_add('6M3', 4, function () {
+    const m = this.randInt(5, 14), T = m * (m + 1) / 2;
+    const liste = Array.from({ length: m }, (_, i) => i + 1).join(' + ');
+    return this._6mQ('6M3', 4, {
+      title: 'Retrouver le nombre de marches',
+      statement: `On construit un escalier avec des cubes de $1\\text{ cm}^3$, en posant côte à côte une colonne de $1$ cube, une colonne de $2$ cubes, une colonne de $3$ cubes, et ainsi de suite. On a utilisé ${T} cubes en tout.\n**Combien de colonnes cet escalier a-t-il ?**`,
+      type: 'exact', answer: String(m), placeholder: 'Ex : 6',
+      hint1: 'Ajoute les colonnes l\'une après l\'autre : $1 + 2 + 3 + \\dots$ jusqu\'à atteindre le total.',
+      hint2: `Note la somme obtenue après chaque nouvelle colonne et arrête-toi quand elle atteint ${T}.`,
+      solution: `$$${liste} = ${T}$$\nL'escalier a **${m} colonnes**.`,
+      _v: { k: '6M3.escalierInv', T }
     }, 'Raisonner');
   });
   G._6X_add('6M3', 4, function () {
@@ -6977,7 +8153,7 @@
     const rise = this._6r(a * a * a / (L * l));
     return this._6mQ('6M3', 4, {
       title: "Plonger un cube dans l'eau",
-      statement: `Un aquarium a un fond rectangulaire de $${L}\\text{ cm}$ sur $${l}\\text{ cm}$ ; il contient de l'eau. On y plonge entièrement un cube plein de $${a}\\text{ cm}$ d'arête (l'eau ne déborde pas).\n**De combien de centimètres le niveau de l'eau monte-t-il ?**`,
+      statement: `**Pour aller plus loin** : le volume d'un pavé droit est égal à l'aire de son fond multipliée par sa hauteur.\nUn aquarium a un fond rectangulaire de $${L}\\text{ cm}$ sur $${l}\\text{ cm}$ ; il contient de l'eau. On y plonge entièrement un cube plein de $${a}\\text{ cm}$ d'arête (l'eau ne déborde pas).\n**De combien de centimètres le niveau de l'eau monte-t-il ?**`,
       type: 'exact', answer: this._6ans(rise), placeholder: 'Ex : 0,5',
       hint1: "Le cube prend la place d'un volume d'eau égal à son propre volume : cette eau « monte » en formant un pavé de même fond que l'aquarium.",
       hint2: 'Volume d\'un pavé = aire du fond × hauteur, donc hauteur = volume ÷ aire du fond.',
@@ -6992,14 +8168,33 @@
   const Hr = m => G._6mHour(m), D = m => G._6mDur(m);
   const hms = s => `${Math.floor(s / 3600)} h ${String(Math.floor(s / 60) % 60).padStart(2, '0')} min ${String(s % 60).padStart(2, '0')} s`;
 
+  G._6X_add('6M4', 1, function () {
+    // Siècles et millénaires
+    const sub = this.randChoice(['s2a', 'm2a', 'm2s', 'a2s']), n = this.randInt(2, 9);
+    const d = {
+      s2a: { deb: `${n} siècles`, q: 'Combien d\'années cela fait-il ?', ans: n * 100, fin: 'ans', calc: `$1$ siècle $= 100$ ans, donc $${n} \\times 100 = ${this._6tex(n * 100)}$.` },
+      m2a: { deb: `${n} millénaires`, q: 'Combien d\'années cela fait-il ?', ans: n * 1000, fin: 'ans', calc: `$1$ millénaire $= 1\\,000$ ans, donc $${n} \\times 1\\,000 = ${this._6tex(n * 1000)}$.` },
+      m2s: { deb: `${n} millénaires`, q: 'Combien de siècles cela fait-il ?', ans: n * 10, fin: 'siècles', calc: `$1$ millénaire $= 1\\,000$ ans $= 10$ siècles, donc $${n} \\times 10 = ${n * 10}$.` },
+      a2s: { deb: `${n * 100} ans`, q: 'Combien de siècles cela fait-il ?', ans: n, fin: 'siècles', calc: `$1$ siècle $= 100$ ans, donc $${n * 100} \\div 100 = ${n}$.` }
+    }[sub];
+    return this._6mQ('6M4', 1, {
+      title: 'Siècles et millénaires',
+      statement: `Une période dure **${d.deb}**.\n**${d.q}**`,
+      type: 'exact', answer: String(d.ans), placeholder: 'Ex : 300',
+      hint1: 'Souviens-toi de la durée d\'un siècle et de celle d\'un millénaire.',
+      hint2: '1 siècle = 100 ans ; 1 millénaire = 1 000 ans.',
+      solution: `${d.calc}\nLa période dure **${this._6txt(d.ans)} ${d.fin}**.`,
+      _v: { k: '6M4.siecle', sub, n }
+    }, 'Calculer');
+  });
   G._6X_origWeight('6M4', 1, 3);
   G._6X_add('6M4', 1, function () {
     const h = this.randInt(7, 18), m1 = this.randInt(0, 40), m2 = this.randInt(m1 + 5, 59);
     const s = h * 60 + m1, e = h * 60 + m2;
-    const act = this.randChoice(['Une séance de natation', 'Un cours de musique', 'Une partie de jeu', 'Une réunion']);
+    const [act, pron] = this.randChoice([['Une séance de natation', 'elle'], ['Un cours de musique', 'il'], ['Une partie de jeu', 'elle'], ['Une réunion', 'elle']]);
     return this._6mQ('6M4', 1, {
       title: 'Durée dans une même heure',
-      statement: `${act} commence à **${Hr(s)}** et se termine à **${Hr(e)}**.\n**Combien de minutes a-t-elle duré ?**`,
+      statement: `${act} commence à **${Hr(s)}** et se termine à **${Hr(e)}**.\n**Combien de minutes a-t-${pron} duré ?**`,
       type: 'exact', answer: String(e - s), placeholder: 'Ex : 25',
       hint1: 'Les deux horaires sont dans la même heure : il suffit de comparer les minutes.',
       hint2: 'Durée = horaire de fin − horaire de début.',
@@ -7020,6 +8215,36 @@
     }, 'Convertir');
   });
 
+  G._6X_add('6M4', 2, function () {
+    // Heures décimales en dixièmes : 0,1 h = 6 min
+    const d = this.randChoice([2, 3, 4, 6, 7, 8, 9]), h = this.randChoice([0, 0, 0, 1, 2]);
+    const val = this._6r(h + d / 10), res = (h * 10 + d) * 6;
+    const tx = v => this._6tex(v);
+    return this._6mQ('6M4', 2, {
+      title: 'Des dixièmes d\'heure',
+      statement: `Une activité dure $${tx(val)}\\text{ h}$.\n**Combien de minutes cela fait-il ?**`,
+      type: 'exact', answer: String(res), placeholder: 'Ex : 18',
+      hint1: 'Cherche d\'abord combien de minutes vaut un dixième d\'heure.',
+      hint2: '$0{,}1\\text{ h} = 6\\text{ min}$ : compte les dixièmes d\'heure.',
+      solution: `$1\\text{ h} = 60\\text{ min}$, donc $0{,}1\\text{ h} = 60 \\div 10 = 6\\text{ min}$.\n$$${tx(val)}\\text{ h} = ${h * 10 + d} \\times 6\\text{ min} = ${res}\\text{ min}$$`,
+      _v: { k: '6M4.dixh', h, d }
+    }, 'Convertir');
+  });
+  G._6X_add('6M4', 2, function () {
+    // Retrouver le siècle d'une année
+    const X = Math.random() < 0.25 ? this.randInt(11, 20) * 100 : this.randInt(1001, 2099);
+    const ans = Math.ceil(X / 100), lo = (ans - 1) * 100 + 1, hi = ans * 100;
+    const rom = n => 'X'.repeat(Math.floor(n / 10)) + ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'][n % 10];
+    return this._6mQ('6M4', 2, {
+      title: 'Retrouver le siècle',
+      statement: `**En quel siècle se situe l'année ${X} ?**\nRéponds par un nombre : par exemple, $5$ pour le Ve siècle.`,
+      type: 'exact', answer: String(ans), placeholder: 'Ex : 5',
+      hint1: 'Le premier siècle va de l\'an 1 à l\'an 100, et chaque siècle dure 100 ans.',
+      hint2: `Cherche le premier multiple de 100 supérieur ou égal à ${X}.`,
+      solution: `Le siècle qui contient l'année ${X} va de ${lo} à ${hi}, et $${hi} = ${ans} \\times 100$.\nC'est le **${rom(ans)}e siècle**.`,
+      _v: { k: '6M4.sieclean', X }
+    }, 'Raisonner');
+  });
   G._6X_origWeight('6M4', 2, 3);
   G._6X_add('6M4', 2, function () {
     const n = this.randInt(2, 5), c = this.randChoice([15, 20, 25, 30, 35, 40, 45]);
@@ -7050,6 +8275,23 @@
     }, 'Raisonner');
   });
 
+  G._6X_add('6M4', 3, function () {
+    // Compter les jours à cheval sur février, année bissextile ou non
+    const bis = Math.random() < 0.5;
+    const Y = bis ? this.randChoice([2024, 2028, 2032]) : this.randChoice([2025, 2026, 2027, 2029, 2030]);
+    const nf = bis ? 29 : 28;
+    let d1, d2, res;
+    do { d1 = this.randInt(8, 27); d2 = this.randInt(2, 19); res = nf - d1 + d2; } while (res === d1);
+    return this._6mQ('6M4', 3, {
+      title: 'Compter les jours autour de février',
+      statement: `L'année ${Y} ${bis ? 'est' : 'n\'est pas'} bissextile.\nCette année-là, **combien de jours s'écoulent du ${d1} février au ${d2} mars ?**`,
+      type: 'exact', answer: String(res), placeholder: 'Ex : 16',
+      hint1: 'Compte d\'abord les jours jusqu\'au dernier jour de février, puis ajoute les jours de mars.',
+      hint2: `Cherche le nombre de jours de février cette année-là, retire ${d1}, puis ajoute ${d2}.`,
+      solution: `**Étape 1 :** en ${Y}, février compte ${nf} jours. Du ${d1} au ${nf} février : $${nf} - ${d1} = ${nf - d1}$ jour${nf - d1 > 1 ? 's' : ''}.\n**Étape 2 :** on ajoute les ${d2} jours de mars : $${nf - d1} + ${d2} = ${res}$.\nIl s'écoule **${res} jours**.`,
+      _v: { k: '6M4.bissextile', bis, d1, d2 }
+    }, 'Modéliser');
+  });
   G._6X_origWeight('6M4', 3, 3);
   G._6X_add('6M4', 3, function () {
     const stops = this.shuffle(['Gare', 'Mairie', 'Collège', 'Piscine', 'Marché', 'Hôpital', 'Stade', 'Musée']).slice(0, 5);
@@ -7151,7 +8393,7 @@
       { d: 'a quatre angles droits et quatre côtés de même longueur', c: 'un carré', why: 'Un **carré** a quatre angles droits (c\'est un rectangle) et quatre côtés de même longueur (c\'est un losange).' }
     ];
     const kind = this.randInt(0, 2);
-    const opts = kinds.map(k => k.c).concat(['un triangle rectangle']);
+    const opts = kinds.map(k => k.c).concat(['un parallélogramme quelconque']);
     return this._6E_mcq('6G1', 1, {
       title: 'Reconnaître un quadrilatère particulier',
       statement: `Le quadrilatère $${A}${B}${C}${Dp}$ ${kinds[kind].d}.\n**Quelle est sa nature ?**`,
@@ -7360,8 +8602,8 @@
     return G._6svg(2 * bw + 32, rows * (bh + 10) + 6, inner, 270);
   };
   // Vue en « colonnes de carrés » (hauteurs de gauche à droite).
-  const viewSvg = (heights, title, s = 18) => {
-    const hmax = Math.max(...heights), w = heights.length;
+  const viewSvg = (heights, title, s = 18, commonMax = 0) => {
+    const hmax = commonMax || Math.max(...heights), w = heights.length;
     let inner = G._6svgText(8 + w * s / 2, 12, title, { size: 11, weight: '800' });
     heights.forEach((hgt, i) => {
       for (let k = 0; k < hgt; k++) inner += `<rect x="${8 + i * s}" y="${20 + (hmax - 1 - k) * s}" width="${s}" height="${s}" fill="#93c5fd" stroke="#1e3a8a" stroke-width="1.2"/>`;
@@ -7387,7 +8629,7 @@
       type: 'exact', answer: String(nYes), placeholder: 'Ex : 3',
       hint1: 'Pour chaque lettre, imagine un pliage vertical, puis un pliage horizontal : les deux moitiés se superposent-elles ?',
       hint2: 'Une figure possède un axe de symétrie si, en la pliant le long de cette droite, les deux parties se superposent exactement.',
-      solution: `**Étape 1 :** on teste chaque lettre.\n• Lettres avec au moins un axe : ${yes.map(l => `$\\mathsf{${l}}$`).join(', ')}.\n• Lettres sans axe (elles ont parfois un centre de symétrie, mais pas d'axe) : ${no.map(l => `$\\mathsf{${l}}$`).join(', ')}.\n**Conclusion :** **${nYes}** lettre${nYes > 1 ? 's possèdent' : ' possède'} au moins un axe de symétrie.`,
+      solution: `**Étape 1 :** on teste chaque lettre.\n• Lettres avec au moins un axe : ${yes.map(l => `$\\mathsf{${l}}$`).join(', ')}.\n• Lettres sans axe : ${no.map(l => `$\\mathsf{${l}}$`).join(', ')}.\n**Conclusion :** **${nYes}** lettre${nYes > 1 ? 's possèdent' : ' possède'} au moins un axe de symétrie.`,
       skill: 'Chercher',
       _v: { k: '6G2.lettres', list }
     });
@@ -7507,7 +8749,7 @@
       type: 'exact', answer: String(n), placeholder: 'Ex : 4',
       hint1: 'Commence par des cas connus : combien d’axes pour le triangle équilatéral ? pour le carré ? Cherche une régularité.',
       hint2: 'Dans un polygone régulier, la médiatrice de chaque côté et la droite joignant chaque sommet au centre sont des axes de symétrie.',
-      solution: `**Étape 1 :** cas connus : triangle équilatéral, $3$ axes ; carré, $4$ axes ; hexagone régulier, $6$ axes.\n**Étape 2 :** un polygone régulier à $n$ côtés possède $n$ axes : ${n % 2 === 0 ? `pour $n = ${n}$ pair, $${n / 2}$ axes passent par deux sommets opposés et $${n / 2}$ axes sont des médiatrices de deux côtés opposés` : `pour $n = ${n}$ impair, chaque axe passe par un sommet et le milieu du côté opposé`}.\n**Conclusion :** le ${names[n]} régulier possède **${n}** axes de symétrie.`,
+      solution: `**Étape 1 :** cas connus : triangle équilatéral, $3$ axes ; carré, $4$ axes ; hexagone régulier, $6$ axes.\n**Étape 2 :** un polygone régulier à $n$ côtés possède $n$ axes : ${n % 2 === 0 ? `pour $n = ${n}$ pair, $${n / 2}$ axes passent par deux sommets opposés et $${n / 2}$ axes sont des médiatrices de deux côtés opposés` : `pour $n = ${n}$ impair, chaque axe passe par un sommet et le milieu du côté opposé`}.\n**Conclusion :** ${/^[eho]/.test(names[n]) ? "l'" : 'le '}${names[n]} régulier possède **${n}** axes de symétrie.`,
       skill: 'Raisonner',
       _v: { k: '6G2.polyreg', n }
     });
@@ -7618,6 +8860,51 @@
       skill: 'Calculer',
       _v: { k: '6G3.plat3', a, b }
     });
+  });
+
+  G._6X_add('6G3', 3, function () {
+    const x = 2 * this.randInt(12, 85);
+    const [O, P, Q, M] = this._6E_pts(4);
+    const from = this.randInt(0, 1) === 0 ? P : Q;
+    return this._6E_q('6G3', 3, {
+      title: 'Construire une bissectrice au rapporteur',
+      statement: `On veut construire au rapporteur la bissectrice $[${O}${M})$ de l'angle $${ang(P, O, Q)}$, qui mesure $${x}^\\circ$. On place le centre du rapporteur sur le sommet $${O}$ et le zéro d'une graduation sur le côté $[${O}${from})$.\n**Sur cette graduation, à quelle mesure, en degrés, faut-il marquer le point $${M}$ ?**`,
+      type: 'exact', answer: String(x / 2), placeholder: 'Ex : 35',
+      hint1: `La bissectrice partage l'angle en deux angles adjacents de même mesure. Fais un schéma à main levée.`,
+      hint2: `Le zéro est sur le côté $[${O}${from})$ : la graduation à marquer est la mesure de l'angle entre ce côté et $[${O}${M})$, qui est la moitié de l'angle $${ang(P, O, Q)}$.`,
+      solution: `**Étape 1 :** la bissectrice partage l'angle en deux angles adjacents de même mesure : chacun mesure $${x}^\\circ \\div 2 = ${x / 2}^\\circ$.\n**Étape 2 :** le zéro de la graduation étant sur $[${O}${from})$, on marque $${M}$ en face de la mesure $${x / 2}^\\circ$ de cette graduation, à l'intérieur de l'angle, puis on trace $[${O}${M})$.\n**Conclusion :** il faut marquer $${M}$ à $${x / 2}^\\circ$.`,
+      skill: 'Représenter',
+      _v: { k: '6G3.half', x }
+    });
+  });
+  G._6X_add('6G3', 3, function () {
+    const [O, P, Q, M] = this._6E_pts(4);
+    const kind = this.randInt(0, 1);
+    if (kind === 0) {
+      const correct = `en faisant passer le pli par $${O}$ et en superposant les côtés $[${O}${P})$ et $[${O}${Q})$`;
+      return this._6E_mcq('6G3', 3, {
+        title: 'Obtenir une bissectrice par pliage',
+        statement: `L'angle $${ang(P, O, Q)}$ est tracé sur une feuille de papier.\n**Comment obtenir sa bissectrice par pliage ?**`,
+        hint1: `La bissectrice part du sommet $${O}$ et partage l'angle en deux angles de même mesure.`,
+        hint2: `Après le pliage, les deux moitiés de l'angle situées de part et d'autre du pli doivent coïncider exactement.`,
+        solution: `La droite qui porte la bissectrice est l'axe de symétrie de l'angle : elle passe par le sommet $${O}$.\nEn pliant la feuille de façon que le pli passe par $${O}$ et que les côtés $[${O}${P})$ et $[${O}${Q})$ se superposent, les deux angles obtenus coïncident, donc ils ont la même mesure : le pli porte la bissectrice.`,
+        skill: 'Représenter',
+        _v: { k: '6G3.pliage', kind, O, P, Q }
+      }, correct, [
+        `en faisant passer le pli par les points $${P}$ et $${Q}$`,
+        `en pliant le long du côté $[${O}${P})$`,
+        `en faisant passer le pli par $${O}$, perpendiculairement au côté $[${O}${P})$`
+      ]);
+    }
+    return this._6E_mcq('6G3', 3, {
+      title: 'Bissectrice et axe de symétrie',
+      statement: `La demi-droite $[${O}${M})$ est la bissectrice de l'angle $${ang(P, O, Q)}$.\n**Quel est le symétrique de la demi-droite $[${O}${P})$ par rapport à la droite $(${O}${M})$ ?**`,
+      hint1: `La droite qui porte la bissectrice est l'axe de symétrie de l'angle.`,
+      hint2: `Imagine que tu plies la feuille le long de la droite $(${O}${M})$ : sur quoi vient se poser le côté $[${O}${P})$ ?`,
+      solution: `La droite $(${O}${M})$ porte la bissectrice de l'angle $${ang(P, O, Q)}$ : c'est l'axe de symétrie de cet angle.\nEn pliant la feuille le long de cette droite, le côté $[${O}${P})$ se superpose au côté $[${O}${Q})$. Le symétrique de $[${O}${P})$ est donc la demi-droite **$[${O}${Q})$**.`,
+      skill: 'Raisonner',
+      _v: { k: '6G3.pliage', kind, O, P, Q }
+    }, `$[${O}${Q})$`, [`$[${O}${P})$`, `$[${O}${M})$`, `$[${Q}${O})$`]);
   });
 
   G._6X_origWeight('6G3', 4, 3);
@@ -7742,6 +9029,50 @@
     }, f(good), bads.map(f));
   });
 
+  // Caractérisation angulaire des triangles particuliers (somme des angles, puis comparaison des trois mesures)
+  G._6X_add('6G4', 3, function () {
+    const [P, Q, R] = this._6E_pts(3);
+    const OPT = {
+      equi: 'équilatéral',
+      iso: 'isocèle, mais ni équilatéral ni rectangle',
+      rect: 'rectangle, mais pas isocèle',
+      rectiso: 'rectangle et isocèle',
+      quel: 'quelconque (ni isocèle ni rectangle)'
+    };
+    const kind = this.randChoice(['equi', 'iso', 'iso', 'rect', 'rectiso', 'quel']);
+    let a = 60, b = 60;
+    if (kind === 'rectiso') [a, b] = this.randChoice([[90, 45], [45, 90], [45, 45]]);
+    else if (kind === 'iso') {
+      let x; do { x = this.randInt(20, 85); } while (x === 45 || x === 60);
+      [a, b] = this.randChoice([[x, x], [x, 180 - 2 * x], [180 - 2 * x, x]]);
+    } else if (kind === 'rect') {
+      let x; do { x = this.randInt(10, 80); } while (x === 45);
+      [a, b] = this.randChoice([[90, x], [x, 90], [x, 90 - x]]);
+    } else if (kind === 'quel') {
+      let c;
+      do { a = this.randInt(20, 110); b = this.randInt(20, 110); c = 180 - a - b; }
+      while (c < 15 || a === b || a === c || b === c || a === 90 || b === 90 || c === 90);
+    }
+    const c = 180 - a - b;
+    const reason = {
+      equi: 'les trois angles ont la même mesure, donc, d\'après la réciproque, les trois côtés ont la même longueur',
+      iso: 'deux angles, et deux seulement, ont la même mesure, et aucun ne mesure $90^\\circ$',
+      rect: 'un angle mesure $90^\\circ$ et les trois mesures sont différentes',
+      rectiso: 'un angle mesure $90^\\circ$ et les deux autres ont la même mesure',
+      quel: 'les trois mesures sont différentes et aucune ne vaut $90^\\circ$'
+    }[kind];
+    const others = Object.keys(OPT).filter(k => k !== kind).map(k => OPT[k]);
+    return this._6E_mcq('6G4', 3, {
+      title: 'Nature d’un triangle d’après ses angles',
+      statement: `Dans le triangle $${P}${Q}${R}$, on a $\\widehat{${P}} = ${a}^\\circ$ et $\\widehat{${Q}} = ${b}^\\circ$.\n**Quelle est la nature de ce triangle ?**`,
+      hint1: `Calcule d'abord la mesure du troisième angle, puis compare les trois mesures.`,
+      hint2: `Ici, $\\widehat{${R}} = 180^\\circ - ${a}^\\circ - ${b}^\\circ$. Regarde ensuite si des mesures sont égales (des angles égaux correspondent à des côtés égaux) et si l'une d'elles vaut $90^\\circ$.`,
+      solution: `**Étape 1 :** la somme des angles vaut $180^\\circ$, donc $\\widehat{${R}} = 180^\\circ - ${a}^\\circ - ${b}^\\circ = ${c}^\\circ$.\n**Étape 2 :** les angles mesurent $${a}^\\circ$, $${b}^\\circ$ et $${c}^\\circ$ : ${reason}.\n**Conclusion :** ce triangle est **${OPT[kind]}**.`,
+      skill: 'Raisonner',
+      _v: { k: '6G4.natangles', a, b }
+    }, OPT[kind], this.shuffle(others));
+  });
+
   G._6X_origWeight('6G4', 4, 3);
   G._6X_add('6G4', 4, function () {
     const [P, Q, R] = this._6E_pts(3);
@@ -7749,7 +9080,7 @@
     const base = 180 / (k + 2);
     return this._6E_q('6G4', 4, {
       title: 'Triangle isocèle : angle au sommet et angles à la base',
-      statement: `Le triangle $${P}${Q}${R}$ est isocèle en $${P}$. L'angle au sommet principal $\\widehat{${P}}$ mesure ${k === 1 ? 'autant que' : `$${k}$ fois`} un angle à la base. **Calcule la mesure de l'angle $\\widehat{${Q}}$, en degrés.**`,
+      statement: `Le triangle $${P}${Q}${R}$ est isocèle en $${P}$. L'angle au sommet principal $\\widehat{${P}}$ mesure ${k === 1 ? "autant qu'un" : `$${k}$ fois un`} angle à la base. **Calcule la mesure de l'angle $\\widehat{${Q}}$, en degrés.**`,
       type: 'exact', answer: String(base), placeholder: 'Ex : 36',
       hint1: `Appelle $x$ la mesure d'un angle à la base et exprime les trois angles du triangle à l'aide de $x$.`,
       hint2: 'Dans un triangle isocèle, les deux angles à la base ont la même mesure ; la somme des trois angles d’un triangle vaut $180^\\circ$.',
@@ -7874,6 +9205,94 @@
     });
   });
 
+  // Pavé droit en perspective cavalière. Sommets 0 à 3 : face de devant (bas gauche, bas droite, haut droite, haut gauche) ; 4 à 7 : les sommets situés derrière.
+  const CAV_EDGES = [[0, 1], [1, 2], [2, 3], [3, 0], [4, 5], [5, 6], [6, 7], [7, 4], [0, 4], [1, 5], [2, 6], [3, 7]];
+  const CAV_NAMES = ['ABCDEFGH', 'MNPQRSTU', 'EFGHIJKL'];
+  const cavSvg = (names, dir, drawn, L, Ht) => {
+    const fx = 38, fy = 28, m = 30;
+    const x0 = m + (dir > 0 ? 0 : fx), y0 = m + fy;
+    const front = [[x0, y0 + Ht], [x0 + L, y0 + Ht], [x0 + L, y0], [x0, y0]];
+    const pts = front.concat(front.map(([x, y]) => [x + dir * fx, y - fy]));
+    const cache = dir > 0 ? 4 : 5, coin = dir > 0 ? 2 : 3;
+    const cx = x0 + L / 2 + dir * fx / 2, cy = y0 + Ht / 2 - fy / 2;
+    let inner = '';
+    CAV_EDGES.forEach((e, i) => {
+      if (!drawn.includes(i)) return;
+      const [[x1, y1], [x2, y2]] = e.map(v => pts[v]);
+      inner += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#2563eb" stroke-width="2"${e.includes(cache) ? ' stroke-dasharray="5 4"' : ''}/>`;
+    });
+    pts.forEach(([x, y], v) => {
+      const dedans = v === cache || v === coin;
+      const lx = dedans ? x + dir * 12 : x + (x < cx ? -11 : 11);
+      const ly = dedans ? y + 15 : (y < cy ? y - 7 : y + 16);
+      inner += G._6svgText(lx, ly, names[v], { size: 13, weight: '800', fill: INK });
+    });
+    return G._6svg(2 * m + L + fx, 2 * m + fy + Ht, inner, 280);
+  };
+  G._6X_add('6G5', 2, function () {
+    const names = this.randChoice(CAV_NAMES), dir = this.randChoice([1, -1]);
+    const L = this.randChoice([100, 120, 140]), Ht = this.randChoice([60, 70, 80]);
+    const qui = this.randChoice(['Sacha', 'Lina', 'Noé', 'Inès']);
+    const cache = dir > 0 ? 4 : 5, S = names[cache];
+    const seg = i => `$[${names[CAV_EDGES[i][0]]}${names[CAV_EDGES[i][1]]}]$`;
+    const liste = a => a.length > 1 ? `${a.slice(0, -1).map(seg).join(', ')} et ${seg(a[a.length - 1])}` : seg(a[0]);
+    const tous = [...CAV_EDGES.keys()];
+    const estCachee = i => CAV_EDGES[i].includes(cache);
+    const cachees = tous.filter(estCachee), visibles = tous.filter(i => !estCachee(i));
+    const ask = this.randChoice(['manque', 'manque', 'reste', 'pointilles']);
+    if (ask === 'manque') {
+      const m = this.randChoice(Math.random() < 0.5 ? cachees : visibles);
+      const drawn = tous.filter(i => i !== m);
+      const style = estCachee(m) ? 'pointillés' : 'trait plein', autre = estCachee(m) ? 'trait plein' : 'pointillés';
+      const para = this.randChoice([[0, 2, 4, 6], [1, 3, 5, 7], [8, 9, 10, 11]].find(g => g.includes(m)).filter(i => i !== m));
+      const [da, db] = this.randChoice([[0, 2], [1, 3], [4, 6], [5, 7], [0, 5], [1, 4], [2, 7], [3, 6], [0, 7], [3, 4], [1, 6], [2, 5]]);
+      const correct = `${seg(m)} en ${style}`;
+      return this._6E_mcq('6G5', 2, {
+        title: 'Perspective cavalière : terminer un dessin',
+        statement: `${qui} dessine à main levée un pavé droit en perspective cavalière. Il ne reste plus qu'une seule arête à tracer pour terminer le dessin.\n${cavSvg(names, dir, drawn, L, Ht)}\n**Quelle arête faut-il encore tracer, et comment ?**`,
+        placeholder: '',
+        hint1: 'Un pavé droit a 4 arêtes sur la face de devant, 4 sur la face de derrière et 4 arêtes obliques qui relient ces deux faces : cherche celle qui n\'apparaît pas.',
+        hint2: `Le sommet que l'on ne voit pas est ${S} : seules les arêtes qui partent de ce sommet sont en pointillés.`,
+        solution: `**Étape 1 :** un pavé droit a $12$ arêtes et le dessin n'en montre que $11$ : il manque ${seg(m)}.\n**Étape 2 :** le sommet caché est $${S}$ ; seules les arêtes qui en partent sont en pointillés. L'arête ${seg(m)} ${estCachee(m) ? 'part' : 'ne part pas'} de ce sommet.\n**Conclusion :** il faut tracer ${correct}.`,
+        skill: 'Représenter',
+        _v: { k: '6G5.cavaliere', ask, dir, names, drawn }
+      }, correct, [`${seg(m)} en ${autre}`, `${seg(para)} en ${estCachee(para) ? 'pointillés' : 'trait plein'}`, `$[${names[da]}${names[db]}]$ en trait plein`]);
+    }
+    // Dessin commencé : la face de devant et quelques autres arêtes
+    let drawn, restantes;
+    do {
+      const autres = this.shuffle(tous.slice(4)).slice(0, this.randInt(1, 4));
+      drawn = [0, 1, 2, 3].concat(autres).sort((a, b) => a - b);
+      restantes = tous.filter(i => !drawn.includes(i));
+    } while (ask === 'pointilles' && !restantes.some(estCachee));
+    const fig = cavSvg(names, dir, drawn, L, Ht);
+    const intro = `${qui} a commencé à dessiner à main levée un pavé droit en perspective cavalière.\n${fig}`;
+    if (ask === 'reste') {
+      const r = restantes.length;
+      return this._6E_q('6G5', 2, {
+        title: 'Perspective cavalière : arêtes à tracer',
+        statement: `${intro}\n**Combien d'arêtes reste-t-il à tracer pour terminer le dessin ?**`,
+        type: 'exact', answer: String(r), placeholder: 'Ex : 5',
+        hint1: 'Sur le dessin terminé, toutes les arêtes du pavé droit apparaissent, en traits pleins ou en pointillés : combien un pavé droit a-t-il d\'arêtes ?',
+        hint2: 'Compte les traits déjà tracés, y compris ceux en pointillés, puis soustrais.',
+        solution: `**Étape 1 :** un pavé droit a $12$ arêtes, et toutes apparaissent sur le dessin terminé.\n**Étape 2 :** on compte $${drawn.length}$ arêtes déjà tracées.\n**Étape 3 :** $12 - ${drawn.length} = ${r}$.\n**Conclusion :** il reste $${r}$ arêtes à tracer : ${liste(restantes)}.`,
+        skill: 'Représenter',
+        _v: { k: '6G5.cavaliere', ask, dir, names, drawn }
+      });
+    }
+    const aFaire = restantes.filter(estCachee), faites = cachees.filter(i => drawn.includes(i));
+    return this._6E_q('6G5', 2, {
+      title: 'Perspective cavalière : arêtes cachées',
+      statement: `${intro}\n**Parmi les arêtes qui restent à tracer, combien devront être dessinées en pointillés ?**`,
+      type: 'exact', answer: String(aFaire.length), placeholder: 'Ex : 2',
+      hint1: 'Les arêtes en pointillés sont celles que l\'on ne voit pas : elles partent toutes du sommet caché du pavé droit.',
+      hint2: `Le sommet caché est ${S}. Cherche, parmi les arêtes qui en partent, celles qui ne sont pas encore tracées.`,
+      solution: `**Étape 1 :** les arêtes cachées sont celles qui partent du sommet caché $${S}$ : ${liste(cachees)}.\n**Étape 2 :** ${faites.length ? `${faites.length > 1 ? 'sont déjà tracées' : 'est déjà tracée'} : ${liste(faites)} ; ` : 'aucune n\'est encore tracée ; '}${aFaire.length > 1 ? 'restent à tracer' : 'reste à tracer'} : ${liste(aFaire)}.\n**Conclusion :** $${aFaire.length}$ ${aFaire.length > 1 ? 'arêtes devront être dessinées' : 'arête devra être dessinée'} en pointillés.`,
+      skill: 'Représenter',
+      _v: { k: '6G5.cavaliere', ask, dir, names, drawn }
+    });
+  });
+
   G._6X_origWeight('6G5', 3, 3);
   G._6X_add('6G5', 3, function () {
     // Patron 1-4-1 numéroté comme un dé (faces opposées : somme 7).
@@ -7927,6 +9346,70 @@
       skill: 'Représenter',
       _v: { k: '6G5.cotee', h, ask }
     });
+  });
+
+  G._6X_add('6G5', 3, function () {
+    // Vue de gauche ou de droite : reconnaître le bon dessin parmi quatre, dont la vue symétrique.
+    const mode = this.randChoice(['code', 'code', 'iso']), side = this.randChoice(['gauche', 'droite']);
+    let h, rows, cols;
+    if (mode === 'code') {
+      const nr = this.randInt(2, 3), nc = this.randInt(2, 3);
+      do {
+        h = Array.from({ length: nr }, () => Array.from({ length: nc }, () => this.randInt(1, 4)));
+        rows = h.map(r => Math.max(...r));
+      } while (rows.join() === rows.slice().reverse().join());
+      cols = h[0].map((_, c) => Math.max(...h.map(r => r[c])));
+    } else {
+      do {
+        h = this._6E_heap(this.randInt(2, 3), this.randInt(2, 3), 3);
+        rows = h[0].map((_, j) => Math.max(...h.map(col => col[j])));
+        cols = h.map(col => Math.max(...col));
+      } while (Math.min(...rows, ...cols) < 1 || rows.join() === rows.slice().reverse().join());
+    }
+    let fig;
+    if (mode === 'code') {
+      const s = 30, ox = 30, oy = 22, nr = h.length, nc = h[0].length;
+      const g = gridBase(nc, nr, s, ox, oy);
+      let inner = '';
+      for (let r = 0; r < nr; r++) for (let c = 0; c < nc; c++) {
+        inner += `<rect x="${g.X(c)}" y="${g.Y(r)}" width="${s}" height="${s}" fill="#dbeafe" stroke="#1e3a8a" stroke-width="1.2"/>`;
+        inner += G._6svgText(g.X(c) + s / 2, g.Y(r) + s / 2 + 5, String(h[r][c]), { size: 14, weight: '800', fill: '#1e3a8a' });
+      }
+      inner += G._6svgText(ox + nc * s / 2, oy + nr * s + 22, 'FACE ↑', { size: 11, fill: '#dc2626', weight: '800' });
+      fig = this._6svg(nc * s + 2 * ox, nr * s + oy + 34, inner, 200);
+    } else {
+      fig = this._6E_iso(h, true);
+    }
+    const gauche = rows.slice(), droite = rows.slice().reverse();
+    const cible = side === 'gauche' ? gauche : droite, miroir = side === 'gauche' ? droite : gauche;
+    const cands = [cible, miroir];
+    const tryAdd = a => { if (cands.length < 4 && !cands.some(c => c.join() === a.join())) cands.push(a); };
+    tryAdd(cols);
+    while (cands.length < 4) {
+      const v = this.randChoice([cible, miroir]).slice(), i = this.randInt(0, v.length - 1);
+      v[i] += v[i] >= 4 ? -1 : (v[i] <= 1 ? 1 : this.randChoice([-1, 1]));
+      tryAdd(v);
+    }
+    const order = this.shuffle(cands), common = Math.max(...order.flat());
+    const LET = 'ABCD';
+    let inner = '', x = 0;
+    order.forEach((c, i) => {
+      const v = viewSvg(c, `Vue ${LET[i]}`, 16, common);
+      inner += `<g transform="translate(${x},0)">${v.inner}</g>`;
+      x += v.w + 14;
+    });
+    const views = this._6svg(x - 14, 30 + common * 16, inner, 340);
+    const correct = `Vue ${LET[order.indexOf(cible)]}`;
+    return this._6E_mcq('6G5', 3, {
+      title: `Reconnaître la vue de ${side}`,
+      statement: `${mode === 'code' ? 'Voici la vue de dessus d\'un assemblage de cubes identiques posé sur une table. Le nombre écrit dans chaque case indique combien de cubes sont empilés à cet endroit.' : 'Voici un assemblage de cubes identiques posé sur une table.'} La gauche et la droite sont celles d'une personne placée du côté marqué FACE.\n${fig}\nVoici quatre dessins.\n${views}\n**Lequel est la vue de ${side} de cet assemblage ?**`,
+      placeholder: '',
+      hint1: 'La vue de gauche et la vue de droite montrent les rangées, du fond jusqu\'au devant : dans chaque rangée, seule la pile la plus haute compte.',
+      hint2: `Place-toi à ${side} de l'assemblage : la rangée de devant se trouve alors ${side === 'gauche' ? 'à ta droite' : 'à ta gauche'}.`,
+      solution: `**Étape 1 :** dans chaque rangée, du fond vers le devant, on garde la pile la plus haute : $${rows.join('$, $')}$.\n**Étape 2 :** placé à ${side}, on a la rangée de devant ${side === 'gauche' ? 'à sa droite et le fond à sa gauche' : 'à sa gauche et le fond à sa droite'}. De gauche à droite, les colonnes de la vue de ${side} ont donc pour hauteurs $${cible.join('$, $')}$.\n**Conclusion :** la vue de ${side} est la ${correct.replace('Vue', 'vue')}.`,
+      skill: 'Représenter',
+      _v: { k: '6G5.vuelat', mode, h, side, cands: order }
+    }, correct, LET.split('').map(l => `Vue ${l}`).filter(o => o !== correct));
   });
 
   G._6X_origWeight('6G5', 4, 1);
@@ -8265,7 +9748,7 @@
     const known = p.filter((_, i) => i !== miss);
     return this._6A_q('6N3', 3, 'Modéliser', {
       title: 'Problème : ticket de caisse incomplet',
-      statement: `Le ticket de caisse de ${nom} est taché :\n${lignes}\n• **Total : ${this._6A_money(total)} €**\n**Quel est le prix effacé (${items[miss][1]}) ?** (en euros)`,
+      statement: `Le ticket de caisse ${/^[AEIOUH]/.test(nom) ? "d'" : 'de '}${nom} est taché :\n${lignes}\n• **Total : ${this._6A_money(total)} €**\n**Quel est le prix effacé (${items[miss][1]}) ?** (en euros)`,
       type: 'exact', answer: this._6ans(p[miss] / 100), placeholder: PH_DEC,
       hint1: 'Calcule d\'abord le prix des articles connus.',
       hint2: 'Le prix manquant est la différence entre le total et la somme des prix connus.',
@@ -8392,6 +9875,22 @@
       _v: { k: '6N4.moitie', n100: Math.round(n * 100), div: k }
     });
   });
+  G._6X_add('6N4', 1, function () {
+    // Un dixième d'un dixième : n × 0,1 × 0,1
+    let n;
+    do { n = this.randInt(2, 99); } while (n % 10 === 0);
+    const res = this._6r(n / 100);
+    const tx = v => this._6tex(v);
+    return this._6A_q('6N4', 1, 'Calculer', {
+      title: 'Un dixième d\'un dixième',
+      statement: `Calculer :\n$$${n} \\times 0{,}1 \\times 0{,}1$$`,
+      type: 'exact', answer: this._6ans(res), placeholder: PH_DEC,
+      hint1: 'Commence par calculer $0{,}1 \\times 0{,}1$.',
+      hint2: '$0{,}1 \\times 0{,}1 = 0{,}01$, et multiplier par $0{,}01$ revient à diviser par $100$.',
+      solution: `Un dixième d'un dixième, c'est un centième : $0{,}1 \\times 0{,}1 = 0{,}01$.\n$$${n} \\times 0{,}01 = ${n} \\div 100 = ${tx(res)}$$`,
+      _v: { k: '6N4.dix', n }
+    });
+  });
   G._6X_origWeight('6N4', 1, 3);
 
   G._6X_add('6N4', 2, function () {
@@ -8427,8 +9926,44 @@
       type: 'exact', answer: this._6ans(res), placeholder: PH_DEC,
       hint1: 'Pour passer de tout le lot à un seul objet, quelle opération faut-il faire ?',
       hint2: 'Diviser par 10, 100 ou 1 000 décale les chiffres d\'un, deux ou trois rangs vers la droite.',
-      solution: `Un objet représente une part sur $${tx(m)}$ : on divise par $${tx(m)}$, les chiffres se décalent de ${String(m).length - 1} rang(s) vers la droite.\n$$${tx(tot)} \\div ${tx(m)} = ${tx(res)}$$`,
+      solution: `Un objet représente une part sur $${tx(m)}$ : on divise par $${tx(m)}$, les chiffres se décalent de ${String(m).length - 1} rang${String(m).length > 2 ? 's' : ''} vers la droite.\n$$${tx(tot)} \\div ${tx(m)} = ${tx(res)}$$`,
+      _hintLeakOk: res === 100, // « 100 » de la règle générale, pas la réponse
       _v: { k: '6N4.div10', tot10: Math.round(tot * 10), m }
+    });
+  });
+  G._6X_add('6N4', 2, function () {
+    // Produit par décomposition : 0,p × 0,q ou 0,p × 0,0q
+    let p, q;
+    do { p = this.randInt(2, 9); q = this.randInt(2, 9); } while (p * q === 10);
+    const eb = this.randChoice([1, 1, 2]);
+    const tx = v => this._6tex(v);
+    const B = eb === 1 ? q / 10 : q / 100, u = eb === 1 ? '0{,}1' : '0{,}01', pv = eb === 1 ? '0{,}01' : '0{,}001';
+    const res = this._6r(p * q / Math.pow(10, 1 + eb));
+    return this._6A_q('6N4', 2, 'Calculer', {
+      title: 'Un produit par décomposition',
+      statement: `En décomposant chaque facteur, calculer :\n$$${tx(p / 10)} \\times ${tx(B)}$$`,
+      type: 'exact', answer: this._6ans(res), placeholder: PH_DEC,
+      hint1: 'Écris chaque facteur comme un entier multiplié par $0{,}1$ ou par $0{,}01$.',
+      hint2: `$${tx(p / 10)} \\times ${tx(B)} = (${p} \\times ${q}) \\times (0{,}1 \\times ${u})$.`,
+      solution: `$${tx(p / 10)} = ${p} \\times 0{,}1$ et $${tx(B)} = ${q} \\times ${u}$. On regroupe les entiers d'un côté et le reste de l'autre :\n$$${tx(p / 10)} \\times ${tx(B)} = (${p} \\times ${q}) \\times (0{,}1 \\times ${u}) = ${p * q} \\times ${pv} = ${tx(res)}$$`,
+      _v: { k: '6N4.decomp', p, q, eb }
+    });
+  });
+  G._6X_add('6N4', 2, function () {
+    // Le sens du produit : aire en dm² en passant par les cm
+    let a, b;
+    do { a = this.randInt(13, 79); b = this.randInt(12, 49); } while (a % 10 === 0 || b % 10 === 0 || a <= b || a * b % 100 === 0);
+    const obj = this.randChoice(['Une affiche rectangulaire', 'Un panneau rectangulaire', 'Une planche rectangulaire', 'Un set de table rectangulaire']);
+    const tx = v => this._6tex(v);
+    const res = this._6r(a * b / 100);
+    return this._6A_q('6N4', 2, 'Modéliser', {
+      title: 'Un produit de décimaux lu dans une aire',
+      statement: `${obj} mesure $${tx(a / 10)}\\text{ dm}$ de long et $${tx(b / 10)}\\text{ dm}$ de large.\nEn passant par les centimètres, **quelle est son aire, en dm² ?**`,
+      type: 'exact', answer: this._6ans(res), placeholder: PH_DEC,
+      hint1: 'Convertis chaque longueur en centimètres, calcule l\'aire en cm², puis utilise $1\\text{ dm}^2 = 100\\text{ cm}^2$.',
+      hint2: `En centimètres, les dimensions sont $${tx(a / 10)} \\times 10$ et $${tx(b / 10)} \\times 10$.`,
+      solution: `**Étape 1 :** en centimètres, les dimensions sont $${a}\\text{ cm}$ et $${b}\\text{ cm}$.\n**Étape 2 :** l'aire est $${a} \\times ${b} = ${tx(a * b)}\\text{ cm}^2$.\n**Étape 3 :** comme $1\\text{ dm}^2 = 100\\text{ cm}^2$, l'aire est $${tx(res)}\\text{ dm}^2$.\nOn retrouve ainsi $${tx(a / 10)} \\times ${tx(b / 10)} = ${tx(res)}$.`,
+      _v: { k: '6N4.airedm', a, b }
     });
   });
   G._6X_origWeight('6N4', 2, 3);
@@ -8473,6 +10008,25 @@
       _v: { k: '6N4.courses', pk, mk, n, pu, billet }
     });
   });
+  G._6X_add('6N4', 3, function () {
+    // Reconnaître la bonne décomposition d'un produit
+    let p, q;
+    do { p = this.randInt(2, 9); q = this.randInt(2, 9); } while (p * q === p + q);
+    const ea = this.randChoice([1, 1, 2]), eb = this.randChoice([1, 2, 2]), e = ea + eb;
+    const POW = ['1', '0{,}1', '0{,}01', '0{,}001', '0{,}0001', '0{,}00001'];
+    const tx = v => this._6tex(v);
+    const A = p / Math.pow(10, ea), B = q / Math.pow(10, eb);
+    const opt = (s, k) => `$(${p} ${s} ${q}) \\times ${POW[k]}$`;
+    const q0 = this._6A_q('6N4', 3, 'Raisonner', {
+      title: 'Reconnaître la bonne décomposition',
+      statement: `Quel calcul est égal à $${tx(A)} \\times ${tx(B)}$ ?`,
+      hint1: 'Écris chaque facteur comme un entier multiplié par $0{,}1$ ou par $0{,}01$.',
+      hint2: 'Regroupe les deux entiers d\'un côté, et les $0{,}1$ ou $0{,}01$ de l\'autre.',
+      solution: `$${tx(A)} = ${p} \\times ${POW[ea]}$ et $${tx(B)} = ${q} \\times ${POW[eb]}$. On regroupe :\n$$${tx(A)} \\times ${tx(B)} = (${p} \\times ${q}) \\times (${POW[ea]} \\times ${POW[eb]}) = (${p} \\times ${q}) \\times ${POW[e]}$$`,
+      _v: { k: '6N4.decompmcq', p, q, e }
+    });
+    return this._6mcq(q0, opt('\\times', e), [opt('\\times', e - 1), opt('\\times', e + 1), opt('+', e)]);
+  });
   G._6X_origWeight('6N4', 3, 3);
 
   G._6X_add('6N4', 4, function () {
@@ -8510,11 +10064,27 @@
         `${this.randChoice(['Léa', 'Hugo', 'Inès', 'Noah', 'Jade', 'Adam'])} affirme qu'on peut trouver le **plus ${ask}** de ces produits sans poser aucune multiplication. Lequel est-ce ?`
       ]),
       hint1: 'Tous les produits ont le même premier facteur : compare seulement les seconds facteurs.',
-      hint2: 'Multiplier par un nombre inférieur à 1 donne un résultat inférieur au nombre de départ ; par un nombre supérieur à 1, un résultat supérieur.',
+      hint2: 'Pour un nombre de départ positif non nul, multiplier par un nombre inférieur à 1 donne un résultat inférieur à ce nombre ; par un nombre supérieur à 1, un résultat supérieur.',
       solution: `Le premier facteur $${N}$ est le même partout : le produit le plus ${ask} est celui dont le second facteur est le plus ${ask}.\nSeconds facteurs rangés : $${F.slice().sort((x, y) => x - y).map(f => this._6tex(f / 100)).join(' < ')}$.\nRéponse : **${fmt(best)}**.`,
       _v: { k: '6N4.cmpprod', N, F, ask }
     });
     return this._6mcq(q, fmt(best), F.filter(f => f !== best).map(fmt));
+  });
+  G._6X_add('6N4', 4, function () {
+    // Aire en m² en passant par les cm
+    let a, b;
+    do { a = this.randInt(10, 39) * 10 + 5; b = this.randInt(2, 9) * 10; } while (a * b % 10000 === 0);
+    const tx = v => this._6tex(v);
+    const res = this._6r(a * b / 10000);
+    return this._6A_q('6N4', 4, 'Modéliser', {
+      title: 'Un produit de décimaux lu dans une aire',
+      statement: `Une plaque rectangulaire mesure $${tx(a / 100)}\\text{ m}$ de long et $${tx(b / 100)}\\text{ m}$ de large.\nEn passant par les centimètres, **quelle est son aire, en m² ?**`,
+      type: 'exact', answer: this._6ans(res), placeholder: PH_DEC,
+      hint1: 'Convertis chaque longueur en centimètres, calcule l\'aire en cm², puis utilise $1\\text{ m}^2 = 10\\,000\\text{ cm}^2$.',
+      hint2: `En centimètres, les dimensions sont $${tx(a / 100)} \\times 100$ et $${tx(b / 100)} \\times 100$.`,
+      solution: `**Étape 1 :** en centimètres, la plaque mesure $${a}\\text{ cm}$ sur $${b}\\text{ cm}$.\n**Étape 2 :** son aire est $${a} \\times ${b} = ${tx(a * b)}\\text{ cm}^2$.\n**Étape 3 :** comme $1\\text{ m}^2 = 10\\,000\\text{ cm}^2$, l'aire est $${tx(res)}\\text{ m}^2$.\nOn retrouve ainsi $${tx(a / 100)} \\times ${tx(b / 100)} = ${tx(res)}$.`,
+      _v: { k: '6N4.airem', a, b }
+    });
   });
   G._6X_origWeight('6N4', 4, 2);
   G._6X_drop('6N4', 4, ['6N4.compare']);
@@ -8554,19 +10124,24 @@
     });
   });
   G._6X_add('6N5', 2, function () {
-    // Par combien des nombres 2, 3, 5, 9, 10 le nombre est-il divisible ?
-    const D = [2, 3, 5, 9, 10];
-    let n, ok;
-    do { n = this.randInt(100, 9999); ok = D.filter(d => n % d === 0); } while (!ok.length);
-    const sumD = String(n).split('').reduce((s, c) => s + +c, 0);
+    // Combien de nombres d'une liste sont divisibles par 2, 5 ou 10 ? (seuls critères exigibles en 6e)
+    const k = this.randChoice([2, 5, 10]);
+    const want = this.randInt(1, 5);
+    const list = [];
+    while (list.length < want) { const c = k * this.randInt(12, Math.floor(9999 / k)); if (!list.includes(c)) list.push(c); }
+    while (list.length < 6) { const c = this.randInt(100, 9999); if (c % k !== 0 && !list.includes(c)) list.push(c); }
+    const nums = this.shuffle(list);
+    const tx = v => this._6tex(v);
+    const crit = { 2: 'son chiffre des unités est 0, 2, 4, 6 ou 8', 5: 'son chiffre des unités est 0 ou 5', 10: 'son chiffre des unités est 0' }[k];
     return this._6A_q('6N5', 2, 'Raisonner', {
       title: 'Critères de divisibilité',
-      statement: `Parmi les nombres $2$ ; $3$ ; $5$ ; $9$ et $10$, **combien sont des diviseurs de $${this._6tex(n)}$ ?**`,
-      type: 'exact', answer: String(ok.length), placeholder: PH_INT,
-      hint1: 'Utilise les critères de divisibilité : regarde le chiffre des unités, puis la somme des chiffres.',
-      hint2: 'Divisible par 2 : unités paires ; par 5 : unités 0 ou 5 ; par 10 : unités 0 ; par 3 (ou 9) : somme des chiffres divisible par 3 (ou 9).',
-      solution: `Chiffre des unités : $${n % 10}$ ; somme des chiffres : $${String(n).split('').join(' + ')} = ${sumD}$.\n${D.map(d => `• ${d} : ${n % d === 0 ? 'oui' : 'non'}`).join('\n')}\n$${this._6tex(n)}$ est divisible par **${ok.length}** de ces nombres${ok.length ? ` (${ok.join(', ')})` : ''}.`,
-      _v: { k: '6N5.criteres', n }
+      statement: `On considère les nombres : ${nums.map(c => `$${tx(c)}$`).join(' ; ')}.\n**Combien de ces nombres sont divisibles par $${k}$ ?**`,
+      type: 'exact', answer: String(want), placeholder: PH_INT,
+      hint1: `Un nombre est divisible par ${k} si ${crit}.`,
+      hint2: `Regarde le chiffre des unités de chaque nombre : pour $${tx(nums[0])}$, c'est $${nums[0] % 10}$, donc ce nombre ${nums[0] % k === 0 ? 'est' : 'n\'est pas'} divisible par ${k}.`,
+      solution: `Un nombre est divisible par ${k} si ${crit}.\n${nums.map(c => `• $${tx(c)}$ : chiffre des unités $${c % 10}$, ${c % k === 0 ? 'divisible' : 'non divisible'} par ${k}`).join('\n')}\nIl y en a **${want}**.`,
+      _hintLeakOk: true, // chiffres du critère et des unités cités par les indices, jamais le décompte demandé
+      _v: { k: '6N5.criteres', k6: k, nums }
     });
   });
   G._6X_origWeight('6N5', 2, 3);

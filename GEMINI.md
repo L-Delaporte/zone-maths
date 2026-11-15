@@ -1,6 +1,5 @@
-# Consignes et Règles du Projet Antigravity / Zone-Maths
+# Consignes du projet
 
-## 🚀 Règle de Déploiement et Git Push
-- **Pas de push automatique** : Ne JAMAIS exécuter `git push` vers le dépôt distant GitHub (origin/main) de façon autonome.
-- **Développement local prioritaire** : Tous les développements, tests et corrections s'effectuent en local dans le dossier `Site/`.
-- **Validation préalable** : Le déploiement sur GitHub (qui met à jour le site en ligne accessible aux élèves sur GitHub Pages) ne doit se faire **QUE sur demande explicite de l'utilisateur**.
+Voir [README.md](README.md) pour l'organisation, les commandes et les conventions.
+
+Règle à respecter en priorité : ne jamais exécuter `git push` sans demande explicite du propriétaire, car le push met le site en ligne pour les élèves.

@@ -14,7 +14,8 @@ window.MATHS_COURSES_TALE = {
       "Éviter les erreurs de logique classiques (oubli de l'initialisation, circularité).",
       "Démontrer l'inégalité de Bernoulli et des propriétés de divisibilité par récurrence.",
       "Utiliser la récurrence pour étudier une suite définie par $u_{n+1} = f(u_n)$ (encadrement, sens de variation).",
-      "Rédiger une récurrence de divisibilité (forme $u_n = 6m$ avec $m$ entier)."
+      "Rédiger une récurrence de divisibilité (forme $u_n = 6m$ avec $m$ entier).",
+      "Utiliser le vocabulaire logique (quantificateurs, négation, contre-exemple, réciproque, contraposée) et choisir un type de raisonnement adapté : récurrence, contraposée, absurde, disjonction des cas."
     ],
     "keyPoints": [
       {
@@ -26,7 +27,7 @@ window.MATHS_COURSES_TALE = {
         "content": "On peut se représenter une récurrence comme une file infinie de dominos :\n• l'**initialisation** fait tomber le premier domino ;\n• l'**hérédité** garantit que si un domino tombe, le suivant tombe aussi.\nLes deux étapes sont **indispensables** :\n• Sans hérédité, on ne sait rien au-delà des premiers rangs.\n• Sans initialisation, rien ne démarre. Exemple : la propriété $P(n)$ : « $9$ divise $10^n + 1$ » est héréditaire, car si $10^k + 1 = 9m$, alors $10^{k+1} + 1 = 10(10^k + 1) - 9 = 9(10m - 1)$. Pourtant elle n'est vraie pour aucun $n$ : $10^n + 1$ a pour somme des chiffres $2$, il n'est jamais multiple de $9$."
       },
       {
-        "title": "3. Inégalité de Bernoulli (démonstration exigible)",
+        "title": "3. Inégalité de Bernoulli (démonstration du programme)",
         "content": "Pour tout réel $a > 0$ et tout entier naturel $n$ :\n$$(1 + a)^n \\ge 1 + na$$\n**Conséquence importante** : si $q > 1$, on écrit $q = 1 + a$ avec $a > 0$, donc $q^n \\ge 1 + na$. Comme $\\lim\\limits_{n \\to +\\infty} (1 + na) = +\\infty$, on obtient par comparaison $\\lim\\limits_{n \\to +\\infty} q^n = +\\infty$ (voir chapitre TA2)."
       },
       {
@@ -35,7 +36,11 @@ window.MATHS_COURSES_TALE = {
       },
       {
         "title": "5. Conjecturer avec Python, démontrer par récurrence",
-        "content": "Un programme peut calculer les premiers termes et **suggérer** une propriété, mais il ne la **démontre** pas :\n```python\nfrom math import sqrt\nu = 0\nfor n in range(10):\n    print(n, u)\n    u = sqrt(3*u + 4)\n```\nLes valeurs affichées ($0$ ; $2$ ; $3{,}16$ ; $3{,}73$ ; …) laissent penser que la suite est croissante et majorée par $4$ : c'est la récurrence qui le prouvera (voir méthode ci-dessous)."
+        "content": "Un programme peut calculer les premiers termes et **suggérer** une propriété, mais il ne la **démontre** pas :\n```python\nfrom math import sqrt\nu = 0\nfor n in range(10):\n    print(n, u)\n    u = sqrt(3*u + 4)\n```\nLes valeurs affichées ($0$ ; $2$ ; $3{,}16$ ; $3{,}67$ ; …) laissent penser que la suite est croissante et majorée par $4$ : c'est la récurrence qui le prouvera (voir méthode ci-dessous)."
+      },
+      {
+        "title": "6. Vocabulaire logique et autres types de raisonnement",
+        "content": "Ce vocabulaire se travaille tout au long de l'année, dans tous les chapitres.\n• **Quantificateurs** : « pour tout $x$ de $I$, $P(x)$ » affirme que $P(x)$ est vraie pour chaque élément de $I$ ; « il existe $x$ dans $I$ tel que $P(x)$ » affirme qu'au moins un élément de $I$ convient. On rencontre les notations $\\forall x \\in I$ et $\\exists x \\in I$, qui ne sont pas exigibles. La quantification est souvent implicite : « si $n \\ge 1$, alors $2^n \\ge n + 1$ » signifie « pour tout entier $n \\ge 1$, $2^n \\ge n + 1$ ».\n• **Négation** : la négation de « pour tout $x \\in I$, $P(x)$ » est « il existe $x \\in I$ tel que $P(x)$ soit fausse » ; la négation de « il existe $x \\in I$ tel que $P(x)$ » est « pour tout $x \\in I$, $P(x)$ est fausse ». La négation de « $A$ et $B$ » est « non $A$ ou non $B$ », celle de « $A$ ou $B$ » est « non $A$ et non $B$ ».\n• **Négation avec deux quantificateurs** : on échange chaque « pour tout » et chaque « il existe », en gardant leur ordre, puis on nie la propriété finale. Par exemple, « $(u_n)$ est majorée » s'écrit « il existe un réel $M$ tel que, pour tout entier $n$, $u_n \\le M$ » ; sa négation, « $(u_n)$ n'est pas majorée », est « pour tout réel $M$, il existe un entier $n$ tel que $u_n > M$ ». L'ordre des quantificateurs compte : « pour tout réel $x$, il existe un réel $y$ tel que $y > x$ » est vraie (on prend $y = x + 1$), alors que « il existe un réel $y$ tel que, pour tout réel $x$, $y > x$ » est fausse (le choix $x = y$ la contredit).\n• **Contre-exemple** : pour montrer qu'une propriété du type « pour tout » est fausse, un seul cas suffit. Par exemple, « pour tout entier naturel $n$, $n^2 + n + 41$ est premier » est fausse, car $n = 40$ donne $1681 = 41^2$.\n• **Réciproque et contraposée** : la réciproque de « si $A$, alors $B$ » est « si $B$, alors $A$ » ; elle peut être fausse. La contraposée « si non $B$, alors non $A$ » est **équivalente** à l'implication de départ. On dit alors que $A$ est une condition suffisante pour $B$, et que $B$ est une condition nécessaire pour $A$.\n• **Raisonnement par équivalence** : « $A \\iff B$ » signifie « si $A$, alors $B$ » et « si $B$, alors $A$ ». On peut enchaîner des équivalences, à condition que chaque étape se lise dans les deux sens. Par exemple, pour tout réel $x$ : $2x + 5 \\le 11 \\iff 2x \\le 6 \\iff x \\le 3$. En revanche, élever au carré ne donne pas une équivalence : $x = 3$ entraîne $x^2 = 9$, mais $x^2 = 9$ n'entraîne pas $x = 3$ (on peut avoir $x = -3$). Quand une étape n'est qu'une implication, on raisonne par implications, puis on vérifie les solutions trouvées.\n• **Raisonnement par contraposée** : pour montrer « si $n^2$ est pair, alors $n$ est pair », on montre « si $n$ est impair, alors $n^2$ est impair » : $n = 2k + 1$ donne $n^2 = 4k^2 + 4k + 1 = 2(2k^2 + 2k) + 1$.\n• **Raisonnement par l'absurde** : on suppose le contraire de ce que l'on veut démontrer et on aboutit à une contradiction (exemple : l'irrationalité de $\\sqrt{2}$, vue en seconde).\n• **Disjonction des cas** : on traite séparément tous les cas possibles. Par exemple, $n^2 + n = n(n + 1)$ est pair, car si $n$ est pair le facteur $n$ est pair, et si $n$ est impair le facteur $n + 1$ est pair."
       }
     ],
     "methods": [
@@ -117,41 +122,46 @@ window.MATHS_COURSES_TALE = {
     "title": "TA3 : Limites de fonctions, continuité et TVI",
     "domain": "Analyse et Fonctions",
     "objectives": [
+      "Connaître les définitions de la limite d'une fonction en $+\\infty$, en $-\\infty$ et en un point, à l'aide d'intervalles.",
       "Déterminer les limites de fonctions en $\\pm\\infty$ et en un point (asymptotes parallèles aux axes ; les asymptotes obliques relèvent de l'approfondissement).",
       "Maîtriser la définition et les propriétés des fonctions continues sur un intervalle.",
       "Énoncer et appliquer le Théorème des Valeurs Intermédiaires (TVI).",
-      "Appliquer le corollaire du TVI (théorème de la bijection) pour prouver l'existence et l'unicité d'une solution $f(x) = k$.",
+      "Appliquer le théorème des valeurs intermédiaires à une fonction strictement monotone pour prouver l'existence et l'unicité d'une solution $f(x) = k$.",
       "Connaître les croissances comparées de $x^n$ et $e^x$ et lever les formes indéterminées correspondantes.",
       "Encadrer une solution d'équation par dichotomie (à la main ou avec Python).",
       "Démontrer les limites de l'exponentielle en $\\pm\\infty$ et la croissance comparée de $e^x$ et $x^n$ en $+\\infty$."
     ],
     "keyPoints": [
       {
-        "title": "1. Théorème des Valeurs Intermédiaires (TVI) et Corollaire",
-        "content": "• **Théorème des Valeurs Intermédiaires (TVI)** : Si $f$ est une fonction **continue** sur un intervalle $[a ; b]$, alors pour tout réel $k$ compris entre $f(a)$ et $f(b)$, il existe **au moins un réel** $c \\in [a ; b]$ tel que $f(c) = k$.\n• **Corollaire de la stricte monotonie (Théorème de la bijection)** :\nSi $f$ est **continue** ET **strictement monotone** (croissante ou décroissante) sur $[a ; b]$, alors pour tout $k$ compris entre $f(a)$ et $f(b)$, l'équation $f(x) = k$ admet **une unique solution** dans $[a ; b]$."
+        "title": "1. Définitions de la limite d'une fonction",
+        "content": "Comme pour les suites (chapitre TA2), on définit une limite à l'aide d'intervalles. Soit $\\ell$ un réel.\n• **Limite finie en $+\\infty$** : $\\lim\\limits_{x \\to +\\infty} f(x) = \\ell$ signifie que tout intervalle ouvert contenant $\\ell$ contient toutes les valeurs $f(x)$ **pour $x$ assez grand**, c'est-à-dire pour tous les $x$ d'un intervalle $]A ; +\\infty[$.\n• **Limite infinie en $+\\infty$** : $\\lim\\limits_{x \\to +\\infty} f(x) = +\\infty$ signifie que tout intervalle $]M ; +\\infty[$ contient toutes les valeurs $f(x)$ pour $x$ assez grand. De même, $\\lim\\limits_{x \\to +\\infty} f(x) = -\\infty$ signifie que tout intervalle $]-\\infty ; M[$ contient toutes les valeurs $f(x)$ pour $x$ assez grand.\n• **En $-\\infty$** : mêmes définitions, en remplaçant « pour $x$ assez grand » par « pour tous les $x$ d'un intervalle $]-\\infty ; A[$ ».\n• **En un réel $a$** : $f$ est définie sur un intervalle contenant $a$ ou dont $a$ est une borne (pas forcément en $a$). $\\lim\\limits_{x \\to a} f(x) = +\\infty$ signifie que tout intervalle $]M ; +\\infty[$ contient toutes les valeurs $f(x)$ **pour $x$ assez proche de $a$**, c'est-à-dire pour tous les $x$ de l'ensemble de définition situés dans un intervalle $]a - r ; a + r[$, avec $r > 0$. On définit de même une limite égale à $-\\infty$ (intervalles $]-\\infty ; M[$) ou à $\\ell$ (intervalles ouverts contenant $\\ell$).\n• **À droite, à gauche** : on ne regarde que les $x > a$ (notation $x \\to a^+$) ou que les $x < a$ (notation $x \\to a^-$).\n• Une limite, si elle existe, est **unique**. Une fonction peut n'avoir aucune limite : $\\sin$ n'a pas de limite en $+\\infty$.\n• **Exemples** : $\\lim\\limits_{x \\to +\\infty} \\dfrac{1}{x} = 0$, car un intervalle ouvert contenant $0$ contient un intervalle $]-r ; r[$ avec $r > 0$, et $0 < \\dfrac{1}{x} < r$ dès que $x > \\dfrac{1}{r}$. De même, $\\lim\\limits_{x \\to 0^+} \\dfrac{1}{x} = +\\infty$ : pour $M > 0$, on a $\\dfrac{1}{x} > M$ dès que $0 < x < \\dfrac{1}{M}$."
       },
       {
         "title": "2. Limites usuelles et asymptotes",
-        "content": "• Pour $n \\ge 1$ entier : $\\lim\\limits_{x \\to +\\infty} x^n = +\\infty$ et $\\lim\\limits_{x \\to \\pm\\infty} \\dfrac{1}{x^n} = 0$.\n• $\\lim\\limits_{x \\to 0^+} \\dfrac{1}{x} = +\\infty$ et $\\lim\\limits_{x \\to 0^-} \\dfrac{1}{x} = -\\infty$ ; $\\lim\\limits_{x \\to +\\infty} \\sqrt{x} = +\\infty$.\n• $\\lim\\limits_{x \\to -\\infty} e^x = 0$ et $\\lim\\limits_{x \\to +\\infty} e^x = +\\infty$.\n• **Asymptotes** : si $\\lim\\limits_{x \\to a} f(x) = \\pm\\infty$ (à gauche ou à droite), la droite $x = a$ est **asymptote verticale** ; si $\\lim\\limits_{x \\to \\pm\\infty} f(x) = \\ell$, la droite $y = \\ell$ est **asymptote horizontale**."
+        "content": "• Pour $n \\ge 1$ entier : $\\lim\\limits_{x \\to +\\infty} x^n = +\\infty$ ; en $-\\infty$, $\\lim\\limits_{x \\to -\\infty} x^n = +\\infty$ si $n$ est **pair** et $\\lim\\limits_{x \\to -\\infty} x^n = -\\infty$ si $n$ est **impair** ; enfin $\\lim\\limits_{x \\to \\pm\\infty} \\dfrac{1}{x^n} = 0$.\n• $\\lim\\limits_{x \\to 0^+} \\dfrac{1}{x} = +\\infty$ et $\\lim\\limits_{x \\to 0^-} \\dfrac{1}{x} = -\\infty$ ; $\\lim\\limits_{x \\to +\\infty} \\sqrt{x} = +\\infty$.\n• $\\lim\\limits_{x \\to -\\infty} e^x = 0$ et $\\lim\\limits_{x \\to +\\infty} e^x = +\\infty$.\n• **Asymptotes** : si $\\lim\\limits_{x \\to a} f(x) = \\pm\\infty$ (à gauche ou à droite), la droite $x = a$ est **asymptote verticale** ; si $\\lim\\limits_{x \\to \\pm\\infty} f(x) = \\ell$, la droite $y = \\ell$ est **asymptote horizontale**."
       },
       {
         "title": "3. Croissances comparées, composition, comparaison",
-        "content": "• **Croissances comparées** : pour tout entier $n \\ge 1$,\n$$\\lim_{x \\to +\\infty} \\frac{e^x}{x^n} = +\\infty \\qquad \\text{et} \\qquad \\lim_{x \\to -\\infty} x^n e^x = 0$$\n« L'exponentielle l'emporte sur les puissances. »\n• **Composition** : si $\\lim\\limits_{x \\to a} u(x) = b$ et $\\lim\\limits_{X \\to b} g(X) = c$, alors $\\lim\\limits_{x \\to a} g(u(x)) = c$. Exemple : $\\lim\\limits_{x \\to +\\infty} e^{-x^2} = 0$ car $-x^2 \\to -\\infty$ et $e^X \\to 0$ quand $X \\to -\\infty$.\n• **Comparaison et gendarmes** : les théorèmes vus pour les suites restent valables pour les fonctions (en $+\\infty$, en $-\\infty$ ou en un réel $a$)."
+        "content": "• **Croissances comparées** : pour tout entier $n \\ge 1$,\n$$\\lim_{x \\to +\\infty} \\frac{e^x}{x^n} = +\\infty \\qquad \\text{et} \\qquad \\lim_{x \\to -\\infty} x^n e^x = 0$$\n« L'exponentielle l'emporte sur les puissances. »\n• **Opérations (admises)** : les règles de somme, de produit et de quotient, ainsi que les formes indéterminées, sont les mêmes que pour les suites (tableaux du chapitre TA2, point 2), en remplaçant $\\lim u_n$ par $\\lim\\limits_{x \\to a} f(x)$, où $a$ est un réel, $+\\infty$ ou $-\\infty$. Exemple : $\\lim\\limits_{x \\to +\\infty} \\left(x^2 - \\dfrac{1}{x}\\right) = +\\infty$ par somme, et $\\lim\\limits_{x \\to 0^+} \\dfrac{-3}{x} = -\\infty$ par quotient ($-3$ et $0$, avec $x > 0$).\n• **Composition** : si $\\lim\\limits_{x \\to a} u(x) = b$ et $\\lim\\limits_{X \\to b} g(X) = c$, alors $\\lim\\limits_{x \\to a} g(u(x)) = c$. Exemple : $\\lim\\limits_{x \\to +\\infty} e^{-x^2} = 0$ car $-x^2 \\to -\\infty$ et $e^X \\to 0$ quand $X \\to -\\infty$.\n• **Comparaison et gendarmes** : les théorèmes vus pour les suites restent valables pour les fonctions (en $+\\infty$, en $-\\infty$ ou en un réel $a$)."
       },
       {
         "title": "4. Continuité",
         "content": "• $f$ est **continue en $a$** si $\\lim\\limits_{x \\to a} f(x) = f(a)$ ; elle est continue sur un intervalle $I$ si elle est continue en tout point de $I$. Graphiquement : la courbe se trace « sans lever le crayon ».\n• Les fonctions polynômes, rationnelles, racine carrée, exponentielle, valeur absolue, sinus et cosinus sont continues sur tout intervalle de leur ensemble de définition. Sommes, produits, quotients et composées de fonctions continues sont continues.\n• **Théorème** : toute fonction **dérivable** sur $I$ est **continue** sur $I$. La réciproque est fausse : $x \\mapsto |x|$ est continue en $0$ mais pas dérivable en $0$.\n• **Suites** : si $u_n \\to \\ell$ et si $f$ est continue en $\\ell$, alors $f(u_n) \\to f(\\ell)$."
       },
       {
-        "title": "5. Corollaire du TVI sur un intervalle quelconque",
-        "content": "Le corollaire s'étend aux intervalles ouverts ou non bornés en remplaçant les images des bornes par les **limites** : si $f$ est continue et strictement croissante sur $]a ; b[$ avec $\\lim\\limits_{x \\to a} f(x) = L_1$ et $\\lim\\limits_{x \\to b} f(x) = L_2$, alors pour tout $k \\in \\, ]L_1 ; L_2[$, l'équation $f(x) = k$ admet une **unique** solution dans $]a ; b[$.\nExemple : $x \\mapsto e^x + x$ est continue, strictement croissante sur $\\mathbb{R}$, de limites $-\\infty$ et $+\\infty$ : l'équation $e^x + x = 0$ a une unique solution réelle."
+        "title": "5. Théorème des Valeurs Intermédiaires (TVI)",
+        "content": "• **Théorème des Valeurs Intermédiaires (TVI)** : Si $f$ est une fonction **continue** sur un intervalle $[a ; b]$, alors pour tout réel $k$ compris entre $f(a)$ et $f(b)$, il existe **au moins un réel** $c \\in [a ; b]$ tel que $f(c) = k$.\n• **Cas d'une fonction strictement monotone (théorème des valeurs intermédiaires)** :\nSi $f$ est **continue** ET **strictement monotone** (croissante ou décroissante) sur $[a ; b]$, alors pour tout $k$ compris entre $f(a)$ et $f(b)$, l'équation $f(x) = k$ admet **une unique solution** dans $[a ; b]$. Ce cas particulier est souvent appelé **corollaire du TVI**."
       },
       {
-        "title": "6. Démonstration : limites de la fonction exponentielle en $+\\infty$ et en $-\\infty$",
+        "title": "6. Cas d'une fonction strictement monotone sur un intervalle quelconque",
+        "content": "Ce résultat s'étend aux intervalles ouverts ou non bornés en remplaçant les images des bornes par les **limites** : si $f$ est continue et strictement croissante sur $]a ; b[$ avec $\\lim\\limits_{x \\to a} f(x) = L_1$ et $\\lim\\limits_{x \\to b} f(x) = L_2$, alors pour tout $k \\in \\, ]L_1 ; L_2[$, l'équation $f(x) = k$ admet une **unique** solution dans $]a ; b[$. Si $f$ est continue et strictement **décroissante** sur $]a ; b[$, on a $L_2 < L_1$ et le résultat vaut pour tout $k \\in \\, ]L_2 ; L_1[$.\nExemple : $x \\mapsto e^x + x$ est continue, strictement croissante sur $\\mathbb{R}$, de limites $-\\infty$ et $+\\infty$ : l'équation $e^x + x = 0$ a une unique solution réelle."
+      },
+      {
+        "title": "7. Démonstration : limites de la fonction exponentielle en $+\\infty$ et en $-\\infty$",
         "content": "• **Inégalité préalable** : la fonction $g : x \\mapsto e^x - x$ a pour dérivée $g'(x) = e^x - 1$, négative sur $]-\\infty ; 0]$ et positive sur $[0 ; +\\infty[$. Son minimum est $g(0) = 1 > 0$, donc $e^x > x$ pour tout réel $x$.\n• **En $+\\infty$** : $e^x > x$ et $\\lim\\limits_{x \\to +\\infty} x = +\\infty$, donc, par comparaison, $\\lim\\limits_{x \\to +\\infty} e^x = +\\infty$.\n• **En $-\\infty$** : pour tout réel $x$, $e^x = \\dfrac{1}{e^{-x}}$. Quand $x \\to -\\infty$, $X = -x \\to +\\infty$, donc $e^{-x} = e^{X} \\to +\\infty$ et, par quotient, $\\lim\\limits_{x \\to -\\infty} e^x = 0$."
       },
       {
-        "title": "7. Démonstration : croissance comparée de $e^x$ et $x^n$ en $+\\infty$",
+        "title": "8. Démonstration : croissance comparée de $e^x$ et $x^n$ en $+\\infty$",
         "content": "• **Cas $n = 1$** : soit $h(x) = e^x - \\dfrac{x^2}{2}$ sur $[0 ; +\\infty[$. Alors $h'(x) = e^x - x > 0$ (inégalité précédente), donc $h$ est croissante et $h(x) \\ge h(0) = 1 > 0$. Ainsi $e^x > \\dfrac{x^2}{2}$ et, pour $x > 0$, $\\dfrac{e^x}{x} > \\dfrac{x}{2}$. Comme $\\dfrac{x}{2} \\to +\\infty$, par comparaison $\\lim\\limits_{x \\to +\\infty} \\dfrac{e^x}{x} = +\\infty$.\n• **Cas $n \\ge 2$** : pour $x > 0$, en posant $X = \\dfrac{x}{n}$,\n$$\\frac{e^x}{x^n} = \\left(\\frac{e^{x/n}}{x}\\right)^n = \\left(\\frac{1}{n} \\times \\frac{e^{X}}{X}\\right)^n$$\nQuand $x \\to +\\infty$, $X \\to +\\infty$ et $\\dfrac{e^X}{X} \\to +\\infty$ (cas $n = 1$) ; par produit et puissance, $\\lim\\limits_{x \\to +\\infty} \\dfrac{e^x}{x^n} = +\\infty$.\n• **En $-\\infty$** : avec $X = -x \\to +\\infty$, $x^n e^x = (-1)^n \\dfrac{X^n}{e^X} \\to 0$."
       }
     ],
@@ -187,12 +197,13 @@ window.MATHS_COURSES_TALE = {
       },
       {
         "title": "Méthode : Encadrer la solution $\\alpha$ par dichotomie",
-        "example": "On sait que $f(x) = x^3 + 2x - 5$ s'annule une seule fois en $\\alpha \\in [1 ; 2]$. Donner un encadrement de $\\alpha$ d'amplitude $10^{-2}$.",
+        "example": "On sait que $f(x) = x^3 + 2x - 5$ s'annule une seule fois en $\\alpha \\in [1 ; 2]$. Donner un encadrement de $\\alpha$ d'amplitude inférieure ou égale à $10^{-2}$.",
         "steps": [
           "**Étape 1 (Principe)** : $f$ est strictement croissante ; si $f(a) < 0 < f(b)$, alors $a < \\alpha < b$. On coupe l'intervalle en deux et on garde la moitié où le signe change.",
-          "**Étape 2 (Calculs)** : $f(1{,}3) = -0{,}203 < 0$ et $f(1{,}4) = 0{,}544 > 0$, donc $1{,}3 < \\alpha < 1{,}4$. Puis $f(1{,}32) = -0{,}060032 < 0$ et $f(1{,}33) = 0{,}012637 > 0$.",
+          "**Étape 2 (Calculs)** : on part de $a = 1$ et $b = 2$, car $f(1) = -2 < 0$ et $f(2) = 7 > 0$.\nMilieu $1{,}5$ : $f(1{,}5) = 1{,}375 > 0$, donc $b = 1{,}5$.\nMilieu $1{,}25$ : $f(1{,}25) \\approx -0{,}547 < 0$, donc $a = 1{,}25$.\nMilieu $1{,}375$ : $f(1{,}375) \\approx 0{,}350 > 0$, donc $b = 1{,}375$.\nMilieu $1{,}3125$ : $f(1{,}3125) \\approx -0{,}114 < 0$, donc $a = 1{,}3125$.\nMilieu $1{,}34375$ : $f(1{,}34375) \\approx 0{,}114 > 0$, donc $b = 1{,}34375$.\nMilieu $1{,}328125$ : $f(1{,}328125) \\approx -0{,}001 < 0$, donc $a = 1{,}328125$.\nMilieu $1{,}3359375$ : $f(1{,}3359375) \\approx 0{,}056 > 0$, donc $b = 1{,}3359375$.\nAprès $7$ étapes, l'amplitude vaut $\\frac{1}{2^7} \\approx 0{,}0078 \\le 10^{-2}$.",
           "**Étape 3 (Programme)** :\n```python\ndef f(x):\n    return x**3 + 2*x - 5\n\na, b = 1, 2\nwhile b - a > 0.01:\n    m = (a + b) / 2\n    if f(m) < 0:\n        a = m\n    else:\n        b = m\nprint(a, b)\n```",
-          "**Conclusion** : $1{,}32 < \\alpha < 1{,}33$."
+          "**Étape 4 (Exécution)** : le programme affiche `1.328125 1.3359375`, les bornes trouvées à la main.",
+          "**Conclusion** : $1{,}328125 < \\alpha < 1{,}3359375$. Pour des bornes au centième, on calcule $f(1{,}32) = -0{,}060032 < 0$ et $f(1{,}33) = 0{,}012637 > 0$, d'où $1{,}32 < \\alpha < 1{,}33$."
         ]
       }
     ],
@@ -227,6 +238,14 @@ window.MATHS_COURSES_TALE = {
       {
         "q": "Quelle inégalité permet de démontrer que $\\lim\\limits_{x \\to +\\infty} e^x = +\\infty$ ?",
         "a": "$e^x > x$ pour tout réel $x$ (étude de $x \\mapsto e^x - x$, de minimum $1$), puis comparaison."
+      },
+      {
+        "q": "Que signifie $\\lim\\limits_{x \\to +\\infty} f(x) = \\ell$ ?",
+        "a": "Tout intervalle ouvert contenant $\\ell$ contient toutes les valeurs $f(x)$ pour $x$ assez grand."
+      },
+      {
+        "q": "Que vaut $\\lim\\limits_{x \\to -\\infty} x^n$, pour un entier $n \\ge 1$ ?",
+        "a": "$+\\infty$ si $n$ est pair, $-\\infty$ si $n$ est impair."
       }
     ]
   },
@@ -234,7 +253,7 @@ window.MATHS_COURSES_TALE = {
     "title": "TA5 : La fonction logarithme népérien",
     "domain": "Analyse et Fonctions",
     "objectives": [
-      "Définir la fonction logarithme népérien $\\ln$ comme la bijection réciproque de l'exponentielle : $\\ln(x) = y \\iff e^y = x$ ($x > 0$).",
+      "Définir la fonction logarithme népérien $\\ln$ comme la fonction réciproque de l'exponentielle : $\\ln(x) = y \\iff e^y = x$ ($x > 0$).",
       "Maîtriser les propriétés algébriques : $\\ln(ab) = \\ln(a) + \\ln(b)$, $\\ln\\left(\\frac{1}{b}\\right) = -\\ln(b)$, $\\ln(a^n) = n\\ln(a)$ et $\\ln(\\sqrt{a}) = \\frac{1}{2}\\ln(a)$.",
       "Dériver des fonctions composées $(\\ln(u))' = \\frac{u'}{u}$.",
       "Connaître les limites usuelles et croissances comparées : $\\lim_{x \\to +\\infty} \\frac{\\ln(x)}{x} = 0$ et $\\lim_{x \\to 0^+} x\\ln(x) = 0$.",
@@ -244,16 +263,16 @@ window.MATHS_COURSES_TALE = {
     ],
     "keyPoints": [
       {
-        "title": "1. Propriétés algébriques fondamentales de $\\ln$",
-        "content": "Pour tous réels $a, b > 0$ :\n• $\\ln(1) = 0$ et $\\ln(e) = 1$\n• $\\ln(ab) = \\ln(a) + \\ln(b)$\n• $\\ln\\left(\\frac{a}{b}\\right) = \\ln(a) - \\ln(b)$\n• $\\ln(a^n) = n\\ln(a)$ pour tout $n \\in \\mathbb{Z}$\n• Pour tout $x > 0$, $e^{\\ln(x)} = x$, et pour tout $x \\in \\mathbb{R}$, $\\ln(e^x) = x$."
-      },
-      {
-        "title": "2. Dérivée et croissances comparées",
-        "content": "• Dérivée : $(\\ln(x))' = \\frac{1}{x} > 0$ pour tout $x > 0$ (fonction strictement croissante sur $]0 ; +\\infty[$).\n• Dérivée composée : $(\\ln(u(x)))' = \\frac{u'(x)}{u(x)}$ (sur tout intervalle où $u(x) > 0$).\n• **Croissances comparées en $+\\infty$** : L'exponentielle l'emporte sur toute puissance de $x$, qui l'emporte sur le logarithme :\n$$\\lim_{x \\to +\\infty} \\frac{\\ln(x)}{x^n} = 0 \\quad (n \\in \\mathbb{N}^*)$$"
-      },
-      {
-        "title": "3. Définition, variations et signe",
+        "title": "1. Définition, variations et signe",
         "content": "Pour tout $x > 0$, $\\ln(x)$ est l'**unique** réel $y$ tel que $e^y = x$. La courbe de $\\ln$ est la symétrique de celle de $\\exp$ par rapport à la droite $y = x$.\n• $\\ln$ est **strictement croissante** sur $]0 ; +\\infty[$, d'où pour $a, b > 0$ :\n$$\\ln(a) = \\ln(b) \\iff a = b \\qquad \\ln(a) < \\ln(b) \\iff a < b$$\n• **Signe** : $\\ln(x) < 0$ si $0 < x < 1$, $\\ln(1) = 0$, $\\ln(x) > 0$ si $x > 1$.\n• **Limites aux bornes** : $\\lim\\limits_{x \\to 0^+} \\ln(x) = -\\infty$ (asymptote verticale $x = 0$) et $\\lim\\limits_{x \\to +\\infty} \\ln(x) = +\\infty$."
+      },
+      {
+        "title": "2. Propriétés algébriques fondamentales de $\\ln$",
+        "content": "Pour tous réels $a, b > 0$ :\n• $\\ln(1) = 0$ et $\\ln(e) = 1$\n• $\\ln(ab) = \\ln(a) + \\ln(b)$\n• $\\ln\\left(\\frac{a}{b}\\right) = \\ln(a) - \\ln(b)$\n• $\\ln(a^n) = n\\ln(a)$ pour tout $n \\in \\mathbb{Z}$\n• $\\ln(\\sqrt{a}) = \\frac{1}{2}\\ln(a)$ (car $\\ln(a) = \\ln(\\sqrt{a} \\times \\sqrt{a}) = 2\\ln(\\sqrt{a})$)\n• Pour tout $x > 0$, $e^{\\ln(x)} = x$, et pour tout $x \\in \\mathbb{R}$, $\\ln(e^x) = x$."
+      },
+      {
+        "title": "3. Dérivée et croissances comparées",
+        "content": "• Dérivée : $(\\ln(x))' = \\frac{1}{x} > 0$ pour tout $x > 0$ (fonction strictement croissante sur $]0 ; +\\infty[$).\n• Dérivée composée : $(\\ln(u(x)))' = \\frac{u'(x)}{u(x)}$ (sur tout intervalle où $u(x) > 0$) ; cette formule est un cas particulier de la dérivée d'une composée, voir chapitre TA8 (points 2 et 3).\n• **Croissances comparées en $+\\infty$** : L'exponentielle l'emporte sur toute puissance de $x$, qui l'emporte sur le logarithme :\n$$\\lim_{x \\to +\\infty} \\frac{\\ln(x)}{x^n} = 0 \\quad (n \\in \\mathbb{N}^*)$$"
       },
       {
         "title": "4. Limites à connaître",
@@ -353,42 +372,47 @@ window.MATHS_COURSES_TALE = {
     "title": "TA7 : Calcul intégral et intégration par parties",
     "domain": "Analyse et Fonctions",
     "objectives": [
-      "Définir l'intégrale d'une fonction continue $\\int_a^b f(t) dt = [F(t)]_a^b = F(b) - F(a)$ où $F$ est une primitive de $f$.",
+      "Définir l'intégrale d'une fonction continue et positive comme l'aire du domaine sous sa courbe.",
+      "Établir que $x \\mapsto \\int_a^x f(t)\\,dt$ est une primitive de $f$, puis définir par les primitives l'intégrale d'une fonction continue de signe quelconque : $\\int_a^b f(t)\\,dt = F(b) - F(a)$.",
       "Interpréter géométriquement l'intégrale comme une aire algébrique sous la courbe.",
       "Maîtriser les propriétés de l'intégrale : linéarité, relation de Chasles, positivité.",
       "Appliquer la formule d'intégration par parties (IPP) : $\\int_a^b u'(t)v(t) dt = [u(t)v(t)]_a^b - \\int_a^b u(t)v'(t) dt$.",
       "Calculer l'aire d'un domaine délimité par deux courbes.",
-      "Étudier une suite d'intégrales (signe, monotonie, encadrement, limite) et approcher une intégrale par la méthode des rectangles.",
+      "Étudier une suite d'intégrales (signe, monotonie, encadrement, limite) et approcher une intégrale par la méthode des rectangles (exemple : méthode de Brouncker pour $\\ln 2$).",
       "Démontrer que $x \\mapsto \\int_a^x f(t)\\,dt$ est une primitive de $f$ (cas positif croissant) et la formule d'intégration par parties."
     ],
     "keyPoints": [
       {
-        "title": "1. Définition et Théorème fondamental de l'analyse",
-        "content": "Soit $f$ une fonction continue sur $[a ; b]$ et $F$ une primitive de $f$ sur cet intervalle :\n$$\\int_a^b f(t) dt = [F(t)]_a^b = F(b) - F(a)$$\n• **Relation de Chasles** : $\\int_a^c f(t) dt + \\int_c^b f(t) dt = \\int_a^b f(t) dt$.\n• **Valeur moyenne** de $f$ sur $[a ; b]$ : $\\mu = \\frac{1}{b - a} \\int_a^b f(t) dt$."
+        "title": "1. Intégrale d'une fonction continue et positive : une aire",
+        "content": "Dans un repère orthogonal, l'**unité d'aire** (u.a.) est l'aire du rectangle unité du repère.\nSoit $f$ une fonction **continue et positive** sur $[a ; b]$, avec $a \\le b$. On note $\\mathcal{D}$ le domaine compris entre la courbe de $f$, l'axe des abscisses et les droites d'équations $x = a$ et $x = b$.\n**Définition** : l'**intégrale** de $a$ à $b$ de $f$, notée $\\int_a^b f(x)\\,dx$, est l'**aire** de $\\mathcal{D}$, en unités d'aire.\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:0.6rem auto;\"><svg class=\"geo-svg-figure\" role=\"img\" aria-label=\"Courbe d'une fonction positive et domaine D colorié, compris entre la courbe, l'axe des abscisses et les droites d'équations x = 1 et x = 4.\" viewBox=\"0 0 180 180\" width=\"180\" height=\"180\" style=\"max-width:330px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\"><line x1=\"18\" y1=\"162\" x2=\"18\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"42\" y1=\"162\" x2=\"42\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"66\" y1=\"162\" x2=\"66\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"90\" y1=\"162\" x2=\"90\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"114\" y1=\"162\" x2=\"114\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"138\" y1=\"162\" x2=\"138\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"162\" y1=\"162\" x2=\"162\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"162\" x2=\"162\" y2=\"162\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"138\" x2=\"162\" y2=\"138\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"114\" x2=\"162\" y2=\"114\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"90\" x2=\"162\" y2=\"90\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"66\" x2=\"162\" y2=\"66\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"42\" x2=\"162\" y2=\"42\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"18\" x2=\"162\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"138\" x2=\"172\" y2=\"138\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\"/><polygon points=\"0,0 -8,-3.5 -8,3.5\" transform=\"translate(174 138) rotate(0)\" fill=\"var(--text-main, #334155)\"/><line x1=\"42\" y1=\"162\" x2=\"42\" y2=\"8\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\"/><polygon points=\"0,0 -8,-3.5 -8,3.5\" transform=\"translate(42 6) rotate(-90)\" fill=\"var(--text-main, #334155)\"/><text x=\"18\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−1</text><text x=\"66\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">1</text><text x=\"90\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">2</text><text x=\"114\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">3</text><text x=\"138\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">4</text><text x=\"162\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">5</text><text x=\"37\" y=\"165.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−1</text><text x=\"37\" y=\"117.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">1</text><text x=\"37\" y=\"93.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">2</text><text x=\"37\" y=\"69.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">3</text><text x=\"37\" y=\"45.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">4</text><text x=\"37\" y=\"21.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">5</text><text x=\"36\" y=\"151\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">0</text><path d=\"M 66 109.2 C 68 108.4 70 107.5 72 106.5 C 74 105.5 76 104.4 78 103.2 C 80 102 82 100.7 84 99.3 C 86 97.9 88 96.4 90 94.8 C 92 93.2 94 91.5 96 89.7 C 98 87.9 100 86 102 84 C 104 82 106 79.9 108 77.7 C 110 75.5 112 73.2 114 70.8 C 116 68.4 118 65.9 120 63.3 C 122 60.7 124 58 126 55.2 C 128 52.4 130 49.5 132 46.5 C 134 43.5 136 40.4 138 37.2 L 138 138 L 66 138 Z\" fill=\"#2563eb\" fill-opacity=\"0.2\" stroke=\"none\"/><line x1=\"66\" y1=\"138\" x2=\"66\" y2=\"109.19999999999999\" stroke=\"#2563eb\" stroke-width=\"1.2\"/><line x1=\"138\" y1=\"138\" x2=\"138\" y2=\"37.199999999999996\" stroke=\"#2563eb\" stroke-width=\"1.2\"/><path d=\"M 42 114 C 44 114 46 113.9 48 113.7 C 50 113.5 52 113.2 54 112.8 C 56 112.4 58 111.9 60 111.3 C 62 110.7 64 110 66 109.2 C 68 108.4 70 107.5 72 106.5 C 74 105.5 76 104.4 78 103.2 C 80 102 82 100.7 84 99.3 C 86 97.9 88 96.4 90 94.8 C 92 93.2 94 91.5 96 89.7 C 98 87.9 100 86 102 84 C 104 82 106 79.9 108 77.7 C 110 75.5 112 73.2 114 70.8 C 116 68.4 118 65.9 120 63.3 C 122 60.7 124 58 126 55.2 C 128 52.4 130 49.5 132 46.5 C 134 43.5 136 40.4 138 37.2 C 140 34 142 30.7 144 27.3 C 146 23.9 148 20.4 150 16.8\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.2\"/><text x=\"104.4\" y=\"114\" text-anchor=\"middle\" font-size=\"14\" font-weight=\"700\" fill=\"var(--text-main, #334155)\">D</text></svg></div>\n\n• La variable est **muette** : $\\int_a^b f(x)\\,dx = \\int_a^b f(t)\\,dt$.\n• Si $a = b$, le domaine se réduit à un segment : $\\int_a^a f(x)\\,dx = 0$.\n• **Exemple** : sur $[0 ; 2]$, le domaine sous la droite $y = x$ est un triangle de base $2$ et de hauteur $2$, donc $\\int_0^2 x\\,dx = \\frac{2 \\times 2}{2} = 2$."
       },
       {
-        "title": "2. Intégration par parties (IPP)",
-        "content": "Soient $u$ et $v$ deux fonctions dérivables à dérivées continues sur $[a ; b]$ :\n$$\\int_a^b u'(t) v(t) dt = [u(t) v(t)]_a^b - \\int_a^b u(t) v'(t) dt$$\n*Règle ALPES pour choisir $v(t)$ (qui sera dérivée)* : Logarithme, Polynôme, Exponentielle, Sinus/Cosinus (on dérive de préférence la fonction qui apparaît en premier dans cette liste)."
+        "title": "2. Théorème fondamental : de l'aire à la primitive",
+        "content": "**Théorème** : si $f$ est continue et positive sur $[a ; b]$, la fonction $F : x \\mapsto \\int_a^x f(t)\\,dt$ est dérivable sur $[a ; b]$ et $F' = f$. Ainsi, $F$ est la primitive de $f$ sur $[a ; b]$ qui s'annule en $a$. (Démontré au point 3 pour $f$ croissante ; admis dans le cas général.)\n• **Calcul d'une aire** : si $G$ est une primitive quelconque de $f$, alors $G = F + C$ où $C$ est une constante (chapitre TA6), donc $G(b) - G(a) = F(b) - F(a) = F(b)$, c'est-à-dire\n$$\\int_a^b f(t)\\,dt = G(b) - G(a)$$\n• **Existence de primitives** : ce théorème permet de justifier que toute fonction continue sur un segment $[a ; b]$ admet des primitives. En effet, $f$ y admet un minimum $m$ (admis) ; la fonction $f - m$ est continue et positive, donc elle admet une primitive $H$, et $x \\mapsto H(x) + mx$ est une primitive de $f$."
       },
       {
-        "title": "3. Intégrale et aire",
-        "content": "• Si $f$ est **continue et positive** sur $[a ; b]$ ($a \\le b$), $\\int_a^b f(x)\\,dx$ est l'**aire**, en unités d'aire (u.a.), du domaine compris entre la courbe, l'axe des abscisses et les droites $x = a$ et $x = b$.\n• Si $f$ est **négative** sur $[a ; b]$, cette aire vaut $-\\int_a^b f(x)\\,dx$.\n• Si $f \\ge g$ sur $[a ; b]$, l'aire entre les deux courbes vaut $\\int_a^b \\big(f(x) - g(x)\\big)\\,dx$.\n• **Théorème fondamental** : si $f$ est continue sur $I$ et $a \\in I$, la fonction $F : x \\mapsto \\int_a^x f(t)\\,dt$ est **l'unique primitive de $f$ sur $I$ qui s'annule en $a$** ; en particulier $F' = f$."
+        "title": "3. Démonstration : $x \\mapsto \\int_a^x f(t)\\,dt$ est une primitive de $f$ ($f$ continue, positive, croissante)",
+        "content": "Soit $f$ continue, positive et croissante sur $[a ; b]$, et $F(x) = \\int_a^x f(t)\\,dt$ (aire sous la courbe entre $a$ et $x$). Soit $x_0 \\in [a ; b[$ et $h > 0$ tel que $x_0 + h \\le b$.\n• $F(x_0 + h) - F(x_0)$ est l'aire du domaine situé sous la courbe entre $x_0$ et $x_0 + h$.\n• $f$ étant croissante, ce domaine contient le rectangle de largeur $h$ et de hauteur $f(x_0)$ et il est contenu dans le rectangle de largeur $h$ et de hauteur $f(x_0 + h)$ :\n$$h\\,f(x_0) \\le F(x_0 + h) - F(x_0) \\le h\\,f(x_0 + h)$$\n• En divisant par $h > 0$ : $f(x_0) \\le \\dfrac{F(x_0 + h) - F(x_0)}{h} \\le f(x_0 + h)$. Comme $f$ est continue en $x_0$, $f(x_0 + h) \\to f(x_0)$ quand $h \\to 0$ : par le théorème des gendarmes, le taux d'accroissement tend vers $f(x_0)$.\n• Pour $x_0 \\in ]a ; b]$ et $h < 0$ tel que $x_0 + h \\ge a$, $F(x_0) - F(x_0 + h)$ est l'aire du domaine situé sous la courbe entre $x_0 + h$ et $x_0$, de largeur $-h > 0$. Comme $f$ est croissante, $-h\\,f(x_0 + h) \\le F(x_0) - F(x_0 + h) \\le -h\\,f(x_0)$. En divisant par $-h > 0$ : $f(x_0 + h) \\le \\dfrac{F(x_0 + h) - F(x_0)}{h} \\le f(x_0)$, et la limite est encore $f(x_0)$ quand $h \\to 0$.\n• Donc $F$ est dérivable sur $[a ; b]$ et $F' = f$. De plus $F(a) = 0$ : $F$ est la primitive de $f$ qui s'annule en $a$."
       },
       {
-        "title": "4. Linéarité, positivité, croissance",
+        "title": "4. Cas général : intégrale d'une fonction de signe quelconque",
+        "content": "Toute fonction continue sur un intervalle $I$ admet des primitives sur $I$ (point 2 et chapitre TA6).\n**Définition** : si $f$ est continue sur $I$, $F$ une primitive de $f$ sur $I$, et $a, b \\in I$ :\n$$\\int_a^b f(t)\\,dt = [F(t)]_a^b = F(b) - F(a)$$\n• Ce nombre ne dépend pas de la primitive choisie, car deux primitives de $f$ diffèrent d'une constante. Si $f$ est positive et $a \\le b$, on retrouve l'aire du point 1 (voir le point 2).\n• **Théorème fondamental, cas général** : si $f$ est continue sur $I$ et $a \\in I$, la fonction $x \\mapsto \\int_a^x f(t)\\,dt$ est **l'unique primitive de $f$ sur $I$ qui s'annule en $a$**.\n• **Relation de Chasles** : $\\int_a^c f(t)\\,dt + \\int_c^b f(t)\\,dt = \\int_a^b f(t)\\,dt$.\n• **Valeur moyenne** de $f$ sur $[a ; b]$ : $\\mu = \\frac{1}{b - a} \\int_a^b f(t)\\,dt$.\n• Si $f$ est **négative** sur $[a ; b]$ ($a \\le b$), l'aire du domaine entre sa courbe et l'axe des abscisses vaut $-\\int_a^b f(x)\\,dx$, car $-f$ est positive.\n• Si $f \\ge g$ sur $[a ; b]$ ($a \\le b$), l'aire entre les deux courbes vaut $\\int_a^b \\big(f(x) - g(x)\\big)\\,dx$.\n• Les primitives de formes composées, comme $\\frac{u'}{u}$ ou $u'e^u$, sont celles du chapitre TA6 ; elles reposent sur la dérivée d'une composée (chapitre TA8, point 2)."
+      },
+      {
+        "title": "5. Linéarité, positivité, croissance",
         "content": "Pour $f$, $g$ continues sur $[a ; b]$ et $\\lambda \\in \\mathbb{R}$ :\n• **Linéarité** : $\\int_a^b (f + \\lambda g) = \\int_a^b f + \\lambda \\int_a^b g$.\n• **Positivité** : si $a \\le b$ et $f \\ge 0$ sur $[a ; b]$, alors $\\int_a^b f \\ge 0$.\n• **Croissance** : si $a \\le b$ et $f \\le g$ sur $[a ; b]$, alors $\\int_a^b f \\le \\int_a^b g$.\n• **Conséquence** : si $m \\le f \\le M$ sur $[a ; b]$, alors $m(b - a) \\le \\int_a^b f \\le M(b - a)$."
       },
       {
-        "title": "5. Méthode des rectangles avec Python",
-        "content": "Quand on ne connaît pas de primitive (par exemple de $x \\mapsto e^{-x^2}$), on approche l'intégrale par une somme d'aires de rectangles de largeur $\\frac{b - a}{n}$ :\n```python\nfrom math import exp\ndef rectangles(f, a, b, n):\n    h = (b - a) / n\n    s = 0\n    for k in range(n):\n        s = s + f(a + k*h) * h\n    return s\nprint(rectangles(lambda x: exp(-x**2), 0, 1, 10))\n```\nAvec $n = 10$ on obtient environ $0{,}778$ ; la valeur exacte est proche de $0{,}747$. Plus $n$ est grand, meilleure est l'approximation.\n• **Variantes** : la méthode des **milieux** (hauteur $f\\left(a + (k + \\frac{1}{2})h\\right)$) donne environ $0{,}7471$ avec $n = 10$ ; la méthode des **trapèzes** (aire $\\frac{h}{2}\\big(f(x_k) + f(x_{k+1})\\big)$) donne environ $0{,}7462$. Ces méthodes sont en général plus précises. Voir aussi la méthode de Monte-Carlo (chapitre TS4)."
-      },
-      {
-        "title": "6. Démonstration : $x \\mapsto \\int_a^x f(t)\\,dt$ est une primitive de $f$ ($f$ continue, positive, croissante)",
-        "content": "Soit $f$ continue, positive et croissante sur $[a ; b]$, et $F(x) = \\int_a^x f(t)\\,dt$ (aire sous la courbe entre $a$ et $x$). Soit $x_0 \\in [a ; b[$ et $h > 0$ tel que $x_0 + h \\le b$.\n• $F(x_0 + h) - F(x_0)$ est l'aire du domaine situé sous la courbe entre $x_0$ et $x_0 + h$.\n• $f$ étant croissante, ce domaine contient le rectangle de largeur $h$ et de hauteur $f(x_0)$ et il est contenu dans le rectangle de largeur $h$ et de hauteur $f(x_0 + h)$ :\n$$h\\,f(x_0) \\le F(x_0 + h) - F(x_0) \\le h\\,f(x_0 + h)$$\n• En divisant par $h > 0$ : $f(x_0) \\le \\dfrac{F(x_0 + h) - F(x_0)}{h} \\le f(x_0 + h)$. Comme $f$ est continue en $x_0$, $f(x_0 + h) \\to f(x_0)$ quand $h \\to 0$ : par le théorème des gendarmes, le taux d'accroissement tend vers $f(x_0)$.\n• Pour $h < 0$, on obtient de même l'encadrement $f(x_0 + h) \\le \\dfrac{F(x_0 + h) - F(x_0)}{h} \\le f(x_0)$ et la même limite. Donc $F$ est dérivable et $F' = f$ : $F$ est la primitive de $f$ qui s'annule en $a$.\n• **Conséquence** : si $G$ est une primitive quelconque de $f$, alors $G = F + C$ (chapitre TA6), donc $G(b) - G(a) = F(b) - F(a) = \\int_a^b f(t)\\,dt$."
+        "title": "6. Intégration par parties (IPP)",
+        "content": "Soient $u$ et $v$ deux fonctions dérivables à dérivées continues sur $[a ; b]$ :\n$$\\int_a^b u'(t) v(t) dt = [u(t) v(t)]_a^b - \\int_a^b u(t) v'(t) dt$$\n*Règle ALPES pour choisir $v(t)$ (qui sera dérivée)* : Logarithme, Polynôme, Exponentielle, Sinus/Cosinus (on dérive de préférence la fonction qui apparaît en premier dans cette liste)."
       },
       {
         "title": "7. Démonstration : formule d'intégration par parties",
         "content": "Soient $u$ et $v$ dérivables sur $[a ; b]$, de dérivées $u'$ et $v'$ continues.\n• Le produit $uv$ est dérivable et $(uv)' = u'v + uv'$, fonction continue : $uv$ est donc une primitive de $u'v + uv'$, et\n$$\\int_a^b \\big(u'(t)v(t) + u(t)v'(t)\\big)\\,dt = [u(t)v(t)]_a^b$$\n• Par linéarité, $\\int_a^b u'(t)v(t)\\,dt + \\int_a^b u(t)v'(t)\\,dt = [u(t)v(t)]_a^b$, d'où :\n$$\\int_a^b u'(t)v(t)\\,dt = [u(t)v(t)]_a^b - \\int_a^b u(t)v'(t)\\,dt$$\nLa continuité de $u'$ et $v'$ garantit l'existence de toutes les intégrales écrites."
+      },
+      {
+        "title": "8. Méthode des rectangles avec Python",
+        "content": "Quand on ne connaît pas de primitive (par exemple de $x \\mapsto e^{-x^2}$), on approche l'intégrale par une somme d'aires de rectangles de largeur $\\frac{b - a}{n}$ :\n```python\nfrom math import exp\ndef rectangles(f, a, b, n):\n    h = (b - a) / n\n    s = 0\n    for k in range(n):\n        s = s + f(a + k*h) * h\n    return s\nprint(rectangles(lambda x: exp(-x**2), 0, 1, 10))\n```\nAvec $n = 10$ on obtient environ $0{,}778$ ; la valeur exacte est proche de $0{,}747$. Plus $n$ est grand, meilleure est l'approximation.\n• **Variantes** : la méthode des **milieux** (hauteur $f\\left(a + (k + \\frac{1}{2})h\\right)$) donne environ $0{,}7471$ avec $n = 10$ ; la méthode des **trapèzes** (aire $\\frac{h}{2}\\big(f(x_k) + f(x_{k+1})\\big)$) donne environ $0{,}7462$. Ces méthodes sont en général plus précises. Voir aussi la méthode de Monte-Carlo (chapitre TS4).\n• **Méthode de Brouncker pour $\\ln 2$** : $\\ln 2 = \\int_1^2 \\frac{dt}{t}$. On part du rectangle de base $[1 ; 2]$ et de hauteur $\\frac{1}{2}$ (aire $\\frac{1}{1 \\times 2}$). À chaque étape, on coupe chaque bande en deux et, dans chaque moitié gauche, on ajoute le rectangle compris entre le rectangle déjà placé et la hauteur de la courbe à son extrémité droite : on ajoute ainsi $\\frac{1}{3 \\times 4}$ (base $\\left[1 ; \\frac{3}{2}\\right]$), puis $\\frac{1}{5 \\times 6}$ et $\\frac{1}{7 \\times 8}$, et ainsi de suite. La somme des $n$ premières aires ajoutées,\n$$B_n = \\sum_{k=1}^{n} \\frac{1}{(2k - 1) \\times 2k} = 1 - \\frac{1}{2} + \\frac{1}{3} - \\dots - \\frac{1}{2n},$$\nest égale à $\\frac{1}{n + 1} + \\frac{1}{n + 2} + \\dots + \\frac{1}{2n}$, la somme des $n$ rectangles « à droite » sous la courbe ; elle vérifie $B_n \\le \\ln 2 \\le B_n + \\frac{1}{2n}$, donc $(B_n)$ converge vers $\\ln 2$.\n```python\ndef brouncker(n):\n    s = 0\n    for k in range(1, n + 1):\n        s = s + 1 / ((2*k - 1) * (2*k))\n    return s\nprint(brouncker(500))\n```\nLe programme affiche environ $0{,}69265$, valeur approchée par défaut de $\\ln 2 \\approx 0{,}69315$ à moins de $\\frac{1}{1000}$ près."
       }
     ],
     "methods": [
@@ -464,6 +488,10 @@ window.MATHS_COURSES_TALE = {
       {
         "q": "Sur quelle formule repose la démonstration de l'intégration par parties ?",
         "a": "La dérivée d'un produit, $(uv)' = u'v + uv'$, que l'on intègre entre $a$ et $b$ avant d'utiliser la linéarité."
+      },
+      {
+        "q": "Comment définit-on l'intégrale d'une fonction continue et positive sur $[a ; b]$ ?",
+        "a": "C'est l'aire, en unités d'aire, du domaine compris entre sa courbe, l'axe des abscisses et les droites d'équations $x = a$ et $x = b$."
       }
     ]
   },
@@ -476,20 +504,21 @@ window.MATHS_COURSES_TALE = {
       "Calculer le projeté orthogonal d'un point sur un plan et la distance d'un point à un plan.",
       "Calculer une longueur, un angle et démontrer une orthogonalité avec le produit scalaire.",
       "Démontrer qu'une droite est orthogonale à un plan.",
+      "Reconnaître deux droites orthogonales, éventuellement non coplanaires, et déterminer un plan médiateur.",
       "Démontrer l'équation cartésienne d'un plan et la propriété de distance minimale du projeté orthogonal."
     ],
     "keyPoints": [
       {
-        "title": "1. Vecteur normal et équation de plan dans l'espace",
+        "title": "1. Produit scalaire dans l'espace : définitions et propriétés",
+        "content": "• Deux vecteurs de l'espace sont toujours coplanaires : on définit $\\vec{u} \\cdot \\vec{v} = \\|\\vec{u}\\| \\times \\|\\vec{v}\\| \\times \\cos(\\widehat{\\vec{u}, \\vec{v}})$ comme dans le plan qui les contient.\n• En **repère orthonormé**, pour $\\vec{u}(x ; y ; z)$ et $\\vec{v}(x' ; y' ; z')$ : $\\vec{u} \\cdot \\vec{v} = xx' + yy' + zz'$ et $\\|\\vec{u}\\| = \\sqrt{x^2 + y^2 + z^2}$.\n• Le produit scalaire est **symétrique** et **bilinéaire** : $\\vec{u} \\cdot (\\vec{v} + k\\vec{w}) = \\vec{u} \\cdot \\vec{v} + k\\,\\vec{u} \\cdot \\vec{w}$.\n• $\\vec{u} \\perp \\vec{v} \\iff \\vec{u} \\cdot \\vec{v} = 0$.\n• Développement : $\\|\\vec{u} + \\vec{v}\\|^2 = \\|\\vec{u}\\|^2 + 2\\,\\vec{u} \\cdot \\vec{v} + \\|\\vec{v}\\|^2$ et $\\|\\vec{u} - \\vec{v}\\|^2 = \\|\\vec{u}\\|^2 - 2\\,\\vec{u} \\cdot \\vec{v} + \\|\\vec{v}\\|^2$.\n• **Formules de polarisation** (on les déduit des deux développements précédents) : $\\vec{u} \\cdot \\vec{v} = \\frac{1}{2}\\left(\\|\\vec{u} + \\vec{v}\\|^2 - \\|\\vec{u}\\|^2 - \\|\\vec{v}\\|^2\\right)$, $\\vec{u} \\cdot \\vec{v} = \\frac{1}{2}\\left(\\|\\vec{u}\\|^2 + \\|\\vec{v}\\|^2 - \\|\\vec{u} - \\vec{v}\\|^2\\right)$ et $\\vec{u} \\cdot \\vec{v} = \\frac{1}{4}\\left(\\|\\vec{u} + \\vec{v}\\|^2 - \\|\\vec{u} - \\vec{v}\\|^2\\right)$.\n• Distance entre deux points en repère orthonormé : $AB = \\sqrt{(x_B - x_A)^2 + (y_B - y_A)^2 + (z_B - z_A)^2}$."
+      },
+      {
+        "title": "2. Vecteur normal et équation de plan dans l'espace",
         "content": "• Un vecteur non nul $\\vec{n}\\begin{pmatrix} a \\\\ b \\\\ c \\end{pmatrix}$ est **normal** à un plan $\\mathcal{P}$ s'il est orthogonal à deux vecteurs directeurs non colinéaires de $\\mathcal{P}$.\n• Tout plan de vecteur normal $\\vec{n}(a ; b ; c)$ admet une équation cartésienne de la forme :\n$$ax + by + cz + d = 0$$\n• Deux plans sont parallèles ssi leurs vecteurs normaux sont colinéaires. Ils sont perpendiculaires ssi leurs vecteurs normaux sont orthogonaux ($\\vec{n}_1 \\cdot \\vec{n}_2 = 0$)."
       },
       {
-        "title": "2. Produit scalaire dans l'espace : définitions et propriétés",
-        "content": "• Deux vecteurs de l'espace sont toujours coplanaires : on définit $\\vec{u} \\cdot \\vec{v} = \\|\\vec{u}\\| \\times \\|\\vec{v}\\| \\times \\cos(\\widehat{\\vec{u}, \\vec{v}})$ comme dans le plan qui les contient.\n• **Formule de polarisation** : $\\vec{u} \\cdot \\vec{v} = \\frac{1}{2}\\left(\\|\\vec{u} + \\vec{v}\\|^2 - \\|\\vec{u}\\|^2 - \\|\\vec{v}\\|^2\\right)$.\n• En **repère orthonormé**, pour $\\vec{u}(x ; y ; z)$ et $\\vec{v}(x' ; y' ; z')$ : $\\vec{u} \\cdot \\vec{v} = xx' + yy' + zz'$ et $\\|\\vec{u}\\| = \\sqrt{x^2 + y^2 + z^2}$.\n• Le produit scalaire est **symétrique** et **bilinéaire** : $\\vec{u} \\cdot (\\vec{v} + k\\vec{w}) = \\vec{u} \\cdot \\vec{v} + k\\,\\vec{u} \\cdot \\vec{w}$.\n• $\\vec{u} \\perp \\vec{v} \\iff \\vec{u} \\cdot \\vec{v} = 0$.\n• Développement : $\\|\\vec{u} + \\vec{v}\\|^2 = \\|\\vec{u}\\|^2 + 2\\,\\vec{u} \\cdot \\vec{v} + \\|\\vec{v}\\|^2$.\n• Distance entre deux points en repère orthonormé : $AB = \\sqrt{(x_B - x_A)^2 + (y_B - y_A)^2 + (z_B - z_A)^2}$."
-      },
-      {
-        "title": "3. Orthogonalité d'une droite et d'un plan",
-        "content": "• Une droite $d$ est **orthogonale** à un plan $\\mathcal{P}$ si elle est orthogonale à **deux droites sécantes** de $\\mathcal{P}$. Elle est alors orthogonale à toutes les droites de $\\mathcal{P}$.\n• De façon équivalente : un vecteur directeur de $d$ est **normal** à $\\mathcal{P}$.\n• Le plan passant par $A$ et de vecteur normal $\\vec{n}$ est l'ensemble des points $M$ tels que $\\overrightarrow{AM} \\cdot \\vec{n} = 0$.\n• Une droite de vecteur directeur $\\vec{w}$ est **parallèle** au plan de vecteur normal $\\vec{n}$ si et seulement si $\\vec{w} \\cdot \\vec{n} = 0$."
+        "title": "3. Orthogonalité de deux droites, d'une droite et d'un plan ; plan médiateur",
+        "content": "• Deux droites $d$ et $d'$ de l'espace, de vecteurs directeurs $\\vec{u}$ et $\\vec{u'}$, sont **orthogonales** si $\\vec{u} \\cdot \\vec{u'} = 0$. Elles ne sont pas forcément sécantes, ni même coplanaires ; orthogonales **et** sécantes, on les dit **perpendiculaires**. Par exemple, dans un cube $ABCDEFGH$ de face $ABCD$ et d'arêtes $[AE]$, $[BF]$, $[CG]$, $[DH]$, les droites $(AB)$ et $(CG)$ sont orthogonales sans être coplanaires.\n• Une droite $d$ est **orthogonale** à un plan $\\mathcal{P}$ si elle est orthogonale à **deux droites sécantes** de $\\mathcal{P}$. Elle est alors orthogonale à toutes les droites de $\\mathcal{P}$.\n• De façon équivalente : un vecteur directeur de $d$ est **normal** à $\\mathcal{P}$.\n• Le plan passant par $A$ et de vecteur normal $\\vec{n}$ est l'ensemble des points $M$ tels que $\\overrightarrow{AM} \\cdot \\vec{n} = 0$.\n• Une droite de vecteur directeur $\\vec{w}$ est **parallèle** au plan de vecteur normal $\\vec{n}$ si et seulement si $\\vec{w} \\cdot \\vec{n} = 0$.\n• **Plan médiateur** : le plan médiateur d'un segment $[AB]$ (avec $A \\ne B$) est le plan passant par le milieu $I$ de $[AB]$ et orthogonal à la droite $(AB)$. C'est l'ensemble des points $M$ de l'espace tels que $MA = MB$ : en effet, $MA^2 - MB^2 = (\\overrightarrow{MA} - \\overrightarrow{MB}) \\cdot (\\overrightarrow{MA} + \\overrightarrow{MB}) = \\overrightarrow{BA} \\cdot 2\\overrightarrow{MI} = 2\\,\\overrightarrow{AB} \\cdot \\overrightarrow{IM}$, qui est nul si et seulement si $\\overrightarrow{AB} \\cdot \\overrightarrow{IM} = 0$."
       },
       {
         "title": "4. Projeté orthogonal et distance",
@@ -513,8 +542,8 @@ window.MATHS_COURSES_TALE = {
         "title": "Méthode : Trouver l'équation cartésienne d'un plan défini par trois points",
         "example": "Déterminer l'équation cartésienne du plan $(ABC)$ avec $A(1;0;0)$, $B(0;2;0)$ et $C(0;0;3)$.",
         "steps": [
-          "**Étape 1 (Vecteurs directeurs)** : $\\vec{AB}(-1; 2; 0)$ et $\\vec{AC}(-1; 0; 3)$. Ils ne sont pas colinéaires.",
-          "**Étape 2 (Vecteur normal $\\vec{n}(a;b;c)$)** : $\\vec{n} \\cdot \\vec{AB} = -a + 2b = 0 \\implies a = 2b$. $\\vec{n} \\cdot \\vec{AC} = -a + 3c = 0 \\implies a = 3c$. En choisissant $a = 6$, on obtient $b = 3$ et $c = 2$. Donc $\\vec{n}(6 ; 3 ; 2)$ est normal.",
+          "**Étape 1 (Vecteurs directeurs)** : $\\overrightarrow{AB}(-1; 2; 0)$ et $\\overrightarrow{AC}(-1; 0; 3)$. Ils ne sont pas colinéaires.",
+          "**Étape 2 (Vecteur normal $\\vec{n}(a;b;c)$)** : $\\vec{n} \\cdot \\overrightarrow{AB} = -a + 2b = 0 \\implies a = 2b$. $\\vec{n} \\cdot \\overrightarrow{AC} = -a + 3c = 0 \\implies a = 3c$. En choisissant $a = 6$, on obtient $b = 3$ et $c = 2$. Donc $\\vec{n}(6 ; 3 ; 2)$ est normal.",
           "**Étape 3 (Constante d)** : $6x + 3y + 2z + d = 0$. Avec $A(1;0;0)$ : $6(1) + 0 + 0 + d = 0 \\implies d = -6$.",
           "**Conclusion** : L'équation est $6x + 3y + 2z - 6 = 0$."
         ]
@@ -548,6 +577,16 @@ window.MATHS_COURSES_TALE = {
           "**Étape 3 (Coordonnées)** : $H(4 ; 3 ; 2)$ et $\\overrightarrow{MH}(1 ; -1 ; 3)$.",
           "**Conclusion** : $MH = \\sqrt{1 + 1 + 9} = \\sqrt{11}$ : la distance de $M$ à la droite $d$ est $\\sqrt{11} \\approx 3{,}32$."
         ]
+      },
+      {
+        "title": "Méthode : Déterminer le plan médiateur d'un segment",
+        "example": "Soient $A(1 ; 0 ; 3)$ et $B(3 ; 4 ; -1)$ dans un repère orthonormé. Déterminer une équation cartésienne du plan médiateur $\\mathcal{P}$ de $[AB]$.",
+        "steps": [
+          "**Étape 1 (Milieu)** : le milieu de $[AB]$ est $I(2 ; 2 ; 1)$.",
+          "**Étape 2 (Vecteur normal)** : $\\overrightarrow{AB}(2 ; 4 ; -4)$ est normal à $\\mathcal{P}$, ainsi que le vecteur colinéaire $\\vec{n}(1 ; 2 ; -2)$. Une équation de $\\mathcal{P}$ est donc de la forme $x + 2y - 2z + d = 0$.",
+          "**Étape 3 (Constante d)** : $I \\in \\mathcal{P}$ donne $2 + 4 - 2 + d = 0$, soit $d = -4$.",
+          "**Conclusion** : $\\mathcal{P} : x + 2y - 2z - 4 = 0$. Vérification avec $MA^2 = MB^2$ : $(x - 1)^2 + y^2 + (z - 3)^2 = (x - 3)^2 + (y - 4)^2 + (z + 1)^2$ se réduit à $4x + 8y - 8z - 16 = 0$, c'est-à-dire la même équation."
+        ]
       }
     ],
     "traps": [
@@ -555,7 +594,8 @@ window.MATHS_COURSES_TALE = {
       "⚠️ Une droite dans l'espace n'a pas une seule équation cartésienne, mais un système paramétrique de 3 équations à 1 paramètre.",
       "⚠️ La formule $xx' + yy' + zz'$ n'est valable que dans un repère **orthonormé**.",
       "⚠️ Un plan a une infinité de vecteurs normaux et d'équations cartésiennes : $6x + 3y + 2z - 6 = 0$ et $12x + 6y + 4z - 12 = 0$ désignent le même plan.",
-      "⚠️ Un vecteur orthogonal à **un seul** vecteur directeur du plan n'est pas forcément normal : il doit être orthogonal à **deux** vecteurs non colinéaires du plan."
+      "⚠️ Un vecteur orthogonal à **un seul** vecteur directeur du plan n'est pas forcément normal : il doit être orthogonal à **deux** vecteurs non colinéaires du plan.",
+      "⚠️ Deux droites **orthogonales** de l'espace ne sont pas forcément sécantes : **perpendiculaires** signifie orthogonales et sécantes."
     ],
     "flashcards": [
       {
@@ -563,7 +603,7 @@ window.MATHS_COURSES_TALE = {
         "a": "$\\vec{n}\\begin{pmatrix} 2 \\\\ -3 \\\\ 5 \\end{pmatrix}$."
       },
       {
-        "q": "Comment teste-t-on l'orthogonalité de deux plans dans l'espace ?",
+        "q": "Comment montre-t-on que deux plans de l'espace sont perpendiculaires ?",
         "a": "On calcule le produit scalaire de leurs vecteurs normaux : ils sont perpendiculaires ssi $\\vec{n}_1 \\cdot \\vec{n}_2 = 0$."
       },
       {
@@ -598,28 +638,28 @@ window.MATHS_COURSES_TALE = {
     ],
     "keyPoints": [
       {
-        "title": "1. Loi binomiale $\\mathcal{B}(n, p)$",
-        "content": "Soit $X$ la variable aléatoire égale au nombre de succès dans un schéma de Bernoulli à $n$ épreuves indépendantes de probabilité de succès $p$ :\n• $X$ suit la **loi binomiale** de paramètres $n$ et $p$, notée $X \\sim \\mathcal{B}(n, p)$.\n• Pour tout entier $k \\in \\{0, 1, \\dots, n\\}$ :\n$$P(X = k) = \\binom{n}{k} p^k (1-p)^{n-k}$$\n• **Espérance mathématique** : $E(X) = np$.\n• **Variance** : $V(X) = np(1-p)$ et **écart-type** : $\\sigma(X) = \\sqrt{np(1-p)}$."
+        "title": "1. Succession d'épreuves indépendantes",
+        "content": "• Une succession de $n$ épreuves **indépendantes** se représente par un arbre ou par un produit cartésien : une issue est une liste $(x_1 ; x_2 ; \\dots ; x_n)$.\n• **Modèle** : la probabilité d'une issue $(x_1 ; \\dots ; x_n)$ est le **produit** des probabilités des issues $x_1$, …, $x_n$ de chaque épreuve.\n• Exemple : on lance une pièce équilibrée puis un dé équilibré : $P\\big((\\text{Pile} ; 6)\\big) = \\frac{1}{2} \\times \\frac{1}{6} = \\frac{1}{12}$.\n• Une **épreuve de Bernoulli** de paramètre $p$ est une épreuve à deux issues : le succès, de probabilité $p$, et l'échec, de probabilité $1 - p$. Un **schéma de Bernoulli** de paramètres $n$ et $p$ est la succession de $n$ épreuves de Bernoulli identiques et indépendantes.\n• Pour un **schéma de Bernoulli**, l'univers est l'ensemble $\\{0 ; 1\\}^n$ des listes de $n$ chiffres ($1$ pour un succès, $0$ pour un échec)."
       },
       {
         "title": "2. Coefficients binomiaux",
         "content": "• $\\binom{n}{k}$ (« $k$ parmi $n$ ») est le nombre de chemins de l'arbre d'un schéma de Bernoulli à $n$ épreuves qui réalisent **exactement $k$ succès** ; c'est aussi le nombre de parties à $k$ éléments d'un ensemble à $n$ éléments.\n• Formule : $\\binom{n}{k} = \\dfrac{n!}{k!\\,(n-k)!}$ où $n! = 1 \\times 2 \\times \\dots \\times n$ et $0! = 1$.\n• $\\binom{n}{0} = \\binom{n}{n} = 1$, $\\binom{n}{1} = n$, et **symétrie** : $\\binom{n}{k} = \\binom{n}{n-k}$.\n• **Relation de Pascal** : $\\binom{n}{k} + \\binom{n}{k+1} = \\binom{n+1}{k+1}$, qui permet de construire le triangle de Pascal."
       },
       {
-        "title": "3. Loi binomiale et variables de Bernoulli",
+        "title": "3. Loi binomiale $\\mathcal{B}(n, p)$",
+        "content": "Soit $X$ la variable aléatoire égale au nombre de succès dans un schéma de Bernoulli à $n$ épreuves indépendantes de probabilité de succès $p$ :\n• $X$ suit la **loi binomiale** de paramètres $n$ et $p$, notée $X \\sim \\mathcal{B}(n, p)$.\n• Pour tout entier $k \\in \\{0, 1, \\dots, n\\}$ :\n$$P(X = k) = \\binom{n}{k} p^k (1-p)^{n-k}$$\n• **Espérance mathématique** : $E(X) = np$.\n• **Variance** : $V(X) = np(1-p)$ et **écart-type** : $\\sigma(X) = \\sqrt{np(1-p)}$."
+      },
+      {
+        "title": "4. Loi binomiale et variables de Bernoulli",
         "content": "• Une variable de **Bernoulli** de paramètre $p$ prend la valeur $1$ (succès) avec probabilité $p$ et $0$ sinon : $E = p$ et $V = p(1 - p)$.\n• Si $X_1, \\dots, X_n$ sont des variables de Bernoulli de paramètre $p$ **indépendantes**, alors $X = X_1 + \\dots + X_n$ compte les succès : $X \\sim \\mathcal{B}(n, p)$.\n• On en déduit (voir TS2) : $E(X) = np$ (linéarité) et $V(X) = np(1 - p)$ (indépendance).\n• Exemple : pour $X \\sim \\mathcal{B}(50 ; 0{,}2)$, $E(X) = 10$ et $V(X) = 50 \\times 0{,}2 \\times 0{,}8 = 8$."
       },
       {
-        "title": "4. Probabilités cumulées et calculs pratiques",
+        "title": "5. Probabilités cumulées et calculs pratiques",
         "content": "• $P(X \\le k) = \\sum_{i=0}^{k} P(X = i)$ s'obtient à la calculatrice (fonction « binomiale cumulée » / « binomFRép »).\n• $P(X \\ge k) = 1 - P(X \\le k - 1)$ et $P(a \\le X \\le b) = P(X \\le b) - P(X \\le a - 1)$.\n• En Python :\n```python\nfrom math import comb\ndef binom(n, p, k):\n    return comb(n, k) * p**k * (1 - p)**(n - k)\ndef cumul(n, p, k):\n    return sum(binom(n, p, i) for i in range(k + 1))\n```"
       },
       {
-        "title": "5. Succession d'épreuves indépendantes",
-        "content": "• Une succession de $n$ épreuves **indépendantes** se représente par un arbre ou par un produit cartésien : une issue est une liste $(x_1 ; x_2 ; \\dots ; x_n)$.\n• **Modèle** : la probabilité d'une issue $(x_1 ; \\dots ; x_n)$ est le **produit** des probabilités des issues $x_1$, …, $x_n$ de chaque épreuve.\n• Exemple : on lance une pièce équilibrée puis un dé équilibré : $P\\big((\\text{Pile} ; 6)\\big) = \\frac{1}{2} \\times \\frac{1}{6} = \\frac{1}{12}$.\n• Pour un **schéma de Bernoulli**, l'univers est l'ensemble $\\{0 ; 1\\}^n$ des listes de $n$ chiffres ($1$ pour un succès, $0$ pour un échec)."
-      },
-      {
         "title": "6. Démonstration : expression de la probabilité de $k$ succès",
-        "content": "Soit un schéma de Bernoulli de paramètres $n$ et $p$, $X$ le nombre de succès et $k \\in \\{0, \\dots, n\\}$.\n• Une issue réalisant $\\{X = k\\}$ est une liste de $n$ résultats comportant exactement $k$ succès et $n - k$ échecs. Par indépendance, sa probabilité est le produit $p^k(1 - p)^{n-k}$, **la même pour toutes ces issues**.\n• Une telle issue est entièrement déterminée par l'ensemble des $k$ rangs (parmi $n$) où ont lieu les succès : il y en a donc $\\binom{n}{k}$ (nombre de parties à $k$ éléments d'un ensemble à $n$ éléments, chapitre TS3).\n• Ces issues étant deux à deux incompatibles, on additionne leurs probabilités :\n$$P(X = k) = \\binom{n}{k}p^k(1 - p)^{n-k}$$"
+        "content": "Soit un schéma de Bernoulli de paramètres $n$ et $p$, $X$ le nombre de succès et $k \\in \\{0, \\dots, n\\}$.\n• Une issue réalisant $\\{X = k\\}$ est une liste de $n$ résultats comportant exactement $k$ succès et $n - k$ échecs. Par indépendance, sa probabilité est le produit $p^k(1 - p)^{n-k}$, **la même pour toutes ces issues**.\n• Une telle issue est entièrement déterminée par l'ensemble des $k$ rangs (parmi $n$) où ont lieu les succès : il y en a donc $\\binom{n}{k}$ (nombre de parties à $k$ éléments d'un ensemble à $n$ éléments, chapitre TS3 ; ordre conseillé : étudier TS3 avant ce chapitre).\n• Ces issues étant deux à deux incompatibles, on additionne leurs probabilités :\n$$P(X = k) = \\binom{n}{k}p^k(1 - p)^{n-k}$$"
       },
       {
         "title": "7. Algorithmes : planche de Galton et surréservation",
@@ -664,6 +704,16 @@ window.MATHS_COURSES_TALE = {
           "**Étape 2 (Lecture)** : $P(X \\le 8) < 0{,}95 \\le P(X \\le 9)$, et la fonction $k \\mapsto P(X \\le k)$ est croissante.",
           "**Conclusion** : $b = 9$. Ainsi, dans plus de $95\\,\\%$ des prélèvements de $20$ pièces, il y aura au plus $9$ pièces défectueuses."
         ]
+      },
+      {
+        "title": "Méthode : Déterminer un intervalle $[a ; b]$ de probabilité au moins $1 - \\alpha$",
+        "example": "Avec $X \\sim \\mathcal{B}(20 ; 0{,}3)$ et $\\alpha = 0{,}05$, déterminer un intervalle $[a ; b]$ tel que $P(a \\le X \\le b) \\ge 0{,}95$, en laissant au plus $\\frac{\\alpha}{2} = 0{,}025$ de probabilité de chaque côté.",
+        "steps": [
+          "**Étape 1 (Seuils)** : on prend pour $a$ le plus petit entier tel que $P(X \\le a) > 0{,}025$ et pour $b$ le plus petit entier tel que $P(X \\le b) \\ge 0{,}975$.",
+          "**Étape 2 (Lecture du tableau)** : $P(X \\le 1) \\approx 0{,}0076 \\le 0{,}025 < P(X \\le 2) \\approx 0{,}0355$, donc $a = 2$ ; $P(X \\le 9) \\approx 0{,}9520 < 0{,}975 \\le P(X \\le 10) \\approx 0{,}9829$, donc $b = 10$.",
+          "**Étape 3 (Justification)** : on a $P(X < a) \\le 0{,}025$ et $P(X > b) \\le 0{,}025$, donc $P(a \\le X \\le b) \\ge 1 - 0{,}05$. Ici, $P(2 \\le X \\le 10) = P(X \\le 10) - P(X \\le 1) \\approx 0{,}975$.",
+          "**Conclusion** : $I = [2 ; 10]$ convient, et $P(X \\notin I) \\le 0{,}05$. Un tel intervalle n'est pas unique : la méthode précédente donne aussi $P(X \\in [0 ; 9]) \\ge 0{,}95$, mais avec toute la probabilité restante du même côté."
+        ]
       }
     ],
     "traps": [
@@ -706,6 +756,7 @@ window.MATHS_COURSES_TALE = {
     "objectives": [
       "Connaître l'ensemble $\\mathbb{C}$, l'unité imaginaire $i$ telle que $i^2 = -1$, la forme algébrique $z = a + ib$ ($a, b \\in \\mathbb{R}$).",
       "Définir le conjugué $\\bar{z} = a - ib$ et utiliser $z\\bar{z} = a^2 + b^2$ pour calculer l'inverse et les quotients.",
+      "Associer à un complexe un point du plan (affixe), calculer un module et l'interpréter comme une distance.",
       "Résoudre dans $\\mathbb{C}$ les équations du second degré à coefficients réels lorsque $\\Delta < 0$ ($z_{1,2} = \\frac{-b \\pm i\\sqrt{|\\Delta|}}{2a}$).",
       "Utiliser les propriétés du conjugué et résoudre des équations faisant intervenir $z$ et $\\bar{z}$.",
       "Factoriser un polynôme par $z - a$ lorsque $a$ est racine, et utiliser la formule du binôme de Newton.",
@@ -713,8 +764,8 @@ window.MATHS_COURSES_TALE = {
     ],
     "keyPoints": [
       {
-        "title": "1. Forme algébrique et conjugué",
-        "content": "Tout nombre complexe $z$ s'écrit de manière unique sous forme algébrique :\n$$z = a + ib \\quad (a = \\text{Re}(z), b = \\text{Im}(z) \\in \\mathbb{R})$$\n• Le **conjugué** de $z$ est $\\bar{z} = a - ib$.\n• Propriété clé : $z \\bar{z} = (a+ib)(a-ib) = a^2 + b^2 \\in \\mathbb{R}_+$.\n• Quotient : $\\frac{1}{a+ib} = \\frac{a - ib}{a^2 + b^2}$."
+        "title": "1. Forme algébrique, conjugué, affixe et module",
+        "content": "Tout nombre complexe $z$ s'écrit de manière unique sous forme algébrique :\n$$z = a + ib \\quad (a = \\text{Re}(z), b = \\text{Im}(z) \\in \\mathbb{R})$$\n• Le **conjugué** de $z$ est $\\bar{z} = a - ib$.\n• Propriété clé : $z \\bar{z} = (a+ib)(a-ib) = a^2 + b^2 \\in \\mathbb{R}_+$.\n• Quotient : $\\frac{1}{a+ib} = \\frac{a - ib}{a^2 + b^2}$.\n• **Image et affixe** : le plan muni d'un repère orthonormé $(O ; \\vec{u}, \\vec{v})$ est appelé **plan complexe**. Au complexe $z = a + ib$, on associe le point $M(a ; b)$, appelé **image** de $z$ ; réciproquement, $z$ est l'**affixe** du point $M$, notée $z_M$. De même, un vecteur $\\vec{w}$ de coordonnées $(a ; b)$ a pour **affixe** $a + ib$ ; si $A$ et $B$ ont pour affixes $z_A$ et $z_B$, le vecteur $\\overrightarrow{AB}$ a pour affixe $z_B - z_A$. L'image de $\\bar{z}$ est le symétrique de $M$ par rapport à l'axe des abscisses (section 3).\n• **Module** : $|z| = \\sqrt{a^2 + b^2}$ ; c'est la distance $OM$, et $z\\bar{z} = |z|^2$.\n• **Distance** : si $A$ et $B$ ont pour affixes $z_A$ et $z_B$, alors $AB = |z_B - z_A|$. Ainsi, pour $A \\neq B$, l'ensemble des points $M$ d'affixe $z$ tels que $|z - z_A| = |z - z_B|$ est la médiatrice de $[AB]$, puisque $|z - z_A| = AM$ et $|z - z_B| = BM$. Le chapitre TX2 approfondit cette interprétation géométrique (argument, forme exponentielle)."
       },
       {
         "title": "2. Équations du second degré dans $\\mathbb{C}$ à coefficients réels",
@@ -829,24 +880,24 @@ window.MATHS_COURSES_TALE = {
       "Appliquer le théorème de convergence monotone pour les suites récurrentes.",
       "Connaître le comportement de $q^n$ selon la valeur de $q$ et l'utiliser.",
       "Déterminer la limite d'une suite récurrente convergente à l'aide d'un point fixe.",
-      "Connaître et rédiger les démonstrations exigibles : suite croissante non majorée, théorème de comparaison, limite de $(q^n)$."
+      "Connaître et rédiger les démonstrations du programme : suite croissante non majorée, théorème de comparaison, limite de $(q^n)$."
     ],
     "keyPoints": [
       {
-        "title": "1. Opérations sur les limites et formes indéterminées",
-        "content": "• Les 4 formes indéterminées fondamentales sont : $\\frac{\\infty}{\\infty}$, $\\frac{0}{0}$, $\\infty - \\infty$ et $0 \\times \\infty$.\n• Règle du monôme de plus haut degré : la limite en $+\\infty$ d'un quotient de polynômes en $n$ est égale à la limite du quotient de leurs monômes de plus haut degré."
+        "title": "1. Définitions de la limite d'une suite",
+        "content": "• $(u_n)$ **converge** vers le réel $\\ell$ si tout intervalle ouvert contenant $\\ell$ contient tous les termes $u_n$ **à partir d'un certain rang**. On note $\\lim\\limits_{n \\to +\\infty} u_n = \\ell$. Cette limite, si elle existe, est **unique**.\n• $(u_n)$ **tend vers $+\\infty$** si tout intervalle $]A ; +\\infty[$ contient tous les termes à partir d'un certain rang.\n• $(u_n)$ **tend vers $-\\infty$** si tout intervalle $]-\\infty ; A[$ contient tous les termes à partir d'un certain rang.\n• Une suite qui ne converge pas est dite **divergente** : soit elle tend vers $\\pm\\infty$, soit elle n'a pas de limite (comme $(-1)^n$).\n• **Propriété** : une suite croissante non majorée tend vers $+\\infty$ ; une suite décroissante non minorée tend vers $-\\infty$."
       },
       {
-        "title": "2. Théorèmes des gendarmes et de convergence monotone",
-        "content": "• **Théorème des gendarmes** : Si pour tout $n \\ge n_0$, $v_n \\le u_n \\le w_n$ et si $\\lim v_n = \\lim w_n = l$, alors $(u_n)$ converge et $\\lim u_n = l$.\n• **Convergence monotone** : Toute suite croissante et majorée converge vers une limite réelle $l \\le M$. Toute suite décroissante et minorée converge vers une limite réelle $l \\ge m$."
+        "title": "2. Opérations sur les limites et formes indéterminées",
+        "content": "• **Limites usuelles** : pour tout entier $k \\ge 1$, $\\lim\\limits_{n \\to +\\infty} n^k = +\\infty$ et $\\lim\\limits_{n \\to +\\infty} \\sqrt{n} = +\\infty$ ; $\\lim\\limits_{n \\to +\\infty} \\dfrac{1}{n^k} = 0$ et $\\lim\\limits_{n \\to +\\infty} \\dfrac{1}{\\sqrt{n}} = 0$.\n• **Opérations sur les limites (propriétés admises)** : dans les tableaux, $\\ell$ et $\\ell'$ sont des réels, $\\infty$ désigne $+\\infty$ ou $-\\infty$ et le signe du résultat suit la règle des signes. « F.I. » signale une **forme indéterminée** : les opérations ne permettent pas de conclure directement.\n\n**Somme**\n\n| $\\lim u_n$ | $\\ell$ | $\\ell$ | $\\ell$ | $+\\infty$ | $-\\infty$ | $+\\infty$ |\n|---|---|---|---|---|---|---|\n| $\\lim v_n$ | $\\ell'$ | $+\\infty$ | $-\\infty$ | $+\\infty$ | $-\\infty$ | $-\\infty$ |\n| $\\lim (u_n + v_n)$ | $\\ell + \\ell'$ | $+\\infty$ | $-\\infty$ | $+\\infty$ | $-\\infty$ | F.I. |\n\n**Produit**\n\n| $\\lim u_n$ | $\\ell$ | $\\ell \\neq 0$ | $\\infty$ | $0$ |\n|---|---|---|---|---|\n| $\\lim v_n$ | $\\ell'$ | $\\infty$ | $\\infty$ | $\\infty$ |\n| $\\lim (u_n v_n)$ | $\\ell \\ell'$ | $\\infty$ | $\\infty$ | F.I. |\n\n**Quotient**\n\n| $\\lim u_n$ | $\\ell$ | $\\ell$ | $\\ell \\neq 0$ ou $\\infty$ | $\\infty$ | $0$ | $\\infty$ |\n|---|---|---|---|---|---|---|\n| $\\lim v_n$ | $\\ell' \\neq 0$ | $\\infty$ | $0$, avec $v_n$ de signe constant | $\\ell' \\neq 0$ | $0$ | $\\infty$ |\n| $\\lim \\dfrac{u_n}{v_n}$ | $\\dfrac{\\ell}{\\ell'}$ | $0$ | $\\infty$ | $\\infty$ | F.I. | F.I. |\n\n• **Exemples** : $\\lim\\limits_{n \\to +\\infty} \\left(n^2 + \\dfrac{3}{n}\\right) = +\\infty$ par somme ($+\\infty$ et $0$) ; $\\lim\\limits_{n \\to +\\infty} (2 - n)\\sqrt{n} = -\\infty$ par produit ($-\\infty$ et $+\\infty$) ; $\\lim\\limits_{n \\to +\\infty} \\dfrac{5}{1 + n^2} = 0$ par quotient ($5$ et $+\\infty$).\n• Les 4 formes indéterminées fondamentales sont : $\\frac{\\infty}{\\infty}$, $\\frac{0}{0}$, $\\infty - \\infty$ et $0 \\times \\infty$. Pour les lever, on transforme l'écriture, par exemple en factorisant par le terme prépondérant (voir les méthodes).\n• Règle du monôme de plus haut degré : la limite en $+\\infty$ d'un quotient de polynômes en $n$ est égale à la limite du quotient de leurs monômes de plus haut degré.\n• Ces règles restent valables pour les limites de fonctions (chapitre TA3)."
       },
       {
-        "title": "3. Définitions de la limite d'une suite",
-        "content": "• $(u_n)$ **converge** vers le réel $\\ell$ si tout intervalle ouvert contenant $\\ell$ contient tous les termes $u_n$ **à partir d'un certain rang**. On note $\\lim\\limits_{n \\to +\\infty} u_n = \\ell$. Cette limite, si elle existe, est **unique**.\n• $(u_n)$ **tend vers $+\\infty$** si tout intervalle $]A ; +\\infty[$ contient tous les termes à partir d'un certain rang.\n• Une suite qui ne converge pas est dite **divergente** : soit elle tend vers $\\pm\\infty$, soit elle n'a pas de limite (comme $(-1)^n$).\n• **Propriété** : une suite croissante non majorée tend vers $+\\infty$ ; une suite décroissante non minorée tend vers $-\\infty$."
-      },
-      {
-        "title": "4. Théorèmes de comparaison et passage à la limite",
+        "title": "3. Théorèmes de comparaison et passage à la limite",
         "content": "• **Comparaison (limites infinies)** : si $u_n \\le v_n$ à partir d'un certain rang et $\\lim u_n = +\\infty$, alors $\\lim v_n = +\\infty$. De même, si $u_n \\le v_n$ et $\\lim v_n = -\\infty$, alors $\\lim u_n = -\\infty$.\n• **Passage à la limite** : si $u_n \\le v_n$ à partir d'un certain rang, et si $(u_n)$ et $(v_n)$ convergent vers $\\ell$ et $\\ell'$, alors $\\ell \\le \\ell'$.\n• En particulier, si $(u_n)$ converge vers $\\ell$ et si $u_n \\le M$ pour tout $n$, alors $\\ell \\le M$."
+      },
+      {
+        "title": "4. Théorèmes des gendarmes et de convergence monotone",
+        "content": "• **Théorème des gendarmes** : Si pour tout $n \\ge n_0$, $v_n \\le u_n \\le w_n$ et si $\\lim v_n = \\lim w_n = \\ell$, alors $(u_n)$ converge et $\\lim u_n = \\ell$.\n• **Convergence monotone (théorème admis)** : si $(u_n)$ est croissante et majorée par un réel $M$, c'est-à-dire si $u_n \\le M$ pour tout $n$, alors $(u_n)$ converge vers un réel $\\ell$ et $\\ell \\le M$. De même, si $(u_n)$ est décroissante et minorée par un réel $m$, alors elle converge vers un réel $\\ell \\ge m$."
       },
       {
         "title": "5. Limite d'une suite géométrique $(q^n)$",
@@ -854,11 +905,11 @@ window.MATHS_COURSES_TALE = {
       },
       {
         "title": "6. Suites récurrentes et point fixe",
-        "content": "Soit $(u_n)$ définie par $u_{n+1} = f(u_n)$. Si $(u_n)$ **converge** vers $\\ell$ et si $f$ est **continue** en $\\ell$, alors $\\ell$ vérifie :\n$$f(\\ell) = \\ell$$\nOn dit que $\\ell$ est un **point fixe** de $f$. On résout donc l'équation $f(x) = x$, puis on sélectionne la bonne solution grâce aux informations connues sur la suite (signe, bornes, monotonie)."
+        "content": "Soit $(u_n)$ définie par $u_{n+1} = f(u_n)$. Si $(u_n)$ **converge** vers $\\ell$ et si $f$ est **continue** en $\\ell$ (la continuité est étudiée au chapitre TA3 ; les fonctions usuelles sont continues sur leur ensemble de définition), alors $\\ell$ vérifie :\n$$f(\\ell) = \\ell$$\nOn dit que $\\ell$ est un **point fixe** de $f$. On résout donc l'équation $f(x) = x$, puis on sélectionne la bonne solution grâce aux informations connues sur la suite (signe, bornes, monotonie)."
       },
       {
         "title": "7. Démonstration : une suite croissante non majorée tend vers $+\\infty$",
-        "content": "Soit $(u_n)$ une suite croissante et non majorée, et $A$ un réel quelconque.\n• Comme $(u_n)$ n'est pas majorée, $A$ n'est pas un majorant de la suite : il existe un rang $N$ tel que $u_N > A$.\n• Comme $(u_n)$ est croissante, pour tout $n \\ge N$, $u_n \\ge u_N > A$.\n• Ainsi, l'intervalle $]A ; +\\infty[$ contient tous les termes $u_n$ à partir du rang $N$. Ceci étant vrai pour tout réel $A$, on a par définition $\\lim\\limits_{n \\to +\\infty} u_n = +\\infty$."
+        "content": "**Logique** : « $(u_n)$ est majorée » signifie « il existe un réel $M$ tel que, pour tout $n$, $u_n \\le M$ ». Sa négation, « $(u_n)$ n'est pas majorée », s'écrit en échangeant les quantificateurs et en niant l'inégalité : « pour tout réel $M$, il existe un rang $n$ tel que $u_n > M$ » (voir chapitre TA1, point 6).\n\nSoit $(u_n)$ une suite croissante et non majorée, et $A$ un réel quelconque.\n• Comme $(u_n)$ n'est pas majorée, $A$ n'est pas un majorant de la suite : il existe un rang $N$ tel que $u_N > A$.\n• Comme $(u_n)$ est croissante, pour tout $n \\ge N$, $u_n \\ge u_N > A$.\n• Ainsi, l'intervalle $]A ; +\\infty[$ contient tous les termes $u_n$ à partir du rang $N$. Ceci étant vrai pour tout réel $A$, on a par définition $\\lim\\limits_{n \\to +\\infty} u_n = +\\infty$."
       },
       {
         "title": "8. Démonstration : théorème de comparaison (limite infinie)",
@@ -880,7 +931,7 @@ window.MATHS_COURSES_TALE = {
         "steps": [
           "**Étape 1** : On factorise le numérateur et le dénominateur par $n^2$ :\n$$u_n = \\frac{n^2(5 - 3/n + 2/n^2)}{n^2(2 + 7/n^2)} = \\frac{5 - 3/n + 2/n^2}{2 + 7/n^2}$$",
           "**Étape 2** : Comme $\\lim \\frac{1}{n} = \\lim \\frac{1}{n^2} = 0$, le numérateur tend vers 5 et le dénominateur vers 2.",
-          "**Conclusion** : $\\lim_{n \\to +\\infty} u_n = \\frac{5}{2}$."
+          "**Conclusion** : $\\lim\\limits_{n \\to +\\infty} u_n = \\frac{5}{2}$."
         ]
       },
       {
@@ -900,6 +951,17 @@ window.MATHS_COURSES_TALE = {
           "**Étape 2 (Point fixe)** : $f(x) = \\sqrt{3x + 4}$ est continue sur $[0 ; +\\infty[$, donc $\\ell = \\sqrt{3\\ell + 4}$. En élevant au carré : $\\ell^2 = 3\\ell + 4$, soit $\\ell^2 - 3\\ell - 4 = 0$, c'est-à-dire $(\\ell - 4)(\\ell + 1) = 0$.",
           "**Étape 3 (Sélection)** : $\\ell = 4$ ou $\\ell = -1$. Or $\\ell \\ge 0$, donc $\\ell = 4$.",
           "**Conclusion** : $\\lim\\limits_{n \\to +\\infty} u_n = 4$."
+        ]
+      },
+      {
+        "title": "Méthode : Limite de la somme des termes d'une suite géométrique",
+        "example": "Pour $0 < q < 1$, déterminer la limite de $1 + q + q^2 + \\dots + q^n$. Application : déterminer la limite de $S_n = 2 + 2 \\times 0{,}6 + 2 \\times 0{,}6^2 + \\dots + 2 \\times 0{,}6^n$.",
+        "steps": [
+          "**Étape 1 (Formule de la somme, chapitre 1A6)** : comme $q \\neq 1$, $1 + q + \\dots + q^n = \\dfrac{1 - q^{n+1}}{1 - q}$.",
+          "**Étape 2 (Limite de $q^{n+1}$)** : comme $0 < q < 1$, $\\lim\\limits_{n \\to +\\infty} q^{n+1} = 0$ (point 5).",
+          "**Étape 3 (Opérations sur les limites)** : par somme, $1 - q^{n+1}$ tend vers $1$ ; le dénominateur $1 - q$ est une constante non nulle, donc $\\lim\\limits_{n \\to +\\infty} (1 + q + \\dots + q^n) = \\dfrac{1}{1 - q}$.",
+          "**Étape 4 (Application)** : $S_n = 2(1 + 0{,}6 + \\dots + 0{,}6^n) = 2 \\times \\dfrac{1 - 0{,}6^{n+1}}{1 - 0{,}6} = 5\\left(1 - 0{,}6^{n+1}\\right)$, et comme $0 < 0{,}6 < 1$, $\\lim\\limits_{n \\to +\\infty} S_n = 5$.",
+          "**Conclusion** : pour $0 < q < 1$, la somme $1 + q + \\dots + q^n$ converge vers $\\dfrac{1}{1 - q}$ (le résultat reste vrai pour $-1 < q < 0$). En revanche, si $q \\ge 1$, chaque somme est supérieure ou égale à $n + 1$, donc elle tend vers $+\\infty$."
         ]
       },
       {
@@ -957,31 +1019,36 @@ window.MATHS_COURSES_TALE = {
       "Déterminer les coordonnées des points d'inflexion d'une courbe représentative.",
       "Connaître la définition de la convexité par la position de la courbe par rapport à ses sécantes.",
       "Utiliser la convexité pour démontrer des inégalités ($e^x \\ge 1 + x$, $\\ln(x) \\le x - 1$).",
-      "Démontrer que si $f'' \\ge 0$, la courbe est au-dessus de ses tangentes."
+      "Démontrer que si $f'' \\ge 0$, la courbe est au-dessus de ses tangentes.",
+      "Lire la convexité et les points d'inflexion sur un graphique de $f$, $f'$ ou $f''$, et esquisser l'allure d'une courbe."
     ],
     "keyPoints": [
       {
-        "title": "1. Définition et caractérisation de la convexité",
-        "content": "Soit $f$ une fonction deux fois dérivable sur un intervalle $I$ (la convexité est définie par les cordes, voir point 3 ; les équivalences ci-dessous sont admises, sauf l'implication démontrée au point 6) :\n• $f$ est **convexe** sur $I \\iff$ sa courbe $\\mathcal{C}_f$ est située **au-dessus** de toutes ses tangentes $\\iff f'$ est croissante sur $I \\iff f''(x) \\ge 0$ pour tout $x \\in I$.\n• $f$ est **concave** sur $I \\iff$ sa courbe $\\mathcal{C}_f$ est située **en dessous** de toutes ses tangentes $\\iff f'$ est décroissante sur $I \\iff f''(x) \\le 0$ pour tout $x \\in I$."
-      },
-      {
-        "title": "2. Point d'inflexion",
-        "content": "Un **point d'inflexion** est un point où la courbe traverse sa tangente.\n• Propriété : si $f$ est deux fois dérivable et si $f''$ s'annule en $a$ **en changeant de signe**, alors le point $A(a ; f(a))$ est un point d'inflexion de $\\mathcal{C}_f$ : la fonction change de convexité en $a$.\n• En pratique, on cherche les points d'inflexion parmi les réels où $f''$ s'annule, puis on vérifie le changement de signe."
-      },
-      {
-        "title": "3. Définition par les sécantes (cordes)",
+        "title": "1. Définition par les sécantes (cordes)",
         "content": "Soit $f$ définie sur un intervalle $I$. $f$ est **convexe** sur $I$ si, pour tous points $A$ et $B$ de sa courbe d'abscisses dans $I$, la portion de courbe située entre $A$ et $B$ est **en dessous** du segment $[AB]$.\nAvec des formules : pour tous $x, y \\in I$ et tout $t \\in [0 ; 1]$,\n$$f\\big(tx + (1-t)y\\big) \\le t f(x) + (1-t) f(y)$$\n$f$ est **concave** si l'inégalité est dans l'autre sens (courbe au-dessus de ses cordes).\nPour une fonction dérivable, les deux points de vue (cordes et tangentes) sont équivalents."
       },
       {
+        "title": "2. Caractérisations de la convexité",
+        "content": "**Prérequis** : la dérivée seconde $f''$ est définie au chapitre TA8 (point 4), que l'on peut travailler avant celui-ci.\nSoit $f$ une fonction deux fois dérivable sur un intervalle $I$ (la convexité est définie par les cordes, voir point 1 ; les équivalences ci-dessous sont admises, sauf l'implication démontrée au point 7) :\n• $f$ est **convexe** sur $I \\iff$ sa courbe $\\mathcal{C}_f$ est située **au-dessus** de toutes ses tangentes $\\iff f'$ est croissante sur $I \\iff f''(x) \\ge 0$ pour tout $x \\in I$.\n• $f$ est **concave** sur $I \\iff$ sa courbe $\\mathcal{C}_f$ est située **en dessous** de toutes ses tangentes $\\iff f'$ est décroissante sur $I \\iff f''(x) \\le 0$ pour tout $x \\in I$."
+      },
+      {
+        "title": "3. Point d'inflexion",
+        "content": "Un **point d'inflexion** est un point où la courbe traverse sa tangente.\n• Propriété : si $f$ est deux fois dérivable et si $f''$ s'annule en $a$ **en changeant de signe**, alors le point $A(a ; f(a))$ est un point d'inflexion de $\\mathcal{C}_f$ : la fonction change de convexité en $a$.\n• En pratique, on cherche les points d'inflexion parmi les réels où $f''$ s'annule, puis on vérifie le changement de signe."
+      },
+      {
         "title": "4. Convexité des fonctions de référence",
-        "content": "• **Convexes** sur leur ensemble de définition : $x \\mapsto x^2$, $x \\mapsto e^x$, $x \\mapsto |x|$.\n• **Concaves** : $x \\mapsto \\sqrt{x}$ sur $[0 ; +\\infty[$, $x \\mapsto \\ln(x)$ sur $]0 ; +\\infty[$ (car $\\ln''(x) = -\\frac{1}{x^2} < 0$).\n• $x \\mapsto x^3$ est concave sur $]-\\infty ; 0]$ et convexe sur $[0 ; +\\infty[$ : l'origine est un point d'inflexion.\n• $x \\mapsto \\frac{1}{x}$ est concave sur $]-\\infty ; 0[$ et convexe sur $]0 ; +\\infty[$ (pas de point d'inflexion : $0$ n'est pas dans le domaine)."
+        "content": "• **Convexes** sur leur ensemble de définition : $x \\mapsto x^2$, $x \\mapsto e^x$, $x \\mapsto |x|$.\n• **Concaves** : $x \\mapsto \\sqrt{x}$ sur $[0 ; +\\infty[$, $x \\mapsto \\ln(x)$ sur $]0 ; +\\infty[$ (car $\\ln''(x) = -\\frac{1}{x^2} < 0$ ; la fonction $\\ln$, de dérivée $x \\mapsto \\frac{1}{x}$, est étudiée au chapitre TA5).\n• $x \\mapsto x^3$ est concave sur $]-\\infty ; 0]$ et convexe sur $[0 ; +\\infty[$ : l'origine est un point d'inflexion.\n• $x \\mapsto \\frac{1}{x}$ est concave sur $]-\\infty ; 0[$ et convexe sur $]0 ; +\\infty[$ (pas de point d'inflexion : $0$ n'est pas dans le domaine)."
       },
       {
         "title": "5. Inégalités de convexité",
-        "content": "Si $f$ est convexe sur $I$, sa courbe est au-dessus de chacune de ses tangentes : pour tout $a \\in I$ et tout $x \\in I$,\n$$f(x) \\ge f'(a)(x - a) + f(a)$$\nDeux inégalités classiques à connaître :\n• $e^x \\ge 1 + x$ pour tout réel $x$ (tangente en $0$ à la courbe de l'exponentielle) ;\n• $\\ln(x) \\le x - 1$ pour tout $x > 0$ (le logarithme est concave, $y = x - 1$ est sa tangente en $1$).\nEn un point d'inflexion, la courbe **traverse** sa tangente."
+        "content": "Si $f$ est convexe sur $I$, sa courbe est au-dessus de chacune de ses tangentes : pour tout $a \\in I$ et tout $x \\in I$,\n$$f(x) \\ge f'(a)(x - a) + f(a)$$\nDeux inégalités classiques à connaître :\n• $e^x \\ge 1 + x$ pour tout réel $x$ (tangente en $0$ à la courbe de l'exponentielle) ;\n• $\\ln(x) \\le x - 1$ pour tout $x > 0$ (le logarithme, étudié au chapitre TA5, est concave et $y = x - 1$ est sa tangente en $1$).\nEn un point d'inflexion, la courbe **traverse** sa tangente."
       },
       {
-        "title": "6. Démonstration : si $f''$ est positive, la courbe est au-dessus de ses tangentes",
+        "title": "6. Lire la convexité sur un graphique",
+        "content": "L'information à lire dépend de la courbe donnée :\n\n| Courbe donnée | $f$ convexe | $f$ concave | Point d'inflexion |\n|---|---|---|---|\n| celle de $f$ | courbe au-dessus de ses tangentes | courbe en dessous de ses tangentes | la courbe traverse sa tangente |\n| celle de $f'$ | $f'$ croissante | $f'$ décroissante | $f'$ change de sens de variation (extremum local) |\n| celle de $f''$ | courbe au-dessus de l'axe des abscisses | courbe en dessous de l'axe des abscisses | la courbe traverse l'axe des abscisses |\n\n**Exemple** : sur $[-2 ; 2]$, $f(x) = \\frac{x^3}{3} - x$, $f'(x) = x^2 - 1$ et $f''(x) = 2x$.\n\n<div style=\"display:flex; flex-wrap:wrap; justify-content:center; align-items:flex-end; gap:0.4rem;\"><div style=\"flex:1 1 170px; max-width:230px;\"><div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:0.6rem auto;\"><svg class=\"geo-svg-figure\" role=\"img\" aria-label=\"Courbe de f, d'abord concave puis convexe, avec un point d'inflexion marqué à l'origine, sur l'intervalle [-2 ; 2]. Elle passe par les points (0 ; 0).\" viewBox=\"0 0 180 132\" width=\"180\" height=\"132\" style=\"max-width:330px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\"><line x1=\"18\" y1=\"114\" x2=\"18\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"42\" y1=\"114\" x2=\"42\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"66\" y1=\"114\" x2=\"66\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"90\" y1=\"114\" x2=\"90\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"114\" y1=\"114\" x2=\"114\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"138\" y1=\"114\" x2=\"138\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"162\" y1=\"114\" x2=\"162\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"114\" x2=\"162\" y2=\"114\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"90\" x2=\"162\" y2=\"90\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"66\" x2=\"162\" y2=\"66\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"42\" x2=\"162\" y2=\"42\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"18\" x2=\"162\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"66\" x2=\"172\" y2=\"66\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\"/><polygon points=\"0,0 -8,-3.5 -8,3.5\" transform=\"translate(174 66) rotate(0)\" fill=\"var(--text-main, #334155)\"/><line x1=\"90\" y1=\"114\" x2=\"90\" y2=\"8\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\"/><polygon points=\"0,0 -8,-3.5 -8,3.5\" transform=\"translate(90 6) rotate(-90)\" fill=\"var(--text-main, #334155)\"/><text x=\"18\" y=\"79\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−3</text><text x=\"42\" y=\"79\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−2</text><text x=\"66\" y=\"79\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−1</text><text x=\"114\" y=\"79\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">1</text><text x=\"138\" y=\"79\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">2</text><text x=\"162\" y=\"79\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">3</text><text x=\"85\" y=\"117.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−2</text><text x=\"85\" y=\"93.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−1</text><text x=\"85\" y=\"45.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">1</text><text x=\"85\" y=\"21.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">2</text><text x=\"84\" y=\"79\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">0</text><path d=\"M 42 82 C 44 76 46 71 48 66.88 C 50 62.75 52 59.5 54 57 C 56 54.5 58 52.75 60 51.63 C 62 50.5 64 50 66 50 C 68 50 70 50.5 72 51.38 C 74 52.25 76 53.5 78 55 C 80 56.5 82 58.25 84 60.13 C 86 62 88 64 90 66 C 92 68 94 70 96 71.88 C 98 73.75 100 75.5 102 77 C 104 78.5 106 79.75 108 80.63 C 110 81.5 112 82 114 82 C 116 82 118 81.5 120 80.38 C 122 79.25 124 77.5 126 75 C 128 72.5 130 69.25 132 65.13 C 134 61 136 56 138 50\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.2\"/><text x=\"22.800000000000004\" y=\"31.200000000000003\" text-anchor=\"start\" font-size=\"12\" font-weight=\"700\" fill=\"var(--text-main, #334155)\">f</text><circle cx=\"90\" cy=\"66\" r=\"3.6\" fill=\"#dc2626\"/><text x=\"99\" y=\"59\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"700\" fill=\"#dc2626\"></text></svg></div></div><div style=\"flex:1 1 170px; max-width:230px;\"><div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:0.6rem auto;\"><svg class=\"geo-svg-figure\" role=\"img\" aria-label=\"Courbe de f', décroissante puis croissante, avec son minimum marqué au point (0 ; -1), sur l'intervalle [-2 ; 2]. Elle passe par les points (-2 ; 3), (-1 ; 0), (0 ; -1), (1 ; 0), (2 ; 3).\" viewBox=\"0 0 180 180\" width=\"180\" height=\"180\" style=\"max-width:330px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\"><line x1=\"18\" y1=\"162\" x2=\"18\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"42\" y1=\"162\" x2=\"42\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"66\" y1=\"162\" x2=\"66\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"90\" y1=\"162\" x2=\"90\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"114\" y1=\"162\" x2=\"114\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"138\" y1=\"162\" x2=\"138\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"162\" y1=\"162\" x2=\"162\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"162\" x2=\"162\" y2=\"162\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"138\" x2=\"162\" y2=\"138\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"114\" x2=\"162\" y2=\"114\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"90\" x2=\"162\" y2=\"90\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"66\" x2=\"162\" y2=\"66\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"42\" x2=\"162\" y2=\"42\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"18\" x2=\"162\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"114\" x2=\"172\" y2=\"114\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\"/><polygon points=\"0,0 -8,-3.5 -8,3.5\" transform=\"translate(174 114) rotate(0)\" fill=\"var(--text-main, #334155)\"/><line x1=\"90\" y1=\"162\" x2=\"90\" y2=\"8\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\"/><polygon points=\"0,0 -8,-3.5 -8,3.5\" transform=\"translate(90 6) rotate(-90)\" fill=\"var(--text-main, #334155)\"/><text x=\"18\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−3</text><text x=\"42\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−2</text><text x=\"66\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−1</text><text x=\"114\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">1</text><text x=\"138\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">2</text><text x=\"162\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">3</text><text x=\"85\" y=\"165.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−2</text><text x=\"85\" y=\"141.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−1</text><text x=\"85\" y=\"93.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">1</text><text x=\"85\" y=\"69.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">2</text><text x=\"85\" y=\"45.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">3</text><text x=\"85\" y=\"21.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">4</text><text x=\"84\" y=\"127\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">0</text><path d=\"M 42 42 C 44 50 46 57.5 48 64.5 C 50 71.5 52 78 54 84 C 56 90 58 95.5 60 100.5 C 62 105.5 64 110 66 114 C 68 118 70 121.5 72 124.5 C 74 127.5 76 130 78 132 C 80 134 82 135.5 84 136.5 C 86 137.5 88 138 90 138 C 92 138 94 137.5 96 136.5 C 98 135.5 100 134 102 132 C 104 130 106 127.5 108 124.5 C 110 121.5 112 118 114 114 C 116 110 118 105.5 120 100.5 C 122 95.5 124 90 126 84 C 128 78 130 71.5 132 64.5 C 134 57.5 136 50 138 42\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.2\"/><text x=\"22.800000000000004\" y=\"31.199999999999996\" text-anchor=\"start\" font-size=\"12\" font-weight=\"700\" fill=\"var(--text-main, #334155)\">f ′</text><circle cx=\"90\" cy=\"138\" r=\"3.6\" fill=\"#dc2626\"/><text x=\"99\" y=\"131\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"700\" fill=\"#dc2626\"></text></svg></div></div><div style=\"flex:1 1 170px; max-width:230px;\"><div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:0.6rem auto;\"><svg class=\"geo-svg-figure\" role=\"img\" aria-label=\"Courbe de f'', négative puis positive, qui traverse l'axe des abscisses à l'origine, sur l'intervalle [-2 ; 2]. Elle passe par les points (-2 ; -4), (-1 ; -2), (0 ; 0), (1 ; 2), (2 ; 4).\" viewBox=\"0 0 180 276\" width=\"180\" height=\"276\" style=\"max-width:330px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\"><line x1=\"18\" y1=\"258\" x2=\"18\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"42\" y1=\"258\" x2=\"42\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"66\" y1=\"258\" x2=\"66\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"90\" y1=\"258\" x2=\"90\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"114\" y1=\"258\" x2=\"114\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"138\" y1=\"258\" x2=\"138\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"162\" y1=\"258\" x2=\"162\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"258\" x2=\"162\" y2=\"258\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"234\" x2=\"162\" y2=\"234\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"210\" x2=\"162\" y2=\"210\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"186\" x2=\"162\" y2=\"186\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"162\" x2=\"162\" y2=\"162\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"138\" x2=\"162\" y2=\"138\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"114\" x2=\"162\" y2=\"114\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"90\" x2=\"162\" y2=\"90\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"66\" x2=\"162\" y2=\"66\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"42\" x2=\"162\" y2=\"42\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"18\" x2=\"162\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"138\" x2=\"172\" y2=\"138\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\"/><polygon points=\"0,0 -8,-3.5 -8,3.5\" transform=\"translate(174 138) rotate(0)\" fill=\"var(--text-main, #334155)\"/><line x1=\"90\" y1=\"258\" x2=\"90\" y2=\"8\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\"/><polygon points=\"0,0 -8,-3.5 -8,3.5\" transform=\"translate(90 6) rotate(-90)\" fill=\"var(--text-main, #334155)\"/><text x=\"18\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−3</text><text x=\"42\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−2</text><text x=\"66\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−1</text><text x=\"114\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">1</text><text x=\"138\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">2</text><text x=\"162\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">3</text><text x=\"85\" y=\"261.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−5</text><text x=\"85\" y=\"237.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−4</text><text x=\"85\" y=\"213.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−3</text><text x=\"85\" y=\"189.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−2</text><text x=\"85\" y=\"165.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−1</text><text x=\"85\" y=\"117.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">1</text><text x=\"85\" y=\"93.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">2</text><text x=\"85\" y=\"69.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">3</text><text x=\"85\" y=\"45.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">4</text><text x=\"85\" y=\"21.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">5</text><text x=\"84\" y=\"151\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">0</text><path d=\"M 42 234 C 44 230 46 226 48 222 C 50 218 52 214 54 210 C 56 206 58 202 60 198 C 62 194 64 190 66 186 C 68 182 70 178 72 174 C 74 170 76 166 78 162 C 80 158 82 154 84 150 C 86 146 88 142 90 138 C 92 134 94 130 96 126 C 98 122 100 118 102 114 C 104 110 106 106 108 102 C 110 98 112 94 114 90 C 116 86 118 82 120 78 C 122 74 124 70 126 66 C 128 62 130 58 132 54 C 134 50 136 46 138 42\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.2\"/><text x=\"22.800000000000004\" y=\"31.199999999999996\" text-anchor=\"start\" font-size=\"12\" font-weight=\"700\" fill=\"var(--text-main, #334155)\">f ″</text><circle cx=\"90\" cy=\"138\" r=\"3.6\" fill=\"#dc2626\"/><text x=\"99\" y=\"131\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"700\" fill=\"#dc2626\"></text></svg></div></div></div>\n\nLes trois lectures concordent : $f$ est concave sur $[-2 ; 0]$, convexe sur $[0 ; 2]$, et le point d'abscisse $0$ est un point d'inflexion.\n• Sur la courbe de $f'$, l'abscisse $0$ est celle du **minimum** de $f'$.\n• Les abscisses où $f'$ **s'annule** (ici $-1$ et $1$) sont celles des extremums de $f$ : ce ne sont pas des points d'inflexion."
+      },
+      {
+        "title": "7. Démonstration : si $f''$ est positive, la courbe est au-dessus de ses tangentes",
         "content": "Soit $f$ deux fois dérivable sur un intervalle $I$ avec $f''(x) \\ge 0$ pour tout $x \\in I$, et soit $a \\in I$. La tangente en $a$ a pour équation $y = f'(a)(x - a) + f(a)$.\n• On pose, pour $x \\in I$, $g(x) = f(x) - \\big[f'(a)(x - a) + f(a)\\big]$ : c'est l'écart entre la courbe et la tangente. $g$ est dérivable et $g'(x) = f'(x) - f'(a)$.\n• Comme $f'' \\ge 0$, $f'$ est croissante sur $I$ : si $x \\le a$, $f'(x) \\le f'(a)$ donc $g'(x) \\le 0$ ; si $x \\ge a$, $g'(x) \\ge 0$.\n• $g$ est donc décroissante puis croissante : elle admet un minimum en $a$, égal à $g(a) = f(a) - f(a) = 0$.\n• Ainsi $g(x) \\ge 0$ pour tout $x \\in I$ : la courbe est au-dessus de sa tangente en $a$, et ceci pour tout $a \\in I$."
       }
     ],
@@ -1025,6 +1092,16 @@ window.MATHS_COURSES_TALE = {
           "**Étape 3 (Signe)** : $(x - 2)^3 < 0$ pour $x < 2$ et $(x - 2)^3 > 0$ pour $x > 2$.",
           "**Conclusion** : la courbe est en dessous de $T$ sur $]-\\infty ; 2[$ (zone où $f$ est concave) et au-dessus sur $]2 ; +\\infty[$ (zone où $f$ est convexe) : elle **traverse** sa tangente en $I$."
         ]
+      },
+      {
+        "title": "Méthode : Esquisser l'allure d'une courbe à partir de tableaux",
+        "example": "Soit $g$ définie sur $[-1 ; 3]$ par $g(x) = x^3 - 3x^2 + 4$, avec $g'(x) = 3x(x - 2)$ et $g''(x) = 6x - 6$. Esquisser l'allure de sa courbe.",
+        "steps": [
+          "**Étape 1 (Variations)** : $g'$ est positive sur $[-1 ; 0]$, négative sur $[0 ; 2]$ et positive sur $[2 ; 3]$ : $g$ est croissante, puis décroissante, puis croissante.",
+          "**Étape 2 (Convexité)** : $g''$ est négative sur $[-1 ; 1]$ et positive sur $[1 ; 3]$ : $g$ est concave puis convexe, et le point d'abscisse $1$ est un point d'inflexion.",
+          "**Étape 3 (Tableau)** : on réunit ces informations et les valeurs de $g$.\n\n| $x$ | $-1$ |  | $0$ |  | $1$ |  | $2$ |  | $3$ |\n|---|---|---|---|---|---|---|---|---|---|\n| signe de $g'(x)$ |  | $+$ | $0$ | $-$ |  | $-$ | $0$ | $+$ |  |\n| signe de $g''(x)$ |  | $-$ |  | $-$ | $0$ | $+$ |  | $+$ |  |\n| $g(x)$ | $0$ | ↗ | $4$ | ↘ | $2$ | ↘ | $0$ | ↗ | $4$ |",
+          "**Conclusion** : on place les points du tableau, puis on les relie en respectant les variations et la convexité : la courbe est tournée vers le bas avant $I(1 ; 2)$ et vers le haut après, avec des tangentes horizontales aux abscisses $0$ et $2$.\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:0.6rem auto;\"><svg class=\"geo-svg-figure\" role=\"img\" aria-label=\"Courbe de g, avec les points (-1 ; 0), (0 ; 4), (2 ; 0), (3 ; 4) et le point d'inflexion (1 ; 2), sur l'intervalle [-1 ; 3]. Elle passe par les points (-1 ; 0), (0 ; 4), (1 ; 2), (2 ; 0), (3 ; 4).\" viewBox=\"0 0 180 180\" width=\"180\" height=\"180\" style=\"max-width:330px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\"><line x1=\"18\" y1=\"162\" x2=\"18\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"42\" y1=\"162\" x2=\"42\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"66\" y1=\"162\" x2=\"66\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"90\" y1=\"162\" x2=\"90\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"114\" y1=\"162\" x2=\"114\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"138\" y1=\"162\" x2=\"138\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"162\" y1=\"162\" x2=\"162\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"162\" x2=\"162\" y2=\"162\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"138\" x2=\"162\" y2=\"138\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"114\" x2=\"162\" y2=\"114\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"90\" x2=\"162\" y2=\"90\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"66\" x2=\"162\" y2=\"66\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"42\" x2=\"162\" y2=\"42\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"18\" x2=\"162\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"138\" x2=\"172\" y2=\"138\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\"/><polygon points=\"0,0 -8,-3.5 -8,3.5\" transform=\"translate(174 138) rotate(0)\" fill=\"var(--text-main, #334155)\"/><line x1=\"66\" y1=\"162\" x2=\"66\" y2=\"8\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\"/><polygon points=\"0,0 -8,-3.5 -8,3.5\" transform=\"translate(66 6) rotate(-90)\" fill=\"var(--text-main, #334155)\"/><text x=\"18\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−2</text><text x=\"42\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−1</text><text x=\"90\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">1</text><text x=\"114\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">2</text><text x=\"138\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">3</text><text x=\"162\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">4</text><text x=\"61\" y=\"165.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−1</text><text x=\"61\" y=\"117.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">1</text><text x=\"61\" y=\"93.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">2</text><text x=\"61\" y=\"69.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">3</text><text x=\"61\" y=\"45.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">4</text><text x=\"61\" y=\"21.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">5</text><text x=\"60\" y=\"151\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">0</text><path d=\"M 42 138 C 44 120 46 105 48 92.63 C 50 80.25 52 70.5 54 63 C 56 55.5 58 50.25 60 46.88 C 62 43.5 64 42 66 42 C 68 42 70 43.5 72 46.13 C 74 48.75 76 52.5 78 57 C 80 61.5 82 66.75 84 72.38 C 86 78 88 84 90 90 C 92 96 94 102 96 107.63 C 98 113.25 100 118.5 102 123 C 104 127.5 106 131.25 108 133.88 C 110 136.5 112 138 114 138 C 116 138 118 136.5 120 133.13 C 122 129.75 124 124.5 126 117 C 128 109.5 130 99.75 132 87.38 C 134 75 136 60 138 42\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.2\"/><circle cx=\"42\" cy=\"138\" r=\"3\" fill=\"#2563eb\"/><circle cx=\"66\" cy=\"42\" r=\"3\" fill=\"#2563eb\"/><circle cx=\"114\" cy=\"138\" r=\"3\" fill=\"#2563eb\"/><circle cx=\"138\" cy=\"42\" r=\"3\" fill=\"#2563eb\"/><circle cx=\"90\" cy=\"90\" r=\"3.6\" fill=\"#dc2626\"/><text x=\"99\" y=\"83\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"700\" fill=\"#dc2626\">I</text></svg></div>"
+        ]
       }
     ],
     "traps": [
@@ -1058,6 +1135,10 @@ window.MATHS_COURSES_TALE = {
       {
         "q": "Quelle fonction étudie-t-on pour démontrer qu'une courbe convexe est au-dessus de sa tangente en $a$ ?",
         "a": "$g(x) = f(x) - [f'(a)(x - a) + f(a)]$ : $g' = f' - f'(a)$ change de signe en $a$ car $f'$ est croissante, donc $g$ a pour minimum $g(a) = 0$."
+      },
+      {
+        "q": "Sur la courbe de $f'$, que faut-il regarder pour connaître la convexité de $f$ ?",
+        "a": "Les **variations** de $f'$ : $f$ est convexe où $f'$ est croissante, concave où $f'$ est décroissante."
       }
     ]
   },
@@ -1074,20 +1155,20 @@ window.MATHS_COURSES_TALE = {
     ],
     "keyPoints": [
       {
-        "title": "1. Primitives de formes composées usuelles",
-        "content": "Soit $u$ une fonction dérivable sur un intervalle $I$, de dérivée $u'$ continue. Une primitive sur $I$ de :\n• $u' u^n$ est $\\dfrac{u^{n+1}}{n+1}$ pour $n \\in \\mathbb{N}$ (et pour $n$ entier $\\le -2$ si $u$ ne s'annule pas sur $I$) ;\n• $\\dfrac{u'}{u}$ est $\\ln(u)$ si $u > 0$ sur $I$ (plus généralement $\\ln(|u|)$ si $u$ ne s'annule pas sur $I$) ;\n• $u' e^u$ est $e^u$ ;\n• $\\dfrac{u'}{\\sqrt{u}}$ est $2\\sqrt{u}$ si $u > 0$ sur $I$.\nLes autres primitives s'obtiennent en ajoutant une constante $C$. Toutes ces formules découlent de la dérivée d'une composée $(v \\circ u)' = (v' \\circ u) \\times u'$."
+        "title": "1. Primitives : définition et propriétés",
+        "content": "• $F$ est une **primitive** de $f$ sur l'intervalle $I$ si $F$ est dérivable sur $I$ et $F' = f$.\n• **Théorème (admis)** : toute fonction **continue** sur un intervalle admet des primitives sur cet intervalle.\n• Si $F$ est une primitive de $f$, les primitives de $f$ sont les fonctions $x \\mapsto F(x) + C$, $C \\in \\mathbb{R}$ : deux primitives diffèrent d'une constante.\n• Pour $x_0 \\in I$ et $y_0 \\in \\mathbb{R}$, il existe une **unique** primitive $F$ telle que $F(x_0) = y_0$.\n• Une équation différentielle $y' = f$ a pour solutions exactement les primitives de $f$."
       },
       {
-        "title": "2. Résolution des équations différentielles linéaires",
+        "title": "2. Primitives usuelles",
+        "content": "• $x^n$ ($n \\in \\mathbb{N}$) a pour primitives $\\dfrac{x^{n+1}}{n+1} + C$ sur $\\mathbb{R}$.\n• $\\dfrac{1}{x^n}$ ($n \\ge 2$ entier) a pour primitives $-\\dfrac{1}{(n-1)x^{n-1}} + C$ sur $]0 ; +\\infty[$ (ou $]-\\infty ; 0[$).\n• $\\dfrac{1}{x^2}$ a pour primitives $-\\dfrac{1}{x} + C$ sur $]0 ; +\\infty[$ (ou $]-\\infty ; 0[$).\n• $\\dfrac{1}{x}$ a pour primitives $\\ln(x) + C$ sur $]0 ; +\\infty[$.\n• $\\dfrac{1}{\\sqrt{x}}$ a pour primitives $2\\sqrt{x} + C$ sur $]0 ; +\\infty[$.\n• $e^x$ a pour primitives $e^x + C$ ; $e^{ax+b}$ ($a \\ne 0$) a pour primitives $\\dfrac{1}{a}e^{ax+b} + C$.\n• $\\cos(x)$ a pour primitives $\\sin(x) + C$ ; $\\sin(x)$ a pour primitives $-\\cos(x) + C$ (car $\\sin' = \\cos$ et $\\cos' = -\\sin$, dérivées étudiées au chapitre TA9)."
+      },
+      {
+        "title": "3. Primitives de formes composées usuelles",
+        "content": "Soit $u$ une fonction dérivable sur un intervalle $I$, de dérivée $u'$ continue. Une primitive sur $I$ de :\n• $u' u^n$ est $\\dfrac{u^{n+1}}{n+1}$ pour $n \\in \\mathbb{N}$ (et pour $n$ entier $\\le -2$ si $u$ ne s'annule pas sur $I$) ;\n• $\\dfrac{u'}{u}$ est $\\ln(u)$ si $u > 0$ sur $I$ (plus généralement $\\ln(|u|)$ si $u$ ne s'annule pas sur $I$) ;\n• $u' e^u$ est $e^u$ ;\n• $\\dfrac{u'}{\\sqrt{u}}$ est $2\\sqrt{u}$ si $u > 0$ sur $I$.\nLes autres primitives s'obtiennent en ajoutant une constante $C$. Toutes ces formules découlent de la dérivée d'une composée $(v \\circ u)' = (v' \\circ u) \\times u'$ (voir chapitre TA8, points 2 et 3)."
+      },
+      {
+        "title": "4. Résolution des équations différentielles linéaires",
         "content": "• Pour $y' = ay$ ($a \\in \\mathbb{R}$) : les solutions sont les fonctions $y(x) = C e^{ax}$ ($C \\in \\mathbb{R}$).\n• Pour $y' = ay + b$ ($a \\neq 0$) : les solutions sont les fonctions $y(x) = C e^{ax} - \\frac{b}{a}$ ($C \\in \\mathbb{R}$).\n• Pour toute condition initiale $(x_0, y_0)$, il existe **une unique solution** vérifiant $y(x_0) = y_0$."
-      },
-      {
-        "title": "3. Primitives : définition et propriétés",
-        "content": "• $F$ est une **primitive** de $f$ sur l'intervalle $I$ si $F$ est dérivable sur $I$ et $F' = f$.\n• **Théorème** : toute fonction **continue** sur un intervalle admet des primitives sur cet intervalle.\n• Si $F$ est une primitive de $f$, les primitives de $f$ sont les fonctions $x \\mapsto F(x) + C$, $C \\in \\mathbb{R}$ : deux primitives diffèrent d'une constante.\n• Pour $x_0 \\in I$ et $y_0 \\in \\mathbb{R}$, il existe une **unique** primitive $F$ telle que $F(x_0) = y_0$.\n• Une équation différentielle $y' = f$ a pour solutions exactement les primitives de $f$."
-      },
-      {
-        "title": "4. Primitives usuelles",
-        "content": "• $x^n$ ($n \\in \\mathbb{N}$) a pour primitives $\\dfrac{x^{n+1}}{n+1} + C$ sur $\\mathbb{R}$.\n• $\\dfrac{1}{x^n}$ ($n \\ge 2$ entier) a pour primitives $-\\dfrac{1}{(n-1)x^{n-1}} + C$ sur $]0 ; +\\infty[$ (ou $]-\\infty ; 0[$).\n• $\\dfrac{1}{x^2}$ a pour primitives $-\\dfrac{1}{x} + C$ sur $]0 ; +\\infty[$ (ou $]-\\infty ; 0[$).\n• $\\dfrac{1}{x}$ a pour primitives $\\ln(x) + C$ sur $]0 ; +\\infty[$.\n• $\\dfrac{1}{\\sqrt{x}}$ a pour primitives $2\\sqrt{x} + C$ sur $]0 ; +\\infty[$.\n• $e^x$ a pour primitives $e^x + C$ ; $e^{ax+b}$ ($a \\ne 0$) a pour primitives $\\dfrac{1}{a}e^{ax+b} + C$.\n• $\\cos(x)$ a pour primitives $\\sin(x) + C$ ; $\\sin(x)$ a pour primitives $-\\cos(x) + C$."
       },
       {
         "title": "5. Équation $y' = ay + f$ : structure des solutions",
@@ -1186,6 +1267,7 @@ window.MATHS_COURSES_TALE = {
     "title": "TG1 : Vecteurs, droites et plans dans l'espace",
     "domain": "Géométrie de l'Espace",
     "objectives": [
+      "Connaître la notion de vecteur de l'espace et calculer l'image d'un point par une translation.",
       "Caractériser la colinéarité de deux vecteurs et la coplanarité de trois vecteurs dans l'espace.",
       "Écrire et exploiter la représentation paramétrique d'une droite de l'espace.",
       "Étudier les positions relatives de deux droites (parallèles, sécantes ou non coplanaires).",
@@ -1194,23 +1276,27 @@ window.MATHS_COURSES_TALE = {
     ],
     "keyPoints": [
       {
-        "title": "1. Représentation paramétrique d'une droite",
+        "title": "1. Vecteurs de l'espace et translations",
+        "content": "• Comme dans le plan, un **vecteur de l'espace** non nul est défini par une direction, un sens et une longueur (sa norme) ; le vecteur nul $\\vec{0}$ a une longueur nulle. Deux points $A$ et $B$ définissent le vecteur $\\overrightarrow{AB}$, et $\\overrightarrow{AA} = \\vec{0}$.\n• Pour tout point $O$ et tout vecteur $\\vec{u}$, il existe un **unique** point $M$ tel que $\\overrightarrow{OM} = \\vec{u}$ : $\\overrightarrow{OM}$ est le **représentant** de $\\vec{u}$ d'origine $O$.\n• $\\overrightarrow{AB} = \\overrightarrow{CD}$ si et seulement si $ABDC$ est un parallélogramme (éventuellement aplati). La relation de Chasles $\\overrightarrow{AB} + \\overrightarrow{BC} = \\overrightarrow{AC}$, l'addition de deux vecteurs et le produit d'un vecteur par un réel fonctionnent comme dans le plan.\n• **Translation** : la translation de vecteur $\\vec{u}$ est la transformation qui, à tout point $M$ de l'espace, associe l'unique point $M'$ tel que $\\overrightarrow{MM'} = \\vec{u}$.\n• Dans un repère (voir le point 4), si $M(x ; y ; z)$ et $\\vec{u}(a ; b ; c)$, alors $M'(x + a ; y + b ; z + c)$. Exemple : l'image de $M(1 ; 4 ; -2)$ par la translation de vecteur $\\vec{u}(2 ; -1 ; 3)$ est $M'(3 ; 3 ; 1)$."
+      },
+      {
+        "title": "2. Représentation paramétrique d'une droite",
         "content": "La droite passant par $A(x_A ; y_A ; z_A)$ et de vecteur directeur $\\vec{u}(a ; b ; c)$ admet pour représentation paramétrique :\n$$\\begin{cases} x = x_A + at \\\\ y = y_A + bt \\\\ z = z_A + ct \\end{cases} \\quad (t \\in \\mathbb{R})$$"
       },
       {
-        "title": "2. Positions relatives dans l'espace",
+        "title": "3. Positions relatives dans l'espace",
         "content": "• Deux droites ayant des vecteurs directeurs colinéaires sont **strictement parallèles** ou **confondues**.\n• Deux droites sans vecteurs directeurs colinéaires sont **sécantes** (un unique point d'intersection) ou **non coplanaires** (aucun point d'intersection et aucun plan ne les contient)."
       },
       {
-        "title": "3. Colinéarité, coplanarité, bases de l'espace",
-        "content": "• $\\vec{u}$ et $\\vec{v}$ sont **colinéaires** s'il existe un réel $k$ tel que $\\vec{v} = k\\vec{u}$ (ou si $\\vec{u} = \\vec{0}$).\n• Trois vecteurs $\\vec{u}$, $\\vec{v}$, $\\vec{w}$ avec $\\vec{u}$ et $\\vec{v}$ non colinéaires sont **coplanaires** s'il existe deux réels $a$ et $b$ tels que $\\vec{w} = a\\vec{u} + b\\vec{v}$.\n• Quatre points $A$, $B$, $C$, $D$ sont **coplanaires** si et seulement si les vecteurs $\\overrightarrow{AB}$, $\\overrightarrow{AC}$, $\\overrightarrow{AD}$ sont coplanaires.\n• Trois vecteurs **non coplanaires** $(\\vec{i}, \\vec{j}, \\vec{k})$ forment une **base** de l'espace : tout vecteur $\\vec{w}$ s'écrit de manière unique $\\vec{w} = x\\vec{i} + y\\vec{j} + z\\vec{k}$ ; $(x ; y ; z)$ sont ses coordonnées. Avec une origine $O$, $(O ; \\vec{i}, \\vec{j}, \\vec{k})$ est un **repère** de l'espace."
+        "title": "4. Colinéarité, coplanarité, bases de l'espace",
+        "content": "• $\\vec{u}$ et $\\vec{v}$ sont **colinéaires** s'il existe un réel $k$ tel que $\\vec{v} = k\\vec{u}$ (ou si $\\vec{u} = \\vec{0}$).\n• Trois vecteurs $\\vec{u}$, $\\vec{v}$, $\\vec{w}$ sont **coplanaires** si, pour un point $O$ quelconque, les points $O$, $A$, $B$, $C$ tels que $\\overrightarrow{OA} = \\vec{u}$, $\\overrightarrow{OB} = \\vec{v}$ et $\\overrightarrow{OC} = \\vec{w}$ appartiennent à un même plan : les trois vecteurs ont des représentants de même origine dans un même plan.\n• Si $\\vec{u}$ et $\\vec{v}$ ne sont pas colinéaires, alors $\\vec{u}$, $\\vec{v}$, $\\vec{w}$ sont coplanaires si et seulement s'il existe deux réels $a$ et $b$ tels que $\\vec{w} = a\\vec{u} + b\\vec{v}$.\n• Quatre points $A$, $B$, $C$, $D$ sont **coplanaires** si et seulement si les vecteurs $\\overrightarrow{AB}$, $\\overrightarrow{AC}$, $\\overrightarrow{AD}$ sont coplanaires.\n• Trois vecteurs **non coplanaires** $(\\vec{i}, \\vec{j}, \\vec{k})$ forment une **base** de l'espace : tout vecteur $\\vec{w}$ s'écrit de manière unique $\\vec{w} = x\\vec{i} + y\\vec{j} + z\\vec{k}$ ; $(x ; y ; z)$ sont ses coordonnées. Avec une origine $O$, $(O ; \\vec{i}, \\vec{j}, \\vec{k})$ est un **repère** de l'espace."
       },
       {
-        "title": "4. Caractérisation vectorielle d'un plan",
+        "title": "5. Caractérisation vectorielle d'un plan",
         "content": "Soit $A$ un point et $\\vec{u}$, $\\vec{v}$ deux vecteurs **non colinéaires**. Le plan $\\mathcal{P}$ passant par $A$ et dirigé par $\\vec{u}$ et $\\vec{v}$ est l'ensemble des points $M$ tels que :\n$$\\overrightarrow{AM} = s\\vec{u} + t\\vec{v}, \\quad s, t \\in \\mathbb{R}$$\n• Une droite $d$ de vecteur directeur $\\vec{w}$ est **parallèle** à $\\mathcal{P}$ si et seulement si $\\vec{w}$, $\\vec{u}$, $\\vec{v}$ sont coplanaires.\n• Deux plans sont parallèles si et seulement si deux vecteurs directeurs non colinéaires de l'un dirigent aussi l'autre."
       },
       {
-        "title": "5. Positions relatives de plans et théorème du toit",
+        "title": "6. Positions relatives de plans et théorème du toit",
         "content": "• Deux plans distincts sont soit **parallèles** (aucun point commun), soit **sécants** suivant une droite.\n• Une droite et un plan sont soit sécants en un point, soit parallèles (droite incluse dans le plan ou sans point commun).\n• **Théorème du toit** : si deux plans sécants $\\mathcal{P}_1$ et $\\mathcal{P}_2$ contiennent respectivement deux droites parallèles $d_1$ et $d_2$, alors leur droite d'intersection $\\Delta$ est parallèle à $d_1$ et à $d_2$.\n• Si un plan $\\mathcal{P}$ coupe deux plans parallèles, les droites d'intersection obtenues sont parallèles."
       }
     ],
@@ -1219,7 +1305,7 @@ window.MATHS_COURSES_TALE = {
         "title": "Méthode : Écrire la représentation paramétrique d'une droite $(AB)$",
         "example": "Soient $A(1 ; 2 ; -3)$ et $B(4 ; -1 ; 0)$. Déterminer une représentation paramétrique de $(AB)$.",
         "steps": [
-          "**Étape 1** : Vecteur directeur $\\vec{AB}(4-1 ; -1-2 ; 0-(-3)) = \\vec{AB}(3 ; -3 ; 3)$ (ou $\\vec{u}(1 ; -1 ; 1)$).",
+          "**Étape 1** : Vecteur directeur $\\overrightarrow{AB}(4-1 ; -1-2 ; 0-(-3)) = \\overrightarrow{AB}(3 ; -3 ; 3)$ (ou $\\vec{u}(1 ; -1 ; 1)$).",
           "**Étape 2** : On écrit le système paramétrique avec le point $A$ :\n$$\\begin{cases} x = 1 + 3t \\\\ y = 2 - 3t \\\\ z = -3 + 3t \\end{cases} \\quad (t \\in \\mathbb{R})$$"
         ]
       },
@@ -1282,6 +1368,10 @@ window.MATHS_COURSES_TALE = {
         "a": "Un triplet de vecteurs non coplanaires $(\\vec{i}, \\vec{j}, \\vec{k})$ : tout vecteur s'écrit de façon unique $x\\vec{i} + y\\vec{j} + z\\vec{k}$."
       },
       {
+        "q": "Qu'est-ce que la translation de vecteur $\\vec{u}$ dans l'espace ?",
+        "a": "La transformation qui, à tout point $M$, associe l'unique point $M'$ tel que $\\overrightarrow{MM'} = \\vec{u}$."
+      },
+      {
         "q": "Comment démontrer que trois vecteurs forment une base de l'espace ?",
         "a": "On montre qu'ils ne sont pas coplanaires : deux d'entre eux ne sont pas colinéaires et le troisième n'est pas combinaison linéaire des deux premiers."
       }
@@ -1296,24 +1386,25 @@ window.MATHS_COURSES_TALE = {
       "Justifier rigoureusement le principe de la loi faible des grands nombres.",
       "Utiliser la linéarité de l'espérance et les propriétés de la variance ($V(aX + b) = a^2V(X)$).",
       "Déterminer une taille d'échantillon à l'aide de l'inégalité de concentration.",
-      "Démontrer l'espérance et la variance de la loi binomiale ; simuler des échantillons en Python."
+      "Démontrer l'espérance et la variance de la loi binomiale ; simuler des échantillons en Python.",
+      "Simuler une marche aléatoire et calculer par un programme la probabilité $P(|S_n - pn| > \\sqrt{n})$ pour $S_n \\sim \\mathcal{B}(n, p)$."
     ],
     "keyPoints": [
       {
-        "title": "1. Espérance et variance de la moyenne d'un échantillon",
+        "title": "1. Somme de variables aléatoires",
+        "content": "Soient $X$ et $Y$ deux variables aléatoires définies sur le même univers, et $a$, $b$ deux réels.\n• **Linéarité de l'espérance** (toujours vraie) : $E(X + Y) = E(X) + E(Y)$ et $E(aX + b) = aE(X) + b$.\n• $V(aX + b) = a^2 V(X)$ et donc $\\sigma(aX + b) = |a|\\,\\sigma(X)$.\n• **Variables indépendantes** : $X$ et $Y$ sont **indépendantes** si, pour toutes valeurs $x$ de $X$ et $y$ de $Y$, $P(\\{X = x\\} \\cap \\{Y = y\\}) = P(X = x) \\times P(Y = y)$. C'est le cadre du programme : dans une succession d'épreuves indépendantes, une variable qui ne dépend que des résultats de certaines épreuves et une variable qui ne dépend que des résultats des autres épreuves sont indépendantes.\n• Si $X$ et $Y$ sont **indépendantes** : $V(X + Y) = V(X) + V(Y)$ (propriété admise).\n• Pour un **échantillon** $(X_1, \\dots, X_n)$ de variables indépendantes de même loi (espérance $\\mu$, variance $\\sigma^2$), la somme $S_n = X_1 + \\dots + X_n$ vérifie $E(S_n) = n\\mu$ et $V(S_n) = n\\sigma^2$."
+      },
+      {
+        "title": "2. Espérance et variance de la moyenne d'un échantillon",
         "content": "Soient $X_1, \\dots, X_n$ des variables indépendantes de même loi, d'espérance $\\mu$ et de variance $\\sigma^2$.\n• Moyenne empirique : $M_n = \\frac{1}{n} \\sum_{i=1}^n X_i$.\n• $E(M_n) = \\mu$ et $V(M_n) = \\frac{\\sigma^2}{n}$, d'où $\\sigma(M_n) = \\frac{\\sigma}{\\sqrt{n}}$."
       },
       {
-        "title": "2. Inégalités de Bienaymé-Tchebychev et de concentration",
+        "title": "3. Inégalités de Bienaymé-Tchebychev et de concentration",
         "content": "• **Bienaymé-Tchebychev** : Pour toute variable aléatoire $X$ d'espérance $\\mu$ et de variance $\\sigma^2$ :\n$$P(|X - \\mu| \\ge \\delta) \\le \\frac{\\sigma^2}{\\delta^2} \\quad (\\delta > 0)$$\n• **Inégalité de concentration** appliquée à $M_n$ :\n$$P(|M_n - \\mu| \\ge \\delta) \\le \\frac{\\sigma^2}{n \\delta^2} \\xrightarrow[n \\to +\\infty]{} 0$$"
       },
       {
-        "title": "3. Somme de variables aléatoires",
-        "content": "Soient $X$ et $Y$ deux variables aléatoires définies sur le même univers, et $a$, $b$ deux réels.\n• **Linéarité de l'espérance** (toujours vraie) : $E(X + Y) = E(X) + E(Y)$ et $E(aX + b) = aE(X) + b$.\n• $V(aX + b) = a^2 V(X)$ et donc $\\sigma(aX + b) = |a|\\,\\sigma(X)$.\n• Si $X$ et $Y$ sont **indépendantes** : $V(X + Y) = V(X) + V(Y)$.\n• Pour un **échantillon** $(X_1, \\dots, X_n)$ de variables indépendantes de même loi (espérance $\\mu$, variance $\\sigma^2$), la somme $S_n = X_1 + \\dots + X_n$ vérifie $E(S_n) = n\\mu$ et $V(S_n) = n\\sigma^2$."
-      },
-      {
         "title": "4. Autre forme de Bienaymé-Tchebychev",
-        "content": "En passant à l'événement contraire, pour tout $\\delta > 0$ :\n$$P(|X - \\mu| < \\delta) \\ge 1 - \\frac{V(X)}{\\delta^2}$$\nAvec $\\delta = k\\sigma$ ($k > 0$) : $P(|X - \\mu| < k\\sigma) \\ge 1 - \\dfrac{1}{k^2}$. Ainsi, quelle que soit la loi de $X$, au moins $75\\,\\%$ des valeurs sont à moins de $2\\sigma$ de la moyenne ($k = 2$) et au moins $\\frac{8}{9} \\approx 89\\,\\%$ à moins de $3\\sigma$ ($k = 3$)."
+        "content": "En passant à l'événement contraire, pour tout $\\delta > 0$ :\n$$P(|X - \\mu| < \\delta) \\ge 1 - \\frac{V(X)}{\\delta^2}$$\nAvec $\\delta = k\\sigma$ ($k > 0$) : $P(|X - \\mu| < k\\sigma) \\ge 1 - \\dfrac{1}{k^2}$. Ainsi, quelle que soit la loi de $X$, $X$ prend, avec une probabilité d'au moins $75\\,\\%$, une valeur à moins de $2\\sigma$ de $\\mu$ ($k = 2$) et, avec une probabilité d'au moins $\\frac{8}{9} \\approx 89\\,\\%$, une valeur à moins de $3\\sigma$ de $\\mu$ ($k = 3$)."
       },
       {
         "title": "5. Loi faible des grands nombres",
@@ -1329,7 +1420,11 @@ window.MATHS_COURSES_TALE = {
       },
       {
         "title": "8. Simulation d'échantillons en Python",
-        "content": "On simule $N$ échantillons de taille $n$ du lancer d'un dé équilibré et on étudie la série des $N$ moyennes obtenues :\n```python\nfrom random import randint\nfrom math import sqrt\n\ndef moyenne_echantillon(n):\n    return sum(randint(1, 6) for i in range(n)) / n\n\ndef experience(N, n):\n    moyennes = [moyenne_echantillon(n) for j in range(N)]\n    m = sum(moyennes) / N\n    s = sqrt(sum((x - m)**2 for x in moyennes) / N)\n    return m, s\n\nprint(experience(1000, 100))\n```\nPour un dé, $\\mu = 3{,}5$ et $\\sigma = \\sqrt{\\frac{35}{12}} \\approx 1{,}71$. On observe une moyenne des moyennes proche de $3{,}5$ et un écart-type $s$ proche de $\\frac{\\sigma}{\\sqrt{n}} \\approx 0{,}171$ pour $n = 100$. En comptant la proportion des moyennes situées à moins de $2s$ de $3{,}5$, on trouve en général environ $95\\,\\%$, bien plus que la garantie de $75\\,\\%$ donnée par Bienaymé-Tchebychev."
+        "content": "On simule $N$ échantillons de taille $n$ du lancer d'un dé équilibré et on étudie la série des $N$ moyennes obtenues :\n```python\nfrom random import randint\nfrom math import sqrt\n\ndef moyenne_echantillon(n):\n    return sum(randint(1, 6) for i in range(n)) / n\n\ndef experience(N, n):\n    moyennes = [moyenne_echantillon(n) for j in range(N)]\n    m = sum(moyennes) / N\n    s = sqrt(sum((x - m)**2 for x in moyennes) / N)\n    return moyennes, m, s\n\ndef proportion(moyennes, mu, k, s):\n    # proportion des moyennes dont l'écart à mu est au plus k * s\n    return sum(1 for x in moyennes if abs(x - mu) <= k * s) / len(moyennes)\n\nmoyennes, m, s = experience(1000, 100)\nprint(m, s)\nfor k in [1, 2, 3]:\n    print(k, proportion(moyennes, 3.5, k, s))\n```\nPour un dé, $\\mu = 3{,}5$ et $\\sigma = \\sqrt{\\frac{35}{12}} \\approx 1{,}71$. On observe une moyenne des moyennes proche de $3{,}5$ et un écart-type $s$ proche de $\\frac{\\sigma}{\\sqrt{n}} \\approx 0{,}171$ pour $n = 100$. En comptant, pour $k = 1$, $2$ et $3$, la proportion des moyennes dont l'écart à $3{,}5$ est inférieur ou égal à $ks$, on trouve en général environ $68\\,\\%$, $95\\,\\%$ et $99{,}7\\,\\%$. C'est bien plus que ce que garantit Bienaymé-Tchebychev avec $\\delta = ks$ : rien pour $k = 1$ (la minoration $1 - \\frac{1}{k^2}$ vaut $0$), $75\\,\\%$ pour $k = 2$ et $\\frac{8}{9} \\approx 89\\,\\%$ pour $k = 3$."
+      },
+      {
+        "title": "9. Deux algorithmes : écart à la moyenne et marche aléatoire",
+        "content": "Soit $S_n \\sim \\mathcal{B}(n, p)$ le nombre de succès en $n$ épreuves indépendantes.\n• **Calcul de $P(|S_n - pn| > \\sqrt{n})$** : on additionne les probabilités $\\binom{n}{k}p^k(1 - p)^{n - k}$ des valeurs $k$ qui vérifient $|k - pn| > \\sqrt{n}$.\n```python\nfrom math import comb, sqrt\n\ndef proba_ecart(n, p):\n    total = 0\n    for k in range(n + 1):\n        if abs(k - n * p) > sqrt(n):\n            total = total + comb(n, k) * p**k * (1 - p)**(n - k)\n    return total\n```\nPour $n = 100$ et $p = 0{,}5$, la condition est $|k - 50| > 10$, c'est-à-dire $k \\le 39$ ou $k \\ge 61$, et `proba_ecart(100, 0.5)` renvoie environ $0{,}035$. Or l'inégalité de Bienaymé-Tchebychev, avec $V(S_n) = np(1 - p)$ et $\\delta = \\sqrt{n}$, donne seulement $P(|S_n - pn| > \\sqrt{n}) \\le P(|S_n - pn| \\ge \\sqrt{n}) \\le \\dfrac{np(1 - p)}{n} = p(1 - p) \\le \\dfrac{1}{4}$ : la majoration est valable, mais très pessimiste. En faisant varier $n$, on constate que cette probabilité reste petite (pour $p = 0{,}5$ et $100 \\le n \\le 1000$, elle reste comprise entre $0{,}03$ et $0{,}06$), alors que l'écart toléré $\\sqrt{n}$ devient négligeable devant $n$ : la fréquence $\\frac{S_n}{n}$ s'écarte de $p$ de plus de $\\frac{1}{\\sqrt{n}}$ avec une faible probabilité.\n• **Simulation d'une marche aléatoire** : un pion part de $0$ sur une droite graduée ; à chaque étape, il avance de $1$ avec la probabilité $p$ et recule de $1$ sinon, indépendamment des étapes précédentes.\n```python\nfrom random import random\n\ndef marche(n, p):\n    x = 0\n    for i in range(n):\n        if random() < p:\n            x = x + 1\n        else:\n            x = x - 1\n    return x\n\ndef moyenne_positions(n, p, N):\n    return sum(marche(n, p) for j in range(N)) / N\n```\nSi $S_n$ est le nombre de pas en avant, $S_n \\sim \\mathcal{B}(n, p)$ et la position finale est $X_n = S_n - (n - S_n) = 2S_n - n$. Donc $E(X_n) = 2np - n = n(2p - 1)$ et $V(X_n) = 4np(1 - p)$. D'après la loi des grands nombres, `moyenne_positions(n, p, N)` est proche de $n(2p - 1)$ pour $N$ grand. Pour la marche symétrique ($p = 0{,}5$), $|X_n| > 2\\sqrt{n} \\iff |S_n - \\frac{n}{2}| > \\sqrt{n}$ : avec $n = 100$, le pion finit à plus de $20$ graduations de son point de départ avec une probabilité d'environ $0{,}035$, ce qu'une simulation de nombreuses marches permet de constater."
       }
     ],
     "methods": [
@@ -1411,6 +1506,7 @@ window.MATHS_COURSES_TALE = {
     "title": "TX2 : Nombres complexes et géométrie : forme trigonométrique et exponentielle",
     "domain": "Mathématiques Expertes",
     "objectives": [
+      "Associer un point ou un vecteur du plan complexe à son affixe.",
       "Calculer le module $|z|$ et un argument $\\arg(z)$ d'un nombre complexe non nul.",
       "Passer de la forme algébrique à la forme trigonométrique et exponentielle $r e^{i\\theta}$.",
       "Interpréter géométriquement les modules (distances) et arguments (angles orientés de vecteurs).",
@@ -1420,12 +1516,12 @@ window.MATHS_COURSES_TALE = {
     ],
     "keyPoints": [
       {
-        "title": "1. Forme trigonométrique et exponentielle",
-        "content": "Pour $z = a + ib \\ne 0$ :\n• Module : $|z| = \\sqrt{a^2 + b^2}$.\n• Argument $\\theta = \\arg(z) \\pmod{2\\pi}$ vérifiant $\\cos\\theta = \\frac{a}{|z|}$ et $\\sin\\theta = \\frac{b}{|z|}$.\n• Forme exponentielle : $z = r e^{i\\theta}$ avec $r = |z| > 0$."
+        "title": "1. Plan complexe, forme trigonométrique et exponentielle",
+        "content": "Le plan est muni d'un repère orthonormé direct $(O ; \\vec{u}, \\vec{v})$ : on l'appelle le **plan complexe**.\n• À tout complexe $z = a + ib$ ($a$ et $b$ réels), on associe le point $M(a ; b)$, appelé **image** de $z$ ; réciproquement, $z$ est l'**affixe** du point $M$, notée $z_M$.\n• Le vecteur $\\vec{w}(a ; b)$ a pour **affixe** $a + ib$. En particulier, $\\overrightarrow{AB}$ a pour affixe $z_B - z_A$, et l'affixe d'une somme de vecteurs est la somme de leurs affixes.\nPour $z = a + ib \\ne 0$ d'image $M$ :\n• Module : $|z| = \\sqrt{a^2 + b^2} = OM$.\n• Argument : toute mesure $\\theta$ de l'angle orienté $\\left(\\vec{u}, \\overrightarrow{OM}\\right)$, notée $\\arg(z)$ et définie modulo $2\\pi$ ; elle vérifie $\\cos\\theta = \\frac{a}{|z|}$ et $\\sin\\theta = \\frac{b}{|z|}$.\n• **Forme trigonométrique** : comme $a = r\\cos\\theta$ et $b = r\\sin\\theta$ avec $r = |z| > 0$, on a $z = r(\\cos\\theta + i\\sin\\theta)$.\n• **Exponentielle imaginaire** : pour tout réel $\\theta$, on pose $e^{i\\theta} = \\cos\\theta + i\\sin\\theta$. C'est le complexe de module $1$ et d'argument $\\theta$, dont l'image est le point du cercle trigonométrique associé à $\\theta$. Elle vérifie la relation fonctionnelle $e^{i\\theta} \\times e^{i\\theta'} = e^{i(\\theta + \\theta')}$ (démontrée à la section 7), analogue à celle de l'exponentielle réelle.\n• **Forme exponentielle** : $z = r e^{i\\theta}$ avec $r = |z| > 0$.\nExemple : $1 + i = \\sqrt{2}\\left(\\cos\\frac{\\pi}{4} + i\\sin\\frac{\\pi}{4}\\right) = \\sqrt{2}\\,e^{i\\frac{\\pi}{4}}$."
       },
       {
         "title": "2. Interprétation géométrique",
-        "content": "Soient $A(z_A)$, $B(z_B)$, $C(z_C)$ et $D(z_D)$ dans le plan complexe :\n• Distance : $AB = |z_B - z_A|$.\n• Angle orienté (avec $A \\ne B$ et $C \\ne D$) : $(\\vec{AB} ; \\vec{CD}) = \\arg\\left(\\frac{z_D - z_C}{z_B - z_A}\\right) \\pmod{2\\pi}$.\n• Alignement (avec $A \\ne B$) : $A, B, C$ alignés $\\iff \\frac{z_C - z_A}{z_B - z_A} \\in \\mathbb{R}$.\n• Orthogonalité (avec $A \\ne B$ et $A \\ne C$) : $(AB) \\perp (AC) \\iff \\frac{z_C - z_A}{z_B - z_A}$ est un imaginaire pur.\n• Le module de $\\frac{z_C - z_A}{z_B - z_A}$ vaut $\\frac{AC}{AB}$ et un argument est une mesure de l'angle orienté $(\\overrightarrow{AB}, \\overrightarrow{AC})$."
+        "content": "Soient $A(z_A)$, $B(z_B)$, $C(z_C)$ et $D(z_D)$ dans le plan complexe :\n• Distance : $AB = |z_B - z_A|$.\n• Angle orienté (avec $A \\ne B$ et $C \\ne D$) : $(\\overrightarrow{AB} ; \\overrightarrow{CD}) = \\arg\\left(\\frac{z_D - z_C}{z_B - z_A}\\right) \\pmod{2\\pi}$.\n• Alignement (avec $A \\ne B$) : $A, B, C$ alignés $\\iff \\frac{z_C - z_A}{z_B - z_A} \\in \\mathbb{R}$.\n• Orthogonalité (avec $A \\ne B$ et $A \\ne C$) : $(AB) \\perp (AC) \\iff \\frac{z_C - z_A}{z_B - z_A}$ est un imaginaire pur.\n• Le module de $\\frac{z_C - z_A}{z_B - z_A}$ vaut $\\frac{AC}{AB}$ et un argument est une mesure de l'angle orienté $(\\overrightarrow{AB}, \\overrightarrow{AC})$."
       },
       {
         "title": "3. Propriétés du module et de l'argument",
@@ -1502,6 +1598,10 @@ window.MATHS_COURSES_TALE = {
     ],
     "flashcards": [
       {
+        "q": "Que signifie l'écriture $e^{i\\theta}$ et comment écrire la forme trigonométrique de $z \\ne 0$ ?",
+        "a": "Pour tout réel $\\theta$, $e^{i\\theta} = \\cos\\theta + i\\sin\\theta$. Si $r = |z|$ et si $\\theta$ est un argument de $z$, alors $z = r(\\cos\\theta + i\\sin\\theta) = re^{i\\theta}$."
+      },
+      {
         "q": "Que vaut $e^{i\\pi}$ ?",
         "a": "$e^{i\\pi} = -1$ (Identité d'Euler : $e^{i\\pi} + 1 = 0$)."
       },
@@ -1559,7 +1659,11 @@ window.MATHS_COURSES_TALE = {
         "content": "Pour étudier une expression en $n$ modulo $m$, on remarque que $n$ est congru à l'un des restes $0, 1, \\dots, m - 1$ : on dresse une **table** donnant la valeur de l'expression pour chaque reste.\n• Exemple modulo 4 : $n^2 \\equiv 0$ ou $1 \\pmod{4}$ (restes $0, 1, 0, 1$ pour $n \\equiv 0, 1, 2, 3$). Donc un carré n'est jamais congru à $2$ ou $3$ modulo $4$.\n• **Attention** : on ne peut pas « simplifier » une congruence : $2x \\equiv 2 \\pmod{4}$ est vérifiée par $x = 3$, et pourtant $3 \\not\\equiv 1 \\pmod{4}$."
       },
       {
-        "title": "6. Démonstration : existence et unicité de la division euclidienne",
+        "title": "6. Inverse de $a$ modulo $n$",
+        "content": "• **Définition** : soit $n \\ge 2$. Un entier $a'$ est **un inverse de $a$ modulo $n$** si $aa' \\equiv 1 \\pmod{n}$. Exemple : $3 \\times 5 = 15 \\equiv 1 \\pmod{7}$, donc $5$ est un inverse de $3$ modulo $7$ ; les entiers $5 + 7k$, $k \\in \\mathbb{Z}$, le sont aussi.\n• **Recherche** : on dresse la table des restes de $a \\times x$ modulo $n$ pour $x = 1, 2, \\dots, n - 1$ et on lit la valeur de $x$ qui donne $1$.\n• **Existence** : $a$ admet un inverse modulo $n$ si et seulement si $\\text{PGCD}(a, n) = 1$ (conséquence du théorème de Bézout, chapitre TX4). Par exemple, $2$ n'a pas d'inverse modulo $4$ : pour tout entier $x$, $2x - 1$ est impair, donc n'est jamais un multiple de $4$.\n• **Utilisation** : si $a'$ est un inverse de $a$ modulo $n$, alors $ax \\equiv b \\pmod{n} \\iff x \\equiv a'b \\pmod{n}$ (on multiplie par $a'$ dans un sens, par $a$ dans l'autre). C'est ce qui remplace la division, interdite dans les congruences. Exemple : $4 \\times 7 = 28 \\equiv 1 \\pmod{9}$, donc $7$ est un inverse de $4$ modulo $9$ et $4x \\equiv 3 \\pmod{9} \\iff x \\equiv 7 \\times 3 = 21 \\equiv 3 \\pmod{9}$ ; on vérifie $4 \\times 3 = 12 \\equiv 3 \\pmod{9}$."
+      },
+      {
+        "title": "7. Démonstration : existence et unicité de la division euclidienne",
         "content": "Soient $a \\in \\mathbb{Z}$ et $b \\in \\mathbb{N}^*$.\n• **Existence** : soit $q$ le plus grand entier tel que $bq \\le a$ (c'est la partie entière de $\\frac{a}{b}$). Alors $bq \\le a < b(q + 1)$, et $r = a - bq$ vérifie $0 \\le r < b$.\n• **Unicité** : si $a = bq + r = bq' + r'$ avec $0 \\le r < b$ et $0 \\le r' < b$, alors $b(q - q') = r' - r$ avec $-b < r' - r < b$. Le seul multiple de $b$ strictement compris entre $-b$ et $b$ est $0$, donc $r = r'$, puis $q = q'$.\nExemple : pour $a = -17$ et $b = 5$, $5 \\times (-4) = -20 \\le -17 < -15$, donc $q = -4$ et $r = 3$ : $-17 = 5 \\times (-4) + 3$."
       }
     ],
@@ -1571,7 +1675,7 @@ window.MATHS_COURSES_TALE = {
           "**Étape 1 (Cycle des puissances)** : $3^1 \\equiv 3$, $3^2 \\equiv 9 \\equiv 2$, $3^3 \\equiv 6 \\equiv -1$, $3^6 \\equiv (-1)^2 \\equiv 1 \\pmod{7}$. La période est 6.",
           "**Étape 2 (Division euclidienne de l'exposant)** : $2024 = 6 \\times 337 + 2$.",
           "**Étape 3 (Calcul)** : $3^{2024} = (3^6)^{337} \\times 3^2 \\equiv 1^{337} \\times 9 \\equiv 2 \\pmod{7}$.",
-          "**Conclusion** : Le reste de $3^{2024}$ par 7 est 2."
+          "**Conclusion** : Le reste de $3^{2024}$ par 7 est 2. (Lorsque le module est premier et ne divise pas la base, le petit théorème de Fermat, énoncé au chapitre TX4, donne directement une puissance congrue à 1 : ici $3^6 \\equiv 1 \\pmod{7}$.)"
         ]
       },
       {
@@ -1631,6 +1735,10 @@ window.MATHS_COURSES_TALE = {
       {
         "q": "Pourquoi un entier est-il congru à la somme de ses chiffres modulo 9 ?",
         "a": "Car $10 \\equiv 1 \\pmod{9}$, donc $10^k \\equiv 1 \\pmod{9}$ pour tout $k$."
+      },
+      {
+        "q": "Qu'est-ce qu'un inverse de $a$ modulo $n$ ? Donner un inverse de $4$ modulo $9$.",
+        "a": "Un entier $a'$ tel que $aa' \\equiv 1 \\pmod{n}$ (il existe si et seulement si $\\text{PGCD}(a, n) = 1$). Comme $4 \\times 7 = 28 = 3 \\times 9 + 1$, $7$ est un inverse de $4$ modulo $9$."
       }
     ]
   },
@@ -1647,24 +1755,24 @@ window.MATHS_COURSES_TALE = {
     ],
     "keyPoints": [
       {
-        "title": "1. Théorèmes de Bézout et de Gauss",
-        "content": "• **Théorème de Bézout** : Deux entiers $a$ et $b$ sont premiers entre eux si et seulement s'il existe $(u, v) \\in \\mathbb{Z}^2$ tel que $au + bv = 1$.\n• **Théorème de Gauss** : Soient $a, b, c \\in \\mathbb{Z}$. Si $a \\mid bc$ et si $\\text{PGCD}(a, b) = 1$, alors $a \\mid c$."
-      },
-      {
-        "title": "2. Petit théorème de Fermat et cryptographie RSA",
-        "content": "• **Petit théorème de Fermat** : Si $p$ est premier et si $p \\nmid a$, alors $a^{p-1} \\equiv 1 \\pmod{p}$. Conséquence : pour tout entier $a$, $a^p \\equiv a \\pmod{p}$.\n• **Chiffrement RSA** (problème d'approfondissement) : repose sur la difficulté algorithmique de factoriser un très grand entier $N = pq$ (produit de deux nombres premiers géants)."
-      },
-      {
-        "title": "3. PGCD et algorithme d'Euclide",
+        "title": "1. PGCD et algorithme d'Euclide",
         "content": "• Le **PGCD** de deux entiers $a$ et $b$ non tous deux nuls est le plus grand diviseur commun à $a$ et $b$. $a$ et $b$ sont **premiers entre eux** si $\\text{PGCD}(a, b) = 1$.\n• **Propriété clé** : si $a = bq + r$, alors $\\text{PGCD}(a, b) = \\text{PGCD}(b, r)$. L'**algorithme d'Euclide** enchaîne les divisions euclidiennes ; le PGCD est le **dernier reste non nul**.\n• Les diviseurs communs à $a$ et $b$ sont exactement les diviseurs de leur PGCD, et il existe des entiers $u$, $v$ tels que $au + bv = \\text{PGCD}(a, b)$.\n```python\ndef pgcd(a, b):\n    while b != 0:\n        a, b = b, a % b\n    return a\n```"
       },
       {
-        "title": "4. Conséquences du théorème de Gauss",
-        "content": "• Si $a \\mid n$, $b \\mid n$ et $\\text{PGCD}(a, b) = 1$, alors $ab \\mid n$. Exemple : un entier divisible par $4$ et par $9$ est divisible par $36$.\n• Si un nombre premier $p$ divise un produit $ab$, alors $p \\mid a$ ou $p \\mid b$.\n• **Solutions de $ax + by = c$** (avec $\\text{PGCD}(a, b) = 1$) : si $(x_0, y_0)$ est une solution particulière, toutes les solutions sont $x = x_0 - bk$, $y = y_0 + ak$, $k \\in \\mathbb{Z}$."
+        "title": "2. Théorèmes de Bézout et de Gauss",
+        "content": "• **Théorème de Bézout** : Deux entiers $a$ et $b$ sont premiers entre eux si et seulement s'il existe $(u, v) \\in \\mathbb{Z}^2$ tel que $au + bv = 1$.\n• **Théorème de Gauss** : Soient $a, b, c \\in \\mathbb{Z}$. Si $a \\mid bc$ et si $\\text{PGCD}(a, b) = 1$, alors $a \\mid c$."
       },
       {
-        "title": "5. Nombres premiers",
-        "content": "• Un entier $p \\ge 2$ est **premier** s'il admet exactement deux diviseurs positifs : $1$ et $p$. ($1$ n'est pas premier.)\n• **Test** : si $n \\ge 2$ n'est divisible par aucun nombre premier $p$ tel que $p^2 \\le n$, alors $n$ est premier.\n• **Il existe une infinité de nombres premiers** (démonstration rédigée ci-dessous).\n• **Décomposition** : tout entier $n \\ge 2$ s'écrit de manière unique (à l'ordre près) comme produit de nombres premiers. Exemple : $360 = 2^3 \\times 3^2 \\times 5$.\n• **RSA miniature** : $p = 5$, $q = 11$, $n = 55$, $(p - 1)(q - 1) = 40$ ; clé publique $e = 3$, clé privée $d = 27$ car $3 \\times 27 = 81 \\equiv 1 \\pmod{40}$. Le message $m = 2$ est chiffré en $2^3 = 8$, et $8^{27} \\equiv 2 \\pmod{55}$ le déchiffre."
+        "title": "3. Conséquences du théorème de Gauss",
+        "content": "• Si $a \\mid n$, $b \\mid n$ et $\\text{PGCD}(a, b) = 1$, alors $ab \\mid n$. Exemple : un entier divisible par $4$ et par $9$ est divisible par $36$.\n• Si un nombre premier $p$ divise un produit $ab$, alors $p \\mid a$ ou $p \\mid b$.\n• **Solutions de $ax + by = c$** (avec $\\text{PGCD}(a, b) = 1$) : si $(x_0, y_0)$ est une solution particulière, toutes les solutions sont $x = x_0 - bk$, $y = y_0 + ak$, $k \\in \\mathbb{Z}$.\n• **Inverse modulo $n$** (défini au chapitre TX3 : $aa' \\equiv 1 \\pmod{n}$) : $a$ admet un inverse modulo $n$ si et seulement si $\\text{PGCD}(a, n) = 1$. En effet, si $\\text{PGCD}(a, n) = 1$, Bézout donne $au + nv = 1$, donc $au \\equiv 1 \\pmod{n}$ et $u$ est un inverse de $a$ ; réciproquement, si $aa' = 1 + kn$, alors $aa' + n(-k) = 1$ et Bézout donne $\\text{PGCD}(a, n) = 1$. Exemple : l'algorithme d'Euclide étendu ($40 = 7 \\times 5 + 5$, $7 = 5 \\times 1 + 2$, $5 = 2 \\times 2 + 1$) donne $7 \\times (-17) + 40 \\times 3 = 1$, donc $-17$, ou encore $23$ (car $-17 \\equiv 23 \\pmod{40}$), est un inverse de $7$ modulo $40$ : $7 \\times 23 = 161 = 4 \\times 40 + 1$."
+      },
+      {
+        "title": "4. Nombres premiers",
+        "content": "• Un entier $p \\ge 2$ est **premier** s'il admet exactement deux diviseurs positifs : $1$ et $p$. ($1$ n'est pas premier.)\n• **Test** : si $n \\ge 2$ n'est divisible par aucun nombre premier $p$ tel que $p^2 \\le n$, alors $n$ est premier.\n• **Il existe une infinité de nombres premiers** (démonstration rédigée ci-dessous).\n• **Décomposition (théorème admis)** : tout entier $n \\ge 2$ s'écrit de manière unique (à l'ordre près) comme produit de nombres premiers. Exemple : $360 = 2^3 \\times 3^2 \\times 5$.\n• **Pour aller plus loin** (le PPCM ne figure pas au programme d'expertes) : le **PPCM** de deux entiers strictement positifs $a$ et $b$ est leur plus petit multiple commun strictement positif ; les multiples communs à $a$ et $b$ sont exactement les multiples de leur PPCM. Avec les décompositions, le PGCD prend chaque facteur premier commun avec le plus petit exposant, le PPCM chaque facteur premier avec le plus grand exposant, et $\\text{PGCD}(a, b) \\times \\text{PPCM}(a, b) = ab$. Exemple : $24 = 2^3 \\times 3$ et $36 = 2^2 \\times 3^2$ ont pour PGCD $12$ et pour PPCM $72$, et $12 \\times 72 = 864 = 24 \\times 36$."
+      },
+      {
+        "title": "5. Petit théorème de Fermat et cryptographie RSA",
+        "content": "• **Petit théorème de Fermat** : Si $p$ est premier et si $p \\nmid a$, alors $a^{p-1} \\equiv 1 \\pmod{p}$. Conséquence : pour tout entier $a$, $a^p \\equiv a \\pmod{p}$.\n• **Chiffrement RSA** (problème d'approfondissement) : repose sur la difficulté algorithmique de factoriser un très grand entier $N = pq$ (produit de deux nombres premiers géants).\n• **RSA miniature** : $p = 5$, $q = 11$, $n = 55$, $(p - 1)(q - 1) = 40$ ; clé publique $e = 3$, clé privée $d = 27$, inverse de $e$ modulo $40$ car $3 \\times 27 = 81 \\equiv 1 \\pmod{40}$. Le message $m = 2$ est chiffré en $2^3 = 8$, et $8^{27} \\equiv 2 \\pmod{55}$ le déchiffre."
       },
       {
         "title": "6. Démonstration : le PGCD s'écrit $au + bv$ (théorème de Bézout)",
@@ -1781,31 +1889,31 @@ window.MATHS_COURSES_TALE = {
     "objectives": [
       "Effectuer des additions, multiplications matricielles et inverser une matrice carrée d'ordre 2.",
       "Représenter un système d'équations sous la forme matricielle $AX = B$.",
-      "Modéliser une situation d'évolution par un graphe probabiliste et déterminer son état stationnaire.",
+      "Modéliser une situation d'évolution par un graphe probabiliste et déterminer sa distribution invariante.",
       "Modéliser une situation par un graphe et compter des chemins avec les puissances de la matrice d'adjacence.",
       "Étudier l'évolution d'une chaîne de Markov à l'aide de sa matrice de transition.",
       "Démontrer l'interprétation des coefficients de $A^n$ (chemins) et de $P^n$ (transitions) ; représenter une transformation du plan par une matrice."
     ],
     "keyPoints": [
       {
-        "title": "1. Produit matriciel et matrice inverse",
-        "content": "• Le produit matriciel $A \\times B$ n'est possible que si le nombre de colonnes de $A$ égale le nombre de lignes de $B$. En général, $AB \\neq BA$ (non-commutativité).\n• Inverse d'une matrice $2 \\times 2$ : pour $A = \\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}$, si $\\det(A) = ad - bc \\neq 0$, alors :\n$$A^{-1} = \\frac{1}{ad - bc} \\begin{pmatrix} d & -b \\\\ -c & a \\end{pmatrix}$$"
+        "title": "1. Matrices : définition et opérations",
+        "content": "• Une **matrice** de format $n \\times p$ est un tableau de réels à $n$ lignes et $p$ colonnes ; on note $a_{ij}$ le **coefficient** situé à la ligne $i$ et à la colonne $j$. Une matrice est **carrée** d'ordre $n$ si elle a $n$ lignes et $n$ colonnes ; une **matrice ligne** n'a qu'une ligne, une **matrice colonne** qu'une colonne.\n• **Addition** (matrices de même format) : on additionne les coefficients de même position, $A + B = (a_{ij} + b_{ij})$.\n• **Produit par un réel** : $kA = (k\\,a_{ij})$, chaque coefficient est multiplié par $k$.\n• **Produit de matrices** : le produit $A \\times B$ n'est possible que si le nombre de colonnes de $A$ égale le nombre de lignes de $B$. Si $A$ est de format $n \\times p$ et $B$ de format $p \\times q$, alors $AB$ est de format $n \\times q$ et son coefficient $(i, j)$ est le produit de la ligne $i$ de $A$ par la colonne $j$ de $B$ :\n$$c_{ij} = \\sum_{k=1}^{p} a_{ik}\\, b_{kj}$$\nExemple : $\\begin{pmatrix} 1 & 2 \\\\ 3 & 4 \\end{pmatrix}\\begin{pmatrix} 5 \\\\ 6 \\end{pmatrix} = \\begin{pmatrix} 1 \\times 5 + 2 \\times 6 \\\\ 3 \\times 5 + 4 \\times 6 \\end{pmatrix} = \\begin{pmatrix} 17 \\\\ 39 \\end{pmatrix}$.\n• **Règles de calcul** (quand les produits existent) : $(AB)C = A(BC)$, $A(B + C) = AB + AC$ et $(A + B)C = AC + BC$. En général, $AB \\neq BA$ (non-commutativité)."
       },
       {
-        "title": "2. Chaînes de Markov et distribution stationnaire",
-        "content": "• Soit $P$ la matrice de transition d'un graphe probabiliste. Si $\\pi_n$ désigne la matrice ligne des probabilités des états au rang $n$, alors $\\pi_{n+1} = \\pi_n P$ et $\\pi_n = \\pi_0 P^n$.\n• Un état stable (ou distribution stationnaire) est une matrice ligne $\\pi = (x \\quad y)$ telle que $\\pi P = \\pi$ avec $x + y = 1$."
+        "title": "2. Matrice identité, inverse et puissances",
+        "content": "• La **matrice identité** d'ordre $n$, notée $I_n$, est la matrice carrée d'ordre $n$ dont les coefficients diagonaux valent $1$ et les autres $0$ ; par exemple $I_2 = \\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}$. Pour toute matrice carrée $A$ d'ordre $n$, $AI_n = I_nA = A$.\n• Une matrice carrée $A$ d'ordre $n$ est **inversible** s'il existe une matrice carrée $B$ d'ordre $n$ telle que $AB = BA = I_n$. Cette matrice, unique, est l'**inverse** de $A$ ; on la note $A^{-1}$.\n• **Ordre 2** : pour $A = \\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}$, on pose $\\det(A) = ad - bc$ (déterminant de $A$). La matrice $A$ est inversible si et seulement si $\\det(A) \\neq 0$, et alors :\n$$A^{-1} = \\frac{1}{ad - bc} \\begin{pmatrix} d & -b \\\\ -c & a \\end{pmatrix}$$\n• **Puissances** d'une matrice carrée : $A^0 = I_n$ et, pour tout entier naturel $k$, $A^{k+1} = A^k \\times A$."
       },
       {
         "title": "3. Graphes et matrice d'adjacence",
         "content": "• Un **graphe** est formé de sommets reliés par des arêtes (orientées ou non). L'**ordre** est le nombre de sommets ; le **degré** d'un sommet est le nombre d'arêtes dont il est une extrémité (pour un graphe non orienté).\n• Une **chaîne** (ou chemin) de longueur $n$ est une suite de $n$ arêtes consécutives ; un graphe est **connexe** si deux sommets quelconques sont reliés par une chaîne ; il est **complet** si tous ses sommets sont adjacents deux à deux.\n• La **matrice d'adjacence** $A$ d'un graphe d'ordre $p$ est la matrice carrée dont le coefficient $a_{ij}$ est le nombre d'arêtes allant du sommet $i$ au sommet $j$.\n• **Théorème** : le coefficient $(i, j)$ de $A^n$ est le **nombre de chemins de longueur $n$** allant de $i$ à $j$."
       },
       {
-        "title": "4. Chaînes de Markov",
-        "content": "• Une **chaîne de Markov** sur un ensemble fini d'états est une suite de variables aléatoires $(X_n)$ telle que la probabilité de passer de l'état $i$ à l'état $j$, $p_{ij} = P_{\\{X_n = i\\}}(X_{n+1} = j)$, ne dépend ni de $n$ ni des états antérieurs.\n• La **matrice de transition** $P = (p_{ij})$ est **stochastique** : coefficients positifs, somme de chaque ligne égale à $1$.\n• Si $\\pi_n$ est la matrice ligne de la loi de $X_n$, alors $\\pi_{n+1} = \\pi_n P$ et $\\pi_n = \\pi_0 P^n$.\n• **Cas de deux états** : si $P = \\begin{pmatrix} 1 - a & a \\\\ b & 1 - b \\end{pmatrix}$ avec $0 < a + b < 2$, la suite $(\\pi_n)$ converge vers l'unique distribution invariante $\\pi = \\left(\\dfrac{b}{a + b} \\quad \\dfrac{a}{a + b}\\right)$, quelle que soit la loi initiale."
+        "title": "4. Chaînes de Markov et distributions invariantes",
+        "content": "• Un **graphe probabiliste** est un graphe orienté dont chaque arête porte un poids égal à une probabilité, la somme des poids des arêtes issues d'un même sommet valant $1$. Les sommets sont les états, les poids sont les probabilités de transition d'un état à l'autre.\n• Une **chaîne de Markov** sur un ensemble fini d'états est une suite de variables aléatoires $(X_n)$ telle que la probabilité de passer de l'état $i$ à l'état $j$, $p_{ij} = P_{\\{X_n = i\\}}(X_{n+1} = j)$, ne dépend ni de $n$ ni des états antérieurs.\n• La **matrice de transition** $P = (p_{ij})$ est **stochastique** : coefficients positifs, somme de chaque ligne égale à $1$.\n• Si $\\pi_n$ est la matrice ligne de la loi de $X_n$ (et $\\pi_0$ la **distribution initiale**), alors $\\pi_{n+1} = \\pi_n P$ et $\\pi_n = \\pi_0 P^n$.\n• Une **distribution invariante** est une matrice ligne $\\pi$ à coefficients positifs et de somme $1$ telle que $\\pi P = \\pi$.\n• **Cas de deux états** : si $P = \\begin{pmatrix} 1 - a & a \\\\ b & 1 - b \\end{pmatrix}$ avec $0 < a + b < 2$, la suite $(\\pi_n)$ converge vers l'unique distribution invariante $\\pi = \\left(\\dfrac{b}{a + b} \\quad \\dfrac{a}{a + b}\\right)$, quelle que soit la loi initiale.\n• **Cas de trois états** : on pose $\\pi = (x \\quad y \\quad z)$ et l'on résout le système formé par les trois égalités de coordonnées de $\\pi P = \\pi$ et par $x + y + z = 1$ (voir la méthode ci-dessous)."
       },
       {
         "title": "5. Suites de matrices",
-        "content": "• Si $U_{n+1} = AU_n$ (avec $U_n$ matrice colonne), alors $U_n = A^n U_0$ par récurrence.\n• Si $U_{n+1} = AU_n + B$ et si $C$ vérifie $C = AC + B$, alors $V_n = U_n - C$ vérifie $V_{n+1} = AV_n$, donc $U_n = A^n(U_0 - C) + C$.\n• Puissances d'une matrice **diagonale** : $\\begin{pmatrix} a & 0 \\\\ 0 & b \\end{pmatrix}^n = \\begin{pmatrix} a^n & 0 \\\\ 0 & b^n \\end{pmatrix}$. Si $A = QDQ^{-1}$ avec $D$ diagonale, alors $A^n = QD^nQ^{-1}$."
+        "content": "• Si $U_{n+1} = AU_n$ (avec $U_n$ matrice colonne), alors $U_n = A^n U_0$ par récurrence.\n• Si $U_{n+1} = AU_n + B$ et si $C$ vérifie $C = AC + B$, alors $V_n = U_n - C$ vérifie $V_{n+1} = AV_n$, donc $U_n = A^n(U_0 - C) + C$.\n• Puissances d'une matrice **diagonale** : $\\begin{pmatrix} a & 0 \\\\ 0 & b \\end{pmatrix}^n = \\begin{pmatrix} a^n & 0 \\\\ 0 & b^n \\end{pmatrix}$. Si $A = QDQ^{-1}$ avec $D$ diagonale et $Q$ inversible (ces matrices sont données par l'énoncé), alors $A^n = QD^nQ^{-1}$."
       },
       {
         "title": "6. Démonstration : nombre de chemins de longueur $n$",
@@ -1843,12 +1951,22 @@ window.MATHS_COURSES_TALE = {
       },
       {
         "title": "Méthode : Étudier une chaîne de Markov à deux états",
-        "example": "Chaque jour, un abonné utilise le service $A$ ou le service $B$. S'il utilise $A$, il garde $A$ le lendemain avec probabilité $0{,}9$ ; s'il utilise $B$, il passe à $A$ avec probabilité $0{,}3$. Le jour $0$, $\\pi_0 = (0{,}5 \\quad 0{,}5)$. Calculer $\\pi_2$ puis l'état stable.",
+        "example": "Chaque jour, un abonné utilise le service $A$ ou le service $B$. S'il utilise $A$, il garde $A$ le lendemain avec probabilité $0{,}9$ ; s'il utilise $B$, il passe à $A$ avec probabilité $0{,}3$. Le jour $0$, $\\pi_0 = (0{,}5 \\quad 0{,}5)$. Calculer $\\pi_2$ puis la distribution invariante.",
         "steps": [
           "**Étape 1 (Matrice de transition)** : $P = \\begin{pmatrix} 0{,}9 & 0{,}1 \\\\ 0{,}3 & 0{,}7 \\end{pmatrix}$ (chaque ligne a pour somme $1$).",
           "**Étape 2 (Évolution)** : $\\pi_1 = \\pi_0 P = (0{,}45 + 0{,}15 \\quad 0{,}05 + 0{,}35) = (0{,}6 \\quad 0{,}4)$, puis $\\pi_2 = \\pi_1 P = (0{,}54 + 0{,}12 \\quad 0{,}06 + 0{,}28) = (0{,}66 \\quad 0{,}34)$.",
-          "**Étape 3 (État stable)** : on cherche $\\pi = (x \\quad y)$ avec $\\pi P = \\pi$ et $x + y = 1$. La première coordonnée donne $0{,}9x + 0{,}3y = x$, soit $0{,}3y = 0{,}1x$, donc $x = 3y$. Avec $x + y = 1$ : $y = 0{,}25$ et $x = 0{,}75$.",
-          "**Conclusion** : $\\pi_2 = (0{,}66 \\quad 0{,}34)$ et l'état stable est $\\pi = (0{,}75 \\quad 0{,}25)$ : à long terme, $75\\,\\%$ des jours se font avec le service $A$."
+          "**Étape 3 (Distribution invariante)** : on cherche $\\pi = (x \\quad y)$ avec $\\pi P = \\pi$ et $x + y = 1$. La première coordonnée donne $0{,}9x + 0{,}3y = x$, soit $0{,}3y = 0{,}1x$, donc $x = 3y$. Avec $x + y = 1$ : $y = 0{,}25$ et $x = 0{,}75$.",
+          "**Conclusion** : $\\pi_2 = (0{,}66 \\quad 0{,}34)$ et la distribution invariante est $\\pi = (0{,}75 \\quad 0{,}25)$ : à long terme, $75\\,\\%$ des jours se font avec le service $A$."
+        ]
+      },
+      {
+        "title": "Méthode : Déterminer une distribution invariante à trois états",
+        "example": "Chaque minute, un robot se déplace entre trois zones $A$, $B$ et $C$ selon la matrice de transition $P = \\begin{pmatrix} 0{,}6 & 0{,}4 & 0 \\\\ 0{,}2 & 0{,}6 & 0{,}2 \\\\ 0 & 0{,}2 & 0{,}8 \\end{pmatrix}$ (états rangés dans l'ordre $A$, $B$, $C$). Déterminer la distribution invariante $\\pi$.",
+        "steps": [
+          "**Étape 1 (Système)** : on pose $\\pi = (x \\quad y \\quad z)$. L'égalité $\\pi P = \\pi$ donne, coordonnée par coordonnée, $0{,}6x + 0{,}2y = x$, puis $0{,}4x + 0{,}6y + 0{,}2z = y$, puis $0{,}2y + 0{,}8z = z$. On y ajoute $x + y + z = 1$.",
+          "**Étape 2 (Réduction)** : la première équation donne $0{,}2y = 0{,}4x$, soit $y = 2x$. La troisième donne $0{,}2y = 0{,}2z$, soit $z = y = 2x$.",
+          "**Étape 3 (Normalisation)** : $x + y + z = 1$ devient $x + 2x + 2x = 1$, donc $x = 0{,}2$ et $y = z = 0{,}4$.",
+          "**Conclusion** : $\\pi = (0{,}2 \\quad 0{,}4 \\quad 0{,}4)$. Contrôle sur la deuxième équation : $0{,}4 \\times 0{,}2 + 0{,}6 \\times 0{,}4 + 0{,}2 \\times 0{,}4 = 0{,}08 + 0{,}24 + 0{,}08 = 0{,}4 = y$."
         ]
       },
       {
@@ -1872,16 +1990,28 @@ window.MATHS_COURSES_TALE = {
     ],
     "flashcards": [
       {
-        "q": "Quelle condition sur $\\det(A)$ assure l'inversibilité d'une matrice carrée ?",
+        "q": "Quelle condition sur $\\det(A)$ assure l'inversibilité d'une matrice carrée d'ordre $2$ ?",
         "a": "Son déterminant doit être non nul : $\\det(A) \\neq 0$."
       },
       {
-        "q": "Quelle équation définit l'état stable $\\pi$ d'une chaîne de Markov ?",
+        "q": "Quelle équation définit une distribution invariante $\\pi$ d'une chaîne de Markov ?",
         "a": "$\\pi P = \\pi$ avec la somme des composantes égale à 1."
       },
       {
         "q": "Que représente le coefficient $(i, j)$ de $A^n$, où $A$ est la matrice d'adjacence d'un graphe ?",
         "a": "Le nombre de chemins de longueur $n$ allant du sommet $i$ au sommet $j$."
+      },
+      {
+        "q": "Comment déterminer la distribution invariante d'une chaîne de Markov à trois états ?",
+        "a": "On pose $\\pi = (x \\quad y \\quad z)$ et l'on résout le système formé par les égalités de coordonnées de $\\pi P = \\pi$ et par $x + y + z = 1$."
+      },
+      {
+        "q": "Quand dit-on qu'une matrice carrée $A$ d'ordre $n$ est inversible ?",
+        "a": "S'il existe une matrice carrée $B$ d'ordre $n$ telle que $AB = BA = I_n$ ; on note alors $B = A^{-1}$."
+      },
+      {
+        "q": "Comment s'obtient le coefficient $(i, j)$ du produit $AB$ ?",
+        "a": "C'est le produit de la ligne $i$ de $A$ par la colonne $j$ de $B$ : $c_{ij} = \\sum_{k} a_{ik}\\, b_{kj}$."
       },
       {
         "q": "Qu'est-ce qu'une matrice stochastique ?",
@@ -1919,11 +2049,11 @@ window.MATHS_COURSES_TALE = {
       },
       {
         "title": "3. Formes usuelles à connaître",
-        "content": "Soit $u$ une fonction dérivable sur un intervalle $I$.\n| Fonction | Dérivée | Condition |\n|:---:|:---:|:---:|\n| $u^n$ ($n \\ge 1$ entier) | $n\\,u'\\,u^{n-1}$ | — |\n| $u^n$ ($n \\le -1$ entier) | $n\\,u'\\,u^{n-1}$ | $u$ ne s'annule pas sur $I$ |\n| $\\frac{1}{u}$ | $-\\frac{u'}{u^2}$ | $u$ ne s'annule pas sur $I$ |\n| $\\sqrt{u}$ | $\\frac{u'}{2\\sqrt{u}}$ | $u > 0$ sur $I$ |\n| $e^{u}$ | $u'\\,e^{u}$ | — |\n| $\\ln(u)$ | $\\frac{u'}{u}$ | $u > 0$ sur $I$ |\n\nCes formules sont toutes des cas particuliers de $(g \\circ u)' = u' \\times (g' \\circ u)$ ; par exemple pour $g(X) = \\sqrt{X}$, $g'(X) = \\frac{1}{2\\sqrt{X}}$ donc $(\\sqrt{u})' = u' \\times \\frac{1}{2\\sqrt{u}}$."
+        "content": "Soit $u$ une fonction dérivable sur un intervalle $I$.\n| Fonction | Dérivée | Condition |\n|:---:|:---:|:---:|\n| $u^n$ ($n \\ge 1$ entier) | $n\\,u'\\,u^{n-1}$ | — |\n| $u^n$ ($n \\le -1$ entier) | $n\\,u'\\,u^{n-1}$ | $u$ ne s'annule pas sur $I$ |\n| $\\frac{1}{u}$ | $-\\frac{u'}{u^2}$ | $u$ ne s'annule pas sur $I$ |\n| $\\sqrt{u}$ | $\\frac{u'}{2\\sqrt{u}}$ | $u > 0$ sur $I$ |\n| $e^{u}$ | $u'\\,e^{u}$ | — |\n| $\\ln(u)$ | $\\frac{u'}{u}$ | $u > 0$ sur $I$ |\n\nCes formules sont toutes des cas particuliers de $(g \\circ u)' = u' \\times (g' \\circ u)$ ; par exemple pour $g(X) = \\sqrt{X}$, $g'(X) = \\frac{1}{2\\sqrt{X}}$ donc $(\\sqrt{u})' = u' \\times \\frac{1}{2\\sqrt{u}}$.\nCes formules servent dès les chapitres TA5 ($\\ln u$), TA6 (primitives de formes composées) et TA7 (intégrales) : on peut donc travailler cette partie avant eux."
       },
       {
         "title": "4. Dérivée seconde",
-        "content": "• Si $f$ est dérivable sur $I$ et si sa dérivée $f'$ est elle-même dérivable sur $I$, on dit que $f$ est **deux fois dérivable** et on note $f'' = (f')'$ sa **dérivée seconde**.\n• Le signe de $f''$ donne les **variations de $f'$** : si $f'' \\ge 0$ sur $I$, alors $f'$ est croissante sur $I$ ; si $f'' \\le 0$, $f'$ est décroissante.\n• Exemple : $f(x) = x^3 - 3x^2$ donne $f'(x) = 3x^2 - 6x$ et $f''(x) = 6x - 6$ ; $f'$ est décroissante sur $]-\\infty ; 1]$ et croissante sur $[1 ; +\\infty[$, son minimum est $f'(1) = -3$.\n• Interprétation cinématique : si $f(t)$ est une position, $f'(t)$ est la vitesse et $f''(t)$ l'accélération.\n• Le lien entre le signe de $f''$ et la **convexité** de $f$ est étudié dans le chapitre TA4."
+        "content": "• Si $f$ est dérivable sur $I$ et si sa dérivée $f'$ est elle-même dérivable sur $I$, on dit que $f$ est **deux fois dérivable** et on note $f'' = (f')'$ sa **dérivée seconde**.\n• Le signe de $f''$ donne les **variations de $f'$** : si $f'' \\ge 0$ sur $I$, alors $f'$ est croissante sur $I$ ; si $f'' \\le 0$, $f'$ est décroissante.\n• Exemple : $f(x) = x^3 - 3x^2$ donne $f'(x) = 3x^2 - 6x$ et $f''(x) = 6x - 6$ ; $f'$ est décroissante sur $]-\\infty ; 1]$ et croissante sur $[1 ; +\\infty[$, son minimum est $f'(1) = -3$.\n• Interprétation cinématique : si $f(t)$ est une position, $f'(t)$ est la vitesse et $f''(t)$ l'accélération.\n• Le lien entre le signe de $f''$ et la **convexité** de $f$ est étudié dans le chapitre TA4, qui s'appuie sur cette définition : ce point peut donc se travailler avant TA4."
       },
       {
         "title": "5. Applications : variations et tangentes",
@@ -2013,14 +2143,14 @@ window.MATHS_COURSES_TALE = {
       "Connaître les dérivées $\\sin' = \\cos$ et $\\cos' = -\\sin$, et dériver $x \\mapsto \\sin(ax + b)$ et $x \\mapsto \\cos(ax + b)$.",
       "Utiliser la parité ($\\cos$ paire, $\\sin$ impaire) et la $2\\pi$-périodicité pour réduire l'intervalle d'étude.",
       "Dresser les tableaux de variations de $\\sin$ et $\\cos$ et tracer leurs courbes.",
-      "Connaître et justifier la limite $\\lim_{x \\to 0} \\frac{\\sin(x)}{x} = 1$.",
+      "Pour aller plus loin : justifier, à partir du nombre dérivé de $\\sin$ en $0$, la limite $\\lim_{x \\to 0} \\frac{\\sin(x)}{x} = 1$ et l'utiliser.",
       "Résoudre sur un intervalle donné les équations $\\sin(x) = a$ et $\\cos(x) = a$, ainsi que des inéquations associées.",
       "Étudier une fonction faisant intervenir $\\sin$ ou $\\cos$ (dérivée, signe, variations)."
     ],
     "keyPoints": [
       {
         "title": "1. Définition, parité et périodicité",
-        "content": "Pour tout réel $x$, $\\cos(x)$ et $\\sin(x)$ sont l'abscisse et l'ordonnée du point $M$ du cercle trigonométrique associé à $x$ (voir le chapitre 1G1). Les fonctions $\\cos$ et $\\sin$ sont définies sur $\\mathbb{R}$ et à valeurs dans $[-1 ; 1]$.\n• **Périodicité** : pour tout réel $x$, $\\cos(x + 2\\pi) = \\cos(x)$ et $\\sin(x + 2\\pi) = \\sin(x)$ : les fonctions sont **$2\\pi$-périodiques**. Leurs courbes sont invariantes par la translation de vecteur $2\\pi\\,\\vec{i}$.\n• **Parité** : $\\cos(-x) = \\cos(x)$ : $\\cos$ est **paire** (courbe symétrique par rapport à l'axe des ordonnées) ; $\\sin(-x) = -\\sin(x)$ : $\\sin$ est **impaire** (courbe symétrique par rapport à l'origine).\n• Conséquence : il suffit d'étudier ces fonctions sur $[0 ; \\pi]$, puis de compléter par symétrie et par translation.\n• Plus généralement, $x \\mapsto \\sin(ax + b)$ et $x \\mapsto \\cos(ax + b)$ ($a > 0$) sont périodiques de période $\\frac{2\\pi}{a}$."
+        "content": "Dans un repère orthonormé d'origine $O$, le **cercle trigonométrique** est le cercle de centre $O$ et de rayon $1$, parcouru dans le sens direct (sens inverse des aiguilles d'une montre). En enroulant la droite des réels autour de ce cercle à partir du point $I(1 ; 0)$, on associe à tout réel $x$ un point $M$ du cercle ; les réels $x + 2k\\pi$ ($k \\in \\mathbb{Z}$) sont associés au même point $M$, car un tour complet a pour longueur $2\\pi$. Pour tout réel $x$, $\\cos(x)$ et $\\sin(x)$ sont l'abscisse et l'ordonnée de ce point $M$ (rappel du chapitre 1G1) ; comme $OM = 1$, $\\cos^2(x) + \\sin^2(x) = 1$. Les fonctions $\\cos$ et $\\sin$ sont définies sur $\\mathbb{R}$ et à valeurs dans $[-1 ; 1]$.\n• **Périodicité** : pour tout réel $x$, $\\cos(x + 2\\pi) = \\cos(x)$ et $\\sin(x + 2\\pi) = \\sin(x)$ : les fonctions sont **$2\\pi$-périodiques**. Leurs courbes sont invariantes par la translation de vecteur $2\\pi\\,\\vec{i}$.\n• **Parité** : $\\cos(-x) = \\cos(x)$ : $\\cos$ est **paire** (courbe symétrique par rapport à l'axe des ordonnées) ; $\\sin(-x) = -\\sin(x)$ : $\\sin$ est **impaire** (courbe symétrique par rapport à l'origine).\n• Conséquence : il suffit d'étudier ces fonctions sur $[0 ; \\pi]$, puis de compléter par symétrie et par translation.\n• Plus généralement, $x \\mapsto \\sin(ax + b)$ et $x \\mapsto \\cos(ax + b)$ ($a > 0$) sont périodiques de période $\\frac{2\\pi}{a}$."
       },
       {
         "title": "2. Dérivées",
@@ -2028,11 +2158,11 @@ window.MATHS_COURSES_TALE = {
       },
       {
         "title": "3. Variations et courbes",
-        "content": "Sur $[0 ; \\pi]$ : $\\cos'(x) = -\\sin(x) \\le 0$ donc $\\cos$ est **décroissante** de $1$ à $-1$ ; $\\sin'(x) = \\cos(x)$ est positive sur $\\left[0 ; \\frac{\\pi}{2}\\right]$ et négative sur $\\left[\\frac{\\pi}{2} ; \\pi\\right]$, donc $\\sin$ croît de $0$ à $1$ puis décroît de $1$ à $0$.\n| $x$ | $-\\pi$ | $-\\frac{\\pi}{2}$ | $0$ | $\\frac{\\pi}{2}$ | $\\pi$ |\n|:---:|:---:|:---:|:---:|:---:|:---:|\n| $\\cos(x)$ | $-1$ ↗ | $0$ ↗ | $1$ ↘ | $0$ ↘ | $-1$ |\n| $\\sin(x)$ | $0$ ↘ | $-1$ ↗ | $0$ ↗ | $1$ ↘ | $0$ |\n• Les courbes de $\\sin$ et $\\cos$ sont des **sinusoïdes** ; la courbe de $\\cos$ se déduit de celle de $\\sin$ par une translation, car $\\cos(x) = \\sin\\left(x + \\frac{\\pi}{2}\\right)$.\n• La tangente à la courbe de $\\sin$ en $0$ a pour équation $y = x$."
+        "content": "Sur $[0 ; \\pi]$ : $\\cos'(x) = -\\sin(x) \\le 0$ donc $\\cos$ est **décroissante** de $1$ à $-1$ ; $\\sin'(x) = \\cos(x)$ est positive sur $\\left[0 ; \\frac{\\pi}{2}\\right]$ et négative sur $\\left[\\frac{\\pi}{2} ; \\pi\\right]$, donc $\\sin$ croît de $0$ à $1$ puis décroît de $1$ à $0$.\n| $x$ | $-\\pi$ | $-\\frac{\\pi}{2}$ | $0$ | $\\frac{\\pi}{2}$ | $\\pi$ |\n|:---:|:---:|:---:|:---:|:---:|:---:|\n| $\\cos(x)$ | $-1$ ↗ | $0$ ↗ | $1$ ↘ | $0$ ↘ | $-1$ |\n| $\\sin(x)$ | $0$ ↘ | $-1$ ↗ | $0$ ↗ | $1$ ↘ | $0$ |\n• Les courbes de $\\sin$ et $\\cos$ sont des **sinusoïdes** ; la courbe de $\\cos$ se déduit de celle de $\\sin$ par une translation, car $\\cos(x) = \\sin\\left(x + \\frac{\\pi}{2}\\right)$.\n• La tangente à la courbe de $\\sin$ en $0$ a pour équation $y = x$.\n• **Lien entre le cercle et les courbes** : quand $x$ parcourt $[0 ; 2\\pi]$, le point $M$ associé fait un tour du cercle trigonométrique à partir de $I(1 ; 0)$. La courbe de $\\sin$, formée des points $(x ; \\sin(x))$, reporte en fonction de $x$ l'ordonnée de $M$ ; celle de $\\cos$ reporte son abscisse. Par exemple, quand $x$ va de $0$ à $\\frac{\\pi}{2}$, $M$ va de $I$ au point $J(0 ; 1)$ : son ordonnée croît de $0$ à $1$ et son abscisse décroît de $1$ à $0$, ce que montre le tableau ci-dessus. Les symétries du cercle se lisent sur les courbes : les points associés à $x$ et à $-x$ sont symétriques par rapport à l'axe des abscisses, d'où $\\cos(-x) = \\cos(x)$ et $\\sin(-x) = -\\sin(x)$."
       },
       {
-        "title": "4. Une limite de référence",
-        "content": "Le taux d'accroissement de $\\sin$ en $0$ est $\\frac{\\sin(x) - \\sin(0)}{x - 0} = \\frac{\\sin(x)}{x}$. Comme $\\sin$ est dérivable en $0$ de nombre dérivé $\\cos(0) = 1$ :\n$$\\lim_{x \\to 0} \\frac{\\sin(x)}{x} = 1$$\nDe même, $\\lim_{x \\to 0} \\frac{\\cos(x) - 1}{x} = \\cos'(0) = -\\sin(0) = 0$.\nExemple : pour $a \\neq 0$, $\\frac{\\sin(ax)}{x} = a \\times \\frac{\\sin(ax)}{ax}$ tend vers $a$ quand $x$ tend vers $0$."
+        "title": "4. Pour aller plus loin : une limite de référence",
+        "content": "**Pour aller plus loin** (cette limite ne figure pas parmi les attendus du programme de spécialité ; elle se déduit directement du nombre dérivé de $\\sin$ en $0$).\nLe taux d'accroissement de $\\sin$ en $0$ est $\\frac{\\sin(x) - \\sin(0)}{x - 0} = \\frac{\\sin(x)}{x}$. Comme $\\sin$ est dérivable en $0$ de nombre dérivé $\\cos(0) = 1$ :\n$$\\lim_{x \\to 0} \\frac{\\sin(x)}{x} = 1$$\nDe même, $\\lim_{x \\to 0} \\frac{\\cos(x) - 1}{x} = \\cos'(0) = -\\sin(0) = 0$.\nExemple : pour $a \\neq 0$, $\\frac{\\sin(ax)}{x} = a \\times \\frac{\\sin(ax)}{ax}$ tend vers $a$ quand $x$ tend vers $0$."
       },
       {
         "title": "5. Équations $\\cos(x) = a$ et $\\sin(x) = a$",
@@ -2075,12 +2205,12 @@ window.MATHS_COURSES_TALE = {
         ]
       },
       {
-        "title": "Méthode : Calculer une limite avec $\\frac{\\sin(x)}{x}$",
+        "title": "Méthode (pour aller plus loin) : Calculer une limite avec $\\frac{\\sin(x)}{x}$",
         "example": "Déterminer $\\lim_{x \\to 0} \\frac{\\sin(5x)}{2x}$.",
         "steps": [
           "**Étape 1 (Faire apparaître la limite de référence)** : pour $x \\neq 0$, $\\frac{\\sin(5x)}{2x} = \\frac{5}{2} \\times \\frac{\\sin(5x)}{5x}$.",
           "**Étape 2 (Changement de variable)** : quand $x \\to 0$, $X = 5x \\to 0$ et $\\frac{\\sin(X)}{X} \\to 1$.",
-          "**Conclusion** : $\\lim_{x \\to 0} \\frac{\\sin(5x)}{2x} = \\frac{5}{2}$."
+          "**Conclusion** : $\\lim\\limits_{x \\to 0} \\frac{\\sin(5x)}{2x} = \\frac{5}{2}$."
         ]
       },
       {
@@ -2099,7 +2229,7 @@ window.MATHS_COURSES_TALE = {
       "⚠️ Ne pas oublier le facteur $a$ : $\\left(\\cos(3x)\\right)' = -3\\sin(3x)$, et non $-\\sin(3x)$.",
       "⚠️ L'équation $\\cos(x) = a$ a en général **deux** solutions par période ($\\alpha$ et $-\\alpha$) ; pour $\\sin(x) = a$, ce sont $\\alpha$ et $\\pi - \\alpha$ (et non $-\\alpha$).",
       "⚠️ Toujours vérifier l'appartenance des solutions à l'intervalle demandé, en tenant compte des bornes ouvertes ou fermées : sur $[0 ; 2\\pi[$, $2\\pi$ n'est pas solution même si $\\cos(2\\pi) = 1$.",
-      "⚠️ La limite $\\lim_{x \\to 0} \\frac{\\sin(x)}{x} = 1$ suppose $x$ exprimé en **radians**."
+      "⚠️ (Pour aller plus loin.) La limite $\\lim_{x \\to 0} \\frac{\\sin(x)}{x} = 1$ suppose $x$ exprimé en **radians**."
     ],
     "flashcards": [
       {
@@ -2119,7 +2249,7 @@ window.MATHS_COURSES_TALE = {
         "a": "$\\frac{2\\pi}{4} = \\frac{\\pi}{2}$."
       },
       {
-        "q": "Que vaut $\\lim_{x \\to 0} \\frac{\\sin(x)}{x}$ ?",
+        "q": "Pour aller plus loin : que vaut $\\lim_{x \\to 0} \\frac{\\sin(x)}{x}$ ?",
         "a": "$1$ : c'est le nombre dérivé de $\\sin$ en $0$, égal à $\\cos(0)$."
       },
       {
@@ -2154,7 +2284,7 @@ window.MATHS_COURSES_TALE = {
       },
       {
         "title": "4. Combinaisons : l'ordre ne compte pas, sans répétition",
-        "content": "• Une **combinaison** de $k$ éléments de $E$ est une **partie** de $E$ à $k$ éléments (un sous-ensemble, sans ordre).\n• Le nombre de combinaisons est le **coefficient binomial** $\\binom{n}{k}$ (« $k$ parmi $n$ ») :\n$$\\binom{n}{k} = \\frac{n!}{k!\\,(n-k)!} = \\frac{n \\times (n-1) \\times \\dots \\times (n-k+1)}{k!}$$\n• **Justification** : chaque partie à $k$ éléments donne $k!$ arrangements (en ordonnant ses éléments), donc $\\binom{n}{k} \\times k! = \\frac{n!}{(n-k)!}$.\n• Valeurs utiles : $\\binom{n}{0} = \\binom{n}{n} = 1$, $\\binom{n}{1} = n$, $\\binom{n}{2} = \\frac{n(n-1)}{2}$.\n• Exemples : mains de $5$ cartes dans un jeu de $32$ : $\\binom{32}{5} = 201\\,376$ ; tirages **simultanés** de $3$ boules parmi $8$ : $\\binom{8}{3} = 56$.\n• Le lien avec la loi binomiale (nombre de chemins à $k$ succès dans un arbre) est développé dans le chapitre TS1."
+        "content": "• Une **combinaison** de $k$ éléments de $E$ est une **partie** de $E$ à $k$ éléments (un sous-ensemble, sans ordre).\n• Le nombre de combinaisons est le **coefficient binomial** $\\binom{n}{k}$ (« $k$ parmi $n$ ») :\n$$\\binom{n}{k} = \\frac{n!}{k!\\,(n-k)!} = \\frac{n \\times (n-1) \\times \\dots \\times (n-k+1)}{k!}$$\n• **Justification** : chaque partie à $k$ éléments donne $k!$ arrangements (en ordonnant ses éléments), donc $\\binom{n}{k} \\times k! = \\frac{n!}{(n-k)!}$.\n• Valeurs utiles : $\\binom{n}{0} = \\binom{n}{n} = 1$, $\\binom{n}{1} = n$, $\\binom{n}{2} = \\frac{n(n-1)}{2}$.\n• Exemples : mains de $5$ cartes dans un jeu de $32$ : $\\binom{32}{5} = 201\\,376$ ; tirages **simultanés** de $3$ boules parmi $8$ : $\\binom{8}{3} = 56$.\n• Le lien avec la loi binomiale (nombre de chemins à $k$ succès dans un arbre) est développé dans le chapitre TS1, qui s'appuie sur les combinaisons : ordre conseillé, TS3 puis TS1."
       },
       {
         "title": "5. Symétrie, relation de Pascal et triangle de Pascal",
@@ -2173,8 +2303,8 @@ window.MATHS_COURSES_TALE = {
         "content": "Pour $1 \\le k \\le n - 1$ :\n$$\\binom{n-1}{k-1} + \\binom{n-1}{k} = \\frac{(n-1)!}{(k-1)!\\,(n-k)!} + \\frac{(n-1)!}{k!\\,(n-1-k)!}$$\nOn réduit au même dénominateur $k!\\,(n-k)!$ en utilisant $k! = k \\times (k-1)!$ et $(n-k)! = (n-k) \\times (n-k-1)!$ :\n$$= \\frac{(n-1)! \\times k + (n-1)! \\times (n-k)}{k!\\,(n-k)!} = \\frac{(n-1)! \\times n}{k!\\,(n-k)!} = \\frac{n!}{k!\\,(n-k)!} = \\binom{n}{k}$$\nLa preuve combinatoire (par dénombrement) est donnée au point 5."
       },
       {
-        "title": "9. Algorithmes : parties à deux éléments et permutations",
-        "content": "```python\ndef parties_2(E):\n    L = []\n    for i in range(len(E)):\n        for j in range(i + 1, len(E)):\n            L.append([E[i], E[j]])\n    return L\n\ndef permutations(E):\n    L = [[]]\n    for x in E:\n        nouvelle = []\n        for p in L:\n            for i in range(len(p) + 1):\n                nouvelle.append(p[:i] + [x] + p[i:])\n        L = nouvelle\n    return L\n```\n`parties_2(['a', 'b', 'c', 'd'])` renvoie les $\\binom{4}{2} = 6$ paires ; `permutations([1, 2, 3])` renvoie les $3! = 6$ permutations (chaque nouvel élément est inséré à toutes les places possibles). Pour tirer une permutation au hasard, on peut utiliser la fonction `shuffle` du module `random`."
+        "title": "9. Algorithmes : parties à deux ou trois éléments et permutations",
+        "content": "```python\ndef parties_2(E):\n    L = []\n    for i in range(len(E)):\n        for j in range(i + 1, len(E)):\n            L.append([E[i], E[j]])\n    return L\n\ndef parties_3(E):\n    L = []\n    for i in range(len(E)):\n        for j in range(i + 1, len(E)):\n            for k in range(j + 1, len(E)):\n                L.append([E[i], E[j], E[k]])\n    return L\n\ndef permutations(E):\n    L = [[]]\n    for x in E:\n        nouvelle = []\n        for p in L:\n            for i in range(len(p) + 1):\n                nouvelle.append(p[:i] + [x] + p[i:])\n        L = nouvelle\n    return L\n```\n`parties_2(['a', 'b', 'c', 'd'])` renvoie les $\\binom{4}{2} = 6$ paires ; `parties_3(['a', 'b', 'c', 'd'])` renvoie les $\\binom{4}{3} = 4$ parties à trois éléments (imposer $i < j < k$ évite d'obtenir plusieurs fois la même partie) ; `permutations([1, 2, 3])` renvoie les $3! = 6$ permutations (chaque nouvel élément est inséré à toutes les places possibles). Pour tirer une permutation au hasard, on peut utiliser la fonction `shuffle` du module `random`."
       }
     ],
     "methods": [
@@ -2291,7 +2421,7 @@ window.MATHS_COURSES_TALE = {
       },
       {
         "title": "6. Pour aller plus loin : autres méthodes numériques",
-        "content": "• **Méthode d'Euler** (chapitre 1A4) : pour approcher la solution de $y' = y$, $y(0) = 1$, on itère $y \\leftarrow y + h \\times y$ avec un petit pas $h$.\n• **Méthode des rectangles** (chapitre TA7) : approximation déterministe d'une intégrale par une somme d'aires de rectangles.\n• **Méthode de Newton** : on remplace la courbe par sa tangente, $x_{n+1} = x_n - \\frac{f(x_n)}{f'(x_n)}$ ; la convergence est en général beaucoup plus rapide que la dichotomie, mais elle n'est pas garantie.\n• Comparaison : la dichotomie gagne un facteur $2$ par étape, la méthode de Monte-Carlo a une précision de l'ordre de $\\frac{1}{\\sqrt{n}}$ : pour gagner un chiffre, il faut **100 fois** plus de points."
+        "content": "• **Méthode d'Euler** (chapitre 1A4) : pour approcher la solution de $y' = y$, $y(0) = 1$, on itère $y \\leftarrow y + h \\times y$ avec un petit pas $h$.\n• **Méthode des rectangles** (chapitre TA7) : approximation déterministe d'une intégrale par une somme d'aires de rectangles.\n• **Méthode de Newton** : on remplace la courbe par sa tangente, $x_{n+1} = x_n - \\frac{f(x_n)}{f'(x_n)}$ ; la convergence est en général beaucoup plus rapide que la dichotomie, mais elle n'est pas garantie.\n• **Méthode de la sécante** : on remplace la courbe par la droite passant par les points d'abscisses $x_{n-1}$ et $x_n$, qui coupe l'axe des abscisses en $x_{n+1} = x_n - f(x_n) \\times \\dfrac{x_n - x_{n-1}}{f(x_n) - f(x_{n-1})}$. Elle n'utilise pas $f'$ ; comme pour Newton, la convergence n'est pas garantie, et il faut que $f(x_n) \\neq f(x_{n-1})$.\n```python\ndef secante(f, a, b, n):\n    for k in range(n):\n        c = b - f(b) * (b - a) / (f(b) - f(a))\n        a, b = b, c\n    return b\n```\n• Comparaison : la dichotomie gagne un facteur $2$ par étape, la méthode de Monte-Carlo a une précision de l'ordre de $\\frac{1}{\\sqrt{n}}$ : pour gagner un chiffre, il faut **100 fois** plus de points."
       }
     ],
     "methods": [
@@ -2449,6 +2579,82 @@ window.MATHS_EXERCISES_TALE = {
       "hint1": "Fais apparaître $4^n + 2$ dans $4^{n+1} + 2 = 4 \\times 4^n + 2$.",
       "hint2": "$4(4^n + 2) = 4^{n+1} + 8$ : il faut donc retirer $6$.",
       "solution": "Initialisation : $4^0 + 2 = 3$, divisible par 3.\nHérédité : supposons $4^n + 2 = 3k$ avec $k \\in \\mathbb{Z}$. Alors\n$$4^{n+1} + 2 = 4 \\times 4^n + 8 - 6 = 4(4^n + 2) - 6 = 12k - 6 = 3(4k - 2),$$\nqui est divisible par 3.\nConclusion : pour tout $n \\in \\mathbb{N}$, $3$ divise $4^n + 2$.\nLes autres égalités sont fausses (par exemple $4(4^n + 2) = 4^{n+1} + 8 \\neq 4^{n+1} + 2$)."
+    },
+    {
+      "id": "TA1-5",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Négation d'une proposition quantifiée",
+      "skill": "Écrire la négation d'une proposition comportant « pour tout »",
+      "statement": "Soit $(u_n)$ une suite. Quelle est la négation de la proposition « pour tout entier naturel $n$, $u_n \\le 4$ » ?",
+      "options": [
+        "Il existe un entier naturel $n$ tel que $u_n > 4$.",
+        "Pour tout entier naturel $n$, $u_n > 4$.",
+        "Il existe un entier naturel $n$ tel que $u_n \\le 4$.",
+        "Pour tout entier naturel $n$, $u_n \\ge 4$."
+      ],
+      "correctIndex": 0,
+      "answer": "Il existe un entier naturel $n$ tel que $u_n > 4$.",
+      "hint1": "La négation de « pour tout $n$, $P(n)$ » est « il existe $n$ tel que $P(n)$ soit fausse ».",
+      "hint2": "Un seul rang $n$ qui ne vérifie pas l'inégalité suffit à rendre la proposition fausse. Écris maintenant le contraire de $u_n \\le 4$.",
+      "solution": "La négation de « pour tout $n$, $P(n)$ » est « il existe $n$ tel que non $P(n)$ ». Le contraire de $u_n \\le 4$ est $u_n > 4$. La négation est donc : « il existe un entier naturel $n$ tel que $u_n > 4$ ». La proposition « pour tout $n$, $u_n > 4$ » est plus forte : elle n'est pas la négation (une suite peut ne vérifier ni l'une ni l'autre)."
+    },
+    {
+      "id": "TA1-6",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Raisonnement par contraposée",
+      "skill": "Écrire et démontrer la contraposée d'une implication",
+      "statement": "Soit $n$ un entier. On veut démontrer l'implication « si $n^2 - 1$ n'est pas divisible par $8$, alors $n$ est pair ». Quelle proposition est la contraposée de cette implication, accompagnée d'une justification correcte ?",
+      "options": [
+        "Si $n$ est impair, alors $n^2 - 1$ est divisible par $8$ ; vraie, car $n = 2k + 1$ donne $n^2 - 1 = 4k(k + 1)$, et $k(k + 1)$ est pair.",
+        "Si $n$ est pair, alors $n^2 - 1$ n'est pas divisible par $8$ ; vraie, car $n^2 - 1$ est alors impair.",
+        "Si $n$ est impair, alors $n^2 - 1$ est divisible par $8$ ; vraie, car $n = 2k + 1$ donne $n^2 - 1 = 4k^2 + 4k$, qui est un multiple de $4$.",
+        "Si $n^2 - 1$ est divisible par $8$, alors $n$ est impair ; vraie, car $n^2 - 1$ est alors pair, donc $n^2$ et $n$ sont impairs."
+      ],
+      "correctIndex": 0,
+      "answer": "Si $n$ est impair, alors $n^2 - 1$ est divisible par $8$ ; vraie, car $n = 2k + 1$ donne $n^2 - 1 = 4k(k + 1)$, et $k(k + 1)$ est pair.",
+      "hint1": "La contraposée de « si $A$, alors $B$ » est « si non $B$, alors non $A$ ».",
+      "hint2": "Ici, non $B$ s'écrit « $n$ est impair », c'est-à-dire $n = 2k + 1$ avec $k$ entier. Développe $n^2 - 1$ et factorise par $4$.",
+      "solution": "La contraposée est « si $n$ est impair, alors $n^2 - 1$ est divisible par $8$ ». Si $n = 2k + 1$, alors $n^2 - 1 = 4k^2 + 4k = 4k(k + 1)$. Parmi les deux entiers consécutifs $k$ et $k + 1$, l'un est pair, donc $k(k + 1) = 2m$ et $n^2 - 1 = 8m$. La contraposée est vraie, donc l'implication de départ aussi.\nLa deuxième proposition est la réciproque ; la troisième a une justification insuffisante (un multiple de $4$ n'est pas forcément multiple de $8$) ; la quatrième est la réciproque de la contraposée, pas la contraposée."
+    },
+    {
+      "id": "TA1-7",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Négation avec deux quantificateurs",
+      "skill": "Écrire la négation d'une proposition comportant deux quantificateurs",
+      "statement": "Soit $f$ une fonction définie sur $\\mathbb{R}$. La proposition « $f$ est minorée » s'écrit : « il existe un réel $m$ tel que, pour tout réel $x$, $f(x) \\ge m$ ». Quelle est sa négation ?",
+      "options": [
+        "Pour tout réel $m$, il existe un réel $x$ tel que $f(x) < m$.",
+        "Il existe un réel $m$ tel que, pour tout réel $x$, $f(x) < m$.",
+        "Pour tout réel $m$ et pour tout réel $x$, $f(x) < m$.",
+        "Il existe un réel $x$ tel que, pour tout réel $m$, $f(x) < m$."
+      ],
+      "correctIndex": 0,
+      "answer": "Pour tout réel $m$, il existe un réel $x$ tel que $f(x) < m$.",
+      "hint1": "Pour nier, on remplace chaque « il existe » par « pour tout » et chaque « pour tout » par « il existe », sans changer leur ordre, puis on nie la propriété finale.",
+      "hint2": "Le premier quantificateur « il existe un réel $m$ » devient « pour tout réel $m$ ». Traite ensuite le second, puis écris le contraire de $f(x) \\ge m$.",
+      "solution": "On échange les quantificateurs en gardant leur ordre : « il existe $m$ » devient « pour tout $m$ », « pour tout $x$ » devient « il existe $x$ », et le contraire de $f(x) \\ge m$ est $f(x) < m$. La négation est : « pour tout réel $m$, il existe un réel $x$ tel que $f(x) < m$ » : aucun réel $m$ n'est un minorant de $f$.\nLa deuxième proposition garde les quantificateurs ; la troisième ne change que le premier ; la quatrième inverse leur ordre et est toujours fausse (il suffit de prendre $m = f(x)$)."
+    },
+    {
+      "id": "TA1-8",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Raisonnement par équivalence",
+      "skill": "Vérifier qu'un enchaînement d'équivalences est correct",
+      "statement": "Pour un réel $x$ (non nul quand il apparaît au dénominateur, et tel que $x + 2 \\ge 0$ quand il apparaît sous une racine), lequel de ces enchaînements d'équivalences est correct ?",
+      "options": [
+        "$x^2 = 4x \\iff x(x - 4) = 0 \\iff x = 0$ ou $x = 4$",
+        "$x^2 = 4x \\iff x = 4$",
+        "$\\sqrt{x + 2} = x \\iff x + 2 = x^2$",
+        "$\\dfrac{1}{x} < \\dfrac{1}{2} \\iff x > 2$"
+      ],
+      "correctIndex": 0,
+      "answer": "$x^2 = 4x \\iff x(x - 4) = 0 \\iff x = 0$ ou $x = 4$",
+      "hint1": "Chaque équivalence doit se lire dans les deux sens. Pour montrer qu'une équivalence est fausse, cherche une valeur de $x$ qui vérifie un membre et pas l'autre.",
+      "hint2": "Essaie $x = 0$ dans la deuxième proposition, $x = -1$ dans la troisième, et un réel négatif dans la quatrième.",
+      "solution": "$x^2 = 4x \\iff x^2 - 4x = 0 \\iff x(x - 4) = 0$, et un produit est nul si et seulement si l'un de ses facteurs est nul : $x = 0$ ou $x = 4$. Chaque étape se lit dans les deux sens.\nLes autres sont fausses : $x = 0$ vérifie $x^2 = 4x$ mais pas $x = 4$ (diviser par $x$ suppose $x \\neq 0$) ; $x = -1$ vérifie $x + 2 = x^2$ (les deux membres valent $1$) mais $\\sqrt{-1 + 2} = 1 \\neq -1$ (élever au carré n'est qu'une implication) ; $x = -1$ vérifie $\\frac{1}{x} = -1 < \\frac{1}{2}$ mais pas $x > 2$ (on ne peut passer aux inverses que pour des réels de même signe)."
     }
   ],
   "TA2": [
@@ -2535,7 +2741,7 @@ window.MATHS_EXERCISES_TALE = {
       "tier": 1,
       "type": "mcq",
       "title": "Application du corollaire du TVI",
-      "skill": "Vérifier les hypothèses du théorème de la bijection",
+      "skill": "Vérifier les hypothèses du TVI pour une fonction strictement monotone",
       "statement": "Une fonction $f$ continue et strictement croissante sur $[1 ; 5]$ vérifie $f(1) = -3$ et $f(5) = 7$. Combien de solutions possède l'équation $f(x) = 0$ sur $[1 ; 5]$ ?",
       "options": [
         "Exactement 1 solution",
@@ -2547,7 +2753,7 @@ window.MATHS_EXERCISES_TALE = {
       "answer": "Exactement 1 solution",
       "hint1": "Pense au corollaire du théorème des valeurs intermédiaires (fonction continue et strictement monotone).",
       "hint2": "Regarde si $0$ est compris entre $f(1) = -3$ et $f(5) = 7$.",
-      "solution": "$f$ est continue et strictement monotone sur $[1 ; 5]$. Comme $0 \\in [f(1) ; f(5)]$, d'après le corollaire du TVI (théorème de la bijection), l'équation $f(x) = 0$ admet une unique solution sur $[1 ; 5]$."
+      "solution": "$f$ est continue et strictement monotone sur $[1 ; 5]$. Comme $0 \\in [f(1) ; f(5)]$, d'après le théorème des valeurs intermédiaires appliqué à une fonction strictement monotone (corollaire du TVI), l'équation $f(x) = 0$ admet une unique solution sur $[1 ; 5]$."
     },
     {
       "id": "TA3-2",
@@ -2591,9 +2797,9 @@ window.MATHS_EXERCISES_TALE = {
       "id": "TA3-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Continuité et prolongement",
+      "title": "Pour aller plus loin : continuité et prolongement",
       "skill": "Prolonger une fonction par continuité",
-      "statement": "Soit $g(x) = \\frac{\\sin(3x)}{x}$ pour $x \\ne 0$. Quelle valeur $g(0)$ permet de prolonger $g$ par continuité en 0 ?",
+      "statement": "**Pour aller plus loin** (le prolongement par continuité n'est pas un attendu du programme). Soit $g(x) = \\frac{\\sin(3x)}{x}$ pour $x \\ne 0$. Prolonger $g$ par continuité en $0$, c'est choisir $g(0)$ de sorte que la fonction obtenue soit continue en $0$. Quelle valeur de $g(0)$ convient ?",
       "options": [
         "$g(0) = 3$",
         "$g(0) = 1$",
@@ -2602,7 +2808,7 @@ window.MATHS_EXERCISES_TALE = {
       ],
       "correctIndex": 0,
       "answer": "$g(0) = 3$",
-      "hint1": "On sait que $\\lim_{u \\to 0} \\frac{\\sin(u)}{u} = 1$.",
+      "hint1": "On sait que $\\lim_{u \\to 0} \\frac{\\sin(u)}{u} = 1$ (limite de référence, voir le chapitre TA9).",
       "hint2": "Écris $\\frac{\\sin(3x)}{x} = 3 \\times \\frac{\\sin(3x)}{3x}$ et pose $u = 3x$.",
       "solution": "En posant $u = 3x \\to 0$, $\\lim_{x \\to 0} \\frac{\\sin(3x)}{x} = \\lim_{u \\to 0} 3\\frac{\\sin(u)}{u} = 3$. Le prolongement par continuité impose $g(0) = 3$."
     },
@@ -2623,7 +2829,7 @@ window.MATHS_EXERCISES_TALE = {
       "answer": "$2$",
       "hint1": "En $\\pm\\infty$, la limite d'une fraction rationnelle est celle du quotient des monômes de plus haut degré.",
       "hint2": "Ici, il s'agit du quotient $\\frac{4x^3}{2x^3}$ : simplifie-le.",
-      "solution": "En $+\\infty$, $\\frac{4x^3 - 5x + 1}{2x^3 + 7x^2 - 3} \\sim \\frac{4x^3}{2x^3} = 2$."
+      "solution": "Pour $x$ assez grand, on factorise par $x^3$ : $\\frac{4x^3 - 5x + 1}{2x^3 + 7x^2 - 3} = \\frac{x^3\\left(4 - \\frac{5}{x^2} + \\frac{1}{x^3}\\right)}{x^3\\left(2 + \\frac{7}{x} - \\frac{3}{x^3}\\right)} = \\frac{4 - \\frac{5}{x^2} + \\frac{1}{x^3}}{2 + \\frac{7}{x} - \\frac{3}{x^3}}$. Quand $x \\to +\\infty$, le numérateur tend vers $4$ et le dénominateur vers $2$ : la limite vaut $\\frac{4}{2} = 2$."
     },
     {
       "id": "TA3-6",
@@ -2681,6 +2887,82 @@ window.MATHS_EXERCISES_TALE = {
       "hint1": "$x^3 e^{-x} = \\frac{x^3}{e^x}$.",
       "hint2": "D'après les théorèmes de croissances comparées, l'exponentielle l'emporte sur toute puissance de $x$ en $+\\infty$.",
       "solution": "D'après le théorème des croissances comparées, pour tout entier $n \\in \\mathbb{N}$, $\\lim_{x \\to +\\infty} \\frac{x^n}{e^x} = 0$. Donc $\\lim_{x \\to +\\infty} x^3 e^{-x} = 0$."
+    },
+    {
+      "id": "TA3-9",
+      "tier": 1,
+      "type": "mcq",
+      "title": "Traduire une définition de limite",
+      "skill": "Reconnaître une limite décrite à l'aide d'intervalles",
+      "statement": "On sait que tout intervalle ouvert contenant $2$ contient toutes les valeurs $f(x)$ pour $x$ assez grand. Que peut-on en déduire ?",
+      "options": [
+        "$\\lim\\limits_{x \\to +\\infty} f(x) = 2$",
+        "$\\lim\\limits_{x \\to 2} f(x) = +\\infty$",
+        "$\\lim\\limits_{x \\to -\\infty} f(x) = 2$",
+        "$f(x) = 2$ pour $x$ assez grand"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\lim\\limits_{x \\to +\\infty} f(x) = 2$",
+      "hint1": "Repère ce qui est dit de $x$, puis ce qui est dit des valeurs $f(x)$.",
+      "hint2": "« Pour $x$ assez grand » correspond à une limite en $+\\infty$ : il reste à identifier cette limite.",
+      "solution": "« Pour $x$ assez grand » indique une limite en $+\\infty$, et « tout intervalle ouvert contenant $2$ » décrit une limite finie égale à $2$ : $\\lim\\limits_{x \\to +\\infty} f(x) = 2$. Cela n'impose pas $f(x) = 2$ : par exemple, $x \\mapsto 2 + \\frac{1}{x}$ vérifie cette propriété sans jamais prendre la valeur $2$."
+    },
+    {
+      "id": "TA3-10",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Seuil à partir duquel les valeurs restent dans un intervalle",
+      "skill": "Appliquer la définition d'une limite finie en l'infini",
+      "statement": "Soit $f(x) = 3 + \\frac{1}{x}$ sur $]0 ; +\\infty[$. Quel est le plus petit réel $A > 0$ tel que, pour tout $x > A$, on ait $f(x) \\in \\, ]2{,}99 ; 3{,}01[$ ?",
+      "options": [
+        "$100$",
+        "$10$",
+        "$0{,}01$",
+        "$1\\,000$"
+      ],
+      "correctIndex": 0,
+      "answer": "$100$",
+      "hint1": "Pour $x > 0$, on a déjà $f(x) > 3$ : seule l'inégalité $f(x) < 3{,}01$ reste à étudier.",
+      "hint2": "Elle équivaut à $\\frac{1}{x} < 0{,}01$ : passe aux inverses, entre nombres strictement positifs.",
+      "solution": "Pour $x > 0$, $f(x) > 3 > 2{,}99$. De plus, $f(x) < 3{,}01 \\iff \\frac{1}{x} < 0{,}01 \\iff x > 100$. Le plus petit réel $A$ convenable est donc $100$. Le même calcul avec $r > 0$ à la place de $0{,}01$ donne le seuil $\\frac{1}{r}$ : c'est ce qui prouve que $\\lim\\limits_{x \\to +\\infty} f(x) = 3$."
+    },
+    {
+      "id": "TA3-11",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Limite infinie en un point et intervalles",
+      "skill": "Appliquer la définition d'une limite infinie en un réel",
+      "statement": "Soit $f(x) = \\frac{1}{(x - 2)^2}$ pour $x \\ne 2$. Pour quels réels $x$ a-t-on $f(x) > 10^4$ ?",
+      "options": [
+        "$]1{,}99 ; 2[ \\, \\cup \\, ]2 ; 2{,}01[$",
+        "$]2 ; 2{,}01[$",
+        "$]1{,}9 ; 2[ \\, \\cup \\, ]2 ; 2{,}1[$",
+        "$]1{,}9999 ; 2[ \\, \\cup \\, ]2 ; 2{,}0001[$"
+      ],
+      "correctIndex": 0,
+      "answer": "$]1{,}99 ; 2[ \\, \\cup \\, ]2 ; 2{,}01[$",
+      "hint1": "Pour $x \\ne 2$, passe aux inverses dans l'inégalité : les deux membres sont strictement positifs.",
+      "hint2": "On obtient $(x - 2)^2 < 10^{-4}$ : pense à la valeur absolue pour trouver les $x$ convenables, de part et d'autre de $2$.",
+      "solution": "Pour $x \\ne 2$, $f(x) > 10^4 \\iff (x - 2)^2 < 10^{-4} \\iff |x - 2| < 0{,}01$, soit $x \\in \\, ]1{,}99 ; 2[ \\, \\cup \\, ]2 ; 2{,}01[$. En remplaçant $10^4$ par un réel $M > 0$, on obtient $|x - 2| < \\frac{1}{\\sqrt{M}}$ : tout intervalle $]M ; +\\infty[$ contient les valeurs $f(x)$ pour $x$ assez proche de $2$, donc $\\lim\\limits_{x \\to 2} f(x) = +\\infty$ et la droite d'équation $x = 2$ est asymptote verticale."
+    },
+    {
+      "id": "TA3-12",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Limite infinie sans monotonie",
+      "skill": "Revenir à la définition d'une limite infinie",
+      "statement": "Soit $f(x) = x + 2\\sin(x)$ sur $\\mathbb{R}$. Laquelle de ces affirmations est vraie ?",
+      "options": [
+        "$\\lim\\limits_{x \\to +\\infty} f(x) = +\\infty$, bien que $f$ ne soit pas monotone sur $[0 ; +\\infty[$",
+        "$f$ n'a pas de limite en $+\\infty$, car elle n'est pas monotone sur $[0 ; +\\infty[$",
+        "$f$ n'a pas de limite en $+\\infty$, car $\\sin$ n'en a pas",
+        "$f$ est croissante sur $[0 ; +\\infty[$, puisqu'elle tend vers $+\\infty$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\lim\\limits_{x \\to +\\infty} f(x) = +\\infty$, bien que $f$ ne soit pas monotone sur $[0 ; +\\infty[$",
+      "hint1": "Minore $f(x)$ par une expression simple, en utilisant un encadrement de $\\sin(x)$.",
+      "hint2": "Pour tout réel $x$, $\\sin(x) \\ge -1$. Pour la monotonie, compare le signe de $f'(x) = 1 + 2\\cos(x)$ en $0$ et en $\\pi$.",
+      "solution": "Pour tout réel $x$, $\\sin(x) \\ge -1$, donc $f(x) \\ge x - 2$. Pour tout réel $M$, si $x > M + 2$, alors $f(x) > M$ : tout intervalle $]M ; +\\infty[$ contient les valeurs $f(x)$ pour $x$ assez grand, donc $\\lim\\limits_{x \\to +\\infty} f(x) = +\\infty$. Pourtant, $f'(x) = 1 + 2\\cos(x)$ vérifie $f'(0) = 3 > 0$ et $f'(\\pi) = -1 < 0$ : $f$ n'est pas monotone sur $[0 ; +\\infty[$. Une limite infinie n'impose donc aucune monotonie."
     }
   ],
   "TA4": [
@@ -2759,6 +3041,82 @@ window.MATHS_EXERCISES_TALE = {
       "hint1": "Une courbe convexe est située au-dessus de toutes ses tangentes.",
       "hint2": "La tangente en 0 a pour équation $y = e^0(x - 0) + e^0 = x + 1$.",
       "solution": "Par convexité, la courbe représentative de l'exponentielle est entièrement située au-dessus de chacune de ses tangentes. Pour la tangente en 0 ($y = x + 1$), on a donc $e^x \\ge x + 1$ pour tout $x \\in \\mathbb{R}$."
+    },
+    {
+      "id": "TA4-5",
+      "tier": 1,
+      "type": "mcq",
+      "title": "Lire la convexité sur la courbe de $f$",
+      "skill": "Lire la convexité et un point d'inflexion sur la courbe de $f$",
+      "statement": "La courbe ci-dessous représente une fonction $f$ deux fois dérivable sur $[-1 ; 3]$. Le point $A(1 ; 1)$ est son unique point d'inflexion.\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:0.6rem auto;\"><svg class=\"geo-svg-figure\" role=\"img\" aria-label=\"Courbe de f, d'abord concave puis convexe, avec le point d'inflexion A marqué en (1 ; 1), sur l'intervalle [-1 ; 3]. Elle passe par les points (-1 ; -1), (1 ; 1), (3 ; 3).\" viewBox=\"0 0 180 180\" width=\"180\" height=\"180\" style=\"max-width:330px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\"><line x1=\"18\" y1=\"162\" x2=\"18\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"42\" y1=\"162\" x2=\"42\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"66\" y1=\"162\" x2=\"66\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"90\" y1=\"162\" x2=\"90\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"114\" y1=\"162\" x2=\"114\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"138\" y1=\"162\" x2=\"138\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"162\" y1=\"162\" x2=\"162\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"162\" x2=\"162\" y2=\"162\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"138\" x2=\"162\" y2=\"138\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"114\" x2=\"162\" y2=\"114\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"90\" x2=\"162\" y2=\"90\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"66\" x2=\"162\" y2=\"66\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"42\" x2=\"162\" y2=\"42\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"18\" x2=\"162\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"114\" x2=\"172\" y2=\"114\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\"/><polygon points=\"0,0 -8,-3.5 -8,3.5\" transform=\"translate(174 114) rotate(0)\" fill=\"var(--text-main, #334155)\"/><line x1=\"66\" y1=\"162\" x2=\"66\" y2=\"8\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\"/><polygon points=\"0,0 -8,-3.5 -8,3.5\" transform=\"translate(66 6) rotate(-90)\" fill=\"var(--text-main, #334155)\"/><text x=\"18\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−2</text><text x=\"42\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−1</text><text x=\"90\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">1</text><text x=\"114\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">2</text><text x=\"138\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">3</text><text x=\"162\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">4</text><text x=\"61\" y=\"165.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−2</text><text x=\"61\" y=\"141.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−1</text><text x=\"61\" y=\"93.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">1</text><text x=\"61\" y=\"69.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">2</text><text x=\"61\" y=\"45.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">3</text><text x=\"61\" y=\"21.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">4</text><text x=\"60\" y=\"127\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">0</text><path d=\"M 42 138 C 44 128 46 119.5 48 112.31 C 50 105.13 52 99.25 54 94.5 C 56 89.75 58 86.13 60 83.44 C 62 80.75 64 79 66 78 C 68 77 70 76.75 72 77.06 C 74 77.38 76 78.25 78 79.5 C 80 80.75 82 82.38 84 84.19 C 86 86 88 88 90 90 C 92 92 94 94 96 95.81 C 98 97.63 100 99.25 102 100.5 C 104 101.75 106 102.63 108 102.94 C 110 103.25 112 103 114 102 C 116 101 118 99.25 120 96.56 C 122 93.88 124 90.25 126 85.5 C 128 80.75 130 74.88 132 67.69 C 134 60.5 136 52 138 42\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.2\"/><circle cx=\"90\" cy=\"90\" r=\"3.6\" fill=\"#dc2626\"/><text x=\"99\" y=\"83\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"700\" fill=\"#dc2626\">A</text></svg></div>\nSur quel intervalle $f$ est-elle convexe ?",
+      "options": [
+        "$[1 ; 3]$",
+        "$[-1 ; 1]$",
+        "$[-1 ; 3]$",
+        "$[0 ; 2]$"
+      ],
+      "correctIndex": 0,
+      "answer": "$[1 ; 3]$",
+      "hint1": "Une fonction est convexe là où sa courbe est au-dessus de ses tangentes, c'est-à-dire tournée vers le haut.",
+      "hint2": "Regarde de chaque côté du point $A$ : où la courbe est-elle tournée vers le haut ?",
+      "solution": "À gauche de $A$, la courbe est tournée vers le bas (en dessous de ses tangentes) ; à droite de $A$, elle est tournée vers le haut (au-dessus de ses tangentes). Donc $f$ est concave sur $[-1 ; 1]$ et convexe sur $[1 ; 3]$."
+    },
+    {
+      "id": "TA4-6",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Lire la convexité sur la courbe de $f'$",
+      "skill": "Déduire la convexité des variations de $f'$ lues sur un graphique",
+      "statement": "La courbe ci-dessous représente la **dérivée** $f'$ d'une fonction $f$ deux fois dérivable sur $[-3 ; 3]$.\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:0.6rem auto;\"><svg class=\"geo-svg-figure\" role=\"img\" aria-label=\"Courbe de f', décroissante puis croissante, avec un minimum en (0 ; -2), sur l'intervalle [-3 ; 3]. Elle passe par les points (-2 ; 0), (0 ; -2), (2 ; 0).\" viewBox=\"0 0 228 204\" width=\"228\" height=\"204\" style=\"max-width:330px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\"><line x1=\"18\" y1=\"186\" x2=\"18\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"42\" y1=\"186\" x2=\"42\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"66\" y1=\"186\" x2=\"66\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"90\" y1=\"186\" x2=\"90\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"114\" y1=\"186\" x2=\"114\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"138\" y1=\"186\" x2=\"138\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"162\" y1=\"186\" x2=\"162\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"186\" y1=\"186\" x2=\"186\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"210\" y1=\"186\" x2=\"210\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"186\" x2=\"210\" y2=\"186\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"162\" x2=\"210\" y2=\"162\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"138\" x2=\"210\" y2=\"138\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"114\" x2=\"210\" y2=\"114\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"90\" x2=\"210\" y2=\"90\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"66\" x2=\"210\" y2=\"66\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"42\" x2=\"210\" y2=\"42\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"18\" x2=\"210\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"114\" x2=\"220\" y2=\"114\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\"/><polygon points=\"0,0 -8,-3.5 -8,3.5\" transform=\"translate(222 114) rotate(0)\" fill=\"var(--text-main, #334155)\"/><line x1=\"114\" y1=\"186\" x2=\"114\" y2=\"8\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\"/><polygon points=\"0,0 -8,-3.5 -8,3.5\" transform=\"translate(114 6) rotate(-90)\" fill=\"var(--text-main, #334155)\"/><text x=\"18\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−4</text><text x=\"42\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−3</text><text x=\"66\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−2</text><text x=\"90\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−1</text><text x=\"138\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">1</text><text x=\"162\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">2</text><text x=\"186\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">3</text><text x=\"210\" y=\"127\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">4</text><text x=\"109\" y=\"189.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−3</text><text x=\"109\" y=\"165.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−2</text><text x=\"109\" y=\"141.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−1</text><text x=\"109\" y=\"93.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">1</text><text x=\"109\" y=\"69.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">2</text><text x=\"109\" y=\"45.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">3</text><text x=\"109\" y=\"21.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">4</text><text x=\"108\" y=\"127\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">0</text><path d=\"M 42 54 C 44 60 46 65.75 48 71.25 C 50 76.75 52 82 54 87 C 56 92 58 96.75 60 101.25 C 62 105.75 64 110 66 114 C 68 118 70 121.75 72 125.25 C 74 128.75 76 132 78 135 C 80 138 82 140.75 84 143.25 C 86 145.75 88 148 90 150 C 92 152 94 153.75 96 155.25 C 98 156.75 100 158 102 159 C 104 160 106 160.75 108 161.25 C 110 161.75 112 162 114 162 C 116 162 118 161.75 120 161.25 C 122 160.75 124 160 126 159 C 128 158 130 156.75 132 155.25 C 134 153.75 136 152 138 150 C 140 148 142 145.75 144 143.25 C 146 140.75 148 138 150 135 C 152 132 154 128.75 156 125.25 C 158 121.75 160 118 162 114 C 164 110 166 105.75 168 101.25 C 170 96.75 172 92 174 87 C 176 82 178 76.75 180 71.25 C 182 65.75 184 60 186 54\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.2\"/></svg></div>\nSur quel intervalle $f$ est-elle convexe ?",
+      "options": [
+        "$[0 ; 3]$",
+        "$[-3 ; 0]$",
+        "$[-2 ; 2]$",
+        "$[-3 ; 3]$"
+      ],
+      "correctIndex": 0,
+      "answer": "$[0 ; 3]$",
+      "hint1": "$f$ est convexe là où $f'$ est croissante. C'est le sens de variation de $f'$ qui compte, pas son signe.",
+      "hint2": "Repère l'abscisse où la courbe de $f'$ passe de décroissante à croissante.",
+      "solution": "La fonction $f'$ est décroissante sur $[-3 ; 0]$ et croissante sur $[0 ; 3]$. Donc $f$ est concave sur $[-3 ; 0]$ et convexe sur $[0 ; 3]$. Les abscisses $-2$ et $2$, où $f'$ s'annule, sont celles des extremums de $f$."
+    },
+    {
+      "id": "TA4-7",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Points d'inflexion lus sur la courbe de $f''$",
+      "skill": "Repérer les changements de signe de $f''$ sur un graphique",
+      "statement": "La courbe ci-dessous représente la **dérivée seconde** $f''$ d'une fonction $f$ deux fois dérivable sur $[-2 ; 4]$.\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:0.6rem auto;\"><svg class=\"geo-svg-figure\" role=\"img\" aria-label=\"Courbe de f'', qui traverse l'axe des abscisses en 0 et en 2, avec un minimum en x = 1, sur l'intervalle [-2 ; 4]. Elle passe par les points (-2 ; 4), (0 ; 0), (2 ; 0), (4 ; 4).\" viewBox=\"0 0 228 204\" width=\"228\" height=\"204\" style=\"max-width:330px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\"><line x1=\"18\" y1=\"186\" x2=\"18\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"42\" y1=\"186\" x2=\"42\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"66\" y1=\"186\" x2=\"66\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"90\" y1=\"186\" x2=\"90\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"114\" y1=\"186\" x2=\"114\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"138\" y1=\"186\" x2=\"138\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"162\" y1=\"186\" x2=\"162\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"186\" y1=\"186\" x2=\"186\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"210\" y1=\"186\" x2=\"210\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"186\" x2=\"210\" y2=\"186\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"162\" x2=\"210\" y2=\"162\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"138\" x2=\"210\" y2=\"138\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"114\" x2=\"210\" y2=\"114\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"90\" x2=\"210\" y2=\"90\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"66\" x2=\"210\" y2=\"66\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"42\" x2=\"210\" y2=\"42\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"18\" x2=\"210\" y2=\"18\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><line x1=\"18\" y1=\"138\" x2=\"220\" y2=\"138\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\"/><polygon points=\"0,0 -8,-3.5 -8,3.5\" transform=\"translate(222 138) rotate(0)\" fill=\"var(--text-main, #334155)\"/><line x1=\"90\" y1=\"186\" x2=\"90\" y2=\"8\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\"/><polygon points=\"0,0 -8,-3.5 -8,3.5\" transform=\"translate(90 6) rotate(-90)\" fill=\"var(--text-main, #334155)\"/><text x=\"18\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−3</text><text x=\"42\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−2</text><text x=\"66\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−1</text><text x=\"114\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">1</text><text x=\"138\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">2</text><text x=\"162\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">3</text><text x=\"186\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">4</text><text x=\"210\" y=\"151\" text-anchor=\"middle\" font-size=\"10\" fill=\"var(--text-main, #334155)\">5</text><text x=\"85\" y=\"189.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−2</text><text x=\"85\" y=\"165.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">−1</text><text x=\"85\" y=\"117.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">1</text><text x=\"85\" y=\"93.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">2</text><text x=\"85\" y=\"69.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">3</text><text x=\"85\" y=\"45.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">4</text><text x=\"85\" y=\"21.5\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">5</text><text x=\"84\" y=\"151\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--text-main, #334155)\">0</text><path d=\"M 42 42 C 44 48 46 53.75 48 59.25 C 50 64.75 52 70 54 75 C 56 80 58 84.75 60 89.25 C 62 93.75 64 98 66 102 C 68 106 70 109.75 72 113.25 C 74 116.75 76 120 78 123 C 80 126 82 128.75 84 131.25 C 86 133.75 88 136 90 138 C 92 140 94 141.75 96 143.25 C 98 144.75 100 146 102 147 C 104 148 106 148.75 108 149.25 C 110 149.75 112 150 114 150 C 116 150 118 149.75 120 149.25 C 122 148.75 124 148 126 147 C 128 146 130 144.75 132 143.25 C 134 141.75 136 140 138 138 C 140 136 142 133.75 144 131.25 C 146 128.75 148 126 150 123 C 152 120 154 116.75 156 113.25 C 158 109.75 160 106 162 102 C 164 98 166 93.75 168 89.25 C 170 84.75 172 80 174 75 C 176 70 178 64.75 180 59.25 C 182 53.75 184 48 186 42\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.2\"/></svg></div>\nQuelles sont les abscisses des points d'inflexion de la courbe de $f$ ?",
+      "options": [
+        "$0$ et $2$",
+        "$1$ seulement",
+        "$0$ seulement",
+        "La courbe de $f$ n'a pas de point d'inflexion."
+      ],
+      "correctIndex": 0,
+      "answer": "$0$ et $2$",
+      "hint1": "Un point d'inflexion correspond à un changement de signe de $f''$.",
+      "hint2": "Cherche où la courbe de $f''$ traverse l'axe des abscisses. Le minimum de $f''$ n'a pas d'importance ici.",
+      "solution": "La courbe de $f''$ est au-dessus de l'axe sur $[-2 ; 0]$, en dessous sur $[0 ; 2]$ et au-dessus sur $[2 ; 4]$. Donc $f''$ s'annule en changeant de signe en $0$ et en $2$ : $f$ est convexe, puis concave, puis convexe, et les points d'abscisses $0$ et $2$ sont des points d'inflexion. En $1$, $f''$ atteint son minimum sans s'annuler."
+    },
+    {
+      "id": "TA4-8",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Esquisser l'allure d'une courbe à partir du tableau de $f'$",
+      "skill": "Déduire du tableau de $f'$ les variations et la convexité de $f$",
+      "statement": "Une fonction $f$, deux fois dérivable sur $[-2 ; 2]$, a pour dérivée une fonction $f'$ dont voici le tableau de variations.\n\n| $x$ | $-2$ |  | $0$ |  | $2$ |\n|---|---|---|---|---|---|\n| variations de $f'$ | $3$ | ↘ | $1$ | ↗ | $3$ |\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:0.6rem auto;\"><svg class=\"geo-svg-figure\" role=\"img\" aria-label=\"Quatre courbes. Courbe A : décroissante, convexe puis concave. Courbe B : croissante, convexe puis concave. Courbe C : croissante, concave puis convexe. Courbe D : décroissante, concave puis convexe.\" viewBox=\"0 0 332 228\" width=\"332\" height=\"228\" style=\"max-width:340px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"4\" y=\"4\" width=\"156\" height=\"104\" rx=\"4\" fill=\"none\" stroke=\"var(--border-color, #cbd5e1)\"/><line x1=\"10\" y1=\"56\" x2=\"154\" y2=\"56\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><path d=\"M 18 16 C 23.33 21 28.67 25.37 34 29.28 C 39.33 33.19 44.67 36.63 50 39.75 C 55.33 42.88 60.67 45.69 66 48.34 C 71.33 51 76.67 53.5 82 56 C 87.33 58.5 92.67 61 98 63.66 C 103.33 66.31 108.67 69.13 114 72.25 C 119.33 75.38 124.67 78.81 130 82.72 C 135.33 86.63 140.67 91 146 96\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.2\"/><circle cx=\"82\" cy=\"56\" r=\"3\" fill=\"#dc2626\"/><text x=\"12\" y=\"20\" text-anchor=\"start\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #334155)\">A</text><rect x=\"172\" y=\"4\" width=\"156\" height=\"104\" rx=\"4\" fill=\"none\" stroke=\"var(--border-color, #cbd5e1)\"/><line x1=\"178\" y1=\"56\" x2=\"322\" y2=\"56\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><path d=\"M 186 76 C 191.33 76 196.67 75.38 202 74.28 C 207.33 73.19 212.67 71.63 218 69.75 C 223.33 67.88 228.67 65.69 234 63.34 C 239.33 61 244.67 58.5 250 56 C 255.33 53.5 260.67 51 266 48.66 C 271.33 46.31 276.67 44.13 282 42.25 C 287.33 40.38 292.67 38.81 298 37.72 C 303.33 36.63 308.67 36 314 36\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.2\"/><circle cx=\"250\" cy=\"56\" r=\"3\" fill=\"#dc2626\"/><text x=\"180\" y=\"20\" text-anchor=\"start\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #334155)\">B</text><rect x=\"4\" y=\"120\" width=\"156\" height=\"104\" rx=\"4\" fill=\"none\" stroke=\"var(--border-color, #cbd5e1)\"/><line x1=\"10\" y1=\"172\" x2=\"154\" y2=\"172\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><path d=\"M 18 212 C 23.33 207 28.67 202.63 34 198.72 C 39.33 194.81 44.67 191.38 50 188.25 C 55.33 185.13 60.67 182.31 66 179.66 C 71.33 177 76.67 174.5 82 172 C 87.33 169.5 92.67 167 98 164.34 C 103.33 161.69 108.67 158.88 114 155.75 C 119.33 152.63 124.67 149.19 130 145.28 C 135.33 141.38 140.67 137 146 132\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.2\"/><circle cx=\"82\" cy=\"172\" r=\"3\" fill=\"#dc2626\"/><text x=\"12\" y=\"136\" text-anchor=\"start\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #334155)\">C</text><rect x=\"172\" y=\"120\" width=\"156\" height=\"104\" rx=\"4\" fill=\"none\" stroke=\"var(--border-color, #cbd5e1)\"/><line x1=\"178\" y1=\"172\" x2=\"322\" y2=\"172\" stroke=\"var(--border-color, #cbd5e1)\" stroke-width=\"1\"/><path d=\"M 186 152 C 191.33 152 196.67 152.63 202 153.72 C 207.33 154.81 212.67 156.38 218 158.25 C 223.33 160.13 228.67 162.31 234 164.66 C 239.33 167 244.67 169.5 250 172 C 255.33 174.5 260.67 177 266 179.34 C 271.33 181.69 276.67 183.88 282 185.75 C 287.33 187.63 292.67 189.19 298 190.28 C 303.33 191.38 308.67 192 314 192\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.2\"/><circle cx=\"250\" cy=\"172\" r=\"3\" fill=\"#dc2626\"/><text x=\"180\" y=\"136\" text-anchor=\"start\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #334155)\">D</text></svg></div>\nParmi les quatre courbes ci-dessus (le point rouge est le point d'abscisse $0$), laquelle a la même allure que celle de $f$ ?",
+      "options": [
+        "Courbe C",
+        "Courbe A",
+        "Courbe B",
+        "Courbe D"
+      ],
+      "correctIndex": 0,
+      "answer": "Courbe C",
+      "hint1": "Le signe de $f'$ donne les variations de $f$ ; les variations de $f'$ donnent sa convexité.",
+      "hint2": "Le minimum de $f'$ vaut $1$ : quel est donc le signe de $f'$ sur tout l'intervalle ?",
+      "solution": "Le minimum de $f'$ est $1 > 0$, donc $f'$ est strictement positive et $f$ est croissante sur $[-2 ; 2]$. De plus $f'$ est décroissante sur $[-2 ; 0]$ puis croissante sur $[0 ; 2]$ : $f$ est concave puis convexe, et le point d'abscisse $0$ est un point d'inflexion. La courbe C est la seule qui monte en étant tournée vers le bas puis vers le haut."
     }
   ],
   "TA5": [
@@ -2835,8 +3193,8 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "$0$",
       "hint1": "C'est une limite fondamentale de croissances comparées.",
-      "hint2": "Pour tout $\\alpha > 0$, $\\lim_{x \\to 0^+} x^\\alpha \\ln(x) = 0$.",
-      "solution": "D'après les croissances comparées du cours, pour tout réel $\\alpha > 0$, $\\lim_{x \\to 0^+} x^\\alpha \\ln(x) = 0$."
+      "hint2": "Pour tout entier $n \\ge 1$, $\\lim_{x \\to 0^+} x^n \\ln(x) = 0$ : repère la valeur de $n$ dans cette limite.",
+      "solution": "D'après les croissances comparées du cours, pour tout entier $n \\ge 1$, $\\lim_{x \\to 0^+} x^n \\ln(x) = 0$ ; ici $n = 2$, donc la limite vaut $0$."
     }
   ],
   "TA6": [
@@ -2971,9 +3329,9 @@ window.MATHS_EXERCISES_TALE = {
       ],
       "correctIndex": 0,
       "answer": "$1$",
-      "hint1": "Pose $u(x) = x \\implies u'(x) = 1$ et $v'(x) = e^x \\implies v(x) = e^x$.",
+      "hint1": "Pose $v(x) = x \\implies v'(x) = 1$ et $u'(x) = e^x \\implies u(x) = e^x$.",
       "hint2": "$K = [x e^x]_0^1 - \\int_0^1 e^x \\, dx$. Calcule chacun des deux termes.",
-      "solution": "IPP : $u(x) = x, v'(x) = e^x \\implies u'(x) = 1, v(x) = e^x$. $K = [x e^x]_0^1 - \\int_0^1 e^x dx = 1e^1 - 0 - (e^1 - e^0) = e - e + 1 = 1$."
+      "solution": "IPP : $v(x) = x, u'(x) = e^x \\implies v'(x) = 1, u(x) = e^x$. $K = [x e^x]_0^1 - \\int_0^1 e^x dx = 1e^1 - 0 - (e^1 - e^0) = e - e + 1 = 1$."
     },
     {
       "id": "TA7-4",
@@ -2993,6 +3351,25 @@ window.MATHS_EXERCISES_TALE = {
       "hint1": "Formule : $\\mu = \\frac{1}{b - a} \\int_a^b f(x) \\, dx$.",
       "hint2": "$\\int_1^e \\frac{1}{x} dx = [\\ln(x)]_1^e = \\ln(e) - \\ln(1) = 1 - 0 = 1$.",
       "solution": "$\\mu = \\frac{1}{e - 1} \\int_1^e \\frac{1}{x} dx = \\frac{1}{e - 1} [\\ln(x)]_1^e = \\frac{1}{e - 1} (1 - 0) = \\frac{1}{e - 1}$."
+    },
+    {
+      "id": "TA7-5",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Méthode de Brouncker pour ln 2",
+      "skill": "Approcher une intégrale par des aires de rectangles",
+      "statement": "On approche $\\ln 2 = \\int_1^2 \\frac{dt}{t}$ par la méthode de Brouncker, en plaçant sous la courbe de $t \\mapsto \\frac{1}{t}$ des rectangles successifs :\n• étape 1 : le rectangle de base $[1 ; 2]$ et de hauteur $\\frac{1}{2}$ ;\n• étape 2 : le rectangle de base $\\left[1 ; \\frac{3}{2}\\right]$ compris entre les hauteurs $\\frac{1}{2}$ et $\\frac{2}{3}$ ;\n• étape 3 : le rectangle de base $\\left[1 ; \\frac{5}{4}\\right]$ compris entre les hauteurs $\\frac{2}{3}$ et $\\frac{4}{5}$, et celui de base $\\left[\\frac{3}{2} ; \\frac{7}{4}\\right]$ compris entre les hauteurs $\\frac{1}{2}$ et $\\frac{4}{7}$.\nQuelle valeur approchée de $\\ln 2$ obtient-on en additionnant les aires de ces quatre rectangles ?",
+      "options": [
+        "$\\frac{533}{840}$",
+        "$\\frac{7}{12}$",
+        "$\\frac{61}{70}$",
+        "$\\frac{319}{420}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\frac{533}{840}$",
+      "hint1": "L'aire d'un rectangle compris entre deux hauteurs est le produit de sa largeur par la différence des hauteurs.",
+      "hint2": "Les deux premières aires valent $1 \\times \\frac{1}{2} = \\frac{1}{2}$ et $\\frac{1}{2} \\times \\left(\\frac{2}{3} - \\frac{1}{2}\\right) = \\frac{1}{12}$. Calcule de même les deux aires de l'étape 3, de largeur $\\frac{1}{4}$.",
+      "solution": "Étape 1 : $1 \\times \\frac{1}{2} = \\frac{1}{2}$. Étape 2 : $\\frac{1}{2} \\times \\frac{1}{6} = \\frac{1}{12}$. Étape 3 : $\\frac{1}{4} \\times \\left(\\frac{4}{5} - \\frac{2}{3}\\right) = \\frac{1}{4} \\times \\frac{2}{15} = \\frac{1}{30}$ et $\\frac{1}{4} \\times \\left(\\frac{4}{7} - \\frac{1}{2}\\right) = \\frac{1}{4} \\times \\frac{1}{14} = \\frac{1}{56}$. Total : $\\frac{1}{2} + \\frac{1}{12} + \\frac{1}{30} + \\frac{1}{56} = \\frac{420 + 70 + 28 + 15}{840} = \\frac{533}{840} \\approx 0{,}635$. C'est une valeur approchée par défaut de $\\ln 2 \\approx 0{,}693$, car les rectangles sont sous la courbe ; on retrouve d'ailleurs $\\frac{1}{5} + \\frac{1}{6} + \\frac{1}{7} + \\frac{1}{8}$, la méthode des rectangles « à droite » avec $4$ rectangles."
     }
   ],
   "TG1": [
@@ -3059,7 +3436,7 @@ window.MATHS_EXERCISES_TALE = {
       "type": "mcq",
       "title": "Intersection d'une droite et d'un plan",
       "skill": "Calculer le point d'intersection d'une droite et d'un plan",
-      "statement": "Quel est le point d'intersection de la droite $\\begin{cases} x = t \\\\ y = 2t \\\\ z = 1 - t \\end{cases}$ avec le plan $\\mathcal{P} : 2x - y + 3z - 5 = 0$ ?",
+      "statement": "Quel est le point d'intersection de la droite $\\begin{cases} x = t \\\\ y = 2t \\\\ z = 1 - t \\end{cases}$ avec le plan $\\mathcal{P}$ passant par $A(0 ; 1 ; 2)$ et dirigé par les vecteurs $\\vec{u}(1 ; 2 ; 0)$ et $\\vec{v}(0 ; 3 ; 1)$ ?",
       "options": [
         "$(-2/3 ; -4/3 ; 5/3)$",
         "$(1 ; 2 ; 0)$",
@@ -3068,9 +3445,9 @@ window.MATHS_EXERCISES_TALE = {
       ],
       "correctIndex": 0,
       "answer": "$(-2/3 ; -4/3 ; 5/3)$",
-      "hint1": "Injecte les expressions paramétriques dans l'équation du plan.",
-      "hint2": "$2(t) - (2t) + 3(1 - t) - 5 = 0 \\iff 3 - 3t - 5 = 0 \\iff -3t = 2 \\iff t = -2/3$.",
-      "solution": "$2(t) - 2t + 3(1 - t) - 5 = 0 \\iff -3t - 2 = 0 \\iff t = -\\frac{2}{3}$. Coordonnées : $x = -2/3, y = -4/3, z = 1 - (-2/3) = 5/3$."
+      "hint1": "Un point $M(t ; 2t ; 1 - t)$ de la droite appartient à $\\mathcal{P}$ si et seulement s'il existe deux réels $a$ et $b$ tels que $\\overrightarrow{AM} = a\\vec{u} + b\\vec{v}$.",
+      "hint2": "On a $\\overrightarrow{AM}(t ; 2t - 1 ; -1 - t)$. Le système donne $a = t$ et $b = -1 - t$ : remplace $a$ et $b$ dans la deuxième équation pour trouver $t$.",
+      "solution": "Soit $M(t ; 2t ; 1 - t)$ un point de la droite ; alors $\\overrightarrow{AM}(t ; 2t - 1 ; -1 - t)$. Le point $M$ appartient à $\\mathcal{P}$ si et seulement s'il existe deux réels $a$ et $b$ tels que $\\overrightarrow{AM} = a\\vec{u} + b\\vec{v}$, c'est-à-dire $t = a$, $2t - 1 = 2a + 3b$ et $-1 - t = b$. En remplaçant dans la deuxième équation : $2t - 1 = 2t + 3(-1 - t) \\iff 2t - 1 = -t - 3 \\iff 3t = -2 \\iff t = -\\frac{2}{3}$. Coordonnées : $x = -\\frac{2}{3}$, $y = -\\frac{4}{3}$, $z = 1 + \\frac{2}{3} = \\frac{5}{3}$."
     }
   ],
   "TG2": [
@@ -3097,9 +3474,9 @@ window.MATHS_EXERCISES_TALE = {
       "id": "TG2-2",
       "tier": 2,
       "type": "mcq",
-      "title": "Orthogonalité de deux plans",
-      "skill": "Vérifier l'orthogonalité de deux plans par leurs vecteurs normaux",
-      "statement": "Les plans $\\mathcal{P}_1 : 3x - 2y + z - 4 = 0$ et $\\mathcal{P}_2 : 2x + 4y + 2z + 7 = 0$ sont-ils orthogonaux ?",
+      "title": "Plans perpendiculaires",
+      "skill": "Vérifier que deux plans sont perpendiculaires à l'aide de leurs vecteurs normaux",
+      "statement": "Les plans $\\mathcal{P}_1 : 3x - 2y + z - 4 = 0$ et $\\mathcal{P}_2 : 2x + 4y + 2z + 7 = 0$ sont-ils perpendiculaires ?",
       "options": [
         "Oui, car $\\vec{n}_1 \\cdot \\vec{n}_2 = 0$",
         "Non, car $\\vec{n}_1 \\cdot \\vec{n}_2 = 16 \\ne 0$",
@@ -3127,9 +3504,9 @@ window.MATHS_EXERCISES_TALE = {
       ],
       "correctIndex": 0,
       "answer": "$3$",
-      "hint1": "Formule : $d(A, \\mathcal{P}) = \\frac{|a x_A + b y_A + c z_A + d|}{\\sqrt{a^2 + b^2 + c^2}}$.",
-      "hint2": "Numérateur : $|2(1) - 2(0) + 2 + 5| = 9$. Dénominateur : $\\sqrt{2^2 + (-2)^2 + 1^2} = \\sqrt{9}$.",
-      "solution": "$d(A, \\mathcal{P}) = \\frac{|2(1) - 2(0) + 2 + 5|}{\\sqrt{2^2 + (-2)^2 + 1^2}} = \\frac{9}{\\sqrt{9}} = \\frac{9}{3} = 3$."
+      "hint1": "Détermine le projeté orthogonal $H$ de $A$ sur $\\mathcal{P}$ : c'est l'intersection de $\\mathcal{P}$ avec la droite passant par $A$ et dirigée par un vecteur normal au plan.",
+      "hint2": "Avec $\\vec{n}(2 ; -2 ; 1)$, un point de cette droite s'écrit $(1 + 2t ; -2t ; 2 + t)$. Remplace dans l'équation du plan pour trouver $t$, puis calcule $AH$.",
+      "solution": "$\\vec{n}(2 ; -2 ; 1)$ est normal à $\\mathcal{P}$. La droite passant par $A$ et dirigée par $\\vec{n}$ a pour représentation paramétrique $x = 1 + 2t$, $y = -2t$, $z = 2 + t$ ($t \\in \\mathbb{R}$). En remplaçant dans l'équation de $\\mathcal{P}$ : $2(1 + 2t) - 2(-2t) + (2 + t) + 5 = 0$, soit $9 + 9t = 0$, donc $t = -1$. Le projeté orthogonal de $A$ sur $\\mathcal{P}$ est $H(-1 ; 2 ; 1)$. Alors $\\overrightarrow{AH}(-2 ; 2 ; -1)$ et $AH = \\sqrt{4 + 4 + 1} = 3$."
     },
     {
       "id": "TG2-4",
@@ -3293,7 +3670,7 @@ window.MATHS_EXERCISES_TALE = {
       "type": "mcq",
       "title": "Inégalité de concentration et loi des grands nombres",
       "skill": "Déterminer la taille d'échantillon garantissant une précision",
-      "statement": "On estime une proportion $p$ par une fréquence empirique $F_n$. Sachant que $V(F_n) = \\frac{p(1-p)}{n} \\le \\frac{1}{4n}$, quelle valeur minimale de $n$ garantit que $P(|F_n - p| \\ge 0{,}05) \\le 0{,}01$ ?",
+      "statement": "On estime une proportion $p$ par une fréquence empirique $F_n$. On sait que $V(F_n) = \\frac{p(1-p)}{n} \\le \\frac{1}{4n}$. À partir de quelle taille $n$ l'inégalité de concentration permet-elle d'assurer que $P(|F_n - p| \\ge 0{,}05) \\le 0{,}01$ ?",
       "options": [
         "$n = 10\\,000$",
         "$n = 1\\,000$",
@@ -3304,7 +3681,45 @@ window.MATHS_EXERCISES_TALE = {
       "answer": "$n = 10\\,000$",
       "hint1": "Inégalité de concentration : $P(|F_n - p| \\ge \\epsilon) \\le \\frac{1}{4n\\epsilon^2}$.",
       "hint2": "Avec $\\epsilon = 0{,}05$ : $4n(0{,}05)^2 = 0{,}01n$, donc la majoration vaut $\\frac{1}{0{,}01n} = \\frac{100}{n}$. Résous $\\frac{100}{n} \\le 0{,}01$.",
-      "solution": "$P(|F_n - p| \\ge 0{,}05) \\le \\frac{1}{4n(0{,}05)^2} = \\frac{1}{4n(0{,}0025)} = \\frac{1}{0{,}01 n} = \\frac{100}{n}$. On veut $\\frac{100}{n} \\le 0{,}01 \\iff n \\ge \\frac{100}{0{,}01} = 10\\,000$."
+      "solution": "$P(|F_n - p| \\ge 0{,}05) \\le \\frac{1}{4n(0{,}05)^2} = \\frac{1}{4n(0{,}0025)} = \\frac{1}{0{,}01 n} = \\frac{100}{n}$. On veut $\\frac{100}{n} \\le 0{,}01 \\iff n \\ge \\frac{100}{0{,}01} = 10\\,000$. Cette taille est **suffisante**, mais ce n'est pas la plus petite possible : la majoration est pessimiste. Pour $p = 0{,}5$, le calcul exact avec la loi binomiale donne déjà $P(|F_n - p| \\ge 0{,}05) \\le 0{,}01$ pour tout $n \\ge 681$, soit près de $15$ fois moins."
+    },
+    {
+      "id": "TS2-5",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Position moyenne d'une marche aléatoire",
+      "skill": "Modéliser une marche aléatoire à l'aide d'une loi binomiale",
+      "statement": "Un pion part de $0$ sur une droite graduée. À chaque étape, il avance de $1$ avec la probabilité $0{,}7$ et recule de $1$ sinon, indépendamment des étapes précédentes. On note $X$ sa position après $50$ étapes. Que vaut $E(X)$ ?",
+      "options": [
+        "$20$",
+        "$35$",
+        "$-20$",
+        "$0$"
+      ],
+      "correctIndex": 0,
+      "answer": "$20$",
+      "hint1": "Si $S$ est le nombre de pas en avant, alors $S \\sim \\mathcal{B}(50 ; 0{,}7)$ et le pion fait $50 - S$ pas en arrière.",
+      "hint2": "La position vaut $X = S - (50 - S) = 2S - 50$ ; utilise $E(S) = np$ et la linéarité de l'espérance.",
+      "solution": "Le nombre $S$ de pas en avant suit la loi $\\mathcal{B}(50 ; 0{,}7)$, donc $E(S) = 50 \\times 0{,}7 = 35$. La position est $X = S - (50 - S) = 2S - 50$, d'où $E(X) = 2 \\times 35 - 50 = 20$. (La valeur $35$ est l'espérance du nombre de pas en avant, pas celle de la position.)"
+    },
+    {
+      "id": "TS2-6",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Lire un algorithme de calcul d'écart",
+      "skill": "Interpréter un programme qui calcule P(|S_n - pn| > √n)",
+      "statement": "On considère la fonction Python suivante, où `comb(n, k)` renvoie $\\binom{n}{k}$.\n```python\nfrom math import comb, sqrt\n\ndef proba_ecart(n, p):\n    total = 0\n    for k in range(n + 1):\n        if abs(k - n * p) > sqrt(n):\n            total = total + comb(n, k) * p**k * (1 - p)**(n - k)\n    return total\n```\nSi $S \\sim \\mathcal{B}(400 ; 0{,}5)$, `proba_ecart(400, 0.5)` renvoie la probabilité de quel événement ?",
+      "options": [
+        "$S \\le 179$ ou $S \\ge 221$",
+        "$S \\le 180$ ou $S \\ge 220$",
+        "$S \\le 199$ ou $S \\ge 201$",
+        "$180 \\le S \\le 220$"
+      ],
+      "correctIndex": 0,
+      "answer": "$S \\le 179$ ou $S \\ge 221$",
+      "hint1": "La boucle additionne les probabilités $P(S = k)$ des entiers $k$ qui vérifient $|k - np| > \\sqrt{n}$.",
+      "hint2": "Ici $np = 200$ et $\\sqrt{400} = 20$ : la condition est $|k - 200| > 20$, avec une inégalité stricte.",
+      "solution": "Avec $n = 400$ et $p = 0{,}5$ : $np = 200$ et $\\sqrt{n} = 20$. La fonction additionne $P(S = k)$ pour les entiers $k$ tels que $|k - 200| > 20$, c'est-à-dire $k < 180$ ou $k > 220$, soit $k \\le 179$ ou $k \\ge 221$. Elle renvoie donc $P(|S - 200| > 20) = P(S \\le 179 \\text{ ou } S \\ge 221)$, environ $0{,}04$, alors que l'inégalité de Bienaymé-Tchebychev majore seulement cette probabilité par $\\frac{400 \\times 0{,}5 \\times 0{,}5}{20^2} = \\frac{1}{4}$."
     }
   ],
   "TX1": [
@@ -3383,6 +3798,25 @@ window.MATHS_EXERCISES_TALE = {
       "hint1": "$|z - z_A| = AM$ et $|z - z_B| = BM$.",
       "hint2": "$AM = BM$ caractérise l'ensemble des points équidistants de $A$ et $B$.",
       "solution": "Posons $z_A = 2 - i$ et $z_B = 4 + 3i$. L'égalité s'écrit $|z - z_A| = |z - z_B| \\iff AM = BM$. C'est la médiatrice du segment $[AB]$."
+    },
+    {
+      "id": "TX1-5",
+      "tier": 1,
+      "type": "mcq",
+      "title": "Affixe d'un vecteur",
+      "skill": "Associer un point ou un vecteur du plan complexe à son affixe",
+      "statement": "Dans le plan complexe, les points $A$ et $B$ sont les images des complexes $z_A = 1 - 2i$ et $z_B = 4 + 2i$. Quelle est l'affixe du vecteur $\\overrightarrow{AB}$ ?",
+      "options": [
+        "$3 + 4i$",
+        "$-3 - 4i$",
+        "$5$",
+        "$3 - 4i$"
+      ],
+      "correctIndex": 0,
+      "answer": "$3 + 4i$",
+      "hint1": "Le vecteur $\\overrightarrow{AB}$ a pour affixe $z_B - z_A$ (extrémité moins origine).",
+      "hint2": "Les parties réelles donnent $4 - 1$ ; fais de même avec les parties imaginaires $2$ et $-2$.",
+      "solution": "$z_{\\overrightarrow{AB}} = z_B - z_A = (4 + 2i) - (1 - 2i) = 3 + 4i$. On retrouve les coordonnées $(3 ; 4)$ du vecteur $\\overrightarrow{AB}$, et $AB = |3 + 4i| = \\sqrt{9 + 16} = 5$."
     }
   ],
   "TX2": [
@@ -3487,9 +3921,9 @@ window.MATHS_EXERCISES_TALE = {
       "id": "TX3-2",
       "tier": 2,
       "type": "mcq",
-      "title": "Petit théorème de Fermat",
-      "skill": "Appliquer a^(p-1) = 1 [p]",
-      "statement": "Sachant que 17 est premier, quel est le reste de $5^{16}$ divisé par 17 ?",
+      "title": "Carrés successifs modulo 17",
+      "skill": "Calculer une puissance modulo n par carrés successifs",
+      "statement": "Quel est le reste de la division euclidienne de $5^{16}$ par 17 ?",
       "options": [
         "$1$",
         "$5$",
@@ -3498,9 +3932,9 @@ window.MATHS_EXERCISES_TALE = {
       ],
       "correctIndex": 0,
       "answer": "$1$",
-      "hint1": "17 est premier et ne divise pas 5.",
-      "hint2": "Le petit théorème de Fermat assure que $a^{p-1} \\equiv 1 [p]$.",
-      "solution": "Comme 17 est un nombre premier et que 5 n'est pas un multiple de 17, d'après le petit théorème de Fermat, $5^{17-1} = 5^{16} \\equiv 1 [17]$."
+      "hint1": "Comme $16 = 2^4$, élève $5$ au carré quatre fois de suite en réduisant modulo 17 à chaque étape.",
+      "hint2": "$5^2 = 25 \\equiv 8 \\pmod{17}$ et $5^4 \\equiv 8^2 = 64 \\equiv 13 \\pmod{17}$. Continue ainsi.",
+      "solution": "Modulo 17 : $5^2 = 25 \\equiv 8$, $5^4 \\equiv 8^2 = 64 \\equiv 13$, $5^8 \\equiv 13^2 = 169 \\equiv 16$ et $5^{16} \\equiv 16^2 = 256 \\equiv 1$. Le reste est donc $1$. Renvoi : au chapitre TX4, le petit théorème de Fermat donnera ce résultat sans calcul, car 17 est premier et ne divise pas 5."
     },
     {
       "id": "TX3-3",
@@ -3576,9 +4010,9 @@ window.MATHS_EXERCISES_TALE = {
       ],
       "correctIndex": 0,
       "answer": "$(-5 ; 12)$",
-      "hint1": "Teste $31(5) + 13(-12)$.",
-      "hint2": "$31 \\times 5 = 155$ et $13 \\times 12 = 156$. $155 - 156 = -1$... attention au signe !",
-      "solution": "$31(-5) + 13(12) = -155 + 156 = 1$, donc le couple est $(u=-5, v=12)$."
+      "hint1": "Applique l'algorithme d'Euclide à $31$ et $13$, en commençant par $31 = 2 \\times 13 + 5$, jusqu'à obtenir le reste $1$, puis remonte les calculs.",
+      "hint2": "Les divisions suivantes sont $13 = 2 \\times 5 + 3$, $5 = 1 \\times 3 + 2$ et $3 = 1 \\times 2 + 1$. Pars de $1 = 3 - 2$ et remplace d'abord $2$ par $5 - 3$.",
+      "solution": "Algorithme d'Euclide : $31 = 2 \\times 13 + 5$ ; $13 = 2 \\times 5 + 3$ ; $5 = 1 \\times 3 + 2$ ; $3 = 1 \\times 2 + 1$. En remontant : $1 = 3 - 2 = 3 - (5 - 3) = 2 \\times 3 - 5 = 2(13 - 2 \\times 5) - 5 = 2 \\times 13 - 5 \\times 5 = 2 \\times 13 - 5(31 - 2 \\times 13) = 12 \\times 13 - 5 \\times 31$. Donc $31 \\times (-5) + 13 \\times 12 = -155 + 156 = 1$ : le couple est $(u ; v) = (-5 ; 12)$."
     },
     {
       "id": "TX4-3",
@@ -3586,18 +4020,18 @@ window.MATHS_EXERCISES_TALE = {
       "type": "mcq",
       "title": "Lemme de Gauss",
       "skill": "Appliquer le théorème de Gauss",
-      "statement": "Soit $a, b, c$ trois entiers. Si $a$ divise le produit $bc$ et que $a$ et $b$ sont premiers entre eux, que dit le théorème de Gauss ?",
+      "statement": "Quels sont les couples d'entiers relatifs $(x ; y)$ tels que $7(x - 3) = 4(y - 2)$ ? (Dans chaque proposition, $k$ décrit $\\mathbb{Z}$.)",
       "options": [
-        "$a$ divise $c$",
-        "$b$ divise $c$",
-        "$c$ divise $a$",
-        "$a$ divise $b$"
+        "$(x ; y) = (3 + 4k ; 2 + 7k)$",
+        "$(x ; y) = (3 + 7k ; 2 + 4k)$",
+        "$(x ; y) = (4k ; 7k)$",
+        "$(x ; y) = (3 + 28k ; 2 + 28k)$"
       ],
       "correctIndex": 0,
-      "answer": "$a$ divise $c$",
-      "hint1": "Le théorème de Gauss concerne un entier qui divise un produit et qui est premier avec l'un des deux facteurs.",
-      "hint2": "Comme $a$ n'a aucun facteur premier commun avec $b$, ses facteurs premiers doivent tous se trouver dans l'autre facteur du produit.",
-      "solution": "C'est l'énoncé exact du théorème (ou lemme) de Gauss : si un entier divise un produit et est premier avec l'un des facteurs, il divise obligatoirement l'autre facteur."
+      "answer": "$(x ; y) = (3 + 4k ; 2 + 7k)$",
+      "hint1": "Théorème de Gauss : si un entier divise un produit et est premier avec l'un des facteurs, il divise l'autre facteur.",
+      "hint2": "$7$ divise $4(y - 2)$ et $7$ est premier avec $4$, donc $7$ divise $y - 2$ : $y = 2 + 7k$. Remplace dans l'équation pour obtenir $x$.",
+      "solution": "Si $(x ; y)$ est solution, $7$ divise $4(y - 2)$ ; comme $\\mathrm{PGCD}(7 ; 4) = 1$, le théorème de Gauss donne : $7$ divise $y - 2$, donc $y = 2 + 7k$ avec $k \\in \\mathbb{Z}$. Alors $7(x - 3) = 4 \\times 7k$, d'où $x - 3 = 4k$ et $x = 3 + 4k$.\nRéciproquement, pour tout $k \\in \\mathbb{Z}$, $7(3 + 4k - 3) = 28k = 4(2 + 7k - 2)$ : ces couples sont bien solutions. Les solutions sont les couples $(3 + 4k ; 2 + 7k)$, $k \\in \\mathbb{Z}$."
     },
     {
       "id": "TX4-4",
@@ -3662,17 +4096,17 @@ window.MATHS_EXERCISES_TALE = {
       "id": "TX5-3",
       "tier": 3,
       "type": "mcq",
-      "title": "État stable d'un graphe probabiliste",
-      "skill": "Déterminer l'état stationnaire P = P M",
-      "statement": "Pour $M = \\begin{pmatrix} 0{,}7 & 0{,}3 \\\\ 0{,}4 & 0{,}6 \\end{pmatrix}$, quel est l'état stable $P = (x \\quad y)$ vérifiant $P M = P$ et $x + y = 1$ ?",
+      "title": "Distribution invariante d'une chaîne de Markov",
+      "skill": "Déterminer la distribution invariante : résoudre $\\pi P = \\pi$",
+      "statement": "Pour la matrice de transition $P = \\begin{pmatrix} 0{,}7 & 0{,}3 \\\\ 0{,}4 & 0{,}6 \\end{pmatrix}$, quelle est la distribution invariante $\\pi = (x \\quad y)$ vérifiant $\\pi P = \\pi$ et $x + y = 1$ ?",
       "options": [
-        "$P = \\left(\\frac{4}{7} \\quad \\frac{3}{7}\\right)$",
-        "$P = (0{,}5 \\quad 0{,}5)$",
-        "$P = (0{,}7 \\quad 0{,}3)$",
-        "$P = \\left(\\frac{3}{7} \\quad \\frac{4}{7}\\right)$"
+        "$\\pi = \\left(\\frac{4}{7} \\quad \\frac{3}{7}\\right)$",
+        "$\\pi = (0{,}5 \\quad 0{,}5)$",
+        "$\\pi = (0{,}7 \\quad 0{,}3)$",
+        "$\\pi = \\left(\\frac{3}{7} \\quad \\frac{4}{7}\\right)$"
       ],
       "correctIndex": 0,
-      "answer": "$P = \\left(\\frac{4}{7} \\quad \\frac{3}{7}\\right)$",
+      "answer": "$\\pi = \\left(\\frac{4}{7} \\quad \\frac{3}{7}\\right)$",
       "hint1": "$0{,}7x + 0{,}4y = x \\iff 0{,}4y = 0{,}3x \\iff 3x = 4y$.",
       "hint2": "Remplace $y$ par $1 - x$ dans $3x = 4y$ et résous en $x$.",
       "solution": "$0{,}7x + 0{,}4y = x \\iff 0{,}4y = 0{,}3x \\iff y = \\frac{3}{4}x$. Avec $x + y = 1$, on obtient $x + \\frac{3}{4}x = 1 \\iff \\frac{7}{4}x = 1 \\iff x = \\frac{4}{7}$, d'où $y = \\frac{3}{7}$."
@@ -3681,20 +4115,20 @@ window.MATHS_EXERCISES_TALE = {
       "id": "TX5-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Puissance n-ième d'une matrice diagonalisable",
+      "title": "Puissance n-ième d'une matrice à partir de M = P D P^-1",
       "skill": "Calculer M^n à partir d'une écriture P D P^-1",
-      "statement": "Si $M = P D P^{-1}$ avec $D = \\begin{pmatrix} 1 & 0 \\\\ 0 & 0{,}5 \\end{pmatrix}$, quelle est la matrice limite $\\lim_{n \\to +\\infty} D^n$ ?",
+      "statement": "On admet que $M = P D P^{-1}$ avec $P = \\begin{pmatrix} 1 & 2 \\\\ 1 & -1 \\end{pmatrix}$, $D = \\begin{pmatrix} 1 & 0 \\\\ 0 & 0{,}5 \\end{pmatrix}$ et $P^{-1} = \\frac{1}{3}\\begin{pmatrix} 1 & 2 \\\\ 1 & -1 \\end{pmatrix}$. Pour tout entier naturel $n$, quelle est l'expression de $M^n$ ?",
       "options": [
-        "$\\begin{pmatrix} 1 & 0 \\\\ 0 & 0 \\end{pmatrix}$",
-        "$\\begin{pmatrix} 0 & 0 \\\\ 0 & 0 \\end{pmatrix}$",
-        "$\\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}$",
-        "La limite n'existe pas"
+        "$M^n = \\frac{1}{3}\\begin{pmatrix} 1 + 2 \\times (0{,}5)^n & 2 - 2 \\times (0{,}5)^n \\\\ 1 - (0{,}5)^n & 2 + (0{,}5)^n \\end{pmatrix}$",
+        "$M^n = \\frac{1}{3}\\begin{pmatrix} 1 + 2 \\times (0{,}5)^n & 1 - (0{,}5)^n \\\\ 2 - 2 \\times (0{,}5)^n & 2 + (0{,}5)^n \\end{pmatrix}$",
+        "$M^n = \\begin{pmatrix} 1 + 2 \\times (0{,}5)^n & 2 - 2 \\times (0{,}5)^n \\\\ 1 - (0{,}5)^n & 2 + (0{,}5)^n \\end{pmatrix}$",
+        "$M^n = \\begin{pmatrix} 1 & 0 \\\\ 0 & (0{,}5)^n \\end{pmatrix}$"
       ],
       "correctIndex": 0,
-      "answer": "$\\begin{pmatrix} 1 & 0 \\\\ 0 & 0 \\end{pmatrix}$",
-      "hint1": "$D^n = \\begin{pmatrix} 1^n & 0 \\\\ 0 & (0{,}5)^n \\end{pmatrix}$.",
-      "hint2": "Comme $|0{,}5| < 1$, $(0{,}5)^n \\to 0$.",
-      "solution": "$D^n = \\text{diag}(1^n, 0{,}5^n) = \\text{diag}(1, (0{,}5)^n)$. Quand $n \\to +\\infty$, $(0{,}5)^n \\to 0$, donc la matrice limite est $\\begin{pmatrix} 1 & 0 \\\\ 0 & 0 \\end{pmatrix}$."
+      "answer": "$M^n = \\frac{1}{3}\\begin{pmatrix} 1 + 2 \\times (0{,}5)^n & 2 - 2 \\times (0{,}5)^n \\\\ 1 - (0{,}5)^n & 2 + (0{,}5)^n \\end{pmatrix}$",
+      "hint1": "On a $M^n = P D^n P^{-1}$, et $D^n$ s'obtient en élevant chaque coefficient diagonal à la puissance $n$.",
+      "hint2": "Calcule d'abord $P D^n = \\begin{pmatrix} 1 & 2 \\times (0{,}5)^n \\\\ 1 & -(0{,}5)^n \\end{pmatrix}$, puis multiplie à droite par $P^{-1}$.",
+      "solution": "Les produits $P^{-1}P$ intermédiaires valent $I_2$, donc $M^n = P D^n P^{-1}$ avec $D^n = \\begin{pmatrix} 1 & 0 \\\\ 0 & (0{,}5)^n \\end{pmatrix}$. On a $P D^n = \\begin{pmatrix} 1 & 2 \\times (0{,}5)^n \\\\ 1 & -(0{,}5)^n \\end{pmatrix}$, puis, en multipliant à droite par $P^{-1}$, $M^n = \\frac{1}{3}\\begin{pmatrix} 1 + 2 \\times (0{,}5)^n & 2 - 2 \\times (0{,}5)^n \\\\ 1 - (0{,}5)^n & 2 + (0{,}5)^n \\end{pmatrix}$. Contrôle pour $n = 0$ : on retrouve $\\frac{1}{3}\\begin{pmatrix} 3 & 0 \\\\ 0 & 3 \\end{pmatrix} = I_2$."
     }
   ],
   "TA8": [
@@ -3856,9 +4290,9 @@ window.MATHS_EXERCISES_TALE = {
       "id": "TA9-4",
       "tier": 3,
       "type": "mcq",
-      "title": "Limite de référence",
+      "title": "Pour aller plus loin : limite de référence",
       "skill": "Utiliser $\\lim_{x \\to 0} \\frac{\\sin(x)}{x} = 1$",
-      "statement": "Que vaut $\\lim_{x \\to 0} \\frac{\\sin(6x)}{3x}$ ?",
+      "statement": "**Pour aller plus loin** (la limite $\\lim_{x \\to 0} \\frac{\\sin(x)}{x} = 1$ n'est pas un attendu du programme ; voir le point 4 du cours). Que vaut $\\lim_{x \\to 0} \\frac{\\sin(6x)}{3x}$ ?",
       "options": [
         "$2$",
         "$\\frac{1}{2}$",
@@ -4083,6 +4517,25 @@ window.MATHS_EXERCISES_TALE = {
       "hint1": "Après $n$ étapes, la longueur vaut $\\frac{4}{2^n}$.",
       "hint2": "On veut $2^n \\ge 400$.",
       "solution": "$\\frac{4}{2^n} \\le 0{,}01 \\iff 2^n \\ge 400$. Or $2^8 = 256 < 400 \\le 2^9 = 512$ : il faut $9$ étapes."
+    },
+    {
+      "id": "TS4-6",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Méthode de la sécante",
+      "skill": "Calculer les itérés de la méthode de la sécante",
+      "statement": "On approche $\\sqrt{2}$ par la méthode de la sécante appliquée à $f(x) = x^2 - 2$, avec $x_0 = 1$, $x_1 = 2$ et, pour $n \\ge 1$, $x_{n+1} = x_n - f(x_n) \\times \\dfrac{x_n - x_{n-1}}{f(x_n) - f(x_{n-1})}$. Quelle est la valeur de $x_3$ ?",
+      "options": [
+        "$\\frac{7}{5}$",
+        "$\\frac{4}{3}$",
+        "$\\frac{3}{2}$",
+        "$\\frac{17}{12}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\frac{7}{5}$",
+      "hint1": "Calcule d'abord $x_2$ à partir de $x_0$ et $x_1$, puis applique la formule à $x_1$ et $x_2$.",
+      "hint2": "$f(1) = -1$ et $f(2) = 2$, donc $x_2 = 2 - 2 \\times \\frac{1}{3}$.",
+      "solution": "$f(1) = -1$ et $f(2) = 2$, donc $x_2 = 2 - 2 \\times \\dfrac{2 - 1}{2 - (-1)} = 2 - \\dfrac{2}{3} = \\dfrac{4}{3}$. Puis $f\\left(\\dfrac{4}{3}\\right) = -\\dfrac{2}{9}$, d'où $x_3 = \\dfrac{4}{3} + \\dfrac{2}{9} \\times \\dfrac{\\frac{4}{3} - 2}{-\\frac{2}{9} - 2} = \\dfrac{4}{3} + \\dfrac{2}{9} \\times \\dfrac{3}{10} = \\dfrac{4}{3} + \\dfrac{1}{15} = \\dfrac{7}{5}$."
     }
   ]
 };
@@ -4108,6 +4561,78 @@ Alors $\\frac{1}{2}u_k \\le 3 \\implies \\frac{1}{2}u_k + 3 \\le 6 \\implies u_{
 Conclusion : Par récurrence, pour tout $n \\in \\mathbb{N}$, $u_n \\le 6$.
 3. $u_{n+1} - u_n = \\frac{1}{2}u_n + 3 - u_n = 3 - \\frac{1}{2}u_n = \\frac{1}{2}(6 - u_n)$.
 Comme $u_n \\le 6$, $6 - u_n \\ge 0$, donc $u_{n+1} - u_n \\ge 0$. La suite $(u_n)$ est croissante.`
+    }
+  ],
+  "TA2": [
+    {
+      "id": "TA2-fiche_td",
+      "title": "Fiche Terminale : Limites de suites et convergence",
+      "filename": "Fiche_TA2_Limites_Suites.md",
+      "statement": `## Fiche d'entraînement TA2 : Limites de suites et théorèmes de convergence
+
+### Exercice 1 : Calculs de limites (5 points)
+Déterminer la limite de chacune des suites suivantes, définies pour tout entier $n \\ge 1$ :
+1. $u_n = 3n^2 - 5n + 1$
+2. $v_n = \\frac{2n + 1}{n + 3}$
+3. $w_n = \\frac{2 + (-1)^n}{n}$
+4. $t_n = 5 \\times 0{,}8^n - 2$
+5. $s_n = 3^n - 2^n$
+
+### Exercice 2 : Théorème de comparaison (3 points)
+Soit $(a_n)$ la suite définie pour tout $n \\in \\mathbb{N}$ par $a_n = n^2 + (-1)^n n$.
+1. Montrer que pour tout $n \\in \\mathbb{N}$, $a_n \\ge n^2 - n$.
+2. En déduire la limite de $(a_n)$.
+
+### Exercice 3 : Convergence monotone (7 points)
+Soit $(u_n)$ la suite définie par $u_0 = 1$ et, pour tout $n \\in \\mathbb{N}$, $u_{n+1} = \\sqrt{2u_n + 3}$. On note $f$ la fonction définie sur $[0 ; +\\infty[$ par $f(x) = \\sqrt{2x + 3}$, de sorte que $u_{n+1} = f(u_n)$.
+1. Calculer $u_1$ et justifier que $f$ est croissante sur $[0 ; +\\infty[$.
+2. Démontrer par récurrence que pour tout $n \\in \\mathbb{N}$, $0 \\le u_n \\le u_{n+1} \\le 3$.
+3. En déduire que la suite $(u_n)$ converge.
+4. Déterminer sa limite $\\ell$.
+
+### Exercice 4 : Suite auxiliaire géométrique (5 points)
+Soit $(u_n)$ la suite définie par $u_0 = 2$ et, pour tout $n \\in \\mathbb{N}$, $u_{n+1} = 0{,}6\\,u_n + 4$. On pose $v_n = u_n - 10$.
+1. Montrer que $(v_n)$ est une suite géométrique dont on précisera la raison et le premier terme.
+2. En déduire $u_n$ en fonction de $n$, puis la limite de $(u_n)$.
+3. Montrer que $(u_n)$ est croissante.
+4. Compléter la fonction Python suivante pour qu'elle renvoie le plus petit entier $n$ tel que $u_n > 9{,}9$, puis donner la valeur renvoyée.
+\`\`\`python
+def seuil():
+    u = 2
+    n = 0
+    while ...:
+        u = ...
+        n = n + 1
+    return n
+\`\`\``,
+      "solution": `### Correction Exercice 1
+1. Forme indéterminée « $+\\infty - \\infty$ » : on factorise par le terme prépondérant. $u_n = n^2\\left(3 - \\frac{5}{n} + \\frac{1}{n^2}\\right)$ ; la parenthèse tend vers $3$ et $n^2 \\to +\\infty$, donc $\\lim u_n = +\\infty$.
+2. $v_n = \\frac{n\\left(2 + \\frac{1}{n}\\right)}{n\\left(1 + \\frac{3}{n}\\right)} = \\frac{2 + \\frac{1}{n}}{1 + \\frac{3}{n}}$, donc $\\lim v_n = \\frac{2}{1} = 2$.
+3. Comme $-1 \\le (-1)^n \\le 1$, on a $1 \\le 2 + (-1)^n \\le 3$, donc pour $n \\ge 1$ : $\\frac{1}{n} \\le w_n \\le \\frac{3}{n}$. Les deux suites qui encadrent tendent vers $0$ ; d'après le théorème des gendarmes, $\\lim w_n = 0$.
+4. $-1 < 0{,}8 < 1$, donc $\\lim 0{,}8^n = 0$ et $\\lim t_n = 5 \\times 0 - 2 = -2$.
+5. Forme indéterminée : $s_n = 3^n\\left(1 - \\left(\\frac{2}{3}\\right)^n\\right)$. Comme $-1 < \\frac{2}{3} < 1$, la parenthèse tend vers $1$ ; comme $3 > 1$, $3^n \\to +\\infty$. Donc $\\lim s_n = +\\infty$.
+
+### Correction Exercice 2
+1. $(-1)^n \\ge -1$ et $n \\ge 0$, donc $(-1)^n n \\ge -n$ et $a_n \\ge n^2 - n$.
+2. $n^2 - n = n^2\\left(1 - \\frac{1}{n}\\right)$ pour $n \\ge 1$, qui tend vers $+\\infty$. D'après le théorème de comparaison, $\\lim a_n = +\\infty$.
+
+### Correction Exercice 3
+1. $u_1 = \\sqrt{2 \\times 1 + 3} = \\sqrt{5} \\approx 2{,}24$. Si $0 \\le a \\le b$, alors $0 < 2a + 3 \\le 2b + 3$ et, la fonction racine carrée étant croissante, $f(a) \\le f(b)$ : $f$ est croissante sur $[0 ; +\\infty[$.
+2. Soit $\\mathcal{P}(n)$ : « $0 \\le u_n \\le u_{n+1} \\le 3$ ».
+Initialisation : $u_0 = 1$ et $u_1 = \\sqrt{5}$ ; comme $5 \\le 9$, $\\sqrt{5} \\le 3$. Donc $0 \\le 1 \\le \\sqrt{5} \\le 3$ : $\\mathcal{P}(0)$ est vraie.
+Hérédité : supposons $\\mathcal{P}(k)$ vraie pour un entier $k$, soit $0 \\le u_k \\le u_{k+1} \\le 3$. Comme $f$ est croissante sur $[0 ; +\\infty[$ : $f(0) \\le f(u_k) \\le f(u_{k+1}) \\le f(3)$, soit $\\sqrt{3} \\le u_{k+1} \\le u_{k+2} \\le 3$. Comme $\\sqrt{3} \\ge 0$, $\\mathcal{P}(k + 1)$ est vraie.
+Conclusion : par récurrence, pour tout $n \\in \\mathbb{N}$, $0 \\le u_n \\le u_{n+1} \\le 3$.
+3. La suite $(u_n)$ est croissante et majorée par $3$ ; d'après le théorème de convergence monotone, elle converge vers un réel $\\ell$, et $1 = u_0 \\le \\ell \\le 3$.
+4. $f$ est continue sur $[0 ; +\\infty[$, donc en passant à la limite dans $u_{n+1} = f(u_n)$ : $\\ell = f(\\ell) = \\sqrt{2\\ell + 3}$.
+Comme $\\ell \\ge 0$, cela équivaut à $\\ell^2 = 2\\ell + 3$, soit $\\ell^2 - 2\\ell - 3 = (\\ell - 3)(\\ell + 1) = 0$. Comme $\\ell \\ge 1$, $\\ell = 3$.
+
+### Correction Exercice 4
+1. $v_{n+1} = u_{n+1} - 10 = 0{,}6\\,u_n + 4 - 10 = 0{,}6\\,u_n - 6 = 0{,}6(u_n - 10) = 0{,}6\\,v_n$.
+$(v_n)$ est géométrique de raison $0{,}6$ et de premier terme $v_0 = 2 - 10 = -8$.
+2. $v_n = -8 \\times 0{,}6^n$, donc $u_n = v_n + 10 = 10 - 8 \\times 0{,}6^n$. Comme $-1 < 0{,}6 < 1$, $\\lim 0{,}6^n = 0$, donc $\\lim u_n = 10$.
+3. $u_{n+1} - u_n = -8 \\times 0{,}6^{n+1} + 8 \\times 0{,}6^n = 8 \\times 0{,}6^n(1 - 0{,}6) = 3{,}2 \\times 0{,}6^n > 0$ : $(u_n)$ est strictement croissante.
+4. La boucle continue tant que $u_n \\le 9{,}9$ : on écrit \`while u <= 9.9:\` et \`u = 0.6 * u + 4\`.
+$u_8 = 10 - 8 \\times 0{,}6^8 \\approx 9{,}866 \\le 9{,}9$ et $u_9 = 10 - 8 \\times 0{,}6^9 \\approx 9{,}919 > 9{,}9$. Comme $(u_n)$ est croissante, la fonction renvoie $9$.`
     }
   ]
 };

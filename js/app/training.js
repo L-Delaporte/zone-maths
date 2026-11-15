@@ -10,6 +10,8 @@ Object.assign(window.MathsApp, {
     const engine = window.MathsAdaptiveEngine;
     const activeChapLevel = this.getCurrentChapterLevel();
     const exercise = engine ? engine.state.currentExercise : null;
+    const focused = document.activeElement;
+    const focusInFeedback = !!focused && (['btn-next-exercise', 'exercise-feedback-zone'].includes(focused.id) || !!focused.closest('#exercise-input-zone'));
 
     // 1. Mise à jour de la jauge ZPD, des paliers et de la maîtrise
     this.renderZpdGauge();
@@ -44,7 +46,8 @@ Object.assign(window.MathsApp, {
     if (container) {
       container.innerHTML = `
         <div class="exo-header-bar">
-          <span class="exo-tier-tag tier-${exercise.tier}">${exercise.isReview ? '🔁 Rappel · ' : ''}Palier ${exercise.tier} : ${this.getTierName(exercise.tier, activeChapLevel)}</span>
+          <span class="exo-tier-tag tier-${exercise.tier}">${exercise.isReview ? '🔁 Rappel · ' : ''}<span class="tier-tag-long">Palier ${exercise.tier} : ${this.getTierName(exercise.tier, activeChapLevel)}</span><span class="tier-tag-short">${this.getTierButtonLabel(exercise.tier, activeChapLevel)}</span></span>
+          ${exercise.sharedRank ? `<span class="exo-skill-tag">👥 Série commune · question ${exercise.sharedRank}</span>` : ''}
           <span class="exo-skill-tag">${exercise.skill || 'Mathématiques'}</span>
         </div>
         <h3 class="exo-title">${exercise.title}</h3>
@@ -57,17 +60,22 @@ Object.assign(window.MathsApp, {
     if (interactionContainer) {
       interactionContainer.innerHTML = '';
       this.case3State = null;
+      this.orderState = null;
       if (exercise.type === 'case3') {
         // Étude de cas en trois étapes : une étape active à la fois, un seul essai par étape
         if (!exercise._case3Shuffled && engine && typeof engine.shuffleCase3 === 'function') engine.shuffleCase3(exercise);
         this.case3State = { step: 0, picks: [] };
         this.renderCase3Steps(exercise);
+      } else if (exercise.type === 'order') {
+        this.orderState = { order: exercise.orderSteps.map((_, i) => i + 1), locked: false };
+        this.renderOrderSteps(exercise);
       } else if (exercise.type === 'mcq') {
         // Normalisation défensive choices -> options
         if (!exercise.options && exercise.choices) exercise.options = exercise.choices;
         if (exercise.correctIndex === undefined && exercise.options && exercise.answer) {
-          exercise.correctIndex = exercise.options.indexOf(exercise.answer);
-          if (exercise.correctIndex === -1) exercise.correctIndex = 0;
+          const idx = exercise.options.indexOf(exercise.answer);
+          if (idx === -1) console.error('QCM sans bonne réponse identifiable :', exercise.id || exercise.statement);
+          else exercise.correctIndex = idx;
         }
         if (!exercise.options) exercise.options = [];
         // Mélange défensif : la bonne réponse ne doit jamais être prévisible (toujours en A)
@@ -89,24 +97,28 @@ Object.assign(window.MathsApp, {
           btn.type = 'button';
           btn.setAttribute('data-index', idx);
           btn.setAttribute('aria-pressed', 'false');
+          btn.setAttribute('aria-label', `Réponse ${String.fromCharCode(65 + idx)} : ${this.spokenOption(opt)}`);
           btn.innerHTML = `
             <span class="mcq-letter">${String.fromCharCode(65 + idx)}</span>
-            <span class="mcq-text">${opt}</span>
+            <span class="mcq-text">${this.optionHtml(opt)}</span>
           `;
           btn.addEventListener('click', () => {
             document.querySelectorAll('.mcq-opt-btn').forEach(b => { b.classList.remove('selected'); b.setAttribute('aria-pressed', 'false'); });
             btn.classList.add('selected');
             btn.setAttribute('aria-pressed', 'true');
             this.selectedMcqAnswer = idx;
+            this.clearAnswerError();
           });
           mcqBox.appendChild(btn);
         });
 
         // Raccourcis clavier guide
-        const kbdHint = document.createElement('div');
-        kbdHint.className = 'kbd-hint';
-        kbdHint.innerHTML = `<span><span aria-hidden="true">⌨️</span> Raccourcis :</span> <kbd class="kbd-badge">A</kbd> <kbd class="kbd-badge">B</kbd> <kbd class="kbd-badge">C</kbd> <kbd class="kbd-badge">D</kbd> pour choisir, <kbd class="kbd-badge">Entrée</kbd> pour valider, <kbd class="kbd-badge">H</kbd> pour indice`;
-        mcqBox.appendChild(kbdHint);
+        if (this.shortcutsEnabled()) {
+          const kbdHint = document.createElement('div');
+          kbdHint.className = 'kbd-hint';
+          kbdHint.innerHTML = `<span><span aria-hidden="true">⌨️</span> Raccourcis :</span> <kbd class="kbd-badge">A</kbd> <kbd class="kbd-badge">B</kbd> <kbd class="kbd-badge">C</kbd> <kbd class="kbd-badge">D</kbd> pour choisir, <kbd class="kbd-badge">Entrée</kbd> pour valider, <kbd class="kbd-badge">H</kbd> pour indice`;
+          mcqBox.appendChild(kbdHint);
+        }
 
         interactionContainer.appendChild(mcqBox);
         window.MathsRenderer.renderElement(mcqBox);
@@ -118,7 +130,7 @@ Object.assign(window.MathsApp, {
         inputWrapper.className = 'exact-input-wrapper';
 
         // Placeholder neutre qui ne donne JAMAIS la réponse aux élèves
-        let safePlaceholder = 'Votre réponse...';
+        let safePlaceholder = 'Ta réponse…';
         const ansStr = String(exercise.answer || '').trim();
         const allAnswers = [ansStr].concat(Array.isArray(exercise.acceptedAnswers) ? exercise.acceptedAnswers.map(String) : []).join(' ');
         const level = this.getCurrentChapterLevel();
@@ -128,35 +140,40 @@ Object.assign(window.MathsApp, {
           ? '💡 Fraction : <code>13/7</code> · racine : <code>3√2</code> ou <code>3sqrt(2)</code> · π : <code>3π/4</code> ou <code>3pi/4</code> (touches √ et π du clavier mathématique ci-dessous).'
           : '💡 Pour une fraction, écris par exemple <code>13/7</code> ou utilise le clavier virtuel ci-dessous.';
         if (exercise.answerType === 'factorisation') {
-          safePlaceholder = 'Forme factorisée (ex : 3(x-2)(2x+5))';
+          safePlaceholder = 'Ex. : 3(x-2)(2x+5)';
           inputTip = '💡 Écris un produit : <code>3(x-2)(2x+5)</code> ; un carré s\'écrit <code>(x+1)^2</code> ; le signe × est facultatif.';
         } else if (exercise.answerType === 'developpement') {
           // Variable de l'expression attendue (x, n pour une suite, X pour un polynôme formel)
           const v = /n/.test(ansStr) ? 'n' : /X/.test(ansStr) ? 'X' : 'x';
           const ex = { x: '6x^2+11x-4', n: '3n^2-2n+5', X: 'X^2-3X+2' }[v];
           const withFrac = ansStr.includes('/') || !['6eme', '5eme', '4eme', '3eme'].includes(level);
-          safePlaceholder = `Expression réduite (ex : ${ex})`;
+          safePlaceholder = `Ex. : ${ex}`;
           inputTip = `💡 Écris l'expression sans parenthèses : <code>${ex}</code> ; un carré s'écrit <code>${v}^2</code>.`
             + (withFrac ? ` Coefficient fractionnaire : <code>2/3${v}</code> ou <code>(2/3)${v}</code>.` : '');
         } else if (exercise.answerType === 'equationDroite') {
-          safePlaceholder = 'Équation réduite (ex : y=-2/3x+5)';
+          safePlaceholder = 'Ex. : y=-2/3x+5';
           inputTip = '💡 Écris l\'équation sous la forme <code>y=3x-2</code> ou <code>y=-2/3x+5</code> (fraction irréductible) ; le « y = » est facultatif.';
+        } else if (exercise.answerType === 'intervalle') {
+          safePlaceholder = 'Ex. : ]-∞;-7]U[12;+∞[';
+          inputTip = '💡 Écris un intervalle avec ses crochets, par exemple <code>[-7;12[</code> ; réunion : <code>U</code> ou <code>∪</code>, par exemple <code>]-∞;-7]U[12;+∞[</code> ; infini : <code>inf</code> ou <code>∞</code> ; π : <code>pi</code> ou la touche π ; ensemble vide : <code>aucune</code>.';
         } else if (exercise.answerType === 'canonique') {
-          safePlaceholder = 'Forme canonique (ex : 2(x-3)^2-5)';
+          safePlaceholder = 'Ex. : 2(x-3)^2-5';
           inputTip = '💡 Écris la forme <code>a(x-α)^2+β</code>, par exemple <code>2(x-3)^2-5</code> ou <code>-(x+1)^2+4</code>.';
         } else if (ansStr.includes(';') || (ansStr.startsWith('(') && ansStr.endsWith(')'))) {
-          safePlaceholder = 'Coordonnées (ex: (3;5) ou 3;5)';
+          safePlaceholder = 'Ex. : (3;5)';
           inputTip = '💡 Écris les coordonnées sous la forme <code>(x;y)</code> ou <code>x;y</code>.' + (showSqrtPi ? ' Racine : <code>√</code> ou <code>sqrt</code> ; π : <code>π</code> ou <code>pi</code>.' : '');
         } else if (/[√π]/.test(ansStr)) {
-          safePlaceholder = 'Ex: 3√2, 2√3/3 ou 3π/4';
+          safePlaceholder = 'Ex. : 3√2 ou 3π/4';
         } else if (ansStr.includes('/')) {
-          safePlaceholder = 'Ex: 3/4 (fraction irréductible)';
+          safePlaceholder = 'Ex. : 3/4';
+          // « Irréductible » relève du cycle 4 : en 6e, on parle de fraction simplifiée au maximum
+          if (!exercise.acceptUnreduced) inputTip += level === '6eme' ? ' Simplifie la fraction au maximum.' : ' Donne la fraction irréductible.';
         } else if (ansStr.includes('^')) {
-          safePlaceholder = 'Ex: 10^3';
+          safePlaceholder = 'Ex. : 10^3';
         } else if (!isNaN(parseFloat(ansStr))) {
-          safePlaceholder = 'Nombre (ex: 12 ou -4)';
+          safePlaceholder = 'Ex. : 12 ou -4';
         } else if (/^[a-zà-ÿ' -]{2,}$/i.test(ansStr)) {
-          safePlaceholder = 'Réponse en toutes lettres';
+          safePlaceholder = 'En toutes lettres';
         }
 
         inputWrapper.innerHTML = `
@@ -167,7 +184,7 @@ Object.assign(window.MathsApp, {
           </div>
           <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.4rem;">
             <p class="input-tip" style="margin:0;">${inputTip}</p>
-            <div class="kbd-hint" style="margin:0;"><span aria-hidden="true">⌨️</span> <kbd class="kbd-badge">Entrée</kbd> pour valider, <kbd class="kbd-badge">H</kbd> pour indice</div>
+            ${this.shortcutsEnabled() ? `<div class="kbd-hint" style="margin:0;"><span aria-hidden="true">⌨️</span> <kbd class="kbd-badge">Entrée</kbd> pour valider, <kbd class="kbd-badge">H</kbd> pour indice</div>` : ''}
           </div>
         `;
         interactionContainer.appendChild(inputWrapper);
@@ -178,6 +195,7 @@ Object.assign(window.MathsApp, {
 
         inputField.addEventListener('input', () => {
           window.MathsRenderer.renderPreview(inputField.value, previewBadge);
+          this.clearAnswerError();
         });
 
         inputField.addEventListener('keydown', (e) => {
@@ -194,7 +212,7 @@ Object.assign(window.MathsApp, {
           }
         });
 
-        setTimeout(() => inputField.focus(), 100);
+        setTimeout(() => this.focusAnswerField(inputField), 100);
       }
     }
 
@@ -202,6 +220,8 @@ Object.assign(window.MathsApp, {
     if (feedbackContainer) {
       feedbackContainer.innerHTML = '';
       feedbackContainer.style.display = 'none';
+      // Posés par la correction précédente : le titre qu'ils désignent n'existe plus
+      ['role', 'aria-labelledby', 'tabindex'].forEach(attr => feedbackContainer.removeAttribute(attr));
     }
 
     // Réinitialiser les boutons d'action
@@ -215,8 +235,30 @@ Object.assign(window.MathsApp, {
       validateBtn.textContent = exercise.type === 'case3' ? 'Valider l\'étape 1 sur 3 ✓' : 'Valider ma réponse ✓';
       validateBtn.onclick = () => this.submitCurrentAnswer();
     }
-    if (hint1Btn) hint1Btn.textContent = exercise.type === 'case3' ? '💡 Indice pour cette étape' : '💡 Coup de pouce (Indice 1)';
-    if (hint2Btn) hint2Btn.style.display = exercise.type === 'case3' ? 'none' : '';
+    if (hint1Btn) {
+      hint1Btn.textContent = exercise.type === 'case3' ? '💡 Indice pour cette étape' : '💡 Coup de pouce (Indice 1)';
+      hint1Btn.style.display = '';
+    }
+    if (hint2Btn) {
+      // Cas pratique : le second bouton ne sert que si le cas propose une piste générale
+      const caseHint = exercise.type === 'case3' ? this.caseLevelHint(exercise) : '';
+      hint2Btn.textContent = caseHint ? '🧭 Piste pour ce cas' : '📖 Rappel de cours (Indice 2)';
+      hint2Btn.style.display = exercise.type === 'case3' && !caseHint ? 'none' : '';
+    }
+    this.helpClosed = false;
+    let giveUpBtn = document.getElementById('btn-give-up');
+    if (!giveUpBtn && hint1Btn && hint1Btn.parentNode) {
+      giveUpBtn = document.createElement('button');
+      giveUpBtn.id = 'btn-give-up';
+      giveUpBtn.type = 'button';
+      giveUpBtn.className = 'btn-text-sm btn-give-up';
+      giveUpBtn.textContent = 'Je ne sais pas, voir la correction';
+      hint1Btn.parentNode.appendChild(giveUpBtn);
+    }
+    if (giveUpBtn) {
+      giveUpBtn.style.display = exercise.type === 'case3' ? 'none' : '';
+      giveUpBtn.onclick = () => this.giveUpCurrentExercise();
+    }
     // Clavier mathématique : seulement s'il y a un champ à remplir (masqué pour les QCM et les études de cas)
     const kbSection = document.querySelector('.virtual-keyboard-section');
     if (kbSection) kbSection.style.display = document.getElementById('math-user-input') ? '' : 'none';
@@ -234,6 +276,7 @@ Object.assign(window.MathsApp, {
     if (hint2Btn) {
       hint2Btn.onclick = () => this.showHint(2);
     }
+    this.bringStatementIntoView(container, focusInFeedback);
   },
 
   /**
@@ -249,7 +292,6 @@ Object.assign(window.MathsApp, {
       panel = document.createElement('div');
       panel.id = 'tier-progress-panel';
       panel.className = 'tier-progress-panel';
-      panel.setAttribute('aria-live', 'polite');
       panel.style.cssText = 'display:flex;flex-wrap:wrap;align-items:center;gap:0.4rem 0.9rem;padding:0.55rem 0.8rem;margin:0 0 0.8rem;border-radius:10px;border:1px solid rgba(37,99,235,0.25);background:rgba(37,99,235,0.06);font-size:0.92rem;line-height:1.35;';
       statementBox.parentNode.insertBefore(panel, statementBox);
     }
@@ -260,23 +302,37 @@ Object.assign(window.MathsApp, {
       return;
     }
     const W = engine.PROGRESSION.WINDOW;
+    // Chaque état se distingue par la forme et un signe, pas seulement par la couleur
+    const DOTS = {
+      g: ['réussie du premier coup', '✓'],
+      h: ['réussie du premier coup avec un indice', '✓'],
+      o: ['réussie après une erreur', '~'],
+      r: ['plusieurs erreurs ou pas trouvée', '✗'],
+      e: ['pas encore de réponse', '']
+    };
+    const counts = { g: 0, h: 0, o: 0, r: 0, e: 0 };
     const dots = [];
     for (let i = 0; i < W; i++) {
       const m = (st.marks || [])[i];
-      let color = 'rgba(100,116,139,0.18)';
-      let label = 'pas encore de réponse';
-      if (m === 'g') { color = '#16a34a'; label = 'réussie du premier coup'; }
-      else if (m === 'h') { color = '#86efac'; label = 'réussie du premier coup avec un indice'; }
-      else if (m === 'o') { color = '#f59e0b'; label = 'réussie après une erreur'; }
-      else if (m === 'r') { color = '#dc2626'; label = 'plusieurs erreurs ou pas trouvée'; }
-      dots.push(`<span title="${label}" style="display:inline-block;width:0.8rem;height:0.8rem;border-radius:50%;background:${color};"></span>`);
+      const kind = DOTS[m] ? m : 'e';
+      counts[kind]++;
+      const [label, glyph] = DOTS[kind];
+      dots.push(`<span class="tier-dot tier-dot-${kind}" title="${label}" aria-hidden="true">${glyph}</span>`);
     }
+    const sayCount = (n, one, many) => (n ? `${n} ${n > 1 ? many : one}` : '');
+    const dotsLabel = [
+      sayCount(counts.g, 'réussie du premier coup', 'réussies du premier coup'),
+      sayCount(counts.h, 'réussie avec un indice', 'réussies avec un indice'),
+      sayCount(counts.o, 'réussie après une erreur', 'réussies après une erreur'),
+      sayCount(counts.r, 'à retravailler', 'à retravailler'),
+      sayCount(counts.e, 'sans réponse', 'sans réponse')
+    ].filter(Boolean).join(', ');
     const reviewNote = exercise && exercise.isReview
       ? `<span style="flex-basis:100%;color:var(--text-muted,#64748b);">🔁 Question de rappel du Palier ${exercise.tier} (révision espacée) : elle ne compte pas dans l'objectif du palier en cours.</span>`
       : '';
     panel.innerHTML = `
       <span><strong>🎯 ${st.objective}</strong></span>
-      <span role="img" aria-label="Tes ${W} dernières questions du palier" style="display:inline-flex;gap:0.25rem;">${dots.join('')}</span>
+      <span class="tier-dots" role="img" aria-label="Tes ${W} dernières questions du palier : ${dotsLabel}">${dots.join('')}</span>
       <span>${st.message}</span>
       ${reviewNote}
     `;
@@ -295,6 +351,8 @@ Object.assign(window.MathsApp, {
       if (this.currentChapterId.startsWith('4')) return '4eme';
       if (this.currentChapterId.startsWith('3')) return '3eme';
       if (this.currentChapterId.startsWith('2')) return '2nde';
+      if (/^1TC\d/.test(this.currentChapterId)) return '1tc';
+      if (/^1T\d/.test(this.currentChapterId)) return '1techno';
       if (this.currentChapterId.startsWith('1')) return '1ere';
       if (this.currentChapterId.startsWith('T')) return 'tale';
       if (this.currentChapterId.startsWith('L1')) return 'L1';
@@ -312,7 +370,7 @@ Object.assign(window.MathsApp, {
         1: "Palier 1 : Socle",
         2: "Palier 2 : Guidé",
         3: "Palier 3 : Approfondissement",
-        4: "Palier 4 : Défi 5ème"
+        4: "Palier 4 : Défi"
       };
       return labels[t] || `Palier ${t}`;
     } else if (lvl === '5eme') {
@@ -320,7 +378,7 @@ Object.assign(window.MathsApp, {
         1: "Palier 1 : Socle",
         2: "Palier 2 : Guidé",
         3: "Palier 3 : Approfondissement",
-        4: "Palier 4 : Défi 4ème"
+        4: "Palier 4 : Défi"
       };
       return labels[t] || `Palier ${t}`;
     } else if (lvl === '4eme') {
@@ -328,7 +386,7 @@ Object.assign(window.MathsApp, {
         1: "Palier 1 : Socle",
         2: "Palier 2 : Guidé",
         3: "Palier 3 : Approfondissement",
-        4: "Palier 4 : Défi 3ème"
+        4: "Palier 4 : Défi"
       };
       return labels[t] || `Palier ${t}`;
     } else if (lvl === '2nde') {
@@ -339,7 +397,7 @@ Object.assign(window.MathsApp, {
         4: "Palier 4 : Défi 1ère Spé"
       };
       return labels[t] || `Palier ${t}`;
-    } else if (lvl === '1ere' || lvl === 'tale' || lvl === 'lycee') {
+    } else if (lvl === '1ere' || lvl === '1tc' || lvl === '1techno' || lvl === 'tale' || lvl === 'lycee') {
       const labels = {
         1: "Palier 1 : Socle",
         2: "Palier 2 : Guidé",
@@ -386,7 +444,7 @@ Object.assign(window.MathsApp, {
           1: "Palier 1 : Déontologie",
           2: "Palier 2 : Situations",
           3: "Palier 3 : Périscolaire",
-          4: "Palier 4 : Procédures"
+          4: "Palier 4 : Dilemmes"
         };
         return labels[t] || `Palier ${t}`;
       }
@@ -424,7 +482,7 @@ Object.assign(window.MathsApp, {
         1: "Socle & Automatismes",
         2: "Entraînement Guidé",
         3: "Approfondissement 6e",
-        4: "Défi 5ème (Expert)"
+        4: "Défi (Expert)"
       };
       return names[t] || `Niveau ${t}`;
     } else if (lvl === '5eme') {
@@ -432,7 +490,7 @@ Object.assign(window.MathsApp, {
         1: "Socle & Automatismes",
         2: "Entraînement Guidé",
         3: "Approfondissement 5e",
-        4: "Défi 4ème (Expert)"
+        4: "Défi (Expert)"
       };
       return names[t] || `Niveau ${t}`;
     } else if (lvl === '4eme') {
@@ -440,7 +498,7 @@ Object.assign(window.MathsApp, {
         1: "Socle & Automatismes",
         2: "Entraînement Guidé",
         3: "Approfondissement 4e",
-        4: "Défi 3ème (Expert)"
+        4: "Défi (Expert)"
       };
       return names[t] || `Niveau ${t}`;
     } else if (lvl === '2nde') {
@@ -451,7 +509,7 @@ Object.assign(window.MathsApp, {
         4: "Défi 1ère Spé (Expert)"
       };
       return names[t] || `Niveau ${t}`;
-    } else if (lvl === '1ere' || lvl === 'tale' || lvl === 'lycee') {
+    } else if (lvl === '1ere' || lvl === '1tc' || lvl === '1techno' || lvl === 'tale' || lvl === 'lycee') {
       const names = {
         1: "Socle & Automatismes",
         2: "Entraînement Guidé",
@@ -498,7 +556,7 @@ Object.assign(window.MathsApp, {
           1: "Socle Déontologique & Textes",
           2: "Situations de Classe & Contestation",
           3: "Parents, Sorties & Périscolaire",
-          4: "Procédures d'Urgence & Jury"
+          4: "Dilemmes & Conflits de règles"
         };
         return names[t] || `Niveau ${t}`;
       }
@@ -626,12 +684,14 @@ Object.assign(window.MathsApp, {
           btn.type = 'button';
           btn.setAttribute('data-index', idx);
           btn.setAttribute('aria-pressed', 'false');
-          btn.innerHTML = `<span class="mcq-letter">${letter(idx)}</span><span class="mcq-text">${opt}</span>`;
+          btn.setAttribute('aria-label', `Réponse ${letter(idx)} : ${this.spokenOption(opt)}`);
+          btn.innerHTML = `<span class="mcq-letter">${letter(idx)}</span><span class="mcq-text">${this.optionHtml(opt)}</span>`;
           btn.addEventListener('click', () => {
             grid.querySelectorAll('.mcq-opt-btn').forEach(b => { b.classList.remove('selected'); b.setAttribute('aria-pressed', 'false'); });
             btn.classList.add('selected');
             btn.setAttribute('aria-pressed', 'true');
             this.selectedMcqAnswer = idx;
+            this.clearAnswerError();
           });
           grid.appendChild(btn);
         });
@@ -641,21 +701,88 @@ Object.assign(window.MathsApp, {
     });
 
     if (st.step < n) {
-      const kbdHint = document.createElement('div');
-      kbdHint.className = 'kbd-hint';
-      kbdHint.innerHTML = `<span><span aria-hidden="true">⌨️</span> Raccourcis :</span> <kbd class="kbd-badge">A</kbd> <kbd class="kbd-badge">B</kbd> <kbd class="kbd-badge">C</kbd> <kbd class="kbd-badge">D</kbd> pour choisir, <kbd class="kbd-badge">Entrée</kbd> pour valider l'étape, <kbd class="kbd-badge">H</kbd> pour un indice`;
-      box.appendChild(kbdHint);
+      if (this.shortcutsEnabled()) {
+        const kbdHint = document.createElement('div');
+        kbdHint.className = 'kbd-hint';
+        kbdHint.innerHTML = `<span><span aria-hidden="true">⌨️</span> Raccourcis :</span> <kbd class="kbd-badge">A</kbd> <kbd class="kbd-badge">B</kbd> <kbd class="kbd-badge">C</kbd> <kbd class="kbd-badge">D</kbd> pour choisir, <kbd class="kbd-badge">Entrée</kbd> pour valider l'étape, <kbd class="kbd-badge">H</kbd> pour un indice`;
+        box.appendChild(kbdHint);
+      }
       // Indice de l'étape active (bouton « Indice pour cette étape » et touche H)
+      const caseHint = this.caseLevelHint(exercise);
       const active = exercise.steps[st.step];
       exercise.hint1 = active.hint || exercise.hint1;
-      exercise.hint2 = exercise.hint1;
+      exercise.hint2 = caseHint || exercise.hint1;
     }
     zone.appendChild(box);
     window.MathsRenderer.renderElement(box);
     if (st.step > 0) {
       const target = box.querySelector(st.step < n ? '.case3-active' : '.case3-step:last-of-type');
-      if (target && typeof target.scrollIntoView === 'function') target.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      if (target && typeof target.scrollIntoView === 'function') target.scrollIntoView({ block: 'nearest', behavior: this.scrollBehavior() });
     }
+  },
+
+  /**
+   * Remise en ordre d'étapes (type order) : boutons ▲/▼, au doigt comme au clavier. Une fois la
+   * correction affichée (orderState.locked), l'ordre proposé est figé et chaque position corrigée.
+   */
+  renderOrderSteps(exercise) {
+    const zone = document.getElementById('exercise-input-zone');
+    const st = this.orderState;
+    if (!zone || !st) return;
+    const expected = st.locked ? exercise.options[exercise.correctIndex].match(/\d+/g).map(Number) : null;
+    zone.innerHTML = '';
+    const box = document.createElement('div');
+    box.className = 'order-steps';
+    if (!expected) box.innerHTML = `<p class="input-tip">Range les étapes dans l'ordre logique avec les flèches ▲ et ▼, puis valide.</p>`;
+    const list = document.createElement('ol');
+    list.className = 'order-list';
+    st.order.forEach((n, pos) => {
+      const ok = expected && expected[pos] === n;
+      const item = document.createElement('li');
+      item.className = `order-item${expected ? (ok ? ' order-ok' : ' order-ko') : ''}`;
+      item.setAttribute('data-step', n);
+      item.innerHTML = `<span class="case3-step-num">${pos + 1}</span>
+        <span class="order-body"><span class="order-tag">${expected ? (ok ? '✓ ' : '✗ ') : ''}Étape ${n}</span>${exercise.orderSteps[n - 1]}</span>`;
+      if (!expected) {
+        const moves = document.createElement('span');
+        moves.className = 'order-moves';
+        [[-1, '▲', 'Monter'], [1, '▼', 'Descendre']].forEach(([dir, glyph, verb]) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'order-move';
+          btn.textContent = glyph;
+          btn.setAttribute('aria-label', `${verb} l'étape ${n}`);
+          btn.disabled = !st.order[pos + dir];
+          btn.addEventListener('click', () => this.moveOrderStep(exercise, pos, dir));
+          moves.appendChild(btn);
+        });
+        item.appendChild(moves);
+      }
+      list.appendChild(item);
+    });
+    box.appendChild(list);
+    if (expected && st.order.some((n, pos) => n !== expected[pos])) {
+      const good = document.createElement('p');
+      good.className = 'case3-pick case3-good';
+      good.innerHTML = `<strong>Ordre attendu</strong> : ${exercise.options[exercise.correctIndex]}`;
+      box.appendChild(good);
+    }
+    zone.appendChild(box);
+    window.MathsRenderer.renderElement(box);
+  },
+
+  moveOrderStep(exercise, pos, dir) {
+    const order = this.orderState.order;
+    const n = order[pos];
+    order[pos] = order[pos + dir];
+    order[pos + dir] = n;
+    this.clearAnswerError();
+    this.renderOrderSteps(exercise);
+    this.announce(`Étape ${n} placée en position ${pos + dir + 1} sur ${order.length}.`);
+    // Les boutons viennent d'être recréés : le focus suit l'étape déplacée, même arrivée en bout de liste
+    const [up, down] = document.querySelectorAll(`.order-item[data-step="${n}"] .order-move`);
+    const same = dir < 0 ? up : down;
+    (same.disabled ? (dir < 0 ? down : up) : same).focus();
   },
 
   submitCurrentAnswer() {
@@ -668,7 +795,7 @@ Object.assign(window.MathsApp, {
       const st = this.case3State;
       if (!st || st.step >= exercise.steps.length) return;
       if (this.selectedMcqAnswer === null || this.selectedMcqAnswer === undefined) {
-        alert('Veuillez choisir une réponse pour cette étape.');
+        this.showAnswerError('Choisis une réponse pour cette étape.');
         return;
       }
       st.picks.push(this.selectedMcqAnswer);
@@ -683,29 +810,115 @@ Object.assign(window.MathsApp, {
         return;
       }
       userAnswer = st.picks.slice();
+    } else if (exercise.type === 'order') {
+      // Même écriture que options[correctIndex] : la correction reste celle du moteur
+      userAnswer = this.orderState.order.map(n => `Étape ${n}`).join(' → ');
     } else if (exercise.type === 'mcq') {
       if (this.selectedMcqAnswer === null || this.selectedMcqAnswer === undefined) {
-        alert('Veuillez sélectionner une réponse parmi les options proposées.');
+        this.showAnswerError('Choisis une réponse avant de valider.');
         return;
       }
       userAnswer = this.selectedMcqAnswer;
     } else {
       const input = document.getElementById('math-user-input');
       if (!input || !input.value.trim()) {
-        alert('Veuillez saisir votre réponse.');
+        this.showAnswerError('Écris ta réponse avant de valider.', input);
         return;
       }
       userAnswer = input.value;
     }
 
-    const result = engine.submitAnswer(userAnswer);
-    if (!result) return;
+    this.clearAnswerError();
+    this.applyAnswerResult(engine.submitAnswer(userAnswer), exercise);
+  },
 
+  applyAnswerResult(result, exercise) {
+    if (!result) return;
+    if (exercise.type === 'order' && !['hint1', 'hint2'].includes(result.stage)) {
+      this.orderState.locked = true;
+      this.renderOrderSteps(exercise);
+    }
     this.displayAnswerFeedback(result, exercise);
     this.updateHeaderProfile();
     this.updateChapterMasteryUI(this.currentChapterId);
     this.renderTierProgressPanel();
     this.renderZpdGauge();
+  },
+
+  /**
+   * « Je ne sais pas » : la correction s'affiche tout de suite. Le moteur compte un échec comme une
+   * réponse fausse, sans pénalité supplémentaire ; null n'est ni une réponse juste, ni une écriture à corriger.
+   */
+  giveUpCurrentExercise() {
+    const engine = window.MathsAdaptiveEngine;
+    const exercise = engine.state.currentExercise;
+    if (!exercise || exercise.type === 'case3' || this.helpClosed) return;
+    this.clearAnswerError();
+    engine.state.mistakesOnCurrent = Math.max(engine.state.mistakesOnCurrent || 0, 2);
+    this.applyAnswerResult(engine.submitAnswer(null), exercise);
+  },
+
+  /** Une fois la correction affichée, les aides n'ont plus d'objet (y compris la touche H). */
+  closeHelpButtons() {
+    this.helpClosed = true;
+    ['btn-hint-1', 'btn-hint-2', 'btn-give-up'].forEach((id) => {
+      const btn = document.getElementById(id);
+      if (btn) btn.style.display = 'none';
+    });
+  },
+
+  /** Réponse manquante : message dans la carte d'exercice, annoncé aux lecteurs d'écran et relié au champ s'il y en a un. */
+  showAnswerError(message, input) {
+    const zone = document.getElementById('exercise-input-zone');
+    if (!zone) return;
+    let error = document.getElementById('answer-error');
+    if (!error) {
+      error = document.createElement('p');
+      error.id = 'answer-error';
+      error.className = 'field-error';
+      zone.appendChild(error);
+    }
+    error.textContent = message;
+    this.announce(message);
+    if (input) {
+      input.setAttribute('aria-invalid', 'true');
+      input.setAttribute('aria-describedby', 'exercise-statement-box answer-error');
+      input.focus();
+    }
+  },
+
+  clearAnswerError() {
+    const error = document.getElementById('answer-error');
+    if (!error) return;
+    error.remove();
+    const input = document.getElementById('math-user-input');
+    if (input) {
+      input.removeAttribute('aria-invalid');
+      input.setAttribute('aria-describedby', 'exercise-statement-box');
+    }
+  },
+
+  /** Au chargement d'un exercice : pas de défilement, et pas de focus sur écran tactile (il peut y ouvrir le clavier sur Android, par-dessus l'énoncé). */
+  focusAnswerField(input) {
+    if (!input || !input.isConnected || this.isCoarsePointer()) return;
+    input.focus({ preventScroll: true });
+  },
+
+  isCoarsePointer() {
+    return !!window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+  },
+
+  /** Après « Exercice suivant » : l'énoncé revient en vue ; au clavier, le focus quitte le bouton qui vient d'être masqué. */
+  bringStatementIntoView(box, focusInFeedback) {
+    if (!box || !box.getClientRects().length) return;
+    const header = document.querySelector('.app-header');
+    const topLimit = header && getComputedStyle(header).position === 'sticky' ? header.getBoundingClientRect().bottom : 0;
+    const top = box.getBoundingClientRect().top;
+    if (top < topLimit) window.scrollBy(0, top - topLimit - 8);
+    if (focusInFeedback && (!document.getElementById('math-user-input') || this.isCoarsePointer())) {
+      box.setAttribute('tabindex', '-1');
+      box.focus({ preventScroll: true });
+    }
   },
 
   displayAnswerFeedback(result, exercise) {
@@ -722,6 +935,8 @@ Object.assign(window.MathsApp, {
     feedbackContainer.style.display = 'block';
 
     if (result.needsSimplification) {
+      const is6e = this.getCurrentChapterLevel() === '6eme';
+      if (is6e && result.adviceText) result.adviceText = result.adviceText.replace(/, irréductible si l'énoncé le demande/, ', simplifiée au maximum si l\'énoncé le demande');
       if (window.MathsAudio) window.MathsAudio.playHint();
       feedbackContainer.className = 'feedback-card feedback-warning';
       feedbackContainer.innerHTML = `
@@ -735,8 +950,8 @@ Object.assign(window.MathsApp, {
             ${result.adviceText ? `
             <p class="math-p">${result.adviceText}</p>
             <p class="math-p">Corrige ta réponse, puis clique de nouveau sur <strong>Valider ma réponse</strong>.</p>` : `
-            <p class="math-p">Ta réponse <strong>${result.userFraction}</strong> a la bonne valeur numérique, mais <strong>elle n'est pas sous forme irréductible</strong>.</p>
-            <p class="math-p">Divise le numérateur et le dénominateur par leur plus grand diviseur commun, puis clique de nouveau sur <strong>Valider ma réponse</strong>.</p>`}
+            <p class="math-p">Ta réponse <strong>${result.userFraction}</strong> a la bonne valeur numérique, mais <strong>${is6e ? 'elle n\'est pas simplifiée au maximum' : 'elle n\'est pas sous forme irréductible'}</strong>.</p>
+            <p class="math-p">${is6e ? 'Divise le numérateur et le dénominateur par un même nombre, et recommence tant que c\'est possible' : 'Divise le numérateur et le dénominateur par leur plus grand diviseur commun'}, puis clique de nouveau sur <strong>Valider ma réponse</strong>.</p>`}
           </div>
         </div>
       `;
@@ -780,9 +995,9 @@ Object.assign(window.MathsApp, {
         </div>` : ''}
       `;
       window.MathsRenderer.renderElement(feedbackContainer);
-      this.announceFeedback(feedbackContainer);
 
       if (validateBtn) validateBtn.style.display = 'none';
+      this.closeHelpButtons();
       if (nextBtn) {
         nextBtn.style.display = 'inline-flex';
         // Si un palier vient d'être validé, inciter au passage au palier supérieur
@@ -874,24 +1089,62 @@ Object.assign(window.MathsApp, {
         }
         if (validateBtn) validateBtn.style.display = 'none';
         if (nextBtn) nextBtn.style.display = 'inline-flex';
+        this.closeHelpButtons();
       }
       window.MathsRenderer.renderElement(feedbackContainer);
+    }
+
+    if (!nextBtn || nextBtn.style.display === 'none') {
+      // Indice : l'élève reste sur sa réponse, on lui lit le coup de pouce
       this.announceFeedback(feedbackContainer);
+    } else if (this.openModals().length) {
+      // Récompense ouverte par-dessus : on ne lui prend pas le focus
+      this.announceFeedback(feedbackContainer, true);
+    } else {
+      // Correction affichée : le focus passe sur le retour, lu à son rythme, et non sur « Exercice suivant »
+      // (l'élève doit avoir le temps de lire ; Entrée y passe quand même à la suite). Pas d'annonce en plus : elle doublerait la lecture.
+      // Sans preventScroll : si la correction est sous le bas de l'écran, le navigateur l'y amène
+      this.focusFeedback(feedbackContainer);
     }
   },
 
+  /** Donne le focus au bloc de correction, annoncé comme un groupe titré par son en-tête. */
+  focusFeedback(feedbackContainer, options) {
+    const title = feedbackContainer.querySelector('.feedback-header h4');
+    if (title) {
+      title.id = 'exercise-feedback-title';
+      feedbackContainer.setAttribute('role', 'group');
+      feedbackContainer.setAttribute('aria-labelledby', title.id);
+    }
+    feedbackContainer.setAttribute('tabindex', '-1');
+    feedbackContainer.focus(options);
+  },
+
+  /** Cas pratique : piste générale (question de droit, premier geste), mémorisée avant que l'indice d'étape ne remplace hint1 et hint2. */
+  caseLevelHint(exercise) {
+    if (exercise._caseHint === undefined) {
+      exercise._caseHint = (exercise.hint1 && exercise.hint2 && exercise.hint1 !== exercise.hint2)
+        ? `**Question de droit.** ${exercise.hint1}\n\n**Premier geste.** ${exercise.hint2}`
+        : '';
+    }
+    return exercise._caseHint;
+  },
+
   showHint(num) {
+    if (this.helpClosed) return;
     if (window.MathsAudio) window.MathsAudio.playHint();
     const hint = window.MathsAdaptiveEngine.requestHint(num);
     if (!hint) return;
     const feedbackContainer = document.getElementById('exercise-feedback-zone');
     if (!feedbackContainer) return;
+    const hintExercise = window.MathsAdaptiveEngine.state.currentExercise;
+    const isCaseHint = num === 2 && hintExercise && hintExercise.type === 'case3' && hintExercise._caseHint;
     feedbackContainer.style.display = 'block';
     feedbackContainer.className = 'feedback-card feedback-info';
     feedbackContainer.innerHTML = `
       <div class="feedback-header">
-        <span class="feedback-icon">${num === 1 ? '💡' : '📖'}</span>
-        <h4>${num === 1 ? 'Coup de pouce méthodologique' : 'Rappel de cours ciblé'}</h4>
+        <span class="feedback-icon">${num === 1 ? '💡' : isCaseHint ? '🧭' : '📖'}</span>
+        <h4>${num === 1 ? 'Coup de pouce méthodologique' : isCaseHint ? 'Piste pour ce cas' : 'Rappel de cours ciblé'}</h4>
       </div>
       <div class="hint-content">${window.MathsRenderer.markdownToHtml(hint)}</div>
       ${num === 2 ? `
@@ -903,6 +1156,327 @@ Object.assign(window.MathsApp, {
       ` : ''}
     `;
     window.MathsRenderer.renderElement(feedbackContainer);
+    this.announceFeedback(feedbackContainer);
+  },
+
+  /**
+   * Lecture à voix haute d'une option de QCM (aria-label). Un lecteur d'écran ne prend pas la formule KaTeX
+   * dans le nom d'un bouton : le LaTeX de l'option est converti en français simple, jamais lu tel quel.
+   */
+  SPOKEN_TEX: {
+    words: {
+      times: 'fois', cdot: 'fois', div: 'divisé par', pm: 'plus ou moins', mp: 'moins ou plus',
+      neq: 'différent de', ne: 'différent de', leq: 'inférieur ou égal à', le: 'inférieur ou égal à', leqslant: 'inférieur ou égal à',
+      geq: 'supérieur ou égal à', ge: 'supérieur ou égal à', geqslant: 'supérieur ou égal à', ll: 'très inférieur à', gg: 'très supérieur à',
+      approx: 'environ égal à', simeq: 'isomorphe à', cong: 'isomorphe à', sim: 'équivalent à', equiv: 'congru à',
+      infty: "l'infini", in: 'appartient à', notin: "n'appartient pas à", ni: 'contient',
+      subset: 'inclus dans', subseteq: 'inclus dans', supset: 'contient', supseteq: 'contient', cup: 'union', cap: 'inter',
+      setminus: 'privé de', emptyset: "l'ensemble vide", varnothing: "l'ensemble vide", forall: 'pour tout', exists: 'il existe', nexists: "il n'existe pas",
+      implies: 'implique', Rightarrow: 'implique', Longrightarrow: 'implique', iff: 'équivaut à', Leftrightarrow: 'équivaut à', Longleftrightarrow: 'équivaut à',
+      rightarrow: 'vers', longrightarrow: 'vers', mapsto: 'a pour image', neg: 'non', land: 'et', lor: 'ou', vee: 'ou',
+      wedge: 'pgcd', oplus: 'somme directe', otimes: 'produit tensoriel', perp: 'orthogonal à', parallel: 'parallèle à', circ: 'rond',
+      mid: 'divise', nmid: 'ne divise pas', bmod: 'modulo', mod: 'modulo', partial: 'd rond', nabla: 'nabla', angle: 'angle', triangle: 'triangle',
+      dots: 'points de suspension', ldots: 'points de suspension', cdots: 'points de suspension', vdots: 'points de suspension', ddots: 'points de suspension',
+      langle: 'crochet ouvrant', rangle: 'crochet fermant', lfloor: 'partie entière de', rfloor: ', fin de partie entière', '%': 'pour cent', '&': 'et', '#': 'dièse',
+      alpha: 'alpha', beta: 'bêta', gamma: 'gamma', delta: 'delta', epsilon: 'epsilon', varepsilon: 'epsilon', zeta: 'zêta', eta: 'êta',
+      theta: 'thêta', vartheta: 'thêta', iota: 'iota', kappa: 'kappa', lambda: 'lambda', mu: 'mu', nu: 'nu', xi: 'xi', pi: 'pi', rho: 'rhô', varrho: 'rhô',
+      sigma: 'sigma', tau: 'tau', upsilon: 'upsilon', phi: 'phi', varphi: 'phi', chi: 'khi', psi: 'psi', omega: 'oméga', ell: 'l',
+      Gamma: 'gamma majuscule', Delta: 'delta majuscule', Theta: 'thêta majuscule', Lambda: 'lambda majuscule', Xi: 'xi majuscule', Pi: 'pi majuscule',
+      Sigma: 'sigma majuscule', Phi: 'phi majuscule', Psi: 'psi majuscule', Omega: 'oméga majuscule'
+    },
+    silent: ['left', 'right', 'big', 'bigl', 'bigr', 'Big', 'Bigl', 'Bigr', 'bigg', 'biggl', 'biggr', 'Bigg', 'displaystyle', 'textstyle', 'scriptstyle', 'limits', 'nolimits', 'quad', 'qquad', ',', ';', ':', '!', ' ', 'hline'],
+    functions: {
+      sin: 'sinus', cos: 'cosinus', tan: 'tangente', cot: 'cotangente', arcsin: 'arc sinus', arccos: 'arc cosinus', arctan: 'arc tangente',
+      sinh: 'sinus hyperbolique', cosh: 'cosinus hyperbolique', tanh: 'tangente hyperbolique', ln: 'logarithme népérien', log: 'logarithme',
+      exp: 'exponentielle', dim: 'dimension', det: 'déterminant', ker: 'noyau', deg: 'degré', arg: 'argument', gcd: 'pgcd'
+    },
+    bigOperators: {
+      sum: 'somme', prod: 'produit', int: 'intégrale', iint: 'intégrale double', iiint: 'intégrale triple', oint: 'intégrale curviligne', bigcup: 'réunion', bigcap: 'intersection',
+      lim: 'limite', liminf: 'limite inférieure', limsup: 'limite supérieure', sup: 'borne supérieure', inf: 'borne inférieure', max: 'maximum', min: 'minimum'
+    },
+    fonts: ['mathbb', 'mathcal', 'mathfrak', 'mathbf', 'mathit', 'mathsf', 'mathscr', 'boldsymbol', 'bm'],
+    plainText: ['text', 'textrm', 'textbf', 'textit', 'mathrm', 'operatorname', 'mbox'],
+    chars: {
+      '+': 'plus', '-': 'moins', '−': 'moins', '–': 'moins', '=': 'égale', '<': 'inférieur à', '>': 'supérieur à', '/': 'sur', '*': 'étoile', '!': 'factorielle', '%': 'pour cent',
+      '×': 'fois', '÷': 'divisé par', '·': 'fois', '≤': 'inférieur ou égal à', '≥': 'supérieur ou égal à', '≠': 'différent de', '≈': 'environ égal à', '∈': 'appartient à',
+      '∞': "l'infini", 'π': 'pi', '√': 'racine carrée de', '²': 'au carré', '³': 'au cube', '°': 'degrés', '|': 'barre verticale'
+    },
+    scripts: { 2: 'au carré', 3: 'au cube', '*': 'étoile', '+': 'plus', '-': 'moins', '\\circ': 'degrés', '\\perp': 'orthogonal', '\\perp\\perp': 'biorthogonal', '\\prime': 'prime', '\\top': 'transposée', T: 'transposée' }
+  },
+
+  /** Option de QCM en HTML : le code entre accents graves (Python) s'affiche comme dans les énoncés. */
+  optionHtml(opt) {
+    return String(opt).replace(/`([^`\n]+)`/g, (m, code) => `<code class="math-inline-code">${code.replace(/&/g, '&amp;').replace(/</g, '&lt;')}</code>`);
+  },
+
+  /** Texte d'une option (texte libre et formules) tel qu'un lecteur d'écran doit le lire. */
+  spokenOption(text) {
+    return String(text).replace(/`/g, '')
+      .replace(/\$\$([\s\S]+?)\$\$|\$([^$]+?)\$|\\\(([\s\S]+?)\\\)|\\\[([\s\S]+?)\\\]|<\/?[a-z][^>]*>/gi,
+        (m, a, b, c, d) => (a || b || c || d ? this.spokenTex(a || b || c || d) : ' '))
+      .replace(/\s+/g, ' ').replace(/ ,/g, ',').replace(/\b(droite|vecteur|segment|intervalle|angle) \1\b/gi, '$1').trim();
+  },
+
+  /** Texte d'un bloc déjà rendu tel qu'un lecteur d'écran doit l'entendre : chaque formule KaTeX lue une fois, en français. */
+  spokenContent(el) {
+    const clone = el.cloneNode(true);
+    clone.querySelectorAll('.katex').forEach((k) => {
+      const tex = k.querySelector('annotation');
+      k.replaceWith(tex ? this.spokenTex(tex.textContent) : '');
+    });
+    return clone.textContent.replace(/\s+/g, ' ').trim();
+  },
+
+  spokenTex(src, inSet = false) {
+    const T = this.SPOKEN_TEX;
+    const s = String(src);
+    const out = [];
+    let i = 0;
+    const spoken = (x) => this.spokenTex(x, inSet);
+    const skipSpaces = () => { while (/\s/.test(s[i] || '')) i++; };
+    const closeBrace = (from) => {
+      let depth = 0;
+      for (let j = from; j < s.length; j++) {
+        if (s[j] === '\\') j++;
+        else if (s[j] === '{') depth++;
+        else if (s[j] === '}' && --depth === 0) return j;
+      }
+      return s.length;
+    };
+    // Source du groupe { … } ou de l'atome qui suit
+    const arg = () => {
+      skipSpaces();
+      if (s[i] === '{') { const end = closeBrace(i); const inner = s.slice(i + 1, end); i = end + 1; return inner; }
+      if (s[i] === '\\') { const cmd = /^\\(?:[a-zA-Z]+|[^a-zA-Z])/.exec(s.slice(i))[0]; i += cmd.length; return cmd; }
+      return s[i++] || '';
+    };
+    const compound = (x) => /\b(plus|moins|fois|sur|divisé|égale|fraction|racine)\b/.test(x.replace(/^moins (?=\S+$)/, ''));
+    const say = (w) => { if (w) out.push(w); };
+    const closing = (x, what) => (/\s/.test(x) ? `${x}, fin ${/^[aeiou]/.test(what) ? 'd\'' : 'de '}${what}` : x);
+    const bigScripts = () => {
+      let sub = ''; let sup = '';
+      for (;;) {
+        skipSpaces();
+        if (s[i] === '_') { i++; sub = spoken(arg()); } else if (s[i] === '^') { i++; sup = spoken(arg()); } else return [sub, sup];
+      }
+    };
+    // Prochaine occurrence de closer (ignorée dans les groupes et les commandes), -1 s'il n'y en a pas
+    const findClose = (from, closer, opener) => {
+      let depth = 0;
+      for (let j = from; j < s.length; j++) {
+        if (s[j] === '\\') {
+          if (closer === '\\}' && s.startsWith('\\{', j)) depth++;
+          else if (closer === '\\}' && s.startsWith('\\}', j) && depth > 0) depth--;
+          else if (closer[0] === '\\' && s.startsWith(closer, j) && depth === 0) return j;
+          j++;
+        } else if (s[j] === '{') depth++;
+        else if (s[j] === '}') depth--;
+        else if (opener && s[j] === opener && depth === 0) depth--;
+        else if (depth === 0 && s[j] === closer) return j;
+        else if (opener && s[j] === closer) depth++;
+      }
+      return -1;
+    };
+    const lastBase = () => { const k = out.length - 1; return /^indice /.test(out[k] || '') ? (out[k - 1] || '') : (out[k] || ''); };
+
+    while (i < s.length) {
+      const ch = s[i];
+      if (/\s/.test(ch) || ch === '~' || ch === '&') { i++; continue; }
+
+      if (ch === '\\') {
+        const m = /^\\([a-zA-Z]+|[^a-zA-Z])/.exec(s.slice(i));
+        if (!m) { i++; continue; }
+        const c = m[1];
+        i += m[0].length;
+        if (T.silent.includes(c)) continue;
+        if (c === 'middle') { skipSpaces(); if (s[i] === '|') { i++; say('tel que'); } continue; }
+        if (c === '\\') { say(','); continue; }
+        if (c === 'frac' || c === 'dfrac' || c === 'tfrac' || c === 'cfrac') {
+          const num = spoken(arg()); const den = spoken(arg());
+          if (compound(num) || compound(den)) say(`fraction de numérateur ${num} et de dénominateur ${den}, fin de fraction`);
+          else say(`${num} sur ${den}`);
+          continue;
+        }
+        if (c === 'sqrt') {
+          let degree = '';
+          if (s[i] === '[') { const end = s.indexOf(']', i); degree = s.slice(i + 1, end).trim(); i = end + 1; }
+          const name = !degree ? 'racine carrée' : degree === '3' ? 'racine cubique' : `racine ${spoken(degree)}-ième`;
+          say(`${name} de ${closing(spoken(arg()), 'racine')}`);
+          continue;
+        }
+        if (c === 'binom') { const n = spoken(arg()); say(`${spoken(arg())} parmi ${n}`); continue; }
+        if (c === 'vec' || c === 'overrightarrow') { say(`vecteur ${spoken(arg())}`); continue; }
+        if (c === 'overline' || c === 'bar') { say(`${spoken(arg())} barre`); continue; }
+        if (c === 'widehat') { say(`angle ${spoken(arg())}`); continue; }
+        if (c === 'hat') { say(`${spoken(arg())} chapeau`); continue; }
+        if (c === 'tilde') { say(`${spoken(arg())} tilde`); continue; }
+        if (c === 'dot') { say(`${spoken(arg())} point`); continue; }
+        if (c === 'overset') {
+          const top = arg().trim(); const base = spoken(arg());
+          say(top === '\\circ' ? `intérieur de ${base}` : `${base} surmonté de ${spoken(top)}`);
+          continue;
+        }
+        if (c === 'xrightarrow') {
+          let below = '';
+          if (s[i] === '[') { const end = findClose(i + 1, ']'); below = spoken(s.slice(i + 1, end)); i = end + 1; }
+          const above = spoken(arg());
+          say(`tend${below ? `, quand ${below},` : ''}${above ? ` au sens ${above}` : ''} vers`);
+          continue;
+        }
+        if (c === 'pmod') { say(`modulo ${spoken(arg())}`); continue; }
+        if (c === 'to') { say(/^\s*(?:[-+\d]|\\infty)/.test(s.slice(i)) ? 'tend vers' : 'vers'); continue; }
+        if (c === 'mid' && inSet) { say('tel que'); continue; }
+        if (T.fonts.includes(c)) {
+          say(spoken(arg()));
+          // R^3 se lit « R 3 » : ce n'est pas un cube
+          const dim = c === 'mathbb' && /^\s*\^\s*(?:\{(\w+)\}|(\w))/.exec(s.slice(i));
+          if (dim) { say(dim[1] || dim[2]); i += dim[0].length; }
+          continue;
+        }
+        if (T.plainText.includes(c)) {
+          say(arg().replace(/\\%/g, 'pour cent').replace(/\\[a-zA-Z]+|\\.|[{}]/g, ' ').trim());
+          continue;
+        }
+        if (c === 'begin') {
+          const env = arg();
+          const close = `\\end{${env}}`;
+          const at = s.indexOf(close, i);
+          const body = s.slice(i, at < 0 ? s.length : at);
+          i = at < 0 ? s.length : at + close.length;
+          const rows = body.split(/\\\\/).map((r) => r.trim()).filter(Boolean).map((r) => r.split('&').map(spoken));
+          if (!/matrix/.test(env)) say(`accolade, ${rows.map((r) => r.join(' ')).join(' ; ')}, fin d'accolade`);
+          else if (rows.every((r) => r.length === 1)) say(`colonne ${rows.map((r) => r[0]).join(' ; ')}, fin de colonne`);
+          else say(`matrice, ${rows.map((r, k) => `ligne ${k + 1} : ${r.join(', ')}`).join(' ; ')}, fin de matrice`);
+          continue;
+        }
+        if (c === '{') {
+          const end = findClose(i, '\\}');
+          if (end < 0) { say('accolade'); continue; }
+          say(`ensemble ${closing(this.spokenTex(s.slice(i, end), true), 'ensemble')}`);
+          i = end + 2;
+          continue;
+        }
+        if (c === '}') { say('accolade fermante'); continue; }
+        if (c === '|') {
+          const end = findClose(i, '\\|');
+          if (end < 0) { say('double barre'); continue; }
+          say(s.slice(i, end).trim() === '\\cdot' ? 'norme' : `norme de ${closing(spoken(s.slice(i, end)), 'norme')}`);
+          i = end + 2;
+          continue;
+        }
+        if (T.functions[c]) {
+          const word = T.functions[c];
+          const [sub, sup] = bigScripts();
+          const power = sup ? (T.scripts[sup === 'au carré' ? 2 : sup === 'au cube' ? 3 : ''] || sup) : '';
+          say(`${word}${sub ? ` indice ${sub}` : ''}${power ? ` ${power}` : ''} de`);
+          continue;
+        }
+        if (T.bigOperators[c]) {
+          const word = T.bigOperators[c];
+          const [sub, sup] = bigScripts();
+          if (/^(?:lim|liminf|limsup)$/.test(c)) say(`${word}${sub ? ` quand ${sub}` : ''} de`);
+          else if (/int$/.test(c)) say(`${word}${sub ? ` de ${sub}` : ''}${sup ? ` à ${sup}` : ''} de`);
+          else say(`${word}${sub ? ` pour ${sub}` : ''}${sup ? ` à ${sup}` : ''} de`);
+          continue;
+        }
+        say(T.words[c] || c);
+        continue;
+      }
+
+      if (s.startsWith('{,}', i)) { out[out.length - 1] = `${out[out.length - 1] || ''},`; i += 3; continue; }
+      if (s.startsWith('{}^t', i)) { say('transposée de'); i += 4; continue; }
+      if (ch === '{') { say(spoken(arg())); continue; }
+      if (ch === '}') { i++; continue; }
+
+      if (ch === '^' || ch === '_') {
+        i++;
+        const raw = arg().trim();
+        if (ch === '_') { say(`indice ${spoken(raw)}`); continue; }
+        if (T.scripts[raw]) { say(T.scripts[raw]); continue; }
+        say(`puissance ${closing(spoken(raw), 'puissance').replace(/^moins (\S+), fin de puissance$/, 'moins $1')}`);
+        continue;
+      }
+
+      if (ch === "'") {
+        const n = /^'+/.exec(s.slice(i))[0].length;
+        i += n;
+        out[out.length - 1] = `${out[out.length - 1] || ''} ${['prime', 'seconde', 'tierce'][n - 1] || `${n} primes`}`;
+        continue;
+      }
+
+      if (/\d/.test(ch)) {
+        const num = /^\d+(?:(?:[.,]|\{,\})\d+)*/.exec(s.slice(i))[0];
+        i += num.length;
+        say(num.replace(/\{,\}/g, ','));
+        continue;
+      }
+
+      if (ch === '(') {
+        const end = findClose(i + 1, ')', '(');
+        if (end < 0) { i++; say('ouvrir parenthèse'); continue; }
+        const src2 = s.slice(i + 1, end).replace(/\\right\s*$/, '');
+        const base = lastBase();
+        // Dans P( … | … ) ou E( … | … ), la barre se lit « sachant » (ailleurs « divise » ou « tel que »)
+        const inner = spoken(/^[PE]$/.test(base) ? src2.replace(/\\(?:middle\s*\||mid\b)/g, '\\text{sachant}') : src2);
+        const after = s[end + 1];
+        i = end + 1;
+        const fnLike = /^(?:[fghFGHPQW]|phi|psi|khi|[A-Z][a-z]+|cond|ord|rg|card|vect)(?: (?:prime|seconde|tierce))?$/.test(base)
+          || (/^[uvwpqyzs](?: (?:prime|seconde|tierce))?$/.test(base) && /^[a-zA-Z]$/.test(inner))
+          || (/^[EV]$/.test(base) && !/[;,]/.test(src2));
+        if (fnLike) {
+          say('de');
+          if (/^(?:moins )?\S+(?: indice \S+)?$/.test(inner)) { say(inner); continue; }
+        } else if (/^[A-Z]$/.test(base) && /;/.test(src2)) {
+          say(`de coordonnées ${inner}`);
+          continue;
+        } else if (/^\s*[A-Z]\s*[A-Z]\s*$/.test(src2)) {
+          say(`droite ${inner}`);
+          continue;
+        } else if (!/\s/.test(inner) && after !== '^') {
+          say(inner);
+          continue;
+        }
+        say(`ouvrir parenthèse ${inner} fermer parenthèse`);
+        continue;
+      }
+      if (ch === ')') { i++; say('fermer parenthèse'); continue; }
+
+      if (ch === '[' || ch === ']') {
+        const seg = /^\[\s*([A-Z])\s*([A-Z])\s*([\])])/.exec(s.slice(i));
+        if (seg) { say(`${seg[3] === ']' ? 'segment' : 'demi-droite'} ${seg[1]} ${seg[2]}`); i += seg[0].length; continue; }
+        let depth = 0; let sep = -1; let end = -1;
+        for (let j = i + 1; j < s.length && depth >= 0; j++) {
+          if (s[j] === '\\') j++;
+          else if (s[j] === '{' || s[j] === '(') depth++;
+          else if (s[j] === '}' || s[j] === ')') depth--;
+          else if (depth === 0 && sep < 0 && (s[j] === ';' || s[j] === ',')) sep = j;
+          else if (depth === 0 && sep >= 0 && (s[j] === '[' || s[j] === ']')) { end = j; break; }
+        }
+        if (end < 0) { i++; say(ch === '[' ? 'crochet ouvrant' : 'crochet fermant'); continue; }
+        const low = spoken(s.slice(i + 1, sep)); const high = spoken(s.slice(sep + 1, end));
+        const bound = (x, closed) => (/infini/.test(x) ? x : `${x} ${closed ? 'inclus' : 'exclu'}`);
+        say(`intervalle de ${bound(low, ch === '[')} à ${bound(high, s[end] === ']')}`);
+        i = end + 1;
+        continue;
+      }
+
+      if (ch === '|') {
+        const end = findClose(i + 1, '|');
+        if (end < 0) { i++; say(inSet ? 'tel que' : T.chars['|']); continue; }
+        say(`valeur absolue de ${closing(spoken(s.slice(i + 1, end)), 'valeur absolue')}`);
+        i = end + 1;
+        continue;
+      }
+
+      i++;
+      if (ch === ',' || ch === ';' || ch === ':' || ch === '.') {
+        if (ch === ',' || ch === '.') out[out.length - 1] = `${out[out.length - 1] || ''}${ch}`;
+        else say(ch);
+        continue;
+      }
+      say(T.chars[ch] || ch);
+    }
+    return out.join(' ').replace(/\s+/g, ' ').replace(/ ,/g, ',').trim();
   },
 
   /**
@@ -984,6 +1558,58 @@ Object.assign(window.MathsApp, {
     }
   },
 
+  /** Graine de la série commune (?seed=…), valable seulement sur le chapitre du lien. */
+  sharedSeedFor(chapterId) {
+    const params = new URLSearchParams(location.search);
+    const seed = params.get('seed');
+    const chapter = params.get('chapitre') || params.get('chapter') || params.get('chap');
+    if (!seed || !/^[a-z0-9]{1,16}$/i.test(seed) || !chapter) return null;
+    return chapter.toLowerCase() === String(chapterId).toLowerCase() ? seed : null;
+  },
+
+  /**
+   * Lien à graine : chaque question ne dépend que de (graine, chapitre, palier, rang dans la série).
+   * Historique, progression et rappels espacés de l'élève sont écartés le temps du seul tirage ;
+   * les énoncés tirés rejoignent ensuite son historique, comme d'habitude.
+   */
+  installSharedSeries() {
+    const engine = window.MathsAdaptiveEngine;
+    const gen = window.MathsGenerators;
+    const { startChapterSession, nextExercise, pickStaticExercise } = engine;
+    engine.startChapterSession = (...args) => {
+      this._sharedSeries = null;
+      return startChapterSession.apply(engine, args);
+    };
+    engine.nextExercise = () => {
+      const chapterId = engine.state.chapterId || this.currentChapterId;
+      const seed = this.sharedSeedFor(chapterId);
+      if (!seed) return nextExercise.call(engine);
+      const tier = engine.isTierUnlocked(chapterId, engine.state.currentTier) ? engine.state.currentTier : engine.getHighestUnlockedTier(chapterId);
+      const series = this._sharedSeries || (this._sharedSeries = {});
+      const run = series[tier] || (series[tier] = { rank: 0, recent: [] });
+      const personal = engine.getRecentStatements(chapterId);
+      engine._recentStatements[chapterId] = run.recent;
+      gen._sharedHistory = run.recent.map(s => gen._statementKey(s));
+      engine.pickStaticExercise = (c, t, p, r, f) => pickStaticExercise.call(engine, c, t, null, r, f);
+      engine.state.skipReviewOnce = true;
+      let exercise = null;
+      try {
+        exercise = gen.withSeed(`${seed}|${chapterId}|${tier}|${run.rank}`, () => nextExercise.call(engine));
+      } finally {
+        run.recent = engine._recentStatements[chapterId];
+        engine._recentStatements[chapterId] = personal;
+        engine.pickStaticExercise = pickStaticExercise;
+        gen._sharedHistory = null;
+      }
+      if (exercise) {
+        run.rank++;
+        exercise.sharedRank = run.rank;
+        if (exercise.statement) engine.rememberStatement(chapterId, exercise.statement);
+      }
+      return exercise;
+    };
+  },
+
   /**
    * « Partager à ma classe » : lien direct vers le chapitre, QR code à projeter et message
    * prêt à coller dans l'ENT. Le lien ne débloque aucun palier (voir checkUrlShareParams).
@@ -994,10 +1620,14 @@ Object.assign(window.MathsApp, {
     if (!chapter) return;
     const chapterName = chapter.title || chapter.shortTitle || chapterId;
     const levelName = this.getLevelName(chapter.level || this.currentLevel);
+    // Même graine tant que la page reste ouverte : un lien recopié plus tard redonne la même série
+    const seeds = this._shareSeeds || (this._shareSeeds = {});
+    const seed = seeds[chapterId] || (seeds[chapterId] = this.sharedSeedFor(chapterId) || (Math.random().toString(36) + '000000').slice(2, 8));
     // src=classe : source GoatCounter (liste des sources en fin d'index.html) ; le QR code projeté
-    // ci-dessous est le QR imprimé du chapitre (src=qr, scripts/build_qr_codes.js)
-    const shareUrl = `https://etabli-des-maths.fr/?chapitre=${encodeURIComponent(chapterId)}&src=classe`;
-    const message = `Lien d'entraînement pour le chapitre « ${chapterName} » : ${shareUrl}`;
+    // ci-dessous est le QR imprimé du chapitre (src=qr, scripts/build_qr_codes.js), figé et donc sans graine
+    const linkFor = tier => `https://etabli-des-maths.fr/?chapitre=${encodeURIComponent(chapterId)}&src=classe&palier=${tier}&seed=${seed}`;
+    const messageFor = tier => `Lien d'entraînement pour le chapitre « ${chapterName} » (mêmes exercices pour toute la classe) : ${linkFor(tier)}`;
+    const canShare = typeof navigator.share === 'function' && this.isCoarsePointer();
 
     let modal = document.getElementById('share-class-modal');
     if (!modal) {
@@ -1012,6 +1642,7 @@ Object.assign(window.MathsApp, {
       document.body.appendChild(modal);
     }
     const esc = str => this.escapeHtml(str);
+    const tierOptions = [1, 2, 3, 4].map(t => `<option value="${t}">${esc(this.getTierButtonLabel(t, chapter.level || this.currentLevel))}</option>`).join('');
     modal.innerHTML = `
       <div class="modal-box share-class-box">
         <div class="modal-header">
@@ -1021,20 +1652,23 @@ Object.assign(window.MathsApp, {
         <p class="share-class-chapter"><strong>${esc(levelName)}</strong> — ${esc(chapterName)}</p>
         <div class="share-class-qr">
           <img src="assets/qr/${encodeURIComponent(chapterId)}.svg" alt="QR code vers l'entraînement sur ce chapitre" data-fallback-src="assets/qr/site.svg" />
-          <p>Projetez ce QR code : les élèves le scannent avec leur téléphone et arrivent directement sur ce chapitre.</p>
+          <p>Projetez ce QR code : les élèves le scannent avec leur téléphone et arrivent directement sur ce chapitre. Il ne donne pas une série commune : pour les mêmes exercices à tous, envoyez le lien ci-dessous.</p>
         </div>
+        <label class="share-class-label" for="share-class-tier">Palier de la série commune</label>
+        <select id="share-class-tier" class="form-input">${tierOptions}</select>
         <label class="share-class-label" for="share-class-url">Lien direct</label>
         <div class="share-class-row">
-          <input id="share-class-url" class="form-input" type="text" readonly value="${esc(shareUrl)}" />
+          <input id="share-class-url" class="form-input" type="text" readonly value="${esc(linkFor(1))}" />
           <button type="button" class="btn-primary" data-copy="url">Copier le lien</button>
         </div>
         <label class="share-class-label" for="share-class-msg">Message pour l'ENT ou Pronote</label>
-        <textarea id="share-class-msg" class="form-input" rows="2" readonly>${esc(message)}</textarea>
+        <textarea id="share-class-msg" class="form-input" rows="2" readonly>${esc(messageFor(1))}</textarea>
         <div class="share-class-actions">
+          ${canShare ? '<button type="button" class="btn-secondary" data-action="native-share">📤 Partager…</button>' : ''}
           <button type="button" class="btn-secondary" data-copy="msg">Copier le message</button>
           <button type="button" class="btn-secondary" data-action="project">🖥️ Projeter le QR code en grand</button>
         </div>
-        <p class="share-class-note">Chaque élève démarre au palier qu'il a lui-même débloqué : le lien n'ouvre aucun palier supérieur.</p>
+        <p class="share-class-note">Avec ce lien, les élèves au même palier reçoivent les mêmes exercices, dans le même ordre : ouvrez-le aussi pour corriger au tableau. Il n'ouvre aucun palier supérieur : quiconque n'a pas débloqué le palier choisi, vous compris sur cet appareil, travaille à son palier le plus élevé.</p>
       </div>`;
 
     const copy = (text, label) => {
@@ -1045,8 +1679,22 @@ Object.assign(window.MathsApp, {
         this.selectShareField(label);
       }
     };
-    modal.querySelector('[data-copy="url"]').addEventListener('click', () => copy(shareUrl, 'Lien'));
-    modal.querySelector('[data-copy="msg"]').addEventListener('click', () => copy(message, 'Message'));
+    const urlField = modal.querySelector('#share-class-url');
+    const msgField = modal.querySelector('#share-class-msg');
+    const tierField = modal.querySelector('#share-class-tier');
+    tierField.addEventListener('change', () => {
+      urlField.value = linkFor(tierField.value);
+      msgField.value = messageFor(tierField.value);
+    });
+    modal.querySelector('[data-copy="url"]').addEventListener('click', () => copy(urlField.value, 'Lien'));
+    modal.querySelector('[data-copy="msg"]').addEventListener('click', () => copy(msgField.value, 'Message'));
+    const nativeShare = modal.querySelector('[data-action="native-share"]');
+    if (nativeShare) {
+      nativeShare.addEventListener('click', () => {
+        navigator.share({ title: chapterName, text: `Entraînement sur le chapitre « ${chapterName} »`, url: urlField.value })
+          .catch(err => { if (err.name !== 'AbortError') copy(urlField.value, 'Lien'); });
+      });
+    }
     modal.querySelector('[data-action="project"]').addEventListener('click', () => modal.classList.toggle('share-class-projecting'));
     modal.style.display = 'flex';
     document.body.classList.add('modal-open');

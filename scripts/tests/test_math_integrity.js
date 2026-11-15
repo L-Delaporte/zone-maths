@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
+const { ROOT, dataFilesFromIndex } = require('./load_site.js');
 
 // Set up browser-like environment for Node
 global.window = global;
@@ -12,7 +13,7 @@ global.localStorage = {
 
 // Charger le véritable KaTeX depuis vendor/
 let katex = null;
-const katexPath = path.join(__dirname, '../vendor/katex/katex.min.js');
+const katexPath = path.join(ROOT, 'vendor/katex/katex.min.js');
 if (fs.existsSync(katexPath)) {
   const kCtx = {};
   vm.runInNewContext(fs.readFileSync(katexPath, 'utf8'), kCtx);
@@ -156,21 +157,10 @@ let totalErrors = 0;
 
 // Chargement des données dans l'ordre exact d'index.html (worksheets.js avant les
 // fichiers data_*.js, qui complètent les registres globaux sans les écraser).
-const indexHtml = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8');
-const dataFiles = [...indexHtml.matchAll(/<script[^>]+src="(js\/data\/[^"?]+)/g)].map(m => m[1]);
-// Niveaux chargés à la demande (js/dataLoader.js) : <script id="level-bundles"> JSON
-const bundlesMatch = indexHtml.match(/<script[^>]*id="level-bundles"[^>]*>([\s\S]*?)<\/script>/);
-if (bundlesMatch) {
-  for (const urls of Object.values(JSON.parse(bundlesMatch[1]))) {
-    for (const u of urls) {
-      const f = String(u).split('?')[0];
-      if (/^js\/data\//.test(f) && !dataFiles.includes(f)) dataFiles.push(f);
-    }
-  }
-}
+const dataFiles = dataFilesFromIndex();
 for (const df of dataFiles) {
   try {
-    require(path.join(__dirname, '..', df));
+    require(path.join(ROOT, df));
   } catch (e) {
     console.error(`Error requiring ${df}:`, e.message);
     totalErrors++;
@@ -179,26 +169,26 @@ for (const df of dataFiles) {
 console.log(`Total chapters registered: ${window.MATHS_CHAPTERS.length}`);
 
 // Load geometryFigures & scratchRenderer
-require(path.join(__dirname, '../js/geometryFigures.js'));
-require(path.join(__dirname, '../js/scratchRenderer.js'));
+require(path.join(ROOT, 'js/geometryFigures.js'));
+require(path.join(ROOT, 'js/scratchRenderer.js'));
 
 // Load proofEngine & mathVisualizer
-require(path.join(__dirname, '../js/proofEngine.js'));
-require(path.join(__dirname, '../js/mathVisualizer.js'));
+require(path.join(ROOT, 'js/proofEngine.js'));
+require(path.join(ROOT, 'js/mathVisualizer.js'));
 
 // Load advancedGenerators & lyceeGenerators
-require(path.join(__dirname, '../js/lyceeGenerators.js'));
-require(path.join(__dirname, '../js/advancedGenerators.js'));
+require(path.join(ROOT, 'js/lyceeGenerators.js'));
+require(path.join(ROOT, 'js/advancedGenerators.js'));
 
 // Load generatorsCore (aiguillage) then randomGenerators (collège)
-require(path.join(__dirname, '../js/generatorsCore.js'));
-require(path.join(__dirname, '../js/randomGenerators.js'));
+require(path.join(ROOT, 'js/generatorsCore.js'));
+require(path.join(ROOT, 'js/randomGenerators.js'));
 
 // 1. Audit AdvancedGenerators directly
 console.log('\n--- 1. Testing MathsAdvancedGenerators directly ---');
 // Liste construite dynamiquement : chapitres de lycée et de Licence réellement déclarés
 // dans window.MATHS_CHAPTERS (chapters_lycee.js, chapters_licence.js).
-const ADV_LEVELS = new Set(['2nde', '1ere', 'tale', 'L1', 'L2', 'L3']);
+const ADV_LEVELS = new Set(['2nde', '1ere', '1tc', '1techno', 'tale', 'L1', 'L2', 'L3']);
 const advChapters = window.MATHS_CHAPTERS.filter(c => ADV_LEVELS.has(c.level)).map(c => c.id);
 console.log(`Chapitres lycée/Licence testés : ${advChapters.length}`);
 

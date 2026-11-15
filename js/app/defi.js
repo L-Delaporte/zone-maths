@@ -24,7 +24,7 @@ Object.assign(window.MathsApp, {
         const cycle = (params.get('cycle') || '').toLowerCase();
         if (U.CYCLES.includes(cycle)) ctx.cycle = cycle;
         if (params.has('defi')) this._defiScrollPending = true;
-      } catch (e) {}
+      } catch (e) { /* lien mal formé : on garde le contexte par défaut */ }
       if (!ctx.cycle) {
         const appCycle = window.MathsStorage.getCurrentCycle();
         ctx.cycle = (appCycle === 'licence' || appCycle === 'concours') ? 'superieur' : (U.CYCLES.includes(appCycle) ? appCycle : 'college');
@@ -35,9 +35,14 @@ Object.assign(window.MathsApp, {
     return this._defiCtx;
   },
 
+  /** Pas de coupure de ligne devant « : ; ! ? » (formules exclues), comme markdownToHtml pour les exercices. */
+  frPunctuation(text) {
+    return text.replace(/\$[^$]*\$|[ \u00a0]+([:;!?])/g, (m, mark) => (!mark ? m : (mark === ':' ? '\u00a0' : '\u202f') + mark));
+  },
+
   /** Mise en forme minimale d'un texte de défi : paragraphes, listes « - », gras « ** ». */
   formatDefiText(text) {
-    const esc = s => this.escapeHtml(s).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    const esc = s => this.frPunctuation(this.escapeHtml(s)).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
     const out = [];
     let list = [];
     const flush = () => {
@@ -65,6 +70,7 @@ Object.assign(window.MathsApp, {
     const solvedCount = window.MathsStorage.countSolvedDefis();
     const esc = s => this.escapeHtml(s);
     const done = st.solved || st.revealed;
+    const tries = Math.max(0, parseInt(st.tries, 10) || 0);
 
     const cycleBtns = U.CYCLES.map(c => `<button type="button" class="home-defi-cycle-btn" data-defi-cycle="${c}" aria-pressed="${c === ctx.cycle}">${U.CYCLE_LABELS[c]}</button>`).join('');
     const weekLabel = `Semaine ${ctx.week}`;
@@ -72,16 +78,16 @@ Object.assign(window.MathsApp, {
     const formatHelp = defi.format === 'fraction' ? ' <span class="home-defi-help">(fraction irréductible, par exemple 3/4)</span>' : '';
 
     let feedback = '';
-    if (st.solved) feedback = `<strong>✅ Défi relevé !</strong> ${st.tries > 1 ? `Réussi en ${st.tries} essais.` : 'Du premier coup, bravo !'}`;
+    if (st.solved) feedback = `<strong>✅ Défi relevé !</strong> ${tries > 1 ? `Réussi en ${tries} essais.` : 'Du premier coup, bravo !'}`;
     else if (st.revealed) feedback = '📖 Corrigé consulté : retente ta chance avec le défi de la semaine prochaine !';
-    else if (st.tries) feedback = `❌ Ce n'est pas la bonne réponse (${st.tries} essai${st.tries > 1 ? 's' : ''}). Réessaie, ou consulte le corrigé.`;
+    else if (tries) feedback = `❌ Ce n'est pas la bonne réponse (${tries} essai${tries > 1 ? 's' : ''}). Réessaie, ou consulte le corrigé.`;
 
     root.hidden = false;
     root.innerHTML = `
       <div class="home-defi-head">
         <div class="home-defi-heading">
           <p class="home-defi-tag"><span aria-hidden="true">🏆</span> Défi de la semaine · ${esc(weekLabel)}</p>
-          <h3 class="home-defi-title" id="home-defi-title">${esc(defi.title)}</h3>
+          <h3 class="home-defi-title" id="home-defi-title">${this.frPunctuation(esc(defi.title))}</h3>
           <p class="home-defi-meta">${esc(defi.level)} · ${esc(defi.theme)}</p>
         </div>
         <div class="home-defi-cycles" role="group" aria-label="Choisir le cycle du défi">${cycleBtns}</div>
@@ -98,20 +104,21 @@ Object.assign(window.MathsApp, {
         </div>
       </form>
       <details class="home-defi-hint">
-        <summary>💡 Besoin d'un indice ?</summary>
+        <summary>💡 Besoin d'un indice&#8239;?</summary>
         <div>${this.formatDefiText(defi.hint)}</div>
       </details>`}
-      <p id="home-defi-feedback" class="home-defi-feedback${st.solved ? ' is-ok' : (st.tries && !done ? ' is-ko' : '')}" role="status" aria-live="polite">${feedback}</p>
+      <p id="home-defi-feedback" class="home-defi-feedback${st.solved ? ' is-ok' : (tries && !done ? ' is-ko' : '')}" role="status" aria-live="polite">${feedback}</p>
       ${done ? `
       <div class="home-defi-solution" id="home-defi-solution" tabindex="-1">
-        <p class="home-defi-solution-title">Corrigé — réponse : <strong>${esc(defi.answer)}${defi.unit ? ' ' + esc(defi.unit) : ''}</strong></p>
+        <p class="home-defi-solution-title">Corrigé — réponse&nbsp;: <strong>${esc(defi.answer)}${defi.unit ? ' ' + esc(defi.unit) : ''}</strong></p>
         ${this.formatDefiText(defi.solution)}
       </div>` : ''}
       <div class="home-defi-actions">
-        ${!done && st.tries ? '<button type="button" class="btn-secondary" data-defi-action="reveal">📖 Voir le corrigé</button>' : ''}
+        ${!done && tries ? '<button type="button" class="btn-secondary" data-defi-action="reveal">📖 Voir le corrigé</button>' : ''}
         <button type="button" class="btn-secondary" data-defi-action="share">🔗 Partager ce défi</button>
         <span class="home-defi-count">🏅 ${solvedCount} défi${solvedCount > 1 ? 's' : ''} relevé${solvedCount > 1 ? 's' : ''}</span>
       </div>
+      ${window.MathsStorage.getBackupStatus().due ? '<p class="home-defi-notice" id="home-backup-reminder">💾 Ta progression n\'existe que dans ce navigateur. <button type="button" class="home-defi-link-btn" data-click="MathsStorage.exportToJson">La sauvegarder dans un fichier</button></p>' : ''}
       <p class="home-defi-footnote">Un nouveau défi chaque lundi, le même pour toute la classe. Sans compte : ta progression reste sur cet appareil.</p>`;
 
     root.querySelectorAll('[data-defi-cycle]').forEach(btn => btn.addEventListener('click', () => {
@@ -139,7 +146,7 @@ Object.assign(window.MathsApp, {
     if (this._defiScrollPending) {
       this._defiScrollPending = false;
       setTimeout(() => {
-        root.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        root.scrollIntoView({ behavior: this.scrollBehavior(), block: 'start' });
         const title = document.getElementById('home-defi-title');
         if (title) { title.setAttribute('tabindex', '-1'); title.focus({ preventScroll: true }); }
       }, 350);
@@ -196,14 +203,22 @@ Object.assign(window.MathsApp, {
   shareDefi(defi, ctx) {
     const U = window.MATHS_DEFIS_UTILS;
     const url = `${this.DEFI_SHARE_BASE}?defi=${U.weekKey(ctx.year, ctx.week)}&cycle=${ctx.cycle}&src=defi`;
-    const text = `Défi de maths de la semaine (${U.CYCLE_LABELS[ctx.cycle]}) : « ${defi.title} ». Sauras-tu le relever ? ${url}`;
+    const invite = `Défi de maths de la semaine (${U.CYCLE_LABELS[ctx.cycle]}) : « ${defi.title} ». Sauras-tu le relever ?`;
     const fallback = () => this.showToast(`🔗 Lien du défi : <strong>${this.escapeHtml(url)}</strong>`, 8000);
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text)
-        .then(() => this.showToast('📋 <strong>Lien du défi copié</strong> : colle-le dans un message ou dans l\'ENT.'))
-        .catch(fallback);
+    const copyLink = () => {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(`${invite} ${url}`)
+          .then(() => this.showToast('📋 <strong>Lien du défi copié</strong> : colle-le dans un message ou dans l\'ENT.'))
+          .catch(fallback);
+      } else {
+        fallback();
+      }
+    };
+    if (typeof navigator.share === 'function' && this.isCoarsePointer()) {
+      navigator.share({ title: 'Défi de maths de la semaine', text: invite, url })
+        .catch(err => { if (err.name !== 'AbortError') copyLink(); });
     } else {
-      fallback();
+      copyLink();
     }
   }
 });

@@ -26,6 +26,8 @@ window.MathsAdaptiveEngine = {
       if (targetCid.startsWith('4')) return '4eme';
       if (targetCid.startsWith('3')) return '3eme';
       if (targetCid.startsWith('2')) return '2nde';
+      if (/^1TC\d/.test(targetCid)) return '1tc';
+      if (/^1T\d/.test(targetCid)) return '1techno';
       if (targetCid.startsWith('1')) return '1ere';
       if (targetCid.startsWith('T')) return 'tale';
       if (targetCid.startsWith('L1')) return 'L1';
@@ -49,7 +51,7 @@ window.MathsAdaptiveEngine = {
         1: "Palier 1 : Socle & Automatismes",
         2: "Palier 2 : Entraînement Guidé",
         3: "Palier 3 : Approfondissement",
-        4: "Palier 4 : Défi 5ème"
+        4: "Palier 4 : Défi"
       };
       return names[t] || `Palier ${t}`;
     } else if (lvl === '5eme') {
@@ -57,7 +59,7 @@ window.MathsAdaptiveEngine = {
         1: "Palier 1 : Socle & Automatismes",
         2: "Palier 2 : Entraînement Guidé",
         3: "Palier 3 : Approfondissement",
-        4: "Palier 4 : Défi 4ème"
+        4: "Palier 4 : Défi"
       };
       return names[t] || `Palier ${t}`;
     } else if (lvl === '4eme') {
@@ -65,7 +67,7 @@ window.MathsAdaptiveEngine = {
         1: "Palier 1 : Socle & Automatismes",
         2: "Palier 2 : Entraînement Guidé",
         3: "Palier 3 : Approfondissement",
-        4: "Palier 4 : Défi 3ème"
+        4: "Palier 4 : Défi"
       };
       return names[t] || `Palier ${t}`;
     } else if (lvl === '2nde') {
@@ -76,7 +78,7 @@ window.MathsAdaptiveEngine = {
         4: "Palier 4 : Défi 1ère Spé"
       };
       return names[t] || `Palier ${t}`;
-    } else if (lvl === '1ere' || lvl === 'tale' || lvl === 'lycee') {
+    } else if (lvl === '1ere' || lvl === '1tc' || lvl === '1techno' || lvl === 'tale' || lvl === 'lycee') {
       const names = {
         1: "Palier 1 : Socle & Automatismes",
         2: "Palier 2 : Entraînement Guidé",
@@ -387,12 +389,10 @@ window.MathsAdaptiveEngine = {
     if (!exercise.options || exercise.options.length <= 1) {
       return exercise;
     }
-    let origIndex = exercise.correctIndex;
-    if (origIndex === undefined && exercise.answer) {
-      origIndex = exercise.options.indexOf(exercise.answer);
-      if (origIndex === -1) origIndex = 0;
-    } else if (origIndex === undefined) {
-      origIndex = 0;
+    const origIndex = this._mcqCorrectIndex(exercise);
+    if (this._mcqIsBroken(exercise)) {
+      console.error('QCM non mélangé (bonne réponse introuvable) :', exercise.id || exercise.statement);
+      return exercise;
     }
 
     // Déduplication défensive des options
@@ -428,6 +428,21 @@ window.MathsAdaptiveEngine = {
     exercise.correctIndex = items.findIndex(it => it.isCorrect);
     exercise._mcqShuffled = true;
     return exercise;
+  },
+
+  /** Indice de la bonne réponse d'un QCM (-1 si son texte ne figure pas parmi les options) */
+  _mcqCorrectIndex(exercise) {
+    if (exercise.correctIndex !== undefined) return exercise.correctIndex;
+    const options = exercise.options || exercise.choices || [];
+    return exercise.answer ? options.indexOf(exercise.answer) : 0;
+  },
+
+  /** QCM dont la bonne réponse n'est pas identifiable : à écarter, jamais à corriger sur la première option */
+  _mcqIsBroken(exercise) {
+    const options = exercise.options || exercise.choices;
+    if ((exercise.type && exercise.type !== 'mcq') || !Array.isArray(options) || !options.length) return false;
+    const idx = this._mcqCorrectIndex(exercise);
+    return !(idx >= 0 && idx < options.length);
   },
 
   /** Part des exercices tirés dans la banque statique même quand le générateur répond. */
@@ -542,6 +557,11 @@ window.MathsAdaptiveEngine = {
       candidate = staticPick();
     }
 
+    for (let tries = 0; candidate && this._mcqIsBroken(candidate) && tries < 5; tries++) {
+      console.error('QCM écarté (bonne réponse introuvable) :', candidate.id || candidate.statement);
+      candidate = staticPick();
+    }
+
     if (candidate && candidate.statement) {
       this.rememberStatement(chapterId, candidate.statement);
     }
@@ -554,9 +574,8 @@ window.MathsAdaptiveEngine = {
         if (!candidate.type) candidate.type = 'mcq';
         if (!candidate.options && candidate.choices) candidate.options = candidate.choices;
         if (!candidate.choices && candidate.options) candidate.choices = candidate.options;
-        if (candidate.correctIndex === undefined && candidate.answer && candidate.options) {
+        if (candidate.correctIndex === undefined && candidate.answer && candidate.options && candidate.options.includes(candidate.answer)) {
           candidate.correctIndex = candidate.options.indexOf(candidate.answer);
-          if (candidate.correctIndex === -1) candidate.correctIndex = 0;
         }
         this.shuffleMcq(candidate);
         if (candidate.correctIndex !== undefined && candidate.options && candidate.options[candidate.correctIndex]) {
@@ -566,9 +585,6 @@ window.MathsAdaptiveEngine = {
       if (candidate.type === 'case3') this.shuffleCase3(candidate);
       if (!candidate.hint1 && candidate.hint) {
         candidate.hint1 = candidate.hint;
-      }
-      if (!candidate.hint2 && candidate.hint1) {
-        candidate.hint2 = candidate.hint1;
       }
       if (!candidate.solution && candidate.explanation) {
         candidate.solution = candidate.explanation;
@@ -664,21 +680,28 @@ window.MathsAdaptiveEngine = {
    *    toujours, « , » seulement entre parenthèses quand l'élève n'a mis aucun « ; ».
    * 3. Nombres et expressions : analyseur sans eval (entiers, décimaux à virgule ou point, fractions,
    *    signes, parenthèses, puissances, √n, √(…), sqrt, racine, π, pi, produits implicites 2π, 3√2).
-   *    Égalité des valeurs à 1e-9 près en relatif (erreurs d'arrondi machine seulement) :
+   *    Égalité des valeurs à 1e-9 près en relatif (erreurs d'arrondi machine seulement), égalité
+   *    stricte entre deux quotients d'entiers :
    *      - réponse attendue décimale (« 0,06 ») : la valeur arrondie demandée, exactement ;
    *        « 0,0609 » est refusé (un message invite à arrondir, sans compter d'erreur) ;
-   *      - réponse attendue exacte (fraction, √, π) : un décimal approché est refusé (message
-   *        « valeur exacte attendue »), même avec beaucoup de décimales.
+   *      - réponse attendue exacte (fraction au développement décimal infini, √, π) : un décimal
+   *        approché est refusé (message « valeur exacte attendue »), même avec beaucoup de décimales ;
+   *        une fraction au développement fini accepte son écriture décimale exacte (1,25 pour 5/4).
    *    Puis contrôle de la FORME :
    *      - réponse attendue « nombre simple » (entier, décimal, fraction, écriture scientifique,
    *        puissance de 10) : la saisie doit aussi être un nombre simple ; un calcul (« 2*3 »), une
-   *        racine (« √4 ») ou une puissance (« 2^3 ») de même valeur est refusé ;
+   *        racine (« √4 ») ou une puissance (« 2^3 ») de même valeur est refusé. Ensuite, c'est la
+   *        CONSIGNE (exercise.statement) qui décide : écriture scientifique ou seule puissance de 10,
+   *        fraction, fraction irréductible, écriture décimale (voir _requiredForm) ; sans consigne de
+   *        forme, seule la valeur compte (2,5 pour 5/2, 10000000 pour 10^7) ;
    *      - réponse attendue avec √, π ou une puissance (autre que de 10) : la saisie doit employer
    *        les mêmes symboles, pas plus souvent (« π+π » refusé pour « 2π »), avec une racine
    *        simplifiée (√12 → 2√3), sans racine au dénominateur et des fractions irréductibles,
    *        sauf si la réponse attendue elle-même ne respecte pas l'une de ces règles.
    *    Les écritures équivalentes simplifiées sont acceptées : 2√3/3 = (2/3)√3 = 2*√3/3 ;
-   *    3π/4 = 3/4π (lecture de gauche à droite) ; (1+√5)/2 = 1/2 + √5/2.
+   *    3π/4 = 3/4π (lecture de gauche à droite) ; (1+√5)/2 = 1/2 + √5/2 ; a/-b = -a/b.
+   * 4. Unités en fin de saisie (voir UNITS) : retirées avant comparaison, mais une unité d'une autre
+   *    grandeur que celles de l'énoncé, ou autre que celle demandée (« en cm² »), vaut un conseil.
    */
 
   /** Égalité numérique « exacte » (1e-9 en relatif : erreurs d'arrondi machine seulement) */
@@ -701,17 +724,108 @@ window.MathsAdaptiveEngine = {
       .replace(/[−–—]/g, '-')
       .replace(/[÷⁄∕]/g, '/')
       .replace(/\\?frac\{([^{}]+)\}\{([^{}]+)\}/g, '($1)/($2)')
+      .replace(/^(?:≈|≃|~|environ\b)\s*/, '')
+      .replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺]+/g, (m) => '^' + [...m].map((c) => this.SUPERSCRIPTS[c]).join(''))
+      // Écritures scientifiques usuelles, avant que virgules et espaces ne les rendent ambiguës :
+      // 2,7 x 10^5 ; 6,02.10^23 ; 2,7 10^5 ; 2,7e5
+      .replace(/(\d)\s*(?:x|\.|\s)\s*(?=10\s*\^)/g, '$1*')
+      .replace(/^([-+]?\d+(?:[.,]\d+)?)e([-+]?\d+)$/, '$1*10^$2')
       .replace(/,/g, '.')
       .replace(/\s+/g, '')
-      .replace(/(\d)[*×·](?=[a-z])/g, '$1'); // 10*x -> 10x
+      .replace(/\.$/, '')
+      .replace(/(\d)[*×·](?=[a-z])/g, '$1') // 10*x -> 10x
+      .replace(/>=/g, '≥').replace(/<=/g, '≤').replace(/\binf\b/g, '∞');
   },
 
-  /** Retire « x = », « S = { … } », accolades et unités usuelles en fin de saisie */
+  SUPERSCRIPTS: { '⁰': '0', '¹': '1', '²': '2', '³': '3', '⁴': '4', '⁵': '5', '⁶': '6', '⁷': '7', '⁸': '8', '⁹': '9', '⁻': '-', '⁺': '+' },
+
+  /**
+   * Unités usuelles par grandeur : hint repère la grandeur dans l'énoncé ; symbols associe à chaque unité
+   * ses écritures après _normalizeMath (minuscules, sans espaces, ² et ³ déjà en ^2 et ^3).
+   */
+  UNITS: {
+    rapport: { hint: /concentration|débit|glycémie|posologie/, symbols: { mgl: 'mg/l', gl: 'g/l', mgdl: 'mg/dl', gdl: 'g/dl', mmoll: 'mmol/l', moll: 'mol/l', mgkg: 'mg/kg', mgh: 'mg/h', lh: 'l/h', mlh: 'ml/h', mlmin: 'ml/min' } },
+    aire: { hint: /\baires?\b|superficie|surface|m[èe]tres?\s+carrés?/, symbols: { mm2: 'mm\\^?2', cm2: 'cm\\^?2', dm2: 'dm\\^?2', m2: 'm\\^?2', dam2: 'dam\\^?2', hm2: 'hm\\^?2', km2: 'km\\^?2', ha: 'ha|hectares?' } },
+    volume: { hint: /volume|contenance|capacité|litre|m[èe]tres?\s+cubes?/, symbols: { mm3: 'mm\\^?3', cm3: 'cm\\^?3', dm3: 'dm\\^?3', m3: 'm\\^?3', ml: 'ml|millilitres?', cl: 'cl|centilitres?', dl: 'dl|décilitres?', hl: 'hl|hectolitres?', l: 'l|litres?' } },
+    masse: { hint: /masse|pèse|peser|poids/, symbols: { mg: 'mg|milligrammes?', g: 'g|grammes?', kg: 'kg|kilos?|kilogrammes?', t: 't|tonnes?' } },
+    duree: { hint: /durée|temps|âg[eé]|\bans?\b|années?|heures?|minutes?|secondes?|jours?|semaines?|\bmois\b/, symbols: { s: 's|sec|secondes?', min: 'min|mn|minutes?', h: 'h|heures?', j: 'j|jours?', semaine: 'semaines?', mois: 'mois', an: 'ans?|ann[ée]es?' } },
+    angle: { hint: /\bangles?\b|degrés?|°|radians?|température/, symbols: { deg: '°c?|deg|degr[ée]s?(?:celsius)?', rad: 'rad|radians?' } },
+    pourcent: { hint: /%|pourcent|pour cent|\btaux\b|réduction|remise|augment/, symbols: { pc: '%|pourcents?|pour-?cent' } },
+    prix: { hint: /€|euro|\bprix\b|coût|coûte|tarif|pay|paie|dépens|facture|montant|somme|salaire|budget|argent/, symbols: { eur: '€|euros?' } },
+    vitesse: { hint: /vitesse|allure/, symbols: { kmh: 'km/h', ms: 'm/s' } },
+    longueur: { hint: /longueur|distance|périmètre|hauteur|largeur|côté|rayon|diamètre|segment|arête|circonférence/, symbols: { mm: 'mm|millim[èe]tres?', cm: 'cm|centim[èe]tres?', dm: 'dm|décim[èe]tres?', dam: 'dam', hm: 'hm', km: 'km|kilom[èe]tres?', m: 'm|m[èe]tres?' } }
+  },
+
+  /** Liste des unités (une entrée par symbole), avec l'expression qui les repère en fin de saisie */
+  _unitList() {
+    if (!this._unitListCache) {
+      this._unitListCache = [];
+      Object.entries(this.UNITS).forEach(([family, def]) => Object.entries(def.symbols).forEach(([symbol, variants]) => {
+        this._unitListCache.push({ family, symbol, variants, end: new RegExp(`^(.*?)(?:${variants})$`) });
+      }));
+      // Symboles les plus longs d'abord : « 16 km² » n'est pas « 16k » suivi de « m² », ni « 50 mg/kg » « 50 mg/ » suivi de « kg »
+      this._unitListCache.sort((a, b) => b.symbol.length - a.symbol.length);
+    }
+    return this._unitListCache;
+  },
+
+  /** Sépare une saisie normalisée en { body, family, symbol } si elle se termine par une unité, sinon null */
+  _splitUnit(clean) {
+    for (const u of this._unitList()) {
+      const m = clean.match(u.end);
+      // Une lettre seule (m, g, h…) n'est une unité qu'après un nombre : « 2x+m » ou « cos » restent intacts
+      if (m && (u.symbol.length > 1 || /(?:[\d)π]|pi)$/.test(m[1]))) return { body: m[1], family: u.family, symbol: u.symbol };
+    }
+    return null;
+  },
+
+  /** Grandeurs évoquées par l'énoncé et unités qu'il demande (« en cm² ») */
+  _statementUnits(statement) {
+    const s = String(statement || '')
+      .replace(/<[^>]*>/g, ' ')
+      .replace(/\\(?:text|mathrm|mbox)\s*\{([^{}]*)\}/g, '$1')
+      .replace(/\^?\{?\\circ\}?/g, '°')
+      .replace(/\\%/g, '%')
+      .replace(/\\[,;:! ]|[~$]/g, ' ')
+      .replace(/\s*\^\s*\{?(\d)\}?/g, '^$1')
+      .replace(/²/g, '^2').replace(/³/g, '^3')
+      .toLowerCase();
+    const families = new Set(Object.keys(this.UNITS).filter((f) => this.UNITS[f].hint.test(s)));
+    const targets = [];
+    const after = "(?![a-zà-ÿ0-9^/'’])";
+    for (const u of this._unitList()) {
+      // Une lettre seule (m, g, h…) ne désigne une unité qu'après un nombre ; son nom complet (mètres…) partout
+      const mention = u.symbol.length === 1
+        ? `[\\d}]\\s*(?:${u.variants})|(?:^|[^a-zà-ÿ])(?:${u.variants.replace(/^[a-z]\|/, '')})`
+        : `(?:^|[^a-zà-ÿ])(?:${u.variants})`;
+      if (new RegExp(`(?:${mention})${after}`).test(s)) families.add(u.family);
+      if (new RegExp(`(?:^|[\\s(])en\\s+(?:${u.variants})${after}`).test(s)) targets.push(u);
+    }
+    return { families, targets };
+  },
+
+  /** L'unité saisie contredit-elle l'attendu ou l'énoncé (« 11° » pour une longueur, « 16 m² » si « en cm² ») ? */
+  _wrongUnit(userClean, expectedClean, exercise) {
+    const unit = this._splitUnit(userClean);
+    if (!unit) return false;
+    const expectedUnit = this._splitUnit(expectedClean);
+    if (expectedUnit) return expectedUnit.family !== unit.family || expectedUnit.symbol !== unit.symbol;
+    const { families, targets } = this._statementUnits(exercise && exercise.statement);
+    // « 0,65 % » ne vaut pas 0,65 : le signe % n'est toléré que si l'énoncé parle de pourcentage
+    if (unit.family === 'pourcent' && !families.has('pourcent')) return true;
+    if (families.size && !families.has(unit.family)) return true;
+    const asked = targets.filter((t) => t.family === unit.family);
+    return asked.length > 0 && !asked.some((t) => t.symbol === unit.symbol);
+  },
+
+  /** Retire « x = », « 5 = x », « S = { … } », accolades et unités usuelles en fin de saisie */
   _stripDecorations(clean) {
-    return clean
+    const s = clean
       .replace(/^s=\s*\{/i, '').replace(/[{}]/g, '')
       .replace(/^[a-zα-ω]=\s*/i, '')
-      .replace(/(cm2|cm|mm|dm|m2|m|km\/h|km|deg|°|rad|euros?|€|litres?|l)$/i, '');
+      .replace(/^((?:[^=a-z]|sqrt|pi)+)=[a-zα-ω]$/i, '$1');
+    const unit = this._splitUnit(s);
+    return unit ? unit.body : s;
   },
 
   /**
@@ -730,6 +844,14 @@ window.MathsAdaptiveEngine = {
     const words = s.split(/\s+/).filter((w) => w && !ARTICLES.has(w))
       .map((w) => (w.length > 3 && /s$/.test(w) && !INVARIABLE.has(w) ? w.slice(0, -1) : w));
     s = words.join(' ').replace(/^(reponse |c est |ca |cela |ce )+/, '');
+    // Positions relatives : « elles sont parallèles » = « parallèles », « elles ne sont pas coplanaires » = « non coplanaires »
+    const mPos = s.match(/^(?:[a-z0-9]+\s+){0,6}?(?:(ne|n)\s+)?(?:sont|est)\s+(pas\s+)?((?:strictement |non )?(?:parallele|secante?|secant|confondue?|confondu|coplanaire|orthogonale?|orthogonaux|perpendiculaire|colineaire)\b.*)$/);
+    if (mPos && !!mPos[1] === !!mPos[2]) s = (mPos[1] ? 'non ' : '') + mPos[3];
+    // Sens de variation : « croissant » = « croissante », « elle est croissante » = « croissante »
+    if (/\b(de)?croissante?\b|\bconstante?\b|\bmonotone\b/.test(s)) {
+      s = s.replace(/\b(de)?croissante\b/g, '$1croissant').replace(/\bconstante\b/g, 'constant')
+        .replace(/^(?:(?:elle|il|suite|fonction|[a-z]|[a-z] n|[a-z]_n|[a-z]_\{n\}|[a-z]n)\s+)*(?:est|sont)\s+/, '');
+    }
     const GROUPS = {
       oui: ['oui', 'vrai', 'v', 'true', 'yes'],
       non: ['non', 'faux', 'f', 'false', 'no'],
@@ -808,17 +930,18 @@ window.MathsAdaptiveEngine = {
     s = s.toLowerCase()
       .replace(/racines?\s*carr[ée]es?(\s*de)?|racines?(\s*de)?|sqrt|rac/g, '√')
       .replace(/pi|π/g, 'π');
-    const SUP = { '⁰': '0', '¹': '1', '²': '2', '³': '3', '⁴': '4', '⁵': '5', '⁶': '6', '⁷': '7', '⁸': '8', '⁹': '9', '⁻': '-', '⁺': '+' };
-    s = s.replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺]+/g, (m) => '^(' + [...m].map((c) => SUP[c]).join('') + ')');
+    s = s.replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺]+/g, (m) => '^(' + [...m].map((c) => this.SUPERSCRIPTS[c]).join('') + ')');
     s = s.replace(/\*\*/g, '^').replace(/,/g, '.').replace(/[{[]/g, '(').replace(/[}\]]/g, ')').replace(/\s+/g, '');
     return s;
   },
 
   /**
    * Analyse une expression numérique simple SANS eval. Renvoie null si la saisie n'en est pas une, sinon
-   * { value, plain, decimals, sqrt, pi, pow, badRadical, sqrtInDen, unreduced } :
+   * { value, plain, decimals, frac, sci, sqrt, pi, pow, badRadical, sqrtInDen, unreduced } :
    *   plain : nombre simple (entier, décimal, fraction a/b, écriture scientifique, puissance de 10) ;
    *   decimals : nombre de décimales écrites si plain est un décimal, sinon null ;
+   *   frac : [n, d] irréductible (d > 0) si la saisie est un quotient d'entiers, sinon null ;
+   *   sci : { m, k } si la saisie s'écrit m × 10^k ou 10^k (k entier), sinon null ;
    *   sqrt, pi, pow : nombre de racines, de π, de puissances (hors puissances de 10) ;
    *   badRadical : radicande non entier, carré parfait ou divisible par un carré > 1 ;
    *   sqrtInDen : racine au dénominateur ; unreduced : fraction (entière) non irréductible.
@@ -925,7 +1048,8 @@ window.MathsAdaptiveEngine = {
         case 'sub': return ev(n.a) - ev(n.b);
         case 'mul': return ev(n.a) * ev(n.b);
         case 'div': {
-          const d = strip(n.b);
+          let d = strip(n.b);
+          while (d.t === 'neg') d = strip(d.a);
           if (hasSqrt(n.b)) info.sqrtInDen = true;
           if (d.t === 'num' && d.dec === 0) {
             const c = content(n.a);
@@ -965,7 +1089,7 @@ window.MathsAdaptiveEngine = {
       n = strip(n);
       if (n.t === 'num' || pow10(n)) return true;
       if (n.t === 'neg') return plain(n.a);
-      if (n.t === 'div') return plainNum(n.a) && strip(n.b).t === 'num';
+      if (n.t === 'div') return plainNum(n.a) && plainNum(n.b);
       if (n.t === 'mul' && !n.implicit) return plainNum(n.a) && pow10(n.b);
       return false;
     };
@@ -976,21 +1100,102 @@ window.MathsAdaptiveEngine = {
       while (n.t === 'neg') n = strip(n.a);
       if (n.t === 'num') decimals = n.dec;
     }
-    return Object.assign({ value, plain: isPlain, decimals }, info);
+
+    const intOf = (n) => {
+      n = strip(n);
+      if (n.t === 'neg') { const a = intOf(n.a); return a === null ? null : -a; }
+      return n.t === 'num' && n.dec === 0 ? n.v : null;
+    };
+    let top = strip(ast);
+    let sign = 1;
+    while (top.t === 'neg') { sign = -sign; top = strip(top.a); }
+    let frac = null;
+    if (top.t === 'div') {
+      const a = intOf(top.a);
+      const b = intOf(top.b);
+      if (a !== null && b) {
+        const g = gcd(a, b) * (b < 0 ? -1 : 1);
+        frac = [sign * a / g, b / g];
+      }
+    }
+    let sci = null;
+    if (top.t === 'mul' && !top.implicit && plainNum(top.a) && pow10(top.b)) sci = { m: sign * ev(top.a), k: ev(strip(top.b).b) };
+    else if (pow10(top)) sci = { m: sign, k: ev(top.b) };
+    return Object.assign({ value, plain: isPlain, decimals, frac, sci }, info);
+  },
+
+  /**
+   * Forme imposée par la consigne. « entier, décimal ou fraction irréductible » laisse le décimal exact :
+   * seule l'irréductibilité compte alors ; « entier ou fraction irréductible » exclut le décimal.
+   */
+  _requiredForm(statement) {
+    const s = String(statement || '').replace(/\*/g, '');
+    const strict = s.replace(/entier,?\s+décimal\s+ou\s+fractions?\s+irréductibles?/gi, ' ');
+    return {
+      scientific: /(?:notation|écriture)\s+scientifique|forme\s+\$?a\s*\\times\s*10\^/i.test(s),
+      power10: /seule\s+puissance\s+de\s+\$?10\b|forme\s+\$10\^/i.test(s),
+      irreducible: /irréductible|fractions?\s+simplifiée|simplifier\s+(?:au\s+maximum\s+)?la\s+fraction/i.test(s),
+      fraction: new RegExp([
+        'fractions?\\s+irréductibles?(?!\\s+acceptée)',
+        'forme\\s+irréductible',
+        'rendre\\s+irréductible',
+        "sous\\s+(?:la\\s+)?forme\\s+(?:d['’](?:une?\\s+)?(?:seule\\s+)?|de\\s+)fraction",
+        'forme\\s+\\$?a\\s*/\\s*b',
+        'quelle\\s+fraction',
+        'fractions?\\s+simplifiée',
+        'simplifier\\s+(?:au\\s+maximum\\s+)?la\\s+fraction',
+        'calculer\\s+et\\s+simplifier',
+        'en\\s+simplifiant',
+        '(?:saisir|donner)\\s+une\\s+fraction',
+        '\\(fraction(?:\\s+\\$?a\\s*/\\s*b\\$?)?\\)'
+      ].join('|'), 'i').test(strict),
+      decimal: /(?:écriture|forme)\s+décimale|(?:forme|saisir|donner)\s+(?:d['’]un\s+|un\s+|le\s+)?nombre\s+décimal|\((?:valeur\s+exacte,\s*)?(?:entier\s+ou\s+)?(?:nombre\s+)?décimal\)|quotient\s+décimal|réponse\s+décimale/i.test(s)
+    };
+  },
+
+  /** Contrôle de forme d'un nombre simple de la bonne valeur, selon la consigne */
+  _checkNumberForm(U, E, statement) {
+    const form = this._requiredForm(statement);
+    const normalized = (p) => p.sci && Math.abs(p.sci.m) >= 1 && Math.abs(p.sci.m) < 10;
+    if ((form.scientific || form.power10) && normalized(E) && !normalized(U)
+      && !(E.sci.k === 0 && !U.sci && !U.frac && Math.abs(U.value) >= 1 && Math.abs(U.value) < 10)) {
+      return { correct: false, advice: form.power10 && E.sci.m === 1 ? 'power10' : 'scientific' };
+    }
+    if (E.frac && (U.decimals > 0 || U.sci)) {
+      let d = E.frac[1];
+      while (d % 2 === 0) d /= 2;
+      while (d % 5 === 0) d /= 5;
+      if (d !== 1) return { correct: false, advice: 'exact' };
+    }
+    if (form.fraction && E.frac && E.frac[1] > 1 && !U.frac) return { correct: false, advice: 'fractionForm' };
+    if (form.decimal && E.decimals !== null && U.frac) return { correct: false, advice: 'decimalForm' };
+    if (E.decimals !== null && U.sci) {
+      // « Calculer A = 10^3 » : recopier la puissance de l'énoncé n'est pas répondre
+      const copied = Math.abs(U.sci.m) === 1 && new RegExp(`10\\s*\\^\\s*\\{?\\s*${String(U.sci.k).replace('-', '[-−]')}\\s*\\}?(?!\\d)`).test(statement);
+      if (form.decimal || copied) return { correct: false, advice: 'decimalForm' };
+    }
+    if (form.irreducible && U.unreduced && !E.unreduced) return { correct: false, advice: 'fraction' };
+    return { correct: true };
   },
 
   /**
    * Compare une saisie (nombre ou expression) à la réponse attendue.
    * Renvoie { correct, advice } ; advice (facultatif) : bonne valeur ou valeur proche mais forme à revoir
-   * ('radical', 'denominator', 'fraction', 'form', 'rounding', 'approx', 'exact').
+   * ('radical', 'denominator', 'fraction', 'fractionForm', 'decimalForm', 'scientific', 'power10', 'form',
+   * 'rounding', 'approx', 'exact').
    */
   _compareExpressions(userStr, expectedStr, exercise) {
     const E = this.parseMathExpression(expectedStr);
     if (!E) return { correct: false };
     const U = this.parseMathExpression(userStr);
     if (!U) return { correct: false };
-    if (this._closeEnough(U.value, E.value)) {
-      if (E.plain) return { correct: U.plain };
+    const statement = String((exercise && exercise.statement) || '');
+    const sameValue = U.frac && E.frac ? U.frac[0] === E.frac[0] && U.frac[1] === E.frac[1] : this._closeEnough(U.value, E.value);
+    if (sameValue) {
+      // Écriture scientifique d'exposant 1 : 10^1 = 10, donc « 4,5 × 10 » vaut écriture scientifique de 45
+      if (E.plain && E.sci && E.sci.k === 1 && !U.plain
+        && /^\s*\$?\s*[-−]?\s*\d+(?:[.,]\d+|\{,\}\d+)?\s*(?:\*|×|·|\\times|\\cdot)\s*10\s*\$?\s*$/.test(String(userStr))) return { correct: true };
+      if (E.plain) return U.plain ? this._checkNumberForm(U, E, statement) : { correct: false };
       if ((U.sqrt > 0) !== (E.sqrt > 0) || (U.pi > 0) !== (E.pi > 0) || (U.pow > 0) !== (E.pow > 0)) {
         return { correct: false, advice: U.plain && U.decimals ? 'exact' : null };
       }
@@ -1001,7 +1206,6 @@ window.MathsAdaptiveEngine = {
       return { correct: true };
     }
     // Valeur différente : saisie correcte mais non arrondie, ou approchée au lieu d'exacte ?
-    const statement = String((exercise && exercise.statement) || '');
     if (E.plain && E.decimals !== null && (E.decimals > 0 || /arrondi|près|approch|décimale/i.test(statement))) {
       const p = Math.pow(10, E.decimals);
       if (this._closeEnough(Math.round(U.value * p) / p, E.value)) return { correct: false, advice: U.plain ? 'rounding' : 'approx' };
@@ -1040,10 +1244,15 @@ window.MathsAdaptiveEngine = {
   },
 
   _compareComponent(user, expected, exercise) {
-    const u = this._stripDecorations(this._normalizeMath(user));
-    const e = this._stripDecorations(this._normalizeMath(expected));
-    if (u === e && u !== '') return { correct: true };
-    return this._compareExpressions(u, e, exercise);
+    const cleanUser = this._normalizeMath(user);
+    const cleanExpected = this._normalizeMath(expected);
+    // Variante « 65% » d'une réponse 0,65 : le nombre seul n'est pas un pourcentage, il reste faux.
+    const expectedUnit = this._splitUnit(cleanExpected);
+    if (exercise && expected !== String(exercise.answer) && expectedUnit && expectedUnit.family === 'pourcent' && !this._splitUnit(cleanUser)) return { correct: false };
+    const u = this._stripDecorations(cleanUser);
+    const e = this._stripDecorations(cleanExpected);
+    const result = u === e && u !== '' ? { correct: true } : this._compareExpressions(u, e, exercise);
+    return result.correct && this._wrongUnit(cleanUser, cleanExpected, exercise) ? { correct: false, advice: 'unit' } : result;
   },
 
   /**
@@ -1057,6 +1266,15 @@ window.MathsAdaptiveEngine = {
     if (exercise.answerType === 'equationDroite') return this.checkEquationDroite(userAnswer, exercise.answer);
     if (exercise.answerType === 'canonique') return this.checkCanonique(userAnswer, exercise.answer);
     const expectedList = [exercise.answer].concat(Array.isArray(exercise.acceptedAnswers) ? exercise.acceptedAnswers : []);
+    if (exercise.answerType === 'intervalle') {
+      let adv = null;
+      for (const expected of expectedList) {
+        const r = this.checkIntervalle(userAnswer, String(expected), exercise);
+        if (r.correct) return { correct: true };
+        adv = adv || r.advice || null;
+      }
+      return { correct: false, advice: adv };
+    }
     let advice = null;
     for (const expected of expectedList) {
       const r = this._matchExpected(userAnswer, String(expected), exercise);
@@ -1287,6 +1505,68 @@ window.MathsAdaptiveEngine = {
   },
 
   /**
+   * Lecture d'un ensemble écrit comme intervalle ou réunion d'intervalles : « ]-π/3;π/3[ », « ]-∞;-2]U[3;+∞[ ».
+   * « S = » ou « x ∈ » en tête, espaces et $ facultatifs ; réunion : ∪, \cup, U, u ou « union » ; infini : ∞, \infty,
+   * inf, infini. Renvoie une liste de { l, a, b, r } (crochets et bornes en texte), [] pour l'ensemble vide, ou null.
+   */
+  _parseIntervals(str) {
+    const s = String(str == null ? '' : str).replace(/\$/g, '').replace(/\\left|\\right/g, '').replace(/[−–—]/g, '-')
+      .replace(/\\cup/g, '∪').replace(/\\infty|infinity|infini|inf/gi, '∞').replace(/\\pi/g, 'π')
+      .replace(/^\s*(?:S\s*=|x\s*(?:∈|\\in)\s*)/i, '').trim();
+    if (!s) return null;
+    if (/^(?:∅|\\emptyset|\\varnothing|\{\s*\}|aucune?(?:\s+solution)?|ensemble vide|vide)$/i.test(s)) return [];
+    if (/^(?:ℝ|R|\\mathbb\{R\})$/.test(s)) return [{ l: ']', a: '-∞', b: '+∞', r: '[' }];
+    const out = [];
+    const itv = /\s*([[\]])\s*([^;[\]∪]+?)\s*;\s*([^;[\]∪]+?)\s*([[\]])\s*/y;
+    const sep = /(?:∪|U|u|union)\s*/y;
+    let pos = 0;
+    while (pos < s.length) {
+      itv.lastIndex = pos;
+      const m = itv.exec(s);
+      if (!m) return null;
+      out.push({ l: m[1], a: m[2].trim(), b: m[3].trim(), r: m[4] });
+      pos = itv.lastIndex;
+      if (pos >= s.length) break;
+      sep.lastIndex = pos;
+      if (!sep.exec(s)) return null;
+      pos = sep.lastIndex;
+    }
+    return out.length ? out : null;
+  },
+
+  /**
+   * Correction d'un ensemble de solutions saisi comme intervalle ou réunion d'intervalles (answerType 'intervalle').
+   * Même nombre d'intervalles (ordre libre), mêmes crochets, et chaque borne finie jugée comme une saisie exacte
+   * (valeur et forme : fraction irréductible, π, √). Les crochets sont toujours ouverts en ±∞.
+   */
+  checkIntervalle(userAnswer, expected, exercise) {
+    const E = this._parseIntervals(expected);
+    const U = this._parseIntervals(userAnswer);
+    if (!E || !U || U.length !== E.length) return { correct: false };
+    const inf = (t) => { const c = String(t).replace(/\s/g, ''); return /^\+?∞$/.test(c) ? 1 : c === '-∞' ? -1 : 0; };
+    const val = (t) => { const i = inf(t); if (i) return i * Infinity; const p = this.parseMathExpression(t); return p ? p.value : NaN; };
+    const sorted = (L) => L.slice().sort((x, y) => (val(x.a) - val(y.a)) || 0);
+    const us = sorted(U);
+    const es = sorted(E);
+    let advice = null;
+    for (let k = 0; k < es.length; k++) {
+      const e = es[k];
+      const u = us[k];
+      if (u.l !== e.l || u.r !== e.r) return { correct: false };
+      for (const [ub, eb] of [[u.a, e.a], [u.b, e.b]]) {
+        if (inf(eb) || inf(ub)) {
+          if (inf(eb) !== inf(ub)) return { correct: false };
+          continue;
+        }
+        const r = this._compareComponent(ub, eb, exercise);
+        if (!r.correct && !r.advice) return { correct: false };
+        if (!r.correct) advice = advice || r.advice;
+      }
+    }
+    return advice ? { correct: false, advice } : { correct: true };
+  },
+
+  /**
    * Correction d'une forme canonique a(x − α)² + β (a, α, β rationnels, termes dans un ordre libre).
    * Juste : égale à l'attendue, un seul terme a(x − α)^2 (parenthèse x − α réduite, ou x^2 si α = 0) et au plus
    * un terme constant non nul. Égale mais développée, factorisée… : conseil sans pénalité.
@@ -1319,6 +1599,16 @@ window.MathsAdaptiveEngine = {
       'Rends le dénominateur rationnel : par exemple $\\dfrac{1}{\\sqrt{2}} = \\dfrac{\\sqrt{2}}{2}$.'],
     fraction: ['C\'est la bonne valeur, mais la fraction n\'est pas simplifiée !',
       'Simplifie la fraction : divise numérateur et dénominateur par leur plus grand diviseur commun.'],
+    fractionForm: ['C\'est la bonne valeur, mais on attend une fraction !',
+      'Donne le résultat sous la forme d\'un quotient de deux entiers, par exemple 7/4 pour $\\dfrac{7}{4}$, irréductible si l\'énoncé le demande.'],
+    decimalForm: ['C\'est la bonne valeur, mais on attend l\'écriture décimale !',
+      'Effectue le calcul et écris le nombre sans fraction ni puissance de 10 : par exemple $\\dfrac{7}{4} = 1{,}75$ et $2{,}5 \\times 10^{3} = 2\\,500$.'],
+    scientific: ['C\'est la bonne valeur, mais ce n\'est pas l\'écriture scientifique !',
+      'L\'écriture scientifique est $a \\times 10^{n}$ avec $n$ entier et $a$ supérieur ou égal à 1 et strictement inférieur à 10 : par exemple $3{,}2 \\times 10^{-4}$ (saisie 3,2*10^-4).'],
+    power10: ['C\'est la bonne valeur, mais on attend une seule puissance de 10 !',
+      'Utilise les règles de calcul sur les puissances pour écrire le résultat sous la forme $10^{n}$ (saisie 10^n).'],
+    unit: ['La valeur convient, mais pas cette unité !',
+      'Relis l\'unité demandée dans l\'énoncé, ou saisis simplement le nombre, sans unité.'],
     form: ['C\'est la bonne valeur, mais l\'expression n\'est pas réduite !',
       'Regroupe les termes semblables : par exemple $\\pi + \\pi = 2\\pi$ et $\\sqrt{2} + \\sqrt{2} = 2\\sqrt{2}$.'],
     rounding: ['Ta valeur est juste, mais elle n\'est pas arrondie comme demandé !',
@@ -1353,43 +1643,31 @@ window.MathsAdaptiveEngine = {
       'Garde une écriture exacte : fraction (ex. 1/3), racine carrée (ex. 2√3 ou 2sqrt(3)) ou π (ex. 3π/4 ou 3pi/4).']
   },
 
-  /**
-   * Ancien analyseur strict (nombres simples), conservé pour compatibilité.
-   * Préférer parseMathExpression.
-   */
-  parseStrictNumber(val) {
-    const NUM = '-?\\d+(?:\\.\\d+)?';
-    val = String(val).replace(/\*\*/g, '^').replace(/\\times|×|\\cdot|·/g, '*').replace(/[{}()]/g, '');
-    let m;
-    if (new RegExp(`^${NUM}$`).test(val)) return Number(val);
-    if ((m = val.match(new RegExp(`^(${NUM})/(${NUM})$`)))) {
-      const den = Number(m[2]);
-      return den !== 0 ? Number(m[1]) / den : NaN;
-    }
-    if ((m = val.match(/^10\^(-?\d+)$/))) return Math.pow(10, Number(m[1]));
-    if ((m = val.match(new RegExp(`^(${NUM})\\*10\\^(-?\\d+)$`)))) {
-      return Number(m[1]) * Math.pow(10, Number(m[2]));
-    }
-    return NaN;
-  },
 
   /**
    * Vérifie si l'élève a saisi une fraction exacte numériquement mais non irréductible
    */
   checkUnsimplifiedFraction(userAnswer, exercise) {
     if (!exercise || exercise.type !== 'exact' || userAnswer === null || userAnswer === undefined) return null;
+    // Chapitres où la forme irréductible n'est pas exigible (4N2 : notion de 3e) : toute fraction égale est acceptée
+    if (exercise.acceptUnreduced) return null;
     const cleanUser = this._stripDecorations(this._normalizeMath(userAnswer));
     const cleanExpected = this._stripDecorations(this._normalizeMath(exercise.answer));
 
-    const fracMatch = cleanUser.match(/^(-?[0-9]+)\/([0-9]+)$/);
+    const fracMatch = cleanUser.match(/^(-?[0-9]+)\/(-?[0-9]+)$/);
     if (!fracMatch) return null;
 
-    const num = parseInt(fracMatch[1], 10);
-    const den = parseInt(fracMatch[2], 10);
+    let num = parseInt(fracMatch[1], 10);
+    let den = parseInt(fracMatch[2], 10);
     if (den === 0) return null;
+    if (den < 0) { num = -num; den = -den; }
 
     const userVal = num / den;
     const parsedExpected = this.parseMathExpression(cleanExpected);
+    // L'attendu lui-même non réduit (lecture d'une graduation : 14/8) ne réclame aucune simplification
+    if (parsedExpected && parsedExpected.unreduced) return null;
+    if (this._requiredForm(exercise.statement).decimal) return null;
+    if ([].concat(exercise.acceptedAnswers || []).some((a) => this._stripDecorations(this._normalizeMath(a)) === cleanUser)) return null;
     const expVal = parsedExpected && parsedExpected.plain ? parsedExpected.value : NaN;
 
     if (!isNaN(userVal) && !isNaN(expVal) && this._closeEnough(userVal, expVal)) {
@@ -1663,7 +1941,7 @@ window.MathsAdaptiveEngine = {
     if (this.state.mistakesOnCurrent === 2) {
       return Object.assign(common, {
         stage: 'hint2',
-        hint: exercise.hint2,
+        hint: this._secondHint(exercise),
         message: "Toujours pas ! Voici un rappel essentiel de cours ou de formule pour débloquer la situation :"
       });
     }
@@ -1717,68 +1995,30 @@ window.MathsAdaptiveEngine = {
       if (exercise.hint1 && exercise.hint1.trim()) return exercise.hint1;
       return "Observe bien les données de l'énoncé, repère les mots-clés et commence par appliquer les règles opératoires prioritaires.";
     }
-    if (hintNumber === 2) {
-      if (exercise.hint2 && exercise.hint2.trim()) return exercise.hint2;
-      // Fallback 1: Si le cours du chapitre existe dans window.MATHS_COURSES
-      const course = (window.MATHS_COURSES || {})[this.state.chapterId];
-      if (course) {
-        if (course.traps && course.traps.length > 0) {
-          const trap = course.traps[0];
-          const kp = (course.keyPoints && course.keyPoints[0]) ? `\n\n**Règle clé :**\n${course.keyPoints[0].content}` : '';
-          return `**Conseil du cours (${course.title || this.state.chapterId}) :**\n${trap}${kp}`;
-        }
-        if (course.keyPoints && course.keyPoints.length > 0) {
-          return `**Propriété essentielle (${course.title || this.state.chapterId}) :**\n${course.keyPoints[0].content}`;
-        }
-      }
-      // Fallback 2: Si l'exercice a une explication ou un indice 1
-      if (exercise.explanation) {
-        return `**Rappel méthodologique :**\n${exercise.explanation}`;
-      }
-      return `**Rappel de cours :**\nPense à appliquer les définitions et propriétés fondamentales du chapitre. Tu peux également consulter l'onglet **📖 Cours** pour retrouver toutes les formules complètes !`;
-    }
+    if (hintNumber === 2) return this._secondHint(exercise);
     return exercise.hint1;
   },
 
-  /**
-   * Calcule l'indicateur d'état cognitif ZPD en temps réel
-   */
-  getZpdStatus() {
-    const history = this.state.sessionHistory.slice(-5); // 5 derniers exercices
-    if (history.length < 2) {
-      return {
-        zone: 'flow',
-        label: "Zone Optimale d'Apprentissage",
-        description: "Exercices adaptés à ton niveau en cours d'évaluation.",
-        badgeClass: "badge-flow"
-      };
+  /** Indice 2 : celui de l'exercice, sinon un rappel tiré du cours du chapitre. */
+  _secondHint(exercise) {
+    if (exercise.hint2 && exercise.hint2.trim()) return exercise.hint2;
+    // Fallback 1: Si le cours du chapitre existe dans window.MATHS_COURSES
+    const course = (window.MATHS_COURSES || {})[this.state.chapterId];
+    if (course) {
+      if (course.traps && course.traps.length > 0) {
+        const trap = course.traps[0];
+        const kp = (course.keyPoints && course.keyPoints[0]) ? `\n\n**Règle clé :**\n${course.keyPoints[0].content}` : '';
+        return `**Conseil du cours (${course.title || this.state.chapterId}) :**\n${trap}${kp}`;
+      }
+      if (course.keyPoints && course.keyPoints.length > 0) {
+        return `**Propriété essentielle (${course.title || this.state.chapterId}) :**\n${course.keyPoints[0].content}`;
+      }
     }
-
-    const successes = history.filter(h => h.isCorrect).length;
-    const rate = successes / history.length;
-
-    if (rate >= 0.8 && this.state.consecutiveSuccesses >= 2) {
-      return {
-        zone: 'comfort',
-        label: "Zone de Confort (Très facile)",
-        description: "Tu réussis sans hésiter. Monte de palier pour un défi plus stimulant !",
-        badgeClass: "badge-comfort"
-      };
-    } else if (rate <= 0.4 && this.state.mistakesOnCurrent >= 2) {
-      return {
-        zone: 'frustration',
-        label: "Zone de Consolidation",
-        description: "Les difficultés s'accumulent. Utilise les rappels de cours ou reviens au palier socle.",
-        badgeClass: "badge-frustration"
-      };
-    } else {
-      return {
-        zone: 'flow',
-        label: "Zone Optimale (Flow)",
-        description: "Défi équilibré : tu apprends efficacement et avec stimulation !",
-        badgeClass: "badge-flow"
-      };
+    // Fallback 2: Si l'exercice a une explication ou un indice 1
+    if (exercise.explanation) {
+      return `**Rappel méthodologique :**\n${exercise.explanation}`;
     }
+    return `**Rappel de cours :**\nPense à appliquer les définitions et propriétés fondamentales du chapitre. Tu peux également consulter l'onglet **📖 Cours** pour retrouver toutes les formules complètes !`;
   },
 
   getChapterRankTitle(chapter, tier) {
@@ -1920,17 +2160,17 @@ window.MathsAdaptiveEngine = {
       let tier4Desc = 'Avoir débloqué le palier 4 (Défi Seconde).';
       if (lvl === '6eme') {
         tier4Title = 'Cap vers la 5ème';
-        tier4Desc = 'Avoir débloqué le palier 4 (Défi 5ème).';
+        tier4Desc = 'Avoir débloqué le palier 4 (Défi).';
       } else if (lvl === '5eme') {
         tier4Title = 'Cap vers la 4ème';
-        tier4Desc = 'Avoir débloqué le palier 4 (Défi 4ème).';
+        tier4Desc = 'Avoir débloqué le palier 4 (Défi).';
       } else if (lvl === '4eme') {
         tier4Title = 'Cap vers la 3ème';
-        tier4Desc = 'Avoir débloqué le palier 4 (Défi 3ème).';
+        tier4Desc = 'Avoir débloqué le palier 4 (Défi).';
       } else if (lvl === '2nde') {
         tier4Title = 'Cap vers la 1ère Spé';
         tier4Desc = 'Avoir débloqué le palier 4 (Défi 1ère Spé).';
-      } else if (lvl === '1ere' || lvl === 'tale' || lvl === 'lycee') {
+      } else if (lvl === '1ere' || lvl === '1tc' || lvl === '1techno' || lvl === 'tale' || lvl === 'lycee') {
         tier4Title = 'Excellence Baccalauréat';
         tier4Desc = 'Avoir débloqué le palier 4 (Défi & Approfondissement).';
       } else if (lvl === 'crpe') {

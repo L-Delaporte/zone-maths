@@ -38,7 +38,7 @@ const MATHS_CHAPTERS_LICENCE = [
     "icon": "circle",
     "badge": "Algébriste Polyvalent",
     "color": "#6366f1",
-    "description": "Racines n-ièmes de l'unité, polynômes à coefficients dans R ou C, division euclidienne, pgcd, algorithme d'Euclide, théorème de d'Alembert-Gauss, factorisation en irréductibles.",
+    "description": "Racines n-ièmes de l'unité, polynômes à coefficients dans R ou C, division euclidienne, pgcd, algorithme d'Euclide, théorème de d'Alembert-Gauss, factorisation en irréductibles, fractions rationnelles et décomposition en éléments simples.",
     "skills": [
       "Déterminer les racines n-ièmes d'un nombre complexe et les représenter dans le plan",
       "Effectuer la division euclidienne de polynômes et calculer un pgcd",
@@ -57,7 +57,7 @@ const MATHS_CHAPTERS_LICENCE = [
     "icon": "grid",
     "badge": "Pivoteur de Gauss",
     "color": "#4f46e5",
-    "description": "Espaces de matrices M_{n,p}(K), produit matriciel, algorithme du pivot de Gauss, échelonnement en lignes, résolution des systèmes linéaires, calcul de l'inverse d'une matrice.",
+    "description": "Espaces de matrices à n lignes et p colonnes, produit matriciel, algorithme du pivot de Gauss, échelonnement en lignes, résolution des systèmes linéaires, calcul de l'inverse d'une matrice.",
     "skills": [
       "Résoudre un système linéaire par la méthode du pivot de Gauss",
       "Échelonner une matrice et déterminer son rang",
@@ -223,7 +223,7 @@ const MATHS_CHAPTERS_LICENCE = [
     "domainName": "Démonstrations Fondamentales",
     "folder": "L1_PRF_Preuves_fondamentales",
     "num": "L1-12",
-    "title": "Démonstrations fondamentales de L1 : analyse, algèbre et topologie",
+    "title": "Démonstrations fondamentales de L1 : analyse et algèbre",
     "shortTitle": "Preuves Fondamentales L1",
     "icon": "book-open",
     "badge": "Démonstrateur de L1",
@@ -309,7 +309,7 @@ const MATHS_CHAPTERS_LICENCE = [
     "icon": "repeat",
     "badge": "Architecte Dual",
     "color": "#4338ca",
-    "description": "Espace dual E* = L(E, K), formes linéaires, hyperplans comme noyaux de formes non nulles, base duale (e_i*), bidualité et isomorphisme canonique E ≃ E**, orthogonalité au sens de la dualité.",
+    "description": "Espace dual E* = L(E, K), formes linéaires, hyperplans comme noyaux de formes non nulles, base duale, bidualité et isomorphisme canonique E ≃ E**, orthogonalité au sens de la dualité.",
     "skills": [
       "Déterminer la base duale associée à une base donnée",
       "Représenter un sous-espace vectoriel par un système d'équations linéaires duales",
@@ -423,11 +423,12 @@ const MATHS_CHAPTERS_LICENCE = [
     "icon": "activity",
     "badge": "Dynamiste Linéaire",
     "color": "#0c4a6e",
-    "description": "Équations différentielles linéaires d'ordre 1 et 2 à coefficients variables (Wronskien, variation des constantes), systèmes différentiels linéaires du premier ordre X'(t) = A X(t) à coefficients constants, exponentielle de matrice exp(tA).",
+    "description": "Équations différentielles linéaires d'ordre 1 et 2 à coefficients variables (Wronskien, variation des constantes), systèmes différentiels linéaires du premier ordre X'(t) = A X(t) à coefficients constants, exponentielle de matrice exp(tA), équations à variables séparables.",
     "skills": [
       "Résoudre une équation différentielle d'ordre 2 par la méthode de variation des constantes",
       "Calculer l'exponentielle d'une matrice diagonalisable ou nilpotente",
-      "Résoudre un système différentiel linéaire X'(t) = AX(t) avec condition initiale"
+      "Résoudre un système différentiel linéaire X'(t) = AX(t) avec condition initiale",
+      "Résoudre une équation à variables séparables et préciser son intervalle de résolution"
     ]
   },
   {
@@ -580,7 +581,7 @@ const MATHS_CHAPTERS_LICENCE = [
     "icon": "target",
     "badge": "Maître de Sylow",
     "color": "#6366f1",
-    "description": "Action d'un groupe sur un ensemble, orbites, stabilisateurs, formule des classes, p-groupes, théorèmes de Sylow (existence, conjugaison et nombre de Sylow), applications à la non-simplicité et classification des petits groupes finis, groupe symétrique Sn et alterné An.",
+    "description": "Action d'un groupe sur un ensemble, orbites, stabilisateurs, formule des classes, p-groupes, théorèmes de Sylow (existence, conjugaison et nombre de Sylow), applications à la non-simplicité et classification des petits groupes finis, groupe symétrique Sn et alterné An, groupe diédral.",
     "skills": [
       "Appliquer la formule des classes pour calculer des cardinaux d'orbites ou prouver des propriétés de centre",
       "Énoncer et utiliser les théorèmes de Sylow pour démontrer qu'un groupe d'ordre donné n'est pas simple",
@@ -732,8 +733,9 @@ const MATHS_CHAPTERS_LICENCE = [
     "icon": "triangle",
     "badge": "Projecteur Géométrique",
     "color": "#d97706",
-    "description": "Espaces projectifs P(E), coordonnées homogènes, droites et plans projectifs, complétion projective d'un espace affine, birapport de quatre points alignés, théorèmes de Desargues et Pappus, inversion par rapport à un cercle.",
+    "description": "Barycentres et applications affines, espaces projectifs P(E), coordonnées homogènes, droites et plans projectifs, complétion projective d'un espace affine, birapport de quatre points alignés, théorèmes de Desargues et Pappus, inversion par rapport à un cercle.",
     "skills": [
+      "Calculer avec les barycentres et déterminer les points fixes d'une application affine",
       "Calculer le birapport de quatre points et l'utiliser pour prouver des alignements ou concours",
       "Représenter des configurations projectives à l'aide des coordonnées homogènes",
       "Transformer des cercles et des droites par une inversion géométrique"
@@ -859,3 +861,26 @@ const MATHS_CHAPTERS_LICENCE = [
 // Fusion automatique dans le registre global des chapitres
 if (!window.MATHS_CHAPTERS) window.MATHS_CHAPTERS = [];
 window.MATHS_CHAPTERS.push(...MATHS_CHAPTERS_LICENCE);
+
+// Index des chapitres CAPES : navigation, recherche et bilan sans télécharger js/data/data_capes.js (500 Ko),
+// qui complète ces entrées (description, compétences) à l'ouverture du niveau.
+const MATHS_CHAPTERS_CAPES_INDEX = [
+  {"id":"capes-01","level":"capes","domain":"analyse","domainName":"Analyse","folder":"capes-01","complement":true,"num":"Compl. 01","title":"Équations différentielles linéaires : résolution, structure et modélisation","shortTitle":"Équations différentielles linéaires","icon":"award","badge":"Candidat Admissible","color":"#8b5cf6"},
+  {"id":"capes-02","level":"capes","domain":"algebre","domainName":"Algèbre","folder":"capes-02","complement":true,"num":"Compl. 02","title":"Réduction des endomorphismes : éléments propres, diagonalisation et trigonalisation","shortTitle":"Réduction des endomorphismes","icon":"award","badge":"Candidat Admissible","color":"#8b5cf6"},
+  {"id":"capes-03","level":"capes","domain":"analyse","domainName":"Analyse","folder":"capes-03","complement":true,"num":"Compl. 03","title":"Séries de Fourier : coefficients, convergence et formule de Parseval","shortTitle":"Séries de Fourier","icon":"award","badge":"Candidat Admissible","color":"#8b5cf6"},
+  {"id":"capes-04","level":"capes","domain":"probas","domainName":"Probabilités","folder":"capes-04","complement":true,"num":"Compl. 04","title":"Variables aléatoires réelles discrètes : loi, espérance, variance et lois classiques","shortTitle":"Variables aléatoires réelles discrètes","icon":"award","badge":"Candidat Admissible","color":"#8b5cf6"},
+  {"id":"capes-05","level":"capes","domain":"algebre","domainName":"Géométrie & Algèbre","folder":"capes-05","complement":true,"num":"Compl. 05","title":"Espaces préhilbertiens réels, orthogonalité et projections orthogonales","shortTitle":"Espaces préhilbertiens réels, orthogonalité et projections orthogonales","icon":"award","badge":"Candidat Admissible","color":"#8b5cf6"},
+  {"id":"capes-06","level":"capes","domain":"analyse","domainName":"Analyse","folder":"capes-06","complement":true,"num":"Compl. 06","title":"Intégrale de Riemann, primitives et intégrales à paramètres","shortTitle":"Intégrale de Riemann, primitives et intégrales à paramètres","icon":"award","badge":"Candidat Admissible","color":"#8b5cf6"},
+  {"id":"capes-07","level":"capes","domain":"algebre","domainName":"Algèbre","folder":"capes-07","complement":true,"num":"Compl. 07","title":"Groupe symétrique, signature et applications aux déterminants","shortTitle":"Groupe symétrique, signature et applications aux déterminants","icon":"award","badge":"Candidat Admissible","color":"#8b5cf6"},
+  {"id":"capes-08","level":"capes","domain":"analyse","domainName":"Analyse","folder":"capes-08","complement":true,"num":"Compl. 08","title":"Convexité des fonctions réelles d'une variable réelle et applications","shortTitle":"Convexité des fonctions réelles d'une variable réelle et applications","icon":"award","badge":"Candidat Admissible","color":"#8b5cf6"},
+  {"id":"capes-09","level":"capes","domain":"analyse","domainName":"Analyse","folder":"capes-09","complement":true,"num":"Compl. 09","title":"Suites et séries numériques : convergence, sommabilité et critères","shortTitle":"Suites et séries numériques","icon":"award","badge":"Candidat Admissible","color":"#8b5cf6"},
+  {"id":"capes-10","level":"capes","domain":"algebre","domainName":"Algèbre & Arithmétique","folder":"capes-10","complement":true,"num":"Compl. 10","title":"Arithmétique dans Z : divisibilité, pgcd, congruences et cryptographie RSA","shortTitle":"Arithmétique dans Z","icon":"award","badge":"Candidat Admissible","color":"#8b5cf6"},
+  {"id":"capes-11","level":"capes","domain":"geometrie","domainName":"Géométrie","folder":"capes-11","complement":false,"num":"Leçon 11","title":"Géométrie vectorielle et produit scalaire : du plan à l'espace, transformations","shortTitle":"Géométrie vectorielle et produit scalaire","icon":"award","badge":"Candidat Admissible","color":"#8b5cf6"},
+  {"id":"capes-12","level":"capes","domain":"algebre","domainName":"Algèbre & Géométrie","folder":"capes-12","complement":false,"num":"Leçon 12","title":"Nombres complexes : formes algébrique et exponentielle, équations et géométrie","shortTitle":"Nombres complexes","icon":"award","badge":"Candidat Admissible","color":"#8b5cf6"},
+  {"id":"capes-13","level":"capes","domain":"probas","domainName":"Probabilités","folder":"capes-13","complement":false,"num":"Leçon 13","title":"Probabilités conditionnelles et indépendance : arbres, probabilités totales et formule de Bayes","shortTitle":"Probabilités conditionnelles et indépendance","icon":"award","badge":"Candidat Admissible","color":"#8b5cf6"},
+  {"id":"capes-14","level":"capes","domain":"probas","domainName":"Statistiques & Probabilités","folder":"capes-14","complement":false,"num":"Leçon 14","title":"Statistique descriptive à une et deux variables : indicateurs de position, de dispersion et ajustement affine","shortTitle":"Statistique descriptive à une et deux variables","icon":"award","badge":"Candidat Admissible","color":"#8b5cf6"},
+  {"id":"capes-15","level":"capes","domain":"algebre","domainName":"Algèbre & Combinatoire","folder":"capes-15","complement":false,"num":"Leçon 15","title":"Dénombrement et combinatoire : listes, arrangements, permutations et combinaisons","shortTitle":"Dénombrement et combinatoire","icon":"award","badge":"Candidat Admissible","color":"#8b5cf6"},
+  {"id":"capes-oral2","level":"capes","domain":"oral2","domainName":"Éthique & Laïcité","folder":"capes-oral2","complement":false,"num":"Oral 2","title":"Épreuve d'entretien : Éthique professionnelle, laïcité et valeurs de la République","shortTitle":"Épreuve d'entretien","icon":"scale","badge":"Épreuve d'Admission","color":"#ec4899"},
+  {"id":"capes-oral2-cas","level":"capes","domain":"oral2","domainName":"Éthique & Laïcité","folder":"capes-oral2-cas","complement":false,"num":"Oral 2 – Cas","title":"Épreuve d'entretien : études de cas en trois étapes (règle de droit, réaction immédiate, action durable)","shortTitle":"Épreuve d'entretien","icon":"scale","badge":"Épreuve d'Admission","color":"#ec4899"}
+];
+window.MATHS_CHAPTERS.push(...MATHS_CHAPTERS_CAPES_INDEX);

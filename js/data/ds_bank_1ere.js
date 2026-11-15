@@ -7,7 +7,7 @@ Object.assign(window.MATHS_DS_BANK, {
 1. Déterminer la forme canonique de $f(x)$.
 2. Calculer le discriminant de $f(x)$, puis déterminer les racines de $f$.
 3. En déduire la forme factorisée de $f(x)$.
-4. Dresser le tableau de variations de $f$ sur $\\mathbb{R}$ en précisant les coordonnées du sommet de la parabole.`,
+4. Dresser le tableau de variations de $f$ sur $\\mathbb{R}$ et préciser son extremum.`,
       solution: `**1.** On factorise par $a = 2$ : $f(x) = 2\\left(x^2 - 4x\\right) + 6 = 2\\left[(x-2)^2 - 4\\right] + 6 = 2(x-2)^2 - 8 + 6$.
 
 Donc $f(x) = 2(x-2)^2 - 2$.
@@ -27,7 +27,7 @@ $$x_1 = \\frac{8 - 4}{4} = 1 \\quad \\text{et} \\quad x_2 = \\frac{8 + 4}{4} = 3
 |---|---|---|---|---|---|
 | $f(x)$ | | $\\searrow$ | $-2$ | $\\nearrow$ | |
 
-Le sommet de la parabole est $S(2 ; -2)$ : c'est le minimum de $f$.` },
+La fonction $f$ admet un minimum égal à $-2$, atteint en $x = 2$.` },
     { id: "1A1-ds-02", title: "Résolutions d'équations du second degré", difficulty: 1, points: 4,
       statement: `Résoudre dans $\\mathbb{R}$ les équations suivantes, en choisissant à chaque fois la méthode la plus adaptée.
 
@@ -61,22 +61,22 @@ $5x^2 - 20x = 5x(x - 4) = 0 \\iff x = 0$ ou $x = 4$ (un produit est nul si et se
 **3.** $\\Delta = 1 - 4 = -3 < 0$ : le trinôme n'a pas de racine et garde le signe de $a = 1 > 0$. Il est donc strictement positif pour tout réel : $\\mathcal{S} = \\mathbb{R}$.
 
 **4.** $x^2 \\leqslant 4x - 4 \\iff x^2 - 4x + 4 \\leqslant 0 \\iff (x-2)^2 \\leqslant 0$. Un carré est toujours positif ou nul, il est nul seulement pour $x = 2$ : $\\mathcal{S} = \\{2\\}$.` },
-    { id: "1A1-ds-04", title: "Retrouver un trinôme à partir de sa parabole", difficulty: 2, points: 5,
-      statement: `Une parabole $\\mathcal{P}$ représente une fonction polynôme du second degré $f$. On sait que son sommet est $S(-1 ; 4)$ et qu'elle passe par le point $A(1 ; -4)$.
+    { id: "1A1-ds-04", title: "Retrouver un trinôme à partir de son extremum", difficulty: 2, points: 5,
+      statement: `Une fonction polynôme du second degré $f$ admet un maximum égal à $4$, atteint en $-1$. De plus, $f(1) = -4$.
 
 1. Justifier qu'il existe un réel $a$ non nul tel que, pour tout réel $x$, $f(x) = a(x+1)^2 + 4$.
 2. Déterminer $a$, puis la forme développée de $f(x)$.
-3. Déterminer les abscisses des points d'intersection de $\\mathcal{P}$ avec l'axe des abscisses (valeurs exactes).
+3. Résoudre dans $\\mathbb{R}$ l'équation $f(x) = 0$ (valeurs exactes).
 4. Dresser le tableau de signes de $f(x)$.`,
-      solution: `**1.** La forme canonique d'un trinôme est $f(x) = a(x - \\alpha)^2 + \\beta$ où $(\\alpha ; \\beta)$ sont les coordonnées du sommet de la parabole. Ici $\\alpha = -1$ et $\\beta = 4$, d'où $f(x) = a(x+1)^2 + 4$ avec $a \\neq 0$.
+      solution: `**1.** La forme canonique d'un trinôme est $f(x) = a(x - \\alpha)^2 + \\beta$ où $\\beta$ est l'extremum de $f$, atteint en $\\alpha$. Ici $\\alpha = -1$ et $\\beta = 4$, d'où $f(x) = a(x+1)^2 + 4$ avec $a \\neq 0$.
 
-**2.** $A \\in \\mathcal{P}$ donc $f(1) = -4$ : $a \\times 2^2 + 4 = -4 \\iff 4a = -8 \\iff a = -2$.
+**2.** $f(1) = -4$ donne $a \\times 2^2 + 4 = -4 \\iff 4a = -8 \\iff a = -2$.
 
 Ainsi $f(x) = -2(x+1)^2 + 4 = -2(x^2 + 2x + 1) + 4 = -2x^2 - 4x + 2$.
 
 **3.** On résout $f(x) = 0$ à partir de la forme canonique :
 $$-2(x+1)^2 + 4 = 0 \\iff (x+1)^2 = 2 \\iff x + 1 = \\sqrt{2} \\ \\text{ou} \\ x + 1 = -\\sqrt{2}.$$
-Les abscisses sont $x_1 = -1 - \\sqrt{2}$ et $x_2 = -1 + \\sqrt{2}$.
+Les solutions sont $x_1 = -1 - \\sqrt{2}$ et $x_2 = -1 + \\sqrt{2}$.
 
 (Avec le discriminant : $\\Delta = 16 + 16 = 32$, $\\sqrt{32} = 4\\sqrt{2}$, $x = \\frac{4 \\pm 4\\sqrt{2}}{-4}$, ce qui donne les mêmes valeurs.)
 
@@ -146,8 +146,8 @@ $\\Delta = 900 - 800 = 100$, racines $\\frac{30 - 10}{2} = 10$ et $\\frac{30 + 1
 Il faut donc que les côtés perpendiculaires au mur mesurent entre $10$ m et $20$ m.
 
 **4.** Non : d'après la question 2, l'aire ne peut pas dépasser $450$ m² $< 480$ m². (Par le calcul : $-2x^2 + 60x = 480 \\iff x^2 - 30x + 240 = 0$, de discriminant $900 - 960 = -60 < 0$, pas de solution.)` },
-    { id: "1A1-ds-08", title: "Une parabole et une famille de droites", difficulty: 4, points: 7,
-      statement: `Dans un repère, on considère la parabole $\\mathcal{P}$ d'équation $y = x^2 - 3x + 1$ et, pour tout réel $m$, la droite $D_m$ d'équation $y = x + m$.
+    { id: "1A1-ds-08", title: "Une courbe et une famille de droites", difficulty: 4, points: 7,
+      statement: `Dans un repère, on considère la courbe $\\mathcal{P}$ d'équation $y = x^2 - 3x + 1$ et, pour tout réel $m$, la droite $D_m$ d'équation $y = x + m$.
 
 1. Montrer que les abscisses des points d'intersection de $\\mathcal{P}$ et $D_m$ sont les solutions de l'équation $x^2 - 4x + 1 - m = 0$.
 2. Discuter, selon les valeurs de $m$, le nombre de points d'intersection de $\\mathcal{P}$ et $D_m$.
@@ -161,7 +161,7 @@ Il faut donc que les côtés perpendiculaires au mur mesurent entre $10$ m et $2
 - Si $m = -3$ : $\\Delta = 0$, un seul point commun.
 - Si $m < -3$ : $\\Delta < 0$, aucun point commun.
 
-**3.** Pour $m = -3$, l'équation devient $x^2 - 4x + 4 = (x-2)^2 = 0$, donc $x = 2$ et $y = 2 - 3 = -1$. Le point commun est $(2 ; -1)$ (la droite $D_{-3}$ est tangente à la parabole).
+**3.** Pour $m = -3$, l'équation devient $x^2 - 4x + 4 = (x-2)^2 = 0$, donc $x = 2$ et $y = 2 - 3 = -1$. Le point commun est $(2 ; -1)$ (la droite $D_{-3}$ est tangente à la courbe $\\mathcal{P}$).
 
 **4.** On étudie le signe de $d(x) = (x^2 - 3x + 1) - (x + 2) = x^2 - 4x - 1$.
 $\\Delta = 16 + 4 = 20$, racines $\\frac{4 \\pm 2\\sqrt{5}}{2} = 2 \\pm \\sqrt{5}$.
@@ -175,7 +175,7 @@ Comme $a = 1 > 0$ :
       statement: `On considère la fonction $f$ définie sur $\\mathbb{R}$ par $f(x) = -3(x - 1)(x + 5)$.
 
 1. Donner, sans calcul, les racines de $f$, puis dresser le tableau de signes de $f(x)$.
-2. Déterminer l'abscisse du sommet de la parabole représentant $f$, puis son ordonnée. En déduire la forme canonique de $f(x)$.
+2. En utilisant la somme des racines, déterminer $\\alpha = -\\frac{b}{2a}$, puis $\\beta = f(\\alpha)$. En déduire la forme canonique de $f(x)$ et le maximum de $f$.
 3. Déterminer la forme développée de $f(x)$.
 4. Résoudre dans $\\mathbb{R}$ l'équation $f(x) = 15$, en choisissant la forme la plus adaptée.`,
       solution: `**1.** Un produit est nul si et seulement si l'un de ses facteurs est nul : les racines sont $1$ et $-5$.
@@ -186,10 +186,12 @@ Le coefficient $a = -3$ est négatif : le trinôme est du signe de $a$ (négatif
 |---|---|---|---|---|---|---|---|
 | $f(x)$ | | $-$ | $0$ | $+$ | $0$ | $-$ | |
 
-**2.** La parabole est symétrique par rapport à la droite d'équation $x = \\alpha$, où $\\alpha$ est la moyenne des racines : $\\alpha = \\frac{1 + (-5)}{2} = -2$.
+**2.** La somme des racines vaut $-\\frac{b}{a}$, donc $\\alpha = -\\frac{b}{2a}$ est leur moyenne : $\\alpha = \\frac{1 + (-5)}{2} = -2$.
 
-$\\beta = f(-2) = -3 \\times (-3) \\times 3 = 27$. Le sommet est $S(-2 ; 27)$ et, pour tout réel $x$ :
+$\\beta = f(-2) = -3 \\times (-3) \\times 3 = 27$. Ainsi, pour tout réel $x$ :
 $$f(x) = -3(x + 2)^2 + 27.$$
+
+Comme $a = -3 < 0$, la fonction $f$ admet un maximum égal à $27$, atteint en $-2$.
 
 **3.** $f(x) = -3(x^2 + 5x - x - 5) = -3(x^2 + 4x - 5) = -3x^2 - 12x + 15$.
 
@@ -197,8 +199,8 @@ $$f(x) = -3(x + 2)^2 + 27.$$
 
 **4.** Avec la forme développée :
 $$f(x) = 15 \\iff -3x^2 - 12x = 0 \\iff -3x(x + 4) = 0 \\iff x = 0 \\ \\text{ou} \\ x = -4.$$
-$\\mathcal{S} = \\{-4 ; 0\\}$ (les deux solutions sont symétriques par rapport à $-2$, ce qui est cohérent avec la question 2).` },
-    { id: "1A1-ds-10", title: "Équations qui se ramènent au second degré", difficulty: 2, points: 5,
+$\\mathcal{S} = \\{-4 ; 0\\}$ (la moyenne des deux solutions vaut $-2 = \\alpha$, ce qui est cohérent avec la question 2).` },
+    { id: "1A1-ds-10", title: "Pour aller plus loin : équations qui se ramènent au second degré", difficulty: 2, points: 5,
       statement: `Résoudre dans $\\mathbb{R}$ les équations suivantes. Chaque fois, on précisera le changement d'inconnue ou la valeur interdite utilisés.
 
 1. $x^4 - 5x^2 + 4 = 0$ (on pourra poser $X = x^2$).
@@ -371,7 +373,49 @@ $\\varphi^4 = \\varphi \\times \\varphi^3 = 2\\varphi^2 + \\varphi = 2(\\varphi 
 
 **4.** $2 < \\sqrt{5} < 3 \\Rightarrow 3 < 1 + \\sqrt{5} < 4 \\Rightarrow \\frac{3}{2} < \\varphi < 2$, donc $1 < \\varphi < 2$.
 
-**5.** $a = 1 > 0$ : le trinôme est négatif strictement entre ses racines : $x \\in \\,\\left]\\frac{1 - \\sqrt{5}}{2} ; \\frac{1 + \\sqrt{5}}{2}\\right[$.` }
+**5.** $a = 1 > 0$ : le trinôme est négatif strictement entre ses racines : $x \\in \\,\\left]\\frac{1 - \\sqrt{5}}{2} ; \\frac{1 + \\sqrt{5}}{2}\\right[$.` },
+    { id: "1A1-ds-17", title: "Raisonner par contraposée", difficulty: 3, points: 6,
+      statement: `On considère la propriété $(\\mathcal{P})$ : « pour tous réels $b$ et $c$, si le trinôme $x^2 + bx + c$ n'a pas de racine réelle, alors $c > 0$ ».
+
+1. Démontrer la propriété $(\\mathcal{P})$.
+2. Énoncer la contraposée de $(\\mathcal{P})$, puis sa réciproque.
+3. La réciproque de $(\\mathcal{P})$ est-elle vraie ? Justifier.
+4. Sans calculer de discriminant, que peut-on affirmer sur le trinôme $x^2 + 7x - 4$ ? Justifier.
+5. Soit $x$ un réel. En raisonnant par contraposée, démontrer que : si $x^2 + x - 6 \\neq 0$, alors $x \\neq 2$ et $x \\neq -3$.`,
+      solution: `**1.** Soient $b$ et $c$ des réels. Si le trinôme $x^2 + bx + c$ n'a pas de racine réelle, alors son discriminant est strictement négatif : $b^2 - 4c < 0$, donc $4c > b^2$. Comme $b^2 \\geqslant 0$, on obtient $4c > 0$, donc $c > 0$.
+
+**2.** Contraposée : « si $c \\leqslant 0$, alors le trinôme $x^2 + bx + c$ a au moins une racine réelle ».
+
+Réciproque : « si $c > 0$, alors le trinôme $x^2 + bx + c$ n'a pas de racine réelle ».
+
+**3.** Non, la réciproque est fausse. Contre-exemple : $x^2 + 3x + 1$ a pour coefficient constant $1 > 0$, mais son discriminant vaut $9 - 4 = 5 > 0$ : il a deux racines réelles.
+
+**4.** Ici $c = -4 \\leqslant 0$. Comme une implication et sa contraposée sont équivalentes, la contraposée de $(\\mathcal{P})$ (question 2) s'applique : le trinôme $x^2 + 7x - 4$ a au moins une racine réelle.
+
+**5.** La négation de « $x \\neq 2$ et $x \\neq -3$ » est « $x = 2$ ou $x = -3$ ». La contraposée à démontrer est donc : si $x = 2$ ou $x = -3$, alors $x^2 + x - 6 = 0$.
+
+Or, pour $x = 2$ : $4 + 2 - 6 = 0$, et pour $x = -3$ : $9 - 3 - 6 = 0$. La contraposée est vraie, donc l'implication aussi.` },
+    { id: "1A1-ds-18", title: "Raisonner par l'absurde : la racine carrée de 2 est irrationnelle", difficulty: 3, points: 6,
+      statement: `Dans les questions 1 et 2, $n$, $p$ et $q$ désignent des entiers naturels.
+
+1. **Raisonnement par contraposée.** Démontrer que, si $n^2$ est pair, alors $n$ est pair.
+2. **Raisonnement par l'absurde.** On suppose que $\\sqrt{2}$ est rationnel : il existe alors des entiers naturels non nuls $p$ et $q$ tels que $\\sqrt{2} = \\dfrac{p}{q}$, la fraction $\\dfrac{p}{q}$ étant irréductible.
+ a) Montrer que $p^2 = 2q^2$.
+ b) En déduire que $p$ est pair, puis que $q$ est pair.
+ c) Conclure.
+3. En raisonnant par l'absurde, démontrer que $1 + \\sqrt{2}$ est irrationnel.
+4. Soit $x$ un réel différent de $-2$. Démontrer par l'absurde que $\\dfrac{x + 1}{x + 2} \\neq 1$.`,
+      solution: `**1.** Raisonnons par contraposée : montrons que, si $n$ est impair, alors $n^2$ est impair. Si $n$ est impair, il existe un entier $k$ tel que $n = 2k + 1$. Alors $n^2 = 4k^2 + 4k + 1 = 2(2k^2 + 2k) + 1$, avec $2k^2 + 2k$ entier : $n^2$ est impair. La contraposée est vraie, donc l'implication « si $n^2$ est pair, alors $n$ est pair » l'est aussi.
+
+**2. a)** De $\\sqrt{2} = \\frac{p}{q}$, on tire $p = q\\sqrt{2}$, puis, en élevant au carré, $p^2 = 2q^2$.
+
+**b)** $p^2 = 2q^2$ est pair, donc $p$ est pair d'après la question 1 : $p = 2m$ avec $m$ entier naturel. Alors $4m^2 = 2q^2$, soit $q^2 = 2m^2$ : $q^2$ est pair, donc $q$ est pair (question 1 à nouveau).
+
+**c)** $p$ et $q$ sont tous deux divisibles par $2$ : la fraction $\\frac{p}{q}$ se simplifie par $2$, ce qui contredit son irréductibilité. La supposition est donc fausse : $\\sqrt{2}$ est irrationnel.
+
+**3.** Supposons par l'absurde que $1 + \\sqrt{2}$ soit rationnel : $1 + \\sqrt{2} = r$ avec $r$ rationnel. Alors $\\sqrt{2} = r - 1$ est la différence de deux rationnels, donc un rationnel, ce qui contredit la question 2. Ainsi $1 + \\sqrt{2}$ est irrationnel.
+
+**4.** Supposons par l'absurde que $\\frac{x + 1}{x + 2} = 1$. Comme $x + 2 \\neq 0$, on peut multiplier les deux membres par $x + 2$ : $x + 1 = x + 2$, d'où $1 = 2$, ce qui est absurde. Donc $\\frac{x + 1}{x + 2} \\neq 1$.` }
   ],
   "1A2": [
     { id: "1A2-ds-01", title: "Nombre dérivé par le taux de variation", difficulty: 1, points: 4,
@@ -488,7 +532,7 @@ $$\\frac{d(a+h) - d(a)}{h} = \\frac{10ah + 5h^2}{h} = 10a + 5h.$$
 
 **5.** $10a = 20 \\iff a = 2$ : à $t = 2$ s, la vitesse instantanée égale la vitesse moyenne sur $[0 ; 4]$. Graphiquement, la tangente à la courbe de $d$ au point d'abscisse $2$ est parallèle à la corde joignant les points d'abscisses $0$ et $4$.` },
     { id: "1A2-ds-08", title: "Tangentes issues d'un point", difficulty: 4, points: 7,
-      statement: `Soit $\\mathcal{P}$ la parabole d'équation $y = x^2$ dans un repère. On admet que la fonction carré est dérivable sur $\\mathbb{R}$, de nombre dérivé $2a$ en tout réel $a$.
+      statement: `Soit $\\mathcal{P}$ la courbe d'équation $y = x^2$ dans un repère. On admet que la fonction carré est dérivable sur $\\mathbb{R}$, de nombre dérivé $2a$ en tout réel $a$.
 
 1. Montrer que la tangente $T_a$ à $\\mathcal{P}$ au point d'abscisse $a$ a pour équation $y = 2ax - a^2$.
 2. Déterminer les tangentes à $\\mathcal{P}$ qui passent par le point $P(1 ; -3)$. Donner leurs équations.
@@ -505,7 +549,7 @@ Deux tangentes passent par $P$.
 **3.** Il faut $2a = 4$, soit $a = 2$ : $T_2 : y = 4x - 4$. Elle touche $\\mathcal{P}$ au point $(2 ; 4)$.
 
 **4.** $Q \\in T_a \\iff 1 = 0 - a^2 \\iff a^2 = -1$, impossible dans $\\mathbb{R}$. Aucune tangente ne passe par $Q$.
-Interprétation : $Q$ est « à l'intérieur » de la parabole ($1 > 0^2$) ; toute tangente à $\\mathcal{P}$ reste sous la courbe (car $x^2 - (2ax - a^2) = (x - a)^2 \\geqslant 0$), elle ne peut donc pas atteindre un point situé au-dessus de $\\mathcal{P}$.` },
+Interprétation : $Q$ est situé au-dessus de $\\mathcal{P}$ ($1 > 0^2$) ; toute tangente à $\\mathcal{P}$ reste sous la courbe (car $x^2 - (2ax - a^2) = (x - a)^2 \\geqslant 0$), elle ne peut donc pas atteindre un point situé au-dessus de $\\mathcal{P}$.` },
     { id: "1A2-ds-09", title: "Tangentes à partir de nombres dérivés", difficulty: 1, points: 4,
       statement: `Une fonction $f$ est dérivable sur $\\mathbb{R}$. On sait que :
 $$f(-1) = 2, \\qquad f'(-1) = 3, \\qquad f(2) = 0, \\qquad f'(2) = -\\frac{1}{2}.$$
@@ -540,7 +584,7 @@ Pour $h \\neq 0$, le taux de variation vaut $4a - 1 + 2h$. Quand $h$ tend vers $
 
 **2.** Deux droites non verticales sont parallèles si et seulement si elles ont le même coefficient directeur : $f'(a) = 3 \\iff 4a - 1 = 3 \\iff a = 1$. Comme $f(1) = 1$, le point est $A(1 ; 1)$ et la tangente a pour équation $y = 3(x - 1) + 1$, soit $y = 3x - 2$.
 
-**3.** La tangente est horizontale si et seulement si $f'(a) = 0 \\iff a = \\frac{1}{4}$. Or $f\\left(\\frac{1}{4}\\right) = \\frac{2}{16} - \\frac{1}{4} = -\\frac{1}{8}$ : c'est le point $\\left(\\frac{1}{4} ; -\\frac{1}{8}\\right)$, sommet de la parabole.
+**3.** La tangente est horizontale si et seulement si $f'(a) = 0 \\iff a = \\frac{1}{4}$. Or $f\\left(\\frac{1}{4}\\right) = \\frac{2}{16} - \\frac{1}{4} = -\\frac{1}{8}$ : c'est le point $\\left(\\frac{1}{4} ; -\\frac{1}{8}\\right)$.
 
 **4.** $y = f'(a)(x - a) + f(a) = (4a - 1)(x - a) + 2a^2 - a = (4a - 1)x - 4a^2 + a + 2a^2 - a = (4a - 1)x - 2a^2$.
 
@@ -570,8 +614,8 @@ $$C_M(q) - 30 = \\frac{q}{10} - 10 + \\frac{250}{q} = \\frac{q^2 - 100q + 2\\,50
 Pour $q \\in [1 ; 200]$, ce quotient est positif ou nul (carré au numérateur, $10q > 0$), et nul seulement pour $q = 50$. Ainsi $C_M(q) \\geqslant 30 = C_M(50)$ : le coût moyen est minimal pour $50$ objets par jour.
 
 **5.** Pour $q = 50$, coût marginal et coût moyen sont égaux ($30$ €) : le coût moyen est minimal lorsqu'il est égal au coût marginal.` },
-    { id: "1A2-ds-12", title: "Une tangente commune à deux paraboles", difficulty: 4, points: 7,
-      statement: `Dans un repère, on considère les paraboles $\\mathcal{P}_1$ d'équation $y = x^2$ et $\\mathcal{P}_2$ d'équation $y = -x^2 + 4x - 4$. On note $g(x) = -x^2 + 4x - 4$. On admet que la fonction carré a pour nombre dérivé $2a$ en tout réel $a$.
+    { id: "1A2-ds-12", title: "Une tangente commune à deux courbes", difficulty: 4, points: 7,
+      statement: `Dans un repère, on considère les courbes $\\mathcal{P}_1$ d'équation $y = x^2$ et $\\mathcal{P}_2$ d'équation $y = -x^2 + 4x - 4$. On note $g(x) = -x^2 + 4x - 4$. On admet que la fonction carré a pour nombre dérivé $2a$ en tout réel $a$.
 
 1. Montrer que, pour tout réel $b$, $g$ est dérivable en $b$ et $g'(b) = -2b + 4$ (on calculera le taux de variation de $g$ entre $b$ et $b + h$).
 2. Montrer que la tangente à $\\mathcal{P}_1$ au point d'abscisse $a$ a pour équation $y = 2ax - a^2$, et que la tangente à $\\mathcal{P}_2$ au point d'abscisse $b$ a pour équation $y = (4 - 2b)x + b^2 - 4$.
@@ -599,7 +643,7 @@ Réciproquement, ces deux droites conviennent (on vérifie par exemple $g(0) = -
 1. Soient $a$ un réel et $h$ un réel non nul. Montrer que le taux de variation de $f$ entre $a$ et $a + h$ vaut $2a - 6 + h$.
 2. En déduire que $f$ est dérivable en $a$ et donner $f'(a)$.
 3. Déterminer une équation de la tangente à $\\mathcal{C}$ au point d'abscisse $0$.
-4. En quel point la tangente à $\\mathcal{C}$ est-elle parallèle à l'axe des abscisses ? Que représente ce point pour la parabole ?`,
+4. En quel point la tangente à $\\mathcal{C}$ est-elle parallèle à l'axe des abscisses ? Vérifier que $f(x) = (x - 3)^2 - 4$ pour tout réel $x$ et en déduire ce que représente $f(3)$ pour la fonction $f$.`,
       solution: `**1.** $f(a + h) = (a + h)^2 - 6(a + h) + 5 = a^2 + 2ah + h^2 - 6a - 6h + 5$, donc
 $$\\frac{f(a + h) - f(a)}{h} = \\frac{2ah + h^2 - 6h}{h} = 2a + h - 6.$$
 
@@ -607,7 +651,8 @@ $$\\frac{f(a + h) - f(a)}{h} = \\frac{2ah + h^2 - 6h}{h} = 2a + h - 6.$$
 
 **3.** $f(0) = 5$ et $f'(0) = -6$. La tangente a pour équation $y = f'(0)(x - 0) + f(0)$, soit $y = -6x + 5$.
 
-**4.** La tangente est horizontale lorsque son coefficient directeur est nul : $2a - 6 = 0 \\iff a = 3$. Le point est $(3 ; f(3)) = (3 ; -4)$ : c'est le sommet de la parabole (en effet $f(x) = (x - 3)^2 - 4$).` },
+**4.** La tangente est horizontale lorsque son coefficient directeur est nul : $2a - 6 = 0 \\iff a = 3$. Le point est $(3 ; f(3)) = (3 ; -4)$.
+Pour tout réel $x$, $(x - 3)^2 - 4 = x^2 - 6x + 9 - 4 = x^2 - 6x + 5 = f(x)$. Comme $(x - 3)^2 \\geqslant 0$, on a $f(x) \\geqslant -4 = f(3)$ : $f(3) = -4$ est le minimum de $f$ sur $\\mathbb{R}$, atteint en $x = 3$.` },
     { id: "1A2-ds-14", title: "Nombre dérivé de x ↦ 1/(x + 1)", difficulty: 2, points: 5,
       statement: `Soit $f$ la fonction définie sur $]-1 ; +\\infty[$ par $f(x) = \\dfrac{1}{x + 1}$.
 
@@ -652,7 +697,9 @@ Ces deux tangentes sont symétriques par rapport à l'origine, comme la courbe (
 
 **5.** $3a^2 - 3 = -4 \\iff a^2 = -\\frac{1}{3}$ : impossible. Comme $f'(a) = 3a^2 - 3 \\geqslant -3$, aucune tangente n'a un coefficient directeur inférieur à $-3$.` },
     { id: "1A2-ds-16", title: "La propriété de réflexion de la parabole", difficulty: 4, points: 7,
-      statement: `Dans un repère orthonormé, on considère la parabole $\\mathcal{P}$ d'équation $y = x^2$ et le point $F\\left(0 ; \\dfrac{1}{4}\\right)$. Soit $a$ un réel non nul et $M(a ; a^2)$ le point de $\\mathcal{P}$ d'abscisse $a$.
+      statement: `**Pour aller plus loin** (la parabole et son foyer ne sont pas un attendu du programme de première).
+
+Dans un repère orthonormé, on considère la parabole $\\mathcal{P}$ d'équation $y = x^2$ et le point $F\\left(0 ; \\dfrac{1}{4}\\right)$. Soit $a$ un réel non nul et $M(a ; a^2)$ le point de $\\mathcal{P}$ d'abscisse $a$.
 
 1. On note $f(x) = x^2$. Calculer le taux de variation de $f$ entre $a$ et $a + h$ ($h \\neq 0$) et en déduire $f'(a)$.
 2. Montrer que la tangente $T$ à $\\mathcal{P}$ en $M$ a pour équation $y = 2ax - a^2$.
@@ -909,8 +956,8 @@ $S(2) = 8\\pi + 16\\pi = 24\\pi$.
 **4.** $S$ admet un minimum en $r = 2$ : il faut un rayon de $2$ cm et une hauteur $h = \\frac{16}{4} = 4$ cm. L'aire de métal est alors $24\\pi$ cm².
 
 On remarque que $h = 2r$ : la hauteur est égale au diamètre, la boîte « tient dans un cube ».` },
-    { id: "1A3-ds-12", title: "Rectangle sous une parabole", difficulty: 4, points: 7,
-      statement: `Dans un repère orthonormé, on considère la parabole $\\mathcal{P}$ d'équation $y = 12 - x^2$. Pour $x \\in [0 ; 2\\sqrt{3}]$, on construit le rectangle $ABCD$ avec $A(-x ; 0)$, $B(x ; 0)$, $C(x ; 12 - x^2)$ et $D(-x ; 12 - x^2)$.
+    { id: "1A3-ds-12", title: "Rectangle sous une courbe", difficulty: 4, points: 7,
+      statement: `Dans un repère orthonormé, on considère la courbe $\\mathcal{P}$ d'équation $y = 12 - x^2$. Pour $x \\in [0 ; 2\\sqrt{3}]$, on construit le rectangle $ABCD$ avec $A(-x ; 0)$, $B(x ; 0)$, $C(x ; 12 - x^2)$ et $D(-x ; 12 - x^2)$.
 
 1. Justifier que $C$ et $D$ appartiennent à $\\mathcal{P}$ et que l'aire du rectangle est $\\mathcal{A}(x) = 24x - 2x^3$.
 2. Étudier les variations de $\\mathcal{A}$ sur $[0 ; 2\\sqrt{3}]$. Quelle est l'aire maximale ?
@@ -996,7 +1043,7 @@ Le minimum est $f(2) = 2 + 2 = 4$.
 2. On pose $g(x) = x^2 - 5x + 9$ pour $x \\geqslant 0$. Étudier les variations de $g$ sur $[0 ; +\\infty[$.
 3. En déduire la position du point $M_0$ de $\\mathcal{C}$ le plus proche de $A$ et la distance minimale $AM_0$. (On justifiera que minimiser $AM$ revient à minimiser $AM^2$.)
 4. a) Déterminer le coefficient directeur de la tangente $T$ à $\\mathcal{C}$ en $M_0$.
- b) Montrer que le vecteur $\\vec{u}\\left(1 ; \\dfrac{1}{\\sqrt{10}}\\right)$ dirige $T$ et que le vecteur $\\overrightarrow{AM_0}$ est orthogonal à $\\vec{u}$. Interpréter.`,
+ b) On note $P$ le point de $T$ d'abscisse $\\dfrac{7}{2}$. Calculer $AM_0^2$, $M_0P^2$ et $AP^2$, puis en déduire que le triangle $AM_0P$ est rectangle en $M_0$. Interpréter.`,
       solution: `**1.** $AM^2 = (x - 3)^2 + (\\sqrt{x} - 0)^2 = x^2 - 6x + 9 + x = x^2 - 5x + 9$.
 
 **2.** $g'(x) = 2x - 5$, négatif sur $\\left[0 ; \\frac{5}{2}\\right]$ et positif sur $\\left[\\frac{5}{2} ; +\\infty\\right[$ : $g$ est décroissante puis croissante, de minimum
@@ -1006,11 +1053,13 @@ $$g\\left(\\frac{5}{2}\\right) = \\frac{25}{4} - \\frac{25}{2} + 9 = \\frac{25 -
 
 **4. a)** La dérivée de $\\sqrt{x}$ est $\\frac{1}{2\\sqrt{x}}$. En $\\frac{5}{2}$ : $\\frac{1}{2 \\times \\frac{\\sqrt{10}}{2}} = \\frac{1}{\\sqrt{10}}$.
 
-**b)** Une droite de coefficient directeur $m$ est dirigée par $(1 ; m)$ : $\\vec{u}\\left(1 ; \\frac{1}{\\sqrt{10}}\\right)$ dirige $T$.
+**b)** $P$ est sur $T$, d'abscisse $\\frac{5}{2} + 1$ : son ordonnée est celle de $M_0$ augmentée du coefficient directeur $\\frac{1}{\\sqrt{10}} = \\frac{\\sqrt{10}}{10}$, soit $y_P = \\frac{5\\sqrt{10}}{10} + \\frac{\\sqrt{10}}{10} = \\frac{3\\sqrt{10}}{5}$.
 
-$\\overrightarrow{AM_0}\\left(-\\frac{1}{2} ; \\frac{\\sqrt{10}}{2}\\right)$ et $\\overrightarrow{AM_0} \\cdot \\vec{u} = -\\frac{1}{2} + \\frac{\\sqrt{10}}{2} \\times \\frac{1}{\\sqrt{10}} = 0$.
+$AM_0^2 = \\frac{11}{4}$ (question 3) ; $M_0P^2 = 1^2 + \\left(\\frac{\\sqrt{10}}{10}\\right)^2 = 1 + \\frac{1}{10} = \\frac{11}{10}$ ; $AP^2 = \\left(\\frac{7}{2} - 3\\right)^2 + \\left(\\frac{3\\sqrt{10}}{5}\\right)^2 = \\frac{1}{4} + \\frac{18}{5} = \\frac{77}{20}$.
 
-La droite $(AM_0)$ est perpendiculaire à la tangente en $M_0$ : le point le plus proche est le pied de la « normale » à la courbe passant par $A$.` },
+Comme $AM_0^2 + M_0P^2 = \\frac{55}{20} + \\frac{22}{20} = \\frac{77}{20} = AP^2$, la réciproque du théorème de Pythagore montre que le triangle $AM_0P$ est rectangle en $M_0$.
+
+La droite $(AM_0)$ est donc perpendiculaire à la tangente en $M_0$ : le point le plus proche est le pied de la « normale » à la courbe passant par $A$.` },
     { id: "1A3-ds-16", title: "Une inégalité qui dépend d'un paramètre", difficulty: 4, points: 7,
       statement: `Pour tout réel $m$, on considère la fonction $g_m$ définie sur $[0 ; +\\infty[$ par $g_m(x) = x^3 - 3mx + 2$. On cherche les valeurs de $m$ pour lesquelles **$x^3 + 2 \\geqslant 3mx$ pour tout $x \\geqslant 0$**, c'est-à-dire $g_m(x) \\geqslant 0$ sur $[0 ; +\\infty[$.
 
@@ -1065,12 +1114,12 @@ $E(x)$ est de la forme $(a + b)(a - b) = a^2 - b^2$ : $E(x) = \\left(e^{2x}\\rig
 Résoudre dans $\\mathbb{R}$ :
 
 1. $e^{2x - 1} = e^{x + 3}$
-2. $e^{x^2} = e^{4x - 3}$
+2. $e^{x^2} = e^{x + 6}$
 3. $e^{3x} > e^{-x + 8}$
 4. $e^{x} \\times e^{x + 2} \\leqslant 1$`,
       solution: `**1.** $e^{2x - 1} = e^{x + 3} \\iff 2x - 1 = x + 3 \\iff x = 4$. $\\mathcal{S} = \\{4\\}$.
 
-**2.** $e^{x^2} = e^{4x - 3} \\iff x^2 = 4x - 3 \\iff x^2 - 4x + 3 = 0$. $\\Delta = 16 - 12 = 4$, racines $\\frac{4 - 2}{2} = 1$ et $\\frac{4 + 2}{2} = 3$. $\\mathcal{S} = \\{1 ; 3\\}$.
+**2.** $e^{x^2} = e^{x + 6} \\iff x^2 = x + 6 \\iff x^2 - x - 6 = 0$. $\\Delta = 1 + 24 = 25$, racines $\\frac{1 - 5}{2} = -2$ et $\\frac{1 + 5}{2} = 3$. $\\mathcal{S} = \\{-2 ; 3\\}$.
 
 **3.** La fonction exponentielle est strictement croissante : $e^{3x} > e^{-x + 8} \\iff 3x > -x + 8 \\iff 4x > 8 \\iff x > 2$. $\\mathcal{S} = \\,]2 ; +\\infty[$.
 
@@ -1398,7 +1447,7 @@ Le maximum vaut $f\\left(\\frac{1}{2}\\right) = 2e^{-\\frac{1}{2}} = \\frac{2}{\
 4. a) Calculer $f'(x)$ et en déduire le sens de variation de $f$.
  b) Déterminer une équation de la tangente $T$ à $\\mathcal{C}$ au point $\\Omega$.
 5. a) Montrer que $f'(x) = f(x)\\left(1 - f(x)\\right)$.
- b) On admet que, pour tout réel $y$, $y(1 - y) \\leqslant \\dfrac{1}{4}$. Justifier ce résultat, puis en déduire que $\\Omega$ est le point de $\\mathcal{C}$ où la tangente a la plus grande pente.`,
+ b) Montrer que, pour tout réel $y$, $y(1 - y) \\leqslant \\dfrac{1}{4}$, puis en déduire que $\\Omega$ est le point de $\\mathcal{C}$ où la tangente a la plus grande pente.`,
       solution: `**1.** $e^x + 1 > 1 > 0$ donc le dénominateur ne s'annule pas. De plus $0 < e^x < e^x + 1$ ; en divisant par $e^x + 1 > 0$ : $0 < f(x) < 1$.
 
 **2.** $1 - \\frac{1}{e^x + 1} = \\frac{e^x + 1 - 1}{e^x + 1} = f(x)$.
@@ -1634,7 +1683,7 @@ $45^2 = 2\\,025 \\leqslant 2\\,026$ et $46^2 = 2\\,116 > 2\\,026$. La suite éta
 $$u_{n+1} - u_n = 3n^2 + 3n + 1 - 12n - 6 = 3n^2 - 9n - 5.$$
 Ce trinôme a pour discriminant $81 + 60 = 141$ et pour racines $\\frac{9 \\pm \\sqrt{141}}{6}$. Comme $11 < \\sqrt{141} < 12$, la racine positive est comprise entre $\\frac{20}{6} \\approx 3{,}3$ et $\\frac{21}{6} = 3{,}5$, et la racine négative est négative. Pour un entier $n$ : $u_{n+1} - u_n < 0$ si $n \\leqslant 3$ et $> 0$ si $n \\geqslant 4$. On retrouve le résultat (valeurs : $-5$, $-11$, $-11$, $-5$, puis $7$ pour $n = 4$).
 
-**5.** $g$ est un trinôme de sommet d'abscisse $\\frac{1}{2}$ : $g$ est décroissante sur $\\left[0 ; \\frac{1}{2}\\right]$ et croissante sur $\\left[\\frac{1}{2} ; +\\infty\\right[$. Elle n'est pas monotone sur $[0 ; +\\infty[$.
+**5.** $g(x) = x^2 - x + \\frac{1}{4}$, donc $g'(x) = 2x - 1$, négative sur $\\left[0 ; \\frac{1}{2}\\right[$ et positive sur $\\left]\\frac{1}{2} ; +\\infty\\right[$ : $g$ est décroissante sur $\\left[0 ; \\frac{1}{2}\\right]$ et croissante sur $\\left[\\frac{1}{2} ; +\\infty\\right[$. Elle n'est pas monotone sur $[0 ; +\\infty[$.
 
 **6.** $w_{n+1} - w_n = \\left(n + \\frac{1}{2}\\right)^2 - \\left(n - \\frac{1}{2}\\right)^2 = 2n \\geqslant 0$ : $(w_n)$ est croissante ($w_0 = w_1 = \\frac{1}{4}$, puis strictement croissante).
 
@@ -1727,11 +1776,11 @@ Les termes de rang pair et ceux de rang impair forment chacun une suite croissan
 
 **3. a)** $v_{n+1} = \\frac{1}{u_{n+1}} = \\frac{1 + u_n}{u_n} = \\frac{1}{u_n} + 1 = v_n + 1$.
 
-**b)** $(v_n)$ est arithmétique de raison $1$ et de premier terme $v_0 = 1$ : $v_n = 1 + n$. Donc $u_n = \\frac{1}{n + 1}$ : la conjecture est confirmée.
+**b)** D'après a), on ajoute $1$ à chaque rang en partant de $v_0 = 1$ (au chapitre 1A6, on dira que $(v_n)$ est arithmétique de raison $1$) : $v_n = 1 + n$. Donc $u_n = \\frac{1}{n + 1}$ : la conjecture est confirmée.
 
 **4.** $\\frac{1}{n + 1} < 0{,}01 \\iff n + 1 > 100 \\iff n > 99$. À partir du rang $n = 100$.
 
-**5.** Avec $s_n = \\frac{1}{t_n}$ : $s_{n+1} = \\frac{1 + 2t_n}{t_n} = s_n + 2$. $(s_n)$ est arithmétique de raison $2$, $s_0 = 1$, donc $s_n = 1 + 2n$ et $t_n = \\frac{1}{2n + 1}$.` },
+**5.** Avec $s_n = \\frac{1}{t_n}$ : $s_{n+1} = \\frac{1 + 2t_n}{t_n} = s_n + 2$. On ajoute $2$ à chaque rang en partant de $s_0 = 1$, donc $s_n = 1 + 2n$ et $t_n = \\frac{1}{2n + 1}$.` },
     { id: "1A5-ds-16", title: "Les sommes harmoniques dépassent tout nombre", difficulty: 4, points: 7,
       statement: `Pour tout entier $n \\geqslant 1$, on pose $H_n = 1 + \\dfrac{1}{2} + \\dfrac{1}{3} + \\cdots + \\dfrac{1}{n} = \\displaystyle\\sum_{k=1}^{n} \\dfrac{1}{k}$.
 
@@ -1757,7 +1806,39 @@ Elle comporte $H_1 = 1$ et $p$ différences de la forme $H_{2m} - H_m$ (avec $m 
 
 **b)** $1 + \\frac{p}{2} \\geqslant 10 \\iff p \\geqslant 18$. Avec $N = 2^{18} = 262\\,144$, $H_N \\geqslant 10$.
 
-**5.** Soit $M$ un réel. On choisit un entier $p$ tel que $1 + \\frac{p}{2} > M$. Alors $H_{2^p} > M$ et, la suite étant croissante, $H_n \\geqslant H_{2^p} > M$ pour tout $n \\geqslant 2^p$. La suite $(H_n)$ n'est donc pas majorée (bien que ses termes ajoutés $\\frac{1}{n}$ deviennent aussi petits que l'on veut).` }
+**5.** Soit $M$ un réel. On choisit un entier $p$ tel que $1 + \\frac{p}{2} > M$. Alors $H_{2^p} > M$ et, la suite étant croissante, $H_n \\geqslant H_{2^p} > M$ pour tout $n \\geqslant 2^p$. La suite $(H_n)$ n'est donc pas majorée (bien que ses termes ajoutés $\\frac{1}{n}$ deviennent aussi petits que l'on veut).` },
+    { id: "1A5-ds-17", title: "Raisonner par disjonction des cas et par l'absurde", difficulty: 3, points: 6,
+      statement: `On considère la suite $(u_n)$ définie pour tout entier naturel $n$ par $u_n = n^2 + 3 \\times (-1)^n$.
+
+1. Calculer $u_0$, $u_1$, $u_2$, $u_3$ et $u_4$.
+2. Montrer que, pour tout entier naturel $n$, $u_{n+1} - u_n = 2n + 1 - 6 \\times (-1)^n$.
+3. **Disjonction des cas.** En distinguant les cas $n$ pair et $n$ impair, étudier le signe de $u_{n+1} - u_n$. En déduire que la suite $(u_n)$ est strictement croissante à partir du rang $3$. L'est-elle à partir du rang $2$ ?
+4. **Raisonnement par l'absurde.** On suppose que la suite $(u_n)$ est arithmétique, de raison $r$, c'est-à-dire qu'il existe un réel $r$ tel que $u_{n+1} = u_n + r$ pour tout entier naturel $n$ (ces suites sont étudiées au chapitre 1A6).
+ a) Exprimer $r$ à l'aide de $u_0$ et $u_1$, puis à l'aide de $u_1$ et $u_2$.
+ b) Conclure.
+5. **Raisonnement par l'absurde.** On suppose qu'il existe un entier naturel $p$ tel que $u_n \\leqslant u_p$ pour tout entier naturel $n$.
+ a) Calculer $u_{p+2} - u_p$.
+ b) En déduire que la suite $(u_n)$ n'a pas de plus grand terme.`,
+      solution: `**1.** $u_0 = 0 + 3 = 3$ ; $u_1 = 1 - 3 = -2$ ; $u_2 = 4 + 3 = 7$ ; $u_3 = 9 - 3 = 6$ ; $u_4 = 16 + 3 = 19$.
+
+**2.** Comme $(-1)^{n+1} = -(-1)^n$ :
+$$u_{n+1} - u_n = (n + 1)^2 - n^2 + 3(-1)^{n+1} - 3(-1)^n = 2n + 1 - 3(-1)^n - 3(-1)^n = 2n + 1 - 6(-1)^n.$$
+
+**3.** *Cas $n$ pair* : $(-1)^n = 1$, donc $u_{n+1} - u_n = 2n - 5$. Ce nombre est strictement positif si et seulement si $n > \\frac{5}{2}$, c'est-à-dire, pour $n$ pair, $n \\geqslant 4$ ; il vaut $-5$ pour $n = 0$ et $-1$ pour $n = 2$.
+
+*Cas $n$ impair* : $(-1)^n = -1$, donc $u_{n+1} - u_n = 2n + 7 > 0$.
+
+Soit $n \\geqslant 3$. Si $n$ est pair, alors $n \\geqslant 4$ et $u_{n+1} - u_n > 0$ ; si $n$ est impair, $u_{n+1} - u_n > 0$. Les deux cas couvrent tous les entiers $n \\geqslant 3$ : la suite est strictement croissante à partir du rang $3$.
+
+Elle ne l'est pas à partir du rang $2$ : $u_3 = 6 < u_2 = 7$.
+
+**4. a)** $r = u_1 - u_0 = -2 - 3 = -5$ et $r = u_2 - u_1 = 7 - (-2) = 9$.
+
+**b)** On obtient $-5 = 9$, ce qui est absurde. La supposition est fausse : la suite $(u_n)$ n'est pas arithmétique.
+
+**5. a)** $(-1)^{p+2} = (-1)^p \\times (-1)^2 = (-1)^p$, donc $u_{p+2} - u_p = (p + 2)^2 - p^2 = 4p + 4$.
+
+**b)** Comme $p \\geqslant 0$, $4p + 4 > 0$, donc $u_{p+2} > u_p$. Or la supposition, appliquée à $n = p + 2$, donne $u_{p+2} \\leqslant u_p$ : c'est une contradiction. La supposition est donc fausse : aucun terme n'est supérieur ou égal à tous les autres, la suite $(u_n)$ n'a pas de plus grand terme.` }
   ],
   "1A6": [
     { id: "1A6-ds-01", title: "Une suite arithmétique", difficulty: 1, points: 4,
@@ -2396,7 +2477,7 @@ Or $\\sqrt{6} < 2{,}5$ (car $6 < 6{,}25$), donc $20 + 8\\sqrt{6} < 40 < 49$ et $
 { id: "1G1-ds-13", title: "Mesures principales et valeurs remarquables", difficulty: 1, points: 4,
       statement: `1. Convertir en radians les angles de mesures $150^\\circ$, $225^\\circ$ et $-60^\\circ$.
 2. Convertir en degrés les mesures $\\dfrac{7\\pi}{6}$ et $\\dfrac{5\\pi}{4}$ radians.
-3. Donner la mesure principale (dans $]-\\pi ; \\pi]$) de chacun des réels $\\dfrac{17\\pi}{6}$ et $-\\dfrac{13\\pi}{4}$.
+3. **Pour aller plus loin** (la mesure principale n'est pas un attendu du programme de première). Donner la mesure principale (dans $]-\\pi ; \\pi]$) de chacun des réels $\\dfrac{17\\pi}{6}$ et $-\\dfrac{13\\pi}{4}$.
 4. Placer sur un cercle trigonométrique les points associés aux réels $\\dfrac{17\\pi}{6}$ et $-\\dfrac{13\\pi}{4}$, puis donner leurs cosinus et sinus.`,
       solution: `**1.** On multiplie par $\\frac{\\pi}{180}$ : $150^\\circ = \\frac{5\\pi}{6}$ ; $225^\\circ = \\frac{5\\pi}{4}$ ; $-60^\\circ = -\\frac{\\pi}{3}$.
 
@@ -2412,7 +2493,9 @@ $\\cos \\frac{17\\pi}{6} = \\cos \\frac{5\\pi}{6} = -\\frac{\\sqrt{3}}{2}$ et $\
 
 $\\cos\\left(-\\frac{13\\pi}{4}\\right) = \\cos \\frac{3\\pi}{4} = -\\frac{\\sqrt{2}}{2}$ et $\\sin\\left(-\\frac{13\\pi}{4}\\right) = \\sin \\frac{3\\pi}{4} = \\frac{\\sqrt{2}}{2}$.` },
     { id: "1G1-ds-14", title: "Équations trigonométriques de base", difficulty: 2, points: 5,
-      statement: `Dans cet exercice, on s'aidera d'un cercle trigonométrique.
+      statement: `**Pour aller plus loin** (les équations trigonométriques ne sont pas un attendu du programme de première ; elles seront travaillées en terminale).
+
+Dans cet exercice, on s'aidera d'un cercle trigonométrique.
 
 1. Résoudre dans $]-\\pi ; \\pi]$ l'équation $\\cos x = -\\dfrac{1}{2}$.
 2. Résoudre dans $]-\\pi ; \\pi]$ l'équation $\\sin x = \\dfrac{\\sqrt{2}}{2}$.
@@ -2429,7 +2512,9 @@ $\\cos\\left(-\\frac{13\\pi}{4}\\right) = \\cos \\frac{3\\pi}{4} = -\\frac{\\sqr
 
 **5.** Les points du cercle vérifiant $\\cos x = \\sin x$ sont sur la droite $y = x$ : ce sont les points associés à $\\frac{\\pi}{4}$ (coordonnées $\\frac{\\sqrt{2}}{2}$ ; $\\frac{\\sqrt{2}}{2}$) et à $-\\frac{3\\pi}{4}$ (coordonnées $-\\frac{\\sqrt{2}}{2}$ ; $-\\frac{\\sqrt{2}}{2}$). $\\mathcal{S} = \\left\\{-\\frac{3\\pi}{4} ; \\frac{\\pi}{4}\\right\\}$.` },
     { id: "1G1-ds-15", title: "Inéquations trigonométriques sur le cercle", difficulty: 3, points: 6,
-      statement: `On s'aidera d'un cercle trigonométrique, sur lequel on hachurera les arcs solutions.
+      statement: `**Pour aller plus loin** (les inéquations trigonométriques ne sont pas un attendu du programme de première).
+
+On s'aidera d'un cercle trigonométrique, sur lequel on hachurera les arcs solutions.
 
 1. Résoudre dans $[0 ; 2\\pi[$ l'inéquation $\\sin x \\geqslant \\dfrac{1}{2}$.
 2. Résoudre dans $]-\\pi ; \\pi]$ l'inéquation $\\cos x > \\dfrac{\\sqrt{2}}{2}$.
@@ -2449,7 +2534,9 @@ $\\cos\\left(-\\frac{13\\pi}{4}\\right) = \\cos \\frac{3\\pi}{4} = -\\frac{\\sqr
 
 **5.** $10 + 8\\sin x \\geqslant 14 \\iff \\sin x \\geqslant \\frac{1}{2} \\iff x \\in \\left[\\frac{\\pi}{6} ; \\frac{5\\pi}{6}\\right]$ d'après la question 1. La nacelle est au-dessus de $14$ m pendant un tiers du tour ($\\frac{5\\pi}{6} - \\frac{\\pi}{6} = \\frac{2\\pi}{3}$).` },
     { id: "1G1-ds-16", title: "Équations du second degré en cosinus", difficulty: 4, points: 7,
-      statement: `On rappelle que pour tout réel $x$, $\\cos^2 x + \\sin^2 x = 1$.
+      statement: `**Pour aller plus loin** (les équations et inéquations trigonométriques ne sont pas un attendu du programme de première ; elles seront travaillées en terminale).
+
+On rappelle que pour tout réel $x$, $\\cos^2 x + \\sin^2 x = 1$.
 
 1. a) Résoudre dans $\\mathbb{R}$ l'équation $2X^2 - X - 1 = 0$.
  b) En posant $X = \\cos x$, résoudre dans $]-\\pi ; \\pi]$ l'équation $2\\cos^2 x - \\cos x - 1 = 0$.
@@ -3774,8 +3861,9 @@ B et C ont même espérance et même variance, mais pas la même loi : $Z$ prend
 4. Calculer $V(X)$ à l'aide de la formule $V(X) = E(X^2) - E(X)^2$.
 5. Un joueur gagne $1$ € pour chaque pile et perd $1$ € pour chaque face. On note $G$ son gain total.
  a) Montrer que $G = 2X - 3$.
- b) En déduire $E(G)$ et $V(G)$.
- c) Calculer directement $P(G > 0)$.`,
+ b) En déduire $E(G)$.
+ c) Déterminer la loi de $G$, puis calculer $V(G)$ à l'aide de la formule $V(G) = E(G^2) - E(G)^2$.
+ d) Calculer directement $P(G > 0)$.`,
       solution: `**1.** Les issues sont PPP, PPF, PFP, PFF, FPP, FPF, FFP, FFF ; la pièce étant équilibrée et les lancers successifs, chacune a pour probabilité $\\frac{1}{8}$.
 
 **2.** On compte les issues selon le nombre de P :
@@ -3790,9 +3878,12 @@ B et C ont même espérance et même variance, mais pas la même loi : $Z$ prend
 
 **5. a)** Avec $X$ piles, il y a $3 - X$ faces : $G = X - (3 - X) = 2X - 3$.
 
-**b)** $E(G) = 2E(X) - 3 = 0$ et $V(G) = 2^2 V(X) = 3$.
+**b)** Par linéarité de l'espérance, $E(G) = 2E(X) - 3 = 2 \\times \\frac{3}{2} - 3 = 0$.
 
-**c)** $G > 0 \\iff 2X - 3 > 0 \\iff X \\geqslant 2$ : $P(G > 0) = \\frac{3}{8} + \\frac{1}{8} = \\frac{1}{2}$.` },
+**c)** $G$ prend les valeurs $-3$, $-1$, $1$, $3$ (pour $X = 0, 1, 2, 3$) avec les probabilités $\\frac{1}{8}$, $\\frac{3}{8}$, $\\frac{3}{8}$, $\\frac{1}{8}$.
+$E(G^2) = \\frac{9 + 3 + 3 + 9}{8} = \\frac{24}{8} = 3$, donc $V(G) = 3 - 0^2 = 3$.
+
+**d)** $G > 0 \\iff 2X - 3 > 0 \\iff X \\geqslant 2$ : $P(G > 0) = \\frac{3}{8} + \\frac{1}{8} = \\frac{1}{2}$.` },
     { id: "1S2-ds-16", title: "Au plus trois lancers pour obtenir un six", difficulty: 4, points: 7,
       statement: `On lance un dé équilibré à six faces jusqu'à obtenir un $6$, avec **au plus trois lancers** : on s'arrête dès qu'on obtient $6$, ou après le troisième lancer. On note $X$ le nombre de lancers effectués.
 
@@ -4005,16 +4096,16 @@ def balayage(pas):
     x = 0
     while f(x) < 0:
         x = x + pas
-    return x - pas, x
+    return [x - pas, x]
 \`\`\`
- a) Expliquer pourquoi la valeur \`x\` renvoyée en second vérifie $f(x) \\geqslant 0$, tandis que $f(x - \\text{pas}) < 0$.
+ a) La fonction renvoie la liste \`[x - pas, x]\`. Expliquer pourquoi la valeur \`x\`, dernier élément de cette liste, vérifie $f(x) \\geqslant 0$, tandis que $f(x - \\text{pas}) < 0$.
  b) Déterminer, en calculant les images utiles, ce que renvoie \`balayage(0.1)\`.
-3. Sans programme, en calculant $f(0{,}68)$ et $f(0{,}69)$, donner un encadrement de $\\alpha$ d'amplitude $0{,}01$.`,
+3. Sans programme, on donne $0{,}68^3 = 0{,}314\\,432$ et $0{,}69^3 = 0{,}328\\,509$. En calculant $f(0{,}68)$ et $f(0{,}69)$, donner un encadrement de $\\alpha$ d'amplitude $0{,}01$.`,
       solution: `**1.** $f'(x) = 3x^2 + 1 > 0$ : $f$ est strictement croissante. $f(0) = -1 < 0$ et $f(1) = 1 > 0$.
 
 **2. a)** La boucle continue tant que $f(x) < 0$ : elle s'arrête au premier $x$ (de la forme $k \\times \\text{pas}$) tel que $f(x) \\geqslant 0$. La valeur précédente $x - \\text{pas}$ vérifiait encore $f < 0$ (sinon la boucle se serait arrêtée avant). Comme $f$ est croissante, $\\alpha$ est entre ces deux valeurs.
 
-**b)** $f(0{,}6) = 0{,}216 + 0{,}6 - 1 = -0{,}184 < 0$ et $f(0{,}7) = 0{,}343 + 0{,}7 - 1 = 0{,}043 > 0$ (et $f < 0$ pour les valeurs précédentes, $f$ étant croissante). Le programme renvoie environ \`(0.6, 0.7)\` (à des erreurs d'arrondi de la machine près) : $0{,}6 < \\alpha < 0{,}7$.
+**b)** $f(0{,}6) = 0{,}216 + 0{,}6 - 1 = -0{,}184 < 0$ et $f(0{,}7) = 0{,}343 + 0{,}7 - 1 = 0{,}043 > 0$ (et $f < 0$ pour les valeurs précédentes, $f$ étant croissante). Le programme renvoie environ \`[0.6, 0.7]\` (à des erreurs d'arrondi de la machine près) : $0{,}6 < \\alpha < 0{,}7$.
 
 **3.** $f(0{,}68) = 0{,}314\\,432 + 0{,}68 - 1 = -0{,}005\\,568 < 0$ et $f(0{,}69) = 0{,}328\\,509 + 0{,}69 - 1 = 0{,}018\\,509 > 0$.
 $f$ étant strictement croissante : $0{,}68 < \\alpha < 0{,}69$.` },
@@ -4394,6 +4485,45 @@ $$c_{n+1} = F_{n+2}F_n - F_{n+1}^2 = (F_{n+1} + F_n)F_n - F_{n+1}^2 = F_n^2 - F_
 
 **b)** $(c_n)_{n \\geqslant 1}$ est géométrique de raison $-1$ et de premier terme $c_1 = -1$ : $c_n = -1 \\times (-1)^{n-1} = (-1)^n$.
 
-**4.** Le carré a pour aire $8^2 = 64$, le « rectangle » $5 \\times 13 = 65$. Avec $n = 6$ : $F_7F_5 - F_6^2 = 13 \\times 5 - 8^2 = 1 = c_6$. L'unité d'aire « gagnée » vient du fait que les morceaux ne s'ajustent pas exactement : il reste un mince parallélogramme vide d'aire $1$ le long de la diagonale, presque invisible.` }
+**4.** Le carré a pour aire $8^2 = 64$, le « rectangle » $5 \\times 13 = 65$. Avec $n = 6$ : $F_7F_5 - F_6^2 = 13 \\times 5 - 8^2 = 1 = c_6$. L'unité d'aire « gagnée » vient du fait que les morceaux ne s'ajustent pas exactement : il reste un mince parallélogramme vide d'aire $1$ le long de la diagonale, presque invisible.` },
+    { id: "1S3-ds-17", title: "Du langage naturel à Python", difficulty: 2, points: 5,
+      statement: `Un capital de $1\\,000$ € est placé au taux de $3\\,\\%$ par an, à intérêts composés. On considère l'algorithme suivant, écrit en langage naturel.
+\`\`\`text
+C ← 1000
+n ← 0
+Tant que C < 1500
+    C ← 1,03 × C
+    n ← n + 1
+Fin Tant que
+Afficher n
+\`\`\`
+1. Expliquer le sens de l'instruction « C ← 1,03 × C ». Quelle est la valeur de C après le premier passage dans la boucle ?
+2. Traduire cet algorithme en Python.
+3. Que représente la valeur affichée ? La déterminer, sachant que $1{,}03^{13} \\approx 1{,}4685$ et $1{,}03^{14} \\approx 1{,}5126$.
+4. Modifier le programme Python pour qu'il construise la liste \`L\` des valeurs successives du capital (en commençant par $1\\,000$) et affiche cette liste à la fin.`,
+      solution: `**1.** Le symbole ← désigne une affectation : on calcule $1{,}03 \\times C$ avec la valeur actuelle de C, puis le résultat devient la nouvelle valeur de C. Après le premier passage : $C = 1{,}03 \\times 1\\,000 = 1\\,030$.
+
+**2.**
+\`\`\`python
+C = 1000
+n = 0
+while C < 1500:
+    C = 1.03 * C
+    n = n + 1
+print(n)
+\`\`\`
+
+**3.** Après $n$ années, le capital vaut $1\\,000 \\times 1{,}03^n$. La valeur affichée est le nombre d'années au bout duquel le capital atteint au moins $1\\,500$ € pour la première fois.
+$1\\,000 \\times 1{,}03^{13} \\approx 1\\,468{,}5 < 1\\,500$ et $1\\,000 \\times 1{,}03^{14} \\approx 1\\,512{,}6 \\geqslant 1\\,500$ : le programme affiche $14$.
+
+**4.**
+\`\`\`python
+C = 1000
+L = [C]
+while C < 1500:
+    C = 1.03 * C
+    L.append(C)
+print(L)
+\`\`\`` }
   ]
 });

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Content-Security-Policy : voir scripts/csp.js (style-src 'unsafe-inline' requis par les attributs style de KaTeX) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://etabli-des-maths.goatcounter.com; font-src 'self' data:; connect-src 'self' https://etabli-des-maths.goatcounter.com; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Préparer le CAPES de maths : voies, épreuves et méthode</title>
+  <meta name="description" content="CAPES externe de mathématiques, session 2027 : les épreuves des voies bac + 3 et bac + 5 et du troisième concours, le rôle de chaque fiche, la méthode de l’exercice puis notion et de l’analyse de documents." />
+  <meta name="author" content="Loïc Delaporte, professeur de mathématiques" />
+  <link rel="canonical" href="https://etabli-des-maths.fr/preparer-le-capes-de-maths/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Préparer le CAPES de maths : voies, épreuves et méthode" />
+  <meta property="og:description" content="CAPES externe de mathématiques, session 2027 : les épreuves des voies bac + 3 et bac + 5 et du troisième concours, le rôle de chaque fiche, la méthode de l’exercice puis notion et de l’analyse de documents." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://etabli-des-maths.fr/preparer-le-capes-de-maths/" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
+  <meta property="og:image:alt" content="Logo de L'Établi des Maths" />
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="L'Établi des Maths" />
+
+  <link rel="stylesheet" href="../css/style.css?v=141db07fda" />
+  <link rel="stylesheet" href="../css/landing.css?v=9c24ff37f8" />
+  <link rel="stylesheet" href="../vendor/katex/katex.min.css?v=1be2fd298c" />
+  <link rel="stylesheet" href="../css/cours.css?v=85b541e52d" />
+  <!-- Après les feuilles de style : la CSP en meta désactive le préchargement, et ce script s'exécute quand même avant le premier rendu -->
+  <script src="../js/themeInit.js?v=58d3835cf3"></script>
+  <link rel="icon" href="../favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="../assets/favicon.png" />
+  <link rel="manifest" href="../manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Préparer le CAPES de maths",
+    "description": "CAPES externe de mathématiques, session 2027 : les épreuves des voies bac + 3 et bac + 5 et du troisième concours, le rôle de chaque fiche, la méthode de l’exercice puis notion et de l’analyse de documents.",
+    "url": "https://etabli-des-maths.fr/preparer-le-capes-de-maths/",
+    "inLanguage": "fr",
+    "isAccessibleForFree": true,
+    "dateModified": "2026-11-14",
+    "author": {
+      "@type": "Person",
+      "@id": "https://etabli-des-maths.fr/a-propos.html#auteur",
+      "name": "Loïc Delaporte",
+      "jobTitle": "Professeur de mathématiques",
+      "url": "https://etabli-des-maths.fr/a-propos.html"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "@id": "https://etabli-des-maths.fr/#organisation",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/",
+      "logo": "https://etabli-des-maths.fr/assets/logo-192.png"
+    },
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/"
+    },
+    "about": [
+      {
+        "@type": "Thing",
+        "name": "CAPES de mathématiques"
+      }
+    ],
+    "audience": {
+      "@type": "EducationalAudience",
+      "educationalRole": "Candidat aux concours de l’enseignement"
+    },
+    "learningResourceType": "Guide de préparation"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Quelle voie du CAPES de maths choisir ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Elle dépend de ton diplôme et de ta situation. Les conditions d’inscription sont publiées par le ministère pour chaque session : c’est à cette source qu’il faut se fier."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Les fiches du site suffisent-elles pour préparer le concours ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Non. Elles complètent une préparation. Les fiches ne couvrent pas tout le programme des écrits, et le site ne garantit pas la réussite au concours."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Que change la voie bac + 3 pour le premier oral ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Le candidat ne construit pas un plan de leçon : il résout un exercice, puis présente la notion en jeu et les notions connexes. L’exposé dure 20 minutes et l’échange 40 minutes."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Les compléments de niveau licence sont-ils tous au programme ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Non. Compare chaque fiche au programme de ta session. Certaines parties, comme les séries de Fourier, sont des approfondissements qui donnent du recul."
+        }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": "https://etabli-des-maths.fr/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Préparer le CAPES de maths",
+        "item": "https://etabli-des-maths.fr/preparer-le-capes-de-maths/"
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="cours-page">
+  <a class="cours-skip" href="#contenu">Aller au contenu</a>
+
+  <!-- Header Uniformisé -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="../" class="brand-container">
+        <img src="../assets/logo-96.png" alt="" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">CAPES</span></p>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
+        </div>
+      </a>
+
+      <!-- Navigation entre Portails -->
+      <nav class="nav-portal-links" aria-label="Portails thématiques">
+        <a href="../" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="../cours/" class="nav-portal-btn">📚 Cours</a>
+        <a href="../exercices-de-maths/" class="nav-portal-btn">✏️ Exercices</a>
+        <a href="../rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
+        <a href="../reviser-le-brevet-de-maths/" class="nav-portal-btn">📝 Brevet</a>
+        <a href="../reussir-le-bac-de-maths/" class="nav-portal-btn">🎓 Bac</a>
+        <a href="../enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
+        <a href="../parents.html" class="nav-portal-btn">👪 Parents</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="landing-wrapper cours-wrapper" id="contenu" tabindex="-1">
+    <nav class="cours-breadcrumb" aria-label="Fil d'Ariane">
+      <ol>
+        <li><a href="../">Accueil</a></li>
+        <li><span aria-current="page">Préparer le CAPES de maths</span></li>
+      </ol>
+    </nav>
+
+    <header class="cours-hero hub-hero">
+      <p class="landing-tag">🎓 Concours enseignants · mathématiques</p>
+      <h1 class="cours-title">Préparer le CAPES de maths</h1>
+      <p class="cours-lead">À la session 2027, le CAPES externe de mathématiques existe en deux versions, bac + 3 et bac + 5, dont les épreuves ne sont pas les mêmes. Cette page indique le format de chaque voie et à quoi sert chaque fiche du site selon celle que tu prépares.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../cours/capes/">📖 Toutes les fiches du CAPES</a>
+        <a class="btn-secondary cours-cta-alt" href="../cours/capes/geometrie-vectorielle-et-produit-scalaire.html">🧭 Fiche d’exemple : une leçon</a>
+        <a class="btn-secondary cours-cta-alt" href="../epreuve-d-entretien-capes/">⚖️ Oral 2 du CAPES</a>
+      </div>
+      <ul class="hub-facts"><li><strong>2</strong><span>voies externes à la session 2027</span></li><li><strong>4</strong><span>épreuves par voie externe : deux écrits, deux oraux</span></li><li><strong>5</strong><span>coefficient de la première épreuve orale</span></li><li><strong>0/20</strong><span>note éliminatoire à l’oral</span></li></ul>
+      <p class="cours-note concours-notice" role="note">L'Établi des Maths est une aide complémentaire à la préparation et ne garantit pas la réussite au concours : les programmes et les attendus varient d'une université ou d'une formation à l'autre. Le programme officiel de chaque formation fait foi.</p>
+    </header>
+
+    <nav class="cours-toc" aria-label="Sommaire de la page">
+      <p class="cours-toc-title">Sommaire</p>
+      <ol><li><a href="#voies">Les épreuves de chaque voie</a></li><li><a href="#fiches">À quoi sert chaque fiche</a></li><li><a href="#exercice-notion">Premier oral en voie bac + 3 : de l’exercice à la notion</a></li><li><a href="#analyse-documents">L’analyse de documents et de productions d’élèves</a></li><li><a href="#faq">Questions fréquentes</a></li></ol>
+    </nav>
+
+    <section class="cours-section " id="voies" aria-labelledby="voies-titre">
+      <h2 id="voies-titre">Les épreuves de chaque voie</h2>
+      <p>La première session de la voie bac + 3 a eu lieu en 2026. La voie bac + 5 est maintenue à titre transitoire pour les sessions 2026 et 2027.</p>
+      <div class="hub-table-wrap" tabindex="0" role="region" aria-label="Épreuves du CAPES externe de mathématiques selon la voie"><table class="hub-table"><caption>Épreuves du CAPES externe de mathématiques selon la voie</caption><thead><tr><th scope="col">Épreuve</th><th scope="col">Voie bac + 3</th><th scope="col">Voie bac + 5</th></tr></thead><tbody><tr><th scope="row">Premier écrit</th><td>4 h, coefficient 3 : exercices ou problèmes</td><td>5 h, coefficient 2 : épreuve disciplinaire</td></tr><tr><th scope="row">Second écrit</th><td>4 h, coefficient 2 : analyse de plusieurs documents, à critiquer ou compléter, questions et exercices</td><td>5 h, coefficient 2 : épreuve disciplinaire appliquée (dossier, productions d’élèves, séquence)</td></tr><tr><th scope="row">Premier oral</th><td>2 h 30 de préparation, 1 h (exposé 20 min, échange 40 min), coefficient 5 : résolution d’un exercice, puis notion en jeu et notions connexes, avec le choix entre deux sujets</td><td>2 h 30 de préparation, 1 h (plan 20 min, développement 10 min, entretien 30 min), coefficient 5 : leçon</td></tr><tr><th scope="row">Second oral</th><td>Entretien de 35 min (15 + 20), coefficient 3</td><td>Entretien de 35 min (15 + 20), coefficient 3</td></tr><tr><th scope="row">Notes éliminatoires</th><td>5 ou moins à un écrit, 0 à un oral</td><td>5 ou moins à un écrit, 0 à un oral</td></tr></tbody></table></div>
+      <p>Le <strong>troisième concours</strong> comprend un écrit commun à la première épreuve du concours externe (4 h, coefficient 5), une leçon au même format que celle de la voie bac + 5 (coefficient 5) et l'entretien commun (coefficient 3).</p>
+      <p class="cours-note">Les programmes et les modalités sont fixés par arrêté et publiés pour chaque session. Vérifie la voie et la session qui te concernent dans les textes officiels avant de bâtir ton planning.</p>
+    </section>
+
+    <section class="cours-section " id="fiches" aria-labelledby="fiches-titre">
+      <h2 id="fiches-titre">À quoi sert chaque fiche</h2>
+      <div class="hub-table-wrap" tabindex="0" role="region" aria-label="Rôle des fiches du site selon la voie préparée"><table class="hub-table"><caption>Rôle des fiches du site selon la voie préparée</caption><thead><tr><th scope="col">Fiches</th><th scope="col">Voie bac + 3</th><th scope="col">Voie bac + 5</th><th scope="col">Troisième concours</th></tr></thead><tbody><tr><th scope="row">Compléments 01 à 10 (niveau licence)</th><td>Premier écrit, et connaissances de licence utiles pour développer un exercice à l’oral</td><td>Épreuve disciplinaire, et recul sur les notions de la leçon</td><td>Écrit de 4 h commun au concours externe, et recul sur les notions de la leçon</td></tr><tr><th scope="row">Leçons 11 à 15</th><td>Premier oral : suivre dans chaque fiche la variante « exercice puis notion » ; le plan sert à organiser la notion en jeu</td><td>Leçon : plan, théorème clé, développements et questions du jury</td><td>Leçon, au même format qu’en voie bac + 5 : plan, théorème clé, développements et questions du jury</td></tr><tr><th scope="row">Dossiers « Analyse de documents » des devoirs</th><td>Second écrit</td><td>Épreuve disciplinaire appliquée</td><td>Pas d’épreuve correspondante : entraînement facultatif</td></tr><tr><th scope="row">Oral 2 et études de cas</th><td>Second oral</td><td>Second oral (deux mises en situation)</td><td>Entretien commun au concours externe</td></tr></tbody></table></div>
+      <p>Les programmes des écrits ne couvrent pas tout le contenu des compléments. Certaines parties, comme les séries de Fourier, sont des approfondissements : compare chaque fiche au programme de ta session avant d'y consacrer du temps. Chaque exercice de devoir indique une durée et le niveau visé.</p>
+    </section>
+
+    <section class="cours-section " id="exercice-notion" aria-labelledby="exercice-notion-titre">
+      <h2 id="exercice-notion-titre">Premier oral en voie bac + 3 : de l’exercice à la notion</h2>
+      <p>Le candidat choisit entre deux sujets. L'exercice porte sur le cycle terminal, l'option mathématiques expertes et le programme des écrits ; des connaissances de licence servent à développer et à illustrer.</p>
+      <ol class="hub-steps">
+        <li><strong>Résoudre.</strong> Rédiger une résolution complète et vérifier chaque résultat par un autre moyen (valeur particulière, cas limite, logiciel).</li>
+        <li><strong>Nommer la notion en jeu.</strong> Dire en une phrase ce que l'exercice met en œuvre, puis énoncer précisément la définition et le théorème utilisés.</li>
+        <li><strong>Relier les notions connexes.</strong> Citer ce qui précède et ce qui prolonge l'exercice, dans le programme du lycée et en licence.</li>
+        <li><strong>Préparer l'échange.</strong> Prévoir une démonstration du résultat central, un contre-exemple qui montre le rôle d'une hypothèse, une variante de l'exercice et les erreurs probables des élèves.</li>
+      </ol>
+      <p>Chaque fiche <a href="../cours/capes/geometrie-vectorielle-et-produit-scalaire.html">Leçon 11</a>, <a href="../cours/capes/nombres-complexes.html">12</a>, <a href="../cours/capes/probabilites-conditionnelles-et-independance.html">13</a>, <a href="../cours/capes/statistique-descriptive-a-une-et-deux-variables.html">14</a> et <a href="../cours/capes/denombrement-et-combinatoire.html">15</a> en donne un exemple complet.</p>
+    </section>
+
+    <section class="cours-section " id="analyse-documents" aria-labelledby="analyse-documents-titre">
+      <h2 id="analyse-documents-titre">L’analyse de documents et de productions d’élèves</h2>
+      <p>Le second écrit des deux voies fait travailler sur des documents : extraits de manuels, productions d'élèves, éléments de séquence. Il faut relever ce qui est juste, ce qui est faux ou incomplet, et proposer mieux.</p>
+      <ol class="hub-steps">
+        <li><strong>Résoudre d'abord soi-même</strong> l'exercice donné aux élèves, pour disposer d'une référence.</li>
+        <li><strong>Lire chaque copie sans s'arrêter au résultat.</strong> Une réponse juste peut venir d'une méthode fausse, et une réponse fausse contenir une idée correcte.</li>
+        <li><strong>Formuler l'erreur et son origine probable</strong> : conception erronée, confusion entre deux notions, erreur de calcul isolée.</li>
+        <li><strong>Critiquer un document avec précision</strong> : citer le passage, dire ce qui ne va pas, donner un contre-exemple, proposer une rédaction corrigée.</li>
+        <li><strong>Proposer une remédiation qui se teste</strong> : un exercice court dont le résultat montre à l'élève où il s'est trompé.</li>
+      </ol>
+      <p>Pour t'entraîner, les devoirs de plusieurs fiches contiennent un dossier « Analyse de documents » dont le corrigé donne des critères d'évaluation : <a href="../cours/capes/equations-differentielles-lineaires.html">équations différentielles</a>, <a href="../cours/capes/convexite-des-fonctions-reelles-d-une-variable-reelle.html">convexité</a>, <a href="../cours/capes/arithmetique-dans-z.html">arithmétique</a>, <a href="../cours/capes/geometrie-vectorielle-et-produit-scalaire.html">produit scalaire</a>, <a href="../cours/capes/nombres-complexes.html">nombres complexes</a>, <a href="../cours/capes/probabilites-conditionnelles-et-independance.html">probabilités conditionnelles</a>, <a href="../cours/capes/statistique-descriptive-a-une-et-deux-variables.html">statistique</a> et <a href="../cours/capes/denombrement-et-combinatoire.html">dénombrement</a>. Les documents sont fictifs : ils ont été écrits pour l'entraînement.</p>
+    </section>
+
+    <section class="cours-section " id="faq" aria-labelledby="faq-titre">
+      <h2 id="faq-titre">Questions fréquentes</h2>
+      <div class="cours-faq">
+        <details class="cours-faq-item"><summary><h3>Quelle voie du CAPES de maths choisir ?</h3></summary><div><p>Elle dépend de ton diplôme et de ta situation. Les conditions d’inscription sont publiées par le ministère pour chaque session : c’est à cette source qu’il faut se fier.</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Les fiches du site suffisent-elles pour préparer le concours ?</h3></summary><div><p>Non. Elles complètent une préparation. Les fiches ne couvrent pas tout le programme des écrits, et le site ne garantit pas la réussite au concours.</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Que change la voie bac + 3 pour le premier oral ?</h3></summary><div><p>Le candidat ne construit pas un plan de leçon : il résout un exercice, puis présente la notion en jeu et les notions connexes. L’exposé dure 20 minutes et l’échange 40 minutes.</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Les compléments de niveau licence sont-ils tous au programme ?</h3></summary><div><p>Non. Compare chaque fiche au programme de ta session. Certaines parties, comme les séries de Fourier, sont des approfondissements qui donnent du recul.</p></div></details>
+      </div>
+    </section>
+
+    <aside class="cours-cta-box" aria-label="Commencer">
+      <p class="cours-cta-box-title">Continuer la préparation</p>
+      <p>Fiches, exercices et devoirs corrigés. Gratuit et sans inscription.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../cours/capes/">📖 Toutes les fiches du CAPES</a>
+        <a class="btn-secondary cours-cta-alt" href="../cours/capes/geometrie-vectorielle-et-produit-scalaire.html">🧭 Fiche d’exemple : une leçon</a>
+      </div>
+    </aside>
+
+    <nav class="cours-related" aria-label="Autres pages">
+      <div><p class="cours-related-title">Les autres pages</p><ul><li><a href="../exercices-de-maths/">Exercices de maths corrigés</a></li><li><a href="../reviser-le-brevet-de-maths/">Réviser le brevet de maths</a></li><li><a href="../reussir-le-bac-de-maths/">Réussir le bac de maths</a></li><li><a href="../epreuve-anticipee-de-maths/">Épreuve anticipée de maths (1re)</a></li><li><a href="../maths-complementaires/">Maths complémentaires : les chapitres utiles</a></li><li><a href="../entrainement-maths/">Entraînement maths en ligne</a></li><li><a href="../epreuve-d-entretien-capes/">Épreuve d’entretien du CAPES (oral 2)</a></li><li><a href="../cours/">Cours de maths, de la 6e à la licence</a></li></ul></div>
+      <div><p class="cours-related-title">Par classe</p><ul class="hub-inline"><li><a href="../cours/6e/">6e</a></li><li><a href="../cours/5e/">5e</a></li><li><a href="../cours/4e/">4e</a></li><li><a href="../cours/3e/">3e</a></li><li><a href="../cours/seconde/">Seconde</a></li><li><a href="../cours/premiere/">Première</a></li><li><a href="../cours/premiere-tronc-commun/">Première (tronc commun)</a></li><li><a href="../cours/premiere-technologique/">Première technologique</a></li><li><a href="../cours/terminale/">Terminale</a></li><li><a href="../cours/l1/">Licence 1</a></li><li><a href="../cours/l2/">Licence 2</a></li><li><a href="../cours/l3/">Licence 3</a></li><li><a href="../cours/capes/">CAPES</a></li><li><a href="../cours/professeur-des-ecoles/">Professeur des écoles</a></li><li><a href="../cours/prepa-sante/">Prépa santé</a></li><li><a href="../cours/pass-las/">PASS / L.AS</a></li><li><a href="../cours/veto-bcpst/">Véto (BCPST)</a></li></ul></div>
+    </nav>
+  </main>
+
+  <footer class="cours-footer">
+    <p>L'Établi des Maths — Conçu par Loïc Delaporte, professeur de mathématiques • 100 % gratuit, conforme aux programmes</p>
+    <p><a href="../cours/">Cours de maths</a> · <a href="../exercices-de-maths/">Exercices corrigés</a> · <a href="../entrainement-maths/">Entraînement en ligne</a> · <a href="../reviser-le-brevet-de-maths/">Réviser le brevet</a> · <a href="../reussir-le-bac-de-maths/">Réussir le bac</a> · <a href="../epreuve-d-entretien-capes/">Oral 2 du CAPES</a></p>
+    <p><a href="../">Ouvrir l'application</a> · <a href="../rituels.html">Rituels</a> · <a href="../brevet.html">Brevet blanc</a> · <a href="../bac.html">Devoir type bac</a> · <a href="../a-propos.html">Qui suis-je&#8239;?</a> · <a href="../mentions-legales.html">Mentions légales</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a></p>
+    <p>Contenus sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a></p>
+  </footer>
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

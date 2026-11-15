@@ -58,15 +58,6 @@ Object.assign(window.MathsApp, {
     }
   },
 
-  openProofModal(theoremId = null) {
-    const modal = document.getElementById('proof-modal');
-    if (!modal) return;
-    modal.style.display = 'flex';
-    if (window.ProofEngine) {
-      this.renderProofEngineUI(theoremId);
-    }
-  },
-
   closeProofModal() {
     const modal = document.getElementById('proof-modal');
     if (modal) modal.style.display = 'none';

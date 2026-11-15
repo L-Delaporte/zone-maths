@@ -202,7 +202,7 @@
 
       // --- Niveau scolaire et thèmes (le chapitre le moins avancé compte) ---
       const byLevel = {};
-      chapters.forEach(c => { const l = c.level || '3eme'; (byLevel[l] = byLevel[l] || []).push(c); });
+      chapters.forEach(c => window.MathsChapterLevels.of(c).forEach(l => { (byLevel[l] = byLevel[l] || []).push(c); }));
       Object.keys(byLevel).forEach(level => {
         if (['capes', 'crpe', 'sante', 'pass', 'veto'].includes(level) || /capes/i.test(level)) return;
         const list = byLevel[level];

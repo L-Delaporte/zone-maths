@@ -36,6 +36,45 @@
  "1S3": [
   "premiere/algorithmique-et-programmation-en-python.html"
  ],
+ "1T1": [
+  "premiere-technologique/automatismes-ensembles-et-logique.html"
+ ],
+ "1T2": [
+  "premiere-technologique/algorithmique-python.html"
+ ],
+ "1T3": [
+  "premiere-technologique/suites-arithmetiques-et-geometriques.html"
+ ],
+ "1T4": [
+  "premiere-technologique/fonctions-taux-de-variation-et-second-degre.html"
+ ],
+ "1T5": [
+  "premiere-technologique/derivation-nombre-derive-tangente-et-variations.html"
+ ],
+ "1T6": [
+  "premiere-technologique/statistiques-a-deux-variables.html"
+ ],
+ "1T7": [
+  "premiere-technologique/probabilites-conditionnement-variables-aleatoires.html"
+ ],
+ "1TC1": [
+  "premiere-tronc-commun/automatismes-proportions-pourcentages-et-evolutions.html"
+ ],
+ "1TC2": [
+  "premiere-tronc-commun/information-chiffree.html"
+ ],
+ "1TC3": [
+  "premiere-tronc-commun/probabilites-conditionnelles.html"
+ ],
+ "1TC4": [
+  "premiere-tronc-commun/croissance-lineaire.html"
+ ],
+ "1TC5": [
+  "premiere-tronc-commun/modeles-quadratiques.html"
+ ],
+ "1TC6": [
+  "premiere-tronc-commun/croissance-exponentielle.html"
+ ],
  "2A1": [
   "seconde/notion-generale-de-fonction.html"
  ],

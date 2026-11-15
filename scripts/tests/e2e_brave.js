@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 /**
- * Test de bout en bout dans Brave (headless) via le protocole DevTools, sans dépendance.
- * Usage : node e2e_brave.js [url_de_base]   (défaut http://127.0.0.1:8765/)
- * Le site doit être servi (python3 -m http.server 8765 --bind 127.0.0.1 depuis Site/).
+ * Test de bout en bout dans un navigateur Chromium (headless) via le protocole DevTools, sans dépendance.
+ * Usage : node scripts/tests/e2e_brave.js [url_de_base]
+ * Sans URL, le script sert lui-même le dépôt sur 127.0.0.1 (port libre, ou E2E_PORT).
+ * Navigateur : CHROME_BIN s'il est défini, sinon le premier trouvé parmi brave, chromium et google-chrome.
  * Captures dans ./e2e_shots/ (à côté du script, ignoré par git)
  * Les violations de la Content-Security-Policy (scripts/csp.js) sont collectées sur tout le parcours,
  * et un parcours dédié (clair puis sombre) couvre accueil, défi, niveaux, cours, flashcards, rituel,
@@ -12,15 +13,57 @@ const { spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
+const http = require('http');
 
-const BASE = process.argv[2] || 'http://127.0.0.1:8765/';
+let BASE = process.argv[2];
 const OUT = path.join(__dirname, 'e2e_shots');
 fs.mkdirSync(OUT, { recursive: true });
 const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'e2e-brave-'));
 const PORT = 9300 + Math.floor(Math.random() * 500);
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-const brave = spawn('brave', ['--headless=new', `--remote-debugging-port=${PORT}`, `--user-data-dir=${profile}`,
+function findBrowser() {
+  const dirs = (process.env.PATH || '').split(path.delimiter);
+  return [process.env.CHROME_BIN, 'brave', 'chromium', 'google-chrome'].filter(Boolean)
+    .find(name => (path.isAbsolute(name) ? fs.existsSync(name) : dirs.some(d => fs.existsSync(path.join(d, name)))));
+}
+const browserBin = findBrowser();
+if (!browserBin) {
+  console.error('Aucun navigateur trouvé : définir CHROME_BIN, ou installer brave, chromium ou google-chrome.');
+  process.exit(2);
+}
+
+const MIME = {
+  '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8',
+  '.json': 'application/json', '.xml': 'application/xml', '.txt': 'text/plain; charset=utf-8',
+  '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.ico': 'image/x-icon', '.woff2': 'font/woff2'
+};
+
+/** Sert le dépôt comme GitHub Pages : dossier → index.html, redirection vers l'URL avec « / ». */
+function serveSite() {
+  const root = path.resolve(__dirname, '..', '..');
+  const server = http.createServer((req, res) => {
+    try {
+      const { pathname } = new URL(req.url, 'http://127.0.0.1');
+      let file = path.join(root, decodeURIComponent(pathname));
+      if (file !== root && !file.startsWith(root + path.sep)) throw new Error('hors du dépôt');
+      if (fs.statSync(file).isDirectory()) {
+        if (!pathname.endsWith('/')) { res.writeHead(301, { Location: pathname + '/' }); res.end(); return; }
+        file = path.join(file, 'index.html');
+      }
+      const body = fs.readFileSync(file);
+      res.writeHead(200, { 'Content-Type': MIME[path.extname(file)] || 'application/octet-stream' });
+      res.end(body);
+    } catch (e) {
+      res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
+      res.end('Introuvable');
+    }
+  });
+  return new Promise(resolve => server.listen(Number(process.env.E2E_PORT) || 0, '127.0.0.1', () => resolve(server)));
+}
+
+const browser = spawn(browserBin, ['--headless=new', `--remote-debugging-port=${PORT}`, `--user-data-dir=${profile}`,
+  ...(process.env.CI ? ['--no-sandbox'] : []), // les runners d'intégration continue n'ont pas de bac à sable utilisateur
   '--disable-gpu', '--hide-scrollbars', '--no-first-run', '--window-size=1440,900', 'about:blank'], { stdio: 'ignore' });
 
 let ws, msgId = 0;
@@ -70,6 +113,7 @@ async function step(label, fn) {
 }
 
 (async () => {
+  if (!BASE) BASE = `http://127.0.0.1:${(await serveSite()).address().port}/`;
   let target;
   for (let i = 0; i < 60 && !target; i++) {
     await sleep(500);
@@ -78,7 +122,7 @@ async function step(label, fn) {
       target = list.find(t => t.type === 'page');
     } catch (e) {}
   }
-  if (!target) { console.error('Brave ne répond pas'); brave.kill(); process.exit(2); }
+  if (!target) { console.error(`${browserBin} ne répond pas`); browser.kill(); process.exit(2); }
   ws = new WebSocket(target.webSocketDebuggerUrl);
   await new Promise(r => ws.addEventListener('open', r));
   ws.addEventListener('message', ev => {
@@ -106,7 +150,7 @@ async function step(label, fn) {
     return `${Math.round(n / 1024)} Ko de JS transférés`;
   });
 
-  for (const level of ['6eme', '5eme', '4eme', '3eme', '2nde', '1ere', 'tale', 'L1', 'L2', 'L3', 'capes', 'crpe', 'sante', 'pass', 'veto']) {
+  for (const level of ['6eme', '5eme', '4eme', '3eme', '2nde', '1ere', '1tc', '1techno', 'tale', 'L1', 'L2', 'L3', 'capes', 'crpe', 'sante', 'pass', 'veto']) {
     await step(`Niveau ${level} : chargement + chapitre + exercice`, async () => {
       await evaluate(`window.MathsApp.switchLevel('${level}', true)`);
       await waitFor(`window.MathsDataLoader.isLevelLoaded('${level}') && window.MathsApp.currentLevel === '${level}'`);
@@ -234,6 +278,18 @@ async function step(label, fn) {
     await shot('13_bac_blanc');
     await evaluate("window.MathsQuizGenerator.closeModal(); true");
     if (bac.cards !== 4 || bac.err) throw new Error('bac ' + JSON.stringify(bac));
+    await evaluate(`window.MathsApp.switchLevel('1ere', false)`);
+    await waitFor(`window.MathsDataLoader.isLevelLoaded('1ere')`);
+    for (const format of ['ea-20', 'ea-20-sans-spe', 'ea-20-techno']) {
+      await evaluate("window.MathsApp.openQuizModal('1A1', false); true");
+      await sleep(600);
+      await evaluate(`document.getElementById('quiz-count-select').value='${format}'; window.MathsQuizGenerator.generate(); true`);
+      await sleep(1200);
+      const ea = await evaluate(`({ cards: document.querySelectorAll('.quiz-questions-grid .quiz-q-card').length, err: document.querySelectorAll('#quiz-preview-content .katex-error').length, mcq: document.querySelectorAll('#quiz-preview-content .quiz-mcq-choices').length, svg: document.querySelectorAll('#quiz-preview-content svg').length })`);
+      await shot('13_' + format);
+      await evaluate("window.MathsQuizGenerator.closeModal(); true");
+      if (ea.cards !== 15 || ea.err || ea.mcq) throw new Error(format + ' ' + JSON.stringify(ea));
+    }
     return out.join(' · ') + ' · brevet 3 problèmes · bac 4 exercices';
   });
 
@@ -424,6 +480,11 @@ async function step(label, fn) {
     if (!r) throw new Error('élément invisible : ' + sel);
     await tapXY(r.x + r.w / 2, r.y + r.h / 2);
   }
+  // Sur téléphone, les pastilles et les outils sont dans le panneau « ⋯ » de l'en-tête.
+  async function tapInHeaderMenu(sel) {
+    if (await evaluate(`document.getElementById('btn-header-menu').getAttribute('aria-expanded') !== 'true'`)) await tap('#btn-header-menu');
+    await tap(sel);
+  }
   const overflowX = () => evaluate('document.documentElement.scrollWidth - document.documentElement.clientWidth');
   for (const [w, h] of [[390, 844], [360, 740]]) {
     await send('Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: 2, mobile: true });
@@ -461,8 +522,7 @@ async function step(label, fn) {
       for (const [pill, id] of [['#header-level-pill', 'level-modal'], ['#header-streak-pill', 'streak-modal']]) {
         const isOpen = () => evaluate(`document.getElementById('${id}').style.display !== 'none'`);
         for (const how of ['croix', 'fond', 'Échap']) {
-          await evaluate('window.scrollTo(0, 0); true');
-          await tap(pill);
+          await tapInHeaderMenu(pill);
           if (!await isOpen()) throw new Error(`${id} ne s’ouvre pas au tap`);
           const c = await rect(`#${id} .modal-header .modal-close-btn`);
           if (!c || c.w < 44 || c.h < 44) throw new Error(`${id} : bouton ✕ trop petit (${c && Math.round(c.w)}×${c && Math.round(c.h)})`);
@@ -488,12 +548,8 @@ async function step(label, fn) {
       await evaluate(`window.MathsApp.switchLevel('3eme', false)`);
       await waitFor(`window.MathsDataLoader.isLevelLoaded('3eme')`);
       await evaluate(`window.MathsApp.selectChapter('N1'); window.scrollTo(0, 0); true`);
-      await sleep(400);
-      // sur mobile, le choix d'un chapitre fait défiler jusqu'à l'exercice (défilement doux) : on ramène le bouton à l'écran
-      await sleep(800);
-      await evaluate(`document.getElementById('btn-open-flashcards').scrollIntoView({ block: 'center', behavior: 'instant' }); true`);
-      await sleep(200);
-      await tap('#btn-open-flashcards');
+      await sleep(1200); // sur mobile, le choix d'un chapitre fait défiler jusqu'à l'exercice (défilement doux)
+      await tapInHeaderMenu('#btn-open-flashcards');
       await waitFor(`document.getElementById('flashcards-modal').style.display !== 'none'`);
       const start = '#flashcards-config-screen .modal-footer .btn-primary';
       const r0 = await rect(start);
@@ -658,7 +714,7 @@ async function step(label, fn) {
     for (const [url, extra] of [
       ['rituels.html'], ['brevet.html'], ['bac.html'], ['parents.html'], ['a-propos.html'], ['mentions-legales.html'],
       ['enseignants.html', 'copy'], ['affiche.html', 'print'],
-      ['cours/'], ['cours/4e/theoreme-de-pythagore.html'], ['cours/terminale/calcul-integral.html'], ['reussir-le-bac-de-maths/'], ['entrainement-maths/'], ['epreuve-d-entretien-capes/'],
+      ['cours/'], ['cours/4e/theoreme-de-pythagore.html'], ['cours/terminale/calcul-integral.html'], ['reussir-le-bac-de-maths/'], ['entrainement-maths/'], ['epreuve-d-entretien-capes/'], ['epreuve-anticipee-de-maths/'], ['maths-complementaires/'],
     ]) {
       await cspStep(url, async () => {
         await goto(BASE + url);
@@ -697,7 +753,7 @@ async function step(label, fn) {
   console.log(`Violations de la Content-Security-Policy (tout le parcours) : ${cspViolations.length}`);
   cspUniq.slice(0, 30).forEach(e => console.log('  - ' + e.slice(0, 300)));
   ws.close();
-  brave.kill();
+  browser.kill();
   try { fs.rmSync(profile, { recursive: true, force: true, maxRetries: 5 }); } catch (e) {}
   process.exit(results.some(r => r[0] === '✖') || uniq.length || cspViolations.length ? 1 : 0);
-})().catch(e => { console.error(e); brave.kill(); process.exit(2); });
+})().catch(e => { console.error(e); browser.kill(); process.exit(2); });

@@ -35,7 +35,9 @@ $$a = -\\frac{12}{4} \\qquad b = \\frac{3}{8} \\qquad c = \\sqrt{49} \\qquad d =
       title: "Décomposition en facteurs premiers et fraction irréductible",
       difficulty: 1,
       points: 5,
-      statement: `1. Décomposer $360$ et $756$ en produits de facteurs premiers.
+      statement: `*Pour aller plus loin (rappel du collège) : la décomposition en facteurs premiers sert ici d'outil pour rendre une fraction irréductible.*
+
+1. Décomposer $360$ et $756$ en produits de facteurs premiers.
 2. En déduire le plus grand diviseur commun de $360$ et $756$.
 3. Écrire la fraction $\\frac{360}{756}$ sous forme irréductible.
 4. a) Le nombre $756$ est-il le carré d'un entier ? Justifier.
@@ -57,12 +59,12 @@ $$a = -\\frac{12}{4} \\qquad b = \\frac{3}{8} \\qquad c = \\sqrt{49} \\qquad d =
       title: "Calculs avec des racines carrées",
       difficulty: 2,
       points: 5,
-      statement: `1. Décomposer $180$ en produit de facteurs premiers, puis écrire $\\sqrt{180}$ sous la forme $a\\sqrt{5}$ avec $a$ entier.
+      statement: `1. Écrire $\\sqrt{180}$ sous la forme $a\\sqrt{5}$ avec $a$ entier (on pourra chercher le plus grand carré parfait qui divise $180$).
 2. Écrire $A = \\sqrt{75} - 2\\sqrt{12} + \\sqrt{27}$ sous la forme $b\\sqrt{3}$, avec $b$ entier.
 3. Calculer $B = \\sqrt{50} \\times \\sqrt{8}$ et $C = \\dfrac{\\sqrt{98}}{\\sqrt{2}}$.
 4. a) Développer et réduire $(\\sqrt{5} - 2)(\\sqrt{5} + 2)$.
    b) En déduire que $\\dfrac{1}{\\sqrt{5} - 2} = \\sqrt{5} + 2$.`,
-      solution: `**1.** $180 = 2^2 \\times 3^2 \\times 5$, donc $\\sqrt{180} = \\sqrt{2^2 \\times 3^2} \\times \\sqrt{5} = 2 \\times 3 \\times \\sqrt{5} = 6\\sqrt{5}$.
+      solution: `**1.** $180 = 36 \\times 5$ et $36 = 6^2$ est un carré parfait, donc $\\sqrt{180} = \\sqrt{36} \\times \\sqrt{5} = 6\\sqrt{5}$. *(Pour aller plus loin, rappel du collège : la décomposition $180 = 2^2 \\times 3^2 \\times 5$ fait apparaître directement le carré $2^2 \\times 3^2 = 36$.)*
 
 **2.** $\\sqrt{75} = \\sqrt{25 \\times 3} = 5\\sqrt{3}$ ; $\\sqrt{12} = \\sqrt{4 \\times 3} = 2\\sqrt{3}$ ; $\\sqrt{27} = \\sqrt{9 \\times 3} = 3\\sqrt{3}$.
 $$A = 5\\sqrt{3} - 2 \\times 2\\sqrt{3} + 3\\sqrt{3} = (5 - 4 + 3)\\sqrt{3} = 4\\sqrt{3}.$$
@@ -128,13 +130,13 @@ Par contraposée : si $n^2$ est pair, $n$ ne peut pas être impair (sinon $n^2$ 
 1. Montrer que $\\frac{7}{40}$ est un nombre décimal en l'écrivant sous la forme $\\frac{a}{10^n}$.
 2. On veut montrer que $\\frac{1}{3}$ n'est pas décimal. On suppose par l'absurde qu'il existe $a \\in \\mathbb{Z}$ et $n \\in \\mathbb{N}$ tels que $\\frac{1}{3} = \\frac{a}{10^n}$.
    a) Montrer qu'alors $10^n = 3a$.
-   b) En utilisant la décomposition de $10^n$ en facteurs premiers, aboutir à une contradiction.
-3. On admet qu'une fraction irréductible est décimale si et seulement si son dénominateur n'a pas d'autres facteurs premiers que $2$ et $5$. Les nombres $\\frac{21}{56}$, $\\frac{33}{120}$ et $\\frac{14}{45}$ sont-ils décimaux ? Donner l'écriture décimale de ceux qui le sont.`,
-      solution: `**1.** $40 = 2^3 \\times 5$. Pour obtenir $10^3 = 2^3 \\times 5^3$ au dénominateur, on multiplie par $5^2 = 25$ : $\\frac{7}{40} = \\frac{7 \\times 25}{40 \\times 25} = \\frac{175}{1000} = \\frac{175}{10^3} = 0{,}175$. C'est un décimal.
+   b) En utilisant le critère de divisibilité par $3$, aboutir à une contradiction.
+3. *Pour aller plus loin (rappel du collège : facteurs premiers).* On admet qu'une fraction irréductible est décimale si et seulement si son dénominateur n'a pas d'autres facteurs premiers que $2$ et $5$. Les nombres $\\frac{21}{56}$, $\\frac{33}{120}$ et $\\frac{14}{45}$ sont-ils décimaux ? Donner l'écriture décimale de ceux qui le sont.`,
+      solution: `**1.** $40 \\times 25 = 1\\,000 = 10^3$. On multiplie donc le numérateur et le dénominateur par $25$ : $\\frac{7}{40} = \\frac{7 \\times 25}{40 \\times 25} = \\frac{175}{1000} = \\frac{175}{10^3} = 0{,}175$. C'est un décimal.
 
 **2. a)** De $\\frac{1}{3} = \\frac{a}{10^n}$, on tire par produit en croix $10^n = 3a$.
 
-**b)** $10^n = 2^n \\times 5^n$ : par unicité de la décomposition en facteurs premiers, $3$ n'apparaît pas dans la décomposition de $10^n$, donc $3$ ne divise pas $10^n$. Or $10^n = 3a$ avec $a$ entier signifie que $3$ divise $10^n$ : contradiction. Donc $\\frac{1}{3}$ n'est pas décimal.
+**b)** $10^n$ s'écrit avec un $1$ suivi de $n$ zéros : la somme de ses chiffres vaut $1$, qui n'est pas divisible par $3$. D'après le critère de divisibilité par $3$, $10^n$ n'est donc pas un multiple de $3$. Or $10^n = 3a$ avec $a$ entier signifie que $10^n$ est un multiple de $3$ : contradiction. Donc $\\frac{1}{3}$ n'est pas décimal.
 
 **3.**
 - $\\frac{21}{56} = \\frac{7 \\times 3}{7 \\times 8} = \\frac{3}{8}$, irréductible, et $8 = 2^3$ : décimal, $\\frac{3}{8} = 0{,}375$.
@@ -149,7 +151,7 @@ Par contraposée : si $n^2$ est pair, $n$ ne peut pas être impair (sinon $n^2$ 
       statement: `Un artisan doit carreler le sol rectangulaire d'une pièce de $4{,}20$ m sur $3{,}36$ m avec des dalles carrées toutes identiques. Il ne veut faire **aucune découpe** et le côté des dalles, exprimé en centimètres, doit être un nombre entier.
 
 1. Expliquer pourquoi le côté d'une dalle doit être un diviseur commun de $420$ et de $336$.
-2. Décomposer $420$ et $336$ en produits de facteurs premiers.
+2. *Pour aller plus loin (rappel du collège).* Décomposer $420$ et $336$ en produits de facteurs premiers.
 3. Quel est le plus grand côté possible pour les dalles ? Combien de dalles faut-il alors ?
 4. Le fournisseur ne propose que des dalles de côté inférieur ou égal à $30$ cm. Quel côté l'artisan doit-il choisir pour utiliser le moins de dalles possible ? Combien en faut-il ?`,
       solution: `**1.** Le long du côté de $420$ cm, on aligne un nombre entier de dalles de côté $c$ sans découpe : $c$ divise $420$. De même le long du côté de $336$ cm : $c$ divise $336$. Donc $c$ est un diviseur commun de $420$ et $336$.
@@ -165,7 +167,9 @@ Par contraposée : si $n^2$ est pair, $n$ ne peut pas être impair (sinon $n^2$ 
       title: "Compter les diviseurs d'un entier",
       difficulty: 4,
       points: 7,
-      statement: `1. Décomposer $72$ en produit de facteurs premiers.
+      statement: `**Pour aller plus loin** : exercice d'approfondissement à partir de la décomposition en facteurs premiers (rappel du collège).
+
+1. Décomposer $72$ en produit de facteurs premiers.
 2. Tout diviseur de $72$ s'écrit $2^a \\times 3^b$ avec $a \\in \\{0 ; 1 ; 2 ; 3\\}$ et $b \\in \\{0 ; 1 ; 2\\}$. Dresser un tableau à double entrée donnant tous les diviseurs de $72$. Combien y en a-t-il ?
 3. Plus généralement, expliquer pourquoi un entier de la forme $2^m \\times 3^p$ (avec $m$ et $p$ entiers naturels) possède $(m + 1)(p + 1)$ diviseurs.
 4. a) Combien de diviseurs possède $2^5 \\times 3^4$ ?
@@ -197,7 +201,9 @@ Le plus petit entier ayant exactement $6$ diviseurs est $12$ (ses diviseurs : $1
       title: "Diviseurs, nombres premiers et fraction irréductible",
       difficulty: 1,
       points: 4,
-      statement: `1. Donner la liste de tous les diviseurs positifs de $84$.
+      statement: `*Pour aller plus loin (rappel du collège) : nombres premiers et décomposition en facteurs premiers.*
+
+1. Donner la liste de tous les diviseurs positifs de $84$.
 2. a) Montrer que $221$ n'est pas un nombre premier.
  b) Le nombre $97$ est-il premier ? Justifier en précisant les divisions à tester.
 3. Décomposer $84$ et $221$ en produits de facteurs premiers. La fraction $\\frac{84}{221}$ est-elle irréductible ?`,
@@ -326,7 +332,7 @@ Dans tous les cas, $a^2 + b^2$ est de la forme $4K$, $4K + 1$ ou $4K + 2$ avec $
       title: "Ce nombre est-il premier ?",
       difficulty: 2,
       points: 5,
-      statement: `On rappelle qu'un nombre premier est un entier naturel qui admet exactement deux diviseurs : $1$ et lui-même.
+      statement: `*Pour aller plus loin (rappel du collège).* On rappelle qu'un nombre premier est un entier naturel qui admet exactement deux diviseurs : $1$ et lui-même.
 
 1. Soit $n$ un entier naturel supérieur ou égal à $2$ qui n'est pas premier. Il s'écrit donc $n = a \\times b$ avec $a$ et $b$ entiers et $2 \\leqslant a \\leqslant b$.
  a) Justifier que $a^2 \\leqslant n$.
@@ -859,13 +865,13 @@ $I \\cup J$ est l'ensemble des réels appartenant **à au moins un** des deux in
 
 1. Résoudre l'équation $|x - 3| = 5$.
 2. Résoudre l'inéquation $|x + 1| \\leqslant 2$ et donner l'ensemble des solutions sous forme d'intervalle.
-3. Résoudre l'inéquation $|x - 2| > 4$.
+3. **Pour aller plus loin** (distance supérieure à un rayon). Résoudre l'inéquation $|x - 2| > 4$.
 4. Écrire l'intervalle $[-1 ; 7]$ sous la forme $\\{x \\in \\mathbb{R} : |x - c| \\leqslant r\\}$, en précisant $c$ et $r$.`,
       solution: `**1.** $|x - 3| = 5$ : la distance entre $x$ et $3$ vaut $5$, donc $x = 3 - 5 = -2$ ou $x = 3 + 5 = 8$. $\\mathcal{S} = \\{-2 ; 8\\}$.
 
 **2.** $|x + 1| = |x - (-1)|$ est la distance entre $x$ et $-1$. Elle est inférieure ou égale à $2$ si et seulement si $-1 - 2 \\leqslant x \\leqslant -1 + 2$. $\\mathcal{S} = [-3 ; 1]$.
 
-**3.** La distance entre $x$ et $2$ est strictement supérieure à $4$ si et seulement si $x < 2 - 4$ ou $x > 2 + 4$. $\\mathcal{S} = \\,]-\\infty ; -2[\\, \\cup \\,]6 ; +\\infty[$.
+**3.** (Pour aller plus loin.) La distance entre $x$ et $2$ est strictement supérieure à $4$ si et seulement si $x < 2 - 4$ ou $x > 2 + 4$. $\\mathcal{S} = \\,]-\\infty ; -2[\\, \\cup \\,]6 ; +\\infty[$.
 
 **4.** Le centre de l'intervalle est $c = \\frac{-1 + 7}{2} = 3$ et son rayon est $r = \\frac{7 - (-1)}{2} = 4$. Donc $[-1 ; 7] = \\{x \\in \\mathbb{R} : |x - 3| \\leqslant 4\\}$.`
     },
@@ -1000,10 +1006,10 @@ En divisant par $2$ : $\\frac{(\\sqrt{a} - \\sqrt{b})^2}{2} = \\frac{a + b}{2} -
       title: "Intersections et réunions d'intervalles",
       difficulty: 1,
       points: 4,
-      statement: `On considère les intervalles $I = [-3 ; 4[$, $\;J = \\,]1 ; 7]\;$ et $\;K = \\,]-\\infty ; 0]$.
+      statement: `On considère les intervalles $I = [-3 ; 4[$, $\\;J = \\,]1 ; 7]\\;$ et $\\;K = \\,]-\\infty ; 0]$.
 
 1. Représenter $I$, $J$ et $K$ sur une même droite graduée.
-2. Déterminer, sous forme d'intervalle ou d'ensemble, $I \\cap J$, $\;I \\cup J$, $\;I \\cap K$, $\;J \\cap K\;$ et $\;I \\cup K$.
+2. Déterminer, sous forme d'intervalle ou d'ensemble, $I \\cap J$, $\\;I \\cup J$, $\\;I \\cap K$, $\\;J \\cap K\\;$ et $\\;I \\cup K$.
 3. Donner la liste des entiers appartenant à $I \\cap J$.
 4. Le réel $4$ appartient-il à $I \\cup J$ ? Et le réel $-3$ à $J \\cup K$ ? Justifier.`,
       solution: `**1.** Sur la droite graduée : $I$ va de $-3$ (crochet fermé, inclus) à $4$ (crochet ouvert, exclu) ; $J$ va de $1$ (exclu) à $7$ (inclus) ; $K$ part de $-\\infty$ jusqu'à $0$ (inclus).
@@ -1032,7 +1038,7 @@ $-3 \\notin J$ (car $-3 \\leqslant 1$) mais $-3 \\in K$ (car $-3 \\leqslant 0$) 
  b) En déduire une condition de la forme $|x - c| \\leqslant r$ équivalente à $x \\in [2 ; 8]$.
 2. Même question pour $x \\in \\,]-7 ; -1[$, avec une inégalité stricte.
 3. Écrire sous forme d'intervalle l'ensemble des réels $x$ tels que $|x + 2| \\leqslant 0{,}5$.
-4. Décrire par une phrase, puis écrire comme réunion d'intervalles, l'ensemble des réels $x$ tels que $|x - 4| > 1$.`,
+4. **Pour aller plus loin** (distance supérieure à un rayon). Décrire par une phrase, puis écrire comme réunion d'intervalles, l'ensemble des réels $x$ tels que $|x - 4| > 1$.`,
       solution: `**1. a)** Le centre est le milieu $\\frac{2 + 8}{2} = 5$, le rayon est la demi-longueur $\\frac{8 - 2}{2} = 3$.
 
 **b)** $x \\in [2 ; 8]$ signifie que $x$ est à une distance au plus $3$ de $5$ : $|x - 5| \\leqslant 3$.
@@ -1041,8 +1047,8 @@ $-3 \\notin J$ (car $-3 \\leqslant 1$) mais $-3 \\in K$ (car $-3 \\leqslant 0$) 
 
 **3.** $|x + 2| = |x - (-2)|$ : c'est la distance de $x$ à $-2$. Elle est au plus $0{,}5$ si et seulement si $-2 - 0{,}5 \\leqslant x \\leqslant -2 + 0{,}5$, c'est-à-dire $x \\in [-2{,}5 ; -1{,}5]$.
 
-**4.** C'est l'ensemble des réels situés à une distance strictement supérieure à $1$ du réel $4$. Les réels à distance au plus $1$ de $4$ forment $[3 ; 5]$ ; les autres sont
-$$]-\\infty ; 3[\; \\cup \;]5 ; +\\infty[.$$`
+**4.** (Pour aller plus loin.) C'est l'ensemble des réels situés à une distance strictement supérieure à $1$ du réel $4$. Les réels à distance au plus $1$ de $4$ forment $[3 ; 5]$ ; les autres sont
+$$]-\\infty ; 3[\\; \\cup \\;]5 ; +\\infty[.$$`
     },
     {
       id: "2N3-ds-11",
@@ -1119,9 +1125,9 @@ Rangement : $a^2 < a < \\sqrt{a} < \\frac{1}{a}$, soit $0{,}4096 < 0{,}64 < 0{,}
 
 **2. a)** $a > 0$ : multiplier par $a$ conserve l'ordre, donc $a \\times a < 1 \\times a$, soit $a^2 < a$.
 
-**b)** La fonction racine carrée est strictement croissante sur $[0 ; +\\infty[$ : de $0 < a < 1$, on déduit $0 < \\sqrt{a} < \\sqrt{1} = 1$. En multipliant $\\sqrt{a} < 1$ par $\\sqrt{a} > 0$ : $\\sqrt{a} \\times \\sqrt{a} < \\sqrt{a}$, soit $a < \\sqrt{a}$.
+**b)** D'après le cours, pour des nombres positifs, $a < b \\iff \\sqrt{a} < \\sqrt{b}$ : de $0 < a < 1$, on déduit $0 < \\sqrt{a} < \\sqrt{1} = 1$. En multipliant $\\sqrt{a} < 1$ par $\\sqrt{a} > 0$ : $\\sqrt{a} \\times \\sqrt{a} < \\sqrt{a}$, soit $a < \\sqrt{a}$.
 
-**c)** La fonction inverse est strictement décroissante sur $]0 ; +\\infty[$ : de $0 < a < 1$, on déduit $\\frac{1}{a} > \\frac{1}{1} = 1$. Comme $\\sqrt{a} < 1 < \\frac{1}{a}$, on obtient
+**c)** Comme $a > 0$, diviser les deux membres de $a < 1$ par $a$ conserve le sens : $\\frac{a}{a} < \\frac{1}{a}$, c'est-à-dire $1 < \\frac{1}{a}$. Comme $\\sqrt{a} < 1 < \\frac{1}{a}$, on obtient
 $$a^2 < a < \\sqrt{a} < \\frac{1}{a}.$$
 
 **3.** Pour $a = 4$ : $\\frac{1}{a} = 0{,}25$, $\\sqrt{a} = 2$, $a = 4$, $a^2 = 16$, d'où $\\frac{1}{a} < \\sqrt{a} < a < a^2$ : l'ordre est inversé.`
@@ -1154,7 +1160,7 @@ Pour $a > 0$ et $b > 0$ : $\\left(\\sqrt{a} + \\sqrt{b}\\right)^2 = a + b + 2\\s
     },
     {
       id: "2N3-ds-15",
-      title: "Valeurs absolues et distances sur une droite graduée",
+      title: "Pour aller plus loin : valeurs absolues et distances sur une droite graduée",
       difficulty: 3,
       points: 6,
       statement: `Sur une droite graduée, on note $A$ et $B$ les points d'abscisses $2$ et $-4$, et $M$ un point d'abscisse $x$. On rappelle que la distance entre deux points d'abscisses $a$ et $b$ est $|a - b|$.
@@ -1179,7 +1185,7 @@ Pour $a > 0$ et $b > 0$ : $\\left(\\sqrt{a} + \\sqrt{b}\\right)^2 = a + b + 2\\s
     },
     {
       id: "2N3-ds-16",
-      title: "L'inégalité triangulaire sur la droite réelle",
+      title: "Pour aller plus loin : l'inégalité triangulaire sur la droite réelle",
       difficulty: 4,
       points: 7,
       statement: `Dans cet exercice, $a$ et $b$ désignent des réels. On rappelle que $|a|^2 = a^2$ et $|a| \\times |b| = |ab|$.
@@ -1496,7 +1502,7 @@ Ce quotient est strictement positif pour tout $v > 0$, donc $V(v) < 40$ : **quel
 5. Montrer que, pour tout $x \\geqslant 0$, $c(x) - 0{,}4 = \\dfrac{-0{,}6}{2 + x}$. Peut-on atteindre une concentration de $40\\,\\%$ ?`,
       solution: `**1.** Le mélange a un volume de $2 + x$ litres. Il contient $0{,}2$ L de sel provenant de la première solution et $0{,}4x$ L provenant de la seconde. Sa concentration est donc $c(x) = \\frac{0{,}2 + 0{,}4x}{2 + x}$.
 
-**2.** $c(1) = \\frac{0{,}6}{3} = 0{,}2$, soit $20\\,\\%$ ; $\;c(4) = \\frac{1{,}8}{6} = 0{,}3$, soit $30\\,\\%$.
+**2.** $c(1) = \\frac{0{,}6}{3} = 0{,}2$, soit $20\\,\\%$ ; $\\;c(4) = \\frac{1{,}8}{6} = 0{,}3$, soit $30\\,\\%$.
 
 **3.** Comme $2 + x > 0$ :
 $c(x) = 0{,}3 \\iff 0{,}2 + 0{,}4x = 0{,}3(2 + x) \\iff 0{,}2 + 0{,}4x = 0{,}6 + 0{,}3x \\iff 0{,}1x = 0{,}4 \\iff x = 4$.
@@ -1917,7 +1923,7 @@ Taux d'évolution : $\\frac{1{,}89}{2{,}4} - 1 = 0{,}7875 - 1 = -0{,}2125$, soit
 
 L'hôpital $A$ fait mieux dans **chaque** catégorie.
 
-**2.** $A$ : $\\frac{95 + 300}{500} = \\frac{395}{500} = 79\\,\\%$. $\;B$ : $\\frac{360 + 70}{500} = \\frac{430}{500} = 86\\,\\%$.
+**2.** $A$ : $\\frac{95 + 300}{500} = \\frac{395}{500} = 79\\,\\%$. $\\;B$ : $\\frac{360 + 70}{500} = \\frac{430}{500} = 86\\,\\%$.
 
 Globalement, c'est l'hôpital $B$ qui semble meilleur.
 
@@ -2285,14 +2291,14 @@ $$f(x) = \\frac{MB \\times BC}{2} = \\frac{6(6 - x)}{2} = 3(6 - x) = 18 - 3x.$$
 
 Axe des ordonnées : $f(0) = -3$ : point $(0 ; -3)$.
 
-**3.** $f(2) = 1 \\times 5 = 5$ : $A \\in \\mathcal{C}_f$. $\;f(-1) = (-2) \\times 2 = -4 \\neq -3$ : $B \\notin \\mathcal{C}_f$.
+**3.** $f(2) = 1 \\times 5 = 5$ : $A \\in \\mathcal{C}_f$. $\\;f(-1) = (-2) \\times 2 = -4 \\neq -3$ : $B \\notin \\mathcal{C}_f$.
 
 **4.**
 - Forme développée : $f(x) = -3 \\iff x^2 + 2x = 0 \\iff x(x + 2) = 0 \\iff x = 0$ ou $x = -2$. Deux antécédents : $0$ et $-2$.
-- Forme canonique : $f(x) = -4 \\iff (x + 1)^2 = 0 \\iff x = -1$. Un seul antécédent : $-1$.
+- Écriture $(x + 1)^2 - 4$ : $f(x) = -4 \\iff (x + 1)^2 = 0 \\iff x = -1$. Un seul antécédent : $-1$.
 - $f(x) = -5 \\iff (x + 1)^2 = -1$ : impossible, un carré est positif ou nul. $-5$ n'a pas d'antécédent.
 
-(La forme canonique montre que $f(x) \\geqslant -4$ pour tout $x$ : aucun réel strictement inférieur à $-4$ n'a d'antécédent.)`
+(L'écriture $f(x) = (x + 1)^2 - 4$ montre que $f(x) \\geqslant -4$ pour tout $x$ : aucun réel strictement inférieur à $-4$ n'a d'antécédent.)`
     },
     {
       id: "2A1-ds-11",
@@ -2338,7 +2344,7 @@ Un carré est positif ou nul, donc $12 - \\mathcal{A}(x) \\geqslant 0$, c'est-à
  c) Conclure et interpréter graphiquement.`,
       solution: `**1.** $f(x)$ existe si et seulement si $x + 3 \\geqslant 0$, soit $x \\geqslant -3$ : $\\mathcal{D}_f = [-3 ; +\\infty[$.
 
-**2.** $f(-2) = \\sqrt{1} = 1$ et $g(-2) = -1$ ; $\;f(1) = \\sqrt{4} = 2$ et $g(1) = 2$.
+**2.** $f(-2) = \\sqrt{1} = 1$ et $g(-2) = -1$ ; $\\;f(1) = \\sqrt{4} = 2$ et $g(1) = 2$.
 
 **3. a)** Si $\\sqrt{x + 3} = x + 1$, en élevant au carré : $x + 3 = (x + 1)^2$.
 
@@ -2464,6 +2470,37 @@ $f(x) = 1 \\iff x^2 - 4x = 0 \\iff x(x - 4) = 0 \\iff x = 0$ ou $x = 4$.
 **5.** La distance entre les deux antécédents est $2\\sqrt{k + 3}$. $2\\sqrt{k + 3} = 6 \\iff \\sqrt{k + 3} = 3 \\iff k + 3 = 9 \\iff k = 6$.
 
 *Vérification* : les antécédents de $6$ sont $2 - 3 = -1$ et $2 + 3 = 5$, distants de $6$ ; $f(-1) = 1 + 4 + 1 = 6$ et $f(5) = 25 - 20 + 1 = 6$.`
+    },
+    {
+      id: "2A1-ds-17",
+      title: "Lectures et résolutions graphiques",
+      difficulty: 2,
+      points: 6,
+      statement: `La courbe $\\mathcal{C}_f$ ci-dessous représente une fonction $f$ définie sur $[-4 ; 5]$. La droite $d$ a pour équation $y = x + 1$.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.6rem auto;"><svg class="geo-svg-figure" role="img" aria-label="Courbes sur l'intervalle [-4 ; 5]. La courbe de f passe par les points (-4 ; -3), (-3 ; -1), (-2 ; 1), (-1 ; 3), (0 ; 1), (1 ; -1), (2 ; -2), (3 ; -1), (4 ; 1), (5 ; 2). La droite d passe par les points (-4 ; -3), (-3 ; -2), (-2 ; -1), (-1 ; 0), (0 ; 1), (1 ; 2), (2 ; 3), (3 ; 4), (4 ; 5), (5 ; 6)." viewBox="0 0 300 300" width="300" height="300" style="max-width:330px; width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg"><line x1="18" y1="282" x2="18" y2="18" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="42" y1="282" x2="42" y2="18" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="66" y1="282" x2="66" y2="18" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="90" y1="282" x2="90" y2="18" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="114" y1="282" x2="114" y2="18" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="138" y1="282" x2="138" y2="18" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="162" y1="282" x2="162" y2="18" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="186" y1="282" x2="186" y2="18" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="210" y1="282" x2="210" y2="18" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="234" y1="282" x2="234" y2="18" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="258" y1="282" x2="258" y2="18" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="282" y1="282" x2="282" y2="18" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="18" y1="282" x2="282" y2="282" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="18" y1="258" x2="282" y2="258" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="18" y1="234" x2="282" y2="234" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="18" y1="210" x2="282" y2="210" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="18" y1="186" x2="282" y2="186" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="18" y1="162" x2="282" y2="162" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="18" y1="138" x2="282" y2="138" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="18" y1="114" x2="282" y2="114" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="18" y1="90" x2="282" y2="90" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="18" y1="66" x2="282" y2="66" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="18" y1="42" x2="282" y2="42" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="18" y1="18" x2="282" y2="18" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="18" y1="186" x2="292" y2="186" stroke="var(--text-main, #334155)" stroke-width="1.5"/><polygon points="0,0 -8,-3.5 -8,3.5" transform="translate(294 186) rotate(0)" fill="var(--text-main, #334155)"/><line x1="138" y1="282" x2="138" y2="8" stroke="var(--text-main, #334155)" stroke-width="1.5"/><polygon points="0,0 -8,-3.5 -8,3.5" transform="translate(138 6) rotate(-90)" fill="var(--text-main, #334155)"/><text x="18" y="199" text-anchor="middle" font-size="10" fill="var(--text-main, #334155)">−5</text><text x="42" y="199" text-anchor="middle" font-size="10" fill="var(--text-main, #334155)">−4</text><text x="66" y="199" text-anchor="middle" font-size="10" fill="var(--text-main, #334155)">−3</text><text x="90" y="199" text-anchor="middle" font-size="10" fill="var(--text-main, #334155)">−2</text><text x="114" y="199" text-anchor="middle" font-size="10" fill="var(--text-main, #334155)">−1</text><text x="162" y="199" text-anchor="middle" font-size="10" fill="var(--text-main, #334155)">1</text><text x="186" y="199" text-anchor="middle" font-size="10" fill="var(--text-main, #334155)">2</text><text x="210" y="199" text-anchor="middle" font-size="10" fill="var(--text-main, #334155)">3</text><text x="234" y="199" text-anchor="middle" font-size="10" fill="var(--text-main, #334155)">4</text><text x="258" y="199" text-anchor="middle" font-size="10" fill="var(--text-main, #334155)">5</text><text x="282" y="199" text-anchor="middle" font-size="10" fill="var(--text-main, #334155)">6</text><text x="133" y="285.5" text-anchor="end" font-size="10" fill="var(--text-main, #334155)">−4</text><text x="133" y="261.5" text-anchor="end" font-size="10" fill="var(--text-main, #334155)">−3</text><text x="133" y="237.5" text-anchor="end" font-size="10" fill="var(--text-main, #334155)">−2</text><text x="133" y="213.5" text-anchor="end" font-size="10" fill="var(--text-main, #334155)">−1</text><text x="133" y="165.5" text-anchor="end" font-size="10" fill="var(--text-main, #334155)">1</text><text x="133" y="141.5" text-anchor="end" font-size="10" fill="var(--text-main, #334155)">2</text><text x="133" y="117.5" text-anchor="end" font-size="10" fill="var(--text-main, #334155)">3</text><text x="133" y="93.5" text-anchor="end" font-size="10" fill="var(--text-main, #334155)">4</text><text x="133" y="69.5" text-anchor="end" font-size="10" fill="var(--text-main, #334155)">5</text><text x="133" y="45.5" text-anchor="end" font-size="10" fill="var(--text-main, #334155)">6</text><text x="133" y="21.5" text-anchor="end" font-size="10" fill="var(--text-main, #334155)">7</text><text x="132" y="199" text-anchor="end" font-size="10" fill="var(--text-main, #334155)">0</text><path d="M 42 258 C 50 250 58 242 66 234 C 74 226 82 218 90 210 C 98 202 106 194 114 186 C 122 178 130 170 138 162 C 146 154 154 146 162 138 C 170 130 178 122 186 114 C 194 106 202 98 210 90 C 218 82 226 74 234 66 C 242 58 250 50 258 42" fill="none" stroke="#dc2626" stroke-width="2" stroke-dasharray="6 4"/><circle cx="42" cy="258" r="3.2" fill="#dc2626"/><circle cx="258" cy="42" r="3.2" fill="#dc2626"/><path d="M 42 258 C 50 242 58 226 66 210 C 74 194 82 178 90 162 C 98 146 106 114 114 114 C 122 114 130 146 138 162 C 146 178 154 199.33 162 210 C 170 220.67 178 234 186 234 C 194 234 202 220.67 210 210 C 218 199.33 226 172.67 234 162 C 242 151.33 250 146 258 138" fill="none" stroke="#2563eb" stroke-width="2.2"/><circle cx="42" cy="258" r="3.2" fill="#2563eb"/><circle cx="258" cy="138" r="3.2" fill="#2563eb"/><text x="186" y="250" text-anchor="middle" font-size="13" font-weight="700" fill="#2563eb">C<tspan dy="3" font-size="10">f</tspan></text><text x="186" y="107" text-anchor="middle" font-size="13" font-weight="700" fill="#dc2626">d</text></svg></div>
+
+Toutes les réponses sont à donner par lecture graphique.
+
+1. Déterminer $f(-2)$, $f(1)$ et l'image de $5$ par $f$.
+2. Déterminer les antécédents par $f$ de $3$, de $1$ et de $4$.
+3. Résoudre l'équation $f(x) = -1$ sur $[-4 ; 5]$.
+4. Résoudre l'inéquation $f(x) \\leqslant 1$ sur $[-4 ; 5]$.
+5. Résoudre l'équation $f(x) = x + 1$, puis l'inéquation $f(x) \\geqslant x + 1$, sur $[-4 ; 5]$.`,
+      solution: `**1.** Une image se lit en ordonnée : $f(-2) = 1$, $f(1) = -1$ et $f(5) = 2$.
+
+**2.** Les antécédents de $k$ sont les abscisses des points d'intersection de $\\mathcal{C}_f$ avec la droite horizontale d'équation $y = k$.
+- La droite d'équation $y = 3$ rencontre la courbe en un seul point : $3$ a un unique antécédent, $-1$.
+- La droite d'équation $y = 1$ rencontre la courbe en trois points : les antécédents de $1$ sont $-2$, $0$ et $4$.
+- La droite d'équation $y = 4$ ne rencontre pas la courbe : $4$ n'a aucun antécédent.
+
+**3.** La droite d'équation $y = -1$ rencontre la courbe aux points d'abscisses $-3$, $1$ et $3$ : $\\mathcal{S} = \\{-3 ; 1 ; 3\\}$.
+
+**4.** On relève les abscisses des points de $\\mathcal{C}_f$ situés sur ou sous la droite d'équation $y = 1$ : $\\mathcal{S} = [-4 ; -2] \\cup [0 ; 4]$.
+
+**5.** $\\mathcal{C}_f$ et $d$ se rencontrent aux points d'abscisses $-4$ et $0$ : l'équation a pour ensemble de solutions $\\mathcal{S} = \\{-4 ; 0\\}$.
+
+$\\mathcal{C}_f$ est au-dessus de $d$ (ou la rencontre) pour les abscisses comprises entre $-4$ et $0$ : l'inéquation a pour ensemble de solutions $\\mathcal{S} = [-4 ; 0]$.`
     }
   ],
   "2A2": [
@@ -2934,19 +2971,20 @@ $$f(b) - f(a) = \\frac{(b - a)(ab - 1)}{ab}.$$
       points: 7,
       statement: `Soit $f$ la fonction définie sur $\\mathbb{R}$ par $f(x) = \\dfrac{1}{x^2 + 1}$.
 
-1. Justifier que $f$ est bien définie sur $\\mathbb{R}$ et que $f(-x) = f(x)$ pour tout réel $x$. Interpréter graphiquement.
-2. a) Soient $a$ et $b$ tels que $0 \\leqslant a < b$. En comparant successivement $a^2$ et $b^2$, $a^2 + 1$ et $b^2 + 1$, puis leurs inverses, montrer que $f(a) > f(b)$.
+1. Justifier que $f$ est bien définie sur $\\mathbb{R}$. **Pour aller plus loin** : vérifier que $f(-x) = f(x)$ pour tout réel $x$ et interpréter graphiquement.
+2. On rappelle que la fonction carré est croissante sur $[0 ; +\\infty[$ et que la fonction inverse est décroissante sur $]0 ; +\\infty[$.
+ a) Soient $a$ et $b$ tels que $0 \\leqslant a < b$. En comparant successivement $a^2$ et $b^2$, $a^2 + 1$ et $b^2 + 1$, puis leurs inverses, montrer que $f(a) > f(b)$.
  b) En déduire le sens de variation de $f$ sur $[0 ; +\\infty[$, puis sur $]-\\infty ; 0]$.
  c) Dresser le tableau de variations de $f$ et en déduire que $0 < f(x) \\leqslant 1$ pour tout réel $x$.
 3. Soit $g$ la fonction définie sur $\\mathbb{R}$ par $g(x) = \\dfrac{x^2 + 3}{x^2 + 1}$.
  a) Montrer que $g(x) = 1 + 2f(x)$.
  b) En déduire les variations de $g$ et un encadrement de $g(x)$.
  c) Résoudre l'équation $g(x) = 2$.`,
-      solution: `**1.** $x^2 + 1 \\geqslant 1 > 0$ : le dénominateur ne s'annule jamais, $f$ est définie sur $\\mathbb{R}$. $f(-x) = \\frac{1}{(-x)^2 + 1} = \\frac{1}{x^2 + 1} = f(x)$ : la courbe de $f$ est symétrique par rapport à l'axe des ordonnées ($f$ est paire).
+      solution: `**1.** $x^2 + 1 \\geqslant 1 > 0$ : le dénominateur ne s'annule jamais, $f$ est définie sur $\\mathbb{R}$. $f(-x) = \\frac{1}{(-x)^2 + 1} = \\frac{1}{x^2 + 1} = f(x)$ : la courbe de $f$ est symétrique par rapport à l'axe des ordonnées (**Pour aller plus loin** : on dit que $f$ est paire).
 
 **2. a)** La fonction carré est croissante sur $[0 ; +\\infty[$ : $0 \\leqslant a < b \\Rightarrow a^2 < b^2$, donc $1 \\leqslant a^2 + 1 < b^2 + 1$. La fonction inverse est décroissante sur $]0 ; +\\infty[$ : $\\frac{1}{a^2 + 1} > \\frac{1}{b^2 + 1}$, soit $f(a) > f(b)$.
 
-**b)** $f$ est décroissante sur $[0 ; +\\infty[$. Par symétrie (question 1), elle est croissante sur $]-\\infty ; 0]$ : si $a < b \\leqslant 0$, alors $0 \\leqslant -b < -a$, donc $f(-b) > f(-a)$, soit $f(b) > f(a)$.
+**b)** $f$ est décroissante sur $[0 ; +\\infty[$. Comme $(-x)^2 = x^2$, on a $f(-x) = f(x)$ pour tout réel $x$ ; on en déduit que $f$ est croissante sur $]-\\infty ; 0]$ : si $a < b \\leqslant 0$, alors $0 \\leqslant -b < -a$, donc $f(-b) > f(-a)$, soit $f(b) > f(a)$.
 
 **c)**
 
@@ -2961,6 +2999,39 @@ Le maximum est $f(0) = 1$, et $f(x) > 0$ comme inverse d'un nombre positif : $0 
 **b)** Multiplier par $2 > 0$ puis ajouter $1$ conserve le sens de variation : $g$ est croissante sur $]-\\infty ; 0]$ et décroissante sur $[0 ; +\\infty[$, de maximum $g(0) = 3$. De $0 < f(x) \\leqslant 1$, on tire $1 < g(x) \\leqslant 3$.
 
 **c)** $g(x) = 2 \\iff 2f(x) = 1 \\iff x^2 + 1 = 2 \\iff x^2 = 1 \\iff x = -1$ ou $x = 1$.`
+    },
+    {
+      id: "2A2-ds-17",
+      title: "De la courbe au tableau de variations",
+      difficulty: 2,
+      points: 6,
+      statement: `La courbe ci-dessous représente une fonction $f$ définie sur $[-5 ; 4]$.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.6rem auto;"><svg class="geo-svg-figure" role="img" aria-label="Courbe de la fonction f sur l'intervalle [-5 ; 4], passant par les points (-5 ; 2), (-4 ; 0), (-3 ; -2), (-2 ; -3), (-1 ; -1), (0 ; 1), (1 ; 3), (2 ; 2), (3 ; 0), (4 ; -1)." viewBox="0 0 300 228" width="300" height="228" style="max-width:330px; width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg"><line x1="18" y1="210" x2="18" y2="18" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="42" y1="210" x2="42" y2="18" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="66" y1="210" x2="66" y2="18" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="90" y1="210" x2="90" y2="18" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="114" y1="210" x2="114" y2="18" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="138" y1="210" x2="138" y2="18" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="162" y1="210" x2="162" y2="18" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="186" y1="210" x2="186" y2="18" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="210" y1="210" x2="210" y2="18" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="234" y1="210" x2="234" y2="18" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="258" y1="210" x2="258" y2="18" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="282" y1="210" x2="282" y2="18" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="18" y1="210" x2="282" y2="210" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="18" y1="186" x2="282" y2="186" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="18" y1="162" x2="282" y2="162" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="18" y1="138" x2="282" y2="138" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="18" y1="114" x2="282" y2="114" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="18" y1="90" x2="282" y2="90" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="18" y1="66" x2="282" y2="66" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="18" y1="42" x2="282" y2="42" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="18" y1="18" x2="282" y2="18" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/><line x1="18" y1="114" x2="292" y2="114" stroke="var(--text-main, #334155)" stroke-width="1.5"/><polygon points="0,0 -8,-3.5 -8,3.5" transform="translate(294 114) rotate(0)" fill="var(--text-main, #334155)"/><line x1="162" y1="210" x2="162" y2="8" stroke="var(--text-main, #334155)" stroke-width="1.5"/><polygon points="0,0 -8,-3.5 -8,3.5" transform="translate(162 6) rotate(-90)" fill="var(--text-main, #334155)"/><text x="18" y="127" text-anchor="middle" font-size="10" fill="var(--text-main, #334155)">−6</text><text x="42" y="127" text-anchor="middle" font-size="10" fill="var(--text-main, #334155)">−5</text><text x="66" y="127" text-anchor="middle" font-size="10" fill="var(--text-main, #334155)">−4</text><text x="90" y="127" text-anchor="middle" font-size="10" fill="var(--text-main, #334155)">−3</text><text x="114" y="127" text-anchor="middle" font-size="10" fill="var(--text-main, #334155)">−2</text><text x="138" y="127" text-anchor="middle" font-size="10" fill="var(--text-main, #334155)">−1</text><text x="186" y="127" text-anchor="middle" font-size="10" fill="var(--text-main, #334155)">1</text><text x="210" y="127" text-anchor="middle" font-size="10" fill="var(--text-main, #334155)">2</text><text x="234" y="127" text-anchor="middle" font-size="10" fill="var(--text-main, #334155)">3</text><text x="258" y="127" text-anchor="middle" font-size="10" fill="var(--text-main, #334155)">4</text><text x="282" y="127" text-anchor="middle" font-size="10" fill="var(--text-main, #334155)">5</text><text x="157" y="213.5" text-anchor="end" font-size="10" fill="var(--text-main, #334155)">−4</text><text x="157" y="189.5" text-anchor="end" font-size="10" fill="var(--text-main, #334155)">−3</text><text x="157" y="165.5" text-anchor="end" font-size="10" fill="var(--text-main, #334155)">−2</text><text x="157" y="141.5" text-anchor="end" font-size="10" fill="var(--text-main, #334155)">−1</text><text x="157" y="93.5" text-anchor="end" font-size="10" fill="var(--text-main, #334155)">1</text><text x="157" y="69.5" text-anchor="end" font-size="10" fill="var(--text-main, #334155)">2</text><text x="157" y="45.5" text-anchor="end" font-size="10" fill="var(--text-main, #334155)">3</text><text x="157" y="21.5" text-anchor="end" font-size="10" fill="var(--text-main, #334155)">4</text><text x="156" y="127" text-anchor="end" font-size="10" fill="var(--text-main, #334155)">0</text><path d="M 42 66 C 50 82 58 98 66 114 C 74 130 82 151.33 90 162 C 98 172.67 106 186 114 186 C 122 186 130 154 138 138 C 146 122 154 106 162 90 C 170 74 178 42 186 42 C 194 42 202 55.33 210 66 C 218 76.67 226 103.33 234 114 C 242 124.67 250 130 258 138" fill="none" stroke="#2563eb" stroke-width="2.2"/><circle cx="42" cy="66" r="3.2" fill="#2563eb"/><circle cx="258" cy="138" r="3.2" fill="#2563eb"/></svg></div>
+
+1. Par lecture graphique, déterminer les intervalles sur lesquels $f$ est croissante et ceux sur lesquels elle est décroissante.
+2. Dresser le tableau de variations de $f$ sur $[-5 ; 4]$.
+3. Donner le maximum et le minimum de $f$ sur $[-5 ; 4]$, en précisant en quelles valeurs ils sont atteints.
+4. Sans lire les images sur le graphique, comparer $f(-4)$ et $f(-3)$, puis $f(2)$ et $f(3)$. Justifier.
+5. À l'aide du tableau de variations, déterminer le nombre de solutions de l'équation $f(x) = 0$ sur $[-5 ; 4]$.`,
+      solution: `**1.** En parcourant la courbe de gauche à droite : $f$ est décroissante sur $[-5 ; -2]$, croissante sur $[-2 ; 1]$ et décroissante sur $[1 ; 4]$.
+
+**2.** La ligne des $x$ contient les bornes $-5$ et $4$ et les abscisses $-2$ et $1$ des changements de sens. On lit $f(-5) = 2$, $f(-2) = -3$, $f(1) = 3$ et $f(4) = -1$.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.6rem auto;"><svg class="geo-svg-figure" role="img" aria-label="Tableau de variations de f. Ligne des x : -5, -2, 1, 4. Ligne de f(x) : 2, -3, 3, -1. Flèches : descendante, montante, descendante." viewBox="0 0 370 118" width="370" height="118" style="max-width:370px; width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="1" width="368" height="116" fill="none" stroke="var(--text-main, #334155)"/><line x1="1" y1="30" x2="369" y2="30" stroke="var(--text-main, #334155)" stroke-width="1"/><line x1="38" y1="1" x2="38" y2="117" stroke="var(--text-main, #334155)" stroke-width="1"/><text x="20" y="21" text-anchor="middle" font-size="12" font-weight="700" fill="var(--text-main, #334155)">x</text><text x="20" y="79" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-main, #334155)">f(x)</text><text x="62" y="21" text-anchor="middle" font-size="12" fill="var(--text-main, #334155)">−5</text><text x="157.33" y="21" text-anchor="middle" font-size="12" fill="var(--text-main, #334155)">−2</text><text x="252.67" y="21" text-anchor="middle" font-size="12" fill="var(--text-main, #334155)">1</text><text x="348" y="21" text-anchor="middle" font-size="12" fill="var(--text-main, #334155)">4</text><text x="62" y="54" text-anchor="middle" font-size="12" fill="var(--text-main, #334155)">2</text><text x="157.33" y="108" text-anchor="middle" font-size="12" fill="var(--text-main, #334155)">−3</text><text x="252.67" y="54" text-anchor="middle" font-size="12" fill="var(--text-main, #334155)">3</text><text x="348" y="108" text-anchor="middle" font-size="12" fill="var(--text-main, #334155)">−1</text><line x1="75" y1="55" x2="144.33" y2="95" stroke="var(--text-main, #334155)" stroke-width="1"/><polygon points="0,0 -8,-3.5 -8,3.5" transform="translate(144.33 95) rotate(29.98)" fill="var(--text-main, #334155)"/><line x1="170.33" y1="95" x2="239.67" y2="55" stroke="var(--text-main, #334155)" stroke-width="1"/><polygon points="0,0 -8,-3.5 -8,3.5" transform="translate(239.67 55) rotate(-29.98)" fill="var(--text-main, #334155)"/><line x1="265.67" y1="55" x2="335" y2="95" stroke="var(--text-main, #334155)" stroke-width="1"/><polygon points="0,0 -8,-3.5 -8,3.5" transform="translate(335 95) rotate(29.98)" fill="var(--text-main, #334155)"/></svg></div>
+
+**3.** Les valeurs à comparer sont $2$, $-3$, $3$ et $-1$. Le maximum de $f$ est $3$, atteint en $x = 1$ ; le minimum de $f$ est $-3$, atteint en $x = -2$.
+
+**4.** $-4$ et $-3$ appartiennent à $[-5 ; -2]$, où $f$ est décroissante : $-4 < -3$ donne $f(-4) > f(-3)$.
+
+$2$ et $3$ appartiennent à $[1 ; 4]$, où $f$ est décroissante : $2 < 3$ donne $f(2) > f(3)$.
+
+**5.** La courbe est tracée d'un seul tenant et $f$ est strictement monotone sur chaque intervalle du tableau.
+- Sur $[-5 ; -2]$, $f$ décroît de $2$ à $-3$ : $0$ est compris entre ces valeurs, une solution.
+- Sur $[-2 ; 1]$, $f$ croît de $-3$ à $3$ : une solution.
+- Sur $[1 ; 4]$, $f$ décroît de $3$ à $-1$ : une solution.
+
+L'équation $f(x) = 0$ admet donc exactement $3$ solutions sur $[-5 ; 4]$.`
     }
   ],
   "2A3": [
@@ -3181,10 +3252,10 @@ $(1{,}1a)^3 = 1{,}331a^3$ : le volume est multiplié par $1{,}331$, soit une aug
 2. Les points $A(-3 ; -27)$ et $B(0{,}5 ; 0{,}25)$ appartiennent-ils à $\\mathcal{C}$ ?
 3. Sans calculer, comparer $(-2{,}1)^3$ et $(-2{,}01)^3$, en citant la propriété utilisée.
 4. Résoudre dans $\\mathbb{R}$ : a) $x^3 = 64$ ; $\\quad$ b) $x^3 < -\\frac{1}{8}$.
-5. Montrer que pour tout réel $x$, $f(-x) = -f(x)$. Que peut-on en déduire pour la courbe $\\mathcal{C}$ ?`,
-      solution: `**1.** $f(-2) = (-2)^3 = -8$ ; $\;f(0{,}1) = 0{,}001$ ; $\;f(-1{,}5) = -3{,}375$.
+5. **Pour aller plus loin** : montrer que pour tout réel $x$, $f(-x) = -f(x)$. Que peut-on en déduire pour la courbe $\\mathcal{C}$ ?`,
+      solution: `**1.** $f(-2) = (-2)^3 = -8$ ; $\\;f(0{,}1) = 0{,}001$ ; $\\;f(-1{,}5) = -3{,}375$.
 
-**2.** $f(-3) = -27$ : $A \\in \\mathcal{C}$. $\;f(0{,}5) = 0{,}125 \\neq 0{,}25$ : $B \\notin \\mathcal{C}$.
+**2.** $f(-3) = -27$ : $A \\in \\mathcal{C}$. $\\;f(0{,}5) = 0{,}125 \\neq 0{,}25$ : $B \\notin \\mathcal{C}$.
 
 **3.** La fonction cube est strictement croissante sur $\\mathbb{R}$ : elle conserve l'ordre. Comme $-2{,}1 < -2{,}01$, on a $(-2{,}1)^3 < (-2{,}01)^3$.
 
@@ -3222,7 +3293,7 @@ $\\mathcal{S} = \\left]-\\infty ; -\\frac{1}{2}\\right] \\cup \\,]0 ; +\\infty[$
     },
     {
       id: "2A3-ds-11",
-      title: "Démontrer les variations des fonctions racine carrée et cube",
+      title: "Pour aller plus loin : démontrer les variations des fonctions racine carrée et cube",
       difficulty: 3,
       points: 6,
       statement: `**Partie A : la fonction racine carrée.**
@@ -3289,7 +3360,7 @@ $f$ est affine décroissante sur $[-2 ; 1]$ (coefficient $-2$), constante sur $[
     },
 {
       id: "2A3-ds-13",
-      title: "Parité et symétries des courbes de référence",
+      title: "Pour aller plus loin : parité et symétries des courbes de référence",
       difficulty: 1,
       points: 4,
       statement: `On dit qu'une fonction $f$ définie sur $\\mathbb{R}$ (ou sur $\\mathbb{R} \\setminus \\{0\\}$) est **paire** si $f(-x) = f(x)$ pour tout $x$, et **impaire** si $f(-x) = -f(x)$ pour tout $x$.
@@ -3672,7 +3743,7 @@ $\\Omega A^2 = \\Omega B^2 \\iff 0 = -12x - 4y + 40 \\iff 12x + 4y = 40 \\iff 3x
 
 **b)** $\\Omega C^2 = (x - 2)^2 + (y - 6)^2 = x^2 - 4x + 4 + y^2 - 12y + 36$, donc $\\Omega A^2 = \\Omega C^2 \\iff 4x + 12y = 40 \\iff x + 3y = 10$.
 
-**c)** On résout le système $3x + y = 10$ et $x + 3y = 10$. En soustrayant : $2x - 2y = 0$, donc $x = y$, puis $4x = 10$, soit $x = y = 2{,}5$. Donc $\\Omega(2{,}5 ; 2{,}5)$.
+**c)** $\\Omega$ appartient aux deux droites d'équations réduites $y = 10 - 3x$ et $y = \\frac{10 - x}{3}$. En égalant les ordonnées : $10 - 3x = \\frac{10 - x}{3} \\iff 30 - 9x = 10 - x \\iff 8x = 20 \\iff x = 2{,}5$, puis $y = 10 - 3 \\times 2{,}5 = 2{,}5$. Donc $\\Omega(2{,}5 ; 2{,}5)$.
 
 **3.** $R = \\Omega A = \\sqrt{2{,}5^2 + 2{,}5^2} = \\sqrt{12{,}5} = \\sqrt{\\frac{25}{2}} = \\frac{5}{\\sqrt{2}} = \\frac{5\\sqrt{2}}{2}$.
 
@@ -4069,12 +4140,12 @@ La résultante vaut alors $\\begin{pmatrix} 6 + \\frac{32}{3} \\\\ 0 \\end{pmatr
       title: "Calculs sur les coordonnées de vecteurs",
       difficulty: 1,
       points: 4,
-      statement: `Dans un repère, on considère les vecteurs $\\vec{u}(2 ; -3)$, $\\vec{v}(-1 ; 4)$ et $\\vec{w}(-4 ; 6)$.
+      statement: `Dans un repère, on considère les vecteurs $\\vec{u}\\begin{pmatrix} 2 \\\\ -3 \\end{pmatrix}$, $\\vec{v}\\begin{pmatrix} -1 \\\\ 4 \\end{pmatrix}$ et $\\vec{w}\\begin{pmatrix} -4 \\\\ 6 \\end{pmatrix}$.
 
 1. Calculer les coordonnées des vecteurs $\\vec{u} + \\vec{v}$ et $2\\vec{u} - 3\\vec{v}$.
 2. Calculer $\\det(\\vec{u}, \\vec{v})$. Les vecteurs $\\vec{u}$ et $\\vec{v}$ sont-ils colinéaires ?
 3. Les vecteurs $\\vec{u}$ et $\\vec{w}$ sont-ils colinéaires ? Si oui, exprimer $\\vec{w}$ en fonction de $\\vec{u}$.
-4. Déterminer le réel $m$ tel que le vecteur $\\vec{t}(m ; 6)$ soit colinéaire à $\\vec{v}$.`,
+4. Déterminer le réel $m$ tel que le vecteur $\\vec{t}\\begin{pmatrix} m \\\\ 6 \\end{pmatrix}$ soit colinéaire à $\\vec{v}$.`,
       solution: `**1.** $\\vec{u} + \\vec{v}\\,(2 - 1 ; -3 + 4) = (1 ; 1)$.
 
 $2\\vec{u}\\,(4 ; -6)$ et $3\\vec{v}\\,(-3 ; 12)$, donc $2\\vec{u} - 3\\vec{v}\\,(4 + 3 ; -6 - 12) = (7 ; -18)$.
@@ -4170,6 +4241,41 @@ $\\overrightarrow{MP} = \\overrightarrow{MB} + \\overrightarrow{BP} = \\frac{2}{
 **b)** Colinéarité : $\\left(-\\frac{1}{3}\\right) \\times k - \\left(\\frac{2}{3} - k\\right) \\times \\frac{3}{4} = 0 \\iff -\\frac{k}{3} - \\frac{1}{2} + \\frac{3k}{4} = 0 \\iff \\frac{5k}{12} = \\frac{1}{2} \\iff k = \\frac{6}{5}$.
 
 On retrouve la même valeur, quel que soit le triangle $ABC$.`
+    },
+    {
+      id: "2G2-ds-17",
+      title: "Représentants, vecteur nul et somme de vecteurs",
+      difficulty: 2,
+      points: 6,
+      statement: `$ABCD$ est un parallélogramme de centre $O$.
+
+1. Sans justifier, donner :
+ a) le représentant de $\\overrightarrow{AB}$ d'origine $D$ ;
+ b) le représentant de $\\overrightarrow{AO}$ d'origine $O$ ;
+ c) l'image du point $D$ par la translation de vecteur $\\overrightarrow{AB}$.
+2. Simplifier chacune des expressions suivantes, en justifiant :
+ a) $\\overrightarrow{AB} + \\overrightarrow{BO}$ ;
+ b) $\\overrightarrow{OA} + \\overrightarrow{OC}$ ;
+ c) $\\overrightarrow{AB} + \\overrightarrow{AD}$ ;
+ d) $\\overrightarrow{AO} - \\overrightarrow{CO}$.
+3. Démontrer que, pour tout point $M$ du plan, $\\overrightarrow{MA} + \\overrightarrow{MC} = 2\\overrightarrow{MO}$.`,
+      solution: `**1.** a) $ABCD$ est un parallélogramme, donc $\\overrightarrow{AB} = \\overrightarrow{DC}$ : le représentant cherché est $\\overrightarrow{DC}$.
+
+b) $O$ est le milieu de $[AC]$, donc $\\overrightarrow{AO} = \\overrightarrow{OC}$ : le représentant cherché est $\\overrightarrow{OC}$.
+
+c) Comme $\\overrightarrow{DC} = \\overrightarrow{AB}$, l'image de $D$ par la translation de vecteur $\\overrightarrow{AB}$ est le point $C$.
+
+**2.** a) D'après la relation de Chasles, $\\overrightarrow{AB} + \\overrightarrow{BO} = \\overrightarrow{AO}$.
+
+b) $O$ est le milieu de $[AC]$ : $\\overrightarrow{OA}$ et $\\overrightarrow{OC}$ sont opposés, donc $\\overrightarrow{OA} + \\overrightarrow{OC} = \\vec{0}$.
+
+c) D'après la règle du parallélogramme, $\\overrightarrow{AB} + \\overrightarrow{AD} = \\overrightarrow{AC}$.
+
+d) $-\\overrightarrow{CO} = \\overrightarrow{OC}$, donc $\\overrightarrow{AO} - \\overrightarrow{CO} = \\overrightarrow{AO} + \\overrightarrow{OC} = \\overrightarrow{AC}$ d'après la relation de Chasles.
+
+**3.** Soit $M$ un point du plan. On intercale le point $O$ avec la relation de Chasles :
+$$\\overrightarrow{MA} + \\overrightarrow{MC} = \\overrightarrow{MO} + \\overrightarrow{OA} + \\overrightarrow{MO} + \\overrightarrow{OC} = 2\\overrightarrow{MO} + \\left(\\overrightarrow{OA} + \\overrightarrow{OC}\\right).$$
+D'après la question 2. b), $\\overrightarrow{OA} + \\overrightarrow{OC} = \\vec{0}$, donc $\\overrightarrow{MA} + \\overrightarrow{MC} = 2\\overrightarrow{MO}$.`
     }
   ],
   "2G3": [
@@ -4241,7 +4347,7 @@ Avec l'axe des abscisses ($y = 0$) : $2x - 10 = 0$, $x = 5$, point $(5 ; 0)$.`
    b) Déterminer les coordonnées de leur point d'intersection.
 2. On considère $d_3 : 3x - 2y + 1 = 0$ et $d_4 : x + 4y - 9 = 0$.
    a) Justifier que $d_3$ et $d_4$ sont sécantes.
-   b) Résoudre le système formé par leurs équations et en déduire leur point d'intersection.
+   b) Écrire les équations réduites de $d_3$ et de $d_4$, puis déterminer les coordonnées de leur point d'intersection en égalant les ordonnées.
 3. Les droites $d_5 : y = 3x + 1$ et $d_6 : -6x + 2y - 2 = 0$ sont-elles sécantes ?`,
       solution: `**1. a)** Les coefficients directeurs $2$ et $-1$ sont différents : les droites sont sécantes.
 
@@ -4249,7 +4355,7 @@ Avec l'axe des abscisses ($y = 0$) : $2x - 10 = 0$, $x = 5$, point $(5 ; 0)$.`
 
 **2. a)** Vecteurs directeurs : $\\vec{u}_3\\begin{pmatrix} 2 \\\\ 3 \\end{pmatrix}$ et $\\vec{u}_4\\begin{pmatrix} -4 \\\\ 1 \\end{pmatrix}$. $\\det(\\vec{u}_3, \\vec{u}_4) = 2 \\times 1 - 3 \\times (-4) = 14 \\neq 0$ : ils ne sont pas colinéaires, les droites sont sécantes.
 
-**b)** De la seconde équation : $x = 9 - 4y$. En remplaçant dans la première : $3(9 - 4y) - 2y + 1 = 0 \\iff 28 - 14y = 0 \\iff y = 2$, puis $x = 9 - 8 = 1$.
+**b)** $d_3 : y = 1{,}5x + 0{,}5$ et $d_4 : y = -0{,}25x + 2{,}25$. En égalant les ordonnées : $1{,}5x + 0{,}5 = -0{,}25x + 2{,}25 \\iff 1{,}75x = 1{,}75 \\iff x = 1$, puis $y = 1{,}5 \\times 1 + 0{,}5 = 2$.
 Point d'intersection : $(1 ; 2)$. *Vérification :* $3 - 4 + 1 = 0$ et $1 + 8 - 9 = 0$.
 
 **3.** $d_6 : 2y = 6x + 2 \\iff y = 3x + 1$ : c'est la même équation réduite que $d_5$. Les droites sont **confondues** (elles ne sont donc pas sécantes au sens strict : elles ont une infinité de points communs).`
@@ -4347,6 +4453,7 @@ La formule A n'est **jamais** la plus avantageuse : lorsqu'elle bat C ($x > 66{,
       solution: `**1.** Une équation $ax + by + c = 0$ définit une droite dès que $(a ; b) \\neq (0 ; 0)$. Ici $m - 1 = 0$ et $2m + 1 = 0$ donneraient $m = 1$ et $m = -\\frac{1}{2}$ simultanément, ce qui est impossible.
 
 **2.** $d_0 : -x + y - 3 = 0$, soit $y = x + 3$. $\\quad d_1 : 3y - 3 = 0$, soit $y = 1$ (droite parallèle à l'axe des abscisses).
+Pour construire $d_0$, on place par exemple les points $(0 ; 3)$ et $(-3 ; 0)$ et on les joint ; $d_1$ est la droite horizontale passant par $(0 ; 1)$.
 
 **3.** $d_m$ est parallèle à l'axe des ordonnées lorsque le coefficient de $y$ est nul : $2m + 1 = 0 \\iff m = -\\frac{1}{2}$. Alors $-\\frac{3}{2}x - 3 = 0$, soit $x = -2$.
 
@@ -4354,7 +4461,7 @@ La formule A n'est **jamais** la plus avantageuse : lorsqu'elle bat C ($x > 66{,
 
 **5. a)** $(m - 1)x + (2m + 1)y - 3 = mx - x + 2my + y - 3 = m(x + 2y) + (-x + y - 3)$.
 
-**b)** Si $x + 2y = 0$ et $-x + y - 3 = 0$, l'équation est vérifiée pour tout $m$. En additionnant : $3y - 3 = 0$, donc $y = 1$, puis $x = -2$. Le point $\\Omega(-2 ; 1)$ appartient à toutes les droites $d_m$. *(On retrouve que $d_1 : y = 1$ et $d_{-1/2} : x = -2$ passent par $\\Omega$.)*
+**b)** Si $x + 2y = 0$ et $-x + y - 3 = 0$, l'équation est vérifiée pour tout $m$. Ces deux conditions définissent deux droites, d'équations réduites $y = -\\frac{1}{2}x$ et $y = x + 3$ ; on cherche leur point commun en égalant les ordonnées : $-\\frac{1}{2}x = x + 3 \\iff -\\frac{3}{2}x = 3 \\iff x = -2$, puis $y = -2 + 3 = 1$. Le point $\\Omega(-2 ; 1)$ appartient à toutes les droites $d_m$. *(On retrouve que $d_1 : y = 1$ et $d_{-1/2} : x = -2$ passent par $\\Omega$.)*
 
 **6.** Pour $O(0 ; 0)$ : $(m - 1) \\times 0 + (2m + 1) \\times 0 - 3 = -3 \\neq 0$ quel que soit $m$. Aucune droite $d_m$ ne passe par l'origine.`
     },
@@ -4418,7 +4525,9 @@ On remplace $y$ par $-2x + 10$ dans l'équation de $d'$ : $3x - 2(-2x + 10) - 8 
       title: "Cafés et croissants : un système d'équations",
       difficulty: 3,
       points: 6,
-      statement: `À la cafétéria d'un lycée, Inès paie $7{,}10$ € pour $3$ cafés et $2$ croissants, et Tom paie $9{,}50$ € pour $2$ cafés et $5$ croissants. On note $x$ le prix d'un café et $y$ celui d'un croissant, en euros.
+      statement: `**Pour aller plus loin** : exercice d'approfondissement (les systèmes ne sont pas au programme de seconde).
+
+À la cafétéria d'un lycée, Inès paie $7{,}10$ € pour $3$ cafés et $2$ croissants, et Tom paie $9{,}50$ € pour $2$ cafés et $5$ croissants. On note $x$ le prix d'un café et $y$ celui d'un croissant, en euros.
 
 1. Traduire l'énoncé par un système de deux équations d'inconnues $x$ et $y$.
 2. Interpréter chaque équation comme l'équation d'une droite du plan. Justifier, sans résoudre, que le système admet une unique solution.
@@ -4508,7 +4617,7 @@ $d \\cap d_2$ : $y = -2$ et $2x - 1 = -2 \\iff x = -\\frac{1}{2}$, point $\\left
       title: "Équation cartésienne à partir d'un vecteur directeur",
       difficulty: 2,
       points: 5,
-      statement: `Dans un repère, on considère le point $A(2 ; -1)$ et le vecteur $\\vec{u}(3 ; 2)$. On note $d$ la droite passant par $A$ et de vecteur directeur $\\vec{u}$.
+      statement: `Dans un repère, on considère le point $A(2 ; -1)$ et le vecteur $\\vec{u}\\begin{pmatrix} 3 \\\\ 2 \\end{pmatrix}$. On note $d$ la droite passant par $A$ et de vecteur directeur $\\vec{u}$.
 
 1. Soit $M(x ; y)$ un point du plan. Justifier que $M \\in d$ si et seulement si $\\det(\\overrightarrow{AM}, \\vec{u}) = 0$. En déduire qu'une équation cartésienne de $d$ est $2x - 3y - 7 = 0$.
 2. Donner l'équation réduite de $d$, son coefficient directeur et son ordonnée à l'origine.
@@ -4520,7 +4629,7 @@ $\\overrightarrow{AM}\\,(x - 2 ; y + 1)$, donc $\\det(\\overrightarrow{AM}, \\ve
 
 *Vérification* : $2 \\times 2 - 3 \\times (-1) - 7 = 0$.
 
-**2.** $3y = 2x - 7 \\iff y = \\frac{2}{3}x - \\frac{7}{3}$. Coefficient directeur $\\frac{2}{3}$ (cohérent avec $\\vec{u}(3 ; 2)$ : $\\frac{2}{3}$), ordonnée à l'origine $-\\frac{7}{3}$.
+**2.** $3y = 2x - 7 \\iff y = \\frac{2}{3}x - \\frac{7}{3}$. Coefficient directeur $\\frac{2}{3}$ (cohérent avec $\\vec{u}\\begin{pmatrix} 3 \\\\ 2 \\end{pmatrix}$ : $\\frac{2}{3}$), ordonnée à l'origine $-\\frac{7}{3}$.
 
 **3.** $x = 5$ : $y = \\frac{10}{3} - \\frac{7}{3} = 1$, point $(5 ; 1)$.
 
@@ -4533,7 +4642,9 @@ $y = 0$ : $2x - 7 = 0 \\iff x = \\frac{7}{2}$, point $\\left(\\frac{7}{2} ; 0\\r
       title: "Aucune, une ou une infinité de solutions",
       difficulty: 3,
       points: 6,
-      statement: `Dans un repère, on considère la droite $d$ d'équation $2x + 3y = 5$.
+      statement: `**Pour aller plus loin** : exercice d'approfondissement (les systèmes ne sont pas au programme de seconde).
+
+Dans un repère, on considère la droite $d$ d'équation $2x + 3y = 5$.
 
 1. Résoudre le système $\\begin{cases} 2x + 3y = 5 \\\\ x - y = 0 \\end{cases}$ et interpréter graphiquement.
 2. On considère la droite $d'$ d'équation $4x + 6y = 10$. Que peut-on dire de $d$ et $d'$ ? Combien le système formé par leurs équations a-t-il de solutions ?
@@ -4547,7 +4658,7 @@ $y = 0$ : $2x - 7 = 0 \\iff x = \\frac{7}{2}$, point $\\left(\\frac{7}{2} ; 0\\r
 
 **3.** Si $(x ; y)$ vérifiait les deux équations, on aurait $4x + 6y = 2(2x + 3y) = 10$ et $4x + 6y = 7$ : impossible. Le système n'a **aucune** solution : $d$ et $d''$ sont parallèles et distinctes (même vecteur directeur $(-3 ; 2)$).
 
-**4. a)** Une droite d'équation $ax + by = c$ a pour vecteur directeur $(-b ; a)$ : $\\vec{u}(-3 ; 2)$ pour $d$ et $\\vec{v}(-6 ; m)$ pour $\\Delta_m$.
+**4. a)** Une droite d'équation $ax + by = c$ a pour vecteur directeur $(-b ; a)$ : $\\vec{u}\\begin{pmatrix} -3 \\\\ 2 \\end{pmatrix}$ pour $d$ et $\\vec{v}\\begin{pmatrix} -6 \\\\ m \\end{pmatrix}$ pour $\\Delta_m$.
 $\\det(\\vec{u}, \\vec{v}) = -3m - 2 \\times (-6) = 12 - 3m = 0 \\iff m = 4$. Pour $m = 4$, les droites sont parallèles (et distinctes, c'est la question 3) ; pour $m \\neq 4$, elles sont sécantes.
 
 **b)** $\\begin{cases} 2x + 3y = 5 \\\\ x + 6y = 7 \\end{cases}$ : en multipliant la première par $2$, $4x + 6y = 10$ ; en soustrayant la seconde : $3x = 3$, $x = 1$, puis $y = \\frac{7 - 1}{6} = 1$. Solution : $(1 ; 1)$ (on vérifie : $2 + 3 = 5$ et $1 + 6 = 7$).`
@@ -4561,7 +4672,7 @@ $\\det(\\vec{u}, \\vec{v}) = -3m - 2 \\times (-6) = 12 - 3m = 0 \\iff m = 4$. Po
 
 1. Soit $M(x ; y)$. Montrer que $MA^2 = MB^2$ équivaut à $2x + y - 9 = 0$. En déduire une équation de la médiatrice $\\Delta_1$ de $[AB]$ et vérifier que le milieu de $[AB]$ lui appartient.
 2. Déterminer de même une équation de la médiatrice $\\Delta_2$ de $[BC]$.
-3. Résoudre le système formé par les équations de $\\Delta_1$ et $\\Delta_2$. On note $O'$ le point obtenu.
+3. Écrire les équations réduites de $\\Delta_1$ et de $\\Delta_2$, puis déterminer les coordonnées de leur point d'intersection $O'$ en égalant les ordonnées.
 4. Calculer $O'A$, $O'B$ et $O'C$. Que représente $O'$ ?
 5. a) Calculer $AB^2$, $BC^2$ et $AC^2$. Quelle est la nature du triangle $ABC$ ?
  b) Expliquer pourquoi le résultat de la question 4 était prévisible.`,
@@ -4571,13 +4682,41 @@ La médiatrice étant l'ensemble des points équidistants de $A$ et $B$ : $\\Del
 
 **2.** $MB^2 = MC^2 \\iff -10x + 25 - 8y + 16 = -14x + 49 \\iff 4x - 8y - 8 = 0 \\iff x - 2y - 2 = 0$. $\\Delta_2 : x - 2y - 2 = 0$ (le milieu $(6 ; 2)$ vérifie : $6 - 4 - 2 = 0$).
 
-**3.** De $\\Delta_2$ : $x = 2y + 2$. Dans $\\Delta_1$ : $4y + 4 + y - 9 = 0 \\iff y = 1$, puis $x = 4$. $O'(4 ; 1)$.
+**3.** $\\Delta_1 : y = -2x + 9$ et $\\Delta_2 : y = \\frac{x}{2} - 1$. En égalant les ordonnées : $-2x + 9 = \\frac{x}{2} - 1 \\iff 10 = \\frac{5x}{2} \\iff x = 4$, puis $y = -2 \\times 4 + 9 = 1$. Donc $O'(4 ; 1)$.
 
 **4.** $O'A^2 = 9 + 1 = 10$, $O'B^2 = 1 + 9 = 10$, $O'C^2 = 9 + 1 = 10$ : $O'A = O'B = O'C = \\sqrt{10}$. $O'$ est le centre du cercle circonscrit au triangle $ABC$, de rayon $\\sqrt{10}$.
 
 **5. a)** $AB^2 = 16 + 4 = 20$, $BC^2 = 4 + 16 = 20$, $AC^2 = 36 + 4 = 40$. $AB = BC$ et $AB^2 + BC^2 = AC^2$ : $ABC$ est rectangle isocèle en $B$.
 
 **b)** Le centre du cercle circonscrit à un triangle rectangle est le milieu de l'hypoténuse. Ici le milieu de $[AC]$ est $\\left(\\frac{1 + 7}{2} ; \\frac{2 + 0}{2}\\right) = (4 ; 1) = O'$.`
+    },
+    {
+      id: "2G3-ds-17",
+      title: "Tracer des droites à partir de leurs équations",
+      difficulty: 2,
+      points: 5,
+      statement: `Dans un repère orthonormé, on considère les droites $d_1 : y = \\frac{1}{2}x + 1$, $d_2 : x + 2y - 6 = 0$, $d_3 : x = -3$ et $d_4 : y = -2$.
+
+1. Déterminer deux points de $d_1$ à coordonnées entières, puis tracer $d_1$.
+2. Déterminer les coordonnées des points d'intersection de $d_2$ avec les axes du repère, puis tracer $d_2$.
+3. Préciser à quel axe chacune des droites $d_3$ et $d_4$ est parallèle, donner un vecteur directeur de chacune, puis les tracer.
+4. a) Donner un vecteur directeur de $d_1$ à coordonnées entières.
+   b) En partant du point de $d_1$ d'abscisse $0$, utiliser ce vecteur pour obtenir un troisième point de $d_1$.
+5. Lire graphiquement les coordonnées du point d'intersection de $d_1$ et $d_2$, puis les confirmer par le calcul.
+6. Donner les coordonnées du point d'intersection de $d_3$ et $d_4$.`,
+      solution: `**1.** Pour $x = 0$, $y = 1$ : $A(0 ; 1) \\in d_1$. Pour $x = 4$, $y = \\frac{1}{2} \\times 4 + 1 = 3$ : $B(4 ; 3) \\in d_1$. On place $A$ et $B$ et on trace la droite qui les joint.
+
+**2.** Avec l'axe des ordonnées, $x = 0$ : $2y - 6 = 0$, soit $y = 3$, d'où $C(0 ; 3)$. Avec l'axe des abscisses, $y = 0$ : $x - 6 = 0$, soit $x = 6$, d'où $D(6 ; 0)$. On trace la droite $(CD)$.
+
+**3.** $d_3 : x = -3$ est parallèle à l'axe des ordonnées : c'est la droite verticale passant par $(-3 ; 0)$, de vecteur directeur $(0 ; 1)$. $d_4 : y = -2$ est parallèle à l'axe des abscisses : c'est la droite horizontale passant par $(0 ; -2)$, de vecteur directeur $(1 ; 0)$.
+
+**4. a)** Le coefficient directeur de $d_1$ est $\\frac{1}{2}$, donc $\\vec{u}\\left(1 ; \\frac{1}{2}\\right)$ dirige $d_1$, ainsi que le vecteur non nul colinéaire $2\\vec{u}\\begin{pmatrix} 2 \\\\ 1 \\end{pmatrix}$.
+
+**b)** Le point de $d_1$ d'abscisse $0$ est $A(0 ; 1)$. En lui ajoutant le vecteur $(2 ; 1)$, on obtient le point $E(2 ; 2)$. Contrôle : $\\frac{1}{2} \\times 2 + 1 = 2$.
+
+**5.** Graphiquement, les droites se coupent en $(2 ; 2)$. Par le calcul, on remplace $y$ par $\\frac{1}{2}x + 1$ dans l'équation de $d_2$ : $x + 2\\left(\\frac{1}{2}x + 1\\right) - 6 = 0 \\iff 2x - 4 = 0 \\iff x = 2$, puis $y = \\frac{1}{2} \\times 2 + 1 = 2$. Le point d'intersection est $(2 ; 2)$.
+
+**6.** Le point d'intersection de $d_3$ et $d_4$ a pour abscisse $-3$ et pour ordonnée $-2$ : c'est $(-3 ; -2)$.`
     }
   ],
   "2S1": [
@@ -4716,7 +4855,7 @@ Elle dépasse $0{,}75$ pour la première fois dans $[20 ; 30[$ : $Q_3 \\in [20 ;
     },
     {
       id: "2S1-ds-06",
-      title: "Écart-type et écart interquartile",
+      title: "Écart type et écart interquartile",
       difficulty: 3,
       points: 6,
       statement: `On considère deux séries de températures (en °C) relevées sur cinq jours dans deux villes :
@@ -4725,9 +4864,9 @@ Elle dépasse $0{,}75$ pour la première fois dans $[20 ; 30[$ : $Q_3 \\in [20 ;
 
 1. Montrer que les deux séries ont la même moyenne et la même médiane.
 2. Calculer l'écart interquartile de chaque série.
-3. On rappelle que l'écart-type d'une série $x_1, \\dots, x_n$ de moyenne $\\bar{x}$ est $\\sigma = \\sqrt{\\frac{(x_1 - \\bar{x})^2 + \\cdots + (x_n - \\bar{x})^2}{n}}$. Calculer l'écart-type de chaque série (valeur exacte puis arrondi au centième).
+3. On rappelle que l'écart type d'une série $x_1, \\dots, x_n$ de moyenne $\\bar{x}$ est $\\sigma = \\sqrt{\\frac{(x_1 - \\bar{x})^2 + \\cdots + (x_n - \\bar{x})^2}{n}}$. Calculer l'écart type de chaque série (valeur exacte puis arrondi au centième).
 4. Les deux indicateurs de dispersion donnent-ils la même conclusion ? Expliquer cette différence.
-5. On ajoute $2$ °C à toutes les températures de la ville A. Que deviennent sa moyenne et son écart-type ?`,
+5. On ajoute $2$ °C à toutes les températures de la ville A. Que deviennent sa moyenne et son écart type ?`,
       solution: `**1.** A : $\\frac{6 + 8 + 10 + 12 + 14}{5} = \\frac{50}{5} = 10$ ; B : $\\frac{2 + 9 + 10 + 11 + 18}{5} = \\frac{50}{5} = 10$. Les séries sont ordonnées, $N = 5$ : la médiane est la $3^e$ valeur, $10$ dans les deux cas.
 
 **2.** $\\frac{N}{4} = 1{,}25$ : $Q_1$ est la $2^e$ valeur ; $\\frac{3N}{4} = 3{,}75$ : $Q_3$ est la $4^e$ valeur.
@@ -4736,9 +4875,9 @@ A : $Q_3 - Q_1 = 12 - 8 = 4$. $\\quad$ B : $Q_3 - Q_1 = 11 - 9 = 2$.
 **3.** A : $\\sigma_A^2 = \\frac{16 + 4 + 0 + 4 + 16}{5} = 8$, donc $\\sigma_A = \\sqrt{8} = 2\\sqrt{2} \\approx 2{,}83$ °C.
 B : $\\sigma_B^2 = \\frac{64 + 1 + 0 + 1 + 64}{5} = 26$, donc $\\sigma_B = \\sqrt{26} \\approx 5{,}10$ °C.
 
-**4.** Non : l'écart interquartile est plus petit pour B, l'écart-type plus petit pour A. L'écart interquartile ne tient compte que de la moitié centrale des valeurs (ici très resserrée pour B), alors que l'écart-type tient compte de toutes les valeurs, et donc des valeurs extrêmes $2$ et $18$ de B, qui l'augmentent fortement.
+**4.** Non : l'écart interquartile est plus petit pour B, l'écart type plus petit pour A. L'écart interquartile ne tient compte que de la moitié centrale des valeurs (ici très resserrée pour B), alors que l'écart type tient compte de toutes les valeurs, et donc des valeurs extrêmes $2$ et $18$ de B, qui l'augmentent fortement.
 
-**5.** La moyenne augmente de $2$ : elle vaut $12$ °C. Les écarts à la moyenne sont inchangés, donc l'écart-type reste $2\\sqrt{2} \\approx 2{,}83$ °C.`
+**5.** La moyenne augmente de $2$ : elle vaut $12$ °C. Les écarts à la moyenne sont inchangés, donc l'écart type reste $2\\sqrt{2} \\approx 2{,}83$ °C.`
     },
     {
       id: "2S1-ds-07",
@@ -4866,38 +5005,38 @@ La proportion d'utilisateurs du bus est effectivement un peu plus élevée en Pr
     },
     {
       id: "2S1-ds-11",
-      title: "Masses et prix de sachets : moyenne et écart-type",
+      title: "Masses et prix de sachets : moyenne et écart type",
       difficulty: 3,
       points: 6,
       statement: `Une machine remplit des sachets de graines. On pèse cinq sachets (masses en grammes) :
 $$48 \\quad 50 \\quad 51 \\quad 49 \\quad 52$$
 
-On rappelle que l'écart-type d'une série $x_1, \\ldots, x_n$ de moyenne $\\overline{x}$ est $s = \\sqrt{\\frac{(x_1 - \\overline{x})^2 + \\cdots + (x_n - \\overline{x})^2}{n}}$.
+On rappelle que l'écart type d'une série $x_1, \\ldots, x_n$ de moyenne $\\overline{x}$ est $s = \\sqrt{\\frac{(x_1 - \\overline{x})^2 + \\cdots + (x_n - \\overline{x})^2}{n}}$.
 
-1. Calculer la masse moyenne $\\overline{x}$ et l'écart-type $s$ de la série (valeur exacte, puis arrondi au centième).
-2. On ajoute à chaque sachet un emballage de $15$ g. Donner, en justifiant, la moyenne et l'écart-type des masses des sachets emballés.
+1. Calculer la masse moyenne $\\overline{x}$ et l'écart type $s$ de la série (valeur exacte, puis arrondi au centième).
+2. On ajoute à chaque sachet un emballage de $15$ g. Donner, en justifiant, la moyenne et l'écart type des masses des sachets emballés.
 3. Les graines sont vendues $0{,}04$ € le gramme (emballage non compris).
  a) Calculer le prix de chacun des cinq sachets, puis le prix moyen.
  b) Calculer les écarts des prix à leur moyenne : comparer avec les écarts de la question 1.
- c) En déduire l'écart-type des prix (valeur exacte, puis arrondi au centime). Par quel nombre l'écart-type des masses a-t-il été multiplié ?
-4. Résumer, pour cet exemple, l'effet sur la moyenne et sur l'écart-type : de l'ajout de $15$ g à chaque valeur ; de la multiplication de chaque valeur par $0{,}04$.`,
+ c) En déduire l'écart type des prix (valeur exacte, puis arrondi au centime). Par quel nombre l'écart type des masses a-t-il été multiplié ?
+4. Résumer, pour cet exemple, l'effet sur la moyenne et sur l'écart type : de l'ajout de $15$ g à chaque valeur ; de la multiplication de chaque valeur par $0{,}04$.`,
       solution: `**1.** $\\overline{x} = \\frac{48 + 50 + 51 + 49 + 52}{5} = \\frac{250}{5} = 50$ g.
 
 Écarts à la moyenne : $-2$ ; $0$ ; $1$ ; $-1$ ; $2$, de carrés $4$ ; $0$ ; $1$ ; $1$ ; $4$, de somme $10$.
 
 $s = \\sqrt{\\frac{10}{5}} = \\sqrt{2} \\approx 1{,}41$ g.
 
-**2.** Les nouvelles masses sont $x_i + 15$ : la moyenne devient $50 + 15 = 65$ g. Les écarts à la moyenne sont inchangés ($x_i + 15 - 65 = x_i - 50$), donc l'écart-type reste $\\sqrt{2} \\approx 1{,}41$ g.
+**2.** Les nouvelles masses sont $x_i + 15$ : la moyenne devient $50 + 15 = 65$ g. Les écarts à la moyenne sont inchangés ($x_i + 15 - 65 = x_i - 50$), donc l'écart type reste $\\sqrt{2} \\approx 1{,}41$ g.
 
 **3. a)** Prix : $1{,}92$ € ; $2$ € ; $2{,}04$ € ; $1{,}96$ € ; $2{,}08$ €. Prix moyen : $\\frac{10}{5} = 2$ € (c'est $0{,}04 \\times 50$).
 
 **b)** Écarts à la moyenne : $-0{,}08$ ; $0$ ; $0{,}04$ ; $-0{,}04$ ; $0{,}08$. Ce sont les écarts de la question 1 ($-2$ ; $0$ ; $1$ ; $-1$ ; $2$) multipliés par $0{,}04$.
 
-**c)** Carrés des écarts : $0{,}0064$ ; $0$ ; $0{,}0016$ ; $0{,}0016$ ; $0{,}0064$, de somme $0{,}016$. Écart-type : $\\sqrt{\\frac{0{,}016}{5}} = \\sqrt{0{,}0032}$. Or $0{,}0032 = 0{,}0016 \\times 2 = 0{,}04^2 \\times 2$, donc l'écart-type vaut $0{,}04\\sqrt{2} \\approx 0{,}06$ € : l'écart-type des masses a été multiplié par $0{,}04$.
+**c)** Carrés des écarts : $0{,}0064$ ; $0$ ; $0{,}0016$ ; $0{,}0016$ ; $0{,}0064$, de somme $0{,}016$. Écart type : $\\sqrt{\\frac{0{,}016}{5}} = \\sqrt{0{,}0032}$. Or $0{,}0032 = 0{,}0016 \\times 2 = 0{,}04^2 \\times 2$, donc l'écart type vaut $0{,}04\\sqrt{2} \\approx 0{,}06$ € : l'écart type des masses a été multiplié par $0{,}04$.
 
 **4.** Sur cet exemple :
-- ajouter $15$ g à chaque valeur ajoute $15$ à la moyenne et ne change pas l'écart-type (les écarts à la moyenne sont inchangés) ;
-- multiplier chaque valeur par $0{,}04$ multiplie la moyenne par $0{,}04$ et l'écart-type aussi par $0{,}04$ (tous les écarts à la moyenne sont multipliés par $0{,}04$).`
+- ajouter $15$ g à chaque valeur ajoute $15$ à la moyenne et ne change pas l'écart type (les écarts à la moyenne sont inchangés) ;
+- multiplier chaque valeur par $0{,}04$ multiplie la moyenne par $0{,}04$ et l'écart type aussi par $0{,}04$ (tous les écarts à la moyenne sont multipliés par $0{,}04$).`
     },
     {
       id: "2S1-ds-12",
@@ -5002,13 +5141,13 @@ $\\frac{15}{4} = 3{,}75$ : $Q_1$ est la $4^{\\text{e}}$ valeur, $Q_1 = 7$. $\\fr
 - archer A : $8$ ; $9$ ; $7$ ; $8$ ; $8$ ; $9$ ; $7$ ; $8$ ;
 - archer B : $10$ ; $5$ ; $9$ ; $6$ ; $10$ ; $7$ ; $10$ ; $7$.
 
-On rappelle que l'écart-type $s$ d'une série $x_1, \\ldots, x_N$ de moyenne $\\bar{x}$ vérifie $s^2 = \\dfrac{(x_1 - \\bar{x})^2 + \\cdots + (x_N - \\bar{x})^2}{N}$.
+On rappelle que l'écart type $s$ d'une série $x_1, \\ldots, x_N$ de moyenne $\\bar{x}$ vérifie $s^2 = \\dfrac{(x_1 - \\bar{x})^2 + \\cdots + (x_N - \\bar{x})^2}{N}$.
 
 1. Calculer la moyenne et la médiane des scores de chaque archer.
-2. Calculer l'écart-type de chaque série (valeur exacte, puis arrondie au centième).
+2. Calculer l'écart type de chaque série (valeur exacte, puis arrondie au centième).
 3. Lequel des deux archers est le plus régulier ? Justifier.
 4. L'entraîneur doit choisir un archer pour une épreuve où il faut, pour se qualifier, obtenir au moins $9$ points sur une flèche unique. Lequel peut-il préférer ? Argumenter à l'aide des données.
-5. Après une modification de la cible, chaque score de l'archer B augmente de $1$ point. Que deviennent sa moyenne et son écart-type ?`,
+5. Après une modification de la cible, chaque score de l'archer B augmente de $1$ point. Que deviennent sa moyenne et son écart type ?`,
       solution: `**1.** Somme A : $64$, somme B : $64$. Les deux moyennes valent $\\frac{64}{8} = 8$.
 
 A rangé : $7, 7, 8, 8, 8, 8, 9, 9$ ; médiane $\\frac{8 + 8}{2} = 8$. B rangé : $5, 6, 7, 7, 9, 10, 10, 10$ ; médiane $\\frac{7 + 9}{2} = 8$.
@@ -5021,7 +5160,7 @@ B : écarts $2, -3, 1, -2, 2, -1, 2, -1$ ; somme des carrés $4 + 9 + 1 + 4 + 4 
 
 **4.** A a obtenu au moins $9$ sur $2$ flèches sur $8$ ($25$ %), B sur $4$ flèches sur $8$ ($50$ %). Pour une épreuve « tout ou rien » à un seul tir exigeant, l'archer B, plus irrégulier mais qui atteint plus souvent les hauts scores, peut être préféré. (Sur une épreuve longue, la régularité de A serait un atout.)
 
-**5.** Chaque valeur augmente de $1$ : la moyenne devient $9$. Les écarts à la moyenne sont inchangés, donc l'écart-type reste $\\sqrt{3{,}5} \\approx 1{,}87$.`
+**5.** Chaque valeur augmente de $1$ : la moyenne devient $9$. Les écarts à la moyenne sont inchangés, donc l'écart type reste $\\sqrt{3{,}5} \\approx 1{,}87$.`
     },
     {
       id: "2S1-ds-16",
@@ -5030,23 +5169,23 @@ B : écarts $2, -3, 1, -2, 2, -1, 2, -1$ ; somme des carrés $4 + 9 + 1 + 4 + 4 
       points: 7,
       statement: `On considère la série statistique : $2$ ; $4$ ; $4$ ; $4$ ; $5$ ; $5$ ; $7$ ; $9$.
 
-On rappelle que l'écart-type $s$ d'une série de $N$ valeurs de moyenne $\\bar{x}$ vérifie $s^2 = \\dfrac{1}{N}\\displaystyle\\sum (x_i - \\bar{x})^2$.
+On rappelle que l'écart type $s$ d'une série de $N$ valeurs de moyenne $\\bar{x}$ vérifie $s^2 = \\dfrac{1}{N}\\displaystyle\\sum (x_i - \\bar{x})^2$.
 
-1. Calculer la moyenne $\\bar{x}$ et l'écart-type $s$ de la série.
+1. Calculer la moyenne $\\bar{x}$ et l'écart type $s$ de la série.
 2. Quelle proportion des valeurs appartient à l'intervalle $[\\bar{x} - s ; \\bar{x} + s]$ ?
-3. On ajoute à la série une valeur égale à $5$. Calculer la nouvelle moyenne et le nouvel écart-type (valeur exacte, puis arrondie au centième). Commenter.
+3. On ajoute à la série une valeur égale à $5$. Calculer la nouvelle moyenne et le nouvel écart type (valeur exacte, puis arrondie au centième). Commenter.
 4. On ajoute cette fois à la série initiale deux valeurs $5 - d$ et $5 + d$, où $d$ est un réel positif.
  a) Montrer que la moyenne reste égale à $5$.
- b) Exprimer le carré du nouvel écart-type en fonction de $d$.
- c) Déterminer $d$ pour que l'écart-type reste égal à $2$. Quelles valeurs ajoute-t-on ?
- d) Pour quelles valeurs de $d$ l'écart-type augmente-t-il ?`,
+ b) Exprimer le carré du nouvel écart type en fonction de $d$.
+ c) Déterminer $d$ pour que l'écart type reste égal à $2$. Quelles valeurs ajoute-t-on ?
+ d) Pour quelles valeurs de $d$ l'écart type augmente-t-il ?`,
       solution: `**1.** Somme : $2 + 4 + 4 + 4 + 5 + 5 + 7 + 9 = 40$, donc $\\bar{x} = 5$.
 
 Écarts : $-3, -1, -1, -1, 0, 0, 2, 4$ ; somme des carrés $9 + 1 + 1 + 1 + 0 + 0 + 4 + 16 = 32$. $s^2 = \\frac{32}{8} = 4$, $s = 2$.
 
 **2.** $[3 ; 7]$ contient $4, 4, 4, 5, 5, 7$ : $6$ valeurs sur $8$, soit $75$ %.
 
-**3.** Nouvelle moyenne : $\\frac{40 + 5}{9} = 5$. La somme des carrés des écarts reste $32$ (le nouvel écart est nul), mais on divise par $9$ : $s'^2 = \\frac{32}{9}$, $s' = \\frac{\\sqrt{32}}{3} = \\frac{4\\sqrt{2}}{3} \\approx 1{,}89$. L'écart-type diminue : on a ajouté une valeur « au centre ».
+**3.** Nouvelle moyenne : $\\frac{40 + 5}{9} = 5$. La somme des carrés des écarts reste $32$ (le nouvel écart est nul), mais on divise par $9$ : $s'^2 = \\frac{32}{9}$, $s' = \\frac{\\sqrt{32}}{3} = \\frac{4\\sqrt{2}}{3} \\approx 1{,}89$. L'écart type diminue : on a ajouté une valeur « au centre ».
 
 **4. a)** Somme : $40 + (5 - d) + (5 + d) = 50$, pour $10$ valeurs : moyenne $5$.
 
@@ -5054,7 +5193,133 @@ On rappelle que l'écart-type $s$ d'une série de $N$ valeurs de moyenne $\\bar{
 
 **c)** $\\frac{32 + 2d^2}{10} = 4 \\iff 2d^2 = 8 \\iff d^2 = 4 \\iff d = 2$ (car $d \\geqslant 0$). On ajoute $3$ et $7$.
 
-**d)** $\\frac{32 + 2d^2}{10} > 4 \\iff d^2 > 4 \\iff d > 2$ ($d \\geqslant 0$) : l'écart-type augmente si l'on ajoute deux valeurs à plus de $2$ (l'écart-type) de la moyenne.`
+**d)** $\\frac{32 + 2d^2}{10} > 4 \\iff d^2 > 4 \\iff d > 2$ ($d \\geqslant 0$) : l'écart type augmente si l'on ajoute deux valeurs à plus de $2$ (l'écart type) de la moyenne.`
+    },
+    {
+      id: "2S1-ds-17",
+      title: "Temps d'attente : histogramme et polygone des fréquences cumulées",
+      difficulty: 3,
+      points: 6,
+      statement: `On a relevé le temps d'attente (en minutes) de $50$ clients à un guichet. Les résultats sont regroupés en classes de même amplitude :
+
+| Temps d'attente | $[0 ; 4[$ | $[4 ; 8[$ | $[8 ; 12[$ | $[12 ; 16[$ | $[16 ; 20[$ |
+|:---:|:---:|:---:|:---:|:---:|:---:|
+| Effectif | $4$ | $12$ | $18$ | $10$ | $6$ |
+
+1. Représenter cette série par un histogramme.
+
+2. Calculer la fréquence de chaque classe, en pourcentage, puis les fréquences cumulées croissantes.
+
+3. Donner les coordonnées des points du polygone des fréquences cumulées croissantes, puis le tracer.
+
+4. En supposant la répartition uniforme dans chaque classe, calculer une estimation de la moyenne de cette série.
+
+5. a) Déterminer la classe médiane.
+
+ b) Estimer la médiane par proportionnalité, puis retrouver ce résultat à l'aide du polygone.
+
+6. Estimer le pourcentage de clients ayant attendu strictement moins de $14$ minutes.`,
+      solution: `**1.** Les classes ont la même amplitude $4$ : on trace des rectangles accolés, de largeur $4$ sur l'axe des temps, dont les hauteurs sont proportionnelles aux effectifs $4$, $12$, $18$, $10$ et $6$.
+
+**2.** On divise chaque effectif par $50$ :
+
+| Classe | $[0 ; 4[$ | $[4 ; 8[$ | $[8 ; 12[$ | $[12 ; 16[$ | $[16 ; 20[$ |
+|:---:|:---:|:---:|:---:|:---:|:---:|
+| Fréquence (%) | $8$ | $24$ | $36$ | $20$ | $12$ |
+| Fréquence cumulée (%) | $8$ | $32$ | $68$ | $88$ | $100$ |
+
+**3.** Les abscisses sont les bornes supérieures des classes, en partant de la borne inférieure de la première classe : $(0 ; 0)$, $(4 ; 8)$, $(8 ; 32)$, $(12 ; 68)$, $(16 ; 88)$, $(20 ; 100)$. On relie ces points par des segments.
+
+**4.** Les centres des classes sont $2$, $6$, $10$, $14$ et $18$. Donc
+$$\\bar{x} \\approx \\frac{4 \\times 2 + 12 \\times 6 + 18 \\times 10 + 10 \\times 14 + 6 \\times 18}{50} = \\frac{8 + 72 + 180 + 140 + 108}{50} = \\frac{508}{50} = 10{,}16 \\text{ min.}$$
+
+**5. a)** On a $\\frac{N}{2} = 25$. Les effectifs cumulés sont $4$, $16$, $34$, $44$, $50$ : la valeur $25$ est atteinte dans la classe $[8 ; 12[$, qui est la classe médiane.
+
+**b)** Il manque $25 - 16 = 9$ clients sur les $18$ de la classe, qui a pour amplitude $4$ : $Me \\approx 8 + 4 \\times \\frac{9}{18} = 10$ min.
+
+Sur le polygone, on cherche l'abscisse du point d'ordonnée $50$ sur le segment joignant $(8 ; 32)$ à $(12 ; 68)$ : $Me \\approx 8 + 4 \\times \\frac{50 - 32}{68 - 32} = 8 + 4 \\times \\frac{18}{36} = 10$ min. On retrouve le même résultat.
+
+**6.** La valeur $14$ est le milieu de la classe $[12 ; 16[$, sur laquelle la fréquence cumulée passe de $68\\,\\%$ à $88\\,\\%$. Par proportionnalité, on estime la fréquence cumulée en $14$ à $68 + \\frac{88 - 68}{2} = 78$. Environ $78\\,\\%$ des clients ont attendu strictement moins de $14$ minutes.`
+    },
+    {
+      id: "2S1-ds-18",
+      title: "Tableau croisé à partir d'un fichier de données",
+      difficulty: 3,
+      points: 6,
+      statement: `Le fichier \`avis.csv\` contient, pour $10$ élèves, le régime et l'avis donné sur la restauration du lycée, séparés par un point-virgule :
+
+\`\`\`
+interne;bon
+externe;moyen
+interne;bon
+interne;moyen
+externe;mauvais
+externe;bon
+interne;mauvais
+externe;moyen
+interne;bon
+externe;moyen
+\`\`\`
+
+On exécute le programme Python suivant :
+
+\`\`\`python
+def effectif(a, b):
+    n = 0
+    fichier = open("avis.csv", "r")
+    for ligne in fichier:
+        regime, avis = ligne.strip().split(";")
+        if regime == a and avis == b:
+            n = n + 1
+    fichier.close()
+    return n
+
+print(effectif("interne", "bon"))
+\`\`\`
+
+1. Préciser la nature de chacune des deux variables : quantitative, qualitative nominale ou qualitative ordinale.
+
+2. Quelles sont les valeurs des variables \`regime\` et \`avis\` lors du traitement de la quatrième ligne du fichier ?
+
+3. Quel nombre ce programme affiche-t-il ?
+
+4. Construire le tableau croisé des effectifs, avec le régime en lignes, l'avis en colonnes, et les totaux.
+
+5. a) Calculer la fréquence marginale de l'avis « bon ».
+
+ b) Calculer la fréquence de l'avis « bon » parmi les internes.
+
+ c) Calculer la fréquence des internes parmi les élèves ayant donné l'avis « bon ».
+
+6. Écrire les lignes à ajouter à la fin du programme pour afficher le résultat de la question 5. c), en utilisant la fonction \`effectif\`.`,
+      solution: `**1.** Le régime est une variable qualitative nominale : ses modalités n'ont pas d'ordre naturel. L'avis est une variable qualitative ordinale : ses modalités se rangent naturellement (mauvais, moyen, bon).
+
+**2.** La quatrième ligne est \`interne;moyen\` : \`regime\` vaut \`"interne"\` et \`avis\` vaut \`"moyen"\`.
+
+**3.** La fonction compte les lignes contenant à la fois \`interne\` et \`bon\` : ce sont les lignes $1$, $3$ et $9$. Le programme affiche $3$.
+
+**4.** On obtient :
+
+| | bon | moyen | mauvais | Total |
+|:---:|:---:|:---:|:---:|:---:|
+| interne | $3$ | $1$ | $1$ | $5$ |
+| externe | $1$ | $3$ | $1$ | $5$ |
+| Total | $4$ | $4$ | $2$ | $10$ |
+
+**5. a)** La fréquence marginale de l'avis « bon » est $\\frac{4}{10} = 0{,}4$.
+
+**b)** Parmi les $5$ internes, $3$ ont donné l'avis « bon » : la fréquence est $\\frac{3}{5} = 0{,}6$.
+
+**c)** Parmi les $4$ élèves ayant donné l'avis « bon », $3$ sont internes : la fréquence est $\\frac{3}{4} = 0{,}75$. Elle diffère de la précédente car la population de référence n'est pas la même.
+
+**6.** On calcule d'abord l'effectif de la population de référence, puis le quotient :
+
+\`\`\`python
+nb = effectif("interne", "bon") + effectif("externe", "bon")
+print(effectif("interne", "bon") / nb)
+\`\`\`
+
+Ces lignes affichent $0{,}75$, écrit \`0.75\` par Python.`
     }
   ],
   "2S2": [
@@ -5297,7 +5562,7 @@ On choisit un matin au hasard et on note $B$ l'événement « Samia prend le bus
 
 1. Construire un arbre pondéré décrivant la situation.
 2. Calculer $P(B \\cap R)$ et interpréter ce nombre.
-3. Montrer que $P(R) = 0{,}155$.
+3. **Pour aller plus loin** : l'événement $R$ est réalisé par deux chemins de l'arbre. En additionnant leurs probabilités, montrer que $P(R) = 0{,}155$. (On pourra utiliser ce résultat dans la suite, même sans l'avoir démontré.)
 4. Un matin, Samia est arrivée en retard. Quelle est la probabilité qu'elle ait pris le bus ? Arrondir au centième.
 5. Sur une année de $180$ jours de cours, combien de retards peut-on prévoir en moyenne ?`,
       solution: `**1.** Premier niveau : $P(B) = 0{,}7$ et $P(V) = 0{,}3$. Second niveau :
@@ -5306,7 +5571,7 @@ On choisit un matin au hasard et on note $B$ l'événement « Samia prend le bus
 
 **2.** $P(B \\cap R) = P(B) \\times P_B(R) = 0{,}7 \\times 0{,}2 = 0{,}14$ : la probabilité que Samia prenne le bus **et** arrive en retard est $0{,}14$.
 
-**3.** $B$ et $V$ forment une partition (l'un ou l'autre, jamais les deux) :
+**3.** (Pour aller plus loin : ce calcul n'est pas un attendu du programme de seconde.) $R$ est réalisé par les deux chemins « $B$ puis $R$ » et « $V$ puis $R$ », qui ne peuvent pas se produire en même temps ; on additionne leurs probabilités :
 $$P(R) = P(B \\cap R) + P(V \\cap R) = 0{,}14 + 0{,}3 \\times 0{,}05 = 0{,}14 + 0{,}015 = 0{,}155.$$
 
 **4.** On cherche $P_R(B) = \\frac{P(B \\cap R)}{P(R)} = \\frac{0{,}14}{0{,}155} \\approx 0{,}90$.
@@ -5460,7 +5725,7 @@ Perdre de l'argent : obtenir Face, $6$ issues : probabilité $\\frac{1}{2}$.`
       statement: `Un jardinier achète ses graines chez deux fournisseurs : $60$ % chez le fournisseur A et $40$ % chez le fournisseur B. $90$ % des graines de A germent, contre $80$ % de celles de B. On choisit une graine au hasard et on note $A$, $B$ et $G$ les événements « la graine vient de A », « la graine vient de B » et « la graine germe ».
 
 1. Construire un arbre pondéré décrivant la situation.
-2. Calculer $P(A \\cap G)$ et $P(B \\cap G)$, puis $P(G)$.
+2. Calculer $P(A \\cap G)$ et $P(B \\cap G)$, puis, **pour aller plus loin**, $P(G)$ en additionnant les probabilités des deux chemins (cette valeur se lit aussi dans le tableau de la question 3).
 3. Compléter un tableau croisé d'effectifs pour un lot de $1\\,000$ graines (lignes : A, B ; colonnes : $G$, $\\overline{G}$).
 4. Une graine a germé. Quelle est la probabilité qu'elle vienne du fournisseur A ? (Valeur exacte puis arrondie au millième.)
 5. Une graine n'a pas germé. Quelle est la probabilité qu'elle vienne de B ? Commenter.`,
@@ -5468,7 +5733,7 @@ Perdre de l'argent : obtenir Face, $6$ issues : probabilité $\\frac{1}{2}$.`
 
 **2.** $P(A \\cap G) = 0{,}6 \\times 0{,}9 = 0{,}54$ et $P(B \\cap G) = 0{,}4 \\times 0{,}8 = 0{,}32$.
 
-$G$ est la réunion des deux événements disjoints $A \\cap G$ et $B \\cap G$ : $P(G) = 0{,}54 + 0{,}32 = 0{,}86$.
+(Pour aller plus loin : ce calcul n'est pas un attendu du programme de seconde.) $G$ est la réunion des deux événements disjoints $A \\cap G$ et $B \\cap G$ : $P(G) = 0{,}54 + 0{,}32 = 0{,}86$.
 
 **3.**
 
@@ -5487,7 +5752,9 @@ $G$ est la réunion des deux événements disjoints $A \\cap G$ et $B \\cap G$ :
       title: "Un match en deux sets gagnants",
       difficulty: 4,
       points: 7,
-      statement: `Deux joueurs, Alice et Bruno, disputent un match : le premier à gagner deux sets remporte le match (il y a donc deux ou trois sets). On fait l'hypothèse que les sets sont **indépendants** et qu'Alice gagne chaque set avec la probabilité $p$, où $0 < p < 1$.
+      statement: `**Pour aller plus loin** : exercice d'approfondissement (probabilité obtenue en additionnant celles de plusieurs chemins).
+
+Deux joueurs, Alice et Bruno, disputent un match : le premier à gagner deux sets remporte le match (il y a donc deux ou trois sets). On suppose que le résultat d'un set n'a aucune influence sur les sets suivants : à chaque set, quels que soient les résultats précédents, Alice gagne avec la probabilité $p$, où $0 < p < 1$.
 
 1. Dans cette question, $p = 0{,}6$.
  a) Construire un arbre pondéré décrivant le match.
@@ -5525,21 +5792,21 @@ Le format en deux sets gagnants avantage Alice si et seulement si $p > \\frac{1}
       title: "Lancers d'une punaise et loi des grands nombres",
       difficulty: 1,
       points: 4,
-      statement: `Une punaise lancée peut tomber sur la pointe (événement $P$) ou sur le dos. On a regroupé les résultats de lancers successifs :
+      statement: `Une punaise lancée peut tomber sur la pointe (événement $E$) ou sur le dos. On a regroupé les résultats de lancers successifs :
 
 | Nombre de lancers $n$ | $10$ | $100$ | $1\\,000$ | $10\\,000$ |
 |---|---|---|---|---|
-| Nombre de « $P$ » | $7$ | $58$ | $623$ | $6\\,180$ |
+| Nombre de « $E$ » | $7$ | $58$ | $623$ | $6\\,180$ |
 
-1. Calculer la fréquence de l'événement $P$ pour chaque valeur de $n$.
+1. Calculer la fréquence de l'événement $E$ pour chaque valeur de $n$.
 2. Décrire l'évolution de ces fréquences lorsque $n$ augmente. Quel résultat du cours illustre-t-on ?
-3. Proposer un modèle : quelle probabilité choisir pour l'événement $P$ ? Pour son événement contraire ?
-4. Un élève affirme : « on a démontré que la probabilité de $P$ vaut $0{,}618$ ». Commenter.`,
+3. Proposer un modèle : quelle probabilité choisir pour l'événement $E$ ? Pour son événement contraire ?
+4. Un élève affirme : « on a démontré que la probabilité de $E$ vaut $0{,}618$ ». Commenter.`,
       solution: `**1.** Les fréquences sont $\\frac{7}{10} = 0{,}7$ ; $\\frac{58}{100} = 0{,}58$ ; $\\frac{623}{1\\,000} = 0{,}623$ ; $\\frac{6\\,180}{10\\,000} = 0{,}618$.
 
 **2.** Pour de petites valeurs de $n$, la fréquence varie beaucoup ; quand $n$ augmente, elle se stabilise autour de $0{,}62$. On illustre la **loi des grands nombres** : « lorsque $n$ est grand, sauf exception, la fréquence observée est proche de la probabilité ».
 
-**3.** On peut choisir le modèle $P(P) = 0{,}62$ ; l'événement contraire « la punaise tombe sur le dos » a alors pour probabilité $1 - 0{,}62 = 0{,}38$.
+**3.** On peut choisir le modèle $P(E) = 0{,}62$ ; l'événement contraire « la punaise tombe sur le dos » a alors pour probabilité $1 - 0{,}62 = 0{,}38$.
 
 **4.** L'affirmation est fausse : une probabilité ne se démontre pas à partir d'une expérience. Le modèle est une **hypothèse** construite à partir des fréquences observées ; une autre série de $10\\,000$ lancers donnerait une fréquence légèrement différente (fluctuation d'échantillonnage). On distingue le modèle probabiliste de la situation réelle.`
     },
@@ -5660,7 +5927,9 @@ def frequence_sept(n):
       title: "Simuler de nombreux échantillons",
       difficulty: 3,
       points: 6,
-      statement: `On considère le programme Python suivant, où \`p\` est une proportion, \`n\` la taille d'un échantillon et \`N\` le nombre d'échantillons simulés.
+      statement: `**Pour aller plus loin** : exercice d'approfondissement (simulation de nombreux échantillons).
+
+On considère le programme Python suivant, où \`p\` est une proportion, \`n\` la taille d'un échantillon et \`N\` le nombre d'échantillons simulés.
 
 \`\`\`python
 from random import random
@@ -5910,13 +6179,15 @@ Il y a $15$ boules, numérotées de $1$ à $15$ ; les numéros $1$ à $4$ repré
       title: "Le taux de pièces défectueuses annoncé est-il crédible ?",
       difficulty: 3,
       points: 6,
-      statement: `Un fabricant affirme que $10\\,\\%$ des ampoules qu'il produit sont défectueuses. On note $p$ la proportion réelle d'ampoules défectueuses. On admet (et on le constate par simulation, voir la question 3) le résultat suivant sur la fluctuation d'échantillonnage : lorsque $n$ est assez grand, parmi un grand nombre d'échantillons de taille $n$ prélevés au hasard, au moins $95\\,\\%$ environ ont une fréquence $f$ d'ampoules défectueuses qui s'écarte de $p$ d'au plus $\\frac{1}{\\sqrt{n}}$, c'est-à-dire qui appartient à l'intervalle $\\left[p - \\frac{1}{\\sqrt{n}} ; p + \\frac{1}{\\sqrt{n}}\\right]$.
+      statement: `**Pour aller plus loin** : exercice d'approfondissement (critère $\\frac{1}{\\sqrt{n}}$).
 
-1. Un contrôleur prélève $400$ ampoules et en trouve $52$ défectueuses.
+Un fabricant affirme que $20\\,\\%$ des ampoules qu'il produit sont défectueuses. On note $p$ la proportion réelle d'ampoules défectueuses. On admet (et on le constate par simulation, voir la question 3) le résultat suivant sur la fluctuation d'échantillonnage : lorsque $n$ est assez grand, parmi un grand nombre d'échantillons de taille $n$ prélevés au hasard, au moins $95\\,\\%$ environ ont une fréquence $f$ d'ampoules défectueuses qui s'écarte de $p$ d'au plus $\\frac{1}{\\sqrt{n}}$, c'est-à-dire qui appartient à l'intervalle $\\left[p - \\frac{1}{\\sqrt{n}} ; p + \\frac{1}{\\sqrt{n}}\\right]$.
+
+1. Un contrôleur prélève $400$ ampoules et en trouve $92$ défectueuses.
  a) Calculer la fréquence observée.
- b) Déterminer l'intervalle ci-dessus pour $p = 0{,}1$ et $n = 400$. Le résultat remet-il en cause l'affirmation du fabricant ?
-2. Un second contrôle porte sur $2\\,500$ ampoules, dont $325$ défectueuses. Reprendre la question 1. Que peut-on en conclure ?
-3. On souhaite vérifier par simulation la propriété admise pour $n = 400$ et $p = 0{,}1$. Compléter la fonction suivante pour qu'elle renvoie la proportion des \`N\` échantillons simulés dont la fréquence est dans l'intervalle.
+ b) Déterminer l'intervalle ci-dessus pour $p = 0{,}2$ et $n = 400$. Le résultat remet-il en cause l'affirmation du fabricant ?
+2. Un second contrôle porte sur $2\\,500$ ampoules, dont $575$ défectueuses. Reprendre la question 1. Que peut-on en conclure ?
+3. On souhaite vérifier par simulation la propriété admise pour $n = 400$ et $p = 0{,}2$. Compléter la fonction suivante pour qu'elle renvoie la proportion des \`N\` échantillons simulés dont la fréquence est dans l'intervalle.
 
 \`\`\`python
 from random import random
@@ -5931,30 +6202,30 @@ def echantillon(n, p):
 def proportion_dans_intervalle(N):
     compteur = 0
     for k in range(N):
-        f = echantillon(400, 0.1)
+        f = echantillon(400, 0.2)
         if ............ :
             compteur = compteur + 1
     return ............
 \`\`\``,
-      solution: `**1. a)** $f = \\frac{52}{400} = 0{,}13$.
+      solution: `**1. a)** $f = \\frac{92}{400} = 0{,}23$.
 
-**b)** $\\frac{1}{\\sqrt{400}} = \\frac{1}{20} = 0{,}05$ : l'intervalle est $[0{,}1 - 0{,}05 ; 0{,}1 + 0{,}05] = [0{,}05 ; 0{,}15]$.
+**b)** $\\frac{1}{\\sqrt{400}} = \\frac{1}{20} = 0{,}05$ : l'intervalle est $[0{,}2 - 0{,}05 ; 0{,}2 + 0{,}05] = [0{,}15 ; 0{,}25]$.
 
-$0{,}13 \\in [0{,}05 ; 0{,}15]$ : la fréquence observée est compatible avec la fluctuation d'échantillonnage, ce contrôle ne remet pas en cause l'affirmation du fabricant.
+$0{,}23 \\in [0{,}15 ; 0{,}25]$ : la fréquence observée est compatible avec la fluctuation d'échantillonnage, ce contrôle ne remet pas en cause l'affirmation du fabricant.
 
-**2.** $f = \\frac{325}{2\\,500} = 0{,}13$ et $\\frac{1}{\\sqrt{2\\,500}} = \\frac{1}{50} = 0{,}02$ : l'intervalle est $[0{,}08 ; 0{,}12]$.
+**2.** $f = \\frac{575}{2\\,500} = 0{,}23$ et $\\frac{1}{\\sqrt{2\\,500}} = \\frac{1}{50} = 0{,}02$ : l'intervalle est $[0{,}18 ; 0{,}22]$.
 
-Cette fois $0{,}13 \\notin [0{,}08 ; 0{,}12]$. Si la proportion était vraiment $10\\,\\%$, une fréquence aussi éloignée de $0{,}1$ ne se produirait que dans moins de $5\\,\\%$ environ des échantillons de cette taille : on peut raisonnablement **douter** de l'affirmation du fabricant (avec un faible risque de se tromper).
+Cette fois $0{,}23 \\notin [0{,}18 ; 0{,}22]$. Si la proportion était vraiment $20\\,\\%$, une fréquence aussi éloignée de $0{,}2$ ne se produirait que dans moins de $5\\,\\%$ environ des échantillons de cette taille : on peut raisonnablement **douter** de l'affirmation du fabricant (avec un faible risque de se tromper).
 
-Avec la même fréquence $0{,}13$, l'échantillon plus grand est plus précis : la fluctuation diminue quand $n$ augmente.
+Avec la même fréquence $0{,}23$, l'échantillon plus grand est plus précis : la fluctuation diminue quand $n$ augmente.
 
 **3.**
 \`\`\`python
-        if 0.05 <= f <= 0.15 :
+        if 0.15 <= f <= 0.25 :
             compteur = compteur + 1
     return compteur / N
 \`\`\`
-(on peut aussi écrire \`abs(f - 0.1) <= 0.05\`). Pour \`N\` grand, la valeur renvoyée devrait être supérieure ou égale à $0{,}95$ environ.`
+(on peut aussi écrire \`abs(f - 0.2) <= 0.05\`). Pour \`N\` grand, la valeur renvoyée devrait être supérieure ou égale à $0{,}95$ environ.`
     },
     {
       id: "2S3-ds-12",
@@ -5981,7 +6252,7 @@ def marche(n):
 3. Expliquer pourquoi la position finale après $n$ étapes a toujours la même parité que $n$.
 4. Écrire une fonction \`freq_retour(n, N)\` qui simule \`N\` marches de \`n\` étapes et renvoie la fréquence des marches qui se terminent à l'origine.
 5. a) Montrer que la probabilité que le pion soit à l'origine après $4$ étapes est $\\frac{6}{16} = 0{,}375$.
- b) Un élève obtient \`freq_retour(4, 10000)\` $= 0{,}31$. On admet le résultat de fluctuation d'échantillonnage suivant : lorsque $N$ est assez grand, au moins $95\\,\\%$ environ des séries de $N$ simulations donnent une fréquence qui s'écarte de la probabilité $p$ d'au plus $\\frac{1}{\\sqrt{N}}$, c'est-à-dire qui appartient à $\\left[p - \\frac{1}{\\sqrt{N}} ; p + \\frac{1}{\\sqrt{N}}\\right]$. Expliquer pourquoi on peut soupçonner une erreur dans son programme.`,
+ b) **Pour aller plus loin.** Un élève obtient \`freq_retour(4, 10000)\` $= 0{,}31$. On admet le résultat de fluctuation d'échantillonnage suivant : lorsque $N$ est assez grand, au moins $95\\,\\%$ environ des séries de $N$ simulations donnent une fréquence qui s'écarte de la probabilité $p$ d'au plus $\\frac{1}{\\sqrt{N}}$, c'est-à-dire qui appartient à $\\left[p - \\frac{1}{\\sqrt{N}} ; p + \\frac{1}{\\sqrt{N}}\\right]$. Expliquer pourquoi on peut soupçonner une erreur dans son programme.`,
       solution: `**1.** Les quatre issues (Pile, Pile), (Pile, Face), (Face, Pile), (Face, Face) sont équiprobables (probabilité $\\frac{1}{4}$ chacune) et donnent les positions $2$ ; $0$ ; $0$ ; $-2$.
 
 $P(X = -2) = \\frac{1}{4}$, $P(X = 0) = \\frac{2}{4} = \\frac{1}{2}$, $P(X = 2) = \\frac{1}{4}$.
@@ -6076,7 +6347,9 @@ On rappelle que \`random()\` renvoie un nombre décimal aléatoire de l'interval
       title: "Quelle taille d'échantillon pour un sondage ?",
       difficulty: 3,
       points: 6,
-      statement: `Dans une ville, une proportion $p$ inconnue des habitants est favorable à un projet. On interroge un échantillon de $n$ habitants choisis au hasard, et on note $f$ la fréquence de personnes favorables dans l'échantillon.
+      statement: `**Pour aller plus loin** : exercice d'approfondissement (critère $\\frac{1}{\\sqrt{n}}$).
+
+Dans une ville, une proportion $p$ inconnue des habitants est favorable à un projet. On interroge un échantillon de $n$ habitants choisis au hasard, et on note $f$ la fréquence de personnes favorables dans l'échantillon.
 
 On admet que, lorsque $n$ est assez grand, au moins $95$ % environ des échantillons de taille $n$ vérifient $|f - p| \\leqslant \\dfrac{1}{\\sqrt{n}}$.
 
@@ -6116,16 +6389,23 @@ On admet que, lorsque $n$ est assez grand, au moins $95$ % environ des échantil
 from random import randint
 
 def paquets():
-    vues = [False, False, False]
+    vue1 = False
+    vue2 = False
+    vue3 = False
     n = 0
-    while not (vues[0] and vues[1] and vues[2]):
+    while not (vue1 and vue2 and vue3):
         image = randint(1, 3)
-        vues[image - 1] = True
+        if image == 1:
+            vue1 = True
+        elif image == 2:
+            vue2 = True
+        else:
+            vue3 = True
         n = n + 1
     return n
 \`\`\`
 
- a) Que représente la liste \`vues\` ? Expliquer la condition de la boucle.
+ a) Que représentent les variables \`vue1\`, \`vue2\` et \`vue3\` ? Expliquer la condition de la boucle.
  b) Quelle est la plus petite valeur que peut renvoyer \`paquets()\` ?
  c) Écrire une fonction \`moyenne(k)\` qui appelle \`k\` fois \`paquets()\` et renvoie la moyenne des valeurs obtenues.
 3. Pour $k = 10\\,000$, on obtient environ $5{,}5$. Interpréter ce résultat.`,
@@ -6135,7 +6415,7 @@ def paquets():
 
 **c)** $(1 ; 1 ; 1)$, $(2 ; 2 ; 2)$, $(3 ; 3 ; 3)$ : $\\frac{3}{27} = \\frac{1}{9}$.
 
-**2. a)** \`vues[i]\` vaut \`True\` si l'image numéro $i + 1$ a déjà été obtenue. La boucle continue tant que les trois images n'ont pas toutes été obtenues ; \`n\` compte les paquets achetés.
+**2. a)** Chacune de ces variables vaut \`True\` si l'image correspondante (numéro $1$, $2$ ou $3$) a déjà été obtenue, et \`False\` sinon. La boucle continue tant que les trois images n'ont pas toutes été obtenues ; \`n\` compte les paquets achetés.
 
 **b)** Il faut au moins $3$ paquets : la plus petite valeur renvoyée est $3$.
 
@@ -6359,8 +6639,8 @@ def nb_diviseurs(n):
 
 1. Que renvoie \`12 % 5\` ? \`12 % 4\` ? Que signifie l'égalité \`n % d == 0\` ?
 2. Que renvoie \`nb_diviseurs(12)\` ? Justifier en listant les diviseurs.
-3. Un entier $n \\geqslant 2$ est premier s'il a exactement deux diviseurs. Écrire une fonction \`est_premier(n)\` qui renvoie \`True\` si $n$ est premier et \`False\` sinon, en utilisant \`nb_diviseurs\`.
-4. Écrire une fonction \`liste_premiers(m)\` qui affiche tous les nombres premiers inférieurs ou égaux à \`m\`. Qu'affiche \`liste_premiers(20)\` ?
+3. *Questions 3 à 5 : pour aller plus loin (nombres premiers, rappel du collège).* Un entier $n \\geqslant 2$ est premier s'il a exactement deux diviseurs positifs. Écrire une fonction \`est_premier(n)\` qui renvoie \`True\` si $n$ est premier et \`False\` sinon, en utilisant \`nb_diviseurs\`.
+4. Écrire une fonction \`afficher_premiers(m)\` qui affiche tous les nombres premiers inférieurs ou égaux à \`m\`. Qu'affiche \`afficher_premiers(20)\` ?
 5. Pour $n = 1\\,000\\,003$, la fonction \`nb_diviseurs\` effectue un million de tests. Expliquer pourquoi il suffirait de tester les diviseurs $d$ jusqu'à $\\sqrt{n}$ pour savoir si $n$ est premier.`,
       solution: `**1.** $12 = 5 \\times 2 + 2$, donc \`12 % 5\` vaut \`2\` ; $12 = 4 \\times 3$, donc \`12 % 4\` vaut \`0\`. \`n % d == 0\` signifie que $d$ divise $n$.
 
@@ -6375,12 +6655,12 @@ def est_premier(n):
 
 **4.**
 \`\`\`python
-def liste_premiers(m):
+def afficher_premiers(m):
     for n in range(2, m + 1):
         if est_premier(n):
             print(n)
 \`\`\`
-\`liste_premiers(20)\` affiche $2, 3, 5, 7, 11, 13, 17, 19$.
+\`afficher_premiers(20)\` affiche $2, 3, 5, 7, 11, 13, 17, 19$.
 
 **5.** Si $n = d \\times d'$ avec $1 < d \\leqslant d'$, alors $d^2 \\leqslant d \\times d' = n$, donc $d \\leqslant \\sqrt{n}$. Ainsi, si $n$ n'est pas premier, il possède un diviseur $d$ tel que $2 \\leqslant d \\leqslant \\sqrt{n}$. Pour $n \\approx 10^6$, il suffit de tester environ $1\\,000$ diviseurs au lieu d'un million.`
     },
@@ -6499,7 +6779,7 @@ def pgcd(a, b):
 
 1. Exécuter à la main \`pgcd(420, 336)\` en donnant les valeurs de \`a\`, \`b\` et \`r\` à chaque passage dans la boucle. Que renvoie la fonction ?
 2. Même question pour \`pgcd(1071, 462)\`.
-3. En utilisant la décomposition en facteurs premiers $1071 = 3^2 \\times 7 \\times 17$ et $462 = 2 \\times 3 \\times 7 \\times 11$, vérifier le résultat de la question 2.
+3. *Pour aller plus loin (rappel du collège).* En utilisant la décomposition en facteurs premiers $1071 = 3^2 \\times 7 \\times 17$ et $462 = 2 \\times 3 \\times 7 \\times 11$, vérifier le résultat de la question 2.
 4. Écrire une fonction \`irreductible(n, d)\` qui renvoie \`True\` si la fraction $\\frac{n}{d}$ est irréductible et \`False\` sinon.
 5. Écrire une fonction \`simplifier(n, d)\` qui renvoie le numérateur et le dénominateur de la fraction irréductible égale à $\\frac{n}{d}$. Que renvoie \`simplifier(1071, 462)\` ?`,
       solution: `**1.**
@@ -6843,7 +7123,7 @@ Diviseurs de $496 = 2^4 \\times 31$ autres que lui-même : $1, 2, 4, 8, 16$ (som
       statement: `En binaire (base $2$), on écrit les nombres avec les chiffres $0$ et $1$. Par exemple $13 = 8 + 4 + 1 = 1 \\times 2^3 + 1 \\times 2^2 + 0 \\times 2^1 + 1 \\times 2^0$ s'écrit \`1101\`.
 
 1. Écrire $10$ et $25$ en binaire. Quel nombre s'écrit \`101101\` ?
-2. On considère la fonction suivante, où \`//\` donne le quotient et \`%\` le reste de la division euclidienne.
+2. On considère la fonction suivante, où \`//\` donne le quotient et \`%\` le reste de la division euclidienne. L'instruction \`str(r)\` transforme le nombre \`r\` en chaîne de caractères, et le signe \`+\` met deux chaînes bout à bout.
 
 \`\`\`python
 def binaire(n):
@@ -6858,7 +7138,7 @@ def binaire(n):
  a) Faire fonctionner la fonction à la main pour $n = 13$ en présentant les valeurs de \`r\`, \`s\` et \`n\` à chaque passage dans la boucle.
  b) Pourquoi ajoute-t-on le chiffre \`r\` à gauche de \`s\` et non à droite ?
  c) Que renvoie \`binaire(0)\` ? Proposer une correction.
-3. Écrire une fonction \`decimal(s)\` qui reçoit une chaîne de \`0\` et de \`1\` et renvoie le nombre correspondant. On pourra parcourir la chaîne de gauche à droite en utilisant \`n = 2 * n + int(c)\` pour chaque caractère \`c\`.
+3. Écrire une fonction \`decimal(s)\` qui reçoit une chaîne de \`0\` et de \`1\` et renvoie le nombre correspondant. On pourra parcourir la chaîne de gauche à droite avec \`for c in s:\`, où \`c\` prend successivement la valeur de chaque caractère, et utiliser \`n = 2 * n + int(c)\`, où \`int(c)\` transforme le caractère \`c\` en entier.
 4. Combien de chiffres faut-il pour écrire $1\\,000$ en binaire ? Justifier à l'aide des puissances de $2$.`,
       solution: `**1.** $10 = 8 + 2$ s'écrit \`1010\` ; $25 = 16 + 8 + 1$ s'écrit \`11001\`. \`101101\` $= 32 + 8 + 4 + 1 = 45$.
 

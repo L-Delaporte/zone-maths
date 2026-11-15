@@ -8,7 +8,7 @@
  *   { id: 'TA4-ds-01',            // unique, préfixé par l'identifiant du chapitre
  *     title: 'Étude d'une fonction exponentielle',
  *     difficulty: 1..4,           // 1 = application directe … 4 = approfondissement
- *     points: 4..8,               // barème indicatif (le DS est ramené à 20)
+ *     points: 2..10,              // barème indicatif (le DS est ramené à 20)
  *     statement: 'Markdown : contexte puis questions numérotées « 1. », « 2. » (sous-questions « a) »)',
  *     solution: 'Markdown : corrigé rédigé et justifié, question par question' }
  * Un problème de brevet a en plus : theme (géométrie | fonctions | statistiques-probabilités |
@@ -20,32 +20,31 @@
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
+const { ROOT, loadSiteData } = require('./load_site.js');
 
-const ROOT = path.resolve(__dirname, '..', '..');
 const minArg = process.argv.indexOf('--min');
 const MIN_PER_CHAPTER = minArg > 0 ? parseInt(process.argv[minArg + 1], 10) : 1;
 // --min-secondaire N : seuil propre au secondaire (6e → Tle), plus exigeant que celui du supérieur
 const minSecArg = process.argv.indexOf('--min-secondaire');
 const MIN_SECONDAIRE = minSecArg > 0 ? parseInt(process.argv[minSecArg + 1], 10) : MIN_PER_CHAPTER;
-const SECONDAIRE = ['6eme', '5eme', '4eme', '3eme', '2nde', '1ere', 'tale'];
+const SECONDAIRE = ['6eme', '5eme', '4eme', '3eme', '2nde', '1ere', '1tc', '1techno', 'tale'];
 
-const ctx = { window: {}, console };
-ctx.window.window = ctx.window;
-vm.createContext(ctx);
-const load = rel => vm.runInContext(fs.readFileSync(path.join(ROOT, rel), 'utf8'), ctx, { filename: rel });
-['js/data/chapters.js', 'js/data/chapters_lycee.js', 'js/data/chapters_licence.js', 'js/data/data_capes.js'].forEach(load);
-
-const dataDir = path.join(ROOT, 'js/data');
-const bankFiles = fs.readdirSync(dataDir).filter(f => /^ds_bank_.+\.js$/.test(f) || f === 'brevet_problems.js');
-bankFiles.forEach(f => load(`js/data/${f}`));
+const { win, files } = loadSiteData();
+const isBank = f => /^ds_bank_.+\.js$/.test(f) || f === 'brevet_problems.js';
+const bankFiles = files.map(f => path.basename(f)).filter(isBank);
 
 const kctx = {};
 vm.runInNewContext(fs.readFileSync(path.join(ROOT, 'vendor/katex/katex.min.js'), 'utf8'), kctx);
 const katex = kctx.katex;
 
-const chapterIds = new Set((ctx.window.MATHS_CHAPTERS || []).map(c => c.id));
+const chapterIds = new Set((win.MATHS_CHAPTERS || []).map(c => c.id));
 let errors = 0;
 const fail = msg => { errors++; if (errors <= 60) console.error('✖ ' + msg); };
+
+// Une banque que level-bundles ne déclare pas ne serait jamais chargée par le site.
+for (const f of fs.readdirSync(path.join(ROOT, 'js/data')).filter(isBank)) {
+  if (!bankFiles.includes(f)) fail(`js/data/${f} : banque non déclarée dans index.html (level-bundles)`);
+}
 
 function checkMath(label, md) {
   const text = String(md || '');
@@ -81,9 +80,9 @@ function checkExercise(ex, label, opts = {}) {
 }
 
 // Conventions françaises (hors formules) et notations adaptées au niveau
-const COLLEGE = new Set((ctx.window.MATHS_CHAPTERS || []).filter(c => ['6eme', '5eme', '4eme', '3eme'].includes(c.level || '3eme')).map(c => c.id));
+const COLLEGE = new Set((win.MATHS_CHAPTERS || []).filter(c => ['6eme', '5eme', '4eme', '3eme'].includes(c.level || '3eme')).map(c => c.id));
 const LEVEL_OF = {};
-(ctx.window.MATHS_CHAPTERS || []).forEach(c => { LEVEL_OF[c.id] = c.level || '3eme'; });
+(win.MATHS_CHAPTERS || []).forEach(c => { LEVEL_OF[c.id] = c.level || '3eme'; });
 function checkConventions(label, md, chapterId) {
   const text = String(md || '');
   const prose = text.replace(/\$\$[\s\S]+?\$\$|\$[^$\n]+?\$/g, ' ');
@@ -99,7 +98,7 @@ function checkConventions(label, md, chapterId) {
 }
 
 const ids = new Set();
-const bank = ctx.window.MATHS_DS_BANK || {};
+const bank = win.MATHS_DS_BANK || {};
 let total = 0;
 for (const [chapterId, list] of Object.entries(bank)) {
   if (!chapterIds.has(chapterId)) fail(`MATHS_DS_BANK : chapitre inconnu ${chapterId}`);
@@ -132,7 +131,7 @@ for (const [chapterId, list] of Object.entries(bank)) {
   }
 }
 
-const brevet = ctx.window.MATHS_BREVET_PROBLEMS || [];
+const brevet = win.MATHS_BREVET_PROBLEMS || [];
 const THEMES = ['géométrie', 'fonctions', 'statistiques-probabilités', 'algorithmique', 'grandeurs-mesures', 'nombres-calculs'];
 brevet.forEach((ex, i) => {
   const label = `Brevet#${i + 1}${ex && ex.id ? ` (${ex.id})` : ''}`;

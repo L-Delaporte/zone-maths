@@ -364,6 +364,8 @@ module.exports = {
   '6N8.twoprices': v => dec((v.s - v.dd) / 2),
 
   '6P1.lin': v => dec(v.P / v.n * v.m),
+  '6P1.lin2': v => dec(v.cible * v.c),
+  '6P1.limit': v => dec(Math.min(Math.floor(v.FA * v.p / v.F + 1e-9), Math.floor(v.BA * v.p / v.B + 1e-9))),
   '6P1.isprop': v => (v.ys.every((y, i) => Math.abs(y / v.xs[i] - v.ys[0] / v.xs[0]) < 1e-9) ? 'Oui' : 'Non'),
   '6P1.percent': v => dec(v.N * v.p / 100),
   '6P1.coef': v => dec(v.y / v.x),
@@ -475,6 +477,20 @@ module.exports = {
   },
   // 6G2
   '6G2.def': v => `la droite perpendiculaire à $[${v.P}${v.Q}]$ en son milieu`,
+  '6G2.nom': v => `la médiatrice du segment $[${v.P}${v.Q}]$`,
+  '6G2.fig': v => {
+    // Seule droite perpendiculaire au segment (90°) et passant par son milieu (décalage nul)
+    const ok = v.lignes.filter(l => l.off === 0 && l.ang === 90);
+    return ok.length === 1 ? `la droite $(d_${ok[0].nom})$` : 'configuration impossible';
+  },
+  '6G2.contre': v => {
+    // Médiatrice = perpendiculaire ET milieu : on identifie la condition qui manque
+    const perp = v.manque === 'milieu', milieu = v.manque === 'perp';
+    if (v.manque === 'perp' && (v.a === 90 || v.a <= 0 || v.a >= 180)) return 'angle invalide';
+    if (v.manque === 'milieu' && v.x === v.y) return 'I serait le milieu';
+    return !perp ? `Non, car $(d)$ n'est pas perpendiculaire à $[${v.P}${v.Q}]$.` : !milieu ? `Non, car $(d)$ ne passe pas par le milieu de $[${v.P}${v.Q}]$.` : 'Oui';
+  },
+  '6G2.equi': v => (v.pq > 0 && v.pq < 2 * v.x ? `$${v.M}$ appartient à la médiatrice du segment $[${v.P}${v.Q}]$.` : 'configuration impossible'),
   '6G2.same': v => dec(v.x),
   '6G2.axes': v => ['4', '2', '2', '3', '1', 'une infinité', '2', 'aucun', '6', 'aucun'][v.idx],
   '6G2.grid': v => dec(2 * Math.abs(v.vertical ? v.px - v.axis : v.py - v.axis)),
@@ -503,6 +519,7 @@ module.exports = {
   // 6G4
   '6G4.sub': v => dec(v.tot - sum(v.parts)),
   '6G4.mul': v => dec(v.a * v.b),
+  '6G4.circ': v => { const r = (v.p - v.c) / 2; return dec(v.ask === 0 ? 3 * r : v.ask === 1 ? 2 * r + v.d : 2 * r); },
   '6G4.nature': v => {
     const [a, b, c] = v.s;
     if (a === b && b === c) return 'équilatéral';
@@ -616,6 +633,26 @@ module.exports = {
 
   // ---- 6D2
   '6D2.vocabDe': v => status(dieFav(v.n, v.kind, v.m), v.n),
+  '6D2.vocabChoix': (v, q) => {
+    // Relit chaque option, compte ses faces favorables et garde celle de la catégorie demandée (une seule)
+    const nbFav = txt => {
+      let test = null, m;
+      if (/nombre pair$/.test(txt)) test = f => f % 2 === 0;
+      else if (/nombre impair$/.test(txt)) test = f => f % 2 === 1;
+      else if ((m = txt.match(/multiple de (\d+)$/))) test = f => f % +m[1] === 0;
+      else if ((m = txt.match(/supérieur ou égal à (\d+)$/))) test = f => f >= +m[1];
+      else if ((m = txt.match(/strictement inférieur à (\d+)$/))) test = f => f < +m[1];
+      else if ((m = txt.match(/inférieur ou égal à (\d+)$/))) test = f => f <= +m[1];
+      else if ((m = txt.match(/le nombre (\d+)$/))) test = f => f === +m[1];
+      if (!test) return -1;
+      let k = 0;
+      for (let f = 1; f <= v.n; f++) if (test(f)) k++;
+      return k;
+    };
+    const cat = o => { const k = nbFav(o); return k < 0 ? '?' : k === 0 ? 'i' : k === v.n ? 'c' : 'p'; };
+    const ok = q.options.filter(o => cat(o) === v.cat);
+    return ok.length === 1 ? ok[0] : `catégorie ${v.cat} : ${ok.length} option(s)`;
+  },
   '6D2.vocabUrne': v => {
     const tot = sum(v.counts);
     const k = v.color === null ? tot : v.cols.reduce((a, c, i) => a + (c === v.color ? v.counts[i] : 0), 0);
@@ -706,7 +743,7 @@ const vE_step = { D: [1, 0], G: [-1, 0], H: [0, 1], B: [0, -1] };
 module.exports = {
   '6D1.barext': v => { let best = 0; v.vals.forEach((x, i) => { if (v.mode === 'min' ? x < v.vals[best] : x > v.vals[best]) best = i; }); return v.cats[best]; },
   '6D1.hauteur': v => vE_dec(v.vals[v.i] / v.kk),
-  '6D1.choixdiag': v => ({ barres: 'Un diagramme en barres', circ: 'Un diagramme circulaire', courbe: 'Un graphique (points reliés) en fonction du temps', double: 'Un tableau à double entrée' })[v.type],
+  '6D1.choixdiag': v => ({ barres: 'Un diagramme en barres', circ: 'Un diagramme circulaire', courbe: 'Une courbe (points reliés) en fonction du temps', double: 'Un tableau à double entrée' })[v.type],
   '6D1.erreur': v => v.cats[v.vals.findIndex((x, i) => x !== v.drawn[i])],
   '6D1.double2': v => {
     const row = v.grid[v.hr];
@@ -714,6 +751,46 @@ module.exports = {
     return missing + v.grid[1 - v.hr][v.hc];
   },
   '6D1.barfrac': v => vE_frac(v.vals[v.i], vE_sum(v.vals)),
+  '6D1.circ': v => {
+    if (v.mode === 'effectif') return v.T * v.parts[v.i] / v.denom;
+    const want = v.mode === 'quart' ? 2 : 4;
+    const hits = v.parts.map((p, j) => (p === want ? j : -1)).filter(j => j >= 0);
+    if (hits.length !== 1) throw new Error('part non unique');
+    return v.cats[hits[0]];
+  },
+  '6D1.courbe': v => {
+    if (v.mode === 'lire') return v.vals[v.a];
+    if (v.mode === 'ecart') return Math.abs(v.vals[v.b] - v.vals[v.a]);
+    const m = Math.max(...v.vals);
+    if (v.vals.filter(x => x === m).length !== 1) throw new Error('maximum non unique');
+    return v.long[v.vals.indexOf(m)];
+  },
+  '6D1.enquete': v => ({
+    pop1: 'Des élèves de chacune des classes de 6e',
+    pop2: 'Des élèves venant de différents quartiers, par différents moyens de transport',
+    pop3: 'Des habitants de tout le quartier, à différents moments de la journée',
+    pop4: 'Des élèves de tous les niveaux qui mangent à la cantine',
+    que1: 'Combien de minutes as-tu passées devant un écran hier ?',
+    que2: 'Combien de livres as-tu lus le mois dernier ?',
+    que3: 'Chez toi, trie-t-on le verre : oui ou non ?',
+    que4: 'Combien de trajets as-tu faits à vélo la semaine dernière ?',
+    mes1: 'Chaque jour à la même heure, au même endroit, avec le même thermomètre',
+    mes2: 'Chaque jour à la même heure, pendant la même durée, depuis le même endroit',
+    mes3: "Avec le même pluviomètre, chaque matin à la même heure, en notant aussitôt la hauteur d'eau",
+    mes4: 'Le même jour de chaque semaine, avec la même balance'
+  })[v.id],
+  '6D1.releve': v => {
+    if (v.mode === 'total') return vE_sum(v.vals);
+    if (v.mode === 'jours') return v.vals.filter(x => x > 0).length;
+    if (v.mode === 'seuil') return v.vals.filter(x => x > v.s).length;
+    return vE_sum(v.vals.filter(x => x > v.s));
+  },
+  '6D2.chances': v => {
+    if (v.mode === 'fraction') return vE_frac(v.a, v.b);
+    if (v.mode === 'decimal') return vE_dec(v.a / v.b);
+    if (v.mode === 'pourcent') return String(v.a * 100 / v.b);
+    return `${v.a} chance${v.a > 1 ? 's' : ''} sur ${v.b}`;
+  },
   '6D2.echelle': v => {
     const tot = vE_sum(v.counts);
     const fav = v.mode === 'one' ? v.counts[v.j] : tot - v.counts[v.j];
@@ -750,6 +827,11 @@ module.exports = {
     if (v.mode === 'somme') { let s = 0; for (let c = 1; c <= v.n; c++) s += c; return s; }
     let n = v.x; for (let i = 0; i < v.n; i++) n = 2 * (n + v.a); return n;
   },
+  '6A1.boucleCartes': v => {
+    let n = v.x;
+    for (let i = 0; i < v.n; i++) for (const [o, a] of v.ops) n = o === '+' ? n + a : o === '-' ? n - a : n * a;
+    return n;
+  },
   '6A1.inverse': v => {
     let n = v.res;
     for (let i = v.ops.length - 1; i >= 0; i--) { const [o, a] = v.ops[i]; n = o === '+' ? n - a : o === '-' ? n + a : n / a; }
@@ -774,11 +856,16 @@ module.exports = {
   '6N6.maxnum': v => { if (v.below) { let n = 0; while ((n + 1) < v.kk * v.d) n++; return String(n); } let n = 0; while (n <= v.kk * v.d) n++; return String(n); },
   '6N6.unitlen': v => vB_dec(v.x * v.b / v.a),
   '6N6.round10': v => { const c = Math.floor(v.a * 100 / v.b); const t = Math.floor(c / 10) + (c % 10 >= 5 ? 1 : 0); return vB_dec(t / 10); },
+  '6N6.arrq': v => vB_dec(Math.round(v.a / v.b * v.p) / v.p),
+  '6N6.arrpi': v => vB_dec(Math.round(Math.PI * v.p) / v.p),
+  '6N7.invente': v => v.bon,
   '6N7.ofunit': v => vB_dec(v.tot * v.a / v.b),
   '6N7.complete1': v => vB_fr(v.b - v.a, v.b),
   '6N7.subint': v => vB_fr(v.n * v.b - v.a, v.b),
   '6N7.whole2': v => vB_dec(v.R / (1 - v.a / v.b)),
   '6N7.tank': v => vB_dec(v.V / v.a * v.b - v.V),
+  '6N7.addany': v => vB_fr(v.op === '+' ? v.a * v.d2 + v.c * v.d1 : v.a * v.d2 - v.c * v.d1, v.d1 * v.d2),
+  '6N7.restany': v => vB_fr(v.d1 * v.d2 - v.a * v.d2 - v.c * v.d1, v.d1 * v.d2),
   '6N8.prog1': v => vB_dec(v.add ? v.x * v.a + v.b : v.x * v.a - v.b),
   '6N8.seq': v => { const t = v.terms; return String(2 * t[t.length - 1] - t[t.length - 2]); },
   '6N8.motif': v => String(vB_motif(v.shape, v.n)),
@@ -792,6 +879,7 @@ module.exports = {
   '6P1.pctsimple': v => vB_dec(v.N * v.p / 100),
   '6P1.addlin': v => vB_dec(v.A / v.a * (v.a + v.b)),
   '6P1.pctfind': v => vB_dec(v.M / v.N * 100),
+  '6P1.scaleunit': v => vB_dec(v.real_m / v.d),
   '6P1.pctinc': v => vB_dec(v.N * (1 + v.p / 100)),
   '6P1.recipeinv': v => vB_dec(v.Q * v.p / v.q),
   '6P1.speed': v => vB_dec(v.D / v.m1 * v.m2),
@@ -812,11 +900,13 @@ const vC_per = hs => {
   hs.forEach((h, i) => { for (let k = 0; k < h; k++) for (const [di, dk] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) if (!filled(i + di, k + dk)) p++; });
   return p;
 };
-const vC_unit = u => ({ 'm³': '$\\text{m}^3$', 'm²': '$\\text{m}^2$', 'cm²': '$\\text{cm}^2$', 'mm²': '$\\text{mm}^2$', 'km²': '$\\text{km}^2$' }[u] || `$\\text{${u}}$`);
+const vC_unit = u => ({ 'cm³': '$\\text{cm}^3$', 'm³': '$\\text{m}^3$', 'm²': '$\\text{m}^2$', 'cm²': '$\\text{cm}^2$', 'mm²': '$\\text{mm}^2$', 'km²': '$\\text{km}^2$' }[u] || `$\\text{${u}}$`);
 module.exports = {
   '6M1.gridper': v => vC_per(v.hs),
   '6M1.demidisque': v => vC_ans(Math.round((v.d + 3.14 * v.d / 2) * 1000) / 1000),
   '6M1.tours': v => { let n = 0; const tour = Math.round(314 * v.d) / 100; while ((n + 1) * tour <= v.Dm * 100 + 1e-9) n++; return n; },
+  '6M1.rapport': v => vC_ans(Math.round(v.P / v.d * 100) / 100),
+  '6M1.encadre': v => `entre $${3 * v.d}\\text{ cm}$ et $${4 * v.d}\\text{ cm}$`,
   '6M2.gridaire': v => v.hs.reduce((s, x) => s + x, 0),
   '6M2.unite': v => vC_unit(v.u),
   '6M2.cmpfig': v => {
@@ -826,6 +916,16 @@ module.exports = {
   },
   '6M2.per2aire': v => (v.P / 4) * (v.P / 4),
   '6M2.trapeze': v => vC_ans(((2 * v.a + v.b) * v.h) / 2), // aire du trapèze rectangle (bases a et a+b)
+  '6M2.cmppav': v => {
+    const t = hs => hs.reduce((s, x) => s + x, 0), a = t(v.hsA), b = t(v.hsB);
+    return a === b ? 'les deux figures ont la même aire' : a > b ? 'la figure $A$' : 'la figure $B$';
+  },
+  '6M2.recolle': v => {
+    // Figure 2 : boîte englobante c × 2h (la partie haute, plus étroite ou égale, est alignée à gauche)
+    const p1 = 2 * (v.w + v.h), p2 = 2 * (v.c + 2 * v.h);
+    return p1 === p2 ? 'elle a la même aire et le même périmètre' : 'elle a la même aire, mais un périmètre différent';
+  },
+  '6M2.decoupe': v => v.w.reduce((s, x, i) => s + x * v.h[i], 0),
   '6M3.unite': v => vC_unit(v.u),
   '6M3.compare': v => Math.abs(v.A.reduce((p, x) => p * x, 1) - v.B.reduce((p, x) => p * x, 1)),
   '6M3.arete': v => { let a = 1; while (a * a * a < v.V) a++; return a; },
@@ -834,6 +934,25 @@ module.exports = {
   '6M3.verres': v => (v.L * v.l * v.h) / (10 * v.verre),
   '6M3.agrandir': v => (v.ask === 'vol' ? Math.pow(v.kf * v.a, 3) : Math.pow(v.kf, 3)),
   '6M3.immersion': v => vC_ans(Math.pow(v.a, 3) / (v.L * v.l)),
+  '6M3.asm': v => v.h.flat().reduce((s, x) => s + x, 0),
+  '6M3.asmcmp': v => {
+    const sa = v.a.flat().reduce((s, x) => s + x, 0), sb = v.b.flat().reduce((s, x) => s + x, 0);
+    return sa > sb ? 'L\'assemblage A' : sa < sb ? 'L\'assemblage B' : 'Ils ont le même volume';
+  },
+  '6M3.couche': v => v.n * v.c,
+  '6M3.completer': v => v.nx * v.ny * v.hm - v.h.flat().reduce((s, x) => s + x, 0),
+  '6M3.escalier': v => v.p * v.m * (v.m + 1) / 2,
+  '6M3.memevol': v => v.a * v.b * v.c / (v.L * v.l),
+  '6M3.pyramide': v => { let s = 0; for (let k = 0; k < v.e; k++) s += (v.n - k) * (v.n - k); return s; },
+  '6M3.trou': v => (v.a * v.b - v.r) * v.c,
+  '6M3.cmpdiff': v => v.p * v.q * v.r - v.h.flat().reduce((s, x) => s + x, 0),
+  '6M3.peint': v => { const k = v.n - 2; return v.ask === 'deux' ? 12 * k : v.ask === 'une' ? 6 * k * k : k * k * k; },
+  '6M3.tunnel': v => Math.pow(v.n, 3) - (v.t * v.n - (v.t - 1)),
+  '6M3.escalierInv': v => { let m = 0, s = 0; while (s < v.T) { m++; s += m; } return m; },
+  '6M4.siecle': v => (v.sub === 's2a' ? v.n * 100 : v.sub === 'm2a' ? v.n * 1000 : v.sub === 'm2s' ? v.n * 10 : v.n),
+  '6M4.dixh': v => (v.h * 10 + v.d) * 6,
+  '6M4.sieclean': v => Math.ceil(v.X / 100),
+  '6M4.bissextile': v => (v.bis ? 29 : 28) - v.d1 + v.d2,
   '6M4.samehour': v => v.e - v.s,
   '6M4.semaines': v => 7 * v.w + v.d,
   '6M4.seances': v => v.n * v.c + v.x,
@@ -903,6 +1022,7 @@ module.exports = {
   '6G3.bissadj': v => vD_dec(v.a + v.b / 2),
   '6G3.plat3': v => String(180 - (v.a + v.b)),
   '6G3.deuxbiss': v => vD_dec(v.a / 2 + v.b / 2),
+  '6G3.pliage': v => (v.kind === 0 ? `en faisant passer le pli par $${v.O}$ et en superposant les côtés $[${v.O}${v.P})$ et $[${v.O}${v.Q})$` : `$[${v.O}${v.Q})$`),
   '6G3.tour': v => vD_dec(v.m * (360 / v.n)),
   '6G4.isoper': v => String(v.x + v.x + v.b),
   '6G4.equicote': v => vD_dec(v.per / 3),
@@ -913,6 +1033,14 @@ module.exports = {
     const ok = c => { const s = [v.a, v.b, c].sort((p, q) => p - q); return s[2] < s[0] + s[1]; };
     if (!ok(v.good)) return 'incohérent';
     return `$${v.good}$ cm`;
+  },
+  '6G4.natangles': v => {
+    const s = [v.a, v.b, 180 - v.a - v.b];
+    const eg = (s[0] === s[1]) + (s[1] === s[2]) + (s[0] === s[2]);
+    if (eg === 3) return 'équilatéral';
+    const droit = s.includes(90);
+    if (droit) return eg === 1 ? 'rectangle et isocèle' : 'rectangle, mais pas isocèle';
+    return eg === 1 ? 'isocèle, mais ni équilatéral ni rectangle' : 'quelconque (ni isocèle ni rectangle)';
   },
   '6G4.isorel': v => vD_dec(180 / (v.m + 2)),
   '6G4.entiers': v => {
@@ -940,6 +1068,22 @@ module.exports = {
     let s = 0;
     for (let c = 0; c < v.h[0].length; c++) s += Math.max(...v.h.map(r => r[c]));
     return String(s);
+  },
+  '6G5.cavaliere': v => {
+    const E = [[0, 1], [1, 2], [2, 3], [3, 0], [4, 5], [5, 6], [6, 7], [7, 4], [0, 4], [1, 5], [2, 6], [3, 7]];
+    const cache = v.dir > 0 ? 4 : 5;
+    const manque = E.map((e, i) => i).filter(i => !v.drawn.includes(i));
+    if (v.ask === 'reste') return String(manque.length);
+    if (v.ask === 'pointilles') return String(manque.filter(i => E[i].includes(cache)).length);
+    if (manque.length !== 1) return 'incohérent';
+    const e = E[manque[0]];
+    return `$[${v.names[e[0]]}${v.names[e[1]]}]$ en ${e.includes(cache) ? 'pointillés' : 'trait plein'}`;
+  },
+  '6G5.vuelat': v => {
+    const rangs = v.mode === 'iso' ? v.h[0].map((_, j) => Math.max(...v.h.map(col => col[j]))) : v.h.map(r => Math.max(...r));
+    const cible = v.side === 'gauche' ? rangs : rangs.slice().reverse();
+    const hits = v.cands.map((c, i) => (c.join() === cible.join() ? i : -1)).filter(i => i >= 0);
+    return hits.length === 1 ? `Vue ${'ABCD'[hits[0]]}` : 'incohérent';
   },
   '6G5.maxvues': v => { let t = 0; v.f.forEach(a => v.s.forEach(b => { t += a < b ? a : b; })); return String(t); },
   '6G5.airepatron': v => String(2 * v.L * v.l + 2 * v.l * v.h + 2 * v.L * v.h),
@@ -1066,6 +1210,11 @@ module.exports = {
     if (!lines.every(l => l.reduce((a, b) => a + b, 0) === S) || M[0][2] + M[1][1] + M[2][0] !== S) return '??';
     return ans((S - M[v.r].reduce((a, b, j) => (j === v.col ? a : a + b), 0)) / 10);
   },
+  '6N4.dix': v => ans(v.n / 100),
+  '6N4.decomp': v => ans(v.p * v.q / Math.pow(10, 1 + v.eb)),
+  '6N4.airedm': v => ans(v.a * v.b / 100),
+  '6N4.airem': v => ans(v.a * v.b / 10000),
+  '6N4.decompmcq': v => `$(${v.p} \\times ${v.q}) \\times ${['1', '0{,}1', '0{,}01', '0{,}001', '0{,}0001', '0{,}00001'][v.e]}$`,
   '6N4.moitie': v => ans(v.n100 / 100 / v.div),
   '6N4.aire': v => ans(v.L * v.l / 100),
   '6N4.div10': v => ans(v.tot10 / 10 / v.m),
@@ -1084,7 +1233,7 @@ module.exports = {
   },
   '6N5.tables': v => v.n / v.d,
   '6N5.nbmult': v => { let c = 0; for (let x = 1; x <= v.N; x++) if (x % v.d === 0) c++; return c; },
-  '6N5.criteres': v => [2, 3, 5, 9, 10].filter(d => v.n % d === 0).length,
+  '6N5.criteres': v => v.nums.filter(c => c % v.k6 === 0).length,
   '6N5.approche': v => {
     // division posée chiffre par chiffre
     let q = Math.floor(v.n / v.d), r = v.n % v.d, digs = [];

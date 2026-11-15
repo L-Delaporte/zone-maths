@@ -29,6 +29,39 @@
   /** Probabilité de servir un exercice de la banque type concours, par palier */
   const STATIC_SHARE = { 1: 0.1, 2: 0.15, 3: 0.4, 4: 0.55 };
 
+  /**
+   * Retouches des titres hérités du collège : au CRPE, tout le cycle 4 est au programme, et le candidat n'est pas
+   * un élève de 5e ou de 3e. On retire donc les noms de classe et d'examen (« Défi 5ème », « (5ème) »,
+   * « Défi Seconde », « type brevet », « (Brevet) ») ainsi que les mentions « Pour aller plus loin » propres
+   * au collège, qui situent une notion dans une classe.
+   */
+  const TITLE_FIXES = [
+    [/^Pour aller plus loin\s*:\s*/, ''],
+    [/^Défi,\s*pour aller plus loin\s*:\s*/, 'Défi : '],
+    [/\s*\(pour aller plus loin\)/gi, ''],
+    [/^Complément \(utile en seconde\)\s*:\s*/, ''],
+    [/^Défi\s+(?:[3-6](?:ème|e)|Seconde|seconde)\s*:\s*/, 'Défi : '],
+    [/^Problème type [Bb]revet\s*:\s*/, 'Problème en plusieurs étapes : '],
+    [/^Défi type [Bb]revet\s*:\s*/, 'Défi : '],
+    [/\s*\((?:[3-6](?:ème|e)|[Bb]revet|[Ss]econde)\)/g, ''],
+    [/\s+type [Bb]revet\b/g, ''],
+    [/\s+(?:en|de) [3-6](?:ème|e)\b/g, '']
+  ];
+  const upperFirst = s => s.replace(/^([a-zàâçéèêëîïôûù])/, c => c.toUpperCase());
+  const adaptTitle = s => upperFirst(TITLE_FIXES.reduce((acc, [re, by]) => acc.replace(re, by), String(s)).trim());
+  /** Énoncé : retire l'étiquette « Pour aller plus loin » de tête, qui renvoie à une classe du collège */
+  const adaptStatement = s => {
+    const out = String(s)
+      .replace(/^\*\*Pour aller plus loin — Complément \(utile en seconde\)\.\*\*\s*/, '')
+      .replace(/^\*\*Pour aller plus loin\*\*\s*(?:\([^()]*\))?\s*(?:[.:]\s*)?/, '');
+    return out === s ? s : upperFirst(out);
+  };
+  /** Rappel de cours hérité : « **Pour aller plus loin** : on peut… » devient « On peut… » */
+  const adaptText = s => String(s)
+    .replace(/\*\*Pour aller plus loin\*\*\s*(?:\([^()]*\))?\s*:\s*([a-zàâçéèêëîïôûù])/g, (m, c) => c.toUpperCase())
+    .replace(/\(relation démontrée dans le cours, rubrique « Pour aller plus loin »\)/g, '(conséquence du théorème de Pythagore dans le triangle rectangle)')
+    .replace(/Formule directe de Seconde\s*:/g, 'Formule directe :');
+
   const api = {
     CRPE_SOURCES: SOURCES,
 
@@ -47,6 +80,9 @@
         q = null;
       }
       if (!q || !q.statement) return null;
+      if (q.title) q.title = adaptTitle(q.title);
+      q.statement = adaptStatement(q.statement);
+      ['hint1', 'hint2', 'solution'].forEach(k => { if (typeof q[k] === 'string') q[k] = adaptText(q[k]); });
       q.chapterId = chapterId;
       q.tier = t;
       q.id = `${chapterId}-${src}-${Date.now()}-${Math.floor(Math.random() * 10000)}`;

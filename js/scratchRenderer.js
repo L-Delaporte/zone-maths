@@ -85,7 +85,7 @@
     /** Un bloc simple (une ligne de script). */
     renderBlock(line) {
       // Chapeau : Quand drapeau cliqué / pressé
-      if (/quand (le )?drapeau (vert )?(cliqu|press)/i.test(line)) {
+      if (/quand (le )?drapeau (vert )?(est )?(cliqu|press)/i.test(line)) {
         return `
             <div class="scratch-block scratch-hat">
               <span>quand</span>
@@ -136,20 +136,20 @@
         return `
             <div class="scratch-block scratch-motion">
               <span>avancer de</span>
-              <span class="scratch-slot-num">${m[1]}</span>
+              ${this.formatValueSlot(m[1])}
               <span>pas</span>
             </div>
           `;
       }
       // Tourner (à droite ↻ par défaut, à gauche ↺) de N degrés
-      const reTurn = /^tourner\s+(?:(?:à\s+)?(droite|gauche)\s+)?de\s+(.*?)\s*(degr[ée]s)?$/i;
+      const reTurn = /^tourner\s+(?:(?:à\s+)?(droite|gauche|↻|↺)\s+)?de\s+(.*?)\s*(degr[ée]s)?$/i;
       if (reTurn.test(line)) {
         const m = line.match(reTurn);
-        const arrow = m[1] && m[1].toLowerCase() === 'gauche' ? '↺' : '↻';
+        const arrow = m[1] && (m[1].toLowerCase() === 'gauche' || m[1] === '↺') ? '↺' : '↻';
         return `
             <div class="scratch-block scratch-motion">
               <span>tourner ${arrow} de</span>
-              <span class="scratch-slot-num">${m[2]}</span>
+              ${this.formatValueSlot(m[2])}
               <span>degrés</span>
             </div>
           `;

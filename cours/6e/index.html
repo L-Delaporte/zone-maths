@@ -4,28 +4,29 @@
   <meta charset="UTF-8" />
   <!-- Content-Security-Policy : voir scripts/csp.js (style-src 'unsafe-inline' requis par les attributs style de KaTeX) -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://etabli-des-maths.goatcounter.com; font-src 'self' data:; connect-src 'self' https://etabli-des-maths.goatcounter.com; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'" />
-  <script src="../../js/themeInit.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Maths en 6e : cours et exercices corrigés gratuits</title>
-  <meta name="description" content="Maths en 6e : 21 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Nombres entiers et décimaux, fractions, calcul…" />
+  <meta name="description" content="Maths en 6e : 21 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Notamment : nombres entiers et décimaux et calcul." />
   <meta name="author" content="Loïc Delaporte, professeur de mathématiques" />
   <link rel="canonical" href="https://etabli-des-maths.fr/cours/6e/" />
 
   <!-- Open Graph -->
   <meta property="og:title" content="Maths en 6e : cours et exercices corrigés gratuits" />
-  <meta property="og:description" content="Maths en 6e : 21 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Nombres entiers et décimaux, fractions, calcul…" />
+  <meta property="og:description" content="Maths en 6e : 21 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Notamment : nombres entiers et décimaux et calcul." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://etabli-des-maths.fr/cours/6e/" />
-  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
-  <meta property="og:image:alt" content="Maths en 6e : cours et exercices corrigés gratuits" />
-  <meta name="twitter:card" content="summary" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/og/6e.png" />
+  <meta property="og:image:alt" content="L'Établi des Maths — 6e" />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta property="og:locale" content="fr_FR" />
   <meta property="og:site_name" content="L'Établi des Maths" />
 
-  <link rel="stylesheet" href="../../css/style.css" />
-  <link rel="stylesheet" href="../../css/landing.css" />
-  <link rel="stylesheet" href="../../vendor/katex/katex.min.css" />
-  <link rel="stylesheet" href="../../css/cours.css" />
+  <link rel="stylesheet" href="../../css/style.css?v=141db07fda" />
+  <link rel="stylesheet" href="../../css/landing.css?v=9c24ff37f8" />
+  <link rel="stylesheet" href="../../vendor/katex/katex.min.css?v=1be2fd298c" />
+  <link rel="stylesheet" href="../../css/cours.css?v=85b541e52d" />
+  <!-- Après les feuilles de style : la CSP en meta désactive le préchargement, et ce script s'exécute quand même avant le premier rendu -->
+  <script src="../../js/themeInit.js?v=58d3835cf3"></script>
   <link rel="icon" href="../../favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32x32.png" />
   <link rel="apple-touch-icon" href="../../assets/favicon.png" />
@@ -36,7 +37,7 @@
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     "name": "Cours et exercices de maths en 6e, gratuits et corrigés",
-    "description": "Maths en 6e : 21 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Nombres entiers et décimaux, fractions, calcul…",
+    "description": "Maths en 6e : 21 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Notamment : nombres entiers et décimaux et calcul.",
     "url": "https://etabli-des-maths.fr/cours/6e/",
     "inLanguage": "fr",
     "educationalLevel": "Collège — classe de 6e (cycle 3)",
@@ -198,7 +199,7 @@
         "name": "Comment s'entraîner en maths en 6e ?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Choisis un chapitre puis clique sur « S'entraîner » : les exercices sont générés à chaque tirage et corrigés immédiatement. Ils sont classés en quatre paliers (1. Socle et automatismes, 2. Entraînement guidé, 3. Approfondissement, 4. Défi 5e) ; un palier se débloque quand le précédent est maîtrisé."
+          "text": "Choisis un chapitre puis clique sur « S'entraîner » : les exercices sont générés à chaque tirage et corrigés immédiatement. Ils sont classés en quatre paliers (1. Socle et automatismes, 2. Entraînement guidé, 3. Approfondissement, 4. Défi) ; un palier se débloque quand le précédent est maîtrisé."
         }
       },
       {
@@ -214,7 +215,7 @@
         "name": "Les cours et exercices de maths de 6e sont-ils gratuits ?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Oui : tout est gratuit, sans inscription et sans publicité. La progression est enregistrée uniquement sur ton appareil, aucune donnée personnelle n’est collectée."
+          "text": "Oui : tout est gratuit, sans inscription et sans publicité. La progression est enregistrée uniquement sur ton appareil, aucune donnée personnelle n’est demandée."
         }
       }
     ]
@@ -253,7 +254,7 @@
   <!-- Header Uniformisé -->
   <header class="app-header">
     <div class="header-inner">
-      <a href="../../index.html" class="brand-container">
+      <a href="../../" class="brand-container">
         <img src="../../assets/logo-96.png" alt="" class="brand-logo-img" width="44" height="44" />
         <div class="brand-text">
           <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Cours</span></p>
@@ -263,7 +264,7 @@
 
       <!-- Navigation entre Portails -->
       <nav class="nav-portal-links" aria-label="Portails thématiques">
-        <a href="../../index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="../../" class="nav-portal-btn">🏠 Accueil</a>
         <a href="../../cours/" class="nav-portal-btn active" aria-current="true">📚 Cours</a>
         <a href="../../exercices-de-maths/" class="nav-portal-btn">✏️ Exercices</a>
         <a href="../../rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
@@ -278,7 +279,7 @@
   <main class="landing-wrapper cours-wrapper" id="contenu" tabindex="-1">
     <nav class="cours-breadcrumb" aria-label="Fil d'Ariane">
       <ol>
-        <li><a href="../../index.html">Accueil</a></li>
+        <li><a href="../../">Accueil</a></li>
         <li><a href="../">Cours</a></li>
         <li><span aria-current="page">6e</span></li>
       </ol>
@@ -311,7 +312,7 @@
         </a></li>
         <li><a class="cours-chapter-card" href="multiplication-de-nombres-decimaux.html">
           <span class="topic-num">6N4</span>
-          <span class="cours-chapter-text"><strong>Multiplication de nombres décimaux</strong><span>Multiplier par 10, 100, 1 000 et par 0,1 ; 0,01 ; 0,001, multiplier deux décimaux, estimer un produit par un ordre de grandeur et résoudre…</span></span>
+          <span class="cours-chapter-text"><strong>Multiplication de nombres décimaux</strong><span>Multiplier par 10, 100, 1 000 et par 0,1 ; 0,01 ; 0,001, multiplier deux décimaux, estimer un produit par un ordre de grandeur et résoudre…</span></span>
         </a></li>
         <li><a class="cours-chapter-card" href="division-euclidienne.html">
           <span class="topic-num">6N5</span>
@@ -347,15 +348,15 @@
       <ul class="cours-chapter-grid">
         <li><a class="cours-chapter-card" href="longueurs-et-perimetres.html">
           <span class="topic-num">6M1</span>
-          <span class="cours-chapter-text"><strong>Longueurs et périmètres (polygones et cercle)</strong><span>Conversions d'unités de longueur, périmètre d'un polygone, formules du carré et du rectangle, périmètre d'un cercle et de figures composées.</span></span>
+          <span class="cours-chapter-text"><strong>Longueurs et périmètres (polygones et cercle)</strong><span>Conversions d'unités de longueur, périmètre d'un polygone, formules du carré et du rectangle, périmètre du disque et de figures composées.</span></span>
         </a></li>
         <li><a class="cours-chapter-card" href="aires-unites-carre-rectangle-et-figures-composees.html">
           <span class="topic-num">6M2</span>
-          <span class="cours-chapter-text"><strong>Aires : unités, carré, rectangle et figures composées</strong><span>Distinguer aire et périmètre, convertir des unités d'aire, calculer l'aire d'un carré, d'un rectangle et de figures composées par découpage.</span></span>
+          <span class="cours-chapter-text"><strong>Aires : unités, carré, rectangle et figures composées</strong><span>Comparer des aires, distinguer aire et périmètre, convertir entre m², dm² et cm², calculer l'aire d'un carré, d'un rectangle et de figures composées…</span></span>
         </a></li>
         <li><a class="cours-chapter-card" href="volumes-centimetre-cube-paves-et-cubes.html">
           <span class="topic-num">6M3</span>
-          <span class="cours-chapter-text"><strong>Volumes : centimètre cube, pavés et cubes</strong><span>Mesurer un volume en comptant des cubes unités, connaître le centimètre cube, calculer le volume d'un pavé droit et d'un cube, lien…</span></span>
+          <span class="cours-chapter-text"><strong>Volumes : centimètre cube, pavés et cubes</strong><span>Mesurer un volume en comptant des cubes unités, connaître le centimètre cube, dénombrer un assemblage de cubes couche par couche et comparer…</span></span>
         </a></li>
         <li><a class="cours-chapter-card" href="reperage-dans-le-temps-et-durees.html">
           <span class="topic-num">6M4</span>
@@ -369,7 +370,7 @@
       <ul class="cours-chapter-grid">
         <li><a class="cours-chapter-card" href="droites-segments-distances-milieu-et-cercle.html">
           <span class="topic-num">6G1</span>
-          <span class="cours-chapter-text"><strong>Droites, segments, distances, milieu et cercle</strong><span>Notations (droite, demi-droite, segment), distance entre deux points, milieu d'un segment, droites perpendiculaires et parallèles, cercle : centre…</span></span>
+          <span class="cours-chapter-text"><strong>Droites, segments, distances, milieu et cercle</strong><span>Notations (droite, demi-droite, segment), distance entre deux points, milieu d'un segment, droites perpendiculaires et parallèles, cercle : centre…</span></span>
         </a></li>
         <li><a class="cours-chapter-card" href="mediatrice-et-symetrie-axiale.html">
           <span class="topic-num">6G2</span>
@@ -385,7 +386,7 @@
         </a></li>
         <li><a class="cours-chapter-card" href="vision-dans-l-espace.html">
           <span class="topic-num">6G5</span>
-          <span class="cours-chapter-text"><strong>Vision dans l'espace : assemblages de cubes et solides</strong><span>Décrire et dénombrer des assemblages de cubes, vues de dessus, de face et de côté, reconnaître cube et pavé droit (faces, arêtes, sommets) et leurs…</span></span>
+          <span class="cours-chapter-text"><strong>Vision dans l'espace : assemblages de cubes et solides</strong><span>Décrire et dénombrer des assemblages de cubes, vues de dessus, de face, de gauche et de droite, perspective cavalière, reconnaître cube et pavé droit…</span></span>
         </a></li>
       </ul>
     </section>
@@ -419,7 +420,7 @@
       <ol class="cours-list">
         <li><strong>Lire le cours du chapitre</strong> et refaire seul les exemples rédigés de la partie « Méthodes ».</li>
         <li><strong>Chercher les exercices corrigés</strong> de la page avant d'ouvrir la correction, puis comparer la rédaction.</li>
-        <li><strong>S'entraîner par paliers</strong> dans l'application : palier 1 « Socle et automatismes », palier 2 « Entraînement guidé », palier 3 « Approfondissement », palier 4 « Défi 5e ». Les exercices changent à chaque tirage.</li>
+        <li><strong>S'entraîner par paliers</strong> dans l'application : palier 1 « Socle et automatismes », palier 2 « Entraînement guidé », palier 3 « Approfondissement », palier 4 « Défi ». Les exercices changent à chaque tirage.</li>
         <li><strong>Mémoriser</strong> les définitions et formules avec les flashcards, quelques minutes par jour.</li>
       </ol>
     </section>
@@ -428,15 +429,15 @@
       <h2 id="faq-titre">Questions fréquentes sur les maths en 6e</h2>
       <div class="cours-faq">
         <details class="cours-faq-item"><summary><h3>Quels chapitres sont au programme de maths en 6e ?</h3></summary><div><p>Le site couvre 21 chapitres en 6e, regroupés en 6 domaines. Nombres et Calculs : entiers & décimaux, comparer & arrondir, additions & soustractions, multiplication, divisions, fractions (sens), calculs de fractions et pensée algébrique. Proportionnalité : proportionnalité. Grandeurs et Mesures : longueurs & périmètres, aires, volumes et durées. Espace et Géométrie : droites & cercle, médiatrice & symétrie, angles, triangles et vision dans l'espace. Organisation et Gestion de Données : tableaux & données et probabilités. Pensée Informatique : pensée informatique.</p></div></details>
-        <details class="cours-faq-item"><summary><h3>Comment s'entraîner en maths en 6e ?</h3></summary><div><p>Choisis un chapitre puis clique sur « S'entraîner » : les exercices sont générés à chaque tirage et corrigés immédiatement. Ils sont classés en quatre paliers (1. Socle et automatismes, 2. Entraînement guidé, 3. Approfondissement, 4. Défi 5e) ; un palier se débloque quand le précédent est maîtrisé.</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Comment s'entraîner en maths en 6e ?</h3></summary><div><p>Choisis un chapitre puis clique sur « S'entraîner » : les exercices sont générés à chaque tirage et corrigés immédiatement. Ils sont classés en quatre paliers (1. Socle et automatismes, 2. Entraînement guidé, 3. Approfondissement, 4. Défi) ; un palier se débloque quand le précédent est maîtrisé.</p></div></details>
         <details class="cours-faq-item"><summary><h3>Comment bien démarrer la 6e en maths ?</h3></summary><div><p>La 6e consolide les acquis du CM2 : nombres décimaux, fractions comme quotient, calcul posé et mental, premières notions de géométrie. Quelques minutes de calcul mental par jour avec les <a href="../../index.html?mode=rituel&amp;level=6eme">questions flash</a> font une vraie différence, avant de passer au collège de cycle 4 en <a href="../5e/">5e</a>.</p></div></details>
-        <details class="cours-faq-item"><summary><h3>Les cours et exercices de maths de 6e sont-ils gratuits ?</h3></summary><div><p>Oui : tout est gratuit, sans inscription et sans publicité. La progression est enregistrée uniquement sur ton appareil, aucune donnée personnelle n’est collectée.</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Les cours et exercices de maths de 6e sont-ils gratuits ?</h3></summary><div><p>Oui : tout est gratuit, sans inscription et sans publicité. La progression est enregistrée uniquement sur ton appareil, aucune donnée personnelle n’est demandée.</p></div></details>
       </div>
     </section>
 
     <nav class="cours-related" aria-label="Autres ressources">
       <div><p class="cours-related-title">Autres classes</p><ul><li><a href="../5e/">Cours et exercices en 5e</a> (classe suivante)</li><li><a href="../">Tous les cours de maths</a></li></ul></div>
-      <div><p class="cours-related-title">Pages utiles</p><ul><li><a href="../../exercices-de-maths/">Exercices de maths corrigés</a>, tous niveaux</li><li><a href="../../entrainement-maths/">Entraînement en ligne</a> : paliers, rituels, flashcards</li></ul></div>
+      <div><p class="cours-related-title">Pages utiles</p><ul><li><a href="../../exercices-de-maths/">Exercices de maths corrigés</a>, tous niveaux</li><li><a href="../../entrainement-maths/">Entraînement en ligne</a> : paliers, rituels, flashcards</li></ul></div>
     </nav>
 
     <nav class="cours-pager" aria-label="Autres niveaux">
@@ -446,6 +447,8 @@
       <a class="nav-portal-btn" href="../3e/">3e</a>
       <a class="nav-portal-btn" href="../seconde/">Seconde</a>
       <a class="nav-portal-btn" href="../premiere/">Première</a>
+      <a class="nav-portal-btn" href="../premiere-tronc-commun/">Première (tronc commun)</a>
+      <a class="nav-portal-btn" href="../premiere-technologique/">Première technologique</a>
       <a class="nav-portal-btn" href="../terminale/">Terminale</a>
       <a class="nav-portal-btn" href="../l1/">Licence 1</a>
       <a class="nav-portal-btn" href="../l2/">Licence 2</a>
@@ -461,7 +464,7 @@
   <footer class="cours-footer">
     <p>L'Établi des Maths — Conçu par Loïc Delaporte, professeur de mathématiques • 100 % gratuit, conforme aux programmes</p>
     <p><a href="../../cours/">Cours de maths</a> · <a href="../../exercices-de-maths/">Exercices corrigés</a> · <a href="../../entrainement-maths/">Entraînement en ligne</a> · <a href="../../reviser-le-brevet-de-maths/">Réviser le brevet</a> · <a href="../../reussir-le-bac-de-maths/">Réussir le bac</a> · <a href="../../epreuve-d-entretien-capes/">Oral 2 du CAPES</a></p>
-    <p><a href="../../index.html">Ouvrir l'application</a> · <a href="../../rituels.html">Rituels</a> · <a href="../../brevet.html">Brevet blanc</a> · <a href="../../bac.html">Devoir type bac</a> · <a href="../../a-propos.html">Qui suis-je ?</a> · <a href="../../mentions-legales.html">Mentions légales</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a></p>
+    <p><a href="../../">Ouvrir l'application</a> · <a href="../../rituels.html">Rituels</a> · <a href="../../brevet.html">Brevet blanc</a> · <a href="../../bac.html">Devoir type bac</a> · <a href="../../a-propos.html">Qui suis-je&#8239;?</a> · <a href="../../mentions-legales.html">Mentions légales</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a></p>
     <p>Contenus sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a></p>
   </footer>
   <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->

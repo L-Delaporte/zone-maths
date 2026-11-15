@@ -6,6 +6,15 @@
 (function () {
   'use strict';
 
+  /** Mélange de Fisher-Yates, sur place. */
+  function shuffle(list) {
+    for (let i = list.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [list[i], list[j]] = [list[j], list[i]];
+    }
+    return list;
+  }
+
   const ProofTheorems = [
     {
       id: 'tvi',
@@ -47,7 +56,7 @@
     },
     {
       id: 'bolzano_weierstrass',
-      title: "Théorème de Bolzano-Weierstrass dans $\\mathbb{R}$",
+      title: "Théorème de Bolzano-Weierstrass dans ℝ",
       level: "L1 / L2",
       domain: "Topologie de R",
       statement: "Toute suite bornée de nombres réels admet au moins une sous-suite convergente.",
@@ -200,9 +209,6 @@
   ];
 
   const ProofEngine = {
-    getAllTheorems() {
-      return ProofTheorems;
-    },
 
     getTheorems() {
       return ProofTheorems;
@@ -217,7 +223,9 @@
      */
     generateProofExercise(id = null) {
       const th = id ? this.getTheoremById(id) : ProofTheorems[Math.floor(Math.random() * ProofTheorems.length)];
-      const shuffledSteps = [...th.steps].sort(() => Math.random() - 0.5);
+      const shuffledSteps = shuffle([...th.steps]);
+      // Déjà dans le bon ordre, la preuve serait résolue à l'affichage.
+      while (th.steps.length > 1 && shuffledSteps.every((step, i) => step === th.steps[i])) shuffle(shuffledSteps);
 
       return {
         theorem: th,

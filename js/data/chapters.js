@@ -1,6 +1,21 @@
 // Métadonnées des chapitres et domaines du collège : 6ème (cycle 3) puis 5ème, 4ème, 3ème (cycle 4)
 // Conformes aux programmes officiels publiés au Bulletin officiel de l'Éducation nationale
 // (6ème : programme du cycle 3, arrêté du 10 avril 2025, BO n° 16 du 17 avril 2025).
+// Appartenance d'un chapitre à un niveau : son niveau principal (champ level, '3eme' par défaut)
+// et, s'il est partagé entre plusieurs voies, les niveaux du champ optionnel levels: [...].
+// Un chapitre partagé garde un seul identifiant : mêmes progrès quelle que soit la voie.
+// Fonction unique utilisée partout (MathsApp.chapterInLevel y délègue).
+window.MathsChapterLevels = {
+  of(c) {
+    if (!c) return [];
+    const main = c.level || '3eme';
+    return Array.isArray(c.levels) && c.levels.length ? Array.from(new Set([main].concat(c.levels))) : [main];
+  },
+  has(c, level) {
+    return this.of(c).includes(level);
+  }
+};
+
 window.MATHS_CHAPTERS = [
   {
     "id": "6N1",
@@ -169,7 +184,7 @@ window.MATHS_CHAPTERS = [
     "description": "Reconnaître une situation de proportionnalité, compléter un tableau par linéarité ou retour à l'unité, appliquer un pourcentage simple et utiliser une échelle.",
     "skills": [
       "Reconnaître une situation de proportionnalité",
-      "Calculer une quatrième proportionnelle",
+      "Calculer une valeur manquante dans une situation de proportionnalité",
       "Utiliser une échelle ou un pourcentage simple"
     ]
   },
@@ -185,11 +200,11 @@ window.MATHS_CHAPTERS = [
     "icon": "ruler",
     "badge": "Arpenteur",
     "color": "#059669",
-    "description": "Conversions d'unités de longueur, périmètre d'un polygone, formules du carré et du rectangle, périmètre d'un cercle et de figures composées.",
+    "description": "Conversions d'unités de longueur, périmètre d'un polygone, formules du carré et du rectangle, périmètre du disque et de figures composées.",
     "skills": [
       "Convertir des longueurs",
       "Calculer le périmètre d'un polygone",
-      "Calculer la longueur d'un cercle"
+      "Calculer le périmètre d'un disque"
     ]
   },
   {
@@ -204,9 +219,9 @@ window.MATHS_CHAPTERS = [
     "icon": "square",
     "badge": "Géomètre des Surfaces",
     "color": "#10b981",
-    "description": "Distinguer aire et périmètre, convertir des unités d'aire, calculer l'aire d'un carré, d'un rectangle et de figures composées par découpage.",
+    "description": "Comparer des aires, distinguer aire et périmètre, convertir entre m², dm² et cm², calculer l'aire d'un carré, d'un rectangle et de figures composées par découpage.",
     "skills": [
-      "Distinguer aire et périmètre",
+      "Comparer des aires et les distinguer du périmètre",
       "Calculer l'aire d'un carré et d'un rectangle",
       "Convertir des unités d'aire"
     ]
@@ -223,11 +238,11 @@ window.MATHS_CHAPTERS = [
     "icon": "box",
     "badge": "Bâtisseur de Cubes",
     "color": "#047857",
-    "description": "Mesurer un volume en comptant des cubes unités, connaître le centimètre cube, calculer le volume d'un pavé droit et d'un cube, lien avec les contenances.",
+    "description": "Mesurer un volume en comptant des cubes unités, connaître le centimètre cube, dénombrer un assemblage de cubes couche par couche et comparer des volumes.",
     "skills": [
       "Compter des cubes unités",
-      "Calculer le volume d'un pavé droit",
-      "Relier cm³ et litres"
+      "Dénombrer un assemblage couche par couche",
+      "Comparer des volumes"
     ]
   },
   {
@@ -337,7 +352,7 @@ window.MATHS_CHAPTERS = [
     "icon": "cube",
     "badge": "Explorateur 3D",
     "color": "#047857",
-    "description": "Décrire et dénombrer des assemblages de cubes, vues de dessus, de face et de côté, reconnaître cube et pavé droit (faces, arêtes, sommets) et leurs patrons.",
+    "description": "Décrire et dénombrer des assemblages de cubes, vues de dessus, de face, de gauche et de droite, perspective cavalière, reconnaître cube et pavé droit (faces, arêtes, sommets) et leurs patrons.",
     "skills": [
       "Dénombrer les cubes d'un assemblage",
       "Associer un assemblage à ses vues",
@@ -377,7 +392,7 @@ window.MATHS_CHAPTERS = [
     "color": "#b45309",
     "description": "Vocabulaire du hasard (certain, impossible, probable), une probabilité est un nombre entre 0 et 1, calcul en situation d'équiprobabilité, comparaison avec des fréquences observées.",
     "skills": [
-      "Utiliser le vocabulaire du hasard",
+      "Comprendre le vocabulaire du hasard",
       "Calculer une probabilité simple",
       "Comparer fréquence observée et probabilité"
     ]
@@ -451,11 +466,12 @@ window.MATHS_CHAPTERS = [
     "icon": "fraction",
     "badge": "Partageur Équitable",
     "color": "#1d4ed8",
-    "description": "Définition quotient, proportion, quotients égaux, comparer et encadrer des fractions, puis additions et soustractions.",
+    "description": "Fraction comme quotient, fractions égales, comparer et encadrer des fractions, additions et soustractions à dénominateurs quelconques, écritures d'un même nombre (fraction, décimal, pourcentage).",
     "skills": [
-      "Reconnaître et simplifier des fractions égales",
+      "Reconnaître et produire des fractions égales",
       "Comparer et encadrer des fractions",
-      "Additionner et soustraire des fractions"
+      "Additionner et soustraire des fractions de dénominateurs quelconques",
+      "Passer d'une écriture à une autre (fraction, décimal, pourcentage)"
     ]
   },
   {
@@ -470,11 +486,12 @@ window.MATHS_CHAPTERS = [
     "icon": "superscript",
     "badge": "Maître du Carré",
     "color": "#1e40af",
-    "description": "Définir les puissances de 2 et 3, connaître de tête les carrés de 1 à 12, écriture sous forme de puissance et calculs d'expressions.",
+    "description": "Définir le carré et le cube d'un nombre, connaître de tête les carrés de 0 à 12 et le cube de 10, écrire un nombre comme un carré ou un cube et calculer des expressions.",
     "skills": [
-      "Connaître par cœur les carrés de 1 à 12",
-      "Calculer des puissances de 2 et de 3",
-      "Calculer des expressions avec puissances"
+      "Connaître par cœur les carrés de 0 à 12 et le cube de 10",
+      "Calculer le carré et le cube d'un nombre décimal positif",
+      "Écrire un nombre comme un carré ou un cube",
+      "Calculer des expressions avec des carrés et des cubes"
     ]
   },
   {
@@ -489,11 +506,13 @@ window.MATHS_CHAPTERS = [
     "icon": "variable",
     "badge": "Apprenti Algébriste",
     "color": "#2563eb",
-    "description": "Rôle de la lettre, tester une égalité, calcul de valeur d'expression par substitution, simplification d'écritures, distributivité simple et résolution d'équations.",
+    "description": "Rôle de la lettre, calcul de valeur d'une expression, tester une égalité, réduire, développer et factoriser avec k(a + b), reconnaître une somme ou un produit, trouver une inconnue et prouver une propriété à l'aide du calcul littéral.",
     "skills": [
       "Substituer une valeur dans une expression",
       "Tester si une égalité est vraie",
-      "Résoudre des équations simples du premier degré"
+      "Développer et factoriser avec k(a + b)",
+      "Trouver une inconnue dans x + b = c et ax = c",
+      "Prouver ou réfuter une affirmation avec le calcul littéral"
     ]
   },
   {
@@ -567,7 +586,7 @@ window.MATHS_CHAPTERS = [
     "color": "#065f46",
     "description": "Constructions de triangles, médiatrices, hauteurs, médianes, points de concours (cercle circonscrit), unités d'aires et calculs d'aires.",
     "skills": [
-      "Construire des triangles et vérifier l'inégalité triangulaire",
+      "Construire des triangles et constater que trois longueurs ne suffisent pas toujours",
       "Construire médiatrices, hauteurs et médianes",
       "Calculer l'aire d'un triangle et de figures composées"
     ]
@@ -622,10 +641,11 @@ window.MATHS_CHAPTERS = [
     "icon": "bar-chart",
     "badge": "Analyste de Données",
     "color": "#d97706",
-    "description": "Tableaux d'effectifs, fréquences sous forme décimale, fractionnaire et en pourcentage, diagrammes en bâtons et circulaires, moyenne simple.",
+    "description": "Tableaux d'effectifs, fréquences sous forme décimale, fractionnaire et en pourcentage, diagrammes en barres et circulaires, graphiques cartésiens, choix d'une représentation, tableur, moyenne simple.",
     "skills": [
       "Calculer des fréquences et des pourcentages",
-      "Lire et construire des diagrammes",
+      "Lire et construire des diagrammes et des graphiques cartésiens",
+      "Choisir une représentation adaptée et utiliser un tableur",
       "Calculer la moyenne simple d'une série"
     ]
   },
@@ -699,7 +719,7 @@ window.MATHS_CHAPTERS = [
     "icon": "terminal",
     "badge": "Codeur Scratch",
     "color": "#7c3aed",
-    "description": "Instructions séquentielles de déplacement et dessin, boucles inconditionnelles de répétition, initialisation et lecture de variables simples.",
+    "description": "Instructions séquentielles de déplacement et dessin, boucles inconditionnelles de répétition, lecture d'un nombre saisi (bloc « réponse ») et calculs en blocs imbriqués.",
     "skills": [
       "Ordonner une suite d'instructions Scratch",
       "Utiliser une boucle de répétition simple",
@@ -756,10 +776,10 @@ window.MATHS_CHAPTERS = [
     "icon": "superscript",
     "badge": "Dompteur d'Exposants",
     "color": "#1d4ed8",
-    "description": "Définition de a^n pour un exposant entier positif, règles de calcul sur les puissances d'un même nombre, puissances de 10 et notation décimale.",
+    "description": "Définition de a^n pour un exposant entier positif, produits de puissances d'un même nombre par écriture développée, puissances de 10 et notation scientifique.",
     "skills": [
       "Calculer avec des exposants positifs",
-      "Appliquer les règles a^n × a^m et (a^n)^m",
+      "Simplifier un produit de puissances en comptant les facteurs",
       "Manipuler les puissances de 10"
     ]
   },
@@ -832,10 +852,11 @@ window.MATHS_CHAPTERS = [
     "icon": "circle",
     "badge": "Théoricien du Cercle",
     "color": "#10b981",
-    "description": "Caractérisation du triangle rectangle inscrit dans un demi-cercle, théorèmes de la droite des milieux dans un triangle quelconque.",
+    "description": "Caractérisation du triangle rectangle inscrit dans un demi-cercle, théorèmes de la droite des milieux dans un triangle quelconque, théorème de Thalès et sa réciproque dans les triangles emboîtés.",
     "skills": [
       "Utiliser le cercle circonscrit à un triangle rectangle",
       "Appliquer les théorèmes de la droite des milieux",
+      "Utiliser le théorème de Thalès et sa réciproque (triangles emboîtés)",
       "Démontrer un parallélisme ou calculer une longueur"
     ]
   },
@@ -851,11 +872,12 @@ window.MATHS_CHAPTERS = [
     "icon": "move",
     "badge": "Maître du Glissement",
     "color": "#047857",
-    "description": "Notion de translation (direction, sens, distance), lien direct avec les parallélogrammes, propriétés de conservation des longueurs, angles et aires.",
+    "description": "La translation comme glissement, lien avec le parallélogramme, propriétés de conservation des longueurs, angles et aires, frises et pavages.",
     "skills": [
       "Construire l'image d'une figure par translation",
       "Associer translation et parallélogramme",
-      "Utiliser les conservations de la translation"
+      "Utiliser les conservations de la translation",
+      "Reconnaître et construire des frises et des pavages"
     ]
   },
   {
@@ -889,11 +911,12 @@ window.MATHS_CHAPTERS = [
     "icon": "bar-chart-2",
     "badge": "Statisticien Averti",
     "color": "#d97706",
-    "description": "Calcul et interprétation de la moyenne pondérée, détermination de la médiane d'une série statistique discrète, calcul de l'étendue.",
+    "description": "Calcul et interprétation de la moyenne pondérée, détermination de la médiane d'une série statistique discrète (données brutes, tableau, diagramme en bâtons), diagrammes circulaires ; pour aller plus loin : étendue.",
     "skills": [
       "Calculer une moyenne pondérée",
       "Déterminer et interpréter la médiane",
-      "Calculer l'étendue et comparer deux séries"
+      "Lire et construire un diagramme circulaire",
+      "Pour aller plus loin : calculer l'étendue et comparer deux séries"
     ]
   },
   {
@@ -908,11 +931,11 @@ window.MATHS_CHAPTERS = [
     "icon": "dices",
     "badge": "Stratège des Chances",
     "color": "#b45309",
-    "description": "Notations ensemblistes (événement contraire, intersection, réunion), calcul de P(non A) = 1 - P(A), expériences aléatoires simples à deux épreuves.",
+    "description": "Vocabulaire des probabilités, événement contraire et calcul de P(non A) = 1 - P(A), situations non équiprobables (roues à secteurs inégaux, cibles par aires, osselets) ; pour aller plus loin, expériences à deux épreuves.",
     "skills": [
       "Calculer la probabilité de l'événement contraire",
-      "Représenter une expérience à 2 épreuves par un arbre ou tableau",
-      "Calculer des probabilités combinées"
+      "Calculer une probabilité dans une situation non équiprobable (roue, cible, osselet)",
+      "Pour aller plus loin : représenter une expérience à deux épreuves et calculer des probabilités"
     ]
   },
   {
@@ -927,11 +950,13 @@ window.MATHS_CHAPTERS = [
     "icon": "scale",
     "badge": "Expert des Proportions",
     "color": "#c2410c",
-    "description": "Grandeurs quotients (vitesse km/h, masse volumique), partage selon un ratio a:b, coefficient multiplicateur d'augmentation ou réduction (1 ± t/100).",
+    "description": "Reconnaître et exploiter la proportionnalité (tableau, graphique), quatrième proportionnelle, partage selon un ratio a:b, pourcentages, grandeurs quotients et produits, conversions composées. Pour aller plus loin : coefficient multiplicateur.",
     "skills": [
+      "Reconnaître une situation de proportionnalité (tableau, graphique)",
       "Partager une quantité selon un ratio donné",
-      "Appliquer une variation en pourcentage par coefficient multiplicateur",
-      "Manipuler des grandeurs quotients"
+      "Appliquer un pourcentage",
+      "Manipuler des grandeurs quotients et produits",
+      "Pour aller plus loin : coefficient multiplicateur d'une évolution"
     ]
   },
   {
@@ -946,10 +971,10 @@ window.MATHS_CHAPTERS = [
     "icon": "trending-up",
     "badge": "Modélisateur de Fonctions",
     "color": "#9a3412",
-    "description": "Programmes de calcul avec une variable x, expression littérale traduisant la dépendance, calcul d'images numériques, tableau et courbe.",
+    "description": "Programmes de calcul avec une variable x, expression littérale traduisant la dépendance, valeur obtenue et valeur de départ, tableau et représentation graphique.",
     "skills": [
       "Traduire un programme de calcul par une formule littérale",
-      "Calculer l'image d'un nombre par un programme",
+      "Calculer la valeur obtenue à partir d'une valeur de départ, et inversement",
       "Représenter graphiquement la dépendance de deux grandeurs"
     ]
   },
@@ -1002,10 +1027,10 @@ window.MATHS_CHAPTERS = [
     "icon": "variable",
     "badge": "Al-Khwarizmi",
     "color": "#3b82f6",
-    "description": "Distributivité simple et double, les 3 identités remarquables en développement, suppressions de parenthèses et réductions.",
+    "description": "Distributivité simple et double, développement d'un carré et du produit (a − b)(a + b), suppressions de parenthèses et réductions.",
     "skills": [
       "Développer par distributivité simple et double",
-      "Développer avec les identités remarquables",
+      "Développer un carré et le produit (a − b)(a + b)",
       "Supprimer les parenthèses et réduire"
     ],
     "level": "3eme"
@@ -1021,11 +1046,11 @@ window.MATHS_CHAPTERS = [
     "icon": "puzzle",
     "badge": "Maître de la Factorisation",
     "color": "#2563eb",
-    "description": "Recherche de facteur commun évident, facteur commun parenthèse (type Brevet), factorisation par identité remarquable a² - b².",
+    "description": "Recherche de facteur commun évident, facteur commun parenthèse, factorisation par identité remarquable a² - b².",
     "skills": [
       "Identifier et extraire un facteur commun évident",
       "Factoriser à l'aide de l'identité remarquable a² - b²",
-      "Factoriser avec un facteur commun parenthèse (Brevet)"
+      "Factoriser avec un facteur commun parenthèse"
     ],
     "level": "3eme"
   },
@@ -1040,9 +1065,9 @@ window.MATHS_CHAPTERS = [
     "icon": "superscript",
     "badge": "Maître de l'infiniment grand",
     "color": "#1d4ed8",
-    "description": "Puissances d'un nombre, puissances de 10, règles de calcul et écriture scientifique normalisée.",
+    "description": "Puissances d'un nombre, puissances de 10, calculs en comptant les facteurs, écriture scientifique normalisée et ordres de grandeur.",
     "skills": [
-      "Appliquer les règles sur les puissances",
+      "Calculer avec des puissances",
       "Écrire en notation scientifique",
       "Utiliser les préfixes métriques"
     ],
@@ -1328,11 +1353,11 @@ window.MATHS_CHAPTERS = [
     "icon": "dices",
     "badge": "Stratège Aléatoire",
     "color": "#78350f",
-    "description": "Événements élémentaires, équiprobabilité, événement contraire P(non A)=1-P(A), arbres pondérés à une et deux épreuves.",
+    "description": "Événements élémentaires, équiprobabilité, événement contraire P(non A)=1-P(A), expériences à deux épreuves et tableau à double entrée.",
     "skills": [
       "Calculer la probabilité d'un événement",
-      "Construire et utiliser un arbre de probabilités",
-      "Règle du produit et de la somme"
+      "Construire et utiliser un tableau à double entrée",
+      "Compter les issues favorables d'une expérience à deux épreuves"
     ],
     "level": "3eme"
   },

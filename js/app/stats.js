@@ -12,7 +12,7 @@ Object.assign(window.MathsApp, {
 
     const data = window.MathsStorage.load();
     const allChapters = window.MATHS_CHAPTERS || [];
-    const levelChapters = allChapters.filter(c => (c.level || '3eme') === this.currentLevel);
+    const levelChapters = allChapters.filter(c => window.MathsChapterLevels.has(c, this.currentLevel));
     const levelName = this.getLevelName(this.currentLevel);
 
     // Calcul des stats du niveau
@@ -27,13 +27,18 @@ Object.assign(window.MathsApp, {
       }
     });
     const globalProgress = levelChapters.length ? Math.round(totalMastery / levelChapters.length) : 0;
+    // Aucun exercice encore fait : un appel à commencer plutôt qu'un mur de zéros
+    const isEmpty = completedExosCount === 0 && !data.user.xp;
 
     let html = `
       <div class="passport-author-banner">
         <span>📐 <strong>L'Établi des Maths • Cycle 4 (${levelName})</strong> • Application et contenus conçus par <strong>Loïc Delaporte</strong>, Professeur de Mathématiques</span>
       </div>
 
-      <div class="stats-overview-grid">
+      ${isEmpty ? `<div class="stats-section stats-empty">
+        <h3>Ton bilan apparaîtra après ton premier exercice</h3>
+        <button type="button" class="btn-primary" data-click="MathsApp.switchTab" data-args='["train"]'>Commencer</button>
+      </div>` : `<div class="stats-overview-grid">
         <div class="stat-card">
           <span class="stat-icon">🎓</span>
           <span class="stat-val">Niveau ${data.user.level}</span>
@@ -54,7 +59,7 @@ Object.assign(window.MathsApp, {
           <span class="stat-val">${globalProgress}%</span>
           <span class="stat-lbl">Programme ${levelName} validé</span>
         </div>
-      </div>
+      </div>`}
 
       <div class="stats-section badge-showcase">
         <h3><span aria-hidden="true">🏅</span> Mes badges</h3>
@@ -64,7 +69,7 @@ Object.assign(window.MathsApp, {
         ${this.renderBadgeShowcaseHtml(data)}
       </div>
 
-      <div class="stats-section">
+      ${isEmpty ? '' : `<div class="stats-section">
         <h3><span aria-hidden="true">🔥</span> Trophées de Régularité (Daily Streak)</h3>
         <p class="math-p" style="margin-bottom: 1rem; font-size: 0.92rem; color: var(--text-muted);">
           S'entraîner chaque jour entretient ta flamme et débloque des trophées d'assiduité : 1 semaine, 2 semaines, 1 mois, 2 mois, 6 mois et 1 an de persévérance !
@@ -117,8 +122,9 @@ Object.assign(window.MathsApp, {
             `;
           }).join('')}
         </div>
-      </div>
+      </div>`}
 
+      ${this.renderBackupNoticeHtml()}
       <div class="stats-footer-actions no-print">
         <button class="btn-secondary" data-click="MathsStorage.exportToJson" title="Télécharger un fichier de sauvegarde de ta progression">💾 Sauvegarder ma progression</button>
         <button class="btn-secondary" data-click="MathsApp.handleImportProgress" title="Restaurer une progression depuis un fichier de sauvegarde">📂 Restaurer une sauvegarde</button>
@@ -127,6 +133,49 @@ Object.assign(window.MathsApp, {
     `;
 
     container.innerHTML = html;
+  },
+
+  /** Rappel de sauvegarde au-dessus des boutons : le site est sans compte, le fichier est le seul filet. */
+  renderBackupNoticeHtml() {
+    const status = window.MathsStorage.getBackupStatus();
+    const last = status.lastExportAt
+      ? `Dernière sauvegarde&nbsp;: ${new Date(status.lastExportAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}.`
+      : 'Aucune sauvegarde pour le moment.';
+    const text = status.blocked
+      ? '⚠️ <strong>Le stockage de ce navigateur est plein ou bloqué</strong>&nbsp;: ta progression sera perdue à la fermeture de la page si tu ne la sauvegardes pas dans un fichier.'
+      : status.due
+        ? `💾 <strong>Pense à sauvegarder ta progression.</strong> Sans compte, elle n'existe que dans ce navigateur : un fichier permet de la retrouver s'il est effacé, ou sur un autre appareil. ${last}`
+        : `💾 Sans compte, ta progression n'existe que dans ce navigateur. ${last}`;
+    const tone = status.blocked || status.due ? 'warning' : 'info';
+    return `<p class="no-print" style="margin: 1rem 0 0; padding: 0.6rem 0.85rem; border-radius: var(--radius-sm); font-size: 0.9rem; background: var(--${tone}-bg); color: var(--${tone}-text); border: 1px solid var(--${tone}-border);">${text}</p>`;
+  },
+
+  /** Stockage plein ou bloqué : prévient l'élève une fois, avec un accès direct à la sauvegarde. */
+  showStorageWarning() {
+    if (document.getElementById('storage-warning')) return;
+    const el = document.createElement('div');
+    el.id = 'storage-warning';
+    el.className = 'app-toast visible no-print';
+    el.setAttribute('role', 'alert');
+    el.style.cssText = 'top: 1rem; bottom: auto; left: 1rem; right: 1rem; max-width: 32rem; margin: 0 auto; transform: none; pointer-events: auto; border-radius: 1rem;';
+    el.innerHTML = `⚠️ <strong>Ta progression ne pourra pas être conservée sur cet appareil</strong> (stockage plein ou bloqué). Elle compte pendant cette visite&nbsp;: pense à la sauvegarder.
+      <span style="display: flex; justify-content: center; gap: 0.5rem; margin-top: 0.5rem;">
+        <button type="button" class="btn-secondary" data-click="MathsStorage.exportToJson">💾 Sauvegarder</button>
+        <button type="button" class="btn-secondary" data-storage-warning-close>Fermer</button>
+      </span>`;
+    el.querySelector('[data-storage-warning-close]').addEventListener('click', () => el.remove());
+    // Pas de disparition automatique : il part sous la modale de badge du premier XP, l'élève ne le verrait pas.
+    document.body.appendChild(el);
+  },
+
+  /** Après un téléchargement de sauvegarde : confirme et retire les rappels devenus inutiles. */
+  onProgressExported() {
+    this.showToast('💾 <strong>Sauvegarde téléchargée</strong>&nbsp;: garde ce fichier pour retrouver ta progression.', 5000);
+    ['storage-warning', 'home-backup-reminder'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    });
+    if (this.currentTab === 'stats') this.renderStatsView();
   },
 
   /** Niveau d'animation d'un trophée de régularité selon sa durée. */
@@ -141,7 +190,7 @@ Object.assign(window.MathsApp, {
     const lvl = this.getCurrentChapterLevel();
     const fav = data.user && data.user.favoriteBadge;
     const all = B.getShowcase(data).filter(d => d.family !== 'niveau' || d.schoolLevel === lvl);
-    const esc = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+    const esc = t => this.escapeHtml(t);
     const card = d => {
       const lv = d.level;
       const tc = B.tierClass(d, lv);
@@ -293,7 +342,14 @@ Object.assign(window.MathsApp, {
       file.text().then(text => {
         if (!confirm('Remplacer ta progression actuelle par celle de ce fichier ?')) return;
         if (window.MathsStorage.importFromJson(text)) {
-          location.reload();
+          if (!window.MathsStorage.isSavingBlocked()) {
+            location.reload();
+            return;
+          }
+          // Stockage plein ou bloqué : recharger la page ferait perdre la copie en mémoire
+          this.updateHeaderProfile();
+          this.renderStatsView();
+          this.showToast('⚠️ <strong>Progression restaurée pour cette visite seulement</strong>&nbsp;: le stockage de ce navigateur est plein ou bloqué.', 6000);
         } else {
           this.showToast('❌ Ce fichier n\'est pas une sauvegarde valide de L\'Établi des Maths.', 4000);
         }
@@ -303,7 +359,7 @@ Object.assign(window.MathsApp, {
   },
 
   handleResetProgress() {
-    if (confirm('Attention : toutes tes données, XP et badges seront réinitialisés. Confirmer ?')) {
+    if (confirm('Attention : ta progression, tes XP, tes badges et tes flashcards seront effacés de cet appareil, y compris la copie de secours. Confirmer ?')) {
       window.MathsStorage.resetAll();
       location.reload();
     }

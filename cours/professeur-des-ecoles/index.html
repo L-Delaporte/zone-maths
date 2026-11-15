@@ -4,28 +4,29 @@
   <meta charset="UTF-8" />
   <!-- Content-Security-Policy : voir scripts/csp.js (style-src 'unsafe-inline' requis par les attributs style de KaTeX) -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://etabli-des-maths.goatcounter.com; font-src 'self' data:; connect-src 'self' https://etabli-des-maths.goatcounter.com; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'" />
-  <script src="../../js/themeInit.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Maths pour le CRPE : cours et exercices corrigés gratuits</title>
-  <meta name="description" content="Maths pour le CRPE : 11 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Nombres et calculs, proportionnalité…" />
+  <meta name="description" content="Maths pour le CRPE : 11 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Notamment : nombres et calculs et géométrie." />
   <meta name="author" content="Loïc Delaporte, professeur de mathématiques" />
   <link rel="canonical" href="https://etabli-des-maths.fr/cours/professeur-des-ecoles/" />
 
   <!-- Open Graph -->
   <meta property="og:title" content="Maths pour le CRPE : cours et exercices corrigés gratuits" />
-  <meta property="og:description" content="Maths pour le CRPE : 11 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Nombres et calculs, proportionnalité…" />
+  <meta property="og:description" content="Maths pour le CRPE : 11 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Notamment : nombres et calculs et géométrie." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://etabli-des-maths.fr/cours/professeur-des-ecoles/" />
-  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
-  <meta property="og:image:alt" content="Maths pour le CRPE : cours et exercices corrigés gratuits" />
-  <meta name="twitter:card" content="summary" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/og/professeur-des-ecoles.png" />
+  <meta property="og:image:alt" content="L'Établi des Maths — Professeur des écoles" />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta property="og:locale" content="fr_FR" />
   <meta property="og:site_name" content="L'Établi des Maths" />
 
-  <link rel="stylesheet" href="../../css/style.css" />
-  <link rel="stylesheet" href="../../css/landing.css" />
-  <link rel="stylesheet" href="../../vendor/katex/katex.min.css" />
-  <link rel="stylesheet" href="../../css/cours.css" />
+  <link rel="stylesheet" href="../../css/style.css?v=141db07fda" />
+  <link rel="stylesheet" href="../../css/landing.css?v=9c24ff37f8" />
+  <link rel="stylesheet" href="../../vendor/katex/katex.min.css?v=1be2fd298c" />
+  <link rel="stylesheet" href="../../css/cours.css?v=85b541e52d" />
+  <!-- Après les feuilles de style : la CSP en meta désactive le préchargement, et ce script s'exécute quand même avant le premier rendu -->
+  <script src="../../js/themeInit.js?v=58d3835cf3"></script>
   <link rel="icon" href="../../favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32x32.png" />
   <link rel="apple-touch-icon" href="../../assets/favicon.png" />
@@ -36,7 +37,7 @@
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     "name": "Cours et exercices de maths pour le CRPE, gratuits et corrigés",
-    "description": "Maths pour le CRPE : 11 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Nombres et calculs, proportionnalité…",
+    "description": "Maths pour le CRPE : 11 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Notamment : nombres et calculs et géométrie.",
     "url": "https://etabli-des-maths.fr/cours/professeur-des-ecoles/",
     "inLanguage": "fr",
     "educationalLevel": "Concours — concours de recrutement de professeurs des écoles (CRPE)",
@@ -185,7 +186,7 @@
   <!-- Header Uniformisé -->
   <header class="app-header">
     <div class="header-inner">
-      <a href="../../index.html" class="brand-container">
+      <a href="../../" class="brand-container">
         <img src="../../assets/logo-96.png" alt="" class="brand-logo-img" width="44" height="44" />
         <div class="brand-text">
           <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Cours</span></p>
@@ -195,7 +196,7 @@
 
       <!-- Navigation entre Portails -->
       <nav class="nav-portal-links" aria-label="Portails thématiques">
-        <a href="../../index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="../../" class="nav-portal-btn">🏠 Accueil</a>
         <a href="../../cours/" class="nav-portal-btn active" aria-current="true">📚 Cours</a>
         <a href="../../exercices-de-maths/" class="nav-portal-btn">✏️ Exercices</a>
         <a href="../../rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
@@ -210,7 +211,7 @@
   <main class="landing-wrapper cours-wrapper" id="contenu" tabindex="-1">
     <nav class="cours-breadcrumb" aria-label="Fil d'Ariane">
       <ol>
-        <li><a href="../../index.html">Accueil</a></li>
+        <li><a href="../../">Accueil</a></li>
         <li><a href="../">Cours</a></li>
         <li><span aria-current="page">Professeur des écoles</span></li>
       </ol>
@@ -223,6 +224,7 @@
       <div class="cours-cta">
         <a class="btn-primary cours-cta-main" href="../../index.html?level=crpe">🎯 S'entraîner pour le CRPE</a>
       </div>
+      <p class="cours-note concours-notice" role="note">L'Établi des Maths est une aide complémentaire à la préparation et ne garantit pas la réussite au concours : les programmes et les attendus varient d'une université ou d'une formation à l'autre. Le programme officiel de chaque formation fait foi.</p>
     </header>
 
     <section class="cours-section" id="domaine-1" aria-labelledby="domaine-1-titre">
@@ -252,15 +254,15 @@
       <ul class="cours-chapter-grid">
         <li><a class="cours-chapter-card" href="proportionnalite-pourcentages-et-vitesses.html">
           <span class="topic-num">PE-05</span>
-          <span class="cours-chapter-text"><strong>Proportionnalité, pourcentages et vitesses</strong><span>Reconnaître et traiter une situation de proportionnalité (coefficient, linéarité, passage à l'unité, produit en croix), échelles, pourcentages…</span></span>
+          <span class="cours-chapter-text"><strong>Proportionnalité, pourcentages et vitesses</strong><span>Reconnaître et traiter une situation de proportionnalité (coefficient, linéarité, passage à l'unité, produit en croix), ratio et partage…</span></span>
         </a></li>
         <li><a class="cours-chapter-card" href="notion-de-fonction.html">
           <span class="topic-num">PE-06</span>
-          <span class="cours-chapter-text"><strong>Notion de fonction, fonctions linéaires et affines</strong><span>Image, antécédent, tableau de valeurs et représentation graphique, lecture graphique, fonctions linéaires et affines, coefficient directeur…</span></span>
+          <span class="cours-chapter-text"><strong>Notion de fonction, fonctions linéaires et affines</strong><span>Image, antécédent, tableau de valeurs et représentation graphique, lecture graphique, fonctions linéaires et affines, fonction carré et résolutions…</span></span>
         </a></li>
         <li><a class="cours-chapter-card" href="statistiques-et-probabilites.html">
           <span class="topic-num">PE-07</span>
-          <span class="cours-chapter-text"><strong>Statistiques et probabilités</strong><span>Moyenne (simple et pondérée), médiane, étendue, fréquences, lecture de tableaux et de diagrammes, vocabulaire des probabilités, calcul…</span></span>
+          <span class="cours-chapter-text"><strong>Statistiques et probabilités</strong><span>Moyenne (simple et pondérée), médiane, étendue, effectifs cumulés, quartiles, boîtes à moustaches, fréquences, lecture de tableaux, de diagrammes…</span></span>
         </a></li>
       </ul>
     </section>
@@ -284,7 +286,7 @@
         </a></li>
         <li><a class="cours-chapter-card" href="figures-transformations-et-geometrie-dans-l-espace.html">
           <span class="topic-num">PE-10</span>
-          <span class="cours-chapter-text"><strong>Figures, transformations et géométrie dans l'espace</strong><span>Propriétés des quadrilatères, symétries, translations, rotations et homothéties, solides (patrons, sections, repérage dans l'espace), représentations…</span></span>
+          <span class="cours-chapter-text"><strong>Figures, transformations et géométrie dans l'espace</strong><span>Définitions et propriétés des quadrilatères, symétries, translations, rotations et homothéties, vecteurs, solides (patrons, sections, repérage…</span></span>
         </a></li>
       </ul>
     </section>
@@ -320,7 +322,7 @@
 
     <nav class="cours-related" aria-label="Autres ressources">
       <div><p class="cours-related-title">Autres classes</p><ul><li><a href="../">Tous les cours de maths</a></li></ul></div>
-      <div><p class="cours-related-title">Pages utiles</p><ul><li><a href="../../exercices-de-maths/">Exercices de maths corrigés</a>, tous niveaux</li><li><a href="../../entrainement-maths/">Entraînement en ligne</a> : paliers, rituels, flashcards</li></ul></div>
+      <div><p class="cours-related-title">Pages utiles</p><ul><li><a href="../../exercices-de-maths/">Exercices de maths corrigés</a>, tous niveaux</li><li><a href="../../entrainement-maths/">Entraînement en ligne</a> : paliers, rituels, flashcards</li></ul></div>
     </nav>
 
     <nav class="cours-pager" aria-label="Autres niveaux">
@@ -330,6 +332,8 @@
       <a class="nav-portal-btn" href="../3e/">3e</a>
       <a class="nav-portal-btn" href="../seconde/">Seconde</a>
       <a class="nav-portal-btn" href="../premiere/">Première</a>
+      <a class="nav-portal-btn" href="../premiere-tronc-commun/">Première (tronc commun)</a>
+      <a class="nav-portal-btn" href="../premiere-technologique/">Première technologique</a>
       <a class="nav-portal-btn" href="../terminale/">Terminale</a>
       <a class="nav-portal-btn" href="../l1/">Licence 1</a>
       <a class="nav-portal-btn" href="../l2/">Licence 2</a>
@@ -345,7 +349,7 @@
   <footer class="cours-footer">
     <p>L'Établi des Maths — Conçu par Loïc Delaporte, professeur de mathématiques • 100 % gratuit, conforme aux programmes</p>
     <p><a href="../../cours/">Cours de maths</a> · <a href="../../exercices-de-maths/">Exercices corrigés</a> · <a href="../../entrainement-maths/">Entraînement en ligne</a> · <a href="../../reviser-le-brevet-de-maths/">Réviser le brevet</a> · <a href="../../reussir-le-bac-de-maths/">Réussir le bac</a> · <a href="../../epreuve-d-entretien-capes/">Oral 2 du CAPES</a></p>
-    <p><a href="../../index.html">Ouvrir l'application</a> · <a href="../../rituels.html">Rituels</a> · <a href="../../brevet.html">Brevet blanc</a> · <a href="../../bac.html">Devoir type bac</a> · <a href="../../a-propos.html">Qui suis-je ?</a> · <a href="../../mentions-legales.html">Mentions légales</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a></p>
+    <p><a href="../../">Ouvrir l'application</a> · <a href="../../rituels.html">Rituels</a> · <a href="../../brevet.html">Brevet blanc</a> · <a href="../../bac.html">Devoir type bac</a> · <a href="../../a-propos.html">Qui suis-je&#8239;?</a> · <a href="../../mentions-legales.html">Mentions légales</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a></p>
     <p>Contenus sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a></p>
   </footer>
   <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->

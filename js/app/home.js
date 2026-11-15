@@ -9,7 +9,7 @@ Object.assign(window.MathsApp, {
     adaptive: {
       icon: '🎯',
       title: "Entraînement Adaptatif",
-      subtitle: "Zone Proximale de Développement (ZPD) & 4 Paliers",
+      subtitle: "4 paliers de difficulté",
       actionLabel: "Tester l'entraînement 🎯",
       contentHtml: `
         <div class="mode-explainer-concept">
@@ -19,7 +19,7 @@ Object.assign(window.MathsApp, {
         <div class="mode-explainer-example-card">
           <div class="mode-explainer-example-header">
             <span>Exemple concret : Résolution d'équations</span>
-            <span class="mode-explainer-example-badge">Progression ZPD</span>
+            <span class="mode-explainer-example-badge">Progression par paliers</span>
           </div>
           <div class="mode-explainer-tiers-list">
             <div class="mode-explainer-tier-item tier-1">
@@ -342,9 +342,12 @@ Object.assign(window.MathsApp, {
     if (xpNeededEl) xpNeededEl.textContent = info.xpNeeded;
     if (stepNeededEl) stepNeededEl.textContent = `${info.xpNeeded} XP`;
     if (progressFillEl) progressFillEl.style.width = `${info.progressPct}%`;
-    if (progressBgEl) progressBgEl.setAttribute('aria-valuenow', info.progressPct);
+    if (progressBgEl) {
+      progressBgEl.setAttribute('aria-valuenow', info.progressPct);
+      progressBgEl.setAttribute('aria-valuetext', `${info.xpInLevel} XP sur ${info.xpNeeded}`);
+    }
     if (remainingEl) {
-      remainingEl.innerHTML = `🚀 Plus que <strong>${info.xpToNext} XP</strong> nécessaires pour passer au <strong>Niveau ${info.nextLevel}</strong> !`;
+      remainingEl.innerHTML = `🚀 Plus que <strong>${info.xpToNext} XP</strong> nécessaires pour passer au <strong>Niveau ${info.nextLevel}</strong>&#8239;!`;
     }
     if (totalXpEl) totalXpEl.textContent = `${info.totalXp} XP`;
 
@@ -357,6 +360,7 @@ Object.assign(window.MathsApp, {
   },
 
   showHomeView() {
+    document.documentElement.removeAttribute('data-deep-link');
     this.syncUrl({});
     this.isHomeView = true;
     document.body.classList.add('home-view-active');
@@ -379,13 +383,25 @@ Object.assign(window.MathsApp, {
     // Retirer la sélection active des pilules de niveaux sur la page d'accueil
     document.querySelectorAll('.level-pill').forEach(pill => { pill.classList.remove('active'); pill.removeAttribute('aria-current'); });
 
+    // L'accueil concerne tous les niveaux : badge, pied de page et titre du fichier
+    const levelTag = document.getElementById('app-level-tag');
+    if (levelTag) {
+      levelTag.className = 'brand-level-tag';
+      levelTag.textContent = 'Collège & Lycée';
+    }
+    const footerTitle = document.getElementById('app-footer-title');
+    if (footerTitle) footerTitle.textContent = this._homeFooterTitle;
+    this.syncLevelSelect();
+    this.updateDocumentTitle();
+
     this.renderHomeView();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: this.scrollBehavior() });
   },
 
   hideHomeView() {
     if (!this.isHomeView) return;
     this.isHomeView = false;
+    this.syncLevelSelect();
     document.body.classList.remove('home-view-active');
     const homeView = document.getElementById('home-view');
     const sidebar = document.getElementById('sidebar-chapters');
@@ -409,6 +425,26 @@ Object.assign(window.MathsApp, {
       btn.classList.toggle('active', btn.getAttribute('data-cycle') === currentCycle);
       btn.setAttribute('aria-current', btn.getAttribute('data-cycle') === currentCycle ? 'true' : 'false');
     });
+
+    // Première sortie de l'accueil (ou niveau changé entre-temps) : l'espace de travail n'est pas encore construit
+    if (this._workspaceLevel !== this.currentLevel && this.isLevelReady(this.currentLevel)) {
+      this.switchLevel(this.currentLevel, false);
+    }
+    this.updateLevelLabels();
+    this.updateDocumentTitle();
+  },
+
+  /** Chapitre à reprendre : uniquement après une vraie activité (rien à la première visite). */
+  getResumeTarget() {
+    const progress = window.MathsStorage.load().chapters || {};
+    const chapters = window.MATHS_CHAPTERS || [];
+    // Lecture directe : getChapterProgress créerait une entrée vide pour un chapitre jamais ouvert
+    const worked = id => !!progress[id] && (progress[id].attempts > 0 || progress[id].mastery > 0);
+    const last = window.MathsStorage.getLastActiveChapter ? window.MathsStorage.getLastActiveChapter() : null;
+    const lastChapter = last && worked(last.chapterId) ? chapters.find(c => c.id === last.chapterId) : null;
+    if (lastChapter) return { chapter: lastChapter, tier: last.tier || 1 };
+    const mostWorked = chapters.filter(c => worked(c.id)).sort((a, b) => (progress[b.id].attempts || 0) - (progress[a.id].attempts || 0))[0];
+    return mostWorked ? { chapter: mostWorked, tier: 1 } : null;
   },
 
   renderHomeView() {
@@ -418,10 +454,19 @@ Object.assign(window.MathsApp, {
     const streakDaysEl = document.getElementById('home-streak-days');
     if (streakDaysEl) streakDaysEl.textContent = streakDays;
 
-    // 2. Mise à jour de la carte de reprise d'activité (Effet Zeigarnik ou Accueil Neutre)
-    const lastActive = window.MathsStorage && window.MathsStorage.getLastActiveChapter ? window.MathsStorage.getLastActiveChapter() : null;
-    const allChapters = window.MATHS_CHAPTERS || [];
-    const chap = (lastActive && lastActive.chapterId) ? allChapters.find(c => c.id === lastActive.chapterId) : null;
+    // 2. Carte de reprise s'il y a une vraie progression, sinon choix de la classe et portes enseignant / parent
+    const target = this.getResumeTarget();
+    const chap = target ? target.chapter : null;
+    const lastActive = target ? { tier: target.tier } : null;
+    const resumeCard = document.getElementById('home-resume-card');
+    const doors = document.getElementById('home-doors');
+    const greeting = document.getElementById('home-greeting-title');
+    if (resumeCard) resumeCard.style.display = chap ? '' : 'none';
+    if (doors) doors.style.display = chap ? 'none' : 'flex';
+    if (greeting) {
+      if (this._homeGreeting === undefined) this._homeGreeting = greeting.textContent;
+      greeting.textContent = chap ? 'Bon retour ! Prêt pour ta séance de maths ?' : this._homeGreeting;
+    }
 
     const badgeEl = document.getElementById('home-resume-badge');
     const tagEl = document.getElementById('home-resume-tag');
@@ -473,18 +518,15 @@ Object.assign(window.MathsApp, {
   scrollToCycles() {
     const el = document.querySelector('.home-cycles-grid') || document.querySelector('.home-section-header');
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      el.scrollIntoView({ behavior: this.scrollBehavior(), block: 'start' });
     }
   },
 
   resumeLastActivity() {
     const target = this.homeResumeTarget || { chapterId: 'N1', tier: 1 };
-    this.hideHomeView();
-    const allChapters = window.MATHS_CHAPTERS || [];
-    const chap = allChapters.find(c => c.id === target.chapterId);
-    if (chap && chap.level && chap.level !== this.currentLevel) {
-      this.switchLevel(chap.level, false);
-    }
+    const chap = (window.MATHS_CHAPTERS || []).find(c => c.id === target.chapterId);
+    const level = chap ? (chap.level || '3eme') : this.currentLevel;
+    if (!this.isLevelReady(level)) return this.whenLevelReady(level, () => this.resumeLastActivity());
     this.selectChapter(target.chapterId);
     if (window.MathsAdaptiveEngine && target.tier) {
       window.MathsAdaptiveEngine.setTier(target.tier);
@@ -534,8 +576,10 @@ Object.assign(window.MathsApp, {
     const mode = this.currentExplainerMode || 'adaptive';
     this.closeModeExplainer();
     if (mode === 'adaptive') {
-      this.hideHomeView();
-      this.switchTab('train');
+      this.whenLevelReady(this.currentLevel, () => {
+        this.hideHomeView();
+        this.switchTab('train');
+      });
     } else if (mode === 'rituel') {
       this.openDiaporamaModal();
     } else if (mode === 'quiz') {

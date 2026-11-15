@@ -17,14 +17,14 @@ window.MathsApp = {
 
   CYCLES: {
     college: { id: 'college', name: 'Collège', defaultLevel: '3eme', levels: ['6eme', '5eme', '4eme', '3eme'] },
-    lycee: { id: 'lycee', name: 'Lycée', defaultLevel: '2nde', levels: ['2nde', '1ere', 'tale'] },
+    lycee: { id: 'lycee', name: 'Lycée', defaultLevel: '2nde', levels: ['2nde', '1ere', '1tc', '1techno', 'tale'] },
     licence: { id: 'licence', name: 'Licence', defaultLevel: 'L1', levels: ['L1', 'L2', 'L3'] },
-    // Concours : CAPES / agrégation, professeur des écoles (CRPE), études de santé (prépa santé, PASS / L.AS) ;
+    // Concours : CAPES, professeur des écoles (CRPE), études de santé (prépa santé, PASS / L.AS) ;
     // le concours vétérinaire pourra s'y ajouter
     concours: { id: 'concours', name: 'Concours', defaultLevel: 'capes', levels: ['capes', 'crpe', 'sante', 'pass', 'veto'] }
   },
 
-  VALID_LEVELS: ['6eme', '5eme', '4eme', '3eme', '2nde', '1ere', 'tale', 'L1', 'L2', 'L3', 'capes', 'crpe', 'sante', 'pass', 'veto'],
+  VALID_LEVELS: ['6eme', '5eme', '4eme', '3eme', '2nde', '1ere', '1tc', '1techno', 'tale', 'L1', 'L2', 'L3', 'capes', 'crpe', 'sante', 'pass', 'veto'],
 
   LEVEL_LABELS: {
     '6eme': '6ème',
@@ -33,15 +33,112 @@ window.MathsApp = {
     '3eme': '3ème (DNB)',
     '2nde': 'Seconde',
     '1ere': '1ère Spécialité',
+    '1tc': '1ère générale (tronc commun)',
+    '1techno': '1ère technologique',
     'tale': 'Terminale (Spé/Exp)',
     'L1': 'Licence 1 (L1)',
     'L2': 'Licence 2 (L2)',
     'L3': 'Licence 3 (L3)',
-    'capes': 'CAPES / Agrég',
+    'capes': 'CAPES',
     'crpe': 'Professeur des écoles (CRPE)',
     'sante': 'Prépa santé (terminale)',
     'pass': 'Médecine : PASS / L.AS',
     'veto': 'Vétérinaire : prépa BCPST'
+  },
+
+  // Formes courtes pour le titre de l'onglet du navigateur
+  LEVEL_SHORT_LABELS: {
+    '6eme': '6e', '5eme': '5e', '4eme': '4e', '3eme': '3e', '2nde': '2de', '1ere': '1re', '1tc': '1re tronc commun', '1techno': '1re techno', 'tale': 'Terminale',
+    'L1': 'L1', 'L2': 'L2', 'L3': 'L3', 'capes': 'CAPES', 'crpe': 'CRPE', 'sante': 'Prépa santé', 'pass': 'PASS / L.AS', 'veto': 'Véto'
+  },
+
+  TAB_LABELS: { train: 'Entraînement', course: 'Cours', sheets: 'Fiches', stats: 'Bilan' },
+
+  // Onglet dans l'URL (?chapitre=…&onglet=cours) ; pas de paramètre pour l'entraînement, onglet par défaut
+  TAB_SLUGS: { course: 'cours', sheets: 'fiches', stats: 'bilan' },
+
+  URL_MODES: ['rituel', 'diaporama', 'quiz', 'devoir', 'flashcards', 'flashcard'],
+
+  // Trois voies en Première : spécialité maths ('1ere'), tronc commun de la voie générale sans
+  // spécialité ('1tc') et tronc commun de la voie technologique ('1techno'). Une seule pastille « 1ère »
+  // y mène ; la voie choisie est retenue (clé locale distincte de la progression).
+  PREMIERE_VOIES: ['1ere', '1tc', '1techno'],
+  VOIE_STORAGE_KEY: 'etabli_voie_premiere',
+
+  isPremiereLevel(level) {
+    return this.PREMIERE_VOIES.includes(level);
+  },
+
+  /** Niveau de la pastille qui représente ce niveau (les trois voies de Première partagent « 1ère »). */
+  pillLevelOf(level) {
+    return this.isPremiereLevel(level) ? '1ere' : level;
+  },
+
+  /** Dernière voie de Première choisie sur cet appareil ('1ere' par défaut, ou stockage indisponible). */
+  getPremiereVoie() {
+    try {
+      const saved = localStorage.getItem(this.VOIE_STORAGE_KEY);
+      if (this.PREMIERE_VOIES.includes(saved)) return saved;
+    } catch (e) { /* stockage indisponible : voie par défaut */ }
+    return '1ere';
+  },
+
+  rememberPremiereVoie(level) {
+    if (!this.isPremiereLevel(level)) return;
+    try { localStorage.setItem(this.VOIE_STORAGE_KEY, level); } catch (e) { /* stockage indisponible : la voie n'est pas retenue */ }
+  },
+
+  /** Pastilles « 1ère » : ouvre la Première dans la dernière voie choisie. */
+  openPremiere() {
+    this.switchLevel(this.getPremiereVoie(), true);
+  },
+
+  /** Contrôle segmenté des voies : change de voie (un chapitre partagé reste sélectionné). */
+  choosePremiereVoie(voie) {
+    if (!this.isPremiereLevel(voie)) return;
+    if (voie !== this.currentLevel) this.switchLevel(voie, false);
+    const radio = document.querySelector(`#premiere-voie-switch [data-voie="${voie}"]`);
+    if (radio && document.activeElement && document.activeElement.closest && document.activeElement.closest('#premiere-voie-switch')) radio.focus();
+  },
+
+  /** État du contrôle segmenté : visible en Première seulement, une option cochée, une seule tabulable. */
+  syncPremiereVoieSwitch(level) {
+    const group = document.getElementById('premiere-voie-switch');
+    if (!group) return;
+    const on = this.isPremiereLevel(level);
+    group.hidden = !on;
+    group.querySelectorAll('[role="radio"]').forEach(radio => {
+      const checked = radio.getAttribute('data-voie') === level;
+      radio.setAttribute('aria-checked', checked ? 'true' : 'false');
+      radio.tabIndex = checked ? 0 : -1;
+      radio.classList.toggle('active', checked);
+    });
+  },
+
+  /** Clavier du groupe de boutons radio (flèches, Début, Fin), comme un groupe radio natif. */
+  bindPremiereVoieSwitch() {
+    const group = document.getElementById('premiere-voie-switch');
+    if (!group) return;
+    group.addEventListener('keydown', (e) => {
+      const radios = Array.from(group.querySelectorAll('[role="radio"]'));
+      const idx = radios.indexOf(document.activeElement);
+      if (idx < 0) return;
+      let next = -1;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = (idx + 1) % radios.length;
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = (idx - 1 + radios.length) % radios.length;
+      else if (e.key === 'Home') next = 0;
+      else if (e.key === 'End') next = radios.length - 1;
+      if (next < 0) return;
+      e.preventDefault();
+      e.stopPropagation();
+      radios[next].focus();
+      this.choosePremiereVoie(radios[next].getAttribute('data-voie'));
+    });
+  },
+
+  /** Le chapitre appartient-il au niveau ? (niveau principal ou voie qui le partage : champ levels) */
+  chapterInLevel(chapter, level) {
+    return window.MathsChapterLevels.has(chapter, level);
   },
 
   getLevelName(level) {
@@ -50,6 +147,14 @@ window.MathsApp = {
 
   init() {
     console.log('Initialisation de L\'Établi des Maths (Collège, Lycée, Licence)...');
+    // L'accueil est l'état du HTML statique : il s'affiche sans attendre les données d'un niveau
+    this.isHomeView = true;
+    this._homeTitle = document.title;
+    const footerTitle = document.getElementById('app-footer-title');
+    this._homeFooterTitle = footerTitle ? footerTitle.textContent : '';
+    this._landingSource = new URLSearchParams(location.search).get('src');
+    const sheetsCss = document.getElementById('sheets-css');
+    if (sheetsCss) sheetsCss.media = 'all';
     let savedLevel = window.MathsStorage.getCurrentLevel() || '3eme';
     this.currentLevel = savedLevel;
     this.initTheme();
@@ -62,28 +167,142 @@ window.MathsApp = {
     this.bindModalA11y();
     this.bindScrollHints();
     this.bindHistoryNavigation();
+    this.bindPremiereVoieSwitch();
     this.renderDomainNav();
     // Badges à niveaux : premier passage silencieux (une progression existante ne déclenche pas de rafale)
     if (window.MathsBadges) window.MathsBadges.evaluate({ silent: true });
     this.updateHeaderProfile();
-    // Les données du niveau courant sont chargées avant le premier affichage
-    this.whenLevelReady(this.currentLevel, () => {
-      this.switchLevel(this.currentLevel, false);
-      const hasUrlParams = this.checkUrlShareParams();
-      if (!hasUrlParams) {
+    // Série commune d'un lien partagé (&seed=) ; sans graine, le moteur n'est pas touché
+    if (new URLSearchParams(location.search).has('seed')) this.installSharedSeries();
+    // L'URL ne reflète la navigation qu'une fois le lien d'arrivée lu (sinon la sélection
+    // du chapitre par défaut écraserait ?chapitre=… avant sa lecture) : _urlSyncReady ensuite.
+    const route = this.resolveUrlRoute();
+    if (route) {
+      // Lien direct : seul le niveau visé est téléchargé
+      this.currentLevel = route.level;
+      const levelChapters = (window.MATHS_CHAPTERS || []).filter(c => this.chapterInLevel(c, route.level));
+      this.currentChapterId = route.chapter ? route.chapter.id : (levelChapters[0] ? levelChapters[0].id : this.currentChapterId);
+      this.showLoadingWorkspace();
+      this.whenLevelReady(route.level, () => {
+        this.setWorkspaceLoading(false);
+        this.switchLevel(route.level, false);
+        if (!this.checkUrlShareParams()) this.showHomeView();
+        this._urlSyncReady = true;
+        if (!route.chapter) this.applyParentsLanding(true);
+      }, () => {
+        this.setWorkspaceLoading(false);
         this.showHomeView();
-      }
-      // L'URL ne reflète la navigation qu'une fois le lien d'arrivée lu (sinon la sélection
-      // du chapitre par défaut écraserait ?chapitre=… avant sa lecture)
+        this._urlSyncReady = true;
+      });
+    } else {
+      const levelChapters = (window.MATHS_CHAPTERS || []).filter(c => this.chapterInLevel(c, this.currentLevel));
+      const lastActive = window.MathsStorage.getLastActiveChapter ? window.MathsStorage.getLastActiveChapter() : null;
+      const resumable = lastActive && levelChapters.find(c => c.id === lastActive.chapterId);
+      if (resumable) this.currentChapterId = resumable.id;
+      else if (levelChapters[0] && !levelChapters.some(c => c.id === this.currentChapterId)) this.currentChapterId = levelChapters[0].id;
+      this.showHomeView();
       this._urlSyncReady = true;
+      this.preloadResumeLevel();
+      this.applyParentsLanding(false);
+    }
+  },
+
+  /** Niveau et chapitre visés par l'URL d'arrivée, lus avant tout chargement (null : accueil). */
+  resolveUrlRoute() {
+    const params = new URLSearchParams(location.search);
+    const chapParam = params.get('chapitre') || params.get('chapter') || params.get('chap');
+    const chapter = chapParam && (window.MATHS_CHAPTERS || []).find(c => c.id.toLowerCase() === chapParam.toLowerCase());
+    if (chapter) return { level: chapter.level || '3eme', chapter };
+    const levelParam = params.get('level') || params.get('niveau');
+    if (this.VALID_LEVELS.includes(levelParam)) return { level: levelParam, chapter: null };
+    const mode = (params.get('mode') || params.get('tool') || '').toLowerCase();
+    return this.URL_MODES.includes(mode) ? { level: this.currentLevel, chapter: null } : null;
+  },
+
+  /** Cadre du chapitre visé par un lien direct, affiché pendant le téléchargement de son niveau. */
+  showLoadingWorkspace() {
+    document.documentElement.removeAttribute('data-deep-link');
+    this.hideHomeView();
+    this.renderLevelFrame(this.currentLevel, false);
+    const chapter = (window.MATHS_CHAPTERS || []).find(c => c.id === this.currentChapterId);
+    if (chapter) this.updateChapterHero(chapter);
+    this.updateTierButtonsUI();
+    this.updateVisualizerButtonUI();
+    const statement = document.getElementById('exercise-statement-box');
+    if (statement) statement.textContent = 'Chargement de l\'exercice…';
+    this.setWorkspaceLoading(true);
+    this.updateDocumentTitle();
+  },
+
+  /**
+   * Pendant le chargement, pas de boutons sans effet à l'écran. Leur place et la hauteur de
+   * la zone restent réservées : le pied de page ne remonte pas puis redescend (CLS).
+   */
+  setWorkspaceLoading(loading) {
+    document.querySelectorAll('.adaptive-control-panel, .exercise-workspace-box > :not(#exercise-statement-box)').forEach(el => {
+      el.style.visibility = loading ? 'hidden' : '';
     });
+    const workspace = document.querySelector('.main-workspace');
+    if (workspace) workspace.style.minHeight = loading ? '100vh' : '';
+  },
+
+  /**
+   * Retour d'un élève qui a déjà travaillé : son niveau est préparé en tâche de fond.
+   * Rien pour un nouveau visiteur : les scripts à la demande s'exécutent dans une file unique,
+   * précharger la 3e retarderait le niveau qu'il va choisir.
+   */
+  preloadResumeLevel() {
+    if (!this.homeResumeTarget || !window.MathsDataLoader) return;
+    const chapter = (window.MATHS_CHAPTERS || []).find(c => c.id === this.homeResumeTarget.chapterId);
+    if (!chapter) return;
+    const preload = () => window.MathsDataLoader.ensureLevel(chapter.level || '3eme').catch(console.warn);
+    if (window.requestIdleCallback) window.requestIdleCallback(preload, { timeout: 4000 });
+    else setTimeout(preload, 1500);
+  },
+
+  /**
+   * Arrivée depuis la page parents (?src=parents) : l'onglet Cours et la liste des chapitres
+   * pour une classe donnée, et dans tous les cas un conseil refermable.
+   */
+  applyParentsLanding(withLevel) {
+    if (this._landingSource !== 'parents') return;
+    if (withLevel) {
+      this.switchTab('course');
+      const bar = document.getElementById('mobile-chapter-trigger-bar');
+      if (bar && bar.getClientRects().length > 0) this.setMobileChapterDrawer(true);
+    }
+    const main = document.getElementById('contenu');
+    if (!main || document.getElementById('parents-banner')) return;
+    const banner = document.createElement('div');
+    banner.id = 'parents-banner';
+    banner.className = 'no-print';
+    banner.setAttribute('role', 'region');
+    banner.setAttribute('aria-label', 'Conseil aux parents');
+    const text = document.createElement('span');
+    text.textContent = withLevel
+      ? 'Choisissez le chapitre vu en classe, lisez le cours ensemble, puis lancez l\'entraînement.'
+      : 'Choisissez la classe de votre enfant, puis le chapitre vu en classe : lisez le cours ensemble et lancez l\'entraînement.';
+    const close = document.createElement('button');
+    close.type = 'button';
+    close.className = 'btn-secondary btn-sm';
+    close.textContent = 'Fermer';
+    close.setAttribute('aria-label', 'Fermer ce conseil');
+    close.setAttribute('data-click', 'MathsApp.dismissParentsBanner');
+    banner.append(text, close);
+    main.parentNode.insertBefore(banner, main);
+  },
+
+  dismissParentsBanner() {
+    const banner = document.getElementById('parents-banner');
+    if (banner) banner.remove();
   },
 
   /**
    * Exécute fn une fois les données du niveau chargées (chargement à la demande,
    * voir js/dataLoader.js). Immédiat si le niveau est déjà disponible.
+   * onFail : appelé si le chargement échoue (après le message d'erreur).
    */
-  whenLevelReady(level, fn) {
+  whenLevelReady(level, fn, onFail) {
     const loader = window.MathsDataLoader;
     if (!loader || !level || loader.isLevelLoaded(level)) return fn();
     document.body.classList.add('level-loading');
@@ -93,6 +312,8 @@ window.MathsApp = {
       .catch(err => {
         console.error(err);
         this.showToast('⚠️ Impossible de charger les contenus de ce niveau. Vérifie ta connexion puis réessaie.', 5000);
+        this.syncLevelSelect();
+        if (onFail) onFail();
       })
       .finally(() => {
         clearTimeout(slowTimer);
@@ -106,29 +327,15 @@ window.MathsApp = {
   },
 
   switchCycle(cycleId, targetLevel = null) {
-    if (!this.CYCLES[cycleId]) return;
-
-    this.hideHomeView();
-    window.MathsStorage.setCurrentCycle(cycleId);
-
-    // Met à jour les onglets de cycle
-    document.querySelectorAll('.cycle-tab-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.getAttribute('data-cycle') === cycleId);
-      btn.setAttribute('aria-current', btn.getAttribute('data-cycle') === cycleId ? 'true' : 'false');
-    });
-
-    // Affiche le groupe de pilules correspondant
-    document.querySelectorAll('.cycle-levels-group').forEach(group => {
-      const isCurrent = group.id === `levels-group-${cycleId}`;
-      group.style.display = isCurrent ? 'flex' : 'none';
-      group.classList.toggle('active', isCurrent);
-    });
-
     const cycleInfo = this.CYCLES[cycleId];
+    if (!cycleInfo) return;
+
     const nextLevel = (targetLevel && cycleInfo.levels.includes(targetLevel))
       ? targetLevel
       : (cycleInfo.levels.includes(this.currentLevel) ? this.currentLevel : cycleInfo.defaultLevel);
+    if (!this.isLevelReady(nextLevel)) return this.whenLevelReady(nextLevel, () => this.switchCycle(cycleId, targetLevel));
 
+    window.MathsStorage.setCurrentCycle(cycleId);
     this.switchLevel(nextLevel, true);
   },
 
@@ -136,9 +343,58 @@ window.MathsApp = {
     if (!this.VALID_LEVELS.includes(level)) return;
     if (!this.isLevelReady(level)) return this.whenLevelReady(level, () => this.switchLevel(level, autoSelectFirst));
 
-    this.hideHomeView();
+    this._workspaceLevel = level;
     this.currentLevel = level;
+    this.hideHomeView();
     window.MathsStorage.setCurrentLevel(level);
+    this.rememberPremiereVoie(level);
+    this.renderLevelFrame(level, autoSelectFirst);
+    this.selectChapter(this.currentChapterId);
+    this.updateTierButtonsUI();
+    this.updateVisualizerButtonUI();
+
+    if (this.currentTab === 'stats') {
+      this.renderStatsView();
+    }
+  },
+
+  /** Badge du niveau dans l'en-tête et pied de page. */
+  updateLevelLabels() {
+    const cycle = window.MathsStorage.getCycleForLevel(this.currentLevel);
+    const label = this.getLevelName(this.currentLevel);
+    const tag = document.getElementById('app-level-tag');
+    if (tag) {
+      tag.className = `brand-level-tag badge-${cycle}`;
+      tag.textContent = label;
+    }
+    const footerTitle = document.getElementById('app-footer-title');
+    if (footerTitle) {
+      footerTitle.textContent = `L'Établi des Maths (${label} • ${this.CYCLES[cycle] ? this.CYCLES[cycle].name : 'Maths'}) — Outils pour apprendre et pratiquer`;
+    }
+  },
+
+  /** Titre de l'onglet : le contenu d'abord, le titre du fichier sur l'accueil (celui que retiennent les moteurs). */
+  updateDocumentTitle() {
+    if (this.isHomeView) {
+      document.title = this._homeTitle;
+      return;
+    }
+    const chapter = (window.MATHS_CHAPTERS || []).find(c => c.id === this.currentChapterId);
+    if (!chapter) return;
+    const level = chapter.level || '3eme';
+    document.title = `${chapter.shortTitle || chapter.title} (${this.LEVEL_SHORT_LABELS[level] || level}) – ${this.TAB_LABELS[this.currentTab] || 'Entraînement'} | L'Établi des Maths`;
+  },
+
+  /** Voie et épreuves visées, affichées sous la mention des concours (#concours-exam-notice) */
+  CONCOURS_EXAM_NOTES: {
+    sante: 'Repère de novembre 2026 : en 2026-2027, l’accès aux études de santé se fait par le PASS ou par une L.AS, et chaque université fixe ses enseignements et ses épreuves. Le décret n° 2026-988 du 23 octobre 2026 crée une licence portail santé à partir de la rentrée 2027 ; les parcours actuels sont maintenus à titre transitoire jusqu’à la fin de l’année 2028-2029. Ces chapitres revoient les mathématiques de terminale utiles en première année : vérifiez les modalités auprès de l’université visée.',
+    pass: 'Repère de novembre 2026 : en 2026-2027, l’accès aux études de santé se fait par le PASS ou par une L.AS, et chaque université fixe ses enseignements et ses épreuves. Le décret n° 2026-988 du 23 octobre 2026 crée une licence portail santé à partir de la rentrée 2027 ; les parcours actuels sont maintenus à titre transitoire jusqu’à la fin de l’année 2028-2029. Ces chapitres couvrent les biostatistiques et la biophysique usuelles de première année, sans suivre le programme d’une université précise : vérifiez les modalités auprès de la vôtre.',
+    crpe: 'Voie visée : ces chapitres préparent la partie mathématiques de la première épreuve écrite d’admissibilité du concours bac+3 (épreuve de 4 h en deux parties indépendantes, français et mathématiques, notées chacune sur 10 ; une note inférieure ou égale à 2,5 à l’une des parties est éliminatoire), sur le programme de mathématiques du cycle 4 en vigueur à la rentrée 2026. La première épreuve orale d’admission porte, au choix fait à l’inscription, sur une notion de français ou de mathématiques, à partir de documents fournis par le jury (1 h de préparation, 45 min d’épreuve). Concours bac+5 : écrit de mathématiques de 3 h (note inférieure ou égale à 5 éliminatoire), dont le programme ajoute la partie « Nombres et calculs, algèbre » de seconde, dont les compléments sont signalés « Voie bac+5 » dans les chapitres de nombres et de calcul, ainsi que la didactique.',
+    veto: 'Concours vétérinaire, voie BCPST (repères de la notice de la session 2026) : écrit « Méthodes de calcul et raisonnement » (2 h, sans calculatrice), écrit « Modélisation mathématique et informatique » (3 h, calculatrice en mode examen, avec de l’algorithmique de simulation) et oral « Mathématiques pratiques et informatique ». Les DS générés ici suivent le format de la première épreuve écrite.'
+  },
+
+  /** Cadre d'un niveau (onglets, titres, liste des chapitres) : n'utilise que MATHS_CHAPTERS, disponible dès le départ. */
+  renderLevelFrame(level, autoSelectFirst) {
     const currentCycle = window.MathsStorage.getCycleForLevel(level);
 
     // Met à jour l'onglet du cycle actif
@@ -155,21 +411,27 @@ window.MathsApp = {
     });
 
     // Met à jour les pilules du sélecteur
+    const pillLevel = this.pillLevelOf(level);
     document.querySelectorAll('.level-pill').forEach(btn => {
-      const on = btn.getAttribute('data-level') === level;
+      const on = btn.getAttribute('data-level') === pillLevel;
       btn.classList.toggle('active', on);
       if (on) btn.setAttribute('aria-current', 'true'); else btn.removeAttribute('aria-current');
     });
 
-    const lvlLabel = this.getLevelName(level);
-    const cycleInfo = this.CYCLES[currentCycle];
-    const cycleName = cycleInfo ? cycleInfo.name : 'Maths';
+    this.syncLevelSelect();
+    this.syncPremiereVoieSwitch(level);
 
-    // Titre dynamique dans le header
-    const titleEl = document.getElementById('app-main-title');
-    if (titleEl) {
-      titleEl.innerHTML = `L'Établi des Maths <span class="brand-level-tag badge-${currentCycle}">${lvlLabel}</span>`;
+    const concoursNotice = document.getElementById('concours-notice');
+    if (concoursNotice) concoursNotice.hidden = currentCycle !== 'concours';
+    const examNotice = document.getElementById('concours-exam-notice');
+    if (examNotice) {
+      const note = this.CONCOURS_EXAM_NOTES[level] || '';
+      examNotice.textContent = note;
+      examNotice.hidden = !note;
     }
+
+    const lvlLabel = this.getLevelName(level);
+    this.updateLevelLabels();
 
     // Titre dynamique dans la barre latérale
     const sidebarTitle = document.querySelector('.sidebar-title-row h2');
@@ -178,7 +440,7 @@ window.MathsApp = {
     }
 
     // Filtrer les chapitres de ce niveau
-    const levelChapters = (window.MATHS_CHAPTERS || []).filter(c => (c.level || '3eme') === level);
+    const levelChapters = (window.MATHS_CHAPTERS || []).filter(c => this.chapterInLevel(c, level));
     const countEl = document.querySelector('.chapters-count');
     if (countEl) {
       countEl.textContent = `${levelChapters.length} chapitres`;
@@ -190,31 +452,21 @@ window.MathsApp = {
       this.currentChapterId = levelChapters[0].id;
     }
 
-    // Titre dynamique dans le footer et titre du document
-    const footerTitleEl = document.getElementById('app-footer-title');
-    if (footerTitleEl) {
-      footerTitleEl.textContent = `L'Établi des Maths (${lvlLabel} • ${cycleName}) — Outils pour apprendre et pratiquer`;
-    }
-    document.title = `L'Établi des Maths (${lvlLabel} • ${cycleName}) — Outils pour apprendre et pratiquer | Créé par Loïc Delaporte`;
-
     this.renderDomainNav();
     this.renderChaptersGrid();
-    this.selectChapter(this.currentChapterId);
-    this.updateTierButtonsUI();
-
-    const isLicenceCycle = currentCycle === 'licence';
-    this.updateVisualizerButtonUI();
-
-    if (this.currentTab === 'stats') {
-      this.renderStatsView();
-    }
   },
 
   // --- Gestion du Thème (Clair / Sombre) ---
   initTheme() {
-    const saved = window.MathsStorage.load().theme || 'light';
+    const saved = window.MathsStorage.load().theme || document.documentElement.getAttribute('data-theme') || 'light';
     document.documentElement.setAttribute('data-theme', saved);
     this.updateThemeButton(saved);
+    // Aucun choix enregistré : le thème suit le système en direct (js/themeInit.js), l'état annoncé du bouton aussi
+    if (!window.matchMedia) return;
+    const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+    if (systemDark.addEventListener) systemDark.addEventListener('change', e => {
+      if (!window.MathsStorage.load().theme) this.updateThemeButton(e.matches ? 'dark' : 'light');
+    });
   },
 
   toggleTheme() {
@@ -245,7 +497,7 @@ window.MathsApp = {
     const root = document.documentElement;
     const on = !root.hasAttribute('data-simple');
     if (on) root.setAttribute('data-simple', ''); else root.removeAttribute('data-simple');
-    try { localStorage.setItem('etabli_affichage_simple', on ? '1' : '0'); } catch (e) {}
+    try { localStorage.setItem('etabli_affichage_simple', on ? '1' : '0'); } catch (e) { /* stockage indisponible : le réglage n'est pas conservé */ }
     this.updateSimpleButton();
   },
 
@@ -258,12 +510,79 @@ window.MathsApp = {
     const root = document.documentElement;
     const on = !root.hasAttribute('data-dys');
     if (on) root.setAttribute('data-dys', ''); else root.removeAttribute('data-dys');
-    try { localStorage.setItem('etabli_police_dys', on ? '1' : '0'); } catch (e) {}
+    try { localStorage.setItem('etabli_police_dys', on ? '1' : '0'); } catch (e) { /* stockage indisponible : le réglage n'est pas conservé */ }
     this.updateDysButton();
   },
 
   updateDysButton() {
     this.setSettingState('dys-toggle-btn', document.documentElement.hasAttribute('data-dys'));
+  },
+
+  // --- Raccourcis clavier à une touche (WCAG 2.1.4 : désactivables) ---
+  shortcutsEnabled() {
+    if (this._shortcutsOn === undefined) {
+      try { this._shortcutsOn = localStorage.getItem('etabli_raccourcis') !== '0'; } catch (e) { this._shortcutsOn = true; }
+    }
+    return this._shortcutsOn;
+  },
+
+  toggleShortcuts() {
+    this._shortcutsOn = !this.shortcutsEnabled();
+    try { localStorage.setItem('etabli_raccourcis', this._shortcutsOn ? '1' : '0'); } catch (e) { /* stockage indisponible : le réglage n'est pas conservé */ }
+    this.updateShortcutsButton();
+  },
+
+  updateShortcutsButton() {
+    this.setSettingState('shortcuts-toggle-btn', this.shortcutsEnabled());
+  },
+
+  // Sélecteur de niveau de l'en-tête mobile : « Accueil » sur la page d'accueil, sinon le niveau courant
+  syncLevelSelect() {
+    const select = document.getElementById('mobile-level-select');
+    if (select) select.value = this.isHomeView ? '' : this.pillLevelOf(this.currentLevel);
+  },
+
+  // En-tête mobile : le bouton « ⋯ » ouvre le panneau (outils, progression, réglages).
+  // Appelé avant bindSettingsMenu : avec Réglages ouvert, Échap ne referme que Réglages.
+  bindHeaderMenu() {
+    const select = document.getElementById('mobile-level-select');
+    const button = document.getElementById('btn-header-menu');
+    const panel = document.getElementById('header-tools-panel');
+    const header = button && button.closest('.header-inner');
+    if (!select || !button || !panel || !header) return;
+
+    select.addEventListener('change', () => {
+      if (select.value === '1ere') this.openPremiere();
+      else if (select.value) this.switchLevel(select.value);
+      else this.showHomeView();
+    });
+
+    const isOpen = () => header.classList.contains('is-menu-open');
+    const setOpen = (open) => {
+      header.classList.toggle('is-menu-open', open);
+      button.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+    const insideMenu = (node) => header.contains(node) || !!(node.closest && node.closest('#settings-panel'));
+
+    button.addEventListener('click', () => setOpen(!isOpen()));
+    // Une action choisie referme le panneau ; ouvrir Réglages (summary) le laisse ouvert
+    panel.addEventListener('click', (e) => {
+      if (e.target.closest('button')) setOpen(false);
+    });
+    document.addEventListener('click', (e) => {
+      if (isOpen() && !insideMenu(e.target)) setOpen(false);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape' || !isOpen() || document.getElementById('settings-menu')?.open) return;
+      setOpen(false);
+      button.focus();
+    });
+    header.addEventListener('focusout', (e) => {
+      if (e.relatedTarget && !insideMenu(e.relatedTarget)) setOpen(false);
+    });
+    window.addEventListener('resize', () => {
+      if (isOpen() && window.innerWidth > 768) setOpen(false);
+    });
   },
 
   // Menu Réglages (<details>) : le panneau est déplacé à la fin de <body> pour ne pas être rogné
@@ -281,7 +600,8 @@ window.MathsApp = {
 
     const place = () => {
       const r = trigger.getBoundingClientRect();
-      panel.style.top = Math.round(r.bottom + 6) + 'px';
+      // Téléphone en paysage : le panneau remonte pour rester entier à l'écran
+      panel.style.top = Math.max(8, Math.round(Math.min(r.bottom + 6, window.innerHeight - panel.offsetHeight - 8))) + 'px';
       panel.style.right = Math.max(8, Math.round(document.documentElement.clientWidth - r.right)) + 'px';
     };
     menu.addEventListener('toggle', () => {
@@ -320,6 +640,10 @@ window.MathsApp = {
     const dysBtn = document.getElementById('dys-toggle-btn');
     if (dysBtn) dysBtn.addEventListener('click', () => this.toggleDysFont());
     this.updateDysButton();
+    const shortcutsBtn = document.getElementById('shortcuts-toggle-btn');
+    if (shortcutsBtn) shortcutsBtn.addEventListener('click', () => this.toggleShortcuts());
+    this.updateShortcutsButton();
+    this.bindHeaderMenu();
     this.bindSettingsMenu();
 
     // Déclencheur du tiroir mobile de chapitres
@@ -336,8 +660,10 @@ window.MathsApp = {
     if (passportBtn) {
       passportBtn.addEventListener('click', () => {
         // Depuis l'accueil, il faut d'abord quitter la vue d'accueil pour afficher le Bilan
-        if (this.isHomeView) this.hideHomeView();
-        this.switchTab('stats');
+        this.whenLevelReady(this.currentLevel, () => {
+          this.hideHomeView();
+          this.switchTab('stats');
+        });
       });
     }
 
@@ -396,42 +722,31 @@ window.MathsApp = {
       });
     });
 
+    // Outils de l'en-tête : les données du niveau peuvent ne pas être encore chargées (accueil)
+    const openTool = fn => () => this.whenLevelReady(this.currentLevel, fn);
+
     // Boutons Diaporama
+    const openDiaporama = openTool(() => window.MathsDiaporama.openModal(this.currentChapterId));
     const openDiapoBtn = document.getElementById('btn-open-diaporama');
-    if (openDiapoBtn) {
-      openDiapoBtn.addEventListener('click', () => {
-        window.MathsDiaporama.openModal(this.currentChapterId);
-      });
-    }
+    if (openDiapoBtn) openDiapoBtn.addEventListener('click', openDiaporama);
     const quickDiapoBtn = document.getElementById('btn-launch-diapo-quick');
-    if (quickDiapoBtn) {
-      quickDiapoBtn.addEventListener('click', () => {
-        window.MathsDiaporama.openModal(this.currentChapterId);
-      });
-    }
+    if (quickDiapoBtn) quickDiapoBtn.addEventListener('click', openDiaporama);
 
     // Boutons Devoir Flash
+    const openQuiz = openTool(() => window.MathsQuizGenerator.openModal(this.currentChapterId));
     const openQuizBtn = document.getElementById('btn-open-quiz');
-    if (openQuizBtn) {
-      openQuizBtn.addEventListener('click', () => {
-        window.MathsQuizGenerator.openModal(this.currentChapterId);
-      });
-    }
+    if (openQuizBtn) openQuizBtn.addEventListener('click', openQuiz);
     const quizFromSheetsBtn = document.getElementById('btn-quiz-from-sheets');
-    if (quizFromSheetsBtn) {
-      quizFromSheetsBtn.addEventListener('click', () => {
-        window.MathsQuizGenerator.openModal(this.currentChapterId);
-      });
-    }
+    if (quizFromSheetsBtn) quizFromSheetsBtn.addEventListener('click', openQuiz);
 
     // Bouton Flashcards (Mémorisation active Leitner / Fabien Olicard)
     const openFlashcardsBtn = document.getElementById('btn-open-flashcards');
     if (openFlashcardsBtn) {
-      openFlashcardsBtn.addEventListener('click', () => {
+      openFlashcardsBtn.addEventListener('click', openTool(() => {
         if (window.MathsFlashcards && typeof window.MathsFlashcards.openModal === 'function') {
           window.MathsFlashcards.openModal(this.currentChapterId);
         }
-      });
+      }));
     }
 
     // Bouton Partager le lien d'entraînement
@@ -454,9 +769,9 @@ window.MathsApp = {
     if (resetAllBtn) {
       resetAllBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        const levelChapters = (window.MATHS_CHAPTERS || []).filter(c => (c.level || '3eme') === this.currentLevel);
+        const levelChapters = (window.MATHS_CHAPTERS || []).filter(c => this.chapterInLevel(c, this.currentLevel));
         const levelName = this.getLevelName(this.currentLevel);
-        if (confirm(`⚠️ Souhaitez-vous vraiment remettre à 0% la maîtrise de TOUS les ${levelChapters.length} chapitres de ${levelName} ?`)) {
+        if (confirm(`⚠️ Veux-tu vraiment remettre à 0% la maîtrise de TOUS les ${levelChapters.length} chapitres de ${levelName} ?`)) {
           levelChapters.forEach(c => window.MathsStorage.resetChapterProgress(c.id));
           window.MathsAdaptiveEngine.state.manualTierSelected = false;
           window.MathsAdaptiveEngine.startChapterSession(this.currentChapterId);
@@ -544,12 +859,14 @@ window.MathsApp = {
   },
 
   /** Éléments cliquables non natifs (div data-click, cartes) : rendus accessibles au clavier. */
-  CLICKABLE_SELECTOR: '[data-click]:not(button):not(a):not(input):not(select):not(textarea):not(label):not(.modal-overlay):not([class*="overlay"]), .chapter-trophy-card, .home-cycle-card',
+  CLICKABLE_SELECTOR: '[data-click]:not(button):not(a):not(input):not(select):not(textarea):not(label):not(.modal-overlay):not([class*="overlay"]), .chapter-trophy-card',
 
   enhanceClickableA11y(root = document) {
     const nodes = root.querySelectorAll ? root.querySelectorAll(this.CLICKABLE_SELECTOR) : [];
     nodes.forEach(el => {
       if (el.hasAttribute('data-self')) return; // fermeture de fond de modale
+      // Une carte qui contient déjà des contrôles ne devient pas un bouton (contrôles imbriqués) : clic souris seulement
+      if (el.querySelector('button, a[href], input, select, textarea')) return;
       if (!el.hasAttribute('role')) el.setAttribute('role', 'button');
       if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
     });
@@ -600,6 +917,43 @@ window.MathsApp = {
     setTimeout(all, 300);
   },
 
+  isModalOpen(modal) {
+    return modal.style.display !== 'none' && modal.getClientRects().length > 0;
+  },
+
+  openModals() {
+    return Array.from(document.querySelectorAll('.modal-overlay')).filter(m => this.isModalOpen(m));
+  },
+
+  /** Ferme la modale du dessus par son bouton de fermeture ; false s'il n'y en a pas. */
+  closeTopModal() {
+    const modals = this.openModals();
+    const top = modals[modals.length - 1];
+    if (!top) return false;
+    const closeBtn = Array.from(top.querySelectorAll('.modal-close-btn, .reward-modal-close, [aria-label="Fermer"]')).find(el => el.getClientRects().length > 0);
+    if (!closeBtn) return false;
+    closeBtn.click();
+    return true;
+  },
+
+  /**
+   * Bouton Retour : une modale ouverte occupe une entrée d'historique, que Retour referme sans
+   * changer la vue. Fermée autrement (croix, Échap), l'entrée est retirée. Le popup de
+   * félicitations, qui se ferme seul, n'en crée pas.
+   */
+  syncModalHistory() {
+    if (!window.history || !history.pushState || this._skipPop) return;
+    const open = this.openModals().some(m => m.id !== 'reward-unlock-modal');
+    if (open && !this._modalEntry) {
+      this._modalEntry = true;
+      history.pushState({ ...(history.state || {}), modal: true }, '', location.href);
+    } else if (!open && this._modalEntry) {
+      this._modalEntry = false;
+      this._skipPop = true;
+      history.back();
+    }
+  },
+
   /**
    * Accessibilité des modales : Échap ferme la modale du dessus, le focus y entre à
    * l'ouverture, reste piégé dedans (Tab) et revient à l'élément d'origine à la fermeture.
@@ -607,15 +961,16 @@ window.MathsApp = {
   bindModalA11y() {
     const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])';
     // offsetParent est null pour les éléments position:fixed (les fonds de modale) : on utilise getClientRects
-    const isOpen = m => m.style.display !== 'none' && m.getClientRects().length > 0;
+    const isOpen = modal => this.isModalOpen(modal);
     const visible = el => el.getClientRects().length > 0;
-    const openModals = () => Array.from(document.querySelectorAll('.modal-overlay')).filter(isOpen);
     const returnFocus = new Map();
 
     new MutationObserver(mutations => {
+      let modalChanged = false;
       mutations.forEach(({ target: modal }) => {
         // Seuls les fonds de modale sont concernés (sinon tout changement de style volerait le focus)
         if (!modal.classList || !modal.classList.contains('modal-overlay')) return;
+        modalChanged = true;
         const open = modal.style.display !== 'none';
         if (open && !returnFocus.has(modal)) {
           returnFocus.set(modal, document.activeElement);
@@ -627,21 +982,30 @@ window.MathsApp = {
         } else if (!open && returnFocus.has(modal)) {
           const back = returnFocus.get(modal);
           returnFocus.delete(modal);
-          if (back && document.contains(back) && back.focus) back.focus({ preventScroll: true });
+          if (back && document.contains(back) && back.focus) {
+            const hidden = !back.getClientRects().length;
+            // Récompense fermée après une bonne réponse : « Valider » a disparu entre-temps, le focus va sur la correction
+            const feedback = document.getElementById('exercise-feedback-zone');
+            if (hidden && feedback && feedback.getClientRects().length && feedback.parentElement.contains(back)) {
+              this.focusFeedback(feedback, { preventScroll: true });
+              return;
+            }
+            // Élément rangé entre-temps dans le panneau de l'en-tête mobile : le focus revient au bouton « ⋯ »
+            const menuBtn = document.getElementById('btn-header-menu');
+            const target = hidden && menuBtn && menuBtn.getClientRects().length ? menuBtn : back;
+            target.focus({ preventScroll: true });
+          }
         }
       });
+      if (modalChanged) this.syncModalHistory();
     }).observe(document.body, { attributes: true, attributeFilter: ['style'], subtree: true });
 
     document.addEventListener('keydown', e => {
-      const modals = openModals();
+      const modals = this.openModals();
       if (!modals.length) return;
       const top = modals[modals.length - 1];
       if (e.key === 'Escape') {
-        const closeBtn = Array.from(top.querySelectorAll('.modal-close-btn, .reward-modal-close, [aria-label="Fermer"]')).find(visible);
-        if (closeBtn) {
-          e.preventDefault();
-          closeBtn.click();
-        }
+        if (this.closeTopModal()) e.preventDefault();
       } else if (e.key === 'Tab') {
         const items = Array.from(top.querySelectorAll(FOCUSABLE)).filter(visible);
         if (!items.length) return;
@@ -662,17 +1026,28 @@ window.MathsApp = {
   },
 
   /**
-   * Reflète la vue courante dans l'URL (?chapitre=ID) : liens partageables, bouton
-   * « Retour » du navigateur et pages explorables par les moteurs de recherche.
+   * Reflète la vue courante dans l'URL (?chapitre=ID) : liens partageables et bouton
+   * « Retour » du navigateur. Les pages à indexer sont celles de cours/ ; ces URL ont une canonique vers la racine.
    */
   syncUrl(params) {
     if (!this._urlSyncReady || this._restoringFromHistory || !window.history || !history.pushState) return;
+    // Un retour d'historique (fermeture de modale) est en route : écrire maintenant viserait la mauvaise entrée
+    if (this._skipPop) { this._pendingUrlSync = params; return; }
     const current = new URLSearchParams(location.search);
     // Les paramètres d'outil d'un lien partagé (mode, palier…) restent tant qu'on ne change pas de vue
     const sameView = (params.chapitre || null) === (current.get('chapitre') || current.get('chapter') || current.get('chap'));
     if (sameView && (params.chapitre || !location.search)) return;
-    const qs = new URLSearchParams(params).toString();
-    history.pushState(params, '', qs ? `?${qs}` : location.pathname);
+    const urlParams = new URLSearchParams(params);
+    const tabSlug = params.chapitre && this.TAB_SLUGS[this.currentTab];
+    if (tabSlug) urlParams.set('onglet', tabSlug);
+    const qs = urlParams.toString();
+    if (this._modalEntry) {
+      // Changement de vue depuis une modale : sa propre entrée d'historique est réutilisée
+      this._modalEntry = false;
+      history.replaceState(params, '', qs ? `?${qs}` : location.pathname);
+    } else {
+      history.pushState(params, '', qs ? `?${qs}` : location.pathname);
+    }
     // Statistiques d'audience : une « page vue » par chapitre consulté
     if (window.goatcounter && typeof window.goatcounter.count === 'function') {
       window.goatcounter.count({ path: location.pathname + location.search });
@@ -680,22 +1055,57 @@ window.MathsApp = {
   },
 
   bindHistoryNavigation() {
-    window.addEventListener('popstate', () => {
-      this._restoringFromHistory = true;
-      try {
-        const params = new URLSearchParams(location.search);
-        const chap = params.get('chapitre') || params.get('chapter') || params.get('chap');
-        if (chap && (window.MATHS_CHAPTERS || []).some(c => c.id === chap)) {
-          this.selectChapter(chap);
-          this.switchTab('train');
-          this.hideHomeView();
-        } else {
-          this.showHomeView();
-        }
-      } finally {
-        this._restoringFromHistory = false;
+    // Rechargement sur l'entrée d'une modale : la modale n'existe plus, l'entrée redevient ordinaire
+    if (history.state && history.state.modal) {
+      const { modal, ...state } = history.state;
+      history.replaceState(state, '', location.href);
+    }
+    window.addEventListener('popstate', (e) => {
+      if (this._skipPop) {
+        this._skipPop = false;
+        const pendingUrl = this._pendingUrlSync;
+        this._pendingUrlSync = null;
+        if (pendingUrl) this.syncUrl(pendingUrl);
+        this.syncModalHistory();
+        return;
       }
+      if (this._modalEntry && this.openModals().length) {
+        // Retour referme la modale, la vue en dessous ne change pas
+        this._modalEntry = false;
+        this.closeTopModal();
+        this.syncModalHistory();
+        return;
+      }
+      if (e.state && e.state.modal) {
+        // Entrée d'une modale déjà refermée (touche Avancer) : on ne s'y arrête pas
+        this._skipPop = true;
+        history.back();
+        return;
+      }
+      const params = new URLSearchParams(location.search);
+      const chapId = params.get('chapitre') || params.get('chapter') || params.get('chap');
+      const chapter = chapId && (window.MATHS_CHAPTERS || []).find(c => c.id === chapId);
+      const restore = () => {
+        this._restoringFromHistory = true;
+        try {
+          if (chapter) {
+            this.selectChapter(chapter.id);
+            this.switchTab(this.tabFromSlug(new URLSearchParams(location.search).get('onglet')));
+            this.hideHomeView();
+          } else {
+            this.showHomeView();
+          }
+        } finally {
+          this._restoringFromHistory = false;
+        }
+      };
+      if (chapter) this.whenLevelReady(chapter.level || '3eme', restore);
+      else restore();
     });
+  },
+
+  tabFromSlug(slug) {
+    return Object.keys(this.TAB_SLUGS).find(tab => this.TAB_SLUGS[tab] === slug) || 'train';
   },
 
   escapeHtml(str) {
@@ -704,6 +1114,9 @@ window.MathsApp = {
 
   bindKeyboardShortcuts() {
     document.addEventListener('keydown', (e) => {
+      // Ctrl, Alt, Cmd : raccourcis du navigateur et du système (copier, marque-page…)
+      if (e.ctrlKey || e.altKey || e.metaKey) return;
+
       const active = document.activeElement;
       const activeTag = active ? active.tagName.toLowerCase() : '';
       const isInputField = activeTag === 'input' || activeTag === 'textarea' || activeTag === 'select' || (active && active.isContentEditable);
@@ -719,36 +1132,50 @@ window.MathsApp = {
       // Ne pas intercepter la saisie dans un champ autre que la réponse de l'exercice (recherche…)
       if (isInputField && !isAnswerField) return;
 
-      // Bouton « Question suivante » réellement visible (aucune boîte de rendu si l'onglet est masqué)
+      // Un bouton n'a de boîte de rendu que s'il est réellement à l'écran (rien si l'onglet est masqué)
+      const isVisible = el => !!el && el.style.display !== 'none' && el.getClientRects().length > 0;
       const nextBtn = document.getElementById('btn-next-exercise');
-      const isNextVisible = nextBtn && nextBtn.style.display !== 'none' && nextBtn.getClientRects().length > 0;
 
-      // Entrée avance toujours ; Espace et N seulement hors champ de saisie
-      if (isNextVisible && (e.key === 'Enter' || (!isInputField && (e.code === 'Space' || e.key === 'n' || e.key === 'N')))) {
+      // Dans le champ de réponse, seule Entrée agit (question suivante une fois la correction affichée)
+      if (isInputField) {
+        if (e.key === 'Enter' && isVisible(nextBtn)) {
+          e.preventDefault();
+          nextBtn.click();
+        }
+        return;
+      }
+
+      // Sur le retour de correction (qui a pris le focus), Entrée passe à la suite comme dans le champ de réponse
+      if (e.key === 'Enter' && active && active.id === 'exercise-feedback-zone' && isVisible(nextBtn)) {
         e.preventDefault();
         nextBtn.click();
         return;
       }
 
-      if (isInputField) return;
+      // Raccourcis à une touche : désactivables (Réglages) et limités à l'exercice affiché
+      const inExercise = !active || active === document.body || active.id === 'contenu' || !!active.closest('.exercise-workspace-box');
+      if (!this.shortcutsEnabled() || this.isHomeView || this.currentTab !== 'train' || !inExercise) return;
+
+      // N, Espace ou Entrée : question suivante
+      if (isVisible(nextBtn) && (e.key === 'Enter' || e.code === 'Space' || e.key === 'n' || e.key === 'N')) {
+        e.preventDefault();
+        nextBtn.click();
+        return;
+      }
 
       // Raccourci H : Demander un indice
       if (e.key === 'h' || e.key === 'H') {
-        const hint1Btn = document.getElementById('btn-hint-1');
-        const hint2Btn = document.getElementById('btn-hint-2');
-        if (window.MathsAdaptiveEngine.state.usedHintsCount === 0 && hint1Btn) {
+        const hintBtn = document.getElementById(window.MathsAdaptiveEngine.state.usedHintsCount === 0 ? 'btn-hint-1' : 'btn-hint-2');
+        if (isVisible(hintBtn)) {
           e.preventDefault();
-          hint1Btn.click();
-        } else if (hint2Btn) {
-          e.preventDefault();
-          hint2Btn.click();
+          hintBtn.click();
         }
         return;
       }
 
       // Raccourcis QCM : 1, 2, 3, 4 ou A, B, C, D
-      const mcqButtons = document.querySelectorAll('.mcq-opt-btn');
-      if (mcqButtons && mcqButtons.length > 0) {
+      const mcqButtons = Array.from(document.querySelectorAll('.mcq-opt-btn')).filter(isVisible);
+      if (mcqButtons.length > 0) {
         let selectedIdx = -1;
         if (e.key === '1' || e.key === 'a' || e.key === 'A') selectedIdx = 0;
         else if (e.key === '2' || e.key === 'b' || e.key === 'B') selectedIdx = 1;
@@ -765,7 +1192,7 @@ window.MathsApp = {
       // Touche Entrée hors champ texte : valider si le bouton est visible
       if (e.key === 'Enter') {
         const validateBtn = document.getElementById('btn-validate-answer');
-        if (validateBtn && validateBtn.style.display !== 'none') {
+        if (isVisible(validateBtn)) {
           e.preventDefault();
           validateBtn.click();
         }
@@ -822,6 +1249,7 @@ window.MathsApp = {
       filters = [
         { domain: 'all', label: 'Tous' },
         { domain: 'oral1', label: '📐 Oral 1 : Leçons' },
+        { domain: 'complements', label: '📚 Compléments disciplinaires' },
         { domain: 'oral2', label: '⚖️ Oral 2 : Entretien' }
       ];
     } else if (this.currentLevel === 'sante') {
@@ -885,12 +1313,13 @@ window.MathsApp = {
     if (!container) return;
 
     const allChapters = window.MATHS_CHAPTERS || [];
-    const levelChapters = allChapters.filter(c => (c.level || '3eme') === this.currentLevel);
+    const levelChapters = allChapters.filter(c => this.chapterInLevel(c, this.currentLevel));
     let filtered = this.currentFilterDomain === 'all'
       ? levelChapters
       : levelChapters.filter(c => {
           if (this.currentLevel === 'capes') {
-            if (this.currentFilterDomain === 'oral1') return c.id !== 'capes-oral2' && c.domain !== 'oral2';
+            if (this.currentFilterDomain === 'oral1') return c.id !== 'capes-oral2' && c.domain !== 'oral2' && !c.complement;
+            if (this.currentFilterDomain === 'complements') return !!c.complement;
             if (this.currentFilterDomain === 'oral2') return c.id === 'capes-oral2' || c.domain === 'oral2';
           }
           if (c.domain === this.currentFilterDomain) return true;
@@ -947,6 +1376,8 @@ window.MathsApp = {
         </div>
       `;
 
+      card.querySelector('.chap-title').title = chap.title;
+
       card.addEventListener('click', () => {
         this.selectChapter(chap.id);
       });
@@ -958,14 +1389,13 @@ window.MathsApp = {
   selectChapter(chapterId) {
     const chapter = (window.MATHS_CHAPTERS || []).find(c => c.id === chapterId);
     if (!chapter) return;
-    if (!this.isLevelReady(chapter.level)) return this.whenLevelReady(chapter.level, () => this.selectChapter(chapterId));
+    const level = chapter.level || '3eme';
+    if (!this.isLevelReady(level)) return this.whenLevelReady(level, () => this.selectChapter(chapterId));
     this.currentChapterId = chapterId;
     this.syncUrl({ chapitre: chapterId });
 
-    // Synchroniser le niveau actif si nécessaire
-    if (chapter.level && chapter.level !== this.currentLevel) {
-      this.switchLevel(chapter.level, false);
-    }
+    // Autre niveau, ou espace de travail pas encore construit : switchLevel revient ici
+    if (level !== this.currentLevel || this._workspaceLevel !== level) return this.switchLevel(level, false);
     this.hideHomeView();
     if (window.MathsStorage && window.MathsStorage.setLastActiveChapter) {
       window.MathsStorage.setLastActiveChapter(chapter.id, window.MathsAdaptiveEngine ? window.MathsAdaptiveEngine.state.currentTier : 1);
@@ -979,34 +1409,15 @@ window.MathsApp = {
       if (on) c.setAttribute('aria-current', 'true'); else c.removeAttribute('aria-current');
     });
 
-    // En-tête du chapitre
-    const titleEl = document.getElementById('chapter-hero-title');
-    const domainEl = document.getElementById('chapter-hero-domain');
-    const descEl = document.getElementById('chapter-hero-desc');
-    const masteryEl = document.getElementById('chapter-hero-mastery');
-    const masteryFill = document.getElementById('chapter-hero-mastery-fill');
+    this.updateChapterHero(chapter);
 
-    // Mise à jour de la barre mobile de sélection de chapitre et fermeture du tiroir
-    const mobileLabel = document.getElementById('mobile-chapter-label');
-    if (mobileLabel) {
-      mobileLabel.textContent = `${chapter.num || chapter.id} : ${chapter.shortTitle || chapter.title}`;
-    }
+    // Fermeture du tiroir mobile de chapitres
     const drawerWasOpen = this.setMobileChapterDrawer(false);
     if (drawerWasOpen) {
       // Choix fait depuis le tiroir mobile : on remonte sur la barre du chapitre
       const bar = document.getElementById('mobile-chapter-trigger-bar');
-      if (bar && bar.scrollIntoView) bar.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      if (bar && bar.scrollIntoView) bar.scrollIntoView({ block: 'start', behavior: this.scrollBehavior() });
     }
-
-    const progress = window.MathsStorage.getChapterProgress(chapterId);
-
-    if (titleEl) titleEl.textContent = `${chapter.num} : ${chapter.title}`;
-    if (domainEl) {
-      domainEl.textContent = chapter.domainName;
-      domainEl.style.backgroundColor = `${chapter.color}20`;
-      domainEl.style.color = `color-mix(in srgb, ${chapter.color} 40%, var(--text-main))`;
-    }
-    if (descEl) descEl.textContent = chapter.description;
 
     // Démarrage de la session adaptative ZPD
     window.MathsAdaptiveEngine.startChapterSession(chapterId);
@@ -1019,6 +1430,26 @@ window.MathsApp = {
 
     // Rafraîchir l'onglet actif
     this.refreshCurrentTab();
+    this.updateDocumentTitle();
+  },
+
+  /** En-tête du chapitre et barre mobile de sélection (n'utilise que MATHS_CHAPTERS). */
+  updateChapterHero(chapter) {
+    const mobileLabel = document.getElementById('mobile-chapter-label');
+    if (mobileLabel) {
+      mobileLabel.textContent = `${chapter.num || chapter.id} : ${chapter.shortTitle || chapter.title}`;
+    }
+    const titleEl = document.getElementById('chapter-hero-title');
+    const domainEl = document.getElementById('chapter-hero-domain');
+    const descEl = document.getElementById('chapter-hero-desc');
+    if (titleEl) titleEl.textContent = `${chapter.num} : ${chapter.title}`;
+    if (domainEl) {
+      domainEl.textContent = chapter.domainName;
+      domainEl.style.backgroundColor = `${chapter.color}20`;
+      domainEl.style.color = `color-mix(in srgb, ${chapter.color} 40%, var(--text-main))`;
+    }
+    if (descEl) descEl.textContent = chapter.description || '';
+    if (descEl && window.MathsRenderer) window.MathsRenderer.renderElement(descEl);
   },
 
   updateChapterMasteryUI(chapterId) {
@@ -1058,6 +1489,7 @@ window.MathsApp = {
   },
 
   switchTab(tabName) {
+    if (!this.isLevelReady(this.currentLevel)) return this.whenLevelReady(this.currentLevel, () => this.switchTab(tabName));
     this.currentTab = tabName;
     document.querySelectorAll('.tab-btn').forEach(btn => {
       const on = btn.dataset.tab === tabName;
@@ -1069,6 +1501,18 @@ window.MathsApp = {
       pane.classList.toggle('active', pane.id === `tab-pane-${tabName}`);
     });
     this.refreshCurrentTab();
+    this.updateDocumentTitle();
+    this.syncTabInUrl();
+  },
+
+  /** L'onglet suit le chapitre dans l'URL, sans entrée d'historique propre. */
+  syncTabInUrl() {
+    if (!this._urlSyncReady || this._restoringFromHistory || this.isHomeView || !window.history || !history.replaceState) return;
+    const params = new URLSearchParams(location.search);
+    if (!params.has('chapitre')) return;
+    const slug = this.TAB_SLUGS[this.currentTab];
+    if (slug) params.set('onglet', slug); else params.delete('onglet');
+    history.replaceState(history.state, '', `?${params}`);
   },
 
   refreshCurrentTab() {
@@ -1085,23 +1529,23 @@ window.MathsApp = {
 
   /** Annonce un message aux lecteurs d'écran (zone aria-live invisible). */
   announce(msg) {
-    let live = document.getElementById('sr-live-region');
-    if (!live) {
-      live = document.createElement('div');
-      live.id = 'sr-live-region';
-      live.className = 'sr-only';
-      live.setAttribute('aria-live', 'assertive');
-      live.setAttribute('role', 'status');
-      document.body.appendChild(live);
-    }
+    const live = document.getElementById('sr-live-region');
+    if (!live) return;
     live.textContent = '';
     setTimeout(() => { live.textContent = msg; }, 50);
   },
 
-  /** Annonce le titre du retour de correction (juste / faux / indice). */
-  announceFeedback(container) {
-    const h = container && container.querySelector('.feedback-header h4');
-    if (h) this.announce(h.textContent.trim());
+  /** Annonce le retour de correction : son titre, suivi de l'indice ou du conseil (sauf titleOnly). */
+  announceFeedback(container, titleOnly = false) {
+    const title = container && container.querySelector('.feedback-header h4');
+    if (!title) return;
+    const body = titleOnly ? null : container.querySelector('.hint-content, .feedback-solution-body');
+    this.announce([title, body].filter(Boolean).map(el => this.spokenContent(el)).join(' '));
+  },
+
+  /** Défilement animé, sauf si le système demande de réduire les animations. */
+  scrollBehavior() {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
   },
 
   showToast(msg, duration = 3500) {
@@ -1131,36 +1575,21 @@ window.MathsApp = {
       const modeParam = (params.get('mode') || params.get('tool') || '').toLowerCase();
 
       const autoGen = params.get('generate') === '1' || (modeParam === 'quiz' || modeParam === 'devoir');
-
-      // Charger d'abord les données du niveau visé par le lien partagé
-      const linkedChap = chapParam && (window.MATHS_CHAPTERS || []).find(c => c.id.toLowerCase() === chapParam.toLowerCase());
-      const neededLevel = linkedChap ? linkedChap.level : (this.VALID_LEVELS.includes(levelParam) ? levelParam : null);
-      if (neededLevel && !this.isLevelReady(neededLevel)) {
-        this.whenLevelReady(neededLevel, () => {
-          if (!this.checkUrlShareParams()) this.showHomeView();
-        });
-        return true;
-      }
+      // Le niveau visé est déjà chargé (voir init et resolveUrlRoute)
+      const targetChap = chapParam && (window.MATHS_CHAPTERS || []).find(c => c.id.toLowerCase() === chapParam.toLowerCase());
 
       let handled = false;
 
-      if (levelParam) {
-        if (this.VALID_LEVELS.includes(levelParam)) {
-          this.switchLevel(levelParam, true);
-          this.hideHomeView();
-          handled = true;
-        }
+      if (!targetChap && this.VALID_LEVELS.includes(levelParam)) {
+        this.switchLevel(levelParam, true);
+        this.hideHomeView();
+        handled = true;
       }
 
       if (chapParam) {
-        const allChapters = window.MATHS_CHAPTERS || [];
-        const targetChap = allChapters.find(c => c.id.toLowerCase() === chapParam.toLowerCase());
         if (targetChap) {
-          if (targetChap.level && targetChap.level !== this.currentLevel) {
-            this.switchLevel(targetChap.level, false);
-          }
           this.selectChapter(targetChap.id);
-          this.switchTab('train');
+          this.switchTab(this.tabFromSlug(params.get('onglet')));
           this.hideHomeView();
           if (tierParam && tierParam >= 1 && tierParam <= 4) {
             setTimeout(() => {
@@ -1168,12 +1597,14 @@ window.MathsApp = {
               // le palier demandé s'il l'a déjà débloqué, sinon sur son palier le plus élevé.
               const engine = window.MathsAdaptiveEngine;
               const name = targetChap.shortTitle || targetChap.title;
+              // Série commune : le palier du lien ne devient pas le palier de reprise de l'élève, la série repart de sa question 1
+              const place = t => (this.sharedSeedFor(targetChap.id) ? engine.startChapterSession(targetChap.id, t) : engine.setTier(t));
               if (engine.isTierUnlocked(targetChap.id, tierParam)) {
-                engine.setTier(tierParam);
+                place(tierParam);
                 this.showToast(`🎯 <strong>Entraînement ciblé :</strong> ${name} (Palier ${tierParam})`, 4000);
               } else {
                 const reachable = engine.getHighestUnlockedTier(targetChap.id);
-                engine.setTier(reachable);
+                place(reachable);
                 this.showToast(`🔒 <strong>Palier ${tierParam} pas encore débloqué</strong> pour ${name}.<br>Tu commences au palier ${reachable} : progresse pour l'atteindre !`, 5500);
               }
               this.renderTrainingView();

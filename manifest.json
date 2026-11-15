@@ -2,6 +2,7 @@
   "name": "L'Établi des Maths — Plateforme d'Apprentissage Mathématique",
   "short_name": "ÉtabliMaths",
   "description": "Plateforme pédagogique complète de mathématiques : Collège (6e, 5e, 4e, 3e), Lycée (2nde, 1ère, Terminale) et Université (L1, L2, L3, CAPES). Exercices adaptatifs, devoirs blancs, fiches de cours et rituels.",
+  "id": "/",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -48,6 +49,22 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "assets/screenshot-narrow.png",
+      "sizes": "720x1280",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Accueil de L'Établi des Maths sur téléphone"
+    },
+    {
+      "src": "assets/screenshot-wide.png",
+      "sizes": "1440x810",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Accueil de L'Établi des Maths sur ordinateur"
     }
   ]
 }

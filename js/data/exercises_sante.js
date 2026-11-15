@@ -339,7 +339,7 @@
         ], 0,
         "Traduisez le pourcentage en une masse pour un volume de 100 mL.",
         "Convertissez cette masse en mg, puis ramenez-vous à 1 mL.",
-        "1 % (m/v) : 1 g pour 100 mL, soit 1 000 mg pour 100 mL, c'est-à-dire $\\dfrac{1\\,000}{100} = 10$ mg/mL.\n**L'affirmation est vraie** (la quatrième proposition est vraie mais sa justification, 10 mg pour 1 000 mL, donnerait 0,01 mg/mL).",
+        "1 % (m/v) : 1 g pour 100 mL, soit 1 000 mg pour 100 mL, c'est-à-dire $\\dfrac{1\\,000}{100} = 10$ mg/mL.\n**L'affirmation est vraie** (la proposition justifiée par « 10 mg pour 1 000 mL » conclut juste, mais cette justification donnerait 0,01 mg/mL).",
         'Raisonner')
     ],
 

@@ -267,7 +267,7 @@ Object.assign(window.MATHS_EXTRA_FLASHCARDS, {
       a: "$\\cos$ est décroissante sur $[0 ; \\pi]$, de $1$ à $-1$. $\\sin$ est croissante sur $\\left[0 ; \\dfrac{\\pi}{2}\\right]$ (de $0$ à $1$), puis décroissante sur $\\left[\\dfrac{\\pi}{2} ; \\pi\\right]$ (de $1$ à $0$)."
     },
     {
-      q: "Comment justifier que $\\dfrac{\\sin(x)}{x}$ tend vers $1$ quand $x$ tend vers $0$ ?",
+      q: "Pour aller plus loin : comment justifier que $\\dfrac{\\sin(x)}{x}$ tend vers $1$ quand $x$ tend vers $0$ ?",
       a: "C'est le taux d'accroissement $\\dfrac{\\sin(x) - \\sin(0)}{x - 0}$ ; comme $\\sin$ est dérivable en $0$, sa limite est $\\sin'(0) = \\cos(0) = 1$."
     },
     {
@@ -333,6 +333,18 @@ Object.assign(window.MATHS_EXTRA_FLASHCARDS, {
     {
       q: "Vrai ou faux : si $\\vec{u} \\cdot \\vec{v} = 0$, alors $\\vec{u} = \\vec{0}$ ou $\\vec{v} = \\vec{0}$.",
       a: "**Faux** : $\\vec{u}(1 ; 0 ; 0)$ et $\\vec{v}(0 ; 1 ; 0)$ sont non nuls et $\\vec{u} \\cdot \\vec{v} = 0$ : ils sont orthogonaux."
+    },
+    {
+      q: "Deux droites orthogonales de l'espace sont-elles forcément sécantes ?",
+      a: "Non. Deux droites de vecteurs directeurs $\\vec{u}$ et $\\vec{v}$ sont orthogonales si $\\vec{u} \\cdot \\vec{v} = 0$, même sans point commun. Celles qui sont orthogonales **et** sécantes sont dites perpendiculaires."
+    },
+    {
+      q: "Qu'est-ce que le plan médiateur d'un segment $[AB]$ ?",
+      a: "Le plan passant par le milieu de $[AB]$ et de vecteur normal $\\overrightarrow{AB}$. C'est l'ensemble des points $M$ tels que $MA = MB$."
+    },
+    {
+      q: "Exprimer $\\vec{u} \\cdot \\vec{v}$ à l'aide de $\\|\\vec{u} + \\vec{v}\\|$ et $\\|\\vec{u} - \\vec{v}\\|$.",
+      a: "$\\vec{u} \\cdot \\vec{v} = \\frac{1}{4}\\left(\\|\\vec{u} + \\vec{v}\\|^2 - \\|\\vec{u} - \\vec{v}\\|^2\\right)$, car les développements des deux carrés diffèrent de $4\\,\\vec{u} \\cdot \\vec{v}$."
     },
     {
       q: "Comment vérifier qu'un vecteur $\\vec{n}$ est normal au plan $(ABC)$ ?",
@@ -605,7 +617,7 @@ Object.assign(window.MATHS_EXTRA_FLASHCARDS, {
       a: "On multiplie **à gauche** par $A^{-1}$ : $X = A^{-1}B$ (l'écriture $BA^{-1}$ serait fausse, le produit n'étant pas commutatif)."
     },
     {
-      q: "Déterminer la distribution stationnaire de la chaîne de Markov de matrice $P = \\begin{pmatrix} 0{,}8 & 0{,}2 \\\\ 0{,}3 & 0{,}7 \\end{pmatrix}$.",
+      q: "Déterminer la distribution invariante de la chaîne de Markov de matrice $P = \\begin{pmatrix} 0{,}8 & 0{,}2 \\\\ 0{,}3 & 0{,}7 \\end{pmatrix}$.",
       a: "On cherche $\\pi = \\begin{pmatrix} x & y \\end{pmatrix}$ avec $\\pi P = \\pi$ et $x + y = 1$ : $0{,}8x + 0{,}3y = x$ donne $0{,}2x = 0{,}3y$, d'où $\\pi = \\begin{pmatrix} 0{,}6 & 0{,}4 \\end{pmatrix}$."
     },
     {

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Content-Security-Policy : voir scripts/csp.js (style-src 'unsafe-inline' requis par les attributs style de KaTeX) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://etabli-des-maths.goatcounter.com; font-src 'self' data:; connect-src 'self' https://etabli-des-maths.goatcounter.com; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Maths en première techno : cours et exercices corrigés</title>
+  <meta name="description" content="Maths en première technologique : 7 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Notamment : automatismes." />
+  <meta name="author" content="Loïc Delaporte, professeur de mathématiques" />
+  <link rel="canonical" href="https://etabli-des-maths.fr/cours/premiere-technologique/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Maths en première techno : cours et exercices corrigés" />
+  <meta property="og:description" content="Maths en première technologique : 7 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Notamment : automatismes." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://etabli-des-maths.fr/cours/premiere-technologique/" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
+  <meta property="og:image:alt" content="Logo de L'Établi des Maths" />
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="L'Établi des Maths" />
+
+  <link rel="stylesheet" href="../../css/style.css?v=141db07fda" />
+  <link rel="stylesheet" href="../../css/landing.css?v=9c24ff37f8" />
+  <link rel="stylesheet" href="../../vendor/katex/katex.min.css?v=1be2fd298c" />
+  <link rel="stylesheet" href="../../css/cours.css?v=85b541e52d" />
+  <!-- Après les feuilles de style : la CSP en meta désactive le préchargement, et ce script s'exécute quand même avant le premier rendu -->
+  <script src="../../js/themeInit.js?v=58d3835cf3"></script>
+  <link rel="icon" href="../../favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="../../assets/favicon.png" />
+  <link rel="manifest" href="../../manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Cours et exercices de maths en première technologique, gratuits et corrigés",
+    "description": "Maths en première technologique : 7 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Notamment : automatismes.",
+    "url": "https://etabli-des-maths.fr/cours/premiere-technologique/",
+    "inLanguage": "fr",
+    "educationalLevel": "Lycée — première technologique, enseignement commun de mathématiques",
+    "isAccessibleForFree": true,
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/"
+    },
+    "mainEntity": {
+      "@type": "ItemList",
+      "numberOfItems": 7,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Automatismes, ensembles et logique",
+          "url": "https://etabli-des-maths.fr/cours/premiere-technologique/automatismes-ensembles-et-logique.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Algorithmique Python : listes, compteurs et accumulateurs",
+          "url": "https://etabli-des-maths.fr/cours/premiere-technologique/algorithmique-python.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Suites arithmétiques et géométriques",
+          "url": "https://etabli-des-maths.fr/cours/premiere-technologique/suites-arithmetiques-et-geometriques.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Fonctions : taux de variation et second degré",
+          "url": "https://etabli-des-maths.fr/cours/premiere-technologique/fonctions-taux-de-variation-et-second-degre.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "Dérivation : nombre dérivé, tangente et variations",
+          "url": "https://etabli-des-maths.fr/cours/premiere-technologique/derivation-nombre-derive-tangente-et-variations.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "name": "Statistiques à deux variables",
+          "url": "https://etabli-des-maths.fr/cours/premiere-technologique/statistiques-a-deux-variables.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "name": "Probabilités : conditionnement, variables aléatoires et échantillonnage",
+          "url": "https://etabli-des-maths.fr/cours/premiere-technologique/probabilites-conditionnement-variables-aleatoires.html"
+        }
+      ]
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Quels chapitres sont au programme de maths en première technologique ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Le site couvre 7 chapitres en première technologique, regroupés en 4 domaines. Automatismes et Logique : automatismes & Logique. Algorithmique et Programmation : python & Listes. Analyse et Fonctions : suites arithm. & géom., taux de variation & 2nd degré et dérivation & Variations. Probabilités et Statistiques : stats à deux variables et probas & Variables aléatoires."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Comment s'entraîner en maths en première technologique ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Choisis un chapitre puis clique sur « S'entraîner » : les exercices sont générés à chaque tirage et corrigés immédiatement. Ils sont classés en quatre paliers (1. Socle et automatismes, 2. Entraînement guidé, 3. Objectif bac, 4. Défi et approfondissement) ; un palier se débloque quand le précédent est maîtrisé."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Quelle épreuve de maths passe-t-on en première technologique ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "En première technologique, l'épreuve anticipée de mathématiques (2 heures, sans calculatrice) comporte une partie d'automatismes en questions à réponses courtes, puis des exercices sur le programme de la voie technologique (suites, fonctions, dérivation, statistiques et probabilités). Format et sujet blanc : Préparer l'épreuve anticipée de maths."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Les cours et exercices de maths de première technologique sont-ils gratuits ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Oui : tout est gratuit, sans inscription et sans publicité. La progression est enregistrée uniquement sur ton appareil, aucune donnée personnelle n’est demandée."
+        }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": "https://etabli-des-maths.fr/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Cours",
+        "item": "https://etabli-des-maths.fr/cours/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Première technologique",
+        "item": "https://etabli-des-maths.fr/cours/premiere-technologique/"
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="cours-page">
+  <a class="cours-skip" href="#contenu">Aller au contenu</a>
+
+  <!-- Header Uniformisé -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="../../" class="brand-container">
+        <img src="../../assets/logo-96.png" alt="" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Cours</span></p>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
+        </div>
+      </a>
+
+      <!-- Navigation entre Portails -->
+      <nav class="nav-portal-links" aria-label="Portails thématiques">
+        <a href="../../" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="../../cours/" class="nav-portal-btn active" aria-current="true">📚 Cours</a>
+        <a href="../../exercices-de-maths/" class="nav-portal-btn">✏️ Exercices</a>
+        <a href="../../rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
+        <a href="../../reviser-le-brevet-de-maths/" class="nav-portal-btn">📝 Brevet</a>
+        <a href="../../reussir-le-bac-de-maths/" class="nav-portal-btn">🎓 Bac</a>
+        <a href="../../enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
+        <a href="../../parents.html" class="nav-portal-btn">👪 Parents</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="landing-wrapper cours-wrapper" id="contenu" tabindex="-1">
+    <nav class="cours-breadcrumb" aria-label="Fil d'Ariane">
+      <ol>
+        <li><a href="../../">Accueil</a></li>
+        <li><a href="../">Cours</a></li>
+        <li><span aria-current="page">Première technologique</span></li>
+      </ol>
+    </nav>
+
+    <header class="cours-hero">
+      <p class="landing-tag">Lycée · Première technologique · 7 chapitres</p>
+      <h1 class="cours-title">Cours et exercices de maths en première technologique, gratuits et corrigés</h1>
+      <p class="cours-lead">Les mathématiques de première technologique : automatismes, ensembles et logique, algorithmique en Python, suites, fonctions et second degré, dérivation, statistiques à deux variables et probabilités, avec la préparation de l'épreuve anticipée. Chaque chapitre contient le cours complet, des méthodes rédigées et des exercices corrigés, puis renvoie vers des exercices générés à l'infini pour s'entraîner.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../../index.html?level=1techno">🎯 S'entraîner en première technologique</a>
+        <a class="btn-secondary cours-cta-alt" href="../../index.html?mode=rituel&amp;level=1techno">⏱️ Questions flash</a>
+      </div>
+    </header>
+
+    <section class="cours-section" id="domaine-1" aria-labelledby="domaine-1-titre">
+      <h2 id="domaine-1-titre">Automatismes et Logique</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="automatismes-ensembles-et-logique.html">
+          <span class="topic-num">1T1</span>
+          <span class="cours-chapter-text"><strong>Automatismes, ensembles et logique</strong><span>Automatismes de calcul (fractions, puissances, pourcentages, proportions), ensembles (intersection, réunion, complémentaire), connecteurs logiques…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-2" aria-labelledby="domaine-2-titre">
+      <h2 id="domaine-2-titre">Algorithmique et Programmation</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="algorithmique-python.html">
+          <span class="topic-num">1T2</span>
+          <span class="cours-chapter-text"><strong>Algorithmique Python : listes, compteurs et accumulateurs</strong><span>Variables, affectations, instructions conditionnelles, boucles bornées et non bornées, fonctions, listes en Python, parcours d'une liste, compteurs…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-3" aria-labelledby="domaine-3-titre">
+      <h2 id="domaine-3-titre">Analyse et Fonctions</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="suites-arithmetiques-et-geometriques.html">
+          <span class="topic-num">1T3</span>
+          <span class="cours-chapter-text"><strong>Suites arithmétiques et géométriques</strong><span>Suites numériques, relation de récurrence et terme général, suites arithmétiques et géométriques, sens de variation, représentation graphique, somme…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="fonctions-taux-de-variation-et-second-degre.html">
+          <span class="topic-num">1T4</span>
+          <span class="cours-chapter-text"><strong>Fonctions : taux de variation et second degré</strong><span>Taux de variation entre deux valeurs, fonctions de référence, fonctions polynômes du second degré, parabole, racine évidente et factorisation a(x −…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="derivation-nombre-derive-tangente-et-variations.html">
+          <span class="topic-num">1T5</span>
+          <span class="cours-chapter-text"><strong>Dérivation : nombre dérivé, tangente et variations</strong><span>Nombre dérivé comme limite du taux de variation, coefficient directeur et équation de la tangente, fonctions dérivées des fonctions polynômes…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-4" aria-labelledby="domaine-4-titre">
+      <h2 id="domaine-4-titre">Probabilités et Statistiques</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="statistiques-a-deux-variables.html">
+          <span class="topic-num">1T6</span>
+          <span class="cours-chapter-text"><strong>Statistiques à deux variables</strong><span>Tableaux croisés et fréquences conditionnelles, séries statistiques à deux variables, nuage de points, point moyen, ajustement affine, interpolation…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="probabilites-conditionnement-variables-aleatoires.html">
+          <span class="topic-num">1T7</span>
+          <span class="cours-chapter-text"><strong>Probabilités : conditionnement, variables aléatoires et échantillonnage</strong><span>Probabilités conditionnelles, arbres pondérés, probabilités totales, variable aléatoire réelle, loi de probabilité, espérance, épreuve et loi…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section " id="methode" aria-labelledby="methode-titre">
+      <h2 id="methode-titre">Comment travailler les maths en première technologique ?</h2>
+      <ol class="cours-list">
+        <li><strong>Lire le cours du chapitre</strong> et refaire seul les exemples rédigés de la partie « Méthodes ».</li>
+        <li><strong>Chercher les exercices corrigés</strong> de la page avant d'ouvrir la correction, puis comparer la rédaction.</li>
+        <li><strong>S'entraîner par paliers</strong> dans l'application : palier 1 « Socle et automatismes », palier 2 « Entraînement guidé », palier 3 « Objectif bac », palier 4 « Défi et approfondissement ». Les exercices changent à chaque tirage.</li>
+        <li><strong>Mémoriser</strong> les définitions et formules avec les flashcards, quelques minutes par jour.</li>
+      </ol>
+    </section>
+
+    <section class="cours-section " id="faq" aria-labelledby="faq-titre">
+      <h2 id="faq-titre">Questions fréquentes sur les maths en première technologique</h2>
+      <div class="cours-faq">
+        <details class="cours-faq-item"><summary><h3>Quels chapitres sont au programme de maths en première technologique ?</h3></summary><div><p>Le site couvre 7 chapitres en première technologique, regroupés en 4 domaines. Automatismes et Logique : automatismes & Logique. Algorithmique et Programmation : python & Listes. Analyse et Fonctions : suites arithm. & géom., taux de variation & 2nd degré et dérivation & Variations. Probabilités et Statistiques : stats à deux variables et probas & Variables aléatoires.</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Comment s'entraîner en maths en première technologique ?</h3></summary><div><p>Choisis un chapitre puis clique sur « S'entraîner » : les exercices sont générés à chaque tirage et corrigés immédiatement. Ils sont classés en quatre paliers (1. Socle et automatismes, 2. Entraînement guidé, 3. Objectif bac, 4. Défi et approfondissement) ; un palier se débloque quand le précédent est maîtrisé.</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Quelle épreuve de maths passe-t-on en première technologique ?</h3></summary><div><p>En première technologique, l'épreuve anticipée de mathématiques (2 heures, sans calculatrice) comporte une partie d'automatismes en questions à réponses courtes, puis des exercices sur le programme de la voie technologique (suites, fonctions, dérivation, statistiques et probabilités). Format et sujet blanc : <a href="../../epreuve-anticipee-de-maths/">Préparer l'épreuve anticipée de maths</a>.</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Les cours et exercices de maths de première technologique sont-ils gratuits ?</h3></summary><div><p>Oui : tout est gratuit, sans inscription et sans publicité. La progression est enregistrée uniquement sur ton appareil, aucune donnée personnelle n’est demandée.</p></div></details>
+      </div>
+    </section>
+
+    <nav class="cours-related" aria-label="Autres ressources">
+      <div><p class="cours-related-title">Autres classes</p><ul><li><a href="../">Tous les cours de maths</a></li></ul></div>
+      <div><p class="cours-related-title">Pages utiles</p><ul><li><a href="../../epreuve-anticipee-de-maths/">Épreuve anticipée de maths</a> : format, automatismes, sujet blanc</li><li><a href="../premiere/">Cours de première, spécialité mathématiques</a></li><li><a href="../../exercices-de-maths/">Exercices de maths corrigés</a>, tous niveaux</li><li><a href="../../entrainement-maths/">Entraînement en ligne</a> : paliers, rituels, flashcards</li></ul></div>
+    </nav>
+
+    <nav class="cours-pager" aria-label="Autres niveaux">
+      <a class="nav-portal-btn" href="../6e/">6e</a>
+      <a class="nav-portal-btn" href="../5e/">5e</a>
+      <a class="nav-portal-btn" href="../4e/">4e</a>
+      <a class="nav-portal-btn" href="../3e/">3e</a>
+      <a class="nav-portal-btn" href="../seconde/">Seconde</a>
+      <a class="nav-portal-btn" href="../premiere/">Première</a>
+      <a class="nav-portal-btn" href="../premiere-tronc-commun/">Première (tronc commun)</a>
+      <a class="nav-portal-btn active" href="../premiere-technologique/" aria-current="page">Première technologique</a>
+      <a class="nav-portal-btn" href="../terminale/">Terminale</a>
+      <a class="nav-portal-btn" href="../l1/">Licence 1</a>
+      <a class="nav-portal-btn" href="../l2/">Licence 2</a>
+      <a class="nav-portal-btn" href="../l3/">Licence 3</a>
+      <a class="nav-portal-btn" href="../capes/">CAPES</a>
+      <a class="nav-portal-btn" href="../professeur-des-ecoles/">Professeur des écoles</a>
+      <a class="nav-portal-btn" href="../prepa-sante/">Prépa santé</a>
+      <a class="nav-portal-btn" href="../pass-las/">PASS / L.AS</a>
+      <a class="nav-portal-btn" href="../veto-bcpst/">Véto (BCPST)</a>
+    </nav>
+  </main>
+
+  <footer class="cours-footer">
+    <p>L'Établi des Maths — Conçu par Loïc Delaporte, professeur de mathématiques • 100 % gratuit, conforme aux programmes</p>
+    <p><a href="../../cours/">Cours de maths</a> · <a href="../../exercices-de-maths/">Exercices corrigés</a> · <a href="../../entrainement-maths/">Entraînement en ligne</a> · <a href="../../reviser-le-brevet-de-maths/">Réviser le brevet</a> · <a href="../../reussir-le-bac-de-maths/">Réussir le bac</a> · <a href="../../epreuve-d-entretien-capes/">Oral 2 du CAPES</a></p>
+    <p><a href="../../">Ouvrir l'application</a> · <a href="../../rituels.html">Rituels</a> · <a href="../../brevet.html">Brevet blanc</a> · <a href="../../bac.html">Devoir type bac</a> · <a href="../../a-propos.html">Qui suis-je&#8239;?</a> · <a href="../../mentions-legales.html">Mentions légales</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a></p>
+    <p>Contenus sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a></p>
+  </footer>
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

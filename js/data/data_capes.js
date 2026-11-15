@@ -1,6 +1,8 @@
 /**
- * DATA_CAPES - Fiches de préparation complètes pour les oraux du CAPES et de l'Agrégation de Mathématiques
- * Conforme aux rapports du jury des concours et aux maquettes d'évaluation officielles.
+ * DATA_CAPES - Fiches de préparation au CAPES de mathématiques :
+ *  - capes-01 à capes-10 : compléments disciplinaires de niveau licence (champ « complement ») ;
+ *  - capes-11 à capes-15 : leçons ancrées dans les programmes du collège et du lycée ;
+ *  - capes-oral2 et capes-oral2-cas : épreuve d'entretien (oral 2).
  */
 
 (function () {
@@ -9,10 +11,11 @@
   const CAPES_LESSONS = [
     {
       "id": "capes-01",
-      "num": "Leçon 01",
+      "num": "Compl. 01",
       "title": "Équations différentielles linéaires : résolution, structure et modélisation",
       "domain": "Analyse",
-      "level": "CAPES / Agrégation",
+      "level": "CAPES — complément disciplinaire (niveau licence)",
+      "complement": true,
       "prerequisites": [
         "Situation dans les programmes : en première, l'exponentielle est définie comme l'unique fonction dérivable égale à sa dérivée et valant 1 en 0 ; en terminale spécialité, résolution de $y' = ay$, $y' = ay + b$ et $y' = ay + f$ (une solution particulière étant fournie), avec des modélisations issues de la physique ou de la biologie.",
         "Dérivation et primitives : toute fonction continue sur un intervalle admet des primitives ; une fonction de dérivée nulle sur un intervalle est constante (théorème des accroissements finis).",
@@ -21,8 +24,8 @@
       ],
       "plan": [
         {
-          "part": "I. Équations scalaires linéaires du premier ordre",
-          "content": "Sur un intervalle $I$, avec $a, b$ continues, on étudie $(E) : y' + a(t)y = b(t)$ et l'équation homogène associée $(E_H)$. Théorème : les solutions de $(E_H)$ sont les fonctions $t \\mapsto Ce^{-A(t)}$, où $A$ est une primitive de $a$, et celles de $(E)$ forment une droite affine dirigée par cette droite vectorielle. Méthode de variation de la constante : on cherche $y = C(t)e^{-A(t)}$, ce qui impose $C' = be^{A}$. Théorème de Cauchy linéaire : pour tout $(t_0, y_0) \\in I \\times \\mathbb{R}$, il existe une unique solution vérifiant $y(t_0) = y_0$, définie sur tout $I$. Exemple : les solutions de $y' + 2ty = t$ sont les fonctions $t \\mapsto \\frac{1}{2} + Ce^{-t^2}$. Applications : décroissance radioactive, loi de refroidissement de Newton, charge d'un condensateur. Équations $\\alpha(t)y' + \\beta(t)y = \\gamma(t)$ où $\\alpha$ s'annule : résolution par intervalles puis raccordement."
+          "part": "I. Équations scalaires du premier ordre : linéaires, puis à variables séparables",
+          "content": "Sur un intervalle $I$, avec $a, b$ continues, on étudie $(E) : y' + a(t)y = b(t)$ et l'équation homogène associée $(E_H)$. Théorème : les solutions de $(E_H)$ sont les fonctions $t \\mapsto Ce^{-A(t)}$, où $A$ est une primitive de $a$, et celles de $(E)$ forment une droite affine dirigée par cette droite vectorielle. Méthode de variation de la constante : on cherche $y = C(t)e^{-A(t)}$, ce qui impose $C' = be^{A}$. Théorème de Cauchy linéaire : pour tout $(t_0, y_0) \\in I \\times \\mathbb{R}$, il existe une unique solution vérifiant $y(t_0) = y_0$, définie sur tout $I$. Exemple : les solutions de $y' + 2ty = t$ sont les fonctions $t \\mapsto \\frac{1}{2} + Ce^{-t^2}$. Applications : décroissance radioactive, loi de refroidissement de Newton, charge d'un condensateur. Équations $\\alpha(t)y' + \\beta(t)y = \\gamma(t)$ où $\\alpha$ s'annule : résolution par intervalles puis raccordement. **Équations à variables séparables (programme de la voie bac+3).** Une équation $(S) : y' = f(t)g(y)$, avec $f$ continue sur un intervalle $I$ et $g$ de classe $\\mathcal{C}^1$ sur un intervalle $J$, n'est en général pas linéaire. On raisonne en quatre temps. (1) Si $g(c) = 0$, la fonction constante égale à $c$ est solution. (2) Le théorème de Cauchy-Lipschitz, admis à ce niveau, assure que deux solutions égales en un point coïncident sur leur intervalle commun de définition : une solution non constante ne prend donc jamais une valeur où $g$ s'annule. (3) Sur un intervalle où $g(y(t)) \\neq 0$, on écrit $\\frac{y'(t)}{g(y(t))} = f(t)$ ; si $G$ est une primitive de $\\frac{1}{g}$ et $F$ une primitive de $f$, alors $G(y(t)) = F(t) + C$. (4) $G$ est strictement monotone là où $g$ garde un signe constant : on l'inverse, puis on détermine l'intervalle maximal, qui dépend de la condition initiale. Exemple : pour $y' = 2ty^2$ et $y(0) = y_0 \\neq 0$, on obtient $-\\frac{1}{y} = t^2 - \\frac{1}{y_0}$, soit $y(t) = \\frac{y_0}{1 - y_0t^2}$, définie sur $\\mathbb{R}$ si $y_0 < 0$ et sur $\\left]-\\frac{1}{\\sqrt{y_0}} ; \\frac{1}{\\sqrt{y_0}}\\right[$ si $y_0 > 0$. L'hypothèse de régularité sur $g$ compte : si $g$ est seulement continue, l'unicité peut tomber, comme pour $y' = 2\\sqrt{|y|}$, $y(0) = 0$, qui admet la solution nulle et la fonction égale à $t^2$ sur $[0 ; +\\infty[$ et à $0$ sur $]-\\infty ; 0]$."
         },
         {
           "part": "II. Équations linéaires du second ordre à coefficients constants",
@@ -39,6 +42,7 @@
         "proof": "1. **Existence de $A$.** La fonction $a$ est continue sur l'intervalle $I$, donc admet une primitive $A$ (théorème fondamental de l'analyse).\n2. **Équation homogène.** Soit $y$ dérivable sur $I$ et $z = ye^{A}$. Alors $z' = (y' + ay)e^{A}$. Donc $y \\in \\mathcal{S}_H$ si et seulement si $z' = 0$ sur $I$, si et seulement si $z$ est constante, car $I$ est un intervalle (accroissements finis). Ainsi $y \\in \\mathcal{S}_H \\iff y = Ce^{-A}$ pour une constante $C$. Comme $e^{-A}$ ne s'annule pas, $\\mathcal{S}_H$ est une droite vectorielle.\n3. **Solution particulière (variation de la constante).** On cherche $y = Ce^{-A}$ avec $C$ dérivable : $y' + ay = C'e^{-A}$, donc $y$ est solution de $(E)$ si et seulement si $C' = be^{A}$. La fonction $be^{A}$ est continue, $C(t) = \\int_{t_0}^{t}b(s)e^{A(s)}\\,ds$ convient : $\\mathcal{S} \\neq \\emptyset$.\n4. **Structure affine.** Soit $y_p \\in \\mathcal{S}$. Par linéarité, $(y - y_p)' + a(y - y_p) = b - b = 0$ pour tout $y \\in \\mathcal{S}$, et réciproquement $y_p + h \\in \\mathcal{S}$ pour tout $h \\in \\mathcal{S}_H$. Donc $\\mathcal{S} = y_p + \\mathcal{S}_H$.\n5. **Problème de Cauchy.** Les solutions sont les $y = y_p + Ce^{-A}$, et $y(t_0) = y_0$ équivaut à $C = (y_0 - y_p(t_0))e^{A(t_0)}$ : il existe une unique valeur de $C$, donc une unique solution, définie sur tout $I$."
       },
       "developments": [
+        "Équation logistique (niveau L1, variables séparables) : pour $r, K > 0$ et $0 < y_0 < K$, résolution de $y' = ry\\left(1 - \\frac{y}{K}\\right)$, $y(0) = y_0$, par décomposition en éléments simples de $\\frac{1}{y(K - y)}$. On obtient $y(t) = \\frac{K}{1 + \\left(\\frac{K}{y_0} - 1\\right)e^{-rt}}$, définie sur $\\mathbb{R}$, qui reste dans $]0 ; K[$ et tend vers $K$ en $+\\infty$ ; les solutions constantes $0$ et $K$ encadrent les autres. Lien avec la modélisation d'une population en terminale.",
         "Oscillateur harmonique amorti (niveau L1, lien avec la physique de terminale) : résolution de $x'' + 2\\lambda x' + \\omega_0^2x = 0$ avec $\\lambda > 0$ selon le signe de $\\lambda^2 - \\omega_0^2$, preuve que toute solution tend vers 0, et vérification que le régime critique $\\lambda = \\omega_0$ maximise le taux de décroissance exponentielle.",
         "Exponentielle d'une matrice $2 \\times 2$ (niveau L2) : par le théorème de Cayley-Hamilton, $A^2 = (\\mathrm{tr}A)A - (\\det A)I_2$, donc $e^{tA} = \\alpha(t)I_2 + \\beta(t)A$ ; on détermine $\\alpha$ et $\\beta$ à l'aide des valeurs propres, puis on résout le système $Y' = AY$.",
         "Variation des constantes à l'ordre 2 (niveau L2) : recherche de $y = \\lambda(t)y_1 + \\mu(t)y_2$ sous la condition $\\lambda'y_1 + \\mu'y_2 = 0$, rôle du wronskien qui ne s'annule pas, et exemple de $y'' + y = \\frac{1}{\\cos t}$ sur $]-\\frac{\\pi}{2} ; \\frac{\\pi}{2}[$.",
@@ -47,6 +51,7 @@
       "juryTips": [
         "Précisez toujours l'intervalle de résolution. Pour une équation $\\alpha(t)y' + \\beta(t)y = \\gamma(t)$ où $\\alpha$ s'annule, on résout sur chaque intervalle où $\\alpha$ ne s'annule pas, puis on étudie le raccordement : pour $ty' - 2y = 0$, les solutions sur $\\mathbb{R}$ sont les fonctions égales à $Ct^2$ sur $[0 ; +\\infty[$ et à $Dt^2$ sur $]-\\infty ; 0]$, ce qui forme un espace de dimension 2 et non 1.",
         "L'argument « dérivée nulle implique constante » exige un intervalle : sur $\\mathbb{R}^{\\ast}$, la fonction égale à 1 sur $]0 ; +\\infty[$ et à $-1$ sur $]-\\infty ; 0[$ a une dérivée nulle sans être constante.",
+        "Séparer les variables, c'est diviser par $g(y)$ : on doit d'abord traiter les solutions constantes, puis justifier que $g(y(t))$ ne s'annule pas sur l'intervalle étudié. Oublier ce point fait perdre des solutions : pour $y' = 2ty^2$, la formule $y(t) = \\frac{1}{C - t^2}$ ne contient pas la solution nulle.",
         "L'existence globale des solutions est propre au cas linéaire : l'équation non linéaire $y' = y^2$ avec $y(0) = 1$ a pour solution maximale $t \\mapsto \\frac{1}{1-t}$, définie sur $]-\\infty ; 1[$, qui explose en temps fini.",
         "En cas de résonance, $y'' + \\omega^2y = \\cos(\\omega t)$ n'admet pas de solution de la forme $A\\cos(\\omega t) + B\\sin(\\omega t)$ mais admet $t \\mapsto \\frac{t}{2\\omega}\\sin(\\omega t)$ : sachez l'expliquer par le fait que $i\\omega$ est racine caractéristique.",
         "Le jury demande de situer la notion : en première, l'unicité de la fonction égale à sa dérivée et valant 1 en 0 se démontre en étudiant le quotient de deux telles fonctions, ce qui est le même argument que l'étape 2 de la preuve de structure."
@@ -54,10 +59,11 @@
     },
     {
       "id": "capes-02",
-      "num": "Leçon 02",
+      "num": "Compl. 02",
       "title": "Réduction des endomorphismes : éléments propres, diagonalisation et trigonalisation",
       "domain": "Algèbre",
-      "level": "CAPES / Agrégation",
+      "level": "CAPES — complément disciplinaire (niveau licence)",
+      "complement": true,
       "prerequisites": [
         "Situation dans les programmes : la réduction n'est pas enseignée au lycée, mais l'option mathématiques expertes de terminale étudie les matrices, les suites de matrices colonnes $U_{n+1} = AU_n$, le calcul de puissances de matrices et les marches aléatoires sur un graphe, où la diagonalisation intervient implicitement.",
         "Espaces vectoriels de dimension finie, rang et théorème du rang, matrice d'un endomorphisme et changement de base.",
@@ -99,11 +105,13 @@
     },
     {
       "id": "capes-03",
-      "num": "Leçon 03",
+      "num": "Compl. 03",
       "title": "Séries de Fourier : coefficients, convergence et formule de Parseval",
       "domain": "Analyse",
-      "level": "CAPES / Agrégation",
+      "level": "CAPES — complément disciplinaire (niveau licence)",
+      "complement": true,
       "prerequisites": [
+        "Pour aller plus loin : les séries de Fourier ne figurent pas dans les programmes des écrits du CAPES externe de mathématiques (ni voie bac+3 ni voie bac+5) ; ces textes ne les excluent pas pour autant. Ce chapitre est un approfondissement, utile pour le recul et le lien avec la physique, à ne pas privilégier sur le temps de préparation des écrits.",
         "Situation dans les programmes : fonctions trigonométriques, parité et périodicité (première et terminale), calcul intégral et intégration par parties (terminale spécialité) ; en physique-chimie, décomposition d'un signal périodique en harmoniques et notion de spectre.",
         "Espaces préhilbertiens complexes, familles orthonormées, inégalité de Bessel et projection orthogonale sur un sous-espace de dimension finie.",
         "Intégration des fonctions continues par morceaux sur un segment, continuité uniforme sur un segment.",
@@ -144,12 +152,13 @@
     },
     {
       "id": "capes-04",
-      "num": "Leçon 04",
+      "num": "Compl. 04",
       "title": "Variables aléatoires réelles discrètes : loi, espérance, variance et lois classiques",
       "domain": "Probabilités",
-      "level": "CAPES / Agrégation",
+      "level": "CAPES — complément disciplinaire (niveau licence)",
+      "complement": true,
       "prerequisites": [
-        "Situation dans les programmes : en première, variable aléatoire sur un univers fini, loi, espérance, variance et écart-type ; en terminale spécialité, loi binomiale, somme de variables aléatoires, inégalité de Bienaymé-Tchebychev, inégalité de concentration et loi faible des grands nombres ; la loi géométrique figure dans l'option mathématiques complémentaires.",
+        "Situation dans les programmes : en première, variable aléatoire sur un univers fini, loi, espérance, variance et écart-type ; en terminale spécialité, loi binomiale, somme de variables aléatoires, inégalité de Bienaymé-Tchebychev, inégalité de concentration et loi faible des grands nombres ; la loi géométrique et les lois à densité (uniforme, exponentielle) figurent dans l'option mathématiques complémentaires.",
         "Espaces probabilisés : tribu, probabilité, $\\sigma$-additivité, probabilités conditionnelles, formule des probabilités totales, indépendance.",
         "Séries numériques à termes positifs, convergence absolue, sommation par paquets.",
         "Dénombrement : coefficients binomiaux et formule du binôme."
@@ -166,6 +175,10 @@
         {
           "part": "III. Lois usuelles et loi faible des grands nombres",
           "content": "Loi de Bernoulli $\\mathcal{B}(p)$ : espérance $p$, variance $p(1-p)$. Loi binomiale $\\mathcal{B}(n, p)$, loi de la somme de $n$ variables de Bernoulli indépendantes de paramètre $p$ : espérance $np$, variance $np(1-p)$. Loi géométrique $\\mathcal{G}(p)$ sur $\\mathbb{N}^{\\ast}$, rang du premier succès : $P(X = k) = (1-p)^{k-1}p$, espérance $\\frac{1}{p}$, variance $\\frac{1-p}{p^2}$, absence de mémoire. Loi de Poisson $\\mathcal{P}(\\lambda)$ : espérance et variance égales à $\\lambda$. Fonction génératrice $G_X(s) = E(s^X)$ pour $X$ à valeurs dans $\\mathbb{N}$. Loi faible des grands nombres pour des variables indépendantes de même loi admettant une variance. Applications : estimation d'une proportion, taille d'échantillon, simulation."
+        },
+        {
+          "part": "IV. Variables à densité : loi uniforme et loi exponentielle",
+          "content": "Une densité est une fonction $f : \\mathbb{R} \\to \\mathbb{R}_+$, continue sauf en un nombre fini de points, dont l'intégrale généralisée sur $\\mathbb{R}$ converge et vaut 1 (voir la fiche Compl. 06 pour les intégrales généralisées). Une variable $X$ a pour densité $f$ si $P(X \\le t) = \\int_{-\\infty}^t f(u)\\,du$ pour tout réel $t$. Alors $F_X$ est continue, dérivable de dérivée $f$ aux points de continuité de $f$, $P(X = t) = 0$ pour tout $t$ et $P(a \\le X \\le b) = \\int_a^b f$ : la probabilité se lit comme une aire. Espérance : si $\\int_{\\mathbb{R}}|t|f(t)\\,dt$ converge, $E(X) = \\int_{\\mathbb{R}}tf(t)\\,dt$ ; la variance se calcule par $V(X) = E(X^2) - E(X)^2$, avec $E(X^2) = \\int_{\\mathbb{R}}t^2f(t)\\,dt$ (théorème de transfert, admis dans ce cadre). Loi uniforme sur $[a ; b]$ : densité $\\frac{1}{b-a}$ sur $[a ; b]$, nulle ailleurs, $E(X) = \\frac{a+b}{2}$ et $V(X) = \\frac{(b-a)^2}{12}$. Loi exponentielle $\\mathcal{E}(\\lambda)$, $\\lambda > 0$ : densité $t \\mapsto \\lambda e^{-\\lambda t}$ sur $\\mathbb{R}_+$, nulle ailleurs, $P(X > t) = e^{-\\lambda t}$ pour $t \\ge 0$, $E(X) = \\frac{1}{\\lambda}$, $V(X) = \\frac{1}{\\lambda^2}$ et absence de mémoire : $P(X > s + t \\mid X > s) = P(X > t)$ pour $s, t \\ge 0$. C'est l'analogue continu de la loi géométrique : si $X_n$ suit la loi $\\mathcal{G}\\left(\\frac{\\lambda}{n}\\right)$, alors $P\\left(\\frac{X_n}{n} > t\\right) \\to e^{-\\lambda t}$ pour tout $t \\ge 0$."
         }
       ],
       "keyTheorem": {
@@ -182,22 +195,24 @@
       "juryTips": [
         "Une variable discrète n'admet pas toujours d'espérance : si $P(X = k) = \\frac{1}{k(k+1)}$ pour $k \\in \\mathbb{N}^{\\ast}$, la loi est bien définie (somme télescopique égale à 1), mais $\\sum kP(X = k) = \\sum \\frac{1}{k+1}$ diverge.",
         "La convergence absolue est exigée dans la définition de l'espérance pour que la somme ne dépende pas de l'ordre d'énumération de $X(\\Omega)$, en lien avec le théorème de réarrangement de Riemann.",
-        "L'additivité de la variance demande l'indépendance (la non-corrélation suffit) : pour $Y = -X$, $V(X + Y) = 0$ alors que $V(X) + V(Y) = 2V(X)$.",
+        "L'additivité de la variance n'est pas automatique : $V(X + Y) = V(X) + V(Y)$ équivaut à $\\mathrm{Cov}(X, Y) = 0$. La non-corrélation suffit, en particulier l'indépendance. Contre-exemple sans cette hypothèse : pour $Y = -X$ avec $V(X) > 0$, $V(X + Y) = 0$ alors que $V(X) + V(Y) = 2V(X)$.",
         "L'inégalité de Bienaymé-Tchebychev est souvent grossière : pour $X$ de loi $\\mathcal{B}(100, \\frac{1}{2})$, elle donne $P(|X - 50| \\ge 10) \\le 0{,}25$ alors que la valeur exacte est environ $0{,}057$. Le jury attend que l'on sache commenter cet écart.",
         "Situer la notion : au lycée, les variables sont définies sur un univers fini et la loi est donnée par un tableau ; le passage au dénombrable, avec les lois géométrique et de Poisson, est ce qui rend nécessaires les séries et la convergence absolue."
       ]
     },
     {
       "id": "capes-05",
-      "num": "Leçon 05",
+      "num": "Compl. 05",
       "title": "Espaces préhilbertiens réels, orthogonalité et projections orthogonales",
       "domain": "Géométrie & Algèbre",
-      "level": "CAPES / Agrégation",
+      "level": "CAPES — complément disciplinaire (niveau licence)",
+      "complement": true,
       "prerequisites": [
         "Situation dans les programmes : théorème de Pythagore et distance d'un point à une droite au collège ; produit scalaire dans le plan en première (projection orthogonale, norme, formule d'Al-Kashi, expression en repère orthonormé) ; produit scalaire dans l'espace, orthogonalité et projeté orthogonal sur une droite ou un plan en terminale spécialité.",
         "Espaces vectoriels réels, familles libres et génératrices, dimension, sous-espaces supplémentaires.",
         "Formes bilinéaires symétriques et formes quadratiques, identités de polarisation.",
-        "Trinôme du second degré : signe et discriminant."
+        "Trinôme du second degré : signe et discriminant.",
+        "Place au programme : les parties IV et V (orientation, isométries vectorielles en dimension 2 et 3, applications affines usuelles, isométries affines du plan) relèvent du programme des écrits de la voie bac + 3. Pour la géométrie du triangle et les barycentres, voir aussi le chapitre de licence L1-11 « Géométrie euclidienne plane, repères orthonormés et coniques » et la partie V ci-dessous pour la conservation des barycentres ; le complément 08 utilise les combinaisons convexes (barycentres à coefficients positifs) pour définir la convexité et l'inégalité de Jensen ; pour les matrices orthogonales, le chapitre L2-06 « Endomorphismes symétriques, groupe orthogonal et Théorème Spectral »."
       ],
       "plan": [
         {
@@ -211,6 +226,14 @@
         {
           "part": "III. Projection orthogonale et meilleure approximation",
           "content": "Théorème : si $F$ est un sous-espace de dimension finie d'un espace préhilbertien $E$, alors $E = F \\oplus F^{\\perp}$ ; la projection orthogonale s'écrit $p_F(x) = \\sum_{i=1}^{p}\\langle x, e_i \\rangle e_i$ dans une base orthonormée $(e_1, \\dots, e_p)$ de $F$. Caractérisation : $p_F(x)$ est l'unique $y \\in F$ tel que $\\|x - y\\| = d(x, F)$, et $d(x, F)^2 = \\|x\\|^2 - \\sum_{i=1}^{p}\\langle x, e_i \\rangle^2$. Inégalité de Bessel. Applications : distance d'un point à un plan de l'espace, droite des moindres carrés, calcul de $\\min_{a, b \\in \\mathbb{R}}\\int_0^1(x^2 - ax - b)^2\\,dx = \\frac{1}{180}$, atteint pour $a = 1$ et $b = -\\frac{1}{6}$."
+        },
+        {
+          "part": "IV. Orientation et isométries vectorielles",
+          "content": "Dans un espace euclidien $E$ de dimension $n$, une isométrie vectorielle est un endomorphisme $u$ qui conserve la norme ; par polarisation, cela équivaut à conserver le produit scalaire, ou à transformer une base orthonormée en une base orthonormée. Sa matrice $A$ dans une base orthonormée vérifie $A^{\\top}A = I_n$, donc $\\det A = \\pm 1$. Les isométries forment le groupe orthogonal $\\mathrm{O}(E)$ ; celles de déterminant $1$ forment le sous-groupe $\\mathrm{SO}(E)$ des rotations. Orientation : deux bases ont la même orientation lorsque le déterminant de la matrice de passage de l'une à l'autre est strictement positif ; orienter $E$, c'est choisir l'une des deux classes, dont les bases sont dites directes. Les rotations sont les isométries qui transforment une base orthonormée directe en une base orthonormée directe. Dimension 2 : dans toute base orthonormée directe, une rotation a pour matrice $R_\\theta = \\begin{pmatrix} \\cos\\theta & -\\sin\\theta \\\\ \\sin\\theta & \\cos\\theta \\end{pmatrix}$, avec $\\theta$ défini modulo $2\\pi$ indépendamment de cette base (c'est l'angle de la rotation), et $R_\\theta R_\\varphi = R_{\\theta + \\varphi}$, donc $\\mathrm{SO}(2)$ est commutatif ; une isométrie de déterminant $-1$ a pour matrice $\\begin{pmatrix} \\cos\\theta & \\sin\\theta \\\\ \\sin\\theta & -\\cos\\theta \\end{pmatrix}$ : c'est la réflexion (symétrie orthogonale) d'axe la droite dirigée par $\\left(\\cos\\frac{\\theta}{2} ; \\sin\\frac{\\theta}{2}\\right)$. Toute rotation du plan est la composée de deux réflexions. Dimension 3 : une rotation $u \\neq \\mathrm{id}$ a pour axe la droite $D = \\mathrm{Ker}(u - \\mathrm{id})$ ; dans une base orthonormée directe $(e_1, e_2, e_3)$ avec $e_1$ dirigeant $D$, sa matrice est $\\begin{pmatrix} 1 & 0 & 0 \\\\ 0 & \\cos\\theta & -\\sin\\theta \\\\ 0 & \\sin\\theta & \\cos\\theta \\end{pmatrix}$, d'où $\\mathrm{tr}\\,u = 1 + 2\\cos\\theta$, qui donne $\\theta$ au signe près (le signe dépend de l'orientation choisie sur l'axe). Les isométries de déterminant $-1$ de l'espace sont les composées d'une rotation d'axe $D$ et de la réflexion par rapport au plan $D^{\\perp}$ ; les réflexions et $-\\mathrm{id}$ en sont des cas particuliers."
+        },
+        {
+          "part": "V. Applications affines et isométries affines du plan",
+          "content": "Une application $f$ d'un espace affine $\\mathcal{E}$ dans lui-même est affine s'il existe une application linéaire $\\vec{f}$, sa partie linéaire, telle que $f(M) = f(O) + \\vec{f}(\\overrightarrow{OM})$ pour tout point $M$ ; cette propriété ne dépend pas du point $O$ choisi. En repère, $f$ s'écrit $X' = AX + B$. Une application affine conserve les barycentres : si $G$ est le barycentre de $(A_i, \\lambda_i)_{1 \\le i \\le p}$, avec $\\sum\\lambda_i \\neq 0$, alors $f(G)$ est le barycentre de $(f(A_i), \\lambda_i)_{1 \\le i \\le p}$ ; elle conserve donc les milieux, l'alignement et le parallélisme. Exemples usuels : les translations ($\\vec{f} = \\mathrm{id}$) ; une application affine de partie linéaire $k\\,\\mathrm{id}$ avec $k \\notin \\{0 ; 1\\}$ a un unique point fixe $\\Omega$ et c'est l'homothétie de centre $\\Omega$ et de rapport $k$, caractérisée par $\\overrightarrow{\\Omega f(M)} = k\\,\\overrightarrow{\\Omega M}$ ; la projection $p$ sur un sous-espace affine $\\mathcal{F}$ parallèlement à un sous-espace vectoriel $G$ supplémentaire de la direction de $\\mathcal{F}$, et la symétrie $s$ associée, $s(M)$ étant le symétrique de $M$ par rapport à $p(M)$. Une application affine telle que $f \\circ f = f$ est une projection ; une application affine telle que $f \\circ f = \\mathrm{id}$ est une symétrie. Isométries affines : applications affines dont la partie linéaire est une isométrie vectorielle ; elles conservent les distances, et réciproquement toute application de l'espace affine euclidien dans lui-même qui conserve les distances est affine. Classification dans le plan, selon la partie linéaire et les points fixes : si $\\vec{f} = \\mathrm{id}$, $f$ est une translation ; si $\\vec{f}$ est une rotation d'angle $\\theta \\not\\equiv 0 \\pmod{2\\pi}$, $f$ a un unique point fixe $\\Omega$ et c'est la rotation de centre $\\Omega$ et d'angle $\\theta$ ; si $\\vec{f}$ est une réflexion vectorielle, $f$ est une réflexion d'axe une droite $\\mathcal{D}$ lorsqu'elle a un point fixe, et sinon une symétrie glissée $t_{\\vec{v}} \\circ s_{\\mathcal{D}}$, où $\\vec{v} \\neq \\vec{0}$ dirige $\\mathcal{D}$, décomposition unique dont les deux facteurs commutent. Les déplacements (partie linéaire de déterminant $1$) sont donc les translations et les rotations, les antidéplacements les réflexions et les symétries glissées. Les similitudes sont les composées d'une isométrie et d'une homothétie ; en écriture complexe, ce sont les applications $z \\mapsto az + b$ et $z \\mapsto a\\bar{z} + b$ avec $a \\neq 0$ (leçon 12)."
         }
       ],
       "keyTheorem": {
@@ -234,12 +257,15 @@
     },
     {
       "id": "capes-06",
-      "num": "Leçon 06",
+      "num": "Compl. 06",
       "title": "Intégrale de Riemann, primitives et intégrales à paramètres",
       "domain": "Analyse",
-      "level": "CAPES / Agrégation",
+      "level": "CAPES — complément disciplinaire (niveau licence)",
+      "complement": true,
       "prerequisites": [
         "Situation dans les programmes : en terminale spécialité, intégrale d'une fonction continue positive définie comme aire sous la courbe, théorème fondamental (démontré pour une fonction continue positive croissante, admis en général), existence de primitives admise, linéarité, positivité, relation de Chasles, valeur moyenne, intégration par parties ; méthode des rectangles en algorithmique.",
+        "Pour aller plus loin : les intégrales dépendant d'un paramètre (partie IV) ne sont citées ni par le programme des écrits de la voie bac + 3 ni par celui de la voie bac + 5. Cette partie est un approfondissement, à aborder après les parties I à III (intégrale sur un segment, primitives, intégrales généralisées), qui relèvent, elles, du programme de la voie bac + 3.",
+        "Chapitres de licence du site utiles ici : L1-09 « Formules de Taylor, développements limités et étude locale » (Taylor avec reste intégral), L2-11 « Intégrales dépendant d'un paramètre et convergence dominée » pour approfondir la partie IV.",
         "Borne supérieure dans $\\mathbb{R}$, suites adjacentes.",
         "Continuité, continuité uniforme et théorème de Heine sur un segment.",
         "Dérivation, théorème des accroissements finis, fonctions de classe $\\mathcal{C}^1$."
@@ -254,7 +280,11 @@
           "content": "Théorème fondamental : si $f$ est continue sur un intervalle $I$ et $a \\in I$, $x \\mapsto \\int_a^x f$ est l'unique primitive de $f$ nulle en $a$, et $\\int_a^b f = G(b) - G(a)$ pour toute primitive $G$. Intégration par parties pour $u, v$ de classe $\\mathcal{C}^1$. Changement de variable : $\\int_{\\varphi(\\alpha)}^{\\varphi(\\beta)}f(x)\\,dx = \\int_\\alpha^\\beta f(\\varphi(t))\\varphi'(t)\\,dt$ pour $f$ continue et $\\varphi$ de classe $\\mathcal{C}^1$. Formule de Taylor avec reste intégral. Exemple : intégrales de Wallis $W_n = \\int_0^{\\pi/2}\\sin^n t\\,dt$, avec $W_{n+2} = \\frac{n+1}{n+2}W_n$ par intégration par parties."
         },
         {
-          "part": "III. Intégrales dépendant d'un paramètre",
+          "part": "III. Intégrales généralisées",
+          "content": "Soit $f$ continue par morceaux sur $[a ; b[$, avec $b$ réel ou $b = +\\infty$. L'intégrale $\\int_a^b f$ converge si $x \\mapsto \\int_a^x f$ admet une limite finie quand $x$ tend vers $b$ ; on procède de même à la borne gauche, et pour un intervalle ouvert on coupe en un point intermédiaire, chaque moitié devant converger. Références : $\\int_1^{+\\infty}\\frac{dt}{t^{\\alpha}}$ converge si et seulement si $\\alpha > 1$, $\\int_0^1\\frac{dt}{t^{\\alpha}}$ si et seulement si $\\alpha \\lt 1$, $\\int_0^{+\\infty}e^{-\\lambda t}\\,dt = \\frac{1}{\\lambda}$ pour $\\lambda > 0$, $\\int_0^1\\ln t\\,dt = -1$. Si $f \\ge 0$, la fonction $x \\mapsto \\int_a^x f$ est croissante, donc la convergence équivaut à sa majoration. On en déduit, pour des fonctions positives, la comparaison (si $0 \\le f \\le g$ au voisinage de $b$, la convergence de $\\int_a^b g$ entraîne celle de $\\int_a^b f$) et le critère d'équivalence (si $f \\sim g$ en $b$, les deux intégrales ont même nature). Convergence absolue : si $\\int_a^b|f|$ converge, alors $\\int_a^b f$ converge ; la réciproque est fausse, $\\int_1^{+\\infty}\\frac{\\sin t}{t}\\,dt$ étant semi-convergente. L'intégration par parties se fait sur un segment $[a ; x]$ avant de passer à la limite ; un changement de variable par une bijection strictement monotone de classe $\\mathcal{C}^1$ conserve la nature et la valeur. Comparaison série-intégrale : pour $f$ continue, positive et décroissante sur $[1 ; +\\infty[$, l'encadrement $f(k+1) \\le \\int_k^{k+1}f \\le f(k)$ montre que $\\sum f(n)$ et $\\int_1^{+\\infty}f$ ont même nature, ce qui redonne les séries de Riemann."
+        },
+        {
+          "part": "IV. Pour aller plus loin : intégrales dépendant d'un paramètre",
           "content": "Sur un segment : si $f$ est continue sur $I \\times [a ; b]$, alors $F(x) = \\int_a^b f(x, t)\\,dt$ est continue sur $I$ ; si de plus $\\frac{\\partial f}{\\partial x}$ existe et est continue sur $I \\times [a ; b]$, alors $F$ est de classe $\\mathcal{C}^1$ et $F'(x) = \\int_a^b\\frac{\\partial f}{\\partial x}(x, t)\\,dt$. Sur un intervalle quelconque (intégrales généralisées), il faut une hypothèse de domination : $|f(x, t)| \\le g(t)$ avec $g$ intégrable indépendante de $x$, éventuellement sur chaque segment de $I$, et une domination analogue de la dérivée partielle. Exemples : fonction $\\Gamma$, intégrale de Gauss $\\int_{-\\infty}^{+\\infty}e^{-t^2}\\,dt = \\sqrt{\\pi}$, transformée de Laplace."
         }
       ],
@@ -274,17 +304,20 @@
         "Une fonction intégrable n'admet pas toujours de primitive : la partie entière est intégrable sur $[0 ; 2]$ mais n'a pas de primitive sur cet intervalle, car une dérivée vérifie la propriété des valeurs intermédiaires (théorème de Darboux).",
         "Pour dériver sous le signe intégral sur un intervalle non borné, la domination porte sur la dérivée partielle et doit être uniforme sur chaque segment du domaine du paramètre : $|\\frac{\\partial f}{\\partial x}(x, t)| \\le g_K(t)$ pour $x \\in K$, avec $g_K$ intégrable.",
         "Distinguez continuité et continuité uniforme : la preuve de l'intégrabilité des fonctions continues sur un segment utilise le théorème de Heine, et $x \\mapsto \\sin\\frac{1}{x}$ est continue sur $]0 ; 1]$ sans y être uniformément continue.",
-        "Situer la notion : en terminale, l'intégrale est introduite par l'aire et l'existence des primitives des fonctions continues est admise ; le jury apprécie que le candidat dise précisément ce que la construction de Riemann permet de démontrer."
+        "Situer la notion : en terminale, l'intégrale est introduite par l'aire et l'existence des primitives des fonctions continues est admise ; le jury apprécie que le candidat dise précisément ce que la construction de Riemann permet de démontrer.",
+        "La convergence de $\\int_1^{+\\infty}f$ n'entraîne pas que $f$ tende vers 0 : $\\int_1^{+\\infty}\\sin(t^2)\\,dt$ converge (changement de variable $u = t^2$, puis intégration par parties), alors que $\\sin(t^2)$ n'a pas de limite en $+\\infty$. L'analogie avec les séries, pour lesquelles le terme général tend vers 0, s'arrête là."
       ]
     },
     {
       "id": "capes-07",
-      "num": "Leçon 07",
+      "num": "Compl. 07",
       "title": "Groupe symétrique, signature et applications aux déterminants",
       "domain": "Algèbre",
-      "level": "CAPES / Agrégation",
+      "level": "CAPES — complément disciplinaire (niveau licence)",
+      "complement": true,
       "prerequisites": [
         "Situation dans les programmes : dénombrement des permutations, des arrangements et des combinaisons en terminale spécialité ($n!$ permutations d'un ensemble à $n$ éléments) ; déterminant de deux vecteurs du plan et critère de colinéarité en seconde.",
+        "Place au programme : le programme des écrits de la voie bac + 3 cite les groupes symétriques et le déterminant, mais pas le mot « signature ». Elle est traitée ici parce qu'elle sert à définir le déterminant (partie III) et à établir ses propriétés, qui figurent aux programmes des deux voies.",
         "Groupes, sous-groupes, morphismes, noyau, sous-groupe distingué, théorème de Lagrange.",
         "Actions de groupes, orbites, relations d'équivalence.",
         "Espaces vectoriels de dimension finie, applications multilinéaires."
@@ -301,6 +334,10 @@
         {
           "part": "III. Formes multilinéaires alternées et déterminant",
           "content": "Sur un espace $E$ de dimension $n$, les formes $n$-linéaires alternées forment une droite vectorielle ; il en existe une unique valant 1 sur une base $\\mathcal{B}$ donnée, le déterminant $\\det_{\\mathcal{B}}$. Formule de Leibniz $\\det(A) = \\sum_{\\sigma \\in \\mathcal{S}_n}\\varepsilon(\\sigma)\\prod_{i=1}^{n}a_{\\sigma(i), i}$. Conséquences : $\\det(AB) = \\det(A)\\det(B)$, $\\det(A^{\\top}) = \\det(A)$, $A$ inversible si et seulement si $\\det(A) \\neq 0$, développement selon une ligne ou une colonne, relation $A\\,\\mathrm{com}(A)^{\\top} = \\det(A)I_n$, formules de Cramer. Exemple : déterminant de Vandermonde $\\prod_{1 \\le i \\lt j \\le n}(x_j - x_i)$."
+        },
+        {
+          "part": "IV. Groupes laissant invariante une figure : le groupe diédral",
+          "content": "Pour une partie $\\mathcal{F}$ du plan ou de l'espace, les isométries $f$ telles que $f(\\mathcal{F}) = \\mathcal{F}$ forment un groupe, qui agit sur $\\mathcal{F}$ ; pour une figure finie, chacune fixe l'isobarycentre de ses points. Pour un polygone régulier à $n \\ge 3$ côtés de centre $O$, ce groupe est le groupe diédral $D_n$, d'ordre $2n$ (certains ouvrages le notent $D_{2n}$ : préciser sa notation). Il est formé des $n$ rotations $r^k$ de centre $O$, où $r$ est d'angle $\\frac{2\\pi}{n}$, et de $n$ symétries axiales. Si $s$ est l'une d'elles, alors $D_n = \\langle r, s\\rangle$, avec $r^n = s^2 = \\mathrm{id}$ et $srs = r^{-1}$ ; tout élément s'écrit $r^k$ ou $r^ks$, avec $0 \\le k \\lt n$. L'élément $r^k$ est d'ordre $\\frac{n}{\\operatorname{pgcd}(n, k)}$ et chaque $r^ks$ est d'ordre 2. Axes : si $n$ est impair, chaque axe passe par un sommet et le milieu du côté opposé ; si $n$ est pair, $\\frac{n}{2}$ axes passent par deux sommets opposés et $\\frac{n}{2}$ par les milieux de deux côtés opposés. L'action sur les $n$ sommets fournit un morphisme injectif $D_n \\to \\mathcal{S}_n$ : ainsi $D_3 \\simeq \\mathcal{S}_3$, et $D_4$ est un sous-groupe d'ordre 8 de $\\mathcal{S}_4$. Dans l'espace, les isométries d'un tétraèdre régulier forment un groupe isomorphe à $\\mathcal{S}_4$ par l'action sur les sommets, ses déplacements correspondant à $\\mathcal{A}_4$ ; les rotations d'un cube forment aussi un groupe isomorphe à $\\mathcal{S}_4$, par l'action sur les quatre grandes diagonales."
         }
       ],
       "keyTheorem": {
@@ -319,15 +356,17 @@
         "La décomposition en produit de transpositions n'est pas unique, seule la parité du nombre de facteurs l'est : $(1\\ 2\\ 3) = (1\\ 3)(1\\ 2) = (1\\ 2)(2\\ 3)$.",
         "Fixez la convention de composition : $\\sigma\\tau = \\sigma \\circ \\tau$ applique d'abord $\\tau$. Avec $\\sigma = (1\\ 2)$ et $\\tau = (2\\ 3)$, $\\sigma\\tau = (1\\ 2\\ 3)$ alors que $\\tau\\sigma = (1\\ 3\\ 2)$, ce qui montre que $\\mathcal{S}_3$ n'est pas commutatif.",
         "L'ordre d'une permutation est le PPCM des longueurs de ses cycles disjoints, et non leur produit : $(1\\ 2)(3\\ 4)$ est d'ordre 2. La règle ne vaut que pour des cycles à supports disjoints : $(1\\ 2)(2\\ 3)$ est d'ordre 3.",
-        "Lien avec le secondaire : le déterminant de deux vecteurs vu en seconde, $\\det(\\vec{u}, \\vec{v}) = xy' - x'y$, est le cas $n = 2$ de la formule de Leibniz ; sachez l'interpréter comme une aire orientée."
+        "Lien avec le secondaire : le déterminant de deux vecteurs vu en seconde, $\\det(\\vec{u}, \\vec{v}) = xy' - x'y$, est le cas $n = 2$ de la formule de Leibniz ; sachez l'interpréter comme une aire orientée.",
+        "Le groupe diédral est un sujet naturel d'exposé sur les groupes : savoir démontrer que $D_n$ a $2n$ éléments (une isométrie du polygone est déterminée par les images d'un sommet et d'un sommet voisin), que les rotations forment un sous-groupe distingué d'indice 2, et que $D_3 \\simeq \\mathcal{S}_3$ alors que $D_4$ n'est qu'un sous-groupe de $\\mathcal{S}_4$."
       ]
     },
     {
       "id": "capes-08",
-      "num": "Leçon 08",
+      "num": "Compl. 08",
       "title": "Convexité des fonctions réelles d'une variable réelle et applications",
       "domain": "Analyse",
-      "level": "CAPES / Agrégation",
+      "level": "CAPES — complément disciplinaire (niveau licence)",
+      "complement": true,
       "prerequisites": [
         "Situation dans les programmes : en terminale spécialité, fonction convexe définie par la position de la courbe par rapport à ses sécantes ; pour une fonction deux fois dérivable, équivalence admise avec la position par rapport aux tangentes, la croissance de $f'$ et la positivité de $f''$ ; points d'inflexion ; inégalités comme $e^x \\ge 1 + x$ et $\\ln x \\le x - 1$.",
         "Dérivation, théorème de Rolle et théorème des accroissements finis.",
@@ -345,7 +384,7 @@
         },
         {
           "part": "III. Inégalités de convexité et optimisation",
-          "content": "Inégalité de Jensen discrète $f\\left(\\sum p_ix_i\\right) \\le \\sum p_if(x_i)$ pour des poids positifs de somme 1, et version intégrale $f\\left(\\frac{1}{b-a}\\int_a^b g\\right) \\le \\frac{1}{b-a}\\int_a^b f \\circ g$ pour $g$ continue sur $[a ; b]$ et $f$ convexe sur un intervalle ouvert contenant les valeurs de $g$. Inégalité arithmético-géométrique $\\sqrt[n]{x_1 \\cdots x_n} \\le \\frac{x_1 + \\cdots + x_n}{n}$ pour des réels positifs, par la concavité de $\\ln$ ; inégalité de Young $ab \\le \\frac{a^p}{p} + \\frac{b^q}{q}$, puis inégalités de Hölder et de Minkowski. Optimisation : pour $f$ convexe, tout minimum local est global, l'ensemble des points de minimum est un intervalle, et si $f$ est dérivable, $f'(a) = 0$ équivaut à $a$ point de minimum."
+          "content": "Inégalité de Jensen discrète $f\\left(\\sum p_ix_i\\right) \\le \\sum p_if(x_i)$ pour des poids positifs de somme 1, et version intégrale $f\\left(\\frac{1}{b-a}\\int_a^b g\\right) \\le \\frac{1}{b-a}\\int_a^b f \\circ g$ pour $g$ continue sur $[a ; b]$ et $f$ convexe sur un intervalle ouvert contenant les valeurs de $g$. Inégalité arithmético-géométrique $\\sqrt[n]{x_1 \\cdots x_n} \\le \\frac{x_1 + \\cdots + x_n}{n}$ pour des réels positifs, par la concavité de $\\ln$ ; inégalité de Young $ab \\le \\frac{a^p}{p} + \\frac{b^q}{q}$, puis inégalités de Hölder et de Minkowski. Optimisation : pour $f$ convexe, tout minimum local est global, l'ensemble des points de minimum est un intervalle ; si $f$ est dérivable et si $a$ est un point intérieur à $I$, $f'(a) = 0$ équivaut à $a$ point de minimum. Sans cette hypothèse, seule l'implication « $f'(a) = 0$ entraîne $a$ point de minimum » subsiste : $x \\mapsto x$ est convexe et dérivable sur $[0 ; 1]$, atteint son minimum en $0$ et sa dérivée y vaut $1$."
         }
       ],
       "keyTheorem": {
@@ -369,12 +408,15 @@
     },
     {
       "id": "capes-09",
-      "num": "Leçon 09",
+      "num": "Compl. 09",
       "title": "Suites et séries numériques : convergence, sommabilité et critères",
       "domain": "Analyse",
-      "level": "CAPES / Agrégation",
+      "level": "CAPES — complément disciplinaire (niveau licence)",
+      "complement": true,
       "prerequisites": [
         "Situation dans les programmes : suites arithmétiques et géométriques et somme de leurs termes en première ; limites de suites, théorème de convergence monotone et limite de $q^n$ en terminale spécialité, où des sommes comme $\\sum_{k=1}^{n}\\frac{1}{k^2}$ sont étudiées en exercice.",
+        "Pour aller plus loin : les familles sommables, le produit de Cauchy et le théorème de Fubini pour les séries doubles (partie III) ne sont cités ni par le programme des écrits de la voie bac + 3 ni par celui de la voie bac + 5. Les séries à termes positifs, la convergence absolue et le critère des séries alternées (parties I et II) relèvent, elles, du programme de la voie bac + 3 ; la transformation d'Abel et le théorème de réarrangement de Riemann sont, eux aussi, un approfondissement.",
+        "Chapitres de licence du site utiles ici : L2-07 « Séries numériques réelles et complexes : convergence et critères », puis L3-07 « Suites et séries de fonctions » et L3-08 « Séries entières, rayon de convergence et fonctions analytiques », inscrits au programme de la voie bac + 3 et utilisés dans plusieurs exercices de DS des compléments 04 et 06.",
         "Axiome de la borne supérieure, complétude de $\\mathbb{R}$ et suites de Cauchy.",
         "Suites adjacentes, suites extraites, théorème de Bolzano-Weierstrass.",
         "Relations de comparaison $o$, $O$ et $\\sim$, développements limités usuels.",
@@ -391,7 +433,7 @@
         },
         {
           "part": "III. Sommabilité, produit de Cauchy et applications",
-          "content": "Familles sommables de réels positifs puis de complexes, sommation par paquets ; une série réelle a une somme indépendante de l'ordre des termes pour tout réarrangement si et seulement si elle converge absolument. Produit de Cauchy : si $\\sum a_n$ et $\\sum b_n$ convergent absolument, la série de terme $c_n = \\sum_{k=0}^{n}a_kb_{n-k}$ converge absolument et a pour somme $\\left(\\sum a_n\\right)\\left(\\sum b_n\\right)$ ; application : $\\exp(a + b) = \\exp(a)\\exp(b)$ pour la série exponentielle. Théorème de Fubini pour les séries doubles. Applications : $\\sum_{k=1}^{n}\\frac{1}{k} = \\ln n + \\gamma + o(1)$, calcul approché d'une somme avec contrôle du reste."
+          "content": "**Pour aller plus loin** (hors des programmes des écrits, sauf les applications de la dernière phrase). Familles sommables de réels positifs puis de complexes, sommation par paquets ; une série réelle a une somme indépendante de l'ordre des termes pour tout réarrangement si et seulement si elle converge absolument. Produit de Cauchy : si $\\sum a_n$ et $\\sum b_n$ convergent absolument, la série de terme $c_n = \\sum_{k=0}^{n}a_kb_{n-k}$ converge absolument et a pour somme $\\left(\\sum a_n\\right)\\left(\\sum b_n\\right)$ ; application : $\\exp(a + b) = \\exp(a)\\exp(b)$ pour la série exponentielle. Théorème de Fubini pour les séries doubles. Applications : $\\sum_{k=1}^{n}\\frac{1}{k} = \\ln n + \\gamma + o(1)$, calcul approché d'une somme avec contrôle du reste."
         }
       ],
       "keyTheorem": {
@@ -415,13 +457,14 @@
     },
     {
       "id": "capes-10",
-      "num": "Leçon 10",
+      "num": "Compl. 10",
       "title": "Arithmétique dans Z : divisibilité, pgcd, congruences et cryptographie RSA",
       "domain": "Algèbre & Arithmétique",
-      "level": "CAPES / Agrégation",
+      "level": "CAPES — complément disciplinaire (niveau licence)",
+      "complement": true,
       "prerequisites": [
-        "Situation dans les programmes : multiples, diviseurs, nombres premiers et décomposition en facteurs premiers au cycle 4 et en seconde ; en option mathématiques expertes de terminale, division euclidienne, congruences, PGCD, théorèmes de Bézout et de Gauss, petit théorème de Fermat, avec des activités de chiffrement.",
-        "Construction de $\\mathbb{N}$ et de $\\mathbb{Z}$, récurrence, toute partie non vide de $\\mathbb{N}$ admet un plus petit élément.",
+        "Situation dans les programmes : multiples, diviseurs, nombres premiers et décomposition en facteurs premiers au cycle 4 ; en seconde, multiples, diviseurs et parité seulement, les nombres premiers ne figurant plus au programme de 2026 ; en option mathématiques expertes de terminale, division euclidienne, congruences, PGCD, théorèmes de Bézout et de Gauss, nombres premiers (infinité, décomposition), petit théorème de Fermat, avec des activités de chiffrement.",
+        "Construction de $\\mathbb{N}$ (axiomes de Peano), de $\\mathbb{Z}$ et de $\\mathbb{Q}$ par ensembles quotients, récurrence, toute partie non vide de $\\mathbb{N}$ admet un plus petit élément. La construction de $\\mathbb{N}$, $\\mathbb{Z}$, $\\mathbb{Q}$ figure dans la rubrique « Nombres réels et suites réelles » du programme de la voie bac + 3 : cours, exercice et DS dans le chapitre de licence L1-LOG (Logique mathématique, quantificateurs et théorie des ensembles), section 8 ; la présentation axiomatique de $\\mathbb{R}$ est dans le chapitre L1-REL.",
         "Groupes, sous-groupes, anneaux, idéaux, théorème de Lagrange.",
         "Algorithmique : boucles et fonctions en Python (algorithme d'Euclide, exponentiation modulaire rapide)."
       ],
@@ -447,7 +490,8 @@
       "developments": [
         "Cryptosystème RSA (niveau mathématiques expertes-L2) : choix de $n = pq$ avec $p \\neq q$ premiers, de $e$ premier avec $\\varphi(n)$ et de $d$ inverse de $e$ modulo $\\varphi(n)$ par Euclide étendu ; preuve que $m^{ed} \\equiv m \\pmod n$ pour tout entier $m$, même non premier avec $n$, par le petit théorème de Fermat modulo $p$ et modulo $q$ puis le lemme de Gauss ; sécurité liée à la difficulté de factoriser $n$.",
         "Théorème chinois (niveau mathématiques expertes-L2) : si $m \\wedge n = 1$, l'application de $\\mathbb{Z}/mn\\mathbb{Z}$ dans $\\mathbb{Z}/m\\mathbb{Z} \\times \\mathbb{Z}/n\\mathbb{Z}$ est un isomorphisme d'anneaux, avec une solution explicite par Bézout ; exemple : $x \\equiv 2 \\pmod 3$ et $x \\equiv 3 \\pmod 5$ équivalent à $x \\equiv 8 \\pmod{15}$ ; corollaire : multiplicativité de $\\varphi$.",
-        "Infinité des nombres premiers et variantes (niveau seconde-L1) : preuve d'Euclide, infinité des nombres premiers de la forme $4k + 3$, et existence de $n$ entiers consécutifs composés, $(n+1)! + 2, \\dots, (n+1)! + n + 1$.",
+        "Infinité des nombres premiers et variantes (niveau mathématiques expertes-L1) : preuve d'Euclide, infinité des nombres premiers de la forme $4k + 3$, et existence de $n$ entiers consécutifs composés, $(n+1)! + 2, \\dots, (n+1)! + n + 1$.",
+        "Construction de $\\mathbb{Z}$ et de $\\mathbb{Q}$ (niveau L1) : $\\mathbb{Z}$ est le quotient de $\\mathbb{N}^2$ par la relation $(a, b) \\sim (a', b') \\iff a + b' = a' + b$, la classe de $(a, b)$ représentant $a - b$ ; $\\mathbb{Q}$ est le quotient de $\\mathbb{Z} \\times \\mathbb{Z}^{\\ast}$ par $(p, q) \\sim (p', q') \\iff pq' = p'q$. Points à savoir justifier devant le jury : ce sont des relations d'équivalence (la transitivité pour $\\mathbb{Q}$ utilise l'intégrité de $\\mathbb{Z}$ : de $q'(pq'' - p''q) = 0$ et $q' \\neq 0$ on tire $pq'' = p''q$) ; les opérations ne dépendent pas des représentants ; $n \\mapsto \\overline{(n, 0)}$ plonge $\\mathbb{N}$ dans $\\mathbb{Z}$ en respectant les opérations. Exemple : la règle $\\overline{(a, b)} \\times \\overline{(c, d)} = \\overline{(ac + bd, ad + bc)}$ traduit $(a - b)(c - d) = (ac + bd) - (ad + bc)$, et la règle des signes $(-1) \\times (-1) = 1$ s'y lit sur $\\overline{(0, 1)} \\times \\overline{(0, 1)} = \\overline{(1, 0)}$.",
         "Petit théorème de Fermat (niveau mathématiques expertes) : preuve par la formule du binôme, $p$ divisant $\\binom{p}{k}$ pour $1 \\le k \\le p - 1$, et récurrence sur $a$, puis preuve par le groupe des inversibles de $\\mathbb{Z}/p\\mathbb{Z}$ ; la réciproque est fausse : $561 = 3 \\times 11 \\times 17$ vérifie $a^{560} \\equiv 1 \\pmod{561}$ pour tout $a$ premier avec 561."
       ],
       "juryTips": [
@@ -455,7 +499,7 @@
         "Le lemme d'Euclide est faux pour un diviseur non premier, et c'est lui qui fonde l'unicité de la décomposition en facteurs premiers ; le jury demande souvent où il intervient dans la preuve.",
         "Le couple de Bézout n'est pas unique : si $au_0 + bv_0 = 1$, les solutions de $au + bv = 1$ sont les $(u_0 + kb, v_0 - ka)$, $k \\in \\mathbb{Z}$ ; pour $17u + 5v = 1$, $(-2, 7)$ et $(3, -10)$ conviennent.",
         "Sachez exécuter l'algorithme d'Euclide étendu au tableau pour calculer un inverse modulaire : l'inverse de 7 modulo 26 est 15, car $7 \\times 15 = 105 = 4 \\times 26 + 1$.",
-        "Situer la notion : divisibilité et nombres premiers sont travaillés au collège et en seconde, congruences et Bézout en mathématiques expertes ; le jury apprécie un raisonnement accessible à un élève, comme la preuve par la parité de l'irrationalité de $\\sqrt{2}$."
+        "Situer la notion : divisibilité et nombres premiers sont travaillés au collège, multiples et diviseurs sont repris en seconde, nombres premiers, congruences et Bézout sont étudiés en mathématiques expertes ; le jury apprécie un raisonnement accessible à un élève, comme la preuve par la parité de l'irrationalité de $\\sqrt{2}$."
       ]
     },
     {
@@ -465,8 +509,8 @@
       "domain": "Géométrie",
       "level": "CAPES — leçon (seconde, première, terminale)",
       "prerequisites": [
-        "Niveaux concernés et situation dans les programmes : au cycle 4, translations, rotations et homothéties, théorèmes de Pythagore et de Thalès, trigonométrie du triangle rectangle ; en seconde, vecteur associé à une translation, somme de vecteurs et relation de Chasles, produit par un réel, coordonnées, colinéarité et déterminant de deux vecteurs, équations cartésiennes et réduites de droites ; en première spécialité, produit scalaire (définitions, propriétés, formule d'Al-Kashi), équations de droites à l'aide d'un vecteur normal, équations de cercles, ensembles de points ; en terminale spécialité, vecteurs, droites et plans de l'espace, bases et repères, représentations paramétriques, produit scalaire dans l'espace, vecteur normal et équation cartésienne d'un plan, projeté orthogonal.",
-        "Plan de leçon possible : I. Vecteurs et colinéarité (seconde) ; II. Produit scalaire dans le plan (première) ; III. Géométrie dans l'espace et transformations (terminale). Le développement présenté au jury peut être la démonstration du théorème clé (expression analytique, formule d'Al-Kashi, cercle de diamètre $[AB]$) ou l'un des exercices proposés plus bas.",
+        "Niveaux concernés et situation dans les programmes : au cycle 4, symétrie centrale, effets des translations, rotations et homothéties (observés, sans définition ponctuelle de ces trois dernières transformations), théorèmes de Pythagore et de Thalès, trigonométrie du triangle rectangle ; en seconde, vecteur associé à une translation, somme de vecteurs et relation de Chasles, produit par un réel, coordonnées, colinéarité et déterminant de deux vecteurs, équations cartésiennes et réduites de droites ; en première spécialité, produit scalaire (définitions, propriétés, formule d'Al-Kashi), équations de droites à l'aide d'un vecteur normal, équations de cercles, ensembles de points ; en terminale spécialité, vecteurs et translations, droites et plans de l'espace, bases et repères, représentations paramétriques, produit scalaire dans l'espace, vecteur normal et équation cartésienne d'un plan, projeté orthogonal.",
+        "Plan de leçon possible : I. Vecteurs et colinéarité (seconde) ; II. Produit scalaire dans le plan (première) ; III. Géométrie dans l'espace (terminale), avec les translations ; un complément relit vectoriellement l'homothétie et la symétrie centrale, abordées au cycle 4 et absentes du programme de terminale. Le développement présenté au jury peut être la démonstration du théorème clé (expression analytique, formule d'Al-Kashi, cercle de diamètre $[AB]$) ou l'un des exercices proposés plus bas.",
         "Prérequis des élèves : géométrie du collège (Pythagore et sa réciproque, Thalès, trigonométrie du triangle rectangle), repère orthonormé du plan, distance de deux points $AB = \\sqrt{(x_B - x_A)^2 + (y_B - y_A)^2}$, coordonnées du milieu d'un segment, résolution de systèmes linéaires $2 \\times 2$.",
         "Recul attendu du candidat : structure d'espace vectoriel réel de dimension 2 ou 3, espace affine associé, forme bilinéaire symétrique définie positive et norme euclidienne, isométries et similitudes. Ce cadre éclaire la leçon mais ne s'expose pas tel quel aux élèves."
       ],
@@ -481,20 +525,21 @@
         },
         {
           "part": "III. Géométrie dans l'espace et transformations",
-          "content": "Les vecteurs de l'espace se définissent comme dans le plan. Trois vecteurs sont coplanaires si l'un est combinaison linéaire des deux autres ; trois vecteurs non coplanaires forment une base, et un point $O$ avec une base forme un repère. Une droite passant par $A$ et dirigée par $\\vec{u}$ admet la représentation paramétrique $M = A + t\\vec{u}$, $t \\in \\mathbb{R}$. Le produit scalaire de deux vecteurs de l'espace se calcule dans un plan contenant des représentants de ces vecteurs ; dans une base orthonormée, $\\vec{u} \\cdot \\vec{v} = xx' + yy' + zz'$. Une droite est orthogonale à un plan si et seulement si elle est orthogonale à deux droites sécantes de ce plan ; un vecteur $\\vec{n}$ non nul orthogonal à deux vecteurs non colinéaires d'un plan est normal à ce plan, et le plan passant par $A$ de vecteur normal $\\vec{n}(a ; b ; c)$ a une équation $ax + by + cz + d = 0$. Propriété (démonstration exigible) : le projeté orthogonal $H$ d'un point $M$ sur un plan $\\mathcal{P}$ est le point de $\\mathcal{P}$ le plus proche de $M$, car $MN^2 = MH^2 + HN^2$ pour tout $N \\in \\mathcal{P}$ (Pythagore). Transformations : la translation de vecteur $\\vec{u}$ envoie $M$ sur $M'$ tel que $\\overrightarrow{MM'} = \\vec{u}$ et conserve les distances ; l'homothétie de centre $O$ et de rapport $k \\neq 0$ envoie $M$ sur $M'$ tel que $\\overrightarrow{OM'} = k\\overrightarrow{OM}$, transforme tout vecteur $\\overrightarrow{AB}$ en $k\\overrightarrow{AB}$, multiplie les longueurs par $|k|$ et les aires par $k^2$ ; la symétrie centrale est l'homothétie de rapport $-1$. Les rotations du plan s'expriment simplement avec les nombres complexes (leçon 12)."
+          "content": "Les vecteurs de l'espace se définissent comme dans le plan. Trois vecteurs sont coplanaires si l'un est combinaison linéaire des deux autres ; trois vecteurs non coplanaires forment une base, et un point $O$ avec une base forme un repère. Une droite passant par $A$ et dirigée par $\\vec{u}$ admet la représentation paramétrique $M = A + t\\vec{u}$, $t \\in \\mathbb{R}$. Le produit scalaire de deux vecteurs de l'espace se calcule dans un plan contenant des représentants de ces vecteurs ; dans une base orthonormée, $\\vec{u} \\cdot \\vec{v} = xx' + yy' + zz'$. Une droite est orthogonale à un plan si et seulement si elle est orthogonale à deux droites sécantes de ce plan ; un vecteur $\\vec{n}$ non nul orthogonal à deux vecteurs non colinéaires d'un plan est normal à ce plan, et le plan passant par $A$ de vecteur normal $\\vec{n}(a ; b ; c)$ a une équation $ax + by + cz + d = 0$. Propriété (démonstration exigible) : le projeté orthogonal $H$ d'un point $M$ sur un plan $\\mathcal{P}$ est le point de $\\mathcal{P}$ le plus proche de $M$, car $MN^2 = MH^2 + HN^2$ pour tout $N \\in \\mathcal{P}$ (Pythagore). Transformations : seule la translation figure au programme de terminale ; l'homothétie et la symétrie centrale, abordées au cycle 4, sont ici reprises avec les vecteurs, ce qui relève du recul du candidat. La translation de vecteur $\\vec{u}$ envoie $M$ sur $M'$ tel que $\\overrightarrow{MM'} = \\vec{u}$ et conserve les distances ; l'homothétie de centre $O$ et de rapport $k \\neq 0$ envoie $M$ sur $M'$ tel que $\\overrightarrow{OM'} = k\\overrightarrow{OM}$, transforme tout vecteur $\\overrightarrow{AB}$ en $k\\overrightarrow{AB}$, multiplie les longueurs par $|k|$ et les aires par $k^2$ ; la symétrie centrale est l'homothétie de rapport $-1$. Les rotations du plan s'expriment simplement avec les nombres complexes (leçon 12)."
         }
       ],
       "keyTheorem": {
         "title": "Expression analytique du produit scalaire, formule d'Al-Kashi et cercle de diamètre [AB]",
         "statement": "On définit le produit scalaire de deux vecteurs du plan par $\\vec{u} \\cdot \\vec{v} = \\frac{1}{2}\\left(\\|\\vec{u} + \\vec{v}\\|^2 - \\|\\vec{u}\\|^2 - \\|\\vec{v}\\|^2\\right)$. (i) Dans une base orthonormée, si $\\vec{u}(x ; y)$ et $\\vec{v}(x' ; y')$, alors $\\vec{u} \\cdot \\vec{v} = xx' + yy'$ ; en conséquence, le produit scalaire est symétrique et bilinéaire. (ii) Pour tout triangle $ABC$, $\\overrightarrow{AB} \\cdot \\overrightarrow{AC} = AB \\times AC \\times \\cos\\widehat{BAC}$ et $BC^2 = AB^2 + AC^2 - 2\\,AB \\times AC \\times \\cos\\widehat{BAC}$. (iii) Pour deux points distincts $A$ et $B$, l'ensemble des points $M$ du plan tels que $\\overrightarrow{MA} \\cdot \\overrightarrow{MB} = 0$ est le cercle de diamètre $[AB]$.",
-        "proof": "1. **Expression analytique.** Dans une base orthonormée, le théorème de Pythagore donne $\\|\\vec{u}\\|^2 = x^2 + y^2$. Comme $\\vec{u} + \\vec{v}$ a pour coordonnées $(x + x' ; y + y')$, on obtient $\\|\\vec{u} + \\vec{v}\\|^2 - \\|\\vec{u}\\|^2 - \\|\\vec{v}\\|^2 = (x + x')^2 + (y + y')^2 - x^2 - y^2 - x'^2 - y'^2 = 2xx' + 2yy'$, d'où $\\vec{u} \\cdot \\vec{v} = xx' + yy'$. Cette expression est visiblement symétrique et linéaire par rapport à chacun des deux vecteurs.\n2. **Développement du carré d'une différence.** Par bilinéarité et symétrie, $\\|\\vec{u} - \\vec{v}\\|^2 = (\\vec{u} - \\vec{v}) \\cdot (\\vec{u} - \\vec{v}) = \\|\\vec{u}\\|^2 - 2\\,\\vec{u} \\cdot \\vec{v} + \\|\\vec{v}\\|^2$.\n3. **Formule avec le cosinus.** On note $\\alpha = \\widehat{BAC}$ et on choisit le repère orthonormé d'origine $A$ dont le premier vecteur est $\\frac{1}{AB}\\overrightarrow{AB}$, orienté de sorte que $C$ ait une ordonnée positive. Alors $B(AB ; 0)$ et, par définition du cosinus et du sinus, $C(AC\\cos\\alpha ; AC\\sin\\alpha)$. Le point 1 donne $\\overrightarrow{AB} \\cdot \\overrightarrow{AC} = AB \\times AC\\cos\\alpha + 0 = AB \\times AC \\times \\cos\\alpha$.\n4. **Formule d'Al-Kashi.** Par la relation de Chasles, $\\overrightarrow{BC} = \\overrightarrow{AC} - \\overrightarrow{AB}$, donc par le point 2, $BC^2 = AC^2 - 2\\,\\overrightarrow{AB} \\cdot \\overrightarrow{AC} + AB^2$, et le point 3 conclut. Pour $\\alpha = \\frac{\\pi}{2}$, on retrouve le théorème de Pythagore, et sa réciproque puisque $\\cos\\alpha = 0$ équivaut à $\\alpha = \\frac{\\pi}{2}$ pour $\\alpha \\in [0 ; \\pi]$.\n5. **Cercle de diamètre $[AB]$.** Soit $I$ le milieu de $[AB]$, de sorte que $\\overrightarrow{IB} = -\\overrightarrow{IA}$. Par Chasles et bilinéarité, $\\overrightarrow{MA} \\cdot \\overrightarrow{MB} = (\\overrightarrow{MI} + \\overrightarrow{IA}) \\cdot (\\overrightarrow{MI} - \\overrightarrow{IA}) = MI^2 - IA^2 = MI^2 - \\frac{AB^2}{4}$. Ainsi $\\overrightarrow{MA} \\cdot \\overrightarrow{MB} = 0$ si et seulement si $MI = \\frac{AB}{2}$, c'est-à-dire si et seulement si $M$ appartient au cercle de centre $I$ et de rayon $\\frac{AB}{2}$."
+        "proof": "1. **Expression analytique.** Dans une base orthonormée, le théorème de Pythagore donne $\\|\\vec{u}\\|^2 = x^2 + y^2$. Comme $\\vec{u} + \\vec{v}$ a pour coordonnées $(x + x' ; y + y')$, on obtient $\\|\\vec{u} + \\vec{v}\\|^2 - \\|\\vec{u}\\|^2 - \\|\\vec{v}\\|^2 = (x + x')^2 + (y + y')^2 - x^2 - y^2 - x'^2 - y'^2 = 2xx' + 2yy'$, d'où $\\vec{u} \\cdot \\vec{v} = xx' + yy'$. Cette expression est visiblement symétrique et linéaire par rapport à chacun des deux vecteurs.\n2. **Développement du carré d'une différence.** Par bilinéarité et symétrie, $\\|\\vec{u} - \\vec{v}\\|^2 = (\\vec{u} - \\vec{v}) \\cdot (\\vec{u} - \\vec{v}) = \\|\\vec{u}\\|^2 - 2\\,\\vec{u} \\cdot \\vec{v} + \\|\\vec{v}\\|^2$.\n3. **Formule avec le cosinus.** On note $\\alpha = \\widehat{BAC}$ et on choisit le repère orthonormé d'origine $A$ dont le premier vecteur est $\\frac{1}{AB}\\overrightarrow{AB}$, orienté de sorte que $C$ ait une ordonnée positive. Alors $B(AB ; 0)$ et, par définition du cosinus et du sinus, $C(AC\\cos\\alpha ; AC\\sin\\alpha)$. Le point 1 donne $\\overrightarrow{AB} \\cdot \\overrightarrow{AC} = AB \\times AC\\cos\\alpha + 0 = AB \\times AC \\times \\cos\\alpha$.\n4. **Formule d'Al-Kashi.** Par la relation de Chasles, $\\overrightarrow{BC} = \\overrightarrow{AC} - \\overrightarrow{AB}$, donc par le point 2, $BC^2 = AC^2 - 2\\,\\overrightarrow{AB} \\cdot \\overrightarrow{AC} + AB^2$, et le point 3 conclut. Pour $\\alpha = \\frac{\\pi}{2}$, la formule redonne l'égalité de Pythagore : c'est une vérification de cohérence et non une démonstration, puisque le théorème de Pythagore a servi au point 1. Sa réciproque, en revanche, s'en déduit réellement : si $BC^2 = AB^2 + AC^2$, alors $\\cos\\alpha = 0$, donc $\\alpha = \\frac{\\pi}{2}$ puisque $\\alpha \\in [0 ; \\pi]$. Dans un cadre axiomatique où le produit scalaire est posé d'emblée, $\\|\\vec{u}\\|^2 = x^2 + y^2$ résulte de la bilinéarité dans une base orthonormée, et le théorème de Pythagore devient un corollaire.\n5. **Cercle de diamètre $[AB]$.** Soit $I$ le milieu de $[AB]$, de sorte que $\\overrightarrow{IB} = -\\overrightarrow{IA}$. Par Chasles et bilinéarité, $\\overrightarrow{MA} \\cdot \\overrightarrow{MB} = (\\overrightarrow{MI} + \\overrightarrow{IA}) \\cdot (\\overrightarrow{MI} - \\overrightarrow{IA}) = MI^2 - IA^2 = MI^2 - \\frac{AB^2}{4}$. Ainsi $\\overrightarrow{MA} \\cdot \\overrightarrow{MB} = 0$ si et seulement si $MI = \\frac{AB}{2}$, c'est-à-dire si et seulement si $M$ appartient au cercle de centre $I$ et de rayon $\\frac{AB}{2}$."
       },
       "developments": [
         "Exercice de seconde (colinéarité) : dans un repère, $A(-1 ; 2)$, $B(3 ; 4)$, $C(1 ; -2)$ et $D(9 ; 2)$. Montrer que $(AB)$ et $(CD)$ sont parallèles, puis que ces droites sont distinctes. Corrigé : $\\overrightarrow{AB}(4 ; 2)$ et $\\overrightarrow{CD}(8 ; 4)$, de déterminant $4 \\times 4 - 2 \\times 8 = 0$ : les droites sont parallèles. Puis $\\overrightarrow{AD}(10 ; 0)$ et $\\det(\\overrightarrow{AB}, \\overrightarrow{AD}) = 4 \\times 0 - 2 \\times 10 = -20 \\neq 0$ : $D \\notin (AB)$, donc les droites sont strictement parallèles.",
         "Exercice de première (formule d'Al-Kashi) : dans un triangle $ABC$, $AB = 5$, $AC = 8$ et $\\widehat{BAC} = 60°$. Calculer $BC$ et $\\overrightarrow{AB} \\cdot \\overrightarrow{AC}$. Corrigé : $BC^2 = 25 + 64 - 2 \\times 5 \\times 8 \\times \\frac{1}{2} = 49$, donc $BC = 7$ ; $\\overrightarrow{AB} \\cdot \\overrightarrow{AC} = 5 \\times 8 \\times \\frac{1}{2} = 20$. Variante : retrouver l'angle à partir des trois longueurs.",
         "Exercice de première (ensemble de points) : $A(1 ; 2)$ et $B(5 ; -2)$. Déterminer une équation de l'ensemble des points $M(x ; y)$ tels que $\\overrightarrow{MA} \\cdot \\overrightarrow{MB} = 0$. Corrigé : $(1 - x)(5 - x) + (2 - y)(-2 - y) = 0$ équivaut à $x^2 - 6x + 5 + y^2 - 4 = 0$, soit $(x - 3)^2 + y^2 = 8$ : c'est le cercle de centre $I(3 ; 0)$, milieu de $[AB]$, et de rayon $2\\sqrt{2} = \\frac{AB}{2}$, conformément au théorème clé.",
         "Exercice de terminale (projeté orthogonal) : $\\mathcal{P}$ est le plan d'équation $2x - y + 2z - 1 = 0$ et $M(3 ; 1 ; 4)$. Déterminer le projeté orthogonal $H$ de $M$ sur $\\mathcal{P}$ et la distance de $M$ à $\\mathcal{P}$. Corrigé : $\\vec{n}(2 ; -1 ; 2)$ est normal à $\\mathcal{P}$ ; la droite passant par $M$ dirigée par $\\vec{n}$ a pour représentation $(3 + 2t ; 1 - t ; 4 + 2t)$ ; elle coupe $\\mathcal{P}$ lorsque $12 + 9t = 0$, soit $t = -\\frac{4}{3}$, d'où $H\\left(\\frac{1}{3} ; \\frac{7}{3} ; \\frac{4}{3}\\right)$ et $MH = \\frac{4}{3}\\|\\vec{n}\\| = 4$.",
-        "Prolongements : théorème de la médiane $MA^2 + MB^2 = 2MI^2 + \\frac{AB^2}{2}$ ; droite d'Euler (si $O$ est le centre du cercle circonscrit, le point $H$ défini par $\\overrightarrow{OH} = \\overrightarrow{OA} + \\overrightarrow{OB} + \\overrightarrow{OC}$ est l'orthocentre, et $\\overrightarrow{OH} = 3\\overrightarrow{OG}$) ; distance d'un point à un plan $\\frac{|ax_0 + by_0 + cz_0 + d|}{\\sqrt{a^2 + b^2 + c^2}}$ ; rotations et similitudes par les nombres complexes (leçon 12) ; cadre des espaces préhilbertiens (leçon 05)."
+        "<strong>Variante « exercice puis notion » (voie bac + 3, première épreuve d'admission).</strong> <strong>Exercice (terminale) :</strong> dans l'espace muni d'un repère orthonormé, $A(1 ; 0 ; 2)$, $B(3 ; 1 ; 0)$ et $C(0 ; 2 ; 1)$. Montrer que $A$, $B$, $C$ définissent un plan, que $\\vec{n}(3 ; 4 ; 5)$ lui est normal, en donner une équation et calculer la distance de l'origine $O$ à ce plan. <strong>Résolution :</strong> $\\overrightarrow{AB}(2 ; 1 ; -2)$ et $\\overrightarrow{AC}(-1 ; 2 ; -1)$ ne sont pas colinéaires ; $\\vec{n} \\cdot \\overrightarrow{AB} = 6 + 4 - 10 = 0$ et $\\vec{n} \\cdot \\overrightarrow{AC} = -3 + 8 - 5 = 0$, donc $\\vec{n}$ est normal au plan. Celui-ci a pour équation $3x + 4y + 5z - 13 = 0$ (vérification en $A$, $B$ et $C$). La distance de $O$ au plan vaut $\\frac{13}{\\sqrt{50}} = \\frac{13\\sqrt{2}}{10}$. <strong>Notion en jeu :</strong> orthogonalité et produit scalaire dans l'espace ; un vecteur orthogonal à deux vecteurs non colinéaires d'un plan est orthogonal à tout vecteur de ce plan. <strong>Notions connexes :</strong> projeté orthogonal, représentation paramétrique d'une droite, inégalité de Cauchy-Schwarz, espaces euclidiens de licence. <strong>Pour l'échange avec le jury :</strong> démontrer la formule de la distance ; expliquer pourquoi deux vecteurs doivent être non colinéaires ; dire si l'équation du plan est unique (elle l'est à un facteur non nul près) ; prévoir l'erreur d'un élève qui ne vérifie l'orthogonalité qu'avec un seul vecteur.",
+        "Prolongements : théorème de la médiane $MA^2 + MB^2 = 2MI^2 + \\frac{AB^2}{2}$ ; droite d'Euler (si $O$ est le centre du cercle circonscrit, le point $H$ défini par $\\overrightarrow{OH} = \\overrightarrow{OA} + \\overrightarrow{OB} + \\overrightarrow{OC}$ est l'orthocentre, et $\\overrightarrow{OH} = 3\\overrightarrow{OG}$) ; distance d'un point à un plan $\\frac{|ax_0 + by_0 + cz_0 + d|}{\\sqrt{a^2 + b^2 + c^2}}$ ; rotations et similitudes par les nombres complexes (leçon 12) ; cadre des espaces préhilbertiens, applications affines et classification des isométries du plan et de l'espace (complément 05, parties IV et V)."
       ],
       "juryTips": [
         "Erreur fréquente d'élève : traduire « $ABCD$ est un parallélogramme » par $\\overrightarrow{AB} = \\overrightarrow{CD}$. La bonne égalité est $\\overrightarrow{AB} = \\overrightarrow{DC}$ ; faire tracer la figure suffit en général à corriger.",
@@ -541,7 +586,8 @@
         "Exercice de terminale (forme exponentielle) : on pose $z = 1 + i\\sqrt{3}$. Écrire $z$ sous forme exponentielle, calculer $z^6$ et déterminer les entiers $n$ pour lesquels $z^n$ est réel. Corrigé : $|z| = 2$ et $z = 2e^{i\\frac{\\pi}{3}}$, donc $z^6 = 64e^{2i\\pi} = 64$. $z^n = 2^ne^{i\\frac{n\\pi}{3}}$ est réel si et seulement si $\\frac{n\\pi}{3} \\equiv 0 \\pmod{\\pi}$, c'est-à-dire si $n$ est multiple de 3. En revanche $z^n$ n'est jamais imaginaire pur, car $\\frac{n}{3} - \\frac{1}{2} = \\frac{2n - 3}{6}$ n'est jamais entier ($2n - 3$ est impair).",
         "Exercice de terminale (linéarisation) : linéariser $\\cos^3 x$ et en déduire une primitive. Corrigé : $\\cos^3 x = \\frac{1}{8}\\left(e^{ix} + e^{-ix}\\right)^3 = \\frac{1}{8}\\left(e^{3ix} + 3e^{ix} + 3e^{-ix} + e^{-3ix}\\right) = \\frac{\\cos(3x) + 3\\cos x}{4}$, donc $x \\mapsto \\frac{\\sin(3x)}{12} + \\frac{3\\sin x}{4}$ est une primitive de $x \\mapsto \\cos^3 x$ sur $\\mathbb{R}$.",
         "Exercice de terminale (configuration) : $A$, $B$, $C$ ont pour affixes $a = 1 + i$, $b = 4 + 2i$ et $c = 4i$. Calculer $\\frac{c - a}{b - a}$ et en déduire la nature du triangle $ABC$. Corrigé : $c - a = -1 + 3i = i(3 + i) = i(b - a)$, donc $\\frac{c - a}{b - a} = i$ : $AC = AB$ et $(\\overrightarrow{AB}, \\overrightarrow{AC}) \\equiv \\frac{\\pi}{2} \\pmod{2\\pi}$, le triangle est rectangle isocèle en $A$ ; $C$ est l'image de $B$ par la rotation de centre $A$ et d'angle $\\frac{\\pi}{2}$.",
-        "Prolongements : calcul de $\\cos\\frac{2\\pi}{5} = \\frac{\\sqrt{5} - 1}{4}$ par les racines cinquièmes de l'unité et construction du pentagone régulier ; sommes $\\sum_{k=0}^{n}\\cos(kx)$ par une somme géométrique ; similitudes directes $z \\mapsto az + b$ ; théorème de d'Alembert-Gauss ; exponentielle complexe et équations différentielles linéaires d'ordre 2 (leçon 01)."
+        "<strong>Variante « exercice puis notion » (voie bac + 3, première épreuve d'admission).</strong> <strong>Exercice (mathématiques expertes) :</strong> résoudre dans $\\mathbb{C}$ l'équation $z^3 = 8i$ et montrer que les images des solutions forment un triangle équilatéral. <strong>Résolution :</strong> $8i = 8e^{i\\frac{\\pi}{2}}$, donc les solutions sont $2e^{i\\left(\\frac{\\pi}{6} + \\frac{2k\\pi}{3}\\right)}$ pour $k \\in \\{0 ; 1 ; 2\\}$, soit $\\sqrt{3} + i$, $-\\sqrt{3} + i$ et $-2i$. Les trois distances mutuelles valent $2\\sqrt{3}$ : par exemple $|(\\sqrt{3} + i) - (-2i)| = |\\sqrt{3} + 3i| = \\sqrt{12} = 2\\sqrt{3}$. <strong>Notion en jeu :</strong> racines $n$-ièmes d'un nombre complexe non nul, obtenues à partir d'une racine particulière et des racines $n$-ièmes de l'unité. <strong>Notions connexes :</strong> formule de Moivre, somme nulle des racines de l'unité, polynômes de degré $n$ et théorème de d'Alembert-Gauss, groupe $\\mathbb{U}_n$. <strong>Pour l'échange avec le jury :</strong> justifier qu'il y a exactement trois solutions ; montrer que leur somme est nulle ; expliquer pourquoi l'écriture $\\sqrt[3]{8i}$ n'a pas de sens sans convention ; prévoir l'erreur d'un élève qui ne trouve qu'une seule solution en divisant l'argument par 3.",
+        "Prolongements : calcul de $\\cos\\frac{2\\pi}{5} = \\frac{\\sqrt{5} - 1}{4}$ par les racines cinquièmes de l'unité et construction du pentagone régulier ; sommes $\\sum_{k=0}^{n}\\cos(kx)$ par une somme géométrique ; similitudes directes $z \\mapsto az + b$ ; théorème de d'Alembert-Gauss ; exponentielle complexe et équations différentielles linéaires d'ordre 2 (complément 01)."
       ],
       "juryTips": [
         "Erreur fréquente d'élève : écrire $i = \\sqrt{-1}$ puis appliquer $\\sqrt{u}\\sqrt{v} = \\sqrt{uv}$, ce qui conduit à $-1 = i^2 = \\sqrt{-1}\\sqrt{-1} = \\sqrt{1} = 1$. Le symbole $\\sqrt{\\ }$ est réservé aux réels positifs.",
@@ -559,7 +605,7 @@
       "domain": "Probabilités",
       "level": "CAPES — leçon (seconde, première, terminale)",
       "prerequisites": [
-        "Niveaux concernés et situation dans les programmes : en seconde, modélisation d'une expérience aléatoire, loi de probabilité sur un ensemble fini, probabilité d'une réunion, tableaux croisés d'effectifs et fréquences conditionnelles ; en première spécialité, probabilité conditionnelle $P_A(B)$, arbres pondérés, formule des probabilités totales, indépendance de deux événements, succession de deux épreuves indépendantes ; en terminale spécialité, succession d'épreuves indépendantes, schéma de Bernoulli et loi binomiale. Les programmes de seconde et de première mis à jour (BO n° 14 du 2 avril 2026) conservent ces notions ; le candidat vérifiera le placement exact de chaque item dans les textes en vigueur.",
+        "Niveaux concernés et situation dans les programmes (placement établi d'après les textes en vigueur en 2026-2027, mise à jour de novembre 2026 : seconde et première selon les arrêtés du 26 février 2026, BO n° 14 du 2 avril 2026 ; terminale selon le programme de 2019) : en seconde, modélisation d'une expérience aléatoire, loi de probabilité sur un ensemble fini, tableaux croisés d'effectifs, fréquences conditionnelles et marginales, probabilité conditionnelle $P_A(B)$ et arbres pondérés, en distinguant $P_A(B)$ et $P_B(A)$ ; le calcul d'une probabilité à partir d'une partition n'y est pas attendu. En première spécialité, indépendance de deux événements, partition et formule des probabilités totales, succession de deux épreuves indépendantes, répétition d'au plus 4 épreuves de Bernoulli identiques et indépendantes, traitée par un arbre. Hors spécialité, la probabilité conditionnelle, l'indépendance et la répétition d'au plus 4 épreuves de Bernoulli figurent dans les mathématiques intégrées à l'enseignement scientifique de première, et le tronc commun technologique de première traite l'indépendance et les probabilités totales dans des cas simples. En terminale spécialité, succession d'épreuves indépendantes, schéma de Bernoulli et loi binomiale ; en terminale technologique, conditionnement par un événement de probabilité non nulle, indépendance et formule des probabilités totales pour une partition. Transition en 2026-2027 : les élèves de première n'ont pas suivi la nouvelle seconde, de sorte que la probabilité conditionnelle et les arbres y sont repris ; les élèves de terminale les ont étudiés en première selon le programme de 2019. Les programmes de terminale sont renouvelés à la rentrée 2027 : en voie technologique, il ne restera en terminale que la formule des probabilités totales.",
         "Plan de leçon possible : I. Probabilité conditionnelle ; II. Arbres pondérés et formule des probabilités totales, formule de Bayes ; III. Indépendance et répétition d'épreuves. Le développement peut être la formule des probabilités totales et la formule de Bayes (théorème clé), l'étude d'un test de dépistage, ou la stabilité de l'indépendance par passage au complémentaire.",
         "Prérequis des élèves : calcul de probabilités sur un univers fini, équiprobabilité, événements contraires, réunion et intersection, tableaux croisés d'effectifs, calcul fractionnaire et pourcentages.",
         "Recul attendu du candidat : $P_A$ est une probabilité sur $\\Omega$ ; partition (système complet d'événements) ; distinction entre indépendance deux à deux et indépendance mutuelle ; indépendance de variables aléatoires ; lien entre fréquences conditionnelles d'un tableau croisé et probabilités conditionnelles ; paradoxes classiques (faux positifs, paradoxe de Simpson)."
@@ -571,11 +617,11 @@
         },
         {
           "part": "II. Arbres pondérés, probabilités totales et formule de Bayes",
-          "content": "Des événements $A_1, \\dots, A_n$ de probabilités non nulles forment une partition de $\\Omega$ s'ils sont deux à deux incompatibles et de réunion $\\Omega$ ; le cas le plus fréquent est $\\{A, \\bar{A}\\}$. Règles de l'arbre pondéré : la somme des probabilités des branches issues d'un même nœud vaut 1 ; la probabilité d'un chemin est le produit des probabilités de ses branches (probabilités composées) ; la probabilité d'un événement est la somme des probabilités des chemins qui y mènent. Formule des probabilités totales : $P(B) = \\sum_{k=1}^{n}P(A_k)P_{A_k}(B)$, en particulier $P(B) = P(A)P_A(B) + P(\\bar{A})P_{\\bar{A}}(B)$ (démonstration exigible). Formule de Bayes (« inversion du conditionnement ») : si $P(B) \\neq 0$, $P_B(A) = \\frac{P(A)P_A(B)}{P(A)P_A(B) + P(\\bar{A})P_{\\bar{A}}(B)}$. Exemple : une maladie touche 1 % d'une population ; un test est positif chez 99 % des malades et chez 2 % des personnes saines. Alors $P(T) = 0{,}01 \\times 0{,}99 + 0{,}99 \\times 0{,}02 = 0{,}0297$ et $P_T(M) = \\frac{0{,}0099}{0{,}0297} = \\frac{1}{3}$ : deux tiers des tests positifs sont des faux positifs. Contre-exemple : les événements de l'arbre doivent former une partition ; « être fumeur » et « avoir plus de 50 ans » ne permettent pas d'appliquer la formule."
+          "content": "Des événements $A_1, \\dots, A_n$ de probabilités non nulles forment une partition de $\\Omega$ s'ils sont deux à deux incompatibles et de réunion $\\Omega$ ; le cas le plus fréquent est $\\{A, \\bar{A}\\}$. Règles de l'arbre pondéré : la somme des probabilités des branches issues d'un même nœud vaut 1 ; la probabilité d'un chemin est le produit des probabilités de ses branches (probabilités composées) ; la probabilité d'un événement est la somme des probabilités des chemins qui y mènent. Formule des probabilités totales : $P(B) = \\sum_{k=1}^{n}P(A_k)P_{A_k}(B)$, en particulier $P(B) = P(A)P_A(B) + P(\\bar{A})P_{\\bar{A}}(B)$ (démonstration accessible). Formule de Bayes (« inversion du conditionnement ») : si $P(B) \\neq 0$, $P_B(A) = \\frac{P(A)P_A(B)}{P(A)P_A(B) + P(\\bar{A})P_{\\bar{A}}(B)}$. Exemple : une maladie touche 1 % d'une population ; un test est positif chez 99 % des malades et chez 2 % des personnes saines. Alors $P(T) = 0{,}01 \\times 0{,}99 + 0{,}99 \\times 0{,}02 = 0{,}0297$ et $P_T(M) = \\frac{0{,}0099}{0{,}0297} = \\frac{1}{3}$ : deux tiers des tests positifs sont des faux positifs. Contre-exemple : les événements de l'arbre doivent former une partition ; « être fumeur » et « avoir plus de 50 ans » ne permettent pas d'appliquer la formule."
         },
         {
           "part": "III. Indépendance et répétition d'épreuves",
-          "content": "Deux événements $A$ et $B$ sont indépendants si $P(A \\cap B) = P(A)P(B)$. Lorsque $P(A) \\neq 0$, cela équivaut à $P_A(B) = P(B)$ : savoir que $A$ est réalisé ne modifie pas la probabilité de $B$. Propriété (démonstration exigible) : si $A$ et $B$ sont indépendants, alors $\\bar{A}$ et $B$ le sont, ainsi que $A$ et $\\bar{B}$, et $\\bar{A}$ et $\\bar{B}$. L'indépendance dépend de la probabilité choisie, et non seulement des événements : c'est une hypothèse de modélisation (épreuves physiquement sans influence l'une sur l'autre) ou une propriété à vérifier par le calcul. Succession de deux épreuves indépendantes : l'univers est un produit cartésien et la probabilité d'un couple d'issues est le produit des probabilités ; on la représente par un arbre dont les pondérations ne dépendent pas de la première issue, ou par un tableau à double entrée. Généralisation en terminale : répétition de $n$ épreuves de Bernoulli identiques et indépendantes, loi binomiale ; probabilité d'au moins un succès : $1 - (1 - p)^n$. Exemple : on lance un dé équilibré ; $A$ : « résultat pair », $B$ : « résultat inférieur ou égal à 2 » ; $P(A \\cap B) = \\frac{1}{6} = \\frac{1}{2} \\times \\frac{1}{3}$, les événements sont indépendants. Contre-exemple : deux événements incompatibles de probabilités non nulles ne sont jamais indépendants, puisque $P(A \\cap B) = 0 \\neq P(A)P(B)$."
+          "content": "Deux événements $A$ et $B$ sont indépendants si $P(A \\cap B) = P(A)P(B)$. Lorsque $P(A) \\neq 0$, cela équivaut à $P_A(B) = P(B)$ : savoir que $A$ est réalisé ne modifie pas la probabilité de $B$. Propriété (démonstration accessible) : si $A$ et $B$ sont indépendants, alors $\\bar{A}$ et $B$ le sont, ainsi que $A$ et $\\bar{B}$, et $\\bar{A}$ et $\\bar{B}$. L'indépendance dépend de la probabilité choisie, et non seulement des événements : c'est une hypothèse de modélisation (épreuves physiquement sans influence l'une sur l'autre) ou une propriété à vérifier par le calcul. Succession de deux épreuves indépendantes : l'univers est un produit cartésien et la probabilité d'un couple d'issues est le produit des probabilités ; on la représente par un arbre dont les pondérations ne dépendent pas de la première issue, ou par un tableau à double entrée. Généralisation : en première, au plus 4 épreuves de Bernoulli identiques et indépendantes, traitées par un arbre ; en terminale, répétition de $n$ épreuves de Bernoulli identiques et indépendantes, loi binomiale ; probabilité d'au moins un succès : $1 - (1 - p)^n$. Exemple : on lance un dé équilibré ; $A$ : « résultat pair », $B$ : « résultat inférieur ou égal à 2 » ; $P(A \\cap B) = \\frac{1}{6} = \\frac{1}{2} \\times \\frac{1}{3}$, les événements sont indépendants. Contre-exemple : deux événements incompatibles de probabilités non nulles ne sont jamais indépendants, puisque $P(A \\cap B) = 0 \\neq P(A)P(B)$."
         }
       ],
       "keyTheorem": {
@@ -584,10 +630,11 @@
         "proof": "1. **Décomposition de $B$.** Comme $A_1 \\cup \\dots \\cup A_n = \\Omega$, on a $B = B \\cap \\Omega = (B \\cap A_1) \\cup \\dots \\cup (B \\cap A_n)$ par distributivité de l'intersection sur la réunion.\n2. **Incompatibilité.** Pour $k \\neq l$, $(B \\cap A_k) \\cap (B \\cap A_l) \\subset A_k \\cap A_l = \\varnothing$ : les événements $B \\cap A_k$ sont deux à deux incompatibles.\n3. **Additivité.** La probabilité d'une réunion d'événements deux à deux incompatibles est la somme des probabilités, donc $P(B) = \\sum_{k=1}^{n}P(B \\cap A_k)$.\n4. **Probabilités composées.** Comme $P(A_k) \\neq 0$, la définition de la probabilité conditionnelle donne $P(B \\cap A_k) = P(A_k)P_{A_k}(B)$, d'où la formule des probabilités totales.\n5. **Formule de Bayes.** Si $P(B) \\neq 0$, par définition $P_B(A_j) = \\frac{P(A_j \\cap B)}{P(B)}$. Le numérateur vaut $P(A_j)P_{A_j}(B)$ (point 4) et le dénominateur est donné par la formule des probabilités totales.\n6. **Lecture sur l'arbre.** Le point 4 est la règle du produit le long d'un chemin, le point 3 la règle de la somme des chemins menant à $B$ : la preuve justifie les règles de l'arbre pondéré, qu'il ne faut pas présenter comme des axiomes."
       },
       "developments": [
-        "Exercice de première (tableau croisé) : dans un lycée de 800 élèves, 480 sont demi-pensionnaires, dont 300 en seconde ; il y a 450 élèves de seconde. On choisit un élève au hasard. Calculer la probabilité qu'il soit demi-pensionnaire sachant qu'il est en seconde, puis qu'il soit en seconde sachant qu'il est demi-pensionnaire. Corrigé : $P_S(D) = \\frac{300}{450} = \\frac{2}{3}$ et $P_D(S) = \\frac{300}{480} = \\frac{5}{8}$. Les deux nombres diffèrent : on ne divise pas par le même effectif.",
+        "Exercice de seconde (tableau croisé) : dans un lycée de 800 élèves, 480 sont demi-pensionnaires, dont 300 en seconde ; il y a 450 élèves de seconde. On choisit un élève au hasard. Calculer la probabilité qu'il soit demi-pensionnaire sachant qu'il est en seconde, puis qu'il soit en seconde sachant qu'il est demi-pensionnaire. Corrigé : $P_S(D) = \\frac{300}{450} = \\frac{2}{3}$ et $P_D(S) = \\frac{300}{480} = \\frac{5}{8}$. Les deux nombres diffèrent : on ne divise pas par le même effectif.",
         "Exercice de première (arbre et probabilités totales) : un atelier produit 60 % de ses pièces sur la machine $M_1$ et 40 % sur $M_2$ ; les taux de pièces défectueuses sont 3 % et 5 %. Quelle est la probabilité qu'une pièce soit défectueuse ? Sachant qu'elle est défectueuse, quelle est la probabilité qu'elle vienne de $M_2$ ? Corrigé : $P(D) = 0{,}6 \\times 0{,}03 + 0{,}4 \\times 0{,}05 = 0{,}038$ et $P_D(M_2) = \\frac{0{,}02}{0{,}038} = \\frac{10}{19} \\approx 0{,}53$.",
         "Exercice de première (indépendance) : on tire une carte au hasard dans un jeu de 32 cartes. Les événements $A$ : « la carte est un cœur » et $B$ : « la carte est un as » sont-ils indépendants ? Même question après avoir ajouté un joker au jeu. Corrigé : avec 32 cartes, $P(A \\cap B) = \\frac{1}{32} = \\frac{8}{32} \\times \\frac{4}{32}$ : indépendants. Avec 33 cartes, $P(A \\cap B) = \\frac{1}{33}$ alors que $P(A)P(B) = \\frac{32}{1089} \\neq \\frac{1}{33} = \\frac{33}{1089}$ : ils ne le sont plus. L'indépendance dépend de la probabilité.",
         "Exercice de terminale (au moins un succès) : un archer atteint sa cible avec probabilité $0{,}3$ à chaque tir, les tirs étant indépendants. Combien de tirs faut-il au minimum pour que la probabilité d'atteindre au moins une fois la cible dépasse $0{,}99$ ? Corrigé : la probabilité cherchée est $1 - 0{,}7^n$ et $1 - 0{,}7^n \\ge 0{,}99 \\iff 0{,}7^n \\le 0{,}01 \\iff n \\ge \\frac{\\ln 0{,}01}{\\ln 0{,}7} \\approx 12{,}9$ (le logarithme de $0{,}7$ est négatif, ce qui renverse l'inégalité) : il faut au moins 13 tirs.",
+        "<strong>Variante « exercice puis notion » (voie bac + 3, première épreuve d'admission).</strong> <strong>Exercice (terminale) :</strong> chaque jour, un serveur est en panne avec la probabilité $0{,}4$ s'il l'était la veille et $0{,}1$ sinon. On note $p_n$ la probabilité qu'il soit en panne le jour $n$, avec $p_0 = 0$. Montrer que $p_{n+1} = 0{,}3p_n + 0{,}1$, puis exprimer $p_n$ en fonction de $n$ et donner sa limite. <strong>Résolution :</strong> la formule des probabilités totales donne $p_{n+1} = 0{,}4p_n + 0{,}1(1 - p_n) = 0{,}3p_n + 0{,}1$. Le point fixe est $\\ell = \\frac{1}{7}$ ; la suite $(p_n - \\ell)$ est géométrique de raison $0{,}3$, donc $p_n = \\frac{1}{7}\\left(1 - 0{,}3^n\\right)$, qui tend vers $\\frac{1}{7}$. <strong>Notion en jeu :</strong> formule des probabilités totales, appliquée à la partition formée par l'événement et son contraire. <strong>Notions connexes :</strong> suites arithmético-géométriques, chaînes de Markov à deux états, matrices de transition et loi stationnaire (mathématiques expertes). <strong>Pour l'échange avec le jury :</strong> énoncer la formule et démontrer sa validité ; préciser pourquoi la limite ne dépend pas de $p_0$ ; donner l'interprétation de $\\frac{1}{7}$ ; prévoir l'erreur d'un élève qui additionne $0{,}4$ et $0{,}1$ sans pondérer.",
         "Prolongements : indépendance mutuelle de $n$ événements et contre-exemple d'événements deux à deux indépendants mais non mutuellement indépendants (deux lancers de pièce, « pile au premier », « pile au second », « résultats identiques ») ; chaînes de Markov à deux états et suites arithmético-géométriques ; paradoxe de Simpson ; problème de Monty Hall ; probabilités conditionnelles pour une variable aléatoire et loi géométrique « sans mémoire »."
       ],
       "juryTips": [
@@ -606,7 +653,7 @@
       "domain": "Statistiques & Probabilités",
       "level": "CAPES — leçon (collège, seconde, première, terminale)",
       "prerequisites": [
-        "Niveaux concernés et situation dans les programmes : au collège, recueil et représentation de données, fréquences, moyenne, médiane et étendue ; en seconde, moyenne pondérée, linéarité de la moyenne, écart type, quartiles et écart interquartile, avec l'outil numérique (tableur, programmation) ; en première, en spécialité comme dans l'enseignement scientifique ou les mathématiques du tronc commun selon les séries, tableaux croisés, séries à deux variables et nuages de points ; en terminale, ajustement affine selon les options (mathématiques complémentaires, voie technologique). Les programmes de seconde et de première mis à jour (BO n° 14 du 2 avril 2026) maintiennent cette progression ; le candidat vérifiera dans les textes en vigueur le niveau exact de chaque notion, notamment l'ajustement par moindres carrés.",
+        "Niveaux concernés et situation dans les programmes (placement établi d'après les textes en vigueur en 2026-2027, mise à jour de novembre 2026 : 4e et 3e selon le programme de 2020, seconde et première selon les arrêtés du 26 février 2026, BO n° 14 du 2 avril 2026, terminale selon le programme de 2019) : au collège, recueil et représentation de données, effectifs et fréquences, moyenne, médiane et étendue, histogrammes ; en seconde, moyenne pondérée et linéarité de la moyenne, écart type, effet de l'ajout ou de la suppression d'une valeur sur la moyenne et la médiane, classes de même amplitude (histogramme, polygone des fréquences cumulées, classe médiane), comparaison de deux séries par la moyenne et l'écart type ou par la médiane et l'écart interquartile, croisement de deux variables qualitatives (tableau croisé, fréquences conditionnelles et marginales), avec l'outil numérique (tableur, programmation) ; en première, la spécialité ne comporte pas de statistique à deux variables : nuage de points, point moyen et ajustement affine figurent dans les mathématiques intégrées à l'enseignement scientifique (avec le tableau croisé d'effectifs) et dans le tronc commun technologique, sans connaissance théorique sur les ajustements ; en terminale, droite des moindres carrés, coefficient de corrélation et changement de variable en mathématiques complémentaires, nuage, ajustement affine (moindres carrés présentés) et changement de variable dans le tronc commun technologique. À la rentrée 2027, en voie technologique, le nuage et l'ajustement affine passent en première et seul le changement de variable reste en terminale.",
         "Plan de leçon possible : I. Séries à une variable et indicateurs de position ; II. Indicateurs de dispersion ; III. Séries à deux variables et ajustement affine. Le développement peut être la propriété de minimisation de la moyenne (théorème clé, $\\sum(x_i - a)^2$ minimal en $a = \\bar{x}$), la détermination de la droite des moindres carrés, ou l'étude de l'effet d'une transformation affine sur les indicateurs.",
         "Prérequis des élèves : calcul de fréquences et de pourcentages, fonctions affines et polynômes du second degré (pour la minimisation), symbole $\\sum$, utilisation d'un tableur ou d'une calculatrice.",
         "Recul attendu du candidat : lien entre statistique descriptive et variables aléatoires (espérance, variance, inégalité de Bienaymé-Tchebychev), robustesse de la médiane, interprétation de la variance comme carré d'une distance, droite de régression comme projection orthogonale, coefficient de corrélation et inégalité de Cauchy-Schwarz, corrélation et causalité."
@@ -614,11 +661,11 @@
       "plan": [
         {
           "part": "I. Séries à une variable : indicateurs de position",
-          "content": "Une série statistique quantitative est donnée par des valeurs $x_1, \\dots, x_p$ et des effectifs $n_1, \\dots, n_p$, d'effectif total $N = \\sum n_i$, ou par les fréquences $f_i = \\frac{n_i}{N}$. Moyenne : $\\bar{x} = \\frac{1}{N}\\sum_{i=1}^{p}n_ix_i = \\sum_{i=1}^{p}f_ix_i$. Linéarité (démonstration exigible) : si $y_i = ax_i + b$, alors $\\bar{y} = a\\bar{x} + b$ ; la moyenne d'une réunion de deux séries est la moyenne des moyennes pondérée par les effectifs. Médiane : valeur $Me$ telle qu'au moins la moitié des valeurs soient inférieures ou égales à $Me$ et au moins la moitié supérieures ou égales ; pour une série ordonnée de $N$ valeurs, c'est la valeur de rang $\\frac{N + 1}{2}$ si $N$ est impair, et par convention la demi-somme des valeurs de rangs $\\frac{N}{2}$ et $\\frac{N}{2} + 1$ si $N$ est pair. Exemple : pour la série $2, 3, 3, 5, 7, 22$, $\\bar{x} = 7$ et $Me = 4$. Contre-exemple : la médiane n'est pas linéaire vis-à-vis de la réunion de séries, et la moyenne n'est pas robuste : une seule valeur extrême ($22$) suffit à la rendre supérieure à quatre des six valeurs."
+          "content": "Une série statistique quantitative est donnée par des valeurs $x_1, \\dots, x_p$ et des effectifs $n_1, \\dots, n_p$, d'effectif total $N = \\sum n_i$, ou par les fréquences $f_i = \\frac{n_i}{N}$. Moyenne : $\\bar{x} = \\frac{1}{N}\\sum_{i=1}^{p}n_ix_i = \\sum_{i=1}^{p}f_ix_i$. Linéarité (démonstration accessible) : si $y_i = ax_i + b$, alors $\\bar{y} = a\\bar{x} + b$ ; la moyenne d'une réunion de deux séries est la moyenne des moyennes pondérée par les effectifs. Médiane : valeur $Me$ telle qu'au moins la moitié des valeurs soient inférieures ou égales à $Me$ et au moins la moitié supérieures ou égales ; pour une série ordonnée de $N$ valeurs, c'est la valeur de rang $\\frac{N + 1}{2}$ si $N$ est impair, et par convention la demi-somme des valeurs de rangs $\\frac{N}{2}$ et $\\frac{N}{2} + 1$ si $N$ est pair. Exemple : pour la série $2, 3, 3, 5, 7, 22$, $\\bar{x} = 7$ et $Me = 4$. Contre-exemple : la médiane n'est pas linéaire vis-à-vis de la réunion de séries, et la moyenne n'est pas robuste : une seule valeur extrême ($22$) suffit à la rendre supérieure à quatre des six valeurs."
         },
         {
           "part": "II. Indicateurs de dispersion",
-          "content": "Étendue : différence entre la plus grande et la plus petite valeur. Quartiles : $Q_1$ est la plus petite valeur de la série telle qu'au moins 25 % des valeurs lui soient inférieures ou égales, $Q_3$ la plus petite telle qu'au moins 75 % des valeurs lui soient inférieures ou égales ; écart interquartile $Q_3 - Q_1$ ; diagramme en boîte. Variance : $V = \\frac{1}{N}\\sum_{i=1}^{p}n_i(x_i - \\bar{x})^2$, écart type $\\sigma = \\sqrt{V}$, exprimé dans l'unité des données. Formule de König-Huygens : $V = \\frac{1}{N}\\sum n_ix_i^2 - \\bar{x}^2$ (démonstration exigible : développer le carré et utiliser $\\sum n_i(x_i - \\bar{x}) = 0$). Transformation affine : si $y_i = ax_i + b$, alors $V_y = a^2V_x$ et $\\sigma_y = |a|\\sigma_x$ ; une translation ne modifie pas la dispersion. Propriété de minimisation : la fonction $a \\mapsto \\frac{1}{N}\\sum n_i(x_i - a)^2$ atteint son minimum, égal à $V$, en $a = \\bar{x}$. Exemple : la série $4, 8, 9, 11$ a pour moyenne $8$, pour variance $\\frac{16 + 0 + 1 + 9}{4} = 6{,}5$ et pour écart type $\\sqrt{6{,}5} \\approx 2{,}55$. Contre-exemple : deux séries de même moyenne et de même étendue peuvent avoir des écarts types différents ($0, 5, 5, 5, 10$ et $0, 0, 5, 10, 10$, d'écarts types $\\sqrt{10}$ et $\\sqrt{20}$)."
+          "content": "Étendue : différence entre la plus grande et la plus petite valeur. Quartiles : $Q_1$ est la plus petite valeur de la série telle qu'au moins 25 % des valeurs lui soient inférieures ou égales, $Q_3$ la plus petite telle qu'au moins 75 % des valeurs lui soient inférieures ou égales ; écart interquartile $Q_3 - Q_1$ ; diagramme en boîte. Variance : $V = \\frac{1}{N}\\sum_{i=1}^{p}n_i(x_i - \\bar{x})^2$, écart type $\\sigma = \\sqrt{V}$, exprimé dans l'unité des données. Formule de König-Huygens : $V = \\frac{1}{N}\\sum n_ix_i^2 - \\bar{x}^2$ (démonstration accessible : développer le carré et utiliser $\\sum n_i(x_i - \\bar{x}) = 0$). Transformation affine : si $y_i = ax_i + b$, alors $V_y = a^2V_x$ et $\\sigma_y = |a|\\sigma_x$ ; une translation ne modifie pas la dispersion. Propriété de minimisation : la fonction $a \\mapsto \\frac{1}{N}\\sum n_i(x_i - a)^2$ atteint son minimum, égal à $V$, en $a = \\bar{x}$. Exemple : la série $4, 8, 9, 11$ a pour moyenne $8$, pour variance $\\frac{16 + 0 + 1 + 9}{4} = 6{,}5$ et pour écart type $\\sqrt{6{,}5} \\approx 2{,}55$. Contre-exemple : deux séries de même moyenne et de même étendue peuvent avoir des écarts types différents ($0, 5, 5, 5, 10$ et $0, 0, 5, 10, 10$, d'écarts types $\\sqrt{10}$ et $\\sqrt{20}$)."
         },
         {
           "part": "III. Séries à deux variables et ajustement affine",
@@ -635,6 +682,7 @@
         "Exercice de seconde (moyenne d'une réunion) : dans une classe, les 12 garçons ont une moyenne de $11$ et les 18 filles une moyenne de $13$. Quelle est la moyenne de la classe ? Corrigé : $\\frac{12 \\times 11 + 18 \\times 13}{30} = \\frac{132 + 234}{30} = 12{,}2$, et non $12$ : la moyenne des moyennes doit être pondérée par les effectifs.",
         "Exercice de seconde (médiane et quartiles) : on considère la série des 11 valeurs ordonnées $3, 5, 6, 6, 8, 9, 10, 12, 12, 15, 30$. Déterminer la médiane, les quartiles et l'écart interquartile. Que deviennent la moyenne et la médiane si l'on remplace $30$ par $16$ ? Corrigé : $Me$ est la 6e valeur, $9$ ; $Q_1$ est la 3e valeur ($\\frac{11}{4} = 2{,}75$, arrondi à 3), soit $6$ ; $Q_3$ est la 9e valeur ($\\frac{33}{4} = 8{,}25$, arrondi à 9), soit $12$ ; l'écart interquartile vaut $6$. La moyenne passe de $\\frac{116}{11} \\approx 10{,}5$ à $\\frac{102}{11} \\approx 9{,}3$, la médiane reste égale à $9$ : elle est robuste.",
         "Exercice de terminale (ajustement après changement de variable) : un capital placé évolue ainsi : année $x$ = 0, 1, 2, 3 ; valeur $y$ = 1000, 1100, 1210, 1331. On pose $z = \\ln y$. Montrer que les points $(x ; z)$ sont alignés et en déduire une expression de $y$. Corrigé : $\\frac{y_{k+1}}{y_k} = 1{,}1$ pour chaque $k$, donc $z_{k+1} - z_k = \\ln 1{,}1$ : les points sont alignés sur la droite $z = \\ln 1000 + x\\ln 1{,}1$, ce qui donne $y = 1000 \\times 1{,}1^x$ (évolution à taux constant de 10 %).",
+        "<strong>Variante « exercice puis notion » (voie bac + 3, première épreuve d'admission).</strong> <strong>Exercice (première et terminale) :</strong> on considère la série $2, 4, 4, 7, 13$. Pour tout réel $t$, on pose $f(t) = \\sum_{i=1}^{5}(x_i - t)^2$. Montrer que $f$ admet un minimum en un réel à préciser et calculer ce minimum. Comparer ensuite $g(t) = \\sum_{i=1}^{5}|x_i - t|$ en $t = 4$ et en $t = 6$. <strong>Résolution :</strong> $f(t) = 5t^2 - 2t\\sum x_i + \\sum x_i^2 = 5t^2 - 60t + 254$ est un trinôme minimal en $t = 6$, moyenne de la série, et $f(6) = 74 = 5V$, où $V = 14{,}8$ est la variance. D'autre part $g(4) = 2 + 0 + 0 + 3 + 9 = 14$ et $g(6) = 4 + 2 + 2 + 1 + 7 = 16$ : la moyenne ne minimise pas $g$, qui atteint son minimum en la médiane $4$. <strong>Notion en jeu :</strong> les indicateurs de position sont solutions d'un problème d'optimisation, la moyenne pour l'écart quadratique et la médiane pour l'écart absolu. <strong>Notions connexes :</strong> formule de König-Huygens, droite des moindres carrés, projection orthogonale, sensibilité aux valeurs extrêmes. <strong>Pour l'échange avec le jury :</strong> démontrer que la médiane minimise $g$ en étudiant ses pentes ; dire ce qui change pour un effectif pair (le minimum est atteint sur tout l'intervalle médian) ; remplacer $13$ par $30$ et commenter l'effet sur la moyenne et la médiane.",
         "Prolongements : interprétation géométrique de la droite des moindres carrés comme projection orthogonale dans $\\mathbb{R}^n$ ; inégalité de Cauchy-Schwarz et encadrement $-1 \\le r \\le 1$ ; ajustement de $x$ en $y$ et comparaison des deux droites ; échantillonnage, loi des grands nombres et intervalle de fluctuation ; régression non linéaire par changement de variable ; paradoxe de Simpson sur des moyennes pondérées."
       ],
       "juryTips": [
@@ -651,9 +699,9 @@
       "num": "Leçon 15",
       "title": "Dénombrement et combinatoire : listes, arrangements, permutations et combinaisons",
       "domain": "Algèbre & Combinatoire",
-      "level": "CAPES — leçon (terminale, mathématiques expertes)",
+      "level": "CAPES — leçon (terminale spécialité ; prolongements en mathématiques expertes)",
       "prerequisites": [
-        "Niveaux concernés et situation dans les programmes : le dénombrement est un chapitre de terminale spécialité (principes additif et multiplicatif, $k$-uplets, $k$-uplets d'éléments distincts, permutations, factorielle, combinaisons, triangle de Pascal, nombre de parties d'un ensemble), réinvesti dans la loi binomiale ; il prépare en mathématiques expertes l'arithmétique et la formule du binôme dans $\\mathbb{C}$. Des situations de dénombrement par arbres ou tableaux apparaissent dès le collège et en seconde en probabilités. Le candidat vérifiera dans les programmes en vigueur, y compris après le BO n° 14 du 2 avril 2026 pour la seconde et la première, ce qui relève de chaque niveau.",
+        "Niveaux concernés et situation dans les programmes (placement établi d'après les textes en vigueur en 2026-2027, mise à jour de novembre 2026 : 4e et 3e selon le programme de 2020, seconde et première selon les arrêtés du 26 février 2026, BO n° 14 du 2 avril 2026, terminale selon le programme de 2019) : le dénombrement est un chapitre de terminale spécialité (principes additif et multiplicatif, $k$-uplets, $k$-uplets d'éléments distincts, permutations, factorielle, combinaisons, triangle de Pascal, nombre de parties d'un ensemble), réinvesti dans la loi binomiale ; il prépare en mathématiques expertes l'arithmétique et la formule du binôme dans $\\mathbb{C}$. Coefficients binomiaux et triangle de Pascal figurent aussi en mathématiques complémentaires et dans le tronc commun technologique de terminale, comme nombre de façons d'obtenir $k$ succès ou nombre de chemins d'un arbre. En amont : au collège, dénombrement d'issues surtout pour une épreuve, et pour deux épreuves dans des cas très simples par un tableau à double entrée ; en seconde, vocabulaire ensembliste avec le produit cartésien et le cardinal $\\mathrm{Card}(A)$ d'un ensemble fini, et arbres pondérés en probabilités ; en première, arbres pour la répétition d'au plus 4 épreuves de Bernoulli.",
         "Plan de leçon possible : I. Principes de dénombrement et $k$-uplets ; II. Arrangements, permutations, factorielle ; III. Combinaisons, triangle de Pascal et formule du binôme. Le développement peut être la formule de Pascal et la formule du binôme (théorème clé), le nombre de parties d'un ensemble par deux méthodes, ou une démonstration combinatoire d'une identité (Vandermonde).",
         "Prérequis des élèves : vocabulaire des ensembles (réunion, intersection, produit cartésien, cardinal), arbres, raisonnement par récurrence, suites, probabilités en situation d'équiprobabilité.",
         "Recul attendu du candidat : bijections et cardinaux (principe des bergers), double comptage, principe d'inclusion-exclusion, applications injectives et surjectives, coefficients multinomiaux, lien avec la loi binomiale et la loi hypergéométrique, nombres de Catalan et chemins dans un quadrillage."
@@ -665,11 +713,11 @@
         },
         {
           "part": "II. Arrangements, permutations et factorielle",
-          "content": "Un $k$-uplet d'éléments distincts de $E$ (ou arrangement) est un $k$-uplet dont les composantes sont deux à deux distinctes. Si $\\mathrm{card}(E) = n$ et $1 \\le k \\le n$, leur nombre est $n(n - 1)\\cdots(n - k + 1) = \\frac{n!}{(n - k)!}$, avec $n! = 1 \\times 2 \\times \\cdots \\times n$ et $0! = 1$ (démonstration exigible, par le principe multiplicatif ou par récurrence). Une permutation de $E$ est un $n$-uplet d'éléments distincts de $E$, c'est-à-dire un rangement de tous ses éléments : il y en a $n!$. Exemple : le podium d'une course de 8 coureurs peut être occupé de $8 \\times 7 \\times 6 = 336$ façons ; les anagrammes du mot MATHS sont au nombre de $5! = 120$. Anagrammes avec répétitions : le mot RADAR a $\\frac{5!}{2!\\,2!} = 30$ anagrammes (on divise par les permutations des lettres identiques). Contre-exemple : si $k \\gt n$, il n'existe aucun $k$-uplet d'éléments distincts (principe des tiroirs) : dans un groupe de 367 personnes, deux ont nécessairement le même jour anniversaire."
+          "content": "Un $k$-uplet d'éléments distincts de $E$ (ou arrangement) est un $k$-uplet dont les composantes sont deux à deux distinctes. Si $\\mathrm{card}(E) = n$ et $1 \\le k \\le n$, leur nombre est $n(n - 1)\\cdots(n - k + 1) = \\frac{n!}{(n - k)!}$, avec $n! = 1 \\times 2 \\times \\cdots \\times n$ et $0! = 1$ (démonstration accessible, par le principe multiplicatif ou par récurrence). Une permutation de $E$ est un $n$-uplet d'éléments distincts de $E$, c'est-à-dire un rangement de tous ses éléments : il y en a $n!$. Exemple : le podium d'une course de 8 coureurs peut être occupé de $8 \\times 7 \\times 6 = 336$ façons ; les anagrammes du mot MATHS sont au nombre de $5! = 120$. Anagrammes avec répétitions : le mot RADAR a $\\frac{5!}{2!\\,2!} = 30$ anagrammes (on divise par les permutations des lettres identiques). Contre-exemple : si $k \\gt n$, il n'existe aucun $k$-uplet d'éléments distincts (principe des tiroirs) : dans un groupe de 367 personnes, deux ont nécessairement le même jour anniversaire."
         },
         {
           "part": "III. Combinaisons, triangle de Pascal et formule du binôme",
-          "content": "Une combinaison de $k$ éléments de $E$ est une partie de $E$ à $k$ éléments : l'ordre ne compte pas et il n'y a pas de répétition. Leur nombre est noté $\\binom{n}{k}$ et vaut $\\frac{n!}{k!\\,(n - k)!}$ pour $0 \\le k \\le n$, car chaque partie à $k$ éléments correspond à exactement $k!$ arrangements (démonstration exigible). Propriétés : $\\binom{n}{0} = \\binom{n}{n} = 1$, symétrie $\\binom{n}{k} = \\binom{n}{n - k}$ (passage au complémentaire), relation de Pascal $\\binom{n}{k} + \\binom{n}{k + 1} = \\binom{n + 1}{k + 1}$, triangle de Pascal, $\\sum_{k=0}^{n}\\binom{n}{k} = 2^n$. Formule du binôme : $(a + b)^n = \\sum_{k=0}^{n}\\binom{n}{k}a^kb^{n-k}$ pour des réels ou complexes $a$ et $b$. Lien avec les probabilités : dans un schéma de Bernoulli à $n$ épreuves, $\\binom{n}{k}$ est le nombre de chemins de l'arbre comportant $k$ succès, d'où $P(X = k) = \\binom{n}{k}p^k(1 - p)^{n-k}$. Exemple : une main de 5 cartes d'un jeu de 32 : $\\binom{32}{5} = 201\\,376$ mains ; mains contenant exactement 2 as : $\\binom{4}{2}\\binom{28}{3} = 6 \\times 3276 = 19\\,656$. Contre-exemple : pour un comité comprenant un président et un trésorier, l'ordre (le rôle) compte : on dénombre des arrangements et non des combinaisons."
+          "content": "Une combinaison de $k$ éléments de $E$ est une partie de $E$ à $k$ éléments : l'ordre ne compte pas et il n'y a pas de répétition. Leur nombre est noté $\\binom{n}{k}$ et vaut $\\frac{n!}{k!\\,(n - k)!}$ pour $0 \\le k \\le n$, car chaque partie à $k$ éléments correspond à exactement $k!$ arrangements (démonstration accessible). Propriétés : $\\binom{n}{0} = \\binom{n}{n} = 1$, symétrie $\\binom{n}{k} = \\binom{n}{n - k}$ (passage au complémentaire), relation de Pascal $\\binom{n}{k} + \\binom{n}{k + 1} = \\binom{n + 1}{k + 1}$, triangle de Pascal, $\\sum_{k=0}^{n}\\binom{n}{k} = 2^n$. Formule du binôme : $(a + b)^n = \\sum_{k=0}^{n}\\binom{n}{k}a^kb^{n-k}$ pour des réels ou complexes $a$ et $b$. Lien avec les probabilités : dans un schéma de Bernoulli à $n$ épreuves, $\\binom{n}{k}$ est le nombre de chemins de l'arbre comportant $k$ succès, d'où $P(X = k) = \\binom{n}{k}p^k(1 - p)^{n-k}$. Exemple : une main de 5 cartes d'un jeu de 32 : $\\binom{32}{5} = 201\\,376$ mains ; mains contenant exactement 2 as : $\\binom{4}{2}\\binom{28}{3} = 6 \\times 3276 = 19\\,656$. Contre-exemple : pour un comité comprenant un président et un trésorier, l'ordre (le rôle) compte : on dénombre des arrangements et non des combinaisons."
         }
       ],
       "keyTheorem": {
@@ -682,6 +730,7 @@
         "Exercice de terminale (comités) : une association compte 7 femmes et 5 hommes. Combien de comités de 4 personnes peut-on former ? avec exactement 2 femmes ? avec au moins une femme ? Corrigé : $\\binom{12}{4} = 495$ ; $\\binom{7}{2}\\binom{5}{2} = 21 \\times 10 = 210$ ; $\\binom{12}{4} - \\binom{5}{4} = 495 - 5 = 490$, l'événement contraire étant « aucune femme ».",
         "Exercice de terminale (chemins) : dans un quadrillage, on va du point $(0 ; 0)$ au point $(5 ; 3)$ par des pas unitaires vers la droite ou vers le haut. Combien y a-t-il de chemins ? Combien passent par le point $(2 ; 1)$ ? Corrigé : un chemin est une suite de 8 pas dont 3 vers le haut, déterminée par la position de ces 3 pas : $\\binom{8}{3} = 56$ chemins. Par le principe multiplicatif, $\\binom{3}{1} \\times \\binom{5}{2} = 3 \\times 10 = 30$ chemins passent par $(2 ; 1)$.",
         "Exercice de terminale (binôme) : déterminer le coefficient de $x^3$ dans le développement de $(2x - 1)^6$, puis calculer $\\sum_{k=0}^{n}\\binom{n}{k}(-1)^k$ pour $n \\ge 1$. Corrigé : le terme en $x^3$ est $\\binom{6}{3}(2x)^3(-1)^3 = -160x^3$ ; la formule du binôme avec $a = -1$ et $b = 1$ donne $\\sum\\binom{n}{k}(-1)^k = (1 - 1)^n = 0$ : un ensemble non vide a autant de parties de cardinal pair que de cardinal impair.",
+        "<strong>Variante « exercice puis notion » (voie bac + 3, première épreuve d'admission).</strong> <strong>Exercice (terminale) :</strong> dans un groupe de $n$ personnes, on forme un comité d'au moins une personne et on y désigne un président. Dénombrer de deux façons les choix possibles, en déduire $\\sum_{k=1}^{n} k\\binom{n}{k}$ et vérifier le résultat pour $n = 5$. <strong>Résolution :</strong> en choisissant d'abord un comité de $k$ personnes puis son président, on obtient $\\sum_{k=1}^{n} k\\binom{n}{k}$. En choisissant d'abord le président ($n$ choix) puis une partie quelconque des $n - 1$ autres, on obtient $n2^{n-1}$. Pour $n = 5$ : $5 + 20 + 30 + 20 + 5 = 80 = 5 \\times 2^4$. <strong>Notion en jeu :</strong> combinaisons et raisonnement par double comptage. <strong>Notions connexes :</strong> formule du binôme, dérivation de $(1 + x)^n$, espérance de la loi binomiale $\\mathcal{B}\\left(n ; \\frac{1}{2}\\right)$, égale à $\\frac{n}{2}$. <strong>Pour l'échange avec le jury :</strong> retrouver l'identité en dérivant la formule du binôme ; expliquer le lien avec l'espérance ; prévoir l'erreur d'un élève qui oublie de préciser l'ordre des choix et compte deux fois un même comité.",
         "Prolongements : identité de Vandermonde $\\sum_{k}\\binom{p}{k}\\binom{q}{n - k} = \\binom{p + q}{n}$ par double comptage ; formule du crible ; nombre de surjections ; coefficients multinomiaux ; loi hypergéométrique ; nombres de Catalan ; applications en arithmétique ($p$ premier divise $\\binom{p}{k}$ pour $1 \\le k \\le p - 1$, petit théorème de Fermat)."
       ],
       "juryTips": [
@@ -698,7 +747,7 @@
       "num": "Oral 2",
       "title": "Épreuve d'entretien : Éthique professionnelle, laïcité et valeurs de la République",
       "domain": "Éthique & Laïcité",
-      "level": "CAPES / Agrégation",
+      "level": "CAPES — épreuve d'entretien (oral 2)",
       "prerequisites": [
         "Format de l'épreuve d'entretien du CAPES externe (35 minutes, coefficient 3, sans préparation, note 0 éliminatoire), commune à toutes les disciplines : une première partie de 15 minutes sur la motivation et le parcours du candidat, ouverte par une présentation de 5 minutes, puis 20 minutes d'entretien. Au concours bac + 5, la présentation s'appuie sur la fiche individuelle de renseignement et la seconde partie comporte deux mises en situation professionnelles, l'une d'enseignement, l'autre relative à la vie scolaire ; au concours bac + 3, organisé à partir de la session 2026, elle prend la forme d'un entretien comportant une mise en situation, sur les valeurs de la République, dont la laïcité, la projection dans le métier, les exigences du service public, la transition écologique et l'épanouissement de l'élève. Le jury apprécie l'aptitude à s'approprier les valeurs de la République et les exigences du service public.",
         "Constitution du 4 octobre 1958, article 1er : la France est une République indivisible, laïque, démocratique et sociale, qui assure l'égalité devant la loi de tous les citoyens et respecte toutes les croyances.",
@@ -718,6 +767,14 @@
         {
           "part": "III. Mises en situation : une démarche de réponse",
           "content": "Première étape : analyser la situation et nommer les enjeux (sécurité des élèves, droit à l'instruction, apprentissages, valeurs en jeu). Deuxième étape : agir dans la classe avec calme, rappeler la règle sans entrer dans un débat sur les croyances, protéger les élèves, ne pas humilier, poursuivre le cours. Troisième étape : ne pas rester seul, informer le professeur principal, le conseiller principal d'éducation et le chef d'établissement, associer la famille, s'appuyer sur les personnels sociaux et de santé et, pour les atteintes à la laïcité, sur l'équipe académique Valeurs de la République. Quatrième étape, si un mineur est en danger ou en risque de l'être : transmettre sans délai une information préoccupante au président du conseil départemental, par la cellule de recueil des informations préoccupantes (Code de l'action sociale et des familles, articles L. 226-2-1 et L. 226-3), et, en cas de danger grave et immédiat, saisir directement le procureur de la République ; tout fonctionnaire qui acquiert la connaissance d'un crime ou d'un délit dans l'exercice de ses fonctions doit en aviser le procureur de la République (article 40 du Code de procédure pénale). Situations fréquentes en mathématiques : contestation d'un contenu au nom d'une croyance, refus de travailler en groupe mixte, harcèlement entre élèves, fraude à une évaluation, élève à besoins éducatifs particuliers bénéficiant d'un plan d'accompagnement personnalisé ou d'un projet personnalisé de scolarisation."
+        },
+        {
+          "part": "IV. Se présenter en 5 minutes : fiche guidée",
+          "content": "La première partie de l'épreuve dure 15 minutes : une présentation de 5 minutes, puis 10 minutes d'échange sur la motivation et le parcours ; pour la voie bac+5, la présentation s'appuie sur la fiche individuelle de renseignement, et chaque candidat vérifie les modalités de sa session. Ce temps n'est pas un curriculum vitae récité : il doit montrer une cohérence et ouvrir des questions que l'on saura traiter. Préparer par écrit, puis s'entraîner à voix haute, chronomètre en main, sans lire, en cinq temps. Temps 1, environ 30 secondes : se situer (formation, discipline) en une ou deux phrases. Temps 2, environ 1 minute 30 : les deux ou trois étapes du parcours qui expliquent le choix du métier (études, expérience auprès de jeunes, emploi, engagement), chacune reliée à ce qu'elle a appris. Temps 3, environ 1 minute 30 : une expérience précise racontée en quatre points (situation, action, résultat, enseignement tiré), si possible liée aux mathématiques et sans élément permettant d'identifier un élève. Temps 4, environ 1 minute : une conception argumentée du métier de professeur de mathématiques (par exemple faire accéder chacun au raisonnement, travailler en équipe, servir l'intérêt général). Temps 5, environ 30 secondes : ce que l'on cherche encore à apprendre, ce qui ouvre l'échange. Enfin, anticiper trois questions : le point faible du parcours, le choix de l'enseignement dans le second degré, et ce que l'on ferait différemment."
+        },
+        {
+          "part": "V. Grille d'auto-évaluation de la présentation",
+          "content": "Grille de travail indicative, qui n'est pas le barème du jury : s'enregistrer, puis noter chaque critère 0 (absent), 1 (partiel) ou 2 (acquis). Durée : entre 4 minutes 30 et 5 minutes, sans précipitation. Parole : texte non lu, regard vers le jury, débit maîtrisé. Cohérence : chaque étape citée éclaire le choix du métier, sans simple énumération. Concret : au moins une expérience précise et vraie. Réflexivité : une difficulté rencontrée et ce qu'elle a fait changer. Discipline : un exemple montre comment on ferait raisonner des élèves en mathématiques. Métier : les élèves, l'équipe et le service public sont évoqués, sans jugement sur des collègues ou l'institution. Exactitude : seuls les faits et les textes dont on est sûr sont cités. Ouverture : la fin donne au jury une question à poser. Total sur 18 : en dessous de 12, reprendre la cohérence et le concret avant de travailler le débit ; à partir de 14, s'entraîner à l'échange avec une personne qui pose des questions imprévues."
         }
       ],
       "keyTheorem": {
@@ -729,11 +786,15 @@
         "Mise en situation d'enseignement : en cours de probabilités, un élève déclare que le hasard n'existe pas et refuse l'exercice au nom de ses convictions. Réponse attendue : expliquer qu'une probabilité est un outil de modélisation et non une thèse sur le monde, rappeler que les programmes s'imposent à tous sans humilier l'élève, poursuivre le cours, puis reprendre l'échange individuellement et informer l'équipe si le refus persiste.",
         "Mise en situation de vie scolaire : un élève confie être la cible de moqueries répétées sur un réseau social de la part de camarades de la classe. Réponse attendue : écouter et prendre la parole au sérieux, ne pas promettre le secret, informer sans délai le conseiller principal d'éducation et le chef d'établissement, qui mettent en œuvre le protocole de traitement du harcèlement ; depuis la loi du 2 mars 2022, le harcèlement scolaire constitue un délit.",
         "Mise en situation d'évaluation et d'inclusion : un élève bénéficiant d'un plan d'accompagnement personnalisé demande les aménagements prévus lors d'un devoir surveillé. Réponse attendue : les aménagements pédagogiques prévus par le plan (Code de l'éducation, articles L. 311-7 et D. 311-13) s'imposent à l'enseignant ; les appliquer sans les commenter devant la classe, en lien avec le professeur principal, et expliquer que l'équité n'est pas l'uniformité. Ne pas confondre avec les aménagements des examens (temps majoré, secrétaire), qui font l'objet d'une demande et d'une décision distinctes ; pour un élève en situation de handicap, le projet personnalisé de scolarisation relève de l'article L. 112-2.",
-        "Question de motivation : expliquer pourquoi devenir professeur de mathématiques en reliant son parcours à une conception argumentée du métier (transmission des savoirs, exigence, accompagnement de tous les élèves, travail en équipe), illustrée par un exemple concret plutôt que par la récitation du référentiel."
+        "Question de motivation : expliquer pourquoi devenir professeur de mathématiques en reliant son parcours à une conception argumentée du métier (transmission des savoirs, exigence, accompagnement de tous les élèves, travail en équipe), illustrée par un exemple concret plutôt que par la récitation du référentiel.",
+        "Transition écologique (thème de l'entretien au concours de niveau bac + 3) : l'éducation à l'environnement et au développement durable est une mission de l'École (Code de l'éducation, article L. 312-19), portée par toutes les disciplines. En mathématiques, elle passe par des données réelles (séries de températures, consommations d'énergie, pourcentages d'évolution, modèles d'évolution exponentielle) et par l'esprit critique face aux chiffres : source, méthode de mesure, ordre de grandeur, ce qu'une série permet ou non de conclure. La neutralité du professeur porte sur les opinions, pas sur les savoirs : la hausse des températures mesurée est un constat, les choix collectifs pour y répondre relèvent du débat citoyen, sur lequel il ne prend pas parti. À l'échelle de l'établissement : projets interdisciplinaires, éco-délégués, démarche de développement durable. Entraînement : cas « Des données climatiques contestées en classe » et DS associé.",
+        "Épanouissement de l'élève (thème de l'entretien au concours de niveau bac + 3) : la formation scolaire « favorise l'épanouissement de l'enfant » (Code de l'éducation, article L. 111-2), et le service public reconnaît que tous les enfants partagent la capacité d'apprendre et de progresser (article L. 111-1). Pour un professeur de mathématiques : un climat de classe où l'erreur sert à apprendre, une évaluation qui renseigne l'élève sur ses progrès (critères explicites, évaluation formative), l'attention à l'anxiété face aux mathématiques, la vigilance face au harcèlement. Le professeur n'agit pas seul : professeur principal, conseiller principal d'éducation, infirmier, psychologue de l'Éducation nationale, assistant de service social. Entraînement : cas de l'élève qui se dit « nulle en maths » et DS associé.",
+        "Projection dans le métier (thème de l'entretien au concours de niveau bac + 3, distinct de la motivation) : le jury attend une vision réaliste des premières années (formation après le concours, accompagnement par un tuteur, titularisation), des besoins de formation identifiés avec précision (gestion de classe, différenciation, évaluation), la place que le candidat se donne dans l'équipe et dans l'établissement, et la formation continue tout au long de la carrière. La compétence 14 du référentiel de 2013 (« S'engager dans une démarche individuelle et collective de développement professionnel ») en donne le cadre : savoir analyser sa pratique et s'appuyer sur les collègues, l'inspection et la formation. Entraînement : QCM « Se projeter dans le métier devant le jury » et DS associé."
       ],
       "juryTips": [
         "Ne pas opposer laïcité et liberté : la laïcité garantit la liberté de conscience de chacun et l'égalité de tous ; elle impose la neutralité à l'État et à ses agents, non aux élèves en tant que tels.",
         "Ne citer que des textes dont on est sûr : un numéro d'article erroné ou une jurisprudence approximative dessert davantage qu'une réponse fondée sur les principes (Constitution, article L. 111-1, loi de 2004, statut de fonctionnaire, référentiel de 2013).",
+        "Les numéros de fiches cités dans les exercices renvoient au Vademecum « La laïcité à l'École » dans sa version de mars 2024 : la numérotation peut changer d'une édition à l'autre, et il faut vérifier la version en ligne avant de citer un numéro.",
         "Ne pas présenter une réponse solitaire : le jury attend que le candidat situe son action dans une équipe (professeur principal, conseiller principal d'éducation, chef d'établissement, personnels sociaux et de santé) et connaisse les circuits de signalement.",
         "Le dialogue avec l'élève et sa famille précède la procédure disciplinaire, mais il vise la compréhension de la règle et non sa négociation.",
         "Relier les situations à la discipline : la démarche mathématique (distinction entre conjecture et preuve, esprit critique face aux chiffres et aux statistiques) contribue à la formation du citoyen, ce que le jury apprécie de voir illustré par un exemple de classe."
@@ -744,7 +805,7 @@
       "num": "Oral 2 – Cas",
       "title": "Épreuve d'entretien : études de cas en trois étapes (règle de droit, réaction immédiate, action durable)",
       "domain": "Éthique & Laïcité",
-      "level": "CAPES / Agrégation",
+      "level": "CAPES — épreuve d'entretien (oral 2)",
       "prerequisites": [
         "Avoir travaillé le chapitre « Épreuve d'entretien : éthique professionnelle, laïcité et valeurs de la République », qui présente le format de l'épreuve et le cadre institutionnel.",
         "Connaître les grands textes : article 1er de la Constitution, loi du 9 décembre 1905, article L. 111-1 du Code de l'éducation, article L. 141-5-1 (loi du 15 mars 2004), obligations des agents publics (articles L. 121-1 et L. 121-2 du Code général de la fonction publique).",
@@ -784,6 +845,15 @@
     }
   ];
 
+  const COMPLEMENT_NOTE = "Statut de cette fiche : complément disciplinaire de niveau licence, pour consolider les connaissances et prendre du recul sur les programmes du secondaire. Ce n'est pas un plan de séance de classe : pour préparer l'oral de leçon, voir les fiches Leçon 11 à 15 et se reporter à la liste officielle des sujets de la session.";
+  const COMPLEMENT_VOIE_NOTE = "Voie et format : ce complément sert surtout aux écrits, c'est-à-dire la première épreuve d'admissibilité de la voie bac + 3 (4 h, exercices ou problèmes) et l'épreuve disciplinaire de la voie bac + 5 (5 h). À l'oral, il donne du recul sur les notions. Les programmes de ces écrits ne couvrent pas tout son contenu : comparer chaque partie au programme de la session préparée.";
+  const LICENCE_RENVOI_NOTE = "Rubriques des écrits sans fiche CAPES dédiée : le programme de la voie bac + 3 cite aussi des notions travaillées dans les chapitres de licence du site, à réviser pour l'épreuve d'exercices et de problèmes et souvent mobilisées dans les exercices de DS des compléments : polynômes et leurs racines (L1-02), systèmes linéaires et pivot de Gauss-Jordan (L1-03), axiomatique de $\\mathbb{R}$ et borne supérieure (L1-06), développements limités (L1-09), courbes paramétrées (L2-13), fonctions de deux variables (L2-15), suites et séries de fonctions (L3-07), séries entières (L3-08).";
+  const LECON_VOIE_NOTE = "Voie et format : le plan et les développements de cette fiche suivent le format de la leçon de la voie bac + 5 et du troisième concours (2 h 30 de préparation, puis 1 h : plan 20 min, développement 10 min, entretien 30 min). En voie bac + 3, la première épreuve d'admission (2 h 30 de préparation, puis 1 h : exposé 20 min, échange 40 min) part de la résolution d'un exercice, puis de la notion en jeu et des notions connexes : voir la variante « exercice puis notion » dans les développements de cette fiche.";
+  CAPES_LESSONS.forEach((lesson) => {
+    if (lesson.complement) lesson.prerequisites.unshift(COMPLEMENT_NOTE, COMPLEMENT_VOIE_NOTE, LICENCE_RENVOI_NOTE);
+    else if (/^capes-1[1-5]$/.test(lesson.id)) lesson.prerequisites.unshift(LECON_VOIE_NOTE);
+  });
+
   const CAPES_CHAPTERS = CAPES_LESSONS.map((lesson) => {
     let domain = 'analyse';
     if (lesson.id === 'capes-oral2' || (lesson.domain && lesson.domain.includes('Éthique'))) domain = 'oral2';
@@ -798,6 +868,7 @@
       domain: domain,
       domainName: lesson.domain,
       folder: lesson.id,
+      complement: !!lesson.complement,
       num: lesson.num,
       title: lesson.title,
       shortTitle: lesson.title.split(':')[0].trim(),
@@ -810,7 +881,7 @@
   });
 
   // =========================================================================
-  // 2. EXERCICES D'ENTRAÎNEMENT OFFICIELS CAPES / AGRÉGATION (Paliers 1 à 4)
+  // 2. EXERCICES D'ENTRAÎNEMENT CAPES (Paliers 1 à 4)
   // =========================================================================
 
   const CAPES_EXERCISES = {
@@ -838,36 +909,24 @@
         chapterId: 'capes-01',
         tier: 2,
         title: "Wronskien de deux solutions et formule de Liouville",
-        statement: "Soient $y_1, y_2$ deux solutions sur $\\mathbb{R}$ de l'équation $y'' + p(t)y' + q(t)y = 0$, avec $p, q$ continues. On note $W(t) = y_1(t)y_2'(t) - y_1'(t)y_2(t)$ leur Wronskien. Quelle équation différentielle vérifie $W(t)$ ?",
-        type: "mcq",
-        options: [
-          "$W'(t) + p(t)W(t) = 0$, d'où $W(t) = W(t_0) \\exp\\left(-\\int_{t_0}^t p(s)\\,ds\\right)$",
-          "$W'(t) - q(t)W(t) = 0$",
-          "$W'(t) + q(t)W(t) = p(t)$",
-          "$W''(t) + p(t)W'(t) = 0$"
-        ],
-        correctIndex: 0,
-        answer: "$W'(t) + p(t)W(t) = 0$, d'où $W(t) = W(t_0) \\exp\\left(-\\int_{t_0}^t p(s)\\,ds\\right)$",
-        hint1: "Dériver le déterminant Wronskien : $W'(t) = y_1 y_2'' - y_1'' y_2$ et substituer $y_i'' = -p y_i' - q y_i$.",
-        solution: "En dérivant : $W'(t) = y_1' y_2' + y_1 y_2'' - (y_1'' y_2 + y_1' y_2') = y_1 y_2'' - y_1'' y_2$. En remplaçant $y_i'' = -p(t)y_i' - q(t)y_i$, les termes en $q$ s'annulent et il reste $W'(t) = -p(t)(y_1 y_2' - y_1' y_2) = -p(t)W(t)$. C'est la formule de Liouville-Ostrogradski : $W(t) = W(t_0)\\exp(-\\int_{t_0}^t p(s)\\,ds)$. En particulier, $W$ ne s'annule jamais ou est identiquement nul."
+        statement: "Soit $(y_1, y_2)$ un système fondamental de solutions sur $\\mathbb{R}$ de l'équation $y'' + \\frac{2t}{1+t^2}\\,y' + q(t)\\,y = 0$, où $q$ est continue, et soit $W = y_1y_2' - y_1'y_2$ son wronskien. On suppose $W(0) = 10$. Calculer $W(2)$.",
+        type: "exact",
+        answer: "2",
+        hint1: "Dérive $W$ et remplace $y_1''$ et $y_2''$ à l'aide de l'équation : tu obtiens une équation linéaire d'ordre 1 vérifiée par $W$.",
+        hint2: "On a $W' = -\\frac{2t}{1+t^2}\\,W$, et $t \\mapsto \\ln(1+t^2)$ est une primitive de $\\frac{2t}{1+t^2}$. Écris $W(t)$ en fonction de $W(0)$, puis évalue en $t = 2$.",
+        solution: "En dérivant, $W' = y_1y_2'' - y_1''y_2$. L'équation donne $y_i'' = -p\\,y_i' - q\\,y_i$ avec $p(t) = \\frac{2t}{1+t^2}$, et les termes en $q$ se compensent : $W' = -p\\,W$ (formule de Liouville). Donc $W(t) = W(0)\\exp\\left(-\\int_0^t p(s)\\,ds\\right) = \\frac{10}{1+t^2}$. Ainsi $W(2) = \\frac{10}{5} = 2$."
       },
       {
         id: 'capes-01-3',
         chapterId: 'capes-01',
         tier: 3,
         title: "Phénomène de résonance pour un oscillateur forcé non amorti",
-        statement: "On considère l'équation différentielle de l'oscillateur harmonique forcé non amorti : $y'' + 9y = 6\\cos(3t)$. Quelle est la forme d'une solution particulière $y_p(t)$ sur $\\mathbb{R}$ ?",
-        type: "mcq",
-        options: [
-          "$y_p(t) = t \\sin(3t)$",
-          "$y_p(t) = \\frac{2}{3} \\cos(3t)$",
-          "$y_p(t) = e^{3t} \\sin(3t)$",
-          "$y_p(t) = 6t \\cos(3t)$"
-        ],
-        correctIndex: 0,
-        answer: "$y_p(t) = t \\sin(3t)$",
-        hint1: "L'équation caractéristique est $r^2 + 9 = 0 \\implies r = \\pm 3i$. Comme le second membre a pour pulsation $\\omega = 3$, il y a résonance, la solution particulière est de la forme $t(A\\cos(3t) + B\\sin(3t))$.",
-        solution: "L'équation homogène a pour solutions $y_H(t) = A\\cos(3t) + B\\sin(3t)$. La pulsation d'excitation est $\\omega = 3$, qui est précisément la pulsation propre. Comme $3i$ est racine simple du polynôme caractéristique $P(r) = r^2+9$, on cherche une solution complexe de $z'' + 9z = 6e^{3it}$ sous la forme $z(t) = C t e^{3it}$. On a $P'(3i) = 2(3i) = 6i$, donc $C = \\frac{6}{P'(3i)} = \\frac{6}{6i} = -i$. Ainsi $z(t) = -i t e^{3it} = -i t (\\cos(3t) + i\\sin(3t)) = t\\sin(3t) - it\\cos(3t)$. La partie réelle est $y_p(t) = t\\sin(3t)$. On vérifie bien $y_p'' + 9y_p = 6\\cos(3t)$."
+        statement: "On considère le problème $y'' + 9y = 12\\cos(3t)$, $y(0) = 0$, $y'(0) = 3$. Sa solution s'écrit $y(t) = (\\alpha + \\beta t)\\sin(3t)$. Déterminer le couple $(\\alpha ; \\beta)$, à saisir sous la forme $(a;b)$.",
+        type: "exact",
+        answer: "(1;2)",
+        hint1: "Calcule $y'$ et $y''$ pour la forme proposée, reporte dans l'équation pour trouver $\\beta$, puis utilise la condition sur $y'(0)$.",
+        hint2: "Pour cette forme, le calcul donne $y'' + 9y = 6\\beta\\cos(3t)$. Identifie $\\beta$, puis exprime $y'(0)$ en fonction de $\\alpha$.",
+        solution: "On a $y' = 3\\alpha\\cos(3t) + \\beta\\sin(3t) + 3\\beta t\\cos(3t)$ et $y'' = -9\\alpha\\sin(3t) + 6\\beta\\cos(3t) - 9\\beta t\\sin(3t)$. Donc $y'' + 9y = 6\\beta\\cos(3t)$, d'où $6\\beta = 12$ et $\\beta = 2$. La condition $y(0) = 0$ est vérifiée, et $y'(0) = 3\\alpha = 3$ donne $\\alpha = 1$. La solution est $y(t) = (1 + 2t)\\sin(3t)$ : le terme en $t\\sin(3t)$, non borné, traduit la résonance, car la pulsation du second membre égale la pulsation propre."
       },
       {
         id: 'capes-01-4',
@@ -877,13 +936,13 @@
         statement: "Soit le système différentiel $Y' = AY$ dans $\\mathbb{R}^n$, où $A \\in \\mathcal{M}_n(\\mathbb{R})$. À quelle condition nécessaire et suffisante sur les valeurs propres de $A$ l'origine $0$ est-elle un équilibre globalement asymptotiquement stable (c'est-à-dire $\\lim_{t \\to +\\infty} Y(t) = 0$ pour toute condition initiale) ?",
         type: "mcq",
         options: [
-          "Toutes les valeurs propres de A (réelles ou complexes) ont une partie réelle strictement négative : $\\forall \\lambda \\in \\mathrm{Sp}(A),\\; \\mathrm{Re}(\\lambda) < 0$",
-          "Toutes les valeurs propres de A sont réelles et négatives ou nulles",
-          "Le déterminant de A est strictement négatif",
-          "La trace de A est strictement négative"
+          "Toutes les valeurs propres de A (complexes) ont une partie réelle strictement négative",
+          "Toutes les valeurs propres de A sont réelles, et chacune d'elles est négative ou nulle",
+          "Le déterminant de A est strictement négatif, quelle que soit la dimension n",
+          "La trace de A, somme des valeurs propres, est strictement négative"
         ],
         correctIndex: 0,
-        answer: "Toutes les valeurs propres de A (réelles ou complexes) ont une partie réelle strictement négative : $\\forall \\lambda \\in \\mathrm{Sp}(A),\\; \\mathrm{Re}(\\lambda) < 0$",
+        answer: "Toutes les valeurs propres de A (complexes) ont une partie réelle strictement négative",
         hint1: "Penser à la décomposition de Dunford ou à la réduction de Jordan : les composantes de $\\exp(tA)$ font intervenir des termes de la forme $t^k e^{\\lambda t}$.",
         solution: "Par décomposition de Jordan ou Dunford de $A$, les coefficients de la matrice résolvante $\\exp(tA)$ sont des combinaisons linéaires de fonctions de la forme $t^k e^{\\lambda t} = t^k e^{\\mathrm{Re}(\\lambda)t} e^{i \\mathrm{Im}(\\lambda)t}$ où $\\lambda \\in \\mathrm{Sp}(A)$ et $0 \\le k \\le n-1$. Ces termes tendent vers 0 quand $t \\to +\\infty$ si et seulement si $\\mathrm{Re}(\\lambda) < 0$ pour toute valeur propre $\\lambda$. Le système est donc asymptotiquement stable si et seulement si toutes les valeurs propres de $A$ sont de partie réelle strictement négative. Le critère de Routh-Hurwitz permet ensuite de vérifier cette condition sur les seuls coefficients du polynôme caractéristique, sans calculer les valeurs propres."
       }
@@ -894,44 +953,32 @@
         id: 'capes-02-1',
         chapterId: 'capes-02',
         tier: 1,
-        title: "Caractérisation spectrale de la diagonalisabilité",
-        statement: "Soit $E$ un espace vectoriel de dimension finie $n \\ge 1$ sur un corps $K$ et $u \\in \\mathcal{L}(E)$. Laquelle des assertions suivantes équivaut à la diagonalisabilité de $u$ sur $K$ ?",
-        type: "mcq",
-        options: [
-          "Le polynôme minimal $\\pi_u$ est scindé sur K à racines simples",
-          "Le polynôme caractéristique $\\chi_u$ n'a que des racines simples",
-          "Le déterminant de u est non nul",
-          "La trace de u est égale à la somme des dimensions des sous-espaces propres"
-        ],
-        correctIndex: 0,
-        answer: "Le polynôme minimal $\\pi_u$ est scindé sur K à racines simples",
-        hint1: "Un endomorphisme peut être diagonalisable même si $\\chi_u$ admet des racines multiples (ex: l'identité). En revanche, le lemme des noyaux appliqué à $\\pi_u$ donne une CNS.",
-        solution: "D'après le lemme des noyaux, si $\\pi_u(X) = \\prod_{i=1}^k (X - \\lambda_i)$ avec les $\\lambda_i$ distincts deux à deux, alors $\\ker(\\pi_u(u)) = E = \\bigoplus_{i=1}^k \\ker(u - \\lambda_i \\mathrm{Id})$, ce qui montre que $E$ est somme directe de ses sous-espaces propres, donc $u$ est diagonalisable. Réciproquement, si $u$ est diagonalisable, $\\prod (X - \\lambda_i)$ annule $u$ et est donc le polynôme minimal."
+        title: "Dimension d'un sous-espace propre",
+        statement: "Soit $A = \\begin{pmatrix} 2 & 1 & 1 \\\\ 1 & 2 & 1 \\\\ 1 & 1 & 2 \\end{pmatrix}$. Déterminer la dimension du sous-espace propre de $A$ associé à la valeur propre $1$.",
+        type: "exact",
+        answer: "2",
+        hint1: "Le sous-espace propre associé à $1$ est le noyau de $A - I_3$. Utilise le théorème du rang.",
+        hint2: "Toutes les lignes de $A - I_3$ sont égales à $(1\\ 1\\ 1)$. Quel est son rang ?",
+        solution: "$E_1(A) = \\ker(A - I_3)$, et $A - I_3$ est la matrice dont tous les coefficients valent $1$ : elle est de rang $1$. D'après le théorème du rang, $\\dim E_1(A) = 3 - 1 = 2$. Remarque : $A$ admet aussi la valeur propre $4$, de vecteur propre $(1, 1, 1)$, et la somme des dimensions vaut $3$, donc $A$ est diagonalisable."
       },
       {
         id: 'capes-02-2',
         chapterId: 'capes-02',
         tier: 2,
         title: "Polynôme annulateur et critère de diagonalisation",
-        statement: "Soit $A \\in \\mathcal{M}_3(\\mathbb{R})$ telle que $A \\ne I_3$, $A \\ne -2I_3$ et vérifiant $A^3 - 3A + 2I_3 = 0$. Sachant que $X^3 - 3X + 2 = (X - 1)^2(X + 2)$, quelle condition nécessaire et suffisante garantit que $A$ est diagonalisable sur $\\mathbb{R}$ ?",
-        type: "mcq",
-        options: [
-          "Son polynôme minimal est $\\pi_A(X) = (X - 1)(X + 2)$, c'est-à-dire $(A - I_3)(A + 2I_3) = 0$",
-          "Son déterminant est strictement positif",
-          "Sa trace est égale à 0",
-          "A est nécessairement toujours diagonalisable sans condition supplémentaire"
-        ],
-        correctIndex: 0,
-        answer: "Son polynôme minimal est $\\pi_A(X) = (X - 1)(X + 2)$, c'est-à-dire $(A - I_3)(A + 2I_3) = 0$",
-        hint1: "Pour être diagonalisable, le polynôme minimal de $A$ doit être scindé à racines simples. Il divise $(X-1)^2(X+2)$.",
-        solution: "Le polynôme $P(X) = (X - 1)^2(X + 2)$ annule $A$. Le polynôme minimal $\\pi_A$ divise $P(X)$. Pour que $A$ soit diagonalisable, $\\pi_A$ doit être scindé à racines simples. Les diviseurs à racines simples contenant à la fois 1 et -2 (car $A \\ne I_3$ et $A \\ne -2I_3$) sont $(X-1)(X+2)$. Donc $A$ est diagonalisable ssi $(A - I_3)(A + 2I_3) = 0$."
+        statement: "Soit $A \\in \\mathcal{M}_3(\\mathbb{R})$ telle que $A^3 - 3A + 2I_3 = 0$ et $\\mathrm{tr}(A) = 0$. Déterminer $\\det(A)$.",
+        type: "exact",
+        answer: "-2",
+        hint1: "Toute valeur propre complexe de $A$ est racine d'un polynôme annulateur. Factorise $X^3 - 3X + 2$, puis utilise la trace, somme des valeurs propres comptées avec multiplicité.",
+        hint2: "$X^3 - 3X + 2 = (X - 1)^2(X + 2)$. Si $a$ et $b$ sont les multiplicités de $1$ et $-2$ dans le polynôme caractéristique, alors $a + b = 3$ et $a - 2b = 0$.",
+        solution: "$X^3 - 3X + 2 = (X - 1)^2(X + 2)$ annule $A$, donc le spectre complexe de $A$ est inclus dans $\\{1, -2\\}$. Soient $a$ et $b$ les multiplicités respectives dans le polynôme caractéristique : $a + b = 3$ et, par la trace, $a - 2b = 0$. Donc $a = 2$ et $b = 1$. Le déterminant est le produit des valeurs propres comptées avec multiplicité : $\\det(A) = 1^2 \\times (-2) = -2$. Une telle matrice existe, par exemple $\\mathrm{diag}(1, 1, -2)$."
       },
       {
         id: 'capes-02-3',
         chapterId: 'capes-02',
         tier: 3,
         title: "Décomposition de Dunford et calcul de l'exponentielle",
-        statement: "Soit $A = \\begin{pmatrix} 2 & 1 \\\\ 0 & 2 \\end{pmatrix} \\in \\mathcal{M}_2(\\mathbb{R})$. On pose $D = 2I_2$ et $N = \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix}$. Quelle est l'expression exacte de l'exponentielle $\\exp(tA)$ pour $t \\in \\mathbb{R}$ ?",
+        statement: "**Pour aller plus loin** : la décomposition de Dunford et l'exponentielle de matrice ne sont pas traitées dans le cours de ce chapitre, et la première ne figure pas aux programmes des écrits.\nSoit $A = \\begin{pmatrix} 2 & 1 \\\\ 0 & 2 \\end{pmatrix} \\in \\mathcal{M}_2(\\mathbb{R})$. On pose $D = 2I_2$ et $N = \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix}$. Quelle est l'expression exacte de l'exponentielle $\\exp(tA)$ pour $t \\in \\mathbb{R}$ ?",
         type: "mcq",
         options: [
           "$\\exp(tA) = e^{2t} \\begin{pmatrix} 1 & t \\\\ 0 & 1 \\end{pmatrix}$",
@@ -949,18 +996,18 @@
         chapterId: 'capes-02',
         tier: 4,
         title: "Endomorphismes cycliques et égalité des polynômes",
-        statement: "Soit $E$ un espace vectoriel de dimension $n$ sur $K$ et $u \\in \\mathcal{L}(E)$. On dit que $u$ est cyclique s'il existe $x_0 \\in E$ tel que $(x_0, u(x_0), \\dots, u^{n-1}(x_0))$ soit une base de $E$. Laquelle des propriétés suivantes est équivalente à la cyclicité de $u$ ?",
+        statement: "**Pour aller plus loin** : la notion d'endomorphisme cyclique n'est qu'évoquée dans un développement du cours de ce chapitre et ne figure pas aux programmes des écrits.\nSoit $E$ un espace vectoriel de dimension $n \\ge 1$ sur $\\mathbb{K} = \\mathbb{R}$ ou $\\mathbb{C}$ et $u \\in \\mathcal{L}(E)$. On dit que $u$ est cyclique s'il existe $x_0 \\in E$ tel que $(x_0, u(x_0), \\dots, u^{n-1}(x_0))$ soit une base de $E$. Laquelle des propriétés suivantes est équivalente à la cyclicité de $u$ ?",
         type: "mcq",
         options: [
-          "Le degré du polynôme minimal est égal à la dimension de l'espace : $\\deg(\\pi_u) = \\deg(\\chi_u) = n$, soit $\\pi_u = (-1)^n \\chi_u$",
-          "Toutes les valeurs propres de u sont nulles",
-          "u est diagonalisable",
+          "$\\deg(\\pi_u) = n$, c'est-à-dire $\\pi_u = \\chi_u$",
+          "Toutes les valeurs propres de $u$ sont nulles",
+          "$u$ est diagonalisable",
           "La dimension de chaque sous-espace propre est supérieure ou égale à 2"
         ],
         correctIndex: 0,
-        answer: "Le degré du polynôme minimal est égal à la dimension de l'espace : $\\deg(\\pi_u) = \\deg(\\chi_u) = n$, soit $\\pi_u = (-1)^n \\chi_u$",
+        answer: "$\\deg(\\pi_u) = n$, c'est-à-dire $\\pi_u = \\chi_u$",
         hint1: "Si la famille $(u^k(x_0))_{0 \\le k \\le n-1}$ est libre, aucun polynôme non nul de degré $< n$ ne peut annuler $x_0$.",
-        solution: "Si $u$ est cyclique avec vecteur générateur $x_0$, alors pour tout polynôme $P$ non nul de degré $\\le n-1$, $P(u)(x_0) \\ne 0$, donc $\\deg(\\pi_u) \\ge n$. Comme $\\pi_u \\mid \\chi_u$ et $\\deg(\\chi_u) = n$, on en déduit $\\deg(\\pi_u) = n$. Réciproquement, d'après le théorème des facteurs invariants de Frobenius, $\\deg(\\pi_u) = n$ implique que $u$ n'a qu'un seul facteur invariant, ce qui équivaut à la cyclicité."
+        solution: "Si $u$ est cyclique avec vecteur générateur $x_0$, alors pour tout polynôme $P$ non nul de degré $\\le n-1$, $P(u)(x_0) \\ne 0$ car la famille $(x_0, \\dots, u^{n-1}(x_0))$ est libre, donc $\\deg(\\pi_u) \\ge n$. Comme $\\pi_u \\mid \\chi_u$ (théorème de Cayley-Hamilton) et $\\deg(\\chi_u) = n$, on en déduit $\\deg(\\pi_u) = n$ et, ces deux polynômes étant unitaires, $\\pi_u = \\chi_u$. Réciproquement, supposons $\\deg(\\pi_u) = n$. Pour tout diviseur unitaire strict $D$ de $\\pi_u$, on a $\\deg(D) < \\deg(\\pi_u)$, donc $D(u) \\ne 0$ et $\\ker D(u)$ est un sous-espace strict de $E$. Ces diviseurs sont en nombre fini et, $\\mathbb{K}$ étant infini, $E$ n'est pas réunion finie de sous-espaces stricts : il existe $x_0$ n'appartenant à aucun de ces noyaux. Le polynôme unitaire de plus petit degré annulant $x_0$ (c'est-à-dire $P$ tel que $P(u)(x_0) = 0$) divise $\\pi_u$ et n'en est pas un diviseur strict : il est égal à $\\pi_u$, de degré $n$. Aucun polynôme non nul de degré $\\le n-1$ n'annule donc $x_0$ : la famille $(x_0, \\dots, u^{n-1}(x_0))$ est libre, c'est une base de $E$."
       }
     ],
 
@@ -970,72 +1017,61 @@
         chapterId: 'capes-03',
         tier: 1,
         title: "Théorème de Dirichlet et valeur de la série de Fourier",
-        statement: "Soit $f : \\mathbb{R} \\to \\mathbb{R}$ une fonction $2\\pi$-périodique et $\\mathcal{C}^1$ par morceaux sur $\\mathbb{R}$. Que vaut la somme de sa série de Fourier $S(f)(x) = a_0 + \\sum_{n=1}^{+\\infty} (a_n\\cos(nx) + b_n\\sin(nx))$ en un point de discontinuité $x_0$ ?",
-        type: "mcq",
-        options: [
-          "$\\frac{f(x_0^+) + f(x_0^-)}{2}$ (la demi-somme des limites à droite et à gauche)",
-          "$f(x_0)$",
-          "0",
-          "La série de Fourier diverge en $x_0$"
-        ],
-        correctIndex: 0,
-        answer: "$\\frac{f(x_0^+) + f(x_0^-)}{2}$ (la demi-somme des limites à droite et à gauche)",
-        hint1: "Le théorème de Dirichlet fait intervenir les limites à droite et à gauche $f(x_0^+)$ et $f(x_0^-)$. En un point de continuité, elles valent toutes deux $f(x_0)$ ; en un point de saut, quelle valeur symétrique la série peut-elle prendre ? (Pense à l'onde créneau impaire en $x_0 = 0$.)",
-        solution: "D'après le théorème de Dirichlet, pour toute fonction $f$ $2\\pi$-périodique et $\\mathcal{C}^1$ par morceaux, en tout point $x \\in \\mathbb{R}$, la série de Fourier converge et sa somme vaut la régularisée de $f$, c'est-à-dire $\\frac{f(x^+) + f(x^-)}{2}$. Si $f$ est continue en $x_0$, cette valeur coïncide avec $f(x_0)$."
+        statement: "Soit $f$ la fonction $2\\pi$-périodique, de classe $\\mathcal{C}^1$ par morceaux, définie par $f(x) = 1$ sur $]0 ; \\pi[$ et $f(x) = 3$ sur $]-\\pi ; 0[$. Quelle est la somme de sa série de Fourier au point $x = 0$ ?",
+        type: "exact",
+        answer: "2",
+        hint1: "Applique le théorème de Dirichlet : en un point de discontinuité, la série converge vers la demi-somme des limites à gauche et à droite.",
+        hint2: "Ici, $f(0^+) = 1$ et $f(0^-) = 3$.",
+        solution: "$f$ est de classe $\\mathcal{C}^1$ par morceaux, donc le théorème de Dirichlet s'applique : la série de Fourier converge en $0$ vers $\\frac{f(0^+) + f(0^-)}{2} = \\frac{1 + 3}{2} = 2$. La somme ne dépend pas de la valeur éventuellement donnée à $f(0)$."
       },
       {
         id: 'capes-03-2',
         chapterId: 'capes-03',
         tier: 2,
         title: "Coefficients de Fourier d'une onde créneau",
-        statement: "Soit $f$ la fonction $2\\pi$-périodique, impaire, définie sur $]0, \\pi[$ par $f(x) = 1$ et $f(0) = f(\\pi) = 0$. Quels sont ses coefficients de Fourier réels $b_n$ pour $n \\ge 1$ ?",
+        statement: "Soit $f$ la fonction $2\\pi$-périodique, impaire, définie sur $]0 ; \\pi[$ par $f(x) = 1$ et $f(0) = f(\\pi) = 0$. Quels sont ses coefficients de Fourier réels $b_n$ pour $n \\ge 1$ ?",
         type: "mcq",
         options: [
-          "$b_n = \\frac{4}{\\pi n}$ si n est impair, et $b_n = 0$ si n est pair",
-          "$b_n = \\frac{2}{\\pi n}$ pour tout n",
-          "$b_n = \\frac{(-1)^n}{\\pi n^2}$",
+          "$b_n = \\frac{4}{\\pi n}$ si n est impair, $0$ sinon",
+          "$b_n = \\frac{2}{\\pi n}$ pour tout entier n non nul",
+          "$b_n = \\frac{(-1)^n}{\\pi n^2}$ pour tout entier n",
           "$b_n = 0$ pour tout n"
         ],
         correctIndex: 0,
-        answer: "$b_n = \\frac{4}{\\pi n}$ si n est impair, et $b_n = 0$ si n est pair",
-        hint1: "Comme $f$ est impaire, $a_n = 0$ et $b_n = \\frac{2}{\\pi} \\int_0^\\pi \\sin(nt)\\,dt = \\frac{2}{\\pi n}[-\\cos(nt)]_0^\\pi$.",
+        answer: "$b_n = \\frac{4}{\\pi n}$ si n est impair, $0$ sinon",
+        hint1: "Comme $f$ est impaire, tous les $a_n$ sont nuls et $b_n = \\frac{2}{\\pi} \\int_0^\\pi f(t)\\sin(nt)\\,dt$.",
+        hint2: "Sur $]0 ; \\pi[$, $f(t) = 1$ et une primitive de $\\sin(nt)$ est $-\\frac{\\cos(nt)}{n}$. Il reste à exprimer $\\cos(n\\pi)$ en distinguant $n$ pair et $n$ impair.",
         solution: "Par imparité de $f$, $a_n = 0$ pour tout $n$. Pour $b_n$ : $b_n = \\frac{2}{\\pi} \\int_0^\\pi 1 \\cdot \\sin(nt)\\,dt = \\frac{2}{\\pi n} (1 - \\cos(n\\pi)) = \\frac{2(1 - (-1)^n)}{\\pi n}$. Si $n = 2k$ est pair, $1 - (-1)^{2k} = 0$, d'où $b_{2k} = 0$. Si $n = 2k+1$ est impair, $1 - (-1)^{2k+1} = 2$, d'où $b_{2k+1} = \\frac{4}{\\pi(2k+1)}$."
       },
       {
         id: 'capes-03-3',
         chapterId: 'capes-03',
         tier: 3,
-        title: "Calcul de la somme de Bâle via le développement de x²",
-        statement: "Soit $f$ la fonction $2\\pi$-périodique paire définie sur $[-\\pi, \\pi]$ par $f(x) = x^2$. Sachant que son développement en série de Fourier est $f(x) = \\frac{\\pi^2}{3} + 4 \\sum_{n=1}^{+\\infty} \\frac{(-1)^n}{n^2} \\cos(nx)$, que donne l'évaluation en $x = \\pi$ pour la somme $\\sum_{n=1}^{+\\infty} \\frac{1}{n^2}$ ?",
-        type: "mcq",
-        options: [
-          "$\\sum_{n=1}^{+\\infty} \\frac{1}{n^2} = \\frac{\\pi^2}{6}$",
-          "$\\sum_{n=1}^{+\\infty} \\frac{1}{n^2} = \\frac{\\pi^2}{12}$",
-          "$\\sum_{n=1}^{+\\infty} \\frac{1}{n^2} = \\frac{\\pi^2}{8}$",
-          "$\\sum_{n=1}^{+\\infty} \\frac{1}{n^2} = 1$"
-        ],
-        correctIndex: 0,
-        answer: "$\\sum_{n=1}^{+\\infty} \\frac{1}{n^2} = \\frac{\\pi^2}{6}$",
-        hint1: "Comme $f$ est continue et $\\mathcal{C}^1$ par morceaux, $S(f)(\\pi) = f(\\pi) = \\pi^2$. Noter que $\\cos(n\\pi) = (-1)^n$.",
-        solution: "$f$ est continue sur $\\mathbb{R}$ et $\\mathcal{C}^1$ par morceaux. D'après le théorème de Dirichlet, $f(\\pi) = \\pi^2 = \\frac{\\pi^2}{3} + 4 \\sum_{n=1}^{+\\infty} \\frac{(-1)^n (-1)^n}{n^2} = \\frac{\\pi^2}{3} + 4 \\sum_{n=1}^{+\\infty} \\frac{1}{n^2}$. On en déduit : $4 \\sum_{n=1}^{+\\infty} \\frac{1}{n^2} = \\pi^2 - \\frac{\\pi^2}{3} = \\frac{2\\pi^2}{3}$, d'où $\\sum_{n=1}^{+\\infty} \\frac{1}{n^2} = \\frac{\\pi^2}{6}$."
+        title: "Somme alternée déduite du développement de x²",
+        statement: "Soit $f$ la fonction $2\\pi$-périodique paire définie sur $[-\\pi ; \\pi]$ par $f(x) = x^2$. Son développement en série de Fourier est $f(x) = \\frac{\\pi^2}{3} + 4 \\sum_{n=1}^{+\\infty} \\frac{(-1)^n}{n^2} \\cos(nx)$, valable pour tout réel $x$. En déduire la valeur de $\\sum_{n=1}^{+\\infty} \\frac{(-1)^{n+1}}{n^2}$.",
+        type: "exact",
+        answer: "π²/12",
+        hint1: "Choisis la valeur de $x$ qui fait apparaître $(-1)^n$ sans autre facteur dans le terme général.",
+        hint2: "En $x = 0$, on a $\\cos(nx) = 1$ et $f(0) = 0$. Écris l'égalité obtenue et attention au signe de la somme demandée.",
+        solution: "En $x = 0$ : $0 = \\frac{\\pi^2}{3} + 4\\sum_{n=1}^{+\\infty} \\frac{(-1)^n}{n^2}$. Donc $\\sum_{n=1}^{+\\infty} \\frac{(-1)^n}{n^2} = -\\frac{\\pi^2}{12}$ et, en changeant de signe, $\\sum_{n=1}^{+\\infty} \\frac{(-1)^{n+1}}{n^2} = \\frac{\\pi^2}{12}$. L'évaluation en $x = \\pi$, où $\\cos(n\\pi) = (-1)^n$, donne de même $\\sum_{n=1}^{+\\infty} \\frac{1}{n^2} = \\frac{\\pi^2}{6}$."
       },
       {
         id: 'capes-03-4',
         chapterId: 'capes-03',
         tier: 4,
         title: "Phénomène de Gibbs et absence de convergence uniforme",
-        statement: "Lors de l'approximation d'une fonction présentant une discontinuité de première espèce par ses sommes partielles de Fourier $S_N(f)$, quel est le comportement de l'oscillation maximale au voisinage du saut quand $N \\to +\\infty$ ?",
+        statement: "Soit $f$ une fonction présentant une discontinuité de première espèce, et $S_N(f)$ ses sommes partielles de Fourier. On admet que, mesuré depuis le milieu du saut, le maximum de $S_N(f)$ au voisinage du saut tend, quand $N \\to +\\infty$, vers $\\frac{2}{\\pi}\\int_0^\\pi \\frac{\\sin t}{t}\\,dt \\approx 1{,}179$ fois le demi-saut. Quel est le comportement de l'oscillation maximale au voisinage du saut quand $N \\to +\\infty$ ?",
         type: "mcq",
         options: [
-          "Les sommes partielles dépassent le palier d'environ $8{,}95\\,\\%$ du saut : le dépassement persiste et ne tend pas vers 0 (défaut de convergence uniforme)",
+          "Un dépassement d'environ $8{,}95\\,\\%$ du saut, qui ne tend pas vers 0",
           "L'oscillation tend vers 0 uniformément dès que $N \\ge 50$",
           "Le dépassement tend vers $+\\infty$ comme $\\ln(N)$",
           "La série converge toujours normalement, donc il n'y a aucun dépassement"
         ],
         correctIndex: 0,
-        answer: "Les sommes partielles dépassent le palier d'environ $8{,}95\\,\\%$ du saut : le dépassement persiste et ne tend pas vers 0 (défaut de convergence uniforme)",
-        hint1: "Près du saut, le maximum de $S_N(f)$ tend vers $\\frac{2}{\\pi}\\int_0^\\pi \\frac{\\sin t}{t}\\,dt \\approx 1{,}179$ fois le demi-saut : traduis ce dépassement en pourcentage du saut total, et demande-toi s'il dépend de $N$.",
-        solution: "Le phénomène de Gibbs montre que pour une fonction discontinue de première espèce (comme le créneau), les sommes partielles de Fourier oscillent au voisinage de la discontinuité avec un dépassement asymptotique constant égal à $\\frac{1}{\\pi} \\int_0^\\pi \\frac{\\sin(t)}{t}\\,dt - \\frac{1}{2} \\approx 0{,}08949$, soit environ $8{,}95\\,\\%$ de la hauteur du saut. Cela illustre rigoureusement l'absence de convergence uniforme sur tout intervalle contenant une discontinuité."
+        answer: "Un dépassement d'environ $8{,}95\\,\\%$ du saut, qui ne tend pas vers 0",
+        hint1: "Le dépassement du palier, exprimé en demi-sauts, est l'excès de ce rapport sur $1$ : convertis-le en pourcentage du saut total, puis demande-toi si cette limite dépend de $N$.",
+        solution: "Le phénomène de Gibbs montre que pour une fonction discontinue de première espèce (comme le créneau), les sommes partielles de Fourier oscillent au voisinage de la discontinuité avec un dépassement asymptotique constant : en fraction du saut total, il vaut $\\frac{1}{2}\\left(\\frac{2}{\\pi} \\int_0^\\pi \\frac{\\sin t}{t}\\,dt - 1\\right) = \\frac{1}{\\pi} \\int_0^\\pi \\frac{\\sin t}{t}\\,dt - \\frac{1}{2} \\approx 0{,}0895$, soit environ $8{,}95\\,\\%$ de la hauteur du saut, indépendamment de $N$. Cela illustre rigoureusement l'absence de convergence uniforme sur tout intervalle contenant une discontinuité."
       }
     ],
 
@@ -1048,51 +1084,39 @@
         statement: "Soit $X$ une variable aléatoire à valeurs dans $\\mathbb{N}^*$. Quelle loi discrète est l'unique loi vérifiant la propriété d'absence de mémoire : $\\forall (n, k) \\in (\\mathbb{N}^*)^2,\\; P(X > n+k \\mid X > n) = P(X > k)$ ?",
         type: "mcq",
         options: [
-          "La loi géométrique $\\mathcal{G}(p)$ avec $p \\in ]0, 1[$",
-          "La loi de Poisson $\\mathcal{P}(\\lambda)$",
+          "La loi géométrique $\\mathcal{G}(p)$, $p \\in ]0 ; 1[$",
+          "La loi de Poisson $\\mathcal{P}(\\lambda)$, $\\lambda > 0$",
           "La loi binomiale $\\mathcal{B}(n, p)$",
           "La loi uniforme discrète"
         ],
         correctIndex: 0,
-        answer: "La loi géométrique $\\mathcal{G}(p)$ avec $p \\in ]0, 1[$",
+        answer: "La loi géométrique $\\mathcal{G}(p)$, $p \\in ]0 ; 1[$",
         hint1: "L'équation fonctionnelle $g(n+k) = g(n)g(k)$ pour $g(n) = P(X > n)$ conduit à $g(n) = q^n$ avec $q = 1-p$.",
-        solution: "Posons $g(n) = P(X > n)$. La relation conditionnelle s'écrit $\\frac{P(X > n+k)}{P(X > n)} = P(X > k)$, soit $g(n+k) = g(n)g(k)$. Sur $\\mathbb{N}^*$, l'unique solution décroissante vérifiant $g(0)=1$ est $g(n) = q^n$ avec $q = g(1) \\in ]0, 1[$. Alors $P(X = k) = P(X > k-1) - P(X > k) = q^{k-1}(1-q) = p(1-p)^{k-1}$, ce qui caractérise la loi géométrique $\\mathcal{G}(p)$."
+        solution: "Posons $g(n) = P(X > n)$. La relation conditionnelle s'écrit $\\frac{P(X > n+k)}{P(X > n)} = P(X > k)$, soit $g(n+k) = g(n)g(k)$. Sur $\\mathbb{N}^*$, l'unique solution décroissante vérifiant $g(0)=1$ est $g(n) = q^n$ avec $q = g(1) \\in ]0 ; 1[$. Alors $P(X = k) = P(X > k-1) - P(X > k) = q^{k-1}(1-q) = p(1-p)^{k-1}$, ce qui caractérise la loi géométrique $\\mathcal{G}(p)$."
       },
       {
         id: 'capes-04-2',
         chapterId: 'capes-04',
         tier: 2,
         title: "Fonction génératrice d'une variable de Poisson",
-        statement: "Soit $X \\sim \\mathcal{P}(\\lambda)$ une variable suivant une loi de Poisson de paramètre $\\lambda > 0$. Quelle est l'expression de sa fonction génératrice $G_X(t) = \\mathbb{E}(t^X)$ pour tout $t \\in \\mathbb{R}$ ?",
-        type: "mcq",
-        options: [
-          "$G_X(t) = e^{\\lambda(t - 1)}$",
-          "$G_X(t) = \\frac{\\lambda}{1 - t}$",
-          "$G_X(t) = (1 - p + pt)^n$",
-          "$G_X(t) = e^{\\lambda t}$"
-        ],
-        correctIndex: 0,
-        answer: "$G_X(t) = e^{\\lambda(t - 1)}$",
-        hint1: "Écrire $\\mathbb{E}(t^X) = \\sum_{k=0}^{+\\infty} t^k e^{-\\lambda} \\frac{\\lambda^k}{k!} = e^{-\\lambda} \\sum_{k=0}^{+\\infty} \\frac{(\\lambda t)^k}{k!}$.",
-        solution: "Par définition : $G_X(t) = \\sum_{k=0}^{+\\infty} t^k P(X = k) = \\sum_{k=0}^{+\\infty} t^k e^{-\\lambda} \\frac{\\lambda^k}{k!} = e^{-\\lambda} \\sum_{k=0}^{+\\infty} \\frac{(\\lambda t)^k}{k!} = e^{-\\lambda} e^{\\lambda t} = e^{\\lambda(t-1)}$. On vérifie immédiatement $G_X'(1) = \\lambda = \\mathbb{E}(X)$ et $G_X''(1) + G_X'(1) - (G_X'(1))^2 = \\lambda^2 + \\lambda - \\lambda^2 = \\lambda = \\mathbb{V}(X)$."
+        statement: "Soit $X$ une variable aléatoire suivant la loi de Poisson de paramètre $3$. Sa fonction génératrice est $G_X(t) = e^{3(t-1)}$. Calculer $E(X^2)$ à l'aide de $G_X$.",
+        type: "exact",
+        answer: "12",
+        hint1: "Pour une variable dont la fonction génératrice est assez régulière en $1$, on a $G_X'(1) = E(X)$ et $G_X''(1) = E(X(X-1))$.",
+        hint2: "$G_X'(t) = 3e^{3(t-1)}$, donc $G_X'(1) = 3$. Calcule $G_X''(1)$, puis écris $E(X^2) = E(X(X-1)) + E(X)$.",
+        solution: "$G_X'(1) = 3 = E(X)$ et $G_X''(t) = 9e^{3(t-1)}$, donc $E(X(X-1)) = G_X''(1) = 9$. Ainsi $E(X^2) = E(X(X-1)) + E(X) = 9 + 3 = 12$. On retrouve $V(X) = 12 - 3^2 = 3$, ce qui est bien la variance attendue."
       },
       {
         id: 'capes-04-3',
         chapterId: 'capes-04',
         tier: 3,
         title: "Problème du collectionneur de vignettes (Coupon Collector)",
-        statement: "Un collectionneur cherche à obtenir $n$ vignettes distinctes. À chaque paquet acheté, la vignette obtenue est choisie uniformément parmi les $n$ vignettes, indépendamment des tirages précédents. Quel est le nombre moyen $E(T_n)$ de paquets nécessaires pour compléter la collection ?",
-        type: "mcq",
-        options: [
-          "$E(T_n) = n H_n = n \\sum_{k=1}^n \\frac{1}{k} \\sim n \\ln(n)$",
-          "$E(T_n) = n^2$",
-          "$E(T_n) = \\frac{n(n+1)}{2}$",
-          "$E(T_n) = n \\ln(2)$"
-        ],
-        correctIndex: 0,
-        answer: "$E(T_n) = n H_n = n \\sum_{k=1}^n \\frac{1}{k} \\sim n \\ln(n)$",
-        hint1: "Décomposer le temps total en somme de temps d'attente $T_n = \\sum_{k=1}^n X_k$ où $X_k$ est le nombre d'achats pour trouver une $k$-ième nouvelle vignette sachant qu'on en a déjà $k-1$.",
-        solution: "Soit $X_k$ le temps pour obtenir la $k$-ième vignette différente. Lorsqu'on possède $k-1$ vignettes, la probabilité d'en tirer une nouvelle est $p_k = \\frac{n - (k-1)}{n}$. $X_k$ suit donc une loi géométrique $\\mathcal{G}(p_k)$ sur $\\mathbb{N}^*$, d'espérance $E(X_k) = \\frac{1}{p_k} = \\frac{n}{n - k + 1}$. Par linéarité de l'espérance : $E(T_n) = \\sum_{k=1}^n E(X_k) = \\sum_{k=1}^n \\frac{n}{n - k + 1} = n \\sum_{j=1}^n \\frac{1}{j} = n H_n \\sim n \\ln(n)$."
+        statement: "Une collection compte $4$ vignettes différentes. Chaque achat fournit une vignette uniformément au hasard, indépendamment des précédents. Calculer le nombre moyen d'achats nécessaires pour compléter la collection, sous forme de fraction irréductible.",
+        type: "exact",
+        answer: "25/3",
+        hint1: "Décompose le nombre d'achats en une somme de temps d'attente : quand tu possèdes $k$ vignettes distinctes, le temps avant d'en obtenir une nouvelle suit une loi géométrique.",
+        hint2: "Avec $k$ vignettes déjà possédées, la probabilité de succès est $\\frac{4 - k}{4}$ et le temps moyen vaut $\\frac{4}{4 - k}$. Additionne pour $k$ allant de $0$ à $3$.",
+        solution: "On note $T = T_0 + T_1 + T_2 + T_3$, où $T_k$ est le temps d'attente d'une nouvelle vignette quand on en possède $k$ distinctes. $T_k$ suit la loi géométrique de paramètre $\\frac{4-k}{4}$, donc $E(T_k) = \\frac{4}{4-k}$. Par linéarité : $E(T) = \\frac{4}{4} + \\frac{4}{3} + \\frac{4}{2} + \\frac{4}{1} = 1 + \\frac{4}{3} + 2 + 4 = \\frac{25}{3}$. En général, $E(T_n) = n\\sum_{k=1}^n \\frac{1}{k}$."
       },
       {
         id: 'capes-04-4',
@@ -1102,13 +1126,13 @@
         statement: "Soit $(X_n)_{n \\ge 1}$ une suite de variables aléatoires deux à deux non corrélées, de même espérance $\\mu$ et dont les variances sont uniformément majorées : $\\forall n,\\; V(X_n) \\le M < +\\infty$. Que dit l'inégalité de Bienaymé-Tchebychev sur la moyenne empirique $\\bar{X}_n = \\frac{1}{n} \\sum_{i=1}^n X_i$ ?",
         type: "mcq",
         options: [
-          "$P(|\\bar{X}_n - \\mu| \\ge \\varepsilon) \\le \\frac{M}{n \\varepsilon^2} \\xrightarrow[n \\to +\\infty]{} 0$ (convergence en probabilité)",
+          "$P(|\\bar{X}_n - \\mu| \\ge \\varepsilon) \\le \\frac{M}{n \\varepsilon^2}$, donc convergence en probabilité vers $\\mu$",
           "$P(|\\bar{X}_n - \\mu| \\ge \\varepsilon) = 0$ pour tout $n \\ge 100$",
-          "La moyenne empirique ne converge que si les variables sont indépendantes et identiquement distribuées",
+          "La moyenne empirique ne converge que si les variables sont indépendantes et de même loi, ce qui n'est pas supposé ici",
           "La variance de $\\bar{X}_n$ vaut $M$"
         ],
         correctIndex: 0,
-        answer: "$P(|\\bar{X}_n - \\mu| \\ge \\varepsilon) \\le \\frac{M}{n \\varepsilon^2} \\xrightarrow[n \\to +\\infty]{} 0$ (convergence en probabilité)",
+        answer: "$P(|\\bar{X}_n - \\mu| \\ge \\varepsilon) \\le \\frac{M}{n \\varepsilon^2}$, donc convergence en probabilité vers $\\mu$",
         hint1: "Calculer la variance de la moyenne : comme les variables sont non corrélées, $\\mathbb{V}(\\sum X_i) = \\sum \\mathbb{V}(X_i) \\le n M$, d'où $\\mathbb{V}(\\bar{X}_n) \\le \\frac{M}{n}$.",
         solution: "Par linéarité de l'espérance, $E(\\bar{X}_n) = \\mu$. Comme les variables sont non corrélées, la covariance croisée s'annule, donc $V(\\bar{X}_n) = \\frac{1}{n^2} \\sum_{i=1}^n V(X_i) \\le \\frac{nM}{n^2} = \\frac{M}{n}$. D'après l'inégalité de Bienaymé-Tchebychev : $\\forall \\varepsilon > 0,\\; P(|\\bar{X}_n - \\mu| \\ge \\varepsilon) \\le \\frac{V(\\bar{X}_n)}{\\varepsilon^2} \\le \\frac{M}{n \\varepsilon^2}$. Quand $n \\to +\\infty$, cette borne tend vers 0, ce qui prouve la loi faible des grands nombres."
       }
@@ -1120,18 +1144,12 @@
         chapterId: 'capes-05',
         tier: 1,
         title: "Identité du parallélogramme et normes préhilbertiennes",
-        statement: "Dans un espace vectoriel normé $(E, \\|\\cdot\\|)$, à quelle condition nécessaire et suffisante la norme provient-elle d'un produit scalaire (théorème de Fréchet-von Neumann-Jordan) ?",
-        type: "mcq",
-        options: [
-          "La norme vérifie l'identité du parallélogramme : $\\forall x, y \\in E,\\; \\|x + y\\|^2 + \\|x - y\\|^2 = 2\\|x\\|^2 + 2\\|y\\|^2$",
-          "La norme est bornée sur la boule unité",
-          "L'espace E est de dimension finie",
-          "La boule unité fermée est un polyèdre convexe"
-        ],
-        correctIndex: 0,
-        answer: "La norme vérifie l'identité du parallélogramme : $\\forall x, y \\in E,\\; \\|x + y\\|^2 + \\|x - y\\|^2 = 2\\|x\\|^2 + 2\\|y\\|^2$",
-        hint1: "Penser aux identités de polarisation permettant de reconstituer le produit scalaire $\\langle x, y \\rangle = \\frac{1}{4}(\\|x+y\\|^2 - \\|x-y\\|^2)$.",
-        solution: "Le théorème de Fréchet-von Neumann-Jordan affirme qu'une norme est issue d'un produit scalaire si et seulement si elle vérifie l'identité du parallélogramme. Dans ce cas, le produit scalaire est donné par la formule de polarisation : $\\langle x, y \\rangle = \\frac{1}{4}(\\|x+y\\|^2 - \\|x-y\\|^2)$ dans le cas réel."
+        statement: "Dans un espace préhilbertien réel, on a $\\|x\\| = 3$, $\\|y\\| = 2$ et $\\|x + y\\| = 4$. Calculer $\\|x - y\\|^2$.",
+        type: "exact",
+        answer: "10",
+        hint1: "Utilise l'identité du parallélogramme, qui relie $\\|x + y\\|^2$, $\\|x - y\\|^2$, $\\|x\\|^2$ et $\\|y\\|^2$.",
+        hint2: "$\\|x + y\\|^2 + \\|x - y\\|^2 = 2\\|x\\|^2 + 2\\|y\\|^2$, avec $\\|x + y\\|^2 = 16$. Remplace les autres normes.",
+        solution: "L'identité du parallélogramme s'obtient en développant les deux carrés scalaires. Elle donne $\\|x - y\\|^2 = 2 \\times 9 + 2 \\times 4 - 16 = 10$. **Pour aller plus loin :** le théorème de Fréchet-von Neumann-Jordan affirme réciproquement qu'une norme vérifiant cette identité provient d'un produit scalaire, donné par la formule de polarisation."
       },
       {
         id: 'capes-05-2',
@@ -1156,36 +1174,62 @@
         chapterId: 'capes-05',
         tier: 3,
         title: "Distance d'une fonction aux constantes par projection orthogonale",
-        statement: "Dans $E = \\mathcal{C}([0, 1], \\mathbb{R})$ muni du produit scalaire usuel $\\langle f, g \\rangle = \\int_0^1 f(t)g(t)\\,dt$, quelle est la distance de la fonction $f(t) = t^2$ au sous-espace des fonctions constantes $F = \\mathbb{R} \\cdot 1$ ?",
-        type: "mcq",
-        options: [
-          "$d(f, F) = \\frac{2}{3\\sqrt{5}}$",
-          "$d(f, F) = \\frac{1}{3}$",
-          "$d(f, F) = \\frac{1}{\\sqrt{5}}$",
-          "$d(f, F) = \\frac{1}{6}$"
-        ],
-        correctIndex: 0,
-        answer: "$d(f, F) = \\frac{2}{3\\sqrt{5}}$",
-        hint1: "Le projeté orthogonal de $f$ sur $\\mathbb{R}\\cdot 1$ est la constante $c = \\frac{\\langle f, 1 \\rangle}{\\|1\\|^2} = \\int_0^1 t^2\\,dt = 1/3$. La distance au carré vaut $\\|f - c\\|^2 = \\int_0^1 (t^2 - 1/3)^2\\,dt$.",
-        solution: "Le projeté orthogonal de $f$ sur $F$ est $p_F(f) = c$ où $c = \\frac{\\int_0^1 t^2\\,dt}{\\int_0^1 1\\,dt} = \\frac{1}{3}$. La distance au carré vaut $d(f, F)^2 = \\int_0^1 (t^2 - 1/3)^2\\,dt = \\int_0^1 (t^4 - \\frac{2}{3}t^2 + \\frac{1}{9})\\,dt = \\frac{1}{5} - \\frac{2}{9} + \\frac{1}{9} = \\frac{1}{5} - \\frac{1}{9} = \\frac{4}{45}$. On prend la racine carrée : $d(f, F) = \\sqrt{\\frac{4}{45}} = \\frac{2}{3\\sqrt{5}}$."
+        statement: "Dans $E = \\mathcal{C}([0 ; 1], \\mathbb{R})$ muni du produit scalaire $\\langle f, g \\rangle = \\int_0^1 f(t)g(t)\\,dt$, on note $f(t) = t^2$ et $F$ le sous-espace des fonctions constantes. Calculer le carré $d(f, F)^2$ de la distance de $f$ à $F$, sous forme de fraction irréductible.",
+        type: "exact",
+        answer: "4/45",
+        hint1: "Le projeté orthogonal de $f$ sur $F$ est la constante $\\langle f, 1 \\rangle$, car $\\|1\\| = 1$. Puis applique le théorème de Pythagore.",
+        hint2: "$\\langle f, 1 \\rangle = \\int_0^1 t^2\\,dt = \\frac{1}{3}$ et $d(f, F)^2 = \\|f\\|^2 - \\langle f, 1 \\rangle^2$. Il reste à calculer $\\|f\\|^2$.",
+        solution: "Comme $\\|1\\| = 1$, le projeté orthogonal de $f$ sur $F$ est la constante $p = \\langle f, 1 \\rangle = \\frac{1}{3}$. Par le théorème de Pythagore, $d(f, F)^2 = \\|f\\|^2 - p^2 = \\int_0^1 t^4\\,dt - \\frac{1}{9} = \\frac{1}{5} - \\frac{1}{9} = \\frac{4}{45}$. La distance vaut donc $\\frac{2}{3\\sqrt{5}}$."
       },
       {
         id: 'capes-05-4',
         chapterId: 'capes-05',
         tier: 4,
-        title: "Bipolaire orthogonal et adhérence en dimension infinie",
-        statement: "Soit $E$ un espace de Hilbert réel (préhilbertien complet) et $F$ un sous-espace vectoriel de $E$. Quelle est la relation exacte entre $F$ et son bipolaire orthogonal $F^{\\perp\\perp}$ ?",
+        title: "Orthogonal d'un hyperplan en dimension infinie",
+        statement: "On munit $E = \\mathbb{R}[X]$ du produit scalaire $\\langle P, Q \\rangle = \\sum_{k \\ge 0} p_kq_k$, où $P = \\sum p_kX^k$ et $Q = \\sum q_kX^k$, et l'on pose $G = \\{P \\in E : P(2) = 0\\}$, hyperplan de $E$. Que peut-on dire de $G^{\\perp}$, de $G^{\\perp\\perp}$ et de la somme $G + G^{\\perp}$ ?",
         type: "mcq",
         options: [
-          "$F^{\\perp\\perp} = \\bar{F}$ (l'adhérence de F pour la topologie induite par le produit scalaire)",
-          "$F^{\\perp\\perp} = F$ toujours, quel que soit l'espace et le sous-espace",
-          "$F^{\\perp\\perp} = \\{0\\}$",
-          "$F^{\\perp\\perp} = E$"
+          "$G^{\\perp} = \\{0\\}$, donc $G^{\\perp\\perp} = E \\neq G$ et $G + G^{\\perp} = G \\neq E$",
+          "$G^{\\perp}$ est une droite, puisque $G$ est un hyperplan, et $E = G \\oplus G^{\\perp}$",
+          "$G^{\\perp} = \\mathrm{Vect}(X - 2)$ et $G^{\\perp\\perp} = G$",
+          "$G^{\\perp} = \\{0\\}$, mais $G^{\\perp\\perp} = G$ comme pour tout sous-espace"
         ],
         correctIndex: 0,
-        answer: "$F^{\\perp\\perp} = \\bar{F}$ (l'adhérence de F pour la topologie induite par le produit scalaire)",
-        hint1: "Comme l'application $x \\mapsto \\langle x, y \\rangle$ est continue, tout orthogonal $S^\\perp$ est un sous-espace fermé. Si $F$ est dense mais distinct de $E$, $F^{\\perp\\perp} = E \\ne F$.",
-        solution: "Pour tout sous-ensemble $S$, l'orthogonal $S^\\perp$ est une intersection de noyaux de formes linéaires continues, donc est un sous-espace vectoriel fermé. Ainsi, $F^{\\perp\\perp}$ est fermé et contient $F$, donc contient $\\bar{F}$. Comme $E$ est complet, $\\bar{F}$ est un sous-espace fermé et $E = \\bar{F} \\oplus \\bar{F}^{\\perp}$ (théorème de projection), avec $\\bar{F}^{\\perp} = F^{\\perp}$ ; on en déduit exactement $F^{\\perp\\perp} = \\bar{F}$. Attention : dans un espace seulement préhilbertien (non complet), on a uniquement l'inclusion $\\bar{F} \\subset F^{\\perp\\perp}$, qui peut être stricte. En particulier, si $F$ n'est pas fermé (par exemple les polynômes $\\mathbb{R}[X]$ dans $L^2([0, 1])$), $F^{\\perp\\perp} = L^2([0, 1]) \\ne F$."
+        answer: "$G^{\\perp} = \\{0\\}$, donc $G^{\\perp\\perp} = E \\neq G$ et $G + G^{\\perp} = G \\neq E$",
+        hint1: "Pour décrire $G^{\\perp}$, il suffit qu'un polynôme $Q$ soit orthogonal à une famille simple d'éléments de $G$ : cherche des polynômes de $G$ qui n'ont que deux coefficients non nuls.",
+        hint2: "Pour tout $k \\ge 0$, $X^{k+1} - 2X^k$ appartient à $G$. Traduis $\\langle Q, X^{k+1} - 2X^k \\rangle = 0$ en une relation entre $q_{k+1}$ et $q_k$, puis souviens-toi que $Q$ n'a qu'un nombre fini de coefficients non nuls.",
+        solution: "$G$ est le noyau de la forme linéaire non nulle $P \\mapsto P(2)$ : c'est un hyperplan, distinct de $E$. Soit $Q \\in G^{\\perp}$. Pour tout $k \\ge 0$, $X^{k+1} - 2X^k \\in G$, donc $0 = \\langle Q, X^{k+1} - 2X^k \\rangle = q_{k+1} - 2q_k$. Par récurrence, $q_k = 2^kq_0$ pour tout $k$. Comme $Q$ est un polynôme, $q_k = 0$ pour $k$ assez grand, d'où $q_0 = 0$, puis $q_k = 0$ pour tout $k$ : $G^{\\perp} = \\{0\\}$. Par conséquent $G^{\\perp\\perp} = \\{0\\}^{\\perp} = E \\neq G$, et $G + G^{\\perp} = G \\neq E$. La deuxième affirmation reproduit à tort le cas de la dimension finie ; la troisième est fausse car $X - 2 \\in G$ et $\\langle X - 2, X - 2 \\rangle = 5 \\neq 0$ ; la quatrième contredit $\\{0\\}^{\\perp} = E$. Ce contre-exemple montre que l'hypothèse « $F$ de dimension finie » du théorème de projection ne peut pas être supprimée : en dimension finie, on aurait $E = G \\oplus G^{\\perp}$ et $G^{\\perp\\perp} = G$."
+      },
+      {
+        id: 'capes-05-5',
+        chapterId: 'capes-05',
+        tier: 2,
+        title: "Nature d'une application affine du plan",
+        statement: "Dans le plan rapporté à un repère, on considère l'application $f$ qui à tout point $M(x ; y)$ associe le point $M'(-2x + 6 ; -2y + 3)$. Quelle est la nature de $f$ ?",
+        type: "mcq",
+        options: [
+          "L'homothétie de centre $\\Omega(2 ; 1)$ et de rapport $-2$",
+          "L'homothétie de centre $\\Omega(6 ; 3)$ et de rapport $-2$",
+          "L'homothétie de centre $\\Omega(2 ; 1)$ et de rapport $2$",
+          "Une application affine sans point fixe"
+        ],
+        correctIndex: 0,
+        answer: "L'homothétie de centre $\\Omega(2 ; 1)$ et de rapport $-2$",
+        hint1: "Écris $f(M) = f(O) + \\vec{f}(\\overrightarrow{OM})$ pour identifier la partie linéaire $\\vec{f}$, puis cherche les points fixes de $f$.",
+        hint2: "La partie linéaire est $(x ; y) \\mapsto (-2x ; -2y)$, c'est-à-dire $-2\\,\\mathrm{id}$. Un point fixe vérifie $x = -2x + 6$ et $y = -2y + 3$.",
+        solution: "La partie linéaire de $f$ est $-2\\,\\mathrm{id}$. Comme $-2 \\neq 1$, $f$ a un unique point fixe : $x = -2x + 6$ donne $x = 2$ et $y = -2y + 3$ donne $y = 1$, d'où $\\Omega(2 ; 1)$. Alors $\\overrightarrow{\\Omega M'} = (-2x + 6 - 2 ; -2y + 3 - 1) = -2(x - 2 ; y - 1) = -2\\,\\overrightarrow{\\Omega M}$ : $f$ est l'homothétie de centre $\\Omega(2 ; 1)$ et de rapport $-2$. Le point $(6 ; 3)$ est l'image de l'origine, pas le centre."
+      },
+      {
+        id: 'capes-05-6',
+        chapterId: 'capes-05',
+        tier: 3,
+        title: "Axe et angle d'une rotation de l'espace",
+        statement: "Dans $\\mathbb{R}^3$ muni de sa structure euclidienne canonique, on considère l'endomorphisme $u$ de matrice $A = \\frac{1}{3}\\begin{pmatrix} 2 & -1 & 2 \\\\ 2 & 2 & -1 \\\\ -1 & 2 & 2 \\end{pmatrix}$ dans la base canonique. Vérifier que $u$ est une rotation, déterminer son axe, puis donner la mesure $\\theta \\in [0 ; \\pi]$ de son angle (angle non orienté).",
+        type: "exact",
+        answer: "π/3",
+        hint1: "Les colonnes de $A$ sont unitaires et deux à deux orthogonales, et $\\det A = 1$. Pour une rotation d'angle $\\theta$ de l'espace, la trace vaut $1 + 2\\cos\\theta$ : écris sa matrice dans une base orthonormée dont le premier vecteur dirige l'axe.",
+        hint2: "L'axe est dirigé par $(1 ; 1 ; 1)$, car $A$ laisse ce vecteur invariant, et $\\mathrm{tr}\\,A = \\frac{2 + 2 + 2}{3} = 2$. Il reste à résoudre $1 + 2\\cos\\theta = 2$ sur $[0 ; \\pi]$.",
+        solution: "Les colonnes de $A$ sont de norme $1$ (par exemple $\\frac{4 + 4 + 1}{9} = 1$) et deux à deux orthogonales, donc $A^{\\top}A = I_3$ ; de plus $\\det A = 1$ : $u$ est une rotation. Son axe est $\\mathrm{Ker}(u - \\mathrm{id})$ : $A$ envoie $(1 ; 1 ; 1)$ sur lui-même, donc l'axe est la droite dirigée par $(1 ; 1 ; 1)$ (et $u \\neq \\mathrm{id}$). Dans une base orthonormée $(e_1, e_2, e_3)$ où $e_1$ dirige l'axe, la matrice de $u$ est $\\begin{pmatrix} 1 & 0 & 0 \\\\ 0 & \\cos\\theta & -\\sin\\theta \\\\ 0 & \\sin\\theta & \\cos\\theta \\end{pmatrix}$ ; la trace ne dépend pas de la base, donc $1 + 2\\cos\\theta = \\mathrm{tr}\\,A = 2$, d'où $\\cos\\theta = \\frac{1}{2}$ et $\\theta = \\frac{\\pi}{3}$. Vérification : $w = (1 ; -1 ; 0)$ est orthogonal à l'axe, $u(w) = (1 ; 0 ; -1)$ et $\\frac{w \\cdot u(w)}{\\|w\\|\\,\\|u(w)\\|} = \\frac{1}{2}$. Le signe de l'angle orienté dépend de l'orientation choisie sur l'axe."
       }
     ],
 
@@ -1195,72 +1239,60 @@
         chapterId: 'capes-06',
         tier: 1,
         title: "Continuité sous l'intégrale sur un segment compact",
-        statement: "Soit $I$ un intervalle de $\\mathbb{R}$ et $f : I \\times [a, b] \\to \\mathbb{R}$ continue en $(x, t)$. Pourquoi la fonction $F(x) = \\int_a^b f(x, t)\\,dt$ est-elle automatiquement continue sur $I$ sans hypothèse de domination globale supplémentaire ?",
+        statement: "Soit $I$ un intervalle de $\\mathbb{R}$ et $f : I \\times [a ; b] \\to \\mathbb{R}$ continue en $(x, t)$. Pourquoi la fonction $F(x) = \\int_a^b f(x, t)\\,dt$ est-elle automatiquement continue sur $I$ sans hypothèse de domination globale supplémentaire ?",
         type: "mcq",
         options: [
-          "Car le domaine d'intégration $[a, b]$ est un segment compact : sur tout compact $K \\subset I$, $K \\times [a, b]$ est compact et le théorème de Heine assure la continuité uniforme",
-          "Car toute fonction continue en deux variables est dérivable",
-          "Car l'intégrale d'une fonction continue est nulle",
+          "Car $K \\times [a ; b]$ est compact pour tout compact $K \\subset I$, donc $f$ y est uniformément continue (Heine)",
+          "Car $f$ est bornée sur $I \\times [a ; b]$ dès que $I$ est un intervalle, ce qui fournit une domination par une constante",
+          "Car, sur un segment, la convergence simple de $f(x_n, \\cdot)$ vers $f(x, \\cdot)$ suffit toujours à intervertir limite et intégrale",
           "C'est faux : une domination globale est toujours obligatoire même sur un segment"
         ],
         correctIndex: 0,
-        answer: "Car le domaine d'intégration $[a, b]$ est un segment compact : sur tout compact $K \\subset I$, $K \\times [a, b]$ est compact et le théorème de Heine assure la continuité uniforme",
+        answer: "Car $K \\times [a ; b]$ est compact pour tout compact $K \\subset I$, donc $f$ y est uniformément continue (Heine)",
         hint1: "L'hypothèse de domination n'est nécessaire que si le domaine d'intégration n'est pas compact (intervalle infini ou bornes non fermées).",
-        solution: "Lorsque l'intervalle d'intégration $[a, b]$ est un segment, pour tout compact $K \\subset I$, $f$ est continue sur le produit compact $K \\times [a, b]$. D'après le théorème de Heine, $f$ y est uniformément continue : $\\forall \\varepsilon > 0,\\; \\exists \\eta > 0$ tel que $|x - x_0| \\le \\eta \\implies |f(x, t) - f(x_0, t)| \\le \\frac{\\varepsilon}{b-a}$. Par intégration, $|F(x) - F(x_0)| \\le \\varepsilon$. La domination n'est donc nécessaire que sur les intervalles d'intégration non compacts."
+        solution: "Lorsque l'intervalle d'intégration $[a ; b]$ est un segment, pour tout compact $K \\subset I$, $f$ est continue sur le produit compact $K \\times [a ; b]$. D'après le théorème de Heine, $f$ y est uniformément continue : $\\forall \\varepsilon > 0,\\; \\exists \\eta > 0$ tel que $|x - x_0| \\le \\eta \\implies |f(x, t) - f(x_0, t)| \\le \\frac{\\varepsilon}{b-a}$. Par intégration, $|F(x) - F(x_0)| \\le \\varepsilon$. La domination n'est donc nécessaire que sur les intervalles d'intégration non compacts."
       },
       {
         id: 'capes-06-2',
         chapterId: 'capes-06',
         tier: 2,
         title: "Calcul de l'intégrale de Gauss par coordonnées polaires",
-        statement: "En considérant l'intégrale double $I^2 = \\iint_{\\mathbb{R}^2} e^{-(x^2+y^2)}\\,dx\\,dy$, que vaut l'intégrale de Gauss $I = \\int_{-\\infty}^{+\\infty} e^{-t^2}\\,dt$ ?",
-        type: "mcq",
-        options: [
-          "$I = \\sqrt{\\pi}$",
-          "$I = \\pi$",
-          "$I = \\frac{\\sqrt{\\pi}}{2}$",
-          "$I = 1$"
-        ],
-        correctIndex: 0,
-        answer: "$I = \\sqrt{\\pi}$",
-        hint1: "Passer en coordonnées polaires : $dx\\,dy = r\\,dr\\,d\\theta$, avec $r \\in [0, +\\infty[$ et $\\theta \\in [0, 2\\pi[$.",
-        solution: "Par le théorème de Fubini pour les fonctions positives : $I^2 = (\\int_{-\\infty}^{+\\infty} e^{-x^2}\\,dx)(\\int_{-\\infty}^{+\\infty} e^{-y^2}\\,dy) = \\iint_{\\mathbb{R}^2} e^{-(x^2+y^2)}\\,dx\\,dy$. En passant en coordonnées polaires : $I^2 = \\int_0^{2\\pi} d\\theta \\int_0^{+\\infty} e^{-r^2} r\\,dr = 2\\pi [-\\frac{e^{-r^2}}{2}]_0^{+\\infty} = 2\\pi \\cdot \\frac{1}{2} = \\pi$. Comme $e^{-t^2} > 0$, $I > 0$, d'où $I = \\sqrt{\\pi}$."
+        statement: "Calculer $\\iint_{\\mathbb{R}^2} e^{-(x^2 + y^2)}\\,dx\\,dy$ à l'aide d'un passage en coordonnées polaires, en justifiant ce passage sur le plan tout entier par un encadrement du carré $C_R = [-R ; R]^2$ entre deux disques centrés en l'origine.",
+        type: "exact",
+        answer: "π",
+        hint1: "En coordonnées polaires, $dx\\,dy$ devient $r\\,dr\\,d\\theta$ et $x^2 + y^2 = r^2$. La fonction étant positive, le calcul se fait par intégrales successives. Pour la justification, remarque que le disque $D_R$ de rayon $R$ est contenu dans $C_R$, lui-même contenu dans le disque $D_{R\\sqrt{2}}$.",
+        hint2: "L'intégrale devient $\\int_0^{2\\pi} \\left(\\int_0^{+\\infty} r e^{-r^2}\\,dr\\right) d\\theta$. Une primitive de $re^{-r^2}$ est $-\\frac{1}{2}e^{-r^2}$.",
+        solution: "La fonction $f : (x, y) \\mapsto e^{-(x^2 + y^2)}$ est continue et positive. Sur le disque $D_\\rho$ de centre $O$ et de rayon $\\rho$, le passage en polaires donne $\\iint_{D_\\rho} f = \\int_0^{2\\pi} \\int_0^{\\rho} re^{-r^2}\\,dr\\,d\\theta = 2\\pi \\left[-\\frac{1}{2}e^{-r^2}\\right]_0^{\\rho} = \\pi\\left(1 - e^{-\\rho^2}\\right)$. Justification sur le plan entier : pour $R > 0$, on a $D_R \\subset C_R \\subset D_{R\\sqrt{2}}$ avec $C_R = [-R ; R]^2$, donc, $f$ étant positive, $\\pi\\left(1 - e^{-R^2}\\right) \\le \\iint_{C_R} f \\le \\pi\\left(1 - e^{-2R^2}\\right)$. Les deux bornes tendent vers $\\pi$ quand $R \\to +\\infty$, donc $\\iint_{\\mathbb{R}^2} f = \\lim_{R \\to +\\infty} \\iint_{C_R} f = \\pi$. Par le théorème de Fubini, $\\iint_{C_R} f = \\left(\\int_{-R}^{R} e^{-x^2}\\,dx\\right)^2$, d'où, en passant à la limite, l'intégrale de Gauss $\\int_{\\mathbb{R}} e^{-x^2}\\,dx = \\sqrt{\\pi}$."
       },
       {
         id: 'capes-06-3',
         chapterId: 'capes-06',
         tier: 3,
         title: "Intégrale de Dirichlet via une intégrale à paramètre",
-        statement: "On pose pour $x > 0$, $F(x) = \\int_0^{+\\infty} \\frac{\\sin(t)}{t} e^{-xt}\\,dt$. Sachant que $F'(x) = -\\int_0^{+\\infty} \\sin(t)e^{-xt}\\,dt = -\\frac{1}{1+x^2}$ et que $\\lim_{x \\to +\\infty} F(x) = 0$, que vaut l'intégrale de Dirichlet $I = \\int_0^{+\\infty} \\frac{\\sin(t)}{t}\\,dt$ ?",
-        type: "mcq",
-        options: [
-          "$I = \\frac{\\pi}{2}$",
-          "$I = \\pi$",
-          "$I = 1$",
-          "$I = \\frac{\\pi}{4}$"
-        ],
-        correctIndex: 0,
-        answer: "$I = \\frac{\\pi}{2}$",
-        hint1: "Intègre $F'$ : $F(x) = C - \\arctan(x)$. Détermine $C$ grâce à la limite en $+\\infty$, puis utilise (en l'admettant) la continuité de $F$ en $0$ : $I = F(0)$.",
-        solution: "On a $F'(x) = -\\frac{1}{1+x^2}$, donc $F(x) = C - \\arctan(x)$ sur $]0, +\\infty[$. En faisant tendre $x \\to +\\infty$, $0 = C - \\frac{\\pi}{2}$, donc $C = \\frac{\\pi}{2}$, d'où $F(x) = \\frac{\\pi}{2} - \\arctan(x)$. En justifiant la continuité de $F$ en $0^+$ par convergence uniforme (ou intégration par parties), on obtient $I = \\lim_{x \\to 0^+} F(x) = \\frac{\\pi}{2}$."
+        statement: "Pour $x > 0$, on pose $F(x) = \\int_0^{+\\infty} \\frac{\\sin(t)}{t} e^{-xt}\\,dt$. On admet que $F'(x) = -\\frac{1}{1+x^2}$ et que $\\lim_{x \\to +\\infty} F(x) = 0$. Calculer $F(1)$.",
+        type: "exact",
+        answer: "π/4",
+        hint1: "Intègre $F'$ : $F$ s'écrit $C - \\arctan(x)$, et la limite en $+\\infty$ fixe la constante $C$.",
+        hint2: "Comme $\\arctan(x) \\to \\frac{\\pi}{2}$, on a $C = \\frac{\\pi}{2}$. Il reste à évaluer en $x = 1$.",
+        solution: "De $F'(x) = -\\frac{1}{1+x^2}$ on tire $F(x) = C - \\arctan(x)$ sur $]0 ; +\\infty[$. La limite nulle en $+\\infty$ donne $C = \\frac{\\pi}{2}$. Donc $F(1) = \\frac{\\pi}{2} - \\frac{\\pi}{4} = \\frac{\\pi}{4}$. **Pour aller plus loin :** un argument de continuité en $0^+$, plus délicat, fournit l'intégrale de Dirichlet $\\int_0^{+\\infty} \\frac{\\sin(t)}{t}\\,dt = \\frac{\\pi}{2}$."
       },
       {
         id: 'capes-06-4',
         chapterId: 'capes-06',
         tier: 4,
         title: "Critère de Lebesgue pour l'intégrabilité selon Riemann",
-        statement: "Soit $f : [a, b] \\to \\mathbb{R}$ une fonction bornée. D'après le théorème de Lebesgue-Vitali, à quelle condition nécessaire et suffisante $f$ est-elle intégrable au sens de Riemann sur $[a, b]$ ?",
+        statement: "**Pour aller plus loin** : le théorème de Lebesgue-Vitali et la mesure de Lebesgue ne sont pas traités dans le cours de ce chapitre.\nSoit $f : [a ; b] \\to \\mathbb{R}$ une fonction bornée. D'après le théorème de Lebesgue-Vitali, à quelle condition nécessaire et suffisante $f$ est-elle intégrable au sens de Riemann sur $[a ; b]$ ?",
         type: "mcq",
         options: [
-          "L'ensemble des points de discontinuité de f est de mesure de Lebesgue nulle",
-          "La fonction f est de classe C1 sur [a, b]",
-          "L'ensemble des points de discontinuité de f est dénombrable",
-          "La fonction f est monotone sur [a, b]"
+          "Ses discontinuités forment un ensemble négligeable (mesure de Lebesgue nulle)",
+          "La fonction f est de classe C1 sur [a ; b]",
+          "L'ensemble des points de discontinuité de f est au plus dénombrable sur [a ; b]",
+          "La fonction f est monotone sur [a ; b]"
         ],
         correctIndex: 0,
-        answer: "L'ensemble des points de discontinuité de f est de mesure de Lebesgue nulle",
+        answer: "Ses discontinuités forment un ensemble négligeable (mesure de Lebesgue nulle)",
         hint1: "Une fonction monotone peut avoir une infinité dénombrable de discontinuités et rester intégrable, l'indicatrice de l'ensemble de Cantor est discontinue en une infinité non dénombrable de points et reste intégrable, alors que $\\mathbf{1}_{\\mathbb{Q}}$ (discontinue partout) ne l'est pas : quelle notion de « petitesse » de l'ensemble des discontinuités départage ces cas ?",
-        solution: "Le critère de Lebesgue-Vitali établit qu'une fonction bornée sur un segment $[a, b]$ est Riemann-intégrable si et seulement si l'ensemble de ses points de discontinuité est de mesure de Lebesgue nulle. Cela inclut toutes les fonctions continues par morceaux, les fonctions réglées, ainsi que des fonctions ayant un ensemble non dénombrable de discontinuités (comme sur l'ensemble triadique de Cantor qui est de mesure nulle)."
+        solution: "Le critère de Lebesgue-Vitali établit qu'une fonction bornée sur un segment $[a ; b]$ est Riemann-intégrable si et seulement si l'ensemble de ses points de discontinuité est de mesure de Lebesgue nulle. Cela inclut toutes les fonctions continues par morceaux, les fonctions réglées, ainsi que des fonctions ayant un ensemble non dénombrable de discontinuités (comme sur l'ensemble triadique de Cantor qui est de mesure nulle)."
       }
     ],
 
@@ -1270,18 +1302,12 @@
         chapterId: 'capes-07',
         tier: 1,
         title: "Ordre et signature d'un k-cycle",
-        statement: "Dans le groupe symétrique $\\mathcal{S}_n$, soit $c = (a_1, a_2, \\dots, a_k)$ un cycle de longueur $k$ ($k \\ge 2$). Quels sont son ordre dans $\\mathcal{S}_n$ et sa signature $\\varepsilon(c)$ ?",
-        type: "mcq",
-        options: [
-          "$\\mathrm{ord}(c) = k$ et $\\varepsilon(c) = (-1)^{k-1}$",
-          "$\\mathrm{ord}(c) = k$ et $\\varepsilon(c) = (-1)^k$",
-          "$\\mathrm{ord}(c) = k!$ et $\\varepsilon(c) = 1$",
-          "$\\mathrm{ord}(c) = 2$ et $\\varepsilon(c) = -1$"
-        ],
-        correctIndex: 0,
-        answer: "$\\mathrm{ord}(c) = k$ et $\\varepsilon(c) = (-1)^{k-1}$",
-        hint1: "Un $k$-cycle se décompose en un produit de $k-1$ transpositions : $(a_1, \\dots, a_k) = (a_1, a_k)(a_1, a_{k-1})\\dots(a_1, a_2)$.",
-        solution: "Un $k$-cycle engendre un sous-groupe d'ordre $k$, donc $\\mathrm{ord}(c) = k$. De plus, $c$ se décompose en produit de $k-1$ transpositions : $c = (a_1, a_k)(a_1, a_{k-1}) \\dots (a_1, a_2)$. Comme la signature d'une transposition vaut $-1$, par morphisme de groupe on a $\\varepsilon(c) = (-1)^{k-1}$. En particulier, un cycle est pair si et seulement si sa longueur est impaire."
+        statement: "Dans $\\mathcal{S}_7$, on considère $\\sigma = (1\\ 2\\ 3)(4\\ 5\\ 6\\ 7)$. Déterminer le couple formé de l'ordre et de la signature de $\\sigma$, à saisir sous la forme $(a;b)$.",
+        type: "exact",
+        answer: "(12;-1)",
+        hint1: "L'ordre d'un produit de cycles à supports disjoints est le PPCM des longueurs. La signature d'un cycle de longueur $k$ est $(-1)^{k-1}$.",
+        hint2: "Les longueurs sont $3$ et $4$. Calcule leur PPCM, puis le produit des signatures $(-1)^{2}$ et $(-1)^{3}$.",
+        solution: "Les cycles sont à supports disjoints, donc commutent, et l'ordre vaut $\\mathrm{ppcm}(3, 4) = 12$. La signature vaut $(-1)^{3-1} \\times (-1)^{4-1} = 1 \\times (-1) = -1$. La réponse est $(12 ; -1)$."
       },
       {
         id: 'capes-07-2',
@@ -1298,7 +1324,8 @@
         ],
         correctIndex: 0,
         answer: "$\\sigma = (1\\; 3\\; 4)(2\\; 5)$ et $\\varepsilon(\\sigma) = -1$",
-        hint1: "Suivre les orbites : $1 \\mapsto 3 \\mapsto 4 \\mapsto 1$ donne le cycle $(1\\; 3\\; 4)$. Puis $2 \\mapsto 5 \\mapsto 2$ donne $(2\\; 5)$. 6 est fixe.",
+        hint1: "Pars de $1$ et applique $\\sigma$ jusqu'à revenir à $1$ : tu obtiens un premier cycle. Recommence avec le plus petit élément non encore atteint, jusqu'à épuiser $\\{1, \\dots, 6\\}$.",
+        hint2: "Ici $\\sigma(1) = 3$ : le cycle contenant $1$ commence par $(1\\; 3\\; \\dots)$. Rappel : un cycle de longueur $k$ a pour signature $(-1)^{k-1}$, et la signature d'un produit est le produit des signatures.",
         solution: "On calcule les orbites successives :\n- Pour 1 : $\\sigma(1) = 3$, $\\sigma(3) = 4$, $\\sigma(4) = 1$, cycle $(1\\; 3\\; 4)$ de longueur 3.\n- Pour 2 : $\\sigma(2) = 5$, $\\sigma(5) = 2$, cycle $(2\\; 5)$ de longueur 2.\n- Pour 6 : $\\sigma(6) = 6$, point fixe.\nAinsi $\\sigma = (1\\; 3\\; 4)(2\\; 5)$. Pour la signature : $\\varepsilon(\\sigma) = \\varepsilon((1\\; 3\\; 4)) \\cdot \\varepsilon((2\\; 5)) = (-1)^{3-1} \\cdot (-1)^{2-1} = (+1) \\cdot (-1) = -1$."
       },
       {
@@ -1306,36 +1333,24 @@
         chapterId: 'capes-07',
         tier: 3,
         title: "Classes de conjugaison dans le groupe symétrique",
-        statement: "Soient $\\sigma, \\tau \\in \\mathcal{S}_n$. À quelle condition nécessaire et suffisante $\\sigma$ et $\\tau$ sont-elles conjuguées dans $\\mathcal{S}_n$ (c'est-à-dire $\\exists \\rho \\in \\mathcal{S}_n,\\; \\tau = \\rho \\sigma \\rho^{-1}$) ?",
-        type: "mcq",
-        options: [
-          "Elles ont le même type cyclique (les mêmes longueurs de cycles dans leur décomposition en cycles à supports disjoints)",
-          "Elles ont la même signature et le même ordre",
-          "Elles commutent : $\\sigma \\tau = \\tau \\sigma$",
-          "Elles fixent le même nombre de points"
-        ],
-        correctIndex: 0,
-        answer: "Elles ont le même type cyclique (les mêmes longueurs de cycles dans leur décomposition en cycles à supports disjoints)",
-        hint1: "Le conjugué d'un cycle par $\\rho$ est $\\rho (a_1, \\dots, a_k) \\rho^{-1} = (\\rho(a_1), \\dots, \\rho(a_k))$ : la longueur du cycle est conservée.",
-        solution: "Pour tout cycle $c = (a_1, \\dots, a_k)$ et toute permutation $\\rho$, $\\rho c \\rho^{-1} = (\\rho(a_1), \\dots, \\rho(a_k))$, qui est un cycle de même longueur. La conjugaison préserve donc le nombre et les longueurs de tous les cycles disjoints. Réciproquement, si deux permutations ont la même partition cyclique, on construit explicitement une permutation $\\rho$ envoyant chaque cycle de l'une sur un cycle de même longueur de l'autre."
+        statement: "Combien d'éléments possède la classe de conjugaison de $(1\\ 2\\ 3)(4\\ 5)$ dans $\\mathcal{S}_5$ ?",
+        type: "exact",
+        answer: "20",
+        hint1: "Deux permutations sont conjuguées si et seulement si elles ont le même type cyclique. Compte les permutations de type $(3, 2)$.",
+        hint2: "Choisis les $3$ éléments du 3-cycle, soit $\\binom{5}{3}$ choix. Combien de 3-cycles distincts sur $3$ éléments donnés ? Le 2-cycle restant est alors déterminé.",
+        solution: "La classe de conjugaison est l'ensemble des permutations de type $(3, 2)$. On choisit les trois éléments du 3-cycle ($\\binom{5}{3} = 10$ choix), puis le 3-cycle sur ces éléments ($2$ choix), et la transposition est imposée. La classe a donc $10 \\times 2 = 20$ éléments. Vérification par le centralisateur : $\\frac{5!}{3 \\times 2} = 20$."
       },
       {
         id: 'capes-07-4',
         chapterId: 'capes-07',
         tier: 4,
-        title: "Simplicité de A_n et résolubilité des équations algébriques",
-        statement: "Quelle est la conséquence fondamentale en théorie de Galois de la simplicité du groupe alterné $\\mathcal{A}_n$ pour $n \\ge 5$ ?",
-        type: "mcq",
-        options: [
-          "Le groupe symétrique $\\mathcal{S}_n$ n'est pas résoluble pour $n \\ge 5$, donc l'équation générale de degré $n \\ge 5$ n'est pas résoluble par radicaux (Théorème d'Abel-Ruffini)",
-          "Toutes les matrices de $\\mathcal{M}_n(\\mathbb{R})$ sont diagonalisables",
-          "Le groupe alterné n'a pas de représentations irréductibles",
-          "Tout polynôme de degré n a toutes ses racines réelles"
-        ],
-        correctIndex: 0,
-        answer: "Le groupe symétrique $\\mathcal{S}_n$ n'est pas résoluble pour $n \\ge 5$, donc l'équation générale de degré $n \\ge 5$ n'est pas résoluble par radicaux (Théorème d'Abel-Ruffini)",
-        hint1: "Un groupe simple non abélien ne peut avoir de suite de Jordan-Hölder à quotients abéliens : il n'est donc pas résoluble.",
-        solution: "Pour $n \\ge 5$, $\\mathcal{A}_n$ est un groupe simple non abélien (d'ordre $n!/2 \\ge 60$). Ses seuls sous-groupes distingués sont $\\{id\\}$ et $\\mathcal{A}_n$. Ainsi, la suite normale de $\\mathcal{S}_n$ est $\\{id\\} \\triangleleft \\mathcal{A}_n \\triangleleft \\mathcal{S}_n$. Comme $\\mathcal{A}_n$ n'est pas abélien, $\\mathcal{S}_n$ n'est pas résoluble. D'après la correspondance de Galois, le groupe de Galois de l'équation polynomiale générale de degré $n$ est $\\mathcal{S}_n$, qui n'est pas résoluble : les équations de degré $\\ge 5$ ne sont donc pas résolubles par radicaux."
+        title: "Simplicité de A5 par l'équation aux classes",
+        statement: "Dans $\\mathcal{A}_5$, les classes de conjugaison ont pour cardinaux $1$, $12$, $12$, $15$ et $20$. Un sous-groupe distingué est réunion de classes de conjugaison, contient l'identité, et son ordre divise $60$. Combien $\\mathcal{A}_5$ possède-t-il de sous-groupes distingués, en comptant le sous-groupe trivial et $\\mathcal{A}_5$ lui-même ?",
+        type: "exact",
+        answer: "2",
+        hint1: "Un sous-groupe distingué a pour ordre $1$ augmenté de la somme d'une partie de $\\{12, 12, 15, 20\\}$. Cherche quelles sommes donnent un diviseur de $60$.",
+        hint2: "Les ordres possibles strictement compris entre $1$ et $60$ sont $13, 16, 21, 25, 28, 33, 36, 40, 45, 48$. Compare avec les diviseurs de $60$.",
+        solution: "Les valeurs possibles de $|H|$ sont $1$ plus une somme d'éléments de $\\{12, 12, 15, 20\\}$ : $1, 13, 16, 21, 25, 28, 33, 36, 40, 45, 48, 60$. Parmi elles, seules $1$ et $60$ divisent $60$. Donc les seuls sous-groupes distingués sont $\\{e\\}$ et $\\mathcal{A}_5$ : il y en a $2$, et $\\mathcal{A}_5$ est simple. **Pour aller plus loin :** cette simplicité, valable pour $\\mathcal{A}_n$ dès que $n \\geq 5$, implique que $\\mathcal{S}_n$ n'est pas résoluble ; c'est l'argument central du théorème d'Abel-Ruffini."
       }
     ],
 
@@ -1348,13 +1363,13 @@
         statement: "Soit $f : I \\to \\mathbb{R}$ une fonction dérivable sur un intervalle ouvert $I$. Laquelle des propriétés suivantes est équivalente à la convexité de $f$ sur $I$ ?",
         type: "mcq",
         options: [
-          "Pour tout $x_0 \\in I$, le graphe de f est situé au-dessus de sa tangente en $x_0$ : $\\forall x \\in I,\\; f(x) \\ge f(x_0) + f'(x_0)(x - x_0)$",
-          "La dérivée $f'$ est décroissante sur I",
-          "La fonction f est positive sur I",
-          "L'intégrale de f est toujours positive"
+          "Le graphe de f est au-dessus de chacune de ses tangentes sur $I$",
+          "La dérivée $f'$ est décroissante sur $I$",
+          "La dérivée $f'$ est positive sur $I$",
+          "Tout point critique de $f$ est un minimum global de $f$ sur l'intervalle $I$"
         ],
         correctIndex: 0,
-        answer: "Pour tout $x_0 \\in I$, le graphe de f est situé au-dessus de sa tangente en $x_0$ : $\\forall x \\in I,\\; f(x) \\ge f(x_0) + f'(x_0)(x - x_0)$",
+        answer: "Le graphe de f est au-dessus de chacune de ses tangentes sur $I$",
         hint1: "La dérivée d'une fonction convexe est croissante. L'inégalité des accroissements finis donne la position de la courbe par rapport à la tangente.",
         solution: "Pour une fonction dérivable sur un intervalle, $f$ est convexe ssi sa dérivée $f'$ est croissante ssi pour tout $x_0$, la courbe représentative est au-dessus de sa tangente au point $x_0$ : $f(x) \\ge f(x_0) + f'(x_0)(x - x_0)$ pour tout $x \\in I$."
       },
@@ -1363,54 +1378,42 @@
         chapterId: 'capes-08',
         tier: 2,
         title: "Inégalité arithmético-géométrique via la convexité de -ln",
-        statement: "En appliquant l'inégalité de Jensen à la fonction strictement convexe $f(t) = -\\ln(t)$ sur $]0, +\\infty[$ avec des poids égaux $p_i = 1/n$, quelle inégalité fondamentale obtient-on pour des réels $x_1, \\dots, x_n > 0$ ?",
-        type: "mcq",
-        options: [
-          "$\\sqrt[n]{x_1 x_2 \\dots x_n} \\le \\frac{x_1 + x_2 + \\dots + x_n}{n}$ (inégalité arithmético-géométrique)",
-          "$\\sum_{i=1}^n x_i^2 \\le (\\sum_{i=1}^n x_i)^2$",
-          "$\\frac{1}{n}\\sum x_i \\le \\min(x_i)$",
-          "$\\ln(x_1 + \\dots + x_n) \\le \\sum \\ln(x_i)$"
-        ],
-        correctIndex: 0,
-        answer: "$\\sqrt[n]{x_1 x_2 \\dots x_n} \\le \\frac{x_1 + x_2 + \\dots + x_n}{n}$ (inégalité arithmético-géométrique)",
-        hint1: "Jensen donne $-\\ln(\\frac{1}{n}\\sum x_i) \\le \\frac{1}{n}\\sum(-\\ln(x_i)) = -\\ln((\\prod x_i)^{1/n})$.",
-        solution: "La fonction $f(t) = -\\ln(t)$ est deux fois dérivable et $f''(t) = 1/t^2 > 0$, donc elle est strictement convexe sur $]0, +\\infty[$. L'inégalité de Jensen appliquée avec les poids $p_i = 1/n$ donne : $-\\ln\\left(\\frac{1}{n} \\sum_{i=1}^n x_i\\right) \\le \\frac{1}{n} \\sum_{i=1}^n -\\ln(x_i) = -\\ln\\left(\\prod_{i=1}^n x_i^{1/n}\\right)$. En multipliant par $-1$ et en appliquant l'exponentielle (croissante) : $(\\prod_{i=1}^n x_i)^{1/n} \\le \\frac{1}{n} \\sum_{i=1}^n x_i$, avec égalité ssi tous les $x_i$ sont égaux."
+        statement: "Soient $x, y, z$ trois réels strictement positifs tels que $xyz = 8$. Déterminer la valeur minimale de $x + y + z$.",
+        type: "exact",
+        answer: "6",
+        hint1: "Utilise l'inégalité arithmético-géométrique, conséquence de la convexité de $-\\ln$ par l'inégalité de Jensen.",
+        hint2: "$\\frac{x + y + z}{3} \\geq \\sqrt[3]{xyz}$. Remplace $xyz$, puis vérifie que l'égalité est atteinte.",
+        solution: "La convexité de $-\\ln$ donne, par l'inégalité de Jensen à poids égaux, $\\frac{x + y + z}{3} \\geq \\sqrt[3]{xyz} = 2$. Donc $x + y + z \\geq 6$, et l'égalité a lieu pour $x = y = z = 2$, qui vérifie bien $xyz = 8$. Le minimum vaut $6$."
       },
       {
         id: 'capes-08-3',
         chapterId: 'capes-08',
         tier: 3,
         title: "Inégalité de Hölder pour les suites",
-        statement: "Soient $p, q > 1$ tels que $\\frac{1}{p} + \\frac{1}{q} = 1$. D'après l'inégalité de Hölder, que vaut la majoration pour des suites réelles $(a_k), (b_k)$ ?",
-        type: "mcq",
-        options: [
-          "$\\sum_{k=1}^n |a_k b_k| \\le \\left(\\sum_{k=1}^n |a_k|^p\\right)^{1/p} \\left(\\sum_{k=1}^n |b_k|^q\\right)^{1/q}$",
-          "$\\sum |a_k b_k| \\le \\sum |a_k|^p + \\sum |b_k|^q$",
-          "$\\sum |a_k b_k| = \\sum |a_k| \\sum |b_k|$",
-          "$\\sum |a_k b_k| \\le \\frac{1}{pq} \\sum (|a_k| + |b_k|)$"
-        ],
-        correctIndex: 0,
-        answer: "$\\sum_{k=1}^n |a_k b_k| \\le \\left(\\sum_{k=1}^n |a_k|^p\\right)^{1/p} \\left(\\sum_{k=1}^n |b_k|^q\\right)^{1/q}$",
-        hint1: "Elle découle de l'inégalité de Young $uv \\le \\frac{u^p}{p} + \\frac{v^q}{q}$ appliquée aux vecteurs normalisés $\\frac{|a_k|}{\\|a\\|_p}$ et $\\frac{|b_k|}{\\|b\\|_q}$.",
-        solution: "L'inégalité de Hölder est une conséquence de l'inégalité de Young $uv \\le \\frac{u^p}{p} + \\frac{v^q}{q}$ (obtenue par convexité de l'exponentielle avec poids $1/p$ et $1/q$). En posant $u = \\frac{|a_k|}{\\|a\\|_p}$ et $v = \\frac{|b_k|}{\\|b\\|_q}$ et en sommant pour $k=1$ à $n$ : $\\frac{\\sum |a_k b_k|}{\\|a\\|_p \\|b\\|_q} \\le \\frac{1}{p} \\frac{\\sum |a_k|^p}{\\|a\\|_p^p} + \\frac{1}{q} \\frac{\\sum |b_k|^q}{\\|b\\|_q^q} = \\frac{1}{p} + \\frac{1}{q} = 1$. D'où $\\sum |a_k b_k| \\le \\|a\\|_p \\|b\\|_q$."
+        statement: "Soient $a$ et $b$ deux réels positifs tels que $a^3 + b^3 = 2$. Déterminer la valeur maximale de $a + b$.",
+        type: "exact",
+        answer: "2",
+        hint1: "Applique l'inégalité de Hölder aux couples $(a, b)$ et $(1, 1)$, avec les exposants conjugués $p = 3$ et $q = \\frac{3}{2}$.",
+        hint2: "$a + b \\leq (a^3 + b^3)^{1/3}\\left(1^{3/2} + 1^{3/2}\\right)^{2/3}$. Remplace, puis cherche un cas d'égalité.",
+        solution: "L'inégalité de Hölder avec $p = 3$, $q = \\frac{3}{2}$ donne $a + b \\leq (a^3 + b^3)^{1/3} \\times 2^{2/3} = 2^{1/3} \\times 2^{2/3} = 2$. L'égalité est atteinte pour $a = b = 1$, qui vérifie la contrainte. Le maximum vaut $2$."
       },
       {
         id: 'capes-08-4',
         chapterId: 'capes-08',
         tier: 4,
         title: "Régularité des fonctions convexes sur un ouvert",
-        statement: "Soit $f : ]a, b[ \\to \\mathbb{R}$ une fonction convexe sur un intervalle ouvert. Laquelle des propriétés de régularité suivantes est TOUJOURS vraie ?",
+        statement: "Soit $f : ]a ; b[ \\to \\mathbb{R}$ une fonction convexe sur un intervalle ouvert. Laquelle des propriétés de régularité suivantes est TOUJOURS vraie ?",
         type: "mcq",
         options: [
-          "f est continue sur $]a, b[$, et admet en tout point une dérivée à gauche $f'_g(x)$ et une dérivée à droite $f'_d(x)$ avec $f'_g(x) \\le f'_d(x)$",
-          "f est deux fois dérivable en tout point de $]a, b[$",
-          "f est de classe C1 sur $]a, b[$",
-          "f est uniformément continue sur tout l'intervalle $]a, b[$"
+          "f est continue et admet en tout point des dérivées à gauche et à droite, avec $f'_g \\le f'_d$",
+          "f est deux fois dérivable en tout point de $]a ; b[$, sa dérivée seconde étant positive",
+          "f est de classe C1 sur $]a ; b[$",
+          "f est uniformément continue sur tout l'intervalle ouvert $]a ; b[$, y compris au voisinage des bornes a et b"
         ],
         correctIndex: 0,
-        answer: "f est continue sur $]a, b[$, et admet en tout point une dérivée à gauche $f'_g(x)$ et une dérivée à droite $f'_d(x)$ avec $f'_g(x) \\le f'_d(x)$",
+        answer: "f est continue et admet en tout point des dérivées à gauche et à droite, avec $f'_g \\le f'_d$",
         hint1: "Penser au lemme des trois cordes : le taux d'accroissement est croissant par rapport à chaque variable.",
-        solution: "D'après le lemme des trois cordes, pour $x \\in ]a, b[$, le taux d'accroissement $t \\mapsto \\frac{f(t) - f(x)}{t - x}$ est croissant. Il admet donc des limites à gauche et à droite finies en $x$, d'où l'existence de $f'_g(x)$ et $f'_d(x)$ avec $f'_g(x) \\le f'_d(x)$. En particulier, $f$ est dérivable à droite et à gauche en tout point, ce qui entraîne immédiatement sa continuité sur $]a, b[$. De plus, $f$ est localement lipschitzienne sur tout compact intérieur."
+        solution: "D'après le lemme des trois cordes, pour $x \\in ]a ; b[$, le taux d'accroissement $t \\mapsto \\frac{f(t) - f(x)}{t - x}$ est croissant. Il admet donc des limites à gauche et à droite finies en $x$, d'où l'existence de $f'_g(x)$ et $f'_d(x)$ avec $f'_g(x) \\le f'_d(x)$. En particulier, $f$ est dérivable à droite et à gauche en tout point, ce qui entraîne immédiatement sa continuité sur $]a ; b[$. De plus, $f$ est localement lipschitzienne sur tout compact intérieur."
       }
     ],
 
@@ -1420,36 +1423,24 @@
         chapterId: 'capes-09',
         tier: 1,
         title: "Critère de d'Alembert et cas douteux",
-        statement: "Soit $\\sum u_n$ une série à termes strictement positifs telle que $\\lim_{n \\to +\\infty} \\frac{u_{n+1}}{u_n} = \\ell$. Dans quel cas le critère de d'Alembert ne permet-il PAS de conclure ?",
-        type: "mcq",
-        options: [
-          "Si $\\ell = 1$ (cas douteux)",
-          "Si $\\ell < 1$",
-          "Si $\\ell > 1$",
-          "Si $\\ell = 0$"
-        ],
-        correctIndex: 0,
-        answer: "Si $\\ell = 1$ (cas douteux)",
-        hint1: "Comparer avec les séries de Riemann $\\sum 1/n$ (qui diverge) et $\\sum 1/n^2$ (qui converge) : pour les deux, le quotient tend vers 1.",
-        solution: "Pour $u_n = 1/n$, $\\frac{u_{n+1}}{u_n} = \\frac{n}{n+1} \\to 1$ et la série diverge. Pour $v_n = 1/n^2$, $\\frac{v_{n+1}}{v_n} = \\frac{n^2}{(n+1)^2} \\to 1$ et la série converge. Le cas $\\ell = 1$ est donc le cas douteux de la règle de d'Alembert ; il nécessite des critères plus fins (règle de Raabe-Duhamel, équivalents ou développement asymptotique)."
+        statement: "Pour $n \\geq 1$, on pose $u_n = \\frac{n^2}{3^n}$. Calculer $\\ell = \\lim_{n \\to +\\infty} \\frac{u_{n+1}}{u_n}$ et en déduire la nature de $\\sum u_n$. Saisir la valeur de $\\ell$.",
+        type: "exact",
+        answer: "1/3",
+        hint1: "Forme le quotient et sépare la partie polynomiale de la partie exponentielle.",
+        hint2: "$\\frac{u_{n+1}}{u_n} = \\left(\\frac{n+1}{n}\\right)^2 \\times \\frac{3^n}{3^{n+1}}$. Passe à la limite.",
+        solution: "$\\frac{u_{n+1}}{u_n} = \\left(1 + \\frac{1}{n}\\right)^2 \\times \\frac{1}{3} \\xrightarrow[n \\to +\\infty]{} \\frac{1}{3}$. Comme $\\ell < 1$, la règle de d'Alembert assure que $\\sum u_n$ converge. Rappel : la règle ne permet pas de conclure lorsque $\\ell = 1$."
       },
       {
         id: 'capes-09-2',
         chapterId: 'capes-09',
         tier: 2,
         title: "Majoration du reste d'une série alternée",
-        statement: "Soit la série alternée $S = \\sum_{n=0}^{+\\infty} \\frac{(-1)^n}{(2n+1)!} = \\sin(1)$. Si l'on approxime $S$ par la somme partielle $S_1 = 1 - \\frac{1}{6} = \\frac{5}{6}$, quelle borne supérieure de l'erreur $|S - S_1|$ fournit le critère spécial des séries alternées ?",
-        type: "mcq",
-        options: [
-          "$|S - S_1| \\le \\frac{1}{5!} = \\frac{1}{120}$",
-          "$|S - S_1| \\le \\frac{1}{3!} = \\frac{1}{6}$",
-          "$|S - S_1| \\le \\frac{1}{7!} = \\frac{1}{5040}$",
-          "$|S - S_1| \\le 10^{-5}$"
-        ],
-        correctIndex: 0,
-        answer: "$|S - S_1| \\le \\frac{1}{5!} = \\frac{1}{120}$",
-        hint1: "D'après le CSSA, le reste $R_n = S - S_n$ est majoré en valeur absolue par la valeur absolue du premier terme négligé $|u_{n+1}|$.",
-        solution: "La suite $u_n = \\frac{1}{(2n+1)!}$ est positive, décroissante et tend vers 0. Les hypothèses du CSSA sont vérifiées. Pour $n=1$, le premier terme non inclus dans $S_1 = u_0 - u_1$ est $u_2 = \\frac{1}{(2\\cdot 2 + 1)!} = \\frac{1}{5!} = \\frac{1}{120}$. D'après la majoration du reste alterné : $|S - S_1| \\le u_2 = \\frac{1}{120} \\approx 0{,}00833$."
+        statement: "Soit $S = \\sum_{n=0}^{+\\infty} \\frac{(-1)^n}{(2n+1)!}$ et $S_N$ sa somme partielle d'indice $N$. Le critère spécial des séries alternées donne $|S - S_N| \\leq \\frac{1}{(2N+3)!}$. Déterminer le plus petit entier $N$ pour lequel cette majoration garantit $|S - S_N| \\leq 10^{-6}$.",
+        type: "exact",
+        answer: "4",
+        hint1: "Cherche le plus petit entier impair $m = 2N + 3$ tel que $m! \\geq 10^6$.",
+        hint2: "Calcule $9!$ et $11!$, puis compare à $10^6$. Tu en déduiras $N$ à partir de $m = 2N + 3$.",
+        solution: "Il faut $(2N + 3)! \\geq 10^6$. Or $9! = 362\\,880 < 10^6$ et $11! = 39\\,916\\,800 \\geq 10^6$. Le plus petit $m = 2N + 3$ convenable est donc $11$, soit $N = 4$."
       },
       {
         id: 'capes-09-3',
@@ -1459,33 +1450,27 @@
         statement: "On considère la série $u_n = \\frac{(-1)^n}{\\sqrt{n+1}}$ pour $n \\ge 0$. Cette série est convergente (CSSA). Que peut-on dire du produit de Cauchy $w_n = \\sum_{k=0}^n u_k u_{n-k}$ de cette série par elle-même ?",
         type: "mcq",
         options: [
-          "La série produit $\\sum w_n$ est grossièrement divergente car $|w_n| \\ge 1$ pour tout $n$",
+          "Elle diverge grossièrement, car $|w_n| \\ge 1$ pour tout $n$",
           "La série produit $\\sum w_n$ converge absolument",
-          "La série produit $\\sum w_n$ converge vers $(\\sum u_n)^2$",
+          "La série produit $\\sum w_n$ converge, et sa somme vaut $(\\sum u_n)^2$",
           "La série produit $\\sum w_n$ a pour somme 0"
         ],
         correctIndex: 0,
-        answer: "La série produit $\\sum w_n$ est grossièrement divergente car $|w_n| \\ge 1$ pour tout $n$",
-        hint1: "Calculer le terme général : $w_n = (-1)^n \\sum_{k=0}^n \\frac{1}{\\sqrt{(k+1)(n-k+1)}}$ et minorer le dénominateur par $(n+2)/2$.",
+        answer: "Elle diverge grossièrement, car $|w_n| \\ge 1$ pour tout $n$",
+        hint1: "Calculer le terme général : $w_n = (-1)^n \\sum_{k=0}^n \\frac{1}{\\sqrt{(k+1)(n-k+1)}}$ et majorer le dénominateur par $(n+2)/2$ afin de minorer chaque terme.",
         solution: "On a $w_n = \\sum_{k=0}^n \\frac{(-1)^k}{\\sqrt{k+1}} \\frac{(-1)^{n-k}}{\\sqrt{n-k+1}} = (-1)^n \\sum_{k=0}^n \\frac{1}{\\sqrt{(k+1)(n-k+1)}}$. Par l'inégalité arithmético-géométrique, $(k+1)(n-k+1) \\le (\\frac{k+1+n-k+1}{2})^2 = (\\frac{n+2}{2})^2$. Donc $\\sqrt{(k+1)(n-k+1)} \\le \\frac{n+2}{2}$, d'où $\\frac{1}{\\sqrt{(k+1)(n-k+1)}} \\ge \\frac{2}{n+2}$. La somme comporte $n+1$ termes, donc $|w_n| \\ge (n+1) \\frac{2}{n+2} \\ge 1$ pour tout $n \\ge 0$ (ce minorant tend vers 2 ; en reconnaissant une somme de Riemann, on montre même que $|w_n| \\to \\int_0^1 \\frac{dx}{\\sqrt{x(1-x)}} = \\pi$). Le terme général ne tend pas vers 0 : la série est grossièrement divergente. Cela illustre que l'absolue convergence d'au moins une des séries est indispensable dans le théorème de Mertens."
       },
       {
         id: 'capes-09-4',
         chapterId: 'capes-09',
         tier: 4,
-        title: "Théorème de réarrangement de Riemann",
-        statement: "Soit $\\sum a_n$ une série réelle semi-convergente (convergente mais pas absolument convergente). Que permet d'affirmer le théorème de réarrangement de Riemann ?",
-        type: "mcq",
-        options: [
-          "Pour tout $L \\in \\mathbb{R} \\cup \\{-\\infty, +\\infty\\}$, il existe une permutation $\\sigma$ de $\\mathbb{N}$ telle que $\\sum_{n=0}^{+\\infty} a_{\\sigma(n)} = L$",
-          "Toute permutation des termes préserve la somme de la série",
-          "Il n'existe aucune permutation permettant de rendre la série divergente",
-          "La somme de toute série semi-convergente est nécessairement nulle"
-        ],
-        correctIndex: 0,
-        answer: "Pour tout $L \\in \\mathbb{R} \\cup \\{-\\infty, +\\infty\\}$, il existe une permutation $\\sigma$ de $\\mathbb{N}$ telle que $\\sum_{n=0}^{+\\infty} a_{\\sigma(n)} = L$",
-        hint1: "Les séries des termes positifs $\\sum a_n^+$ et des termes négatifs $\\sum a_n^-$ divergent toutes les deux vers $+\\infty$.",
-        solution: "Comme $\\sum |a_n|$ diverge et $\\sum a_n$ converge, les deux séries à termes positifs $\\sum a_n^+$ et $\\sum a_n^-$ divergent vers $+\\infty$. On peut donc construire par récurrence une permutation $\\sigma$ : sommer des termes positifs jusqu'à dépasser $L$, puis des termes négatifs jusqu'à passer sous $L$, et répéter indéfiniment. Comme $a_n \\to 0$, l'oscillation tend vers 0 et la série réordonnée converge exactement vers $L$ (ou vers $\\pm\\infty$ si on le désire)."
+        title: "Un réarrangement de la série harmonique alternée",
+        statement: "La série $\\sum_{n \\geq 1} \\frac{(-1)^{n+1}}{n}$ converge vers $\\ln 2$ sans converger absolument. On la réarrange en prenant deux termes positifs pour un négatif : $1 + \\frac{1}{3} - \\frac{1}{2} + \\frac{1}{5} + \\frac{1}{7} - \\frac{1}{4} + \\dots$. On admet que cette nouvelle série converge. Sa somme s'écrit $c\\ln 2$ : déterminer le réel $c$.",
+        type: "exact",
+        answer: "3/2",
+        hint1: "Exprime la somme des $3n$ premiers termes à l'aide de $H_m = \\sum_{k=1}^m \\frac{1}{k}$, puis utilise $H_m = \\ln m + \\gamma + o(1)$.",
+        hint2: "Les $2n$ premiers impairs et les $n$ premiers pairs donnent $S_{3n} = H_{4n} - \\frac{1}{2}H_{2n} - \\frac{1}{2}H_n$. Reporte le développement asymptotique.",
+        solution: "La somme des $3n$ premiers termes vaut $S_{3n} = \\sum_{k=1}^{2n} \\frac{1}{2k-1} - \\sum_{k=1}^{n} \\frac{1}{2k} = H_{4n} - \\frac{1}{2}H_{2n} - \\frac{1}{2}H_n$. Avec $H_m = \\ln m + \\gamma + o(1)$, on obtient $S_{3n} = \\ln(4n) - \\frac{1}{2}\\ln(2n) - \\frac{1}{2}\\ln n + o(1) = 2\\ln 2 - \\frac{1}{2}\\ln 2 + o(1)$. Les termes tendant vers $0$, la somme vaut $\\frac{3}{2}\\ln 2$ : $c = \\frac{3}{2}$. Ce résultat diffère de $\\ln 2$, illustration du théorème de réarrangement de Riemann : une série semi-convergente peut, après réarrangement, converger vers n'importe quel réel."
       }
     ],
 
@@ -1499,9 +1484,9 @@
         type: "mcq",
         options: [
           "$\\mathrm{PGCD}(a, b)$ divise c",
-          "a et b sont tous les deux pairs",
-          "$c > a + b$",
-          "c est un nombre premier"
+          "$\\mathrm{PGCD}(a, b) = 1$",
+          "$c$ divise $\\mathrm{PGCD}(a, b)$",
+          "$\\mathrm{PPCM}(a, b)$ divise $c$"
         ],
         correctIndex: 0,
         answer: "$\\mathrm{PGCD}(a, b)$ divise c",
@@ -1513,54 +1498,36 @@
         chapterId: 'capes-10',
         tier: 2,
         title: "Algorithme d'Euclide étendu et inverse modulaire",
-        statement: "Quel est l'inverse de 7 dans le corps fini $\\mathbb{Z}/31\\mathbb{Z}$ (c'est-à-dire l'unique $x \\in \\{1, \\dots, 30\\}$ tel que $7x \\equiv 1 \\pmod{31}$) ?",
-        type: "mcq",
-        options: [
-          "9 (car $7 \\times 9 = 63 = 2 \\times 31 + 1$)",
-          "4",
-          "15",
-          "22"
-        ],
-        correctIndex: 0,
-        answer: "9 (car $7 \\times 9 = 63 = 2 \\times 31 + 1$)",
-        hint1: "Applique l'algorithme d'Euclide étendu : $31 = 4 \\times 7 + 3$ et $7 = 2 \\times 3 + 1$, puis remonte les égalités pour écrire $1 = 7u + 31v$ ; $u$ modulo $31$ est l'inverse cherché.",
-        solution: "On cherche $x \\in \\mathbb{Z}$ tel que $7x - 31y = 1$. L'algorithme d'Euclide donne : $31 = 4 \\times 7 + 3$, puis $7 = 2 \\times 3 + 1$. En remontant : $1 = 7 - 2 \\times 3 = 7 - 2 \\times (31 - 4 \\times 7) = 9 \\times 7 - 2 \\times 31$. Donc $9 \\times 7 \\equiv 1 \\pmod{31}$. L'inverse de 7 modulo 31 est donc 9."
+        statement: "Déterminer l'inverse de $7$ modulo $31$, c'est-à-dire l'entier $x$ de $\\{1, \\dots, 30\\}$ tel que $7x \\equiv 1 \\ [31]$.",
+        type: "exact",
+        answer: "9",
+        hint1: "Utilise l'algorithme d'Euclide étendu sur $31$ et $7$ pour écrire une relation de Bézout.",
+        hint2: "$31 = 4 \\times 7 + 3$ et $7 = 2 \\times 3 + 1$. Remonte ces égalités pour exprimer $1$ en fonction de $7$ et $31$.",
+        solution: "Par divisions successives, $31 = 4 \\times 7 + 3$ et $7 = 2 \\times 3 + 1$. Donc $1 = 7 - 2 \\times 3 = 7 - 2(31 - 4 \\times 7) = 9 \\times 7 - 2 \\times 31$. Ainsi $7 \\times 9 \\equiv 1 \\ [31]$ et l'inverse est $9$."
       },
       {
         id: 'capes-10-3',
         chapterId: 'capes-10',
         tier: 3,
         title: "Protocole RSA et validité pour tout message",
-        statement: "Dans le cryptosystème RSA, on choisit deux nombres premiers distincts $p$ et $q$, on pose $n = pq$, et on choisit l'exposant de chiffrement $e$ premier avec $\\varphi(n) = (p-1)(q-1)$. L'exposant de déchiffrement $d$ vérifie $ed \\equiv 1 \\pmod{\\varphi(n)}$. Pourquoi a-t-on $m^{ed} \\equiv m \\pmod n$ pour TOUT message $m \\in \\mathbb{Z}/n\\mathbb{Z}$, même si $\\mathrm{PGCD}(m, n) \\ne 1$ ?",
-        type: "mcq",
-        options: [
-          "Car modulo $p$, si $p \\mid m$ alors $m^{ed} \\equiv 0 \\equiv m \\pmod p$, et si $p \\nmid m$ le petit théorème de Fermat s'applique ; de même modulo $q$, et on conclut par les restes chinois",
-          "Car $\\varphi(n)$ est toujours impair",
-          "Car tout élément de $\\mathbb{Z}/n\\mathbb{Z}$ est inversible",
-          "Car $m^{ed} = m$ dans $\\mathbb{Z}$ sans réduction modulaire"
-        ],
-        correctIndex: 0,
-        answer: "Car modulo $p$, si $p \\mid m$ alors $m^{ed} \\equiv 0 \\equiv m \\pmod p$, et si $p \\nmid m$ le petit théorème de Fermat s'applique ; de même modulo $q$, et on conclut par les restes chinois",
-        hint1: "Écrire $ed = 1 + k(p-1)(q-1)$ et distinguer les cas $p \\mid m$ et $p \\nmid m$ pour montrer $m^{ed} \\equiv m \\pmod p$.",
-        solution: "On a $ed = 1 + k(p-1)(q-1)$.\n- Si $p \\mid m$, $m \\equiv 0 \\pmod p$, donc $m^{ed} \\equiv 0 \\equiv m \\pmod p$.\n- Si $p \\nmid m$, par le petit théorème de Fermat $m^{p-1} \\equiv 1 \\pmod p$, donc $m^{ed} = m \\cdot (m^{p-1})^{k(q-1)} \\equiv m \\cdot 1 \\equiv m \\pmod p$.\nDans les deux cas, $p \\mid (m^{ed} - m)$. De même, $q \\mid (m^{ed} - m)$. Comme $p$ et $q$ sont premiers entre eux, leur produit $n = pq$ divise $m^{ed} - m$, c'est-à-dire $m^{ed} \\equiv m \\pmod n$."
+        statement: "Dans un chiffrement RSA, $n = 33$, l'exposant public est $e = 3$ et l'exposant privé $d = 7$. On reçoit le message chiffré $c = 18$. Déchiffrer ce message, c'est-à-dire calculer l'entier $m$ de $\\{0, \\dots, 32\\}$ tel que $m \\equiv c^d \\ [33]$.",
+        type: "exact",
+        answer: "6",
+        hint1: "Calcule $18^7$ modulo $33$ par puissances successives, en réduisant à chaque étape.",
+        hint2: "$18^2 \\equiv 27 \\ [33]$ et $18^4 \\equiv 3 \\ [33]$. Écris $7 = 4 + 2 + 1$ pour terminer le calcul.",
+        solution: "$18^2 = 324 \\equiv 27 \\ [33]$, puis $18^4 \\equiv 27^2 = 729 \\equiv 3 \\ [33]$. Donc $18^7 = 18^4 \\times 18^2 \\times 18 \\equiv 3 \\times 27 \\times 18 = 1458 \\equiv 6 \\ [33]$. Le message est $m = 6$. Vérification : $6^3 = 216 \\equiv 18 \\ [33]$. Remarque : $\\mathrm{pgcd}(6, 33) = 3 \\neq 1$, et pourtant le déchiffrement fonctionne : on raisonne modulo $3$ et modulo $11$ séparément, le cas $p \\mid m$ étant immédiat et le petit théorème de Fermat traitant l'autre, puis on conclut par le théorème chinois."
       },
       {
         id: 'capes-10-4',
         chapterId: 'capes-10',
         tier: 4,
         title: "Théorème des restes chinois et structure d'anneaux",
-        statement: "Soient $m, n \\in \\mathbb{N}^*$ premiers entre eux. Quelle est la structure de l'anneau quotient $\\mathbb{Z}/mn\\mathbb{Z}$ d'après le théorème des restes chinois ?",
-        type: "mcq",
-        options: [
-          "L'application $\\psi : x \\bmod mn \\mapsto (x \\bmod m, x \\bmod n)$ est un isomorphisme d'anneaux de $\\mathbb{Z}/mn\\mathbb{Z}$ sur $\\mathbb{Z}/m\\mathbb{Z} \\times \\mathbb{Z}/n\\mathbb{Z}$",
-          "$\\mathbb{Z}/mn\\mathbb{Z}$ est un corps fini",
-          "L'application $\\psi$ est seulement un morphisme de groupes additifs non multiplicatif",
-          "$\\mathbb{Z}/mn\\mathbb{Z}$ est isomorphe à $\\mathbb{Z}/m\\mathbb{Z} + \\mathbb{Z}/n\\mathbb{Z}$"
-        ],
-        correctIndex: 0,
-        answer: "L'application $\\psi : x \\bmod mn \\mapsto (x \\bmod m, x \\bmod n)$ est un isomorphisme d'anneaux de $\\mathbb{Z}/mn\\mathbb{Z}$ sur $\\mathbb{Z}/m\\mathbb{Z} \\times \\mathbb{Z}/n\\mathbb{Z}$",
-        hint1: "Le noyau du morphisme canonique est $m\\mathbb{Z} \\cap n\\mathbb{Z} = \\mathrm{PPCM}(m, n)\\mathbb{Z} = mn\\mathbb{Z}$ car $\\mathrm{PGCD}(m, n) = 1$, et les cardinaux sont égaux.",
-        solution: "L'application $\\psi : \\mathbb{Z} \\to \\mathbb{Z}/m\\mathbb{Z} \\times \\mathbb{Z}/n\\mathbb{Z}$ est un morphisme d'anneaux. Son noyau est $\\ker(\\psi) = m\\mathbb{Z} \\cap n\\mathbb{Z}$. Comme $\\mathrm{PGCD}(m, n) = 1$, $m\\mathbb{Z} \\cap n\\mathbb{Z} = mn\\mathbb{Z}$. Par le premier théorème d'isomorphisme, $\\bar{\\psi} : \\mathbb{Z}/mn\\mathbb{Z} \\to \\mathbb{Z}/m\\mathbb{Z} \\times \\mathbb{Z}/n\\mathbb{Z}$ est un morphisme injectif. Comme les deux ensembles ont le même cardinal fini $mn$, c'est un isomorphisme d'anneaux. En corollaire, pour le groupe des inversibles : $(\\mathbb{Z}/mn\\mathbb{Z})^\\times \\simeq (\\mathbb{Z}/m\\mathbb{Z})^\\times \\times (\\mathbb{Z}/n\\mathbb{Z})^\\times$, ce qui prouve la multiplicativité de l'indicateur d'Euler : $\\varphi(mn) = \\varphi(m)\\varphi(n)$."
+        statement: "Déterminer le plus petit entier naturel $x$ tel que $x \\equiv 3 \\ [7]$, $x \\equiv 5 \\ [11]$ et $x \\equiv 6 \\ [13]$.",
+        type: "exact",
+        answer: "500",
+        hint1: "Résous d'abord le système des deux premières congruences, modulo $77$, puis combine avec la troisième. Le théorème chinois assure l'unicité modulo $1001$.",
+        hint2: "Avec $x = 3 + 7k$, la deuxième congruence donne $7k \\equiv 2 \\ [11]$ et l'inverse de $7$ modulo $11$ est $8$. Tu obtiens $x \\equiv 38 \\ [77]$ ; reporte $x = 38 + 77j$ dans la dernière.",
+        solution: "$x = 3 + 7k$ et $7k \\equiv 2 \\ [11]$. Comme $7 \\times 8 \\equiv 1 \\ [11]$, on a $k \\equiv 16 \\equiv 5 \\ [11]$, donc $x \\equiv 38 \\ [77]$. Posons $x = 38 + 77j$. Modulo $13$, $38 \\equiv 12$ et $77 \\equiv 12$, donc $12 + 12j \\equiv 6 \\ [13]$. Comme $12 \\equiv -1 \\ [13]$, on obtient $-1 - j \\equiv 6$, soit $j \\equiv -7 \\equiv 6 \\ [13]$. Ainsi $x = 38 + 462 = 500$, unique modulo $1001$. C'est l'isomorphisme $\\mathbb{Z}/1001\\mathbb{Z} \\simeq \\mathbb{Z}/7\\mathbb{Z} \\times \\mathbb{Z}/11\\mathbb{Z} \\times \\mathbb{Z}/13\\mathbb{Z}$ qui garantit cette unicité."
       }
     ],
 
@@ -1630,7 +1597,7 @@
           "La translation de vecteur $\\frac{1}{2}\\overrightarrow{AB}$",
           "L'identité du plan",
           "La translation de vecteur $\\overrightarrow{AB}$",
-          "La symétrie centrale de centre le milieu de $[AB]$"
+          "La symétrie centrale dont le centre est le milieu du segment $[AB]$"
         ],
         "correctIndex": 0,
         "answer": "La translation de vecteur $\\frac{1}{2}\\overrightarrow{AB}$",
@@ -1711,6 +1678,24 @@
         "answer": "Le triangle $ABC$ est équilatéral",
         "hint1": "Interpréter le module et un argument du quotient $\\frac{c - a}{b - a}$ en termes de longueurs et d'angle orienté.",
         "solution": "Le module donne $\\frac{AC}{AB} = 1$, donc $AC = AB$, et un argument donne $(\\overrightarrow{AB}, \\overrightarrow{AC}) \\equiv \\frac{\\pi}{3} \\pmod{2\\pi}$. Le triangle $ABC$ est isocèle en $A$ avec un angle principal de $60°$ : ses deux autres angles valent aussi $60°$, il est équilatéral (et direct). Autrement dit, $C$ est l'image de $B$ par la rotation de centre $A$ et d'angle $\\frac{\\pi}{3}$. Le quotient serait réel pour des points alignés et imaginaire pur pour un angle droit en $A$."
+      },
+      {
+        "id": "capes-12-5",
+        "chapterId": "capes-12",
+        "tier": 4,
+        "title": "Produit portant sur les racines de l'unité",
+        "statement": "Soit $n \\ge 2$ un entier et $\\omega = e^{\\frac{2i\\pi}{n}}$. Que vaut, pour tout entier $n \\ge 2$, le produit $\\prod_{k=1}^{n-1}(1 - \\omega^k)$ ?",
+        "type": "mcq",
+        "options": [
+          "$n$",
+          "$0$",
+          "$1$",
+          "$n - 1$"
+        ],
+        "correctIndex": 0,
+        "answer": "$n$",
+        "hint1": "Factoriser $X^n - 1$ à l'aide de ses racines dans $\\mathbb{C}$, puis simplifier par $X - 1$ avant d'évaluer en un point bien choisi.",
+        "solution": "Les racines de $X^n - 1$ sont les $\\omega^k$ pour $0 \\le k \\le n - 1$, toutes simples, donc $X^n - 1 = (X - 1)\\prod_{k=1}^{n-1}(X - \\omega^k)$. Par ailleurs $X^n - 1 = (X - 1)(1 + X + \\cdots + X^{n-1})$. L'anneau des polynômes étant intègre, on simplifie par $X - 1$ : $\\prod_{k=1}^{n-1}(X - \\omega^k) = 1 + X + \\cdots + X^{n-1}$. En évaluant en $1$, le produit vaut $n$. Vérification pour $n = 3$ : $(1 - j)(1 - j^2) = 1 - j - j^2 + j^3 = 3$, car $1 + j + j^2 = 0$. Interprétation : le produit des longueurs des cordes issues d'un sommet d'un polygone régulier à $n$ côtés inscrit dans le cercle unité vaut $n$. La réponse $0$ confond ce produit avec la somme des racines, ou évalue en $1$ avant d'avoir simplifié ; $n - 1$ se contente de compter les facteurs."
       }
     ],
 
@@ -1752,6 +1737,24 @@
         "solution": "$P(\\bar{A}) = 0{,}7$ et, par la formule des probabilités totales, $P(B) = P(A)P_A(B) + P(\\bar{A})P_{\\bar{A}}(B) = 0{,}3 \\times 0{,}6 + 0{,}7 \\times 0{,}2 = 0{,}18 + 0{,}14 = 0{,}32$. La valeur $0{,}8$ additionne des probabilités conditionnelles ; $0{,}4$ en fait la moyenne sans pondération ; $0{,}18$ oublie le second chemin."
       },
       {
+        "id": "capes-13-4",
+        "chapterId": "capes-13",
+        "tier": 2,
+        "title": "Indépendance et événement contraire",
+        "statement": "$A$ et $B$ sont deux événements indépendants avec $P(A) = 0{,}5$ et $P(B) = 0{,}4$. Quelle est la probabilité de $A \\cup B$ ?",
+        "type": "mcq",
+        "options": [
+          "$0{,}7$",
+          "$0{,}9$",
+          "$0{,}2$",
+          "$0{,}3$"
+        ],
+        "correctIndex": 0,
+        "answer": "$0{,}7$",
+        "hint1": "Exprimer la probabilité de la réunion à l'aide de celle de l'intersection, ou passer à l'événement contraire en utilisant l'indépendance des contraires.",
+        "solution": "Par indépendance, $P(A \\cap B) = 0{,}5 \\times 0{,}4 = 0{,}2$, donc $P(A \\cup B) = 0{,}5 + 0{,}4 - 0{,}2 = 0{,}7$. Autre méthode : $\\bar{A}$ et $\\bar{B}$ sont indépendants, donc $P(\\overline{A \\cup B}) = P(\\bar{A} \\cap \\bar{B}) = 0{,}5 \\times 0{,}6 = 0{,}3$ et $P(A \\cup B) = 0{,}7$. La valeur $0{,}9$ suppose les événements incompatibles, ce qui contredit l'indépendance."
+      },
+      {
         "id": "capes-13-3",
         "chapterId": "capes-13",
         "tier": 3,
@@ -1770,22 +1773,22 @@
         "solution": "$P(T) = 0{,}02 \\times 0{,}95 + 0{,}98 \\times 0{,}05 = 0{,}019 + 0{,}049 = 0{,}068$, puis $P_T(M) = \\frac{0{,}019}{0{,}068} = \\frac{19}{68} \\approx 0{,}28$. Bien que le test soit fiable, près des trois quarts des tests positifs concernent des personnes saines, car la maladie est rare. La réponse $0{,}95$ confond $P_T(M)$ et $P_M(T)$."
       },
       {
-        "id": "capes-13-4",
+        "id": "capes-13-5",
         "chapterId": "capes-13",
         "tier": 4,
-        "title": "Indépendance et événement contraire",
-        "statement": "$A$ et $B$ sont deux événements indépendants avec $P(A) = 0{,}5$ et $P(B) = 0{,}4$. Quelle est la probabilité de $A \\cup B$ ?",
+        "title": "Transmission par relais et état stationnaire",
+        "statement": "Un message est transmis de relais en relais. S'il est exact à l'entrée d'un relais, il est exact à la sortie avec probabilité $0{,}9$ ; s'il est inexact à l'entrée, il est exact à la sortie avec probabilité $0{,}2$. On note $p_n$ la probabilité que le message soit exact après $n$ relais, $p_0 \\in [0 ; 1]$ étant quelconque. Quelle est la limite de la suite $(p_n)$ ?",
         "type": "mcq",
         "options": [
-          "$0{,}7$",
-          "$0{,}9$",
-          "$0{,}2$",
-          "$0{,}3$"
+          "$\\frac{2}{3}$",
+          "$\\frac{2}{7}$",
+          "$\\frac{9}{11}$",
+          "Elle dépend de la valeur de $p_0$"
         ],
         "correctIndex": 0,
-        "answer": "$0{,}7$",
-        "hint1": "Exprimer la probabilité de la réunion à l'aide de celle de l'intersection, ou passer à l'événement contraire en utilisant l'indépendance des contraires.",
-        "solution": "Par indépendance, $P(A \\cap B) = 0{,}5 \\times 0{,}4 = 0{,}2$, donc $P(A \\cup B) = 0{,}5 + 0{,}4 - 0{,}2 = 0{,}7$. Autre méthode : $\\bar{A}$ et $\\bar{B}$ sont indépendants, donc $P(\\overline{A \\cup B}) = P(\\bar{A} \\cap \\bar{B}) = 0{,}5 \\times 0{,}6 = 0{,}3$ et $P(A \\cup B) = 0{,}7$. La valeur $0{,}9$ suppose les événements incompatibles, ce qui contredit l'indépendance."
+        "answer": "$\\frac{2}{3}$",
+        "hint1": "Exprimer $p_{n+1}$ en fonction de $p_n$ à l'aide de la formule des probabilités totales, puis reconnaître une suite arithmético-géométrique.",
+        "solution": "Notons $E_n$ l'événement « le message est exact après $n$ relais ». La formule des probabilités totales, appliquée à la partition $\\{E_n, \\overline{E_n}\\}$, donne $p_{n+1} = 0{,}9\\,p_n + 0{,}2\\,(1 - p_n) = 0{,}7\\,p_n + 0{,}2$ (si $p_n$ vaut $0$ ou $1$, le terme de probabilité nulle disparaît et la relation reste vraie). Le réel $\\ell$ vérifiant $\\ell = 0{,}7\\,\\ell + 0{,}2$ est $\\ell = \\frac{2}{3}$, et $p_n - \\frac{2}{3} = 0{,}7^n\\left(p_0 - \\frac{2}{3}\\right)$. Comme $|0{,}7| \\lt 1$, la suite converge vers $\\frac{2}{3}$, quelle que soit la valeur de $p_0$ : c'est l'état stationnaire d'une chaîne de Markov à deux états. La valeur $\\frac{2}{7}$ divise par $0{,}7$ au lieu de $1 - 0{,}7$ ; $\\frac{9}{11}$ normalise à tort $\\frac{0{,}9}{0{,}9 + 0{,}2}$."
       }
     ],
 
@@ -1861,6 +1864,24 @@
         "answer": "$y = 2x + 2$",
         "hint1": "Le coefficient directeur est le quotient de la covariance par la variance de $x$, et la droite passe par le point moyen.",
         "solution": "$a = \\frac{\\mathrm{cov}(x, y)}{V_x} = \\frac{5}{2{,}5} = 2$ et $b = \\bar{y} - a\\bar{x} = 10 - 8 = 2$, donc $y = 2x + 2$. On vérifie que le point moyen $G(4 ; 10)$ appartient à la droite. La réponse $y = 0{,}5x + 8$ inverse le quotient ; $y = 2x + 10$ ne passe pas par $G$."
+      },
+      {
+        "id": "capes-14-5",
+        "chapterId": "capes-14",
+        "tier": 4,
+        "title": "Variance d'une réunion de deux séries",
+        "statement": "Une série $S_1$ d'effectif $40$ a pour moyenne $10$ et pour variance $4$ ; une série $S_2$ d'effectif $60$ a pour moyenne $15$ et pour variance $9$. Quelle est la variance de la série obtenue en réunissant $S_1$ et $S_2$ ?",
+        "type": "mcq",
+        "options": [
+          "$13$",
+          "$7$",
+          "$6{,}5$",
+          "$6$"
+        ],
+        "correctIndex": 0,
+        "answer": "$13$",
+        "hint1": "Calculer la moyenne de la réunion, puis utiliser la formule de König-Huygens pour obtenir, dans chaque série, la moyenne des carrés des valeurs.",
+        "solution": "La moyenne de la réunion est $\\bar{x} = 0{,}4 \\times 10 + 0{,}6 \\times 15 = 13$. Par la formule de König-Huygens, la moyenne des carrés vaut $4 + 10^2 = 104$ dans $S_1$ et $9 + 15^2 = 234$ dans $S_2$, donc $0{,}4 \\times 104 + 0{,}6 \\times 234 = 41{,}6 + 140{,}4 = 182$ pour la réunion, d'où $V = 182 - 13^2 = 13$. On retrouve la décomposition de la variance : moyenne des variances $0{,}4 \\times 4 + 0{,}6 \\times 9 = 7$, plus variance des moyennes $0{,}4 \\times (10 - 13)^2 + 0{,}6 \\times (15 - 13)^2 = 3{,}6 + 2{,}4 = 6$. La valeur $7$ oublie la dispersion des moyennes, $6$ ne garde qu'elle, et $6{,}5$ est la moyenne non pondérée des deux variances."
       }
     ],
 
@@ -1936,6 +1957,24 @@
         "answer": "$40$",
         "hint1": "Utiliser la formule du binôme : le terme en $x^2$ provient de $\\binom{5}{2}(2x)^2$.",
         "solution": "D'après la formule du binôme, $(1 + 2x)^5 = \\sum_{k=0}^{5}\\binom{5}{k}(2x)^k$. Le terme en $x^2$ est $\\binom{5}{2}(2x)^2 = 10 \\times 4x^2 = 40x^2$. La réponse $10$ oublie la puissance de $2$ ; $20$ ne l'élève pas au carré ; $80$ correspond au coefficient de $x^3$."
+      },
+      {
+        "id": "capes-15-5",
+        "chapterId": "capes-15",
+        "tier": 4,
+        "title": "Surjections et principe d'inclusion-exclusion",
+        "statement": "Combien existe-t-il d'applications surjectives d'un ensemble à $4$ éléments sur un ensemble à $3$ éléments ?",
+        "type": "mcq",
+        "options": [
+          "$36$",
+          "$33$",
+          "$81$",
+          "$24$"
+        ],
+        "correctIndex": 0,
+        "answer": "$36$",
+        "hint1": "Compter les applications qui évitent au moins un élément d'arrivée à l'aide du principe d'inclusion-exclusion, ou décrire directement les antécédents dans une surjection.",
+        "solution": "Il y a $3^4 = 81$ applications. Pour $y$ dans l'ensemble d'arrivée $F$, notons $A_y$ l'ensemble des applications dont $y$ n'est pas une valeur. Par inclusion-exclusion, les applications non surjectives sont au nombre de $3 \\times 2^4 - 3 \\times 1^4 + 0 = 45$, car une application ne peut éviter les trois éléments à la fois. Il reste $81 - 45 = 36$ surjections. Vérification directe : dans une surjection, un élément de $F$ a exactement deux antécédents et les deux autres un seul ; on choisit la paire d'antécédents, soit $\\binom{4}{2} = 6$ choix, puis on envoie bijectivement les trois blocs sur $F$, soit $3! = 6$ choix, d'où $36$. La réponse $33$ s'arrête à $81 - 48$ en oubliant le terme correctif, $81$ compte toutes les applications, et $24 = \\binom{4}{3} \\times 3!$ n'attribue pas le quatrième élément."
       }
     ],
 
@@ -1951,13 +1990,13 @@
         statement: "Un enseignant stagiaire de mathématiques porte une médaille religieuse autour du cou. En début de cours, la médaille ressort de son col de façon visible. Un élève l'interroge : « Monsieur, vous êtes croyant ? Quelle est votre religion ? ». Que doit faire l'enseignant au regard du cadre déontologique ?",
         type: "mcq",
         options: [
-          "Replacer la médaille sous son vêtement, répondre avec courtoisie qu'en tant que professeur de l'école publique il est tenu à la neutralité et ne fait pas état de ses convictions, puis reprendre le cours",
+          "Ranger la médaille, répondre avec courtoisie qu'un professeur de l'école publique ne fait pas état de ses convictions, puis reprendre le cours",
           "Répondre franchement à la question, puisque la liberté de conscience lui est garantie comme à tout citoyen, à condition de ne pas chercher à convaincre les élèves",
           "Garder la médaille visible puisqu'elle est de petite taille : seuls les signes ostensibles sont interdits aux enseignants",
           "Profiter de la question pour organiser un échange sur les religions des élèves afin de montrer que l'école respecte toutes les croyances"
         ],
         correctIndex: 0,
-        answer: "Replacer la médaille sous son vêtement, répondre avec courtoisie qu'en tant que professeur de l'école publique il est tenu à la neutralité et ne fait pas état de ses convictions, puis reprendre le cours",
+        answer: "Ranger la médaille, répondre avec courtoisie qu'un professeur de l'école publique ne fait pas état de ses convictions, puis reprendre le cours",
         hint1: "Un agent public n'est pas soumis à la même règle qu'un élève : pour lui, ce n'est pas seulement le signe ostensible qui est en cause.",
         solution: "1. Cadre juridique : l'article L. 121-2 du Code général de la fonction publique (ancien article 25 de la loi du 13 juillet 1983, issu de la loi du 20 avril 2016) et l'avis du Conseil d'État Marteaux (3 mai 2000) imposent aux agents du service public de l'enseignement une stricte obligation de neutralité : ils ne manifestent aucune appartenance ni opinion religieuse dans l'exercice de leurs fonctions, même par un signe discret. La règle des signes « ostensibles » de la loi de 2004 concerne les élèves, pas les personnels.\n2. Posture professionnelle : l'enseignant replace son signe sous son vêtement, ne fait pas état de ses croyances, explique calmement que la neutralité du professeur protège la liberté de conscience de tous les élèves, et reprend le cours sans polémique."
       },
@@ -1969,15 +2008,15 @@
         statement: "Quelle est la règle fixée par la loi du 15 mars 2004 (article L. 141-5-1 du Code de l'éducation) pour les élèves des écoles, collèges et lycées publics ?",
         type: "mcq",
         options: [
-          "Le port de signes ou de tenues par lesquels les élèves manifestent ostensiblement une appartenance religieuse est interdit ; les signes religieux discrets restent autorisés",
+          "Les signes ou tenues manifestant ostensiblement une appartenance religieuse sont interdits ; les signes discrets restent autorisés",
           "Tout signe religieux est interdit aux élèves, y compris une petite médaille ou une croix discrète",
           "Seuls les signes ostensibles portés pendant les heures de cours sont interdits ; ils restent permis dans la cour et lors des sorties scolaires",
           "L'interdiction ne s'applique qu'aux élèves mineurs : les élèves majeurs de lycée et de classes post-baccalauréat en sont dispensés"
         ],
         correctIndex: 0,
-        answer: "Le port de signes ou de tenues par lesquels les élèves manifestent ostensiblement une appartenance religieuse est interdit ; les signes religieux discrets restent autorisés",
+        answer: "Les signes ou tenues manifestant ostensiblement une appartenance religieuse sont interdits ; les signes discrets restent autorisés",
         hint1: "La loi vise le caractère ostensible de la manifestation, pas le signe en tant que tel, et elle s'applique à tous les élèves de l'établissement public.",
-        solution: "L'article L. 141-5-1 du Code de l'éducation interdit les signes ou tenues qui manifestent ostensiblement une appartenance religieuse, par leur nature même (voile ou foulard islamique, kippa, grande croix, keshi sikh) ou en raison du comportement de l'élève. Les signes religieux discrets restent autorisés pour les élèves (CE, 5 décembre 2007). L'interdiction vaut dans l'établissement et pendant toutes les activités placées sous sa responsabilité, y compris à l'extérieur, et pour tous les élèves d'un lycée public, y compris ceux des classes préparatoires et des sections de techniciens supérieurs (Vademecum, fiches 3 à 5). Le règlement intérieur rappelle qu'une procédure disciplinaire est précédée d'un dialogue avec l'élève. Les personnels, eux, sont soumis à une stricte neutralité qui exclut même les signes discrets."
+        solution: "L'article L. 141-5-1 du Code de l'éducation interdit les signes ou tenues qui manifestent ostensiblement une appartenance religieuse, par leur nature même (voile ou foulard islamique, kippa, grande croix, keshi sikh) ou en raison du comportement de l'élève. Les signes religieux discrets restent autorisés pour les élèves (CE, 5 décembre 2007). L'interdiction vaut dans l'établissement et pendant toutes les activités placées sous sa responsabilité, y compris à l'extérieur, et pour tous les élèves d'un lycée public, y compris ceux des classes préparatoires et des sections de techniciens supérieurs (Vademecum de mars 2024, fiches 3 à 5). Le règlement intérieur rappelle qu'une procédure disciplinaire est précédée d'un dialogue avec l'élève. Les personnels, eux, sont soumis à une stricte neutralité qui exclut même les signes discrets."
       },
       {
         id: 'capes-oral2-3',
@@ -1987,13 +2026,13 @@
         statement: "Selon l'arrêté du 1er juillet 2013 fixant le référentiel des compétences professionnelles des métiers du professorat et de l'éducation, quelle est la première compétence commune à tous les professeurs et personnels d'éducation ?",
         type: "mcq",
         options: [
-          "« Faire partager les valeurs de la République » : transmettre les principes de la vie démocratique, la liberté, l'égalité, la fraternité, la laïcité, le refus de toutes les discriminations, et aider les élèves à distinguer les savoirs des opinions ou des croyances",
+          "« Faire partager les valeurs de la République », dont la laïcité et le refus de toutes les discriminations",
           "« Maîtriser les savoirs disciplinaires et leur didactique » : connaître les contenus d'enseignement et les programmes de sa discipline",
           "« Agir en éducateur responsable et selon des principes éthiques » : veiller à la sécurité des élèves et lutter contre le harcèlement",
           "« Coopérer au sein d'une équipe » : inscrire son intervention dans un cadre collectif au service des élèves"
         ],
         correctIndex: 0,
-        answer: "« Faire partager les valeurs de la République » : transmettre les principes de la vie démocratique, la liberté, l'égalité, la fraternité, la laïcité, le refus de toutes les discriminations, et aider les élèves à distinguer les savoirs des opinions ou des croyances",
+        answer: "« Faire partager les valeurs de la République », dont la laïcité et le refus de toutes les discriminations",
         hint1: "Le référentiel place en tête la compétence qui donne son sens à la seconde partie de l'oral 2.",
         solution: "L'annexe de l'arrêté du 1er juillet 2013 ouvre la liste des compétences communes par « Faire partager les valeurs de la République » : savoir transmettre et faire partager les principes de la vie démocratique et les valeurs de la République (la liberté, l'égalité, la fraternité ; la laïcité ; le refus de toutes les discriminations) ; aider les élèves à développer leur esprit critique, à distinguer les savoirs des opinions ou des croyances, à savoir argumenter et à respecter la pensée des autres (cité par le Vademecum). Les trois autres propositions sont aussi des compétences du référentiel, mais pas la première : la maîtrise des savoirs disciplinaires relève des compétences propres aux professeurs (P1), l'éducateur responsable est la compétence 6 et la coopération en équipe la compétence 10."
       },
@@ -2005,15 +2044,15 @@
         statement: "Que prévoient les textes pour la Charte de la laïcité à l'École (circulaire n° 2013-144 du 6 septembre 2013) dans les établissements publics ?",
         type: "mcq",
         options: [
-          "Elle est affichée de manière visible de tous, notamment dans les lieux d'accueil et de passage ; il est recommandé de la joindre au règlement intérieur, et le chef d'établissement en fait connaître le contenu aux élèves et aux parents, notamment à l'inscription et aux réunions de rentrée",
+          "Elle est affichée de manière visible dans les lieux d'accueil et de passage, et le chef d'établissement la fait connaître aux élèves et aux familles",
           "Elle doit obligatoirement être annexée au règlement intérieur et signée par chaque famille, faute de quoi l'inscription de l'élève n'est pas valide",
           "Elle n'est affichée que dans les salles où se déroule l'enseignement moral et civique, son explication relevant du seul professeur d'histoire-géographie",
           "Elle a valeur de règlement intérieur : ses quinze articles peuvent servir directement de fondement à une sanction sans autre texte"
         ],
         correctIndex: 0,
-        answer: "Elle est affichée de manière visible de tous, notamment dans les lieux d'accueil et de passage ; il est recommandé de la joindre au règlement intérieur, et le chef d'établissement en fait connaître le contenu aux élèves et aux parents, notamment à l'inscription et aux réunions de rentrée",
+        answer: "Elle est affichée de manière visible dans les lieux d'accueil et de passage, et le chef d'établissement la fait connaître aux élèves et aux familles",
         hint1: "La circulaire de 2013 distingue ce qui est demandé (l'affichage) de ce qui est seulement recommandé.",
-        solution: "La circulaire du 6 septembre 2013 demande un affichage de la Charte « visible de tous », de préférence dans les lieux d'accueil et de passage, et recommande de la joindre au règlement intérieur ; sa présentation aux parents lors des réunions de rentrée permet d'en éclairer le sens. Les chefs d'établissement et directeurs d'école portent son contenu à la connaissance des élèves et de leurs parents, notamment lors de l'inscription et des réunions de rentrée (Vademecum, fiche 1). En quinze articles, la Charte explicite le sens de la laïcité à l'École : liberté de conscience, égalité, protection contre le prosélytisme, aucun sujet exclu du questionnement scientifique. C'est un support pédagogique de référence ; les sanctions, elles, reposent sur le règlement intérieur et le Code de l'éducation."
+        solution: "La circulaire du 6 septembre 2013 demande un affichage de la Charte « visible de tous », de préférence dans les lieux d'accueil et de passage, et recommande de la joindre au règlement intérieur ; sa présentation aux parents lors des réunions de rentrée permet d'en éclairer le sens. Les chefs d'établissement et directeurs d'école portent son contenu à la connaissance des élèves et de leurs parents, notamment lors de l'inscription et des réunions de rentrée (Vademecum de mars 2024, fiche 1). En quinze articles, la Charte explicite le sens de la laïcité à l'École : liberté de conscience, égalité, protection contre le prosélytisme, aucun sujet exclu du questionnement scientifique. C'est un support pédagogique de référence ; les sanctions, elles, reposent sur le règlement intérieur et le Code de l'éducation."
       },
       // =========================================================================
       // PALIER 2 : SITUATIONS DE CLASSE & CONTESTATION
@@ -2026,15 +2065,15 @@
         statement: "En classe de 3e, lors d'une activité introduisant les probabilités avec des dés à six faces, un élève refuse de participer et déclare : « Les jeux de hasard sont interdits par ma religion, et le hasard n'existe pas car tout est écrit d'avance ». Quelle est la réaction professionnelle attendue ?",
         type: "mcq",
         options: [
-          "Expliquer posément que l'activité n'est pas un jeu d'argent mais une modélisation mathématique de l'incertitude, rappeler que tous les élèves suivent l'ensemble des enseignements, demander à l'élève de faire l'exercice et, si le refus persiste, en informer le professeur principal et la direction",
+          "Expliquer qu'il s'agit d'une modélisation et non d'un jeu d'argent, rappeler que tous suivent l'ensemble des enseignements, et faire faire l'exercice",
           "Proposer à l'élève un exercice de remplacement sans dé ni hasard, puisque la liberté de conscience impose d'adapter le contenu aux convictions de chacun",
           "Engager devant la classe une discussion sur la question de savoir si le hasard existe selon les différentes religions, pour convaincre l'élève par le débat",
           "Considérer le refus comme une faute disciplinaire et exclure immédiatement l'élève du cours sans autre échange"
         ],
         correctIndex: 0,
-        answer: "Expliquer posément que l'activité n'est pas un jeu d'argent mais une modélisation mathématique de l'incertitude, rappeler que tous les élèves suivent l'ensemble des enseignements, demander à l'élève de faire l'exercice et, si le refus persiste, en informer le professeur principal et la direction",
+        answer: "Expliquer qu'il s'agit d'une modélisation et non d'un jeu d'argent, rappeler que tous suivent l'ensemble des enseignements, et faire faire l'exercice",
         hint1: "Aucun sujet n'est exclu du questionnement scientifique (Charte, article 12) et l'élève ne peut pas choisir les contenus qu'il suit.",
-        solution: "1. Cadre juridique : les obligations des élèves comprennent l'accomplissement des tâches inhérentes à leurs études et l'assiduité (Code de l'éducation, articles L. 511-1 et R. 511-11) ; aucun élève ne peut invoquer une conviction religieuse pour contester un contenu du programme (Charte de la laïcité à l'École, article 12 ; Vademecum, fiches 8 et 9).\n2. Gestion pédagogique : le professeur désamorce sans agressivité, distingue le savoir mathématique (modéliser des expériences aléatoires, fréquences, probabilités) d'une croyance personnelle qu'il ne juge pas, et ne se laisse pas entraîner dans un débat théologique.\n3. Suivi : si le refus persiste, il ne s'enferme pas dans un bras de fer, consigne l'incident et en informe le professeur principal, le CPE et la direction, qui pourront recevoir la famille."
+        solution: "1. Cadre juridique : les obligations des élèves comprennent l'accomplissement des tâches inhérentes à leurs études et l'assiduité (Code de l'éducation, articles L. 511-1 et R. 511-11) ; aucun élève ne peut invoquer une conviction religieuse pour contester un contenu du programme (Charte de la laïcité à l'École, article 12 ; Vademecum de mars 2024, fiches 8 et 9).\n2. Gestion pédagogique : le professeur désamorce sans agressivité, distingue le savoir mathématique (modéliser des expériences aléatoires, fréquences, probabilités) d'une croyance personnelle qu'il ne juge pas, et ne se laisse pas entraîner dans un débat théologique.\n3. Suivi : si le refus persiste, il ne s'enferme pas dans un bras de fer, consigne l'incident et en informe le professeur principal, le CPE et la direction, qui pourront recevoir la famille."
       },
       {
         id: 'capes-oral2-6',
@@ -2044,15 +2083,15 @@
         statement: "Une élève de collège se présente chaque jour en cours vêtue d'un large bandeau sombre masquant sa chevelure et d'une longue jupe noire. Invitée à retirer son bandeau, elle refuse systématiquement en affirmant qu'il s'agit d'un choix purement esthétique. Quelle est l'analyse conforme au Vademecum ?",
         type: "mcq",
         options: [
-          "Une tenue qui n'est pas religieuse par nature peut devenir une manifestation ostensible d'appartenance religieuse en raison du comportement de l'élève (port permanent, refus persistant de l'ôter) ; la déclaration de l'élève ne suffit pas à écarter la loi, et le dialogue précède toute procédure disciplinaire",
+          "Une tenue non religieuse par nature peut le devenir par le comportement de l'élève ; sa déclaration ne suffit pas, et le dialogue précède la procédure",
           "Le bandeau et la jupe ne sont pas des signes religieux par nature : la loi de 2004 ne peut donc pas s'appliquer, quel que soit le comportement de l'élève",
-          "Il suffit que l'élève affirme que sa tenue n'a aucune signification religieuse pour que l'établissement soit tenu de l'accepter",
+          "Il suffit que l'élève affirme que sa tenue n'a aucune signification religieuse pour que l'établissement soit tenu de l'accepter sans autre discussion",
           "Le chef d'établissement peut engager immédiatement une procédure disciplinaire, la phase de dialogue n'étant exigée que pour les signes religieux par nature"
         ],
         correctIndex: 0,
-        answer: "Une tenue qui n'est pas religieuse par nature peut devenir une manifestation ostensible d'appartenance religieuse en raison du comportement de l'élève (port permanent, refus persistant de l'ôter) ; la déclaration de l'élève ne suffit pas à écarter la loi, et le dialogue précède toute procédure disciplinaire",
-        hint1: "Le Vademecum (fiche 3) cite deux décisions : CE, 5 décembre 2007, n° 295671 (bandana porté en permanence) et CAA de Paris, 18 avril 2017, n° 15PA04525 (jupe longue sombre et bandana).",
-        solution: "Le Conseil d'État a confirmé la sanction d'une collégienne qui refusait systématiquement de retirer un bandana, auquel elle avait donné le caractère d'un signe ostensible (CE, 5 décembre 2007, n° 295671). La CAA de Paris a jugé de même pour le port quotidien d'une jupe longue sombre et d'un bandana, compte tenu du refus constant de modifier la tenue (18 avril 2017, n° 15PA04525). Les éléments d'appréciation sont la permanence du port et la persistance du refus, rapportées au comportement global de l'élève ; le fait qu'elle déclare ne pas manifester d'appartenance religieuse ne suffit pas (Vademecum, fiche 3). Le professeur alerte le chef d'établissement, qui conduit le dialogue avec l'élève et sa famille ; la procédure disciplinaire ne vient qu'ensuite (article L. 141-5-1, second alinéa)."
+        answer: "Une tenue non religieuse par nature peut le devenir par le comportement de l'élève ; sa déclaration ne suffit pas, et le dialogue précède la procédure",
+        hint1: "Se demander ce qui peut rendre une tenue ostensible : sa nature seulement, ou aussi la façon dont l'élève la porte dans la durée ?",
+        solution: "Le Conseil d'État a confirmé la sanction d'une collégienne qui refusait systématiquement de retirer un bandana, auquel elle avait donné le caractère d'un signe ostensible (CE, 5 décembre 2007, n° 295671). La CAA de Paris a jugé de même pour le port quotidien d'une jupe longue sombre et d'un bandana, compte tenu du refus constant de modifier la tenue (18 avril 2017, n° 15PA04525). Les éléments d'appréciation sont la permanence du port et la persistance du refus, rapportées au comportement global de l'élève ; le fait qu'elle déclare ne pas manifester d'appartenance religieuse ne suffit pas (Vademecum de mars 2024, fiche 3). Le professeur alerte le chef d'établissement, qui conduit le dialogue avec l'élève et sa famille ; la procédure disciplinaire ne vient qu'ensuite (article L. 141-5-1, second alinéa)."
       },
       {
         id: 'capes-oral2-7',
@@ -2062,14 +2101,14 @@
         statement: "Une famille informe le professeur principal que leur enfant sera systématiquement absent chaque samedi matin, où ont lieu des devoirs surveillés, pour un motif religieux. Que doit décider l'établissement ?",
         type: "mcq",
         options: [
-          "Refuser cette demande d'absence systématique, incompatible avec l'obligation d'assiduité et l'organisation de la scolarité, tout en rappelant que des absences ponctuelles peuvent être autorisées pour les grandes fêtes religieuses dont la liste est fixée chaque année",
-          "Accepter la demande, la liberté de culte primant sur l'emploi du temps, et dispenser l'élève des devoirs du samedi",
-          "Accepter la demande à condition que la famille fournisse une attestation du responsable du culte",
-          "Refuser toute absence pour motif religieux, y compris le jour d'une grande fête religieuse"
+          "Refuser une absence systématique, contraire à l'obligation d'assiduité, tout en admettant des absences pour les grandes fêtes religieuses",
+          "Accepter la demande, la liberté de culte primant sur l'emploi du temps, et dispenser l'élève de tous les devoirs surveillés du samedi matin",
+          "Accepter la demande à condition que la famille fournisse chaque trimestre une attestation signée par le responsable du culte concerné",
+          "Refuser toute absence pour motif religieux, y compris le jour d'une grande fête, puisque l'école publique est laïque et ne reconnaît aucun culte"
         ],
         correctIndex: 0,
-        answer: "Refuser cette demande d'absence systématique, incompatible avec l'obligation d'assiduité et l'organisation de la scolarité, tout en rappelant que des absences ponctuelles peuvent être autorisées pour les grandes fêtes religieuses dont la liste est fixée chaque année",
-        hint1: "Vademecum, fiche 10 : les demandes d'absence systématique ou prolongée doivent être refusées (CE, Assemblée, 14 avril 1995).",
+        answer: "Refuser une absence systématique, contraire à l'obligation d'assiduité, tout en admettant des absences pour les grandes fêtes religieuses",
+        hint1: "Distinguer une absence ponctuelle pour une grande fête d'une absence qui revient chaque semaine : laquelle reste compatible avec l'obligation d'assiduité ?",
         solution: "Les élèves sont soumis à l'obligation d'assiduité (Code de l'éducation, articles L. 511-1 et R. 511-11). Des autorisations d'absence peuvent être accordées pour les grandes fêtes religieuses qui ne coïncident pas avec un jour de congé, dont la liste est rappelée chaque année (circulaire de la fonction publique du 10 février 2012), et aucun examen ni épreuve importante ne doit être organisé ces jours-là (circulaire du 18 mai 2004). En revanche, les demandes d'absence systématique ou prolongée doivent être refusées lorsqu'elles sont incompatibles avec la scolarité et l'organisation du service (CE, Assemblée, 14 avril 1995, Consistoire central des israélites de France, n° 125148) ; il en va ainsi d'une absence récurrente les samedis matin (CE, Assemblée, 14 avril 1995, n° 157653). Le CPE ou le chef d'établissement reçoit la famille pour rappeler l'obligation d'assiduité."
       },
       {
@@ -2080,15 +2119,15 @@
         statement: "Des parents refusent que leur fille participe au cycle de natation en EPS, en invoquant la mixité et la tenue de bain, puis produisent un certificat médical qui paraît de complaisance. Que retenir de la position de la Cour européenne des droits de l'homme et du Vademecum ?",
         type: "mcq",
         options: [
-          "L'obligation de suivre intégralement la scolarité peut primer sur le souhait des parents d'une dispense de natation mixte pour motif religieux (CEDH, Osmanoğlu et Kocabaş c. Suisse, 10 janvier 2017) ; un certificat qui paraît injustifié peut être soumis à l'avis du médecin de l'éducation nationale",
-          "L'établissement doit organiser des créneaux de piscine non mixtes dès qu'une famille en fait la demande pour motif religieux",
+          "La scolarité complète peut primer sur une dispense de natation mixte (CEDH, 2017), et un certificat douteux peut être soumis au médecin scolaire",
+          "L'établissement doit organiser des créneaux de piscine non mixtes dès qu'une famille en fait la demande pour motif religieux, au nom de la liberté de culte",
           "La CEDH impose d'admettre dans le bassin toute tenue de bain couvrante, dès lors qu'elle respecte les règles d'hygiène de la piscine",
-          "Un certificat médical s'impose toujours à l'établissement, qui ne peut jamais en interroger le bien-fondé"
+          "Un certificat médical s'impose toujours à l'établissement, qui ne peut jamais en interroger le bien-fondé ni solliciter l'avis d'un médecin"
         ],
         correctIndex: 0,
-        answer: "L'obligation de suivre intégralement la scolarité peut primer sur le souhait des parents d'une dispense de natation mixte pour motif religieux (CEDH, Osmanoğlu et Kocabaş c. Suisse, 10 janvier 2017) ; un certificat qui paraît injustifié peut être soumis à l'avis du médecin de l'éducation nationale",
-        hint1: "Vademecum, fiche 9 : aucune dispense pour motif religieux ; les consignes d'hygiène et de sécurité ne sont pas aménagées pour des convictions religieuses.",
-        solution: "Dans l'arrêt Osmanoğlu et Kocabaş c. Suisse (10 janvier 2017, n° 29086/12), la CEDH a jugé qu'en faisant primer l'obligation de suivre intégralement la scolarité et la réussite de l'intégration sur l'intérêt privé des parents, les autorités n'avaient pas outrepassé leur marge d'appréciation. En France, l'élève suit l'ensemble des cours inscrits à son emploi du temps ; l'article L. 141-5-1 s'applique aussi à la piscine, et le burkini, tenue qui manifeste ostensiblement une appartenance religieuse, n'est pas admis dans le bassin ; les consignes d'hygiène et de sécurité ne sont pas aménagées pour un motif religieux (Vademecum, fiches 3 et 9). Un certificat médical qui paraît injustifié peut être soumis à l'avis du médecin de l'éducation nationale ; en cas de suspicion sérieuse, le chef d'établissement peut, en concertation avec le médecin scolaire et avec l'accord de l'autorité académique, saisir le conseil départemental de l'Ordre des médecins."
+        answer: "La scolarité complète peut primer sur une dispense de natation mixte (CEDH, 2017), et un certificat douteux peut être soumis au médecin scolaire",
+        hint1: "Deux questions séparées : un motif religieux ouvre-t-il une dispense d'un enseignement obligatoire ? Un certificat médical échappe-t-il à tout contrôle ?",
+        solution: "Dans l'arrêt Osmanoğlu et Kocabaş c. Suisse (10 janvier 2017, n° 29086/12), la CEDH a jugé qu'en faisant primer l'obligation de suivre intégralement la scolarité et la réussite de l'intégration sur l'intérêt privé des parents, les autorités n'avaient pas outrepassé leur marge d'appréciation. En France, l'élève suit l'ensemble des cours inscrits à son emploi du temps ; l'article L. 141-5-1 s'applique aussi à la piscine, et le burkini, tenue qui manifeste ostensiblement une appartenance religieuse, n'est pas admis dans le bassin ; les consignes d'hygiène et de sécurité ne sont pas aménagées pour un motif religieux (Vademecum de mars 2024, fiches 3 et 9). Un certificat médical qui paraît injustifié peut être soumis à l'avis du médecin de l'éducation nationale ; en cas de suspicion sérieuse, le chef d'établissement peut, en concertation avec le médecin scolaire et avec l'accord de l'autorité académique, saisir le conseil départemental de l'Ordre des médecins."
       },
       // =========================================================================
       // PALIER 3 : PARENTS, SORTIES & PÉRISCOLAIRE
@@ -2101,15 +2140,15 @@
         statement: "Lors d'une sortie scolaire organisée par l'équipe de mathématiques, une mère d'élève volontaire pour accompagner le groupe se présente coiffée d'un foulard religieux. Peut-elle accompagner la classe ?",
         type: "mcq",
         options: [
-          "Oui en principe : les parents accompagnateurs sont des usagers du service public, non soumis à la loi de 2004 ni à la neutralité des agents ; une restriction n'est possible que pour des motifs précis, liés à l'ordre public ou au bon fonctionnement du service, et doit être motivée",
-          "Non : la loi du 15 mars 2004 s'applique à tous les adultes qui encadrent des élèves pendant une activité scolaire",
-          "Non : un parent accompagnateur devient un collaborateur du service public et doit donc respecter la même neutralité qu'un enseignant",
-          "Oui, et aucune exigence ne peut lui être imposée, pas même l'abstention de tout prosélytisme devant les élèves"
+          "Oui en principe : les parents accompagnateurs sont des usagers, non soumis à la neutralité ; une restriction doit reposer sur un motif précis",
+          "Non : la loi du 15 mars 2004 s'applique à tous les adultes qui encadrent des élèves pendant une activité scolaire, parents compris",
+          "Non : un parent accompagnateur devient un collaborateur du service public et doit donc respecter la même neutralité qu'un enseignant pendant la sortie",
+          "Oui, et aucune exigence ne peut lui être imposée pendant la sortie, pas même l'abstention de tout prosélytisme devant les élèves"
         ],
         correctIndex: 0,
-        answer: "Oui en principe : les parents accompagnateurs sont des usagers du service public, non soumis à la loi de 2004 ni à la neutralité des agents ; une restriction n'est possible que pour des motifs précis, liés à l'ordre public ou au bon fonctionnement du service, et doit être motivée",
-        hint1: "Vademecum, fiche 23 : étude du Conseil d'État du 19 décembre 2013 et jugements des tribunaux administratifs de Nice et d'Amiens (2015).",
-        solution: "Dans son étude du 19 décembre 2013, le Conseil d'État a considéré que les parents d'élèves ont la qualité d'usagers du service public et ne sont donc pas soumis à l'exigence de neutralité religieuse des agents publics ; il admet seulement que l'autorité recommande, au nom du bon fonctionnement du service, de s'abstenir de manifester son appartenance religieuse. Les tribunaux administratifs de Nice (9 juin 2015) et d'Amiens (15 décembre 2015) ont écarté toute interdiction de principe : seules des considérations précises, liées à l'ordre public ou au bon fonctionnement du service, peuvent fonder une restriction motivée. Le parent accompagnateur a un devoir d'exemplarité dans son comportement et ses propos et doit s'abstenir de tout prosélytisme. Enfin, le choix des accompagnateurs revient au chef d'établissement ou au directeur d'école : un parent n'a pas de droit à accompagner une sortie (Vademecum, fiche 23)."
+        answer: "Oui en principe : les parents accompagnateurs sont des usagers, non soumis à la neutralité ; une restriction doit reposer sur un motif précis",
+        hint1: "Qualifier d'abord la personne : agent du service public ou usager ? La règle applicable en découle, avec ses éventuelles limites.",
+        solution: "Dans son étude du 19 décembre 2013, le Conseil d'État a considéré que les parents d'élèves ont la qualité d'usagers du service public et ne sont donc pas soumis à l'exigence de neutralité religieuse des agents publics ; il admet seulement que l'autorité recommande, au nom du bon fonctionnement du service, de s'abstenir de manifester son appartenance religieuse. Les tribunaux administratifs de Nice (9 juin 2015) et d'Amiens (15 décembre 2015) ont écarté toute interdiction de principe : seules des considérations précises, liées à l'ordre public ou au bon fonctionnement du service, peuvent fonder une restriction motivée. Le parent accompagnateur a un devoir d'exemplarité dans son comportement et ses propos et doit s'abstenir de tout prosélytisme. Enfin, le choix des accompagnateurs revient au chef d'établissement ou au directeur d'école : un parent n'a pas de droit à accompagner une sortie (Vademecum de mars 2024, fiche 23)."
       },
       {
         id: 'capes-oral2-10',
@@ -2119,15 +2158,15 @@
         statement: "Un parent d'élève bénévole est invité dans la classe pour co-animer avec le professeur un atelier d'algorithmique, dans des conditions proches de celles d'un enseignant. Le principe de neutralité peut-il lui être imposé ?",
         type: "mcq",
         options: [
-          "Oui : la CAA de Lyon (23 juillet 2019) a admis la légalité d'un règlement intérieur soumettant à la neutralité les personnes, y compris les parents, qui participent dans les locaux scolaires à des activités assimilables à celles des enseignants",
-          "Non : un parent d'élève reste dans tous les cas un usager et ne peut jamais être soumis à la neutralité",
-          "Oui : tout parent qui entre dans l'établissement, même pour un rendez-vous, est soumis à la neutralité",
-          "Non : seule une loi spécifique pourrait l'imposer, un règlement intérieur ne le peut pas"
+          "Oui : un règlement intérieur peut soumettre à la neutralité les parents qui participent en classe à des activités assimilables à celles des enseignants",
+          "Non : un parent d'élève reste dans tous les cas un usager du service public et ne peut jamais être soumis à la neutralité, quelle que soit l'activité qu'il exerce",
+          "Oui : tout parent qui entre dans l'établissement, même pour un simple rendez-vous avec un professeur, est soumis à la neutralité des agents",
+          "Non : seule une loi spécifique pourrait l'imposer à un parent, et un règlement intérieur d'établissement ne peut jamais le prévoir"
         ],
         correctIndex: 0,
-        answer: "Oui : la CAA de Lyon (23 juillet 2019) a admis la légalité d'un règlement intérieur soumettant à la neutralité les personnes, y compris les parents, qui participent dans les locaux scolaires à des activités assimilables à celles des enseignants",
-        hint1: "Vademecum, fiche 23 : CAA de Lyon, 23 juillet 2019, n° 17LY04351.",
-        solution: "Par un arrêt du 23 juillet 2019 (n° 17LY04351), la cour administrative d'appel de Lyon a admis la légalité d'un règlement intérieur soumettant au principe de neutralité les personnes, y compris les parents d'élèves, qui interviennent à l'intérieur des locaux scolaires pour participer à des activités assimilables à celles des enseignants. Le Vademecum (fiche 23) en retient que la neutralité s'impose aux parents lorsqu'ils exercent ou encadrent de telles activités dans les locaux scolaires, ou lorsque des considérations précises liées à l'ordre public le justifient. En revanche, un parent qui vient chercher son enfant ou participe à une réunion n'y est pas soumis."
+        answer: "Oui : un règlement intérieur peut soumettre à la neutralité les parents qui participent en classe à des activités assimilables à celles des enseignants",
+        hint1: "Un parent n'est pas soumis à la même règle selon ce qu'il fait : regarder ici si son rôle se rapproche de celui d'un enseignant.",
+        solution: "Par un arrêt du 23 juillet 2019 (n° 17LY04351), la cour administrative d'appel de Lyon a admis la légalité d'un règlement intérieur soumettant au principe de neutralité les personnes, y compris les parents d'élèves, qui interviennent à l'intérieur des locaux scolaires pour participer à des activités assimilables à celles des enseignants. Le Vademecum de mars 2024 (fiche 23) en retient que la neutralité s'impose aux parents lorsqu'ils exercent ou encadrent de telles activités dans les locaux scolaires, ou lorsque des considérations précises liées à l'ordre public le justifient. En revanche, un parent qui vient chercher son enfant ou participe à une réunion n'y est pas soumis."
       },
       {
         id: 'capes-oral2-11',
@@ -2137,15 +2176,15 @@
         statement: "Des familles demandent au collège des repas conformes à leurs prescriptions religieuses à la cantine ou, à défaut, l'établissement d'un PAI (projet d'accueil individualisé) pour que leur enfant apporte son panier-repas. Que prévoit le droit ?",
         type: "mcq",
         options: [
-          "Il n'existe aucun droit à un menu confessionnel : la collectivité peut proposer des repas différenciés mais n'y est pas tenue, et le PAI, réservé aux élèves présentant un trouble de santé (allergie ou intolérance médicalement avérée), ne peut servir à un régime lié à des choix familiaux",
-          "Le collège est tenu de proposer un menu de substitution dès qu'une famille invoque un interdit alimentaire religieux",
-          "Le chef d'établissement doit accepter le PAI, faute de quoi il commettrait une discrimination fondée sur la religion",
-          "Le principe de laïcité interdit à la collectivité de proposer tout repas différencié, même végétarien"
+          "Aucun droit à un menu confessionnel : des repas différenciés sont possibles sans être obligatoires, et le PAI est réservé aux besoins de santé",
+          "Le collège est tenu de proposer un menu de substitution dès qu'une famille invoque un interdit alimentaire religieux, pour chaque repas servi à la cantine",
+          "Le chef d'établissement doit accepter le PAI, faute de quoi il commettrait une discrimination fondée sur la religion à l'égard de la famille",
+          "Le principe de laïcité interdit à la collectivité de proposer tout repas différencié, même végétarien, puisqu'il pourrait servir un culte"
         ],
         correctIndex: 0,
-        answer: "Il n'existe aucun droit à un menu confessionnel : la collectivité peut proposer des repas différenciés mais n'y est pas tenue, et le PAI, réservé aux élèves présentant un trouble de santé (allergie ou intolérance médicalement avérée), ne peut servir à un régime lié à des choix familiaux",
-        hint1: "Vademecum, fiche 11 : CE, 25 octobre 2002, n° 251161, articles D. 351-4 et D. 351-9 du Code de l'éducation, circulaire du 10 février 2021 sur le PAI.",
-        solution: "L'inscription à la restauration scolaire est facultative, et le service relève de la collectivité qui en a la charge (le département pour un collège). Les collectivités peuvent librement proposer des repas différenciés pour tenir compte des préférences alimentaires ou de prescriptions médicales, sans regrouper les élèves selon leurs pratiques, mais il s'agit d'une possibilité, non d'un droit ; des menus qui ne font référence à aucun interdit alimentaire ne sont pas discriminatoires (CE, 25 octobre 2002, n° 251161). Le panier-repas prévu par le PAI (articles D. 351-4 et D. 351-9) est réservé aux élèves présentant un trouble de santé : selon la circulaire du 10 février 2021, il ne concerne que les allergies ou intolérances alimentaires médicalement avérées et « n'est pas destiné à être utilisé pour permettre un régime alimentaire lié à des choix familiaux » ; la demande ne peut donc pas être acceptée (Vademecum, fiche 11)."
+        answer: "Aucun droit à un menu confessionnel : des repas différenciés sont possibles sans être obligatoires, et le PAI est réservé aux besoins de santé",
+        hint1: "Séparer les deux demandes : un menu confessionnel est-il un droit ? À quelle situation le PAI est-il réservé ?",
+        solution: "L'inscription à la restauration scolaire est facultative, et le service relève de la collectivité qui en a la charge (le département pour un collège). Les collectivités peuvent librement proposer des repas différenciés pour tenir compte des préférences alimentaires ou de prescriptions médicales, sans regrouper les élèves selon leurs pratiques, mais il s'agit d'une possibilité, non d'un droit ; des menus qui ne font référence à aucun interdit alimentaire ne sont pas discriminatoires (CE, 25 octobre 2002, n° 251161). Le panier-repas prévu par le PAI (articles D. 351-4 et D. 351-9) est réservé aux élèves présentant un trouble de santé : selon la circulaire du 10 février 2021, il ne concerne que les allergies ou intolérances alimentaires médicalement avérées et « n'est pas destiné à être utilisé pour permettre un régime alimentaire lié à des choix familiaux » ; la demande ne peut donc pas être acceptée (Vademecum de mars 2024, fiche 11)."
       },
       {
         id: 'capes-oral2-12',
@@ -2155,18 +2194,18 @@
         statement: "Lors de la remise des bulletins, un père d'élève refuse de serrer la main de la professeure de mathématiques et de s'adresser à elle en raison de son sexe, et exige de parler à un collègue masculin. Quelle est la réponse professionnelle attendue ?",
         type: "mcq",
         options: [
-          "Ne pas céder à la demande de substitution, rappeler calmement que l'égalité entre les femmes et les hommes s'impose à l'École, et informer le chef d'établissement, qui reçoit le parent pour lui rappeler les règles",
+          "Ne pas céder, rappeler calmement que l'égalité entre les femmes et les hommes s'impose à l'École, et informer le chef d'établissement",
           "Faire appel à un collègue masculin pour que l'entretien ait lieu dans l'intérêt de l'élève, puis signaler l'incident après coup",
-          "Poursuivre l'entretien sans rien dire, le comportement d'un parent relevant de sa vie privée",
-          "Convoquer l'élève en conseil de discipline pour le comportement de son père"
+          "Poursuivre l'entretien sans rien dire, le comportement d'un parent relevant de sa vie privée et de ses convictions personnelles",
+          "Signaler les faits au CPE pour que l'élève soit sanctionné, puisqu'il est responsable devant l'établissement de l'attitude de son père envers l'enseignante"
         ],
         correctIndex: 0,
-        answer: "Ne pas céder à la demande de substitution, rappeler calmement que l'égalité entre les femmes et les hommes s'impose à l'École, et informer le chef d'établissement, qui reçoit le parent pour lui rappeler les règles",
-        hint1: "Vademecum, fiche 23 : le refus de parler à un enseignant ou de lui serrer la main en raison de son sexe figure parmi les comportements que les règlements intérieurs doivent permettre de traiter.",
-        solution: "La Charte de la laïcité à l'École rappelle que la laïcité garantit l'égalité entre les filles et les garçons (article 9) et que nul ne peut se prévaloir de son appartenance religieuse pour refuser de se conformer aux règles de l'École de la République (article 13). Le Vademecum (fiche 23) cite expressément le refus de parler à un enseignant ou de lui serrer la main en raison de son sexe parmi les comportements irrespectueux à traiter. L'enseignante n'a pas à accepter cette discrimination ni à se faire remplacer : elle reste courtoise, ne s'engage pas dans une polémique, et le chef d'établissement prend le relais pour recevoir le parent et lui rappeler les règles. L'élève n'a pas à être sanctionné pour le comportement de son parent ; l'incident peut être signalé par l'application Faits établissement."
+        answer: "Ne pas céder, rappeler calmement que l'égalité entre les femmes et les hommes s'impose à l'École, et informer le chef d'établissement",
+        hint1: "Se demander ce qui se passerait si l'on cédait : la demande du père met en cause un principe de l'École, pas une simple organisation.",
+        solution: "La Charte de la laïcité à l'École rappelle que la laïcité garantit l'égalité entre les filles et les garçons (article 9) et que nul ne peut se prévaloir de son appartenance religieuse pour refuser de se conformer aux règles de l'École de la République (article 13). Le Vademecum de mars 2024 (fiche 23) cite expressément le refus de parler à un enseignant ou de lui serrer la main en raison de son sexe parmi les comportements irrespectueux à traiter. L'enseignante n'a pas à accepter cette discrimination ni à se faire remplacer : elle reste courtoise, ne s'engage pas dans une polémique, et le chef d'établissement prend le relais pour recevoir le parent et lui rappeler les règles. L'élève n'a pas à être sanctionné pour le comportement de son parent ; l'incident peut être signalé par l'application Faits établissement."
       },
       // =========================================================================
-      // PALIER 4 : PROCÉDURES D'URGENCE & JURY
+      // PALIER 4 : DILEMMES ET CONFLITS DE RÈGLES (les questions de restitution sont aux paliers 1 et 2)
       // =========================================================================
       {
         id: 'capes-oral2-13',
@@ -2176,69 +2215,69 @@
         statement: "Un élève de 11 ans fait des malaises répétés en cours, dus à un jeûne strict sans hydratation. Prévenue, la famille exige qu'on ne lui donne ni eau ni sucre à l'infirmerie pour respecter le jeûne. Quelle est l'obligation de l'équipe éducative ?",
         type: "mcq",
         options: [
-          "Faire prendre en charge l'élève sans délai (infirmière, appel au SAMU si nécessaire), engager le dialogue avec la famille avec les personnels de santé et, si l'élève est en danger ou risque de l'être, transmettre une information préoccupante au président du conseil départemental",
-          "Respecter la consigne de la famille, puisque l'École ne doit pas prendre parti sur une pratique religieuse",
-          "Dispenser l'élève de tous les cours pendant la durée du jeûne pour éviter les malaises",
-          "Se contenter d'en parler à la famille : une information préoccupante n'est possible qu'en cas de maltraitance physique"
+          "Faire soigner l'élève sans délai, associer les personnels de santé au dialogue avec la famille et, s'il est en danger, transmettre une information préoccupante",
+          "Respecter la consigne de la famille, puisque l'École ne doit pas prendre parti sur une pratique religieuse ni s'opposer à l'autorité parentale",
+          "Dispenser l'élève de tous les cours pendant la durée du jeûne pour éviter les malaises, avec l'accord de la famille et du professeur principal",
+          "Se contenter d'en parler à la famille : une information préoccupante n'est possible qu'en cas de maltraitance physique avérée et répétée commise par un adulte de la famille"
         ],
         correctIndex: 0,
-        answer: "Faire prendre en charge l'élève sans délai (infirmière, appel au SAMU si nécessaire), engager le dialogue avec la famille avec les personnels de santé et, si l'élève est en danger ou risque de l'être, transmettre une information préoccupante au président du conseil départemental",
-        hint1: "Vademecum, fiche 13 : article 375 du Code civil (mineur en danger) et article L. 226-2-1 du Code de l'action sociale et des familles (information préoccupante).",
-        solution: "1. Urgence : la santé de l'élève passe en premier. Il est pris en charge par l'infirmière ou les secours, qui apportent les soins nécessaires.\n2. Dialogue : le chef d'établissement réunit les enseignants, les personnels de santé et l'équipe éducative, puis conduit le dialogue avec les parents et l'élève ; l'École ne prend pas parti sur l'interprétation d'une pratique religieuse, mais rappelle les risques liés à l'absence de nutrition et d'hydratation, surtout chez les plus jeunes.\n3. Protection de l'enfance : si le dialogue n'aboutit pas et que le mineur est en danger ou risque de l'être au sens de l'article 375 du Code civil, tout membre du personnel doit informer par écrit le président du conseil départemental en adressant une information préoccupante à la cellule départementale de recueil des informations préoccupantes (article L. 226-2-1 du Code de l'action sociale et des familles), selon le protocole départemental (Vademecum, fiche 13)."
+        answer: "Faire soigner l'élève sans délai, associer les personnels de santé au dialogue avec la famille et, s'il est en danger, transmettre une information préoccupante",
+        hint1: "Hiérarchiser : qu'est-ce qui passe avant une consigne familiale quand la santé d'un enfant est en jeu, et quelle voie existe si le dialogue échoue ?",
+        solution: "1. Urgence : la santé de l'élève passe en premier. Il est pris en charge par l'infirmière ou les secours, qui apportent les soins nécessaires.\n2. Dialogue : le chef d'établissement réunit les enseignants, les personnels de santé et l'équipe éducative, puis conduit le dialogue avec les parents et l'élève ; l'École ne prend pas parti sur l'interprétation d'une pratique religieuse, mais rappelle les risques liés à l'absence de nutrition et d'hydratation, surtout chez les plus jeunes.\n3. Protection de l'enfance : si le dialogue n'aboutit pas et que le mineur est en danger ou risque de l'être au sens de l'article 375 du Code civil, tout membre du personnel doit informer par écrit le président du conseil départemental en adressant une information préoccupante à la cellule départementale de recueil des informations préoccupantes (article L. 226-2-1 du Code de l'action sociale et des familles), selon le protocole départemental (Vademecum de mars 2024, fiche 13)."
       },
       {
         id: 'capes-oral2-14',
         chapterId: 'capes-oral2',
-        tier: 4,
+        tier: 2,
         title: "Dispositif ministériel face aux atteintes à la laïcité",
         statement: "Face à une atteinte à la laïcité dans un collège, sur quel dispositif ministériel, renforcé depuis la rentrée 2017, les enseignants et la direction peuvent-ils s'appuyer ?",
         type: "mcq",
         options: [
-          "Le signalement par le chef d'établissement dans l'application Faits établissement, l'équipe académique Valeurs de la République (EAVR), saisissable aussi par tout personnel grâce au formulaire « atteinte à la laïcité », et l'expertise nationale du Conseil des sages de la laïcité et des valeurs de la République",
-          "Une saisine directe du Conseil des sages de la laïcité par l'enseignant, qui rend un avis sur chaque incident de l'établissement",
-          "Le seul dépôt de plainte de l'enseignant au commissariat, aucun dispositif interne n'étant prévu",
+          "Faits établissement pour le signalement, l'équipe académique Valeurs de la République, que tout personnel peut saisir, et le Conseil des sages",
+          "Une saisine directe du Conseil des sages de la laïcité par l'enseignant, qui rend dans la semaine un avis contraignant sur chaque incident signalé",
+          "Le seul dépôt de plainte de l'enseignant au commissariat, aucun dispositif interne à l'Éducation nationale n'étant prévu pour ces atteintes",
           "Un signalement au rectorat réservé au chef d'établissement, les enseignants n'ayant aucun moyen de saisir eux-mêmes l'équipe académique"
         ],
         correctIndex: 0,
-        answer: "Le signalement par le chef d'établissement dans l'application Faits établissement, l'équipe académique Valeurs de la République (EAVR), saisissable aussi par tout personnel grâce au formulaire « atteinte à la laïcité », et l'expertise nationale du Conseil des sages de la laïcité et des valeurs de la République",
-        hint1: "Vademecum, « Le dispositif ministériel » et fiche 1 : équipe nationale, équipes académiques et Conseil des sages.",
-        solution: "Depuis la rentrée 2017, une architecture renforcée accompagne la politique de laïcité. Au niveau national, le Conseil des sages de la laïcité et des valeurs de la République, placé auprès du ministre, aide à préciser la position de l'institution, notamment sur des cas inédits ; une équipe nationale Valeurs de la République anime les équipes académiques. Dans chaque académie, une équipe Valeurs de la République, placée sous la responsabilité du recteur, apporte un soutien concret aux écoles et établissements, après un signalement ou dans un accompagnement plus long. L'IEN ou le chef d'établissement signale toute atteinte par l'application Faits établissement ; l'équipe académique peut être saisie par une adresse académique dédiée ou par cette application, et tout personnel peut utiliser le formulaire en ligne « atteinte à la laïcité » des portails Éduscol et Pléiade (Vademecum, fiche 1)."
+        answer: "Faits établissement pour le signalement, l'équipe académique Valeurs de la République, que tout personnel peut saisir, et le Conseil des sages",
+        hint1: "Chercher un dispositif à plusieurs niveaux (établissement, académie, national), et vérifier si un simple professeur peut lui aussi l'activer.",
+        solution: "Depuis la rentrée 2017, une architecture renforcée accompagne la politique de laïcité. Au niveau national, le Conseil des sages de la laïcité et des valeurs de la République, placé auprès du ministre, aide à préciser la position de l'institution, notamment sur des cas inédits ; une équipe nationale Valeurs de la République anime les équipes académiques. Dans chaque académie, une équipe Valeurs de la République, placée sous la responsabilité du recteur, apporte un soutien concret aux écoles et établissements, après un signalement ou dans un accompagnement plus long. L'IEN ou le chef d'établissement signale toute atteinte par l'application Faits établissement ; l'équipe académique peut être saisie par une adresse académique dédiée ou par cette application, et tout personnel peut utiliser le formulaire en ligne « atteinte à la laïcité » des portails Éduscol et Pléiade (Vademecum de mars 2024, fiche 1)."
       },
       {
-        id: 'capes-oral2-15',
+        id: "capes-oral2-15",
         chapterId: 'capes-oral2',
-        tier: 4,
+        tier: 3,
         title: "Stagiaires du Greta et élèves infirmiers dans un lycée public",
         statement: "Un lycée public accueille des stagiaires adultes de la formation continue (Greta) et des étudiants d'un institut de formation en soins infirmiers (IFSI) qui y suivent des cours. Quelles règles s'appliquent au port de signes religieux ostensibles ?",
         type: "mcq",
         options: [
-          "Les stagiaires du Greta ne sont pas des élèves et ne relèvent pas de la loi de 2004, mais des restrictions proportionnées peuvent être justifiées par le bon fonctionnement de l'établissement ; les étudiants infirmiers doivent respecter la loi de 2004 lorsque leurs cours ont lieu dans le lycée",
-          "Les deux publics sont des adultes : aucune règle relative aux signes religieux ne peut leur être appliquée",
-          "Les deux publics sont des élèves du lycée et relèvent directement de la loi de 2004 dans tous les cas",
-          "Les deux publics sont soumis à la stricte neutralité des agents publics, puisqu'ils se forment à des métiers de service public"
+          "Les stagiaires du Greta échappent à la loi de 2004, le bon fonctionnement pouvant justifier des restrictions ; les étudiants infirmiers en respectent les règles au lycée",
+          "Les deux publics sont des adultes qui ne relèvent pas du ministère : aucune règle relative aux signes religieux ne peut leur être appliquée",
+          "Les deux publics sont des élèves du lycée, puisqu'ils y suivent des cours, et relèvent donc directement de la loi de 2004 dans tous les cas",
+          "Les deux publics sont soumis à la stricte neutralité des agents publics, puisqu'ils se forment dans un lycée public à des métiers relevant du service public"
         ],
         correctIndex: 0,
-        answer: "Les stagiaires du Greta ne sont pas des élèves et ne relèvent pas de la loi de 2004, mais des restrictions proportionnées peuvent être justifiées par le bon fonctionnement de l'établissement ; les étudiants infirmiers doivent respecter la loi de 2004 lorsque leurs cours ont lieu dans le lycée",
-        hint1: "Vademecum, fiche 4 : CAA de Paris, 12 octobre 2015, n° 14PA00582 (Greta) et CE, 28 juillet 2017, n° 390740 (élèves infirmiers).",
-        solution: "Les stagiaires accueillis par un Greta ne sont pas des élèves et ne relèvent pas de l'article L. 141-5-1. La CAA de Paris a toutefois jugé que l'encadrement du port de signes religieux ostensibles par ces stagiaires peut être justifié par le bon fonctionnement de l'établissement, lorsqu'ils fréquentent les mêmes locaux que les élèves de formation initiale pendant les mêmes périodes (12 octobre 2015, n° 14PA00582) ; les restrictions doivent être nécessaires, adaptées et proportionnées. Les étudiants d'un IFSI, usagers de l'enseignement supérieur, ne sont pas soumis à la loi de 2004 en tant que tels, mais doivent en respecter les prescriptions lorsque leurs cours se déroulent dans un lycée public (CE, 28 juillet 2017, n° 390740). Aucun de ces publics n'est soumis à la neutralité des agents : ce sont des usagers (Vademecum, fiche 4)."
+        answer: "Les stagiaires du Greta échappent à la loi de 2004, le bon fonctionnement pouvant justifier des restrictions ; les étudiants infirmiers en respectent les règles au lycée",
+        hint1: "Déterminer le statut de chaque public (élève ou non), puis regarder où se déroulent leurs cours.",
+        solution: "Les stagiaires accueillis par un Greta ne sont pas des élèves et ne relèvent pas de l'article L. 141-5-1. La CAA de Paris a toutefois jugé que l'encadrement du port de signes religieux ostensibles par ces stagiaires peut être justifié par le bon fonctionnement de l'établissement, lorsqu'ils fréquentent les mêmes locaux que les élèves de formation initiale pendant les mêmes périodes (12 octobre 2015, n° 14PA00582) ; les restrictions doivent être nécessaires, adaptées et proportionnées. Les étudiants d'un IFSI, usagers de l'enseignement supérieur, ne sont pas soumis à la loi de 2004 en tant que tels, mais doivent en respecter les prescriptions lorsque leurs cours se déroulent dans un lycée public (CE, 28 juillet 2017, n° 390740). Aucun de ces publics n'est soumis à la neutralité des agents : ce sont des usagers (Vademecum de mars 2024, fiche 4)."
       },
       {
         id: 'capes-oral2-16',
         chapterId: 'capes-oral2',
-        tier: 4,
+        tier: 2,
         title: "Méthode de réponse à une mise en situation à l'oral 2",
         statement: "Lors de la seconde partie de l'oral 2 du CAPES, le jury vous soumet une mise en situation professionnelle. Quelle démarche de réponse est la plus solide ?",
         type: "mcq",
         options: [
-          "Analyser la situation et nommer le cadre en jeu, décrire l'action immédiate en classe avec calme, montrer qu'on ne reste pas seul (professeur principal, CPE, direction, équipe académique Valeurs de la République) et, si un mineur est en danger, transmettre une information préoccupante",
+          "Analyser et nommer le cadre, agir calmement en classe, s'appuyer sur l'équipe et la direction, et alerter si un mineur est en danger",
           "Réciter d'abord la liste la plus longue possible de textes de loi, la connaissance des articles étant le seul critère évalué",
           "Décrire une réponse ferme prise seul en classe, pour montrer son autorité, sans évoquer l'équipe ni la direction",
           "Renvoyer immédiatement la situation au chef d'établissement sans rien faire en classe, la gestion des incidents ne relevant pas du professeur"
         ],
         correctIndex: 0,
-        answer: "Analyser la situation et nommer le cadre en jeu, décrire l'action immédiate en classe avec calme, montrer qu'on ne reste pas seul (professeur principal, CPE, direction, équipe académique Valeurs de la République) et, si un mineur est en danger, transmettre une information préoccupante",
+        answer: "Analyser et nommer le cadre, agir calmement en classe, s'appuyer sur l'équipe et la direction, et alerter si un mineur est en danger",
         hint1: "La seconde partie de l'épreuve apprécie l'aptitude à s'approprier et à faire partager les valeurs de la République et les exigences du service public.",
-        solution: "La seconde partie de l'épreuve d'entretien apprécie l'aptitude du candidat à s'approprier et à faire partager les valeurs de la République et les exigences du service public (arrêté du 25 janvier 2021). Une réponse solide suit les étapes présentées dans le cours : 1° analyser la situation et nommer les enjeux et le cadre (par exemple la loi du 9 décembre 1905, la loi du 15 mars 2004, l'article L. 141-5-2 du Code de l'éducation issu de la loi du 26 juillet 2019, la neutralité des agents) ; 2° agir dans la classe avec calme, rappeler la règle sans débattre des croyances, protéger les élèves et poursuivre le cours ; 3° ne pas rester seul : professeur principal, CPE, chef d'établissement, famille, personnels sociaux et de santé, équipe académique Valeurs de la République ; 4° si un mineur est en danger ou risque de l'être, transmettre une information préoccupante. Citer peu de textes, mais des textes sûrs."
+        solution: "La seconde partie de l'épreuve d'entretien apprécie l'aptitude du candidat à s'approprier et à faire partager les valeurs de la République et les exigences du service public (arrêté du 25 janvier 2021, concours de niveau bac + 5) ; au concours de niveau bac + 3, l'arrêté du 17 avril 2025 modifié retient aussi les valeurs de la République et les exigences du service public, avec la projection dans le métier, la transition écologique et l'épanouissement de l'élève, et la même démarche s'applique aux mises en situation. Une réponse solide suit les étapes présentées dans le cours : 1° analyser la situation et nommer les enjeux et le cadre (par exemple la loi du 9 décembre 1905, la loi du 15 mars 2004, l'article L. 141-5-2 du Code de l'éducation issu de la loi du 26 juillet 2019, la neutralité des agents) ; 2° agir dans la classe avec calme, rappeler la règle sans débattre des croyances, protéger les élèves et poursuivre le cours ; 3° ne pas rester seul : professeur principal, CPE, chef d'établissement, famille, personnels sociaux et de santé, équipe académique Valeurs de la République ; 4° si un mineur est en danger ou risque de l'être, transmettre une information préoccupante. Citer peu de textes, mais des textes sûrs."
       },
       // PALIER 1 (suite)
       {
@@ -2249,13 +2288,13 @@
         statement: "Un professeur reçoit de sa hiérarchie une consigne qu'il juge pédagogiquement discutable. Dans quel cas le Code général de la fonction publique l'autorise-t-il à ne pas s'y conformer ?",
         type: "mcq",
         options: [
-          "Uniquement si l'ordre est manifestement illégal et de nature à compromettre gravement un intérêt public, ces deux conditions étant cumulatives",
-          "Dès qu'il est en désaccord avec la consigne, au nom de sa liberté pédagogique",
+          "Seulement si l'ordre est à la fois manifestement illégal et de nature à compromettre gravement un intérêt public",
+          "Dès qu'il est en désaccord avec la consigne, au nom de la liberté pédagogique reconnue à chaque enseignant",
           "Dès que l'ordre est illégal, même si l'illégalité n'est pas manifeste et ne compromet aucun intérêt public",
-          "Jamais : un fonctionnaire doit exécuter tous les ordres sans exception"
+          "Jamais : un fonctionnaire doit exécuter tous les ordres sans exception, la responsabilité incombant à son supérieur"
         ],
         correctIndex: 0,
-        answer: "Uniquement si l'ordre est manifestement illégal et de nature à compromettre gravement un intérêt public, ces deux conditions étant cumulatives",
+        answer: "Seulement si l'ordre est à la fois manifestement illégal et de nature à compromettre gravement un intérêt public",
         hint1: "Le principe est l'obéissance hiérarchique ; l'exception repose sur deux conditions réunies en même temps.",
         solution: "Le fonctionnaire doit se conformer aux instructions de son supérieur hiérarchique, sauf si l'ordre donné est manifestement illégal et de nature à compromettre gravement un intérêt public (Code général de la fonction publique, article L. 121-10). Les deux conditions sont cumulatives. Un simple désaccord pédagogique ne suffit donc pas : on l'exprime par les voies normales (échange avec la direction, conseil pédagogique, inspection), puis on applique la consigne."
       },
@@ -2267,13 +2306,13 @@
         statement: "Un professeur de mathématiques est engagé dans une association et dans un parti politique. Qu'en est-il au regard de son statut ?",
         type: "mcq",
         options: [
-          "Sa liberté d'opinion est garantie par le statut ; il ne doit cependant manifester aucune opinion politique ou religieuse dans l'exercice de ses fonctions, et son expression publique reste encadrée par le devoir de réserve",
-          "Un fonctionnaire n'a pas le droit d'adhérer à un parti politique",
-          "Il peut présenter ses idées politiques à ses élèves dès lors qu'il le fait de façon argumentée",
-          "Il doit déclarer ses engagements au chef d'établissement, qui peut les lui interdire"
+          "Sa liberté d'opinion est garantie ; il ne manifeste aucune opinion en service, et son expression publique reste mesurée",
+          "Un fonctionnaire n'a pas le droit d'adhérer à un parti politique, cette interdiction découlant de son obligation de neutralité",
+          "Il peut présenter ses idées politiques à ses élèves dès lors qu'il le fait de façon argumentée et en citant aussi d'autres points de vue",
+          "Il doit déclarer ses engagements au chef d'établissement, qui peut les lui interdire s'ils lui paraissent incompatibles avec le service"
         ],
         correctIndex: 0,
-        answer: "Sa liberté d'opinion est garantie par le statut ; il ne doit cependant manifester aucune opinion politique ou religieuse dans l'exercice de ses fonctions, et son expression publique reste encadrée par le devoir de réserve",
+        answer: "Sa liberté d'opinion est garantie ; il ne manifeste aucune opinion en service, et son expression publique reste mesurée",
         hint1: "Distinguer ce que l'agent pense (libre), ce qu'il montre en service (neutre) et ce qu'il dit publiquement (avec mesure).",
         solution: "La liberté d'opinion est garantie aux fonctionnaires (Code général de la fonction publique, article L. 111-1) : l'adhésion à une association ou à un parti est libre. En revanche, dans l'exercice de ses fonctions, le professeur est tenu à l'obligation de neutralité (article L. 121-2) : il ne fait état d'aucune opinion devant les élèves. Hors service, son expression publique est encadrée par le devoir de réserve, dégagé par la jurisprudence, apprécié selon ses fonctions et les circonstances."
       },
@@ -2285,13 +2324,13 @@
         statement: "À la sortie du collège, une mère d'élève interroge un professeur sur la situation familiale difficile d'un camarade de son fils, évoquée la veille en conseil de classe. Que doit répondre le professeur ?",
         type: "mcq",
         options: [
-          "Il ne révèle rien : les faits et informations dont il a connaissance dans l'exercice de ses fonctions relèvent de la discrétion professionnelle",
-          "Il peut répondre puisque la mère est déléguée des parents et a assisté au conseil",
-          "Il peut répondre de façon générale, sans citer de détails trop personnels",
+          "Il ne révèle rien : ce qu'il a appris dans ses fonctions relève de la discrétion professionnelle",
+          "Il peut répondre puisque la mère est déléguée des parents et a elle-même assisté au conseil de classe",
+          "Il peut répondre de façon générale, sans citer de détails trop personnels, pour rassurer cette mère inquiète",
           "Il l'oriente vers le professeur principal, qui est seul autorisé à communiquer ces informations aux autres familles"
         ],
         correctIndex: 0,
-        answer: "Il ne révèle rien : les faits et informations dont il a connaissance dans l'exercice de ses fonctions relèvent de la discrétion professionnelle",
+        answer: "Il ne révèle rien : ce qu'il a appris dans ses fonctions relève de la discrétion professionnelle",
         hint1: "L'obligation vaut pour tous les faits, informations ou documents connus à l'occasion du service.",
         solution: "Le fonctionnaire est tenu au secret professionnel dans les conditions du Code pénal et doit faire preuve de discrétion professionnelle pour tous les faits, informations ou documents dont il a connaissance dans l'exercice ou à l'occasion de ses fonctions (Code général de la fonction publique, articles L. 121-6 et L. 121-7). La situation d'un autre élève ne regarde pas cette mère. Le professeur décline poliment, sans rien confirmer."
       },
@@ -2303,13 +2342,13 @@
         statement: "Parmi les affirmations suivantes sur la loi du 9 décembre 1905 concernant la séparation des Églises et de l'État, laquelle est exacte ?",
         type: "mcq",
         options: [
-          "Elle assure la liberté de conscience, garantit le libre exercice des cultes et pose que la République ne reconnaît, ne salarie ni ne subventionne aucun culte",
-          "Elle interdit toute manifestation religieuse dans l'espace public",
-          "Elle s'applique de façon identique sur tout le territoire, y compris en Alsace-Moselle",
-          "C'est elle qui interdit aux élèves le port de signes religieux ostensibles"
+          "Elle assure la liberté de conscience, garantit le libre exercice des cultes et ne reconnaît, ne salarie ni ne subventionne aucun culte",
+          "Elle interdit toute manifestation religieuse dans l'espace public, y compris les processions et le port de tenues religieuses dans la rue",
+          "Elle s'applique de façon identique sur tout le territoire de la République, y compris en Alsace-Moselle et dans les outre-mer",
+          "C'est elle qui interdit aux élèves des écoles publiques le port de signes religieux ostensibles, dès son article premier"
         ],
         correctIndex: 0,
-        answer: "Elle assure la liberté de conscience, garantit le libre exercice des cultes et pose que la République ne reconnaît, ne salarie ni ne subventionne aucun culte",
+        answer: "Elle assure la liberté de conscience, garantit le libre exercice des cultes et ne reconnaît, ne salarie ni ne subventionne aucun culte",
         hint1: "Ses deux premiers articles posent une liberté puis une séparation.",
         solution: "L'article 1er de la loi de 1905 assure la liberté de conscience et garantit le libre exercice des cultes, sous les seules restrictions édictées dans l'intérêt de l'ordre public ; l'article 2 pose que la République ne reconnaît, ne salarie ni ne subventionne aucun culte. La loi ne s'applique pas en Alsace-Moselle, qui relève d'un régime concordataire. L'interdiction des signes ostensibles pour les élèves vient de la loi du 15 mars 2004 (article L. 141-5-1 du Code de l'éducation)."
       },
@@ -2321,13 +2360,13 @@
         statement: "Quel texte fait de la laïcité un principe de valeur constitutionnelle ?",
         type: "mcq",
         options: [
-          "L'article 1er de la Constitution du 4 octobre 1958 : la France est une République indivisible, laïque, démocratique et sociale, qui respecte toutes les croyances",
-          "La loi du 9 décembre 1905, qui a valeur constitutionnelle",
-          "La Charte de la laïcité à l'École de 2013",
-          "L'article L. 141-5-1 du Code de l'éducation"
+          "L'article 1er de la Constitution de 1958, selon lequel la France est une République laïque",
+          "La loi du 9 décembre 1905, qui a reçu valeur constitutionnelle lors de son adoption",
+          "La Charte de la laïcité à l'École de 2013, affichée dans tous les établissements publics",
+          "L'article L. 141-5-1 du Code de l'éducation, issu de la loi du 15 mars 2004"
         ],
         correctIndex: 0,
-        answer: "L'article 1er de la Constitution du 4 octobre 1958 : la France est une République indivisible, laïque, démocratique et sociale, qui respecte toutes les croyances",
+        answer: "L'article 1er de la Constitution de 1958, selon lequel la France est une République laïque",
         hint1: "Seul l'un de ces textes se situe au sommet de la hiérarchie des normes.",
         solution: "L'article 1er de la Constitution de 1958 dispose que la France est une République indivisible, laïque, démocratique et sociale, qu'elle assure l'égalité devant la loi de tous les citoyens sans distinction d'origine, de race ou de religion et qu'elle respecte toutes les croyances. La loi de 1905 est une loi ordinaire ; la Charte de 2013 est un texte pédagogique diffusé par circulaire ; l'article L. 141-5-1 est une disposition législative du Code de l'éducation."
       },
@@ -2339,14 +2378,14 @@
         statement: "Une assistante d'éducation, chargée de la surveillance de la cour et de la permanence, porte un signe religieux visible. Elle fait valoir qu'elle n'enseigne pas. A-t-elle raison ?",
         type: "mcq",
         options: [
-          "Non : le principe de laïcité fait obstacle à ce que les agents du service public de l'enseignement manifestent leurs croyances religieuses dans l'exercice de leurs fonctions, qu'ils enseignent ou non",
-          "Oui : l'obligation de neutralité ne concerne que les professeurs devant leurs élèves",
-          "Oui, à condition que le signe soit discret, comme pour les élèves",
-          "Oui : seuls les fonctionnaires titulaires sont tenus à la neutralité, pas les contractuels"
+          "Non : tout agent du service public de l'enseignement est tenu à la neutralité religieuse dans ses fonctions, qu'il enseigne ou non",
+          "Oui : l'obligation de neutralité ne concerne que les professeurs devant leurs élèves, pendant les heures de cours",
+          "Oui, à condition que le signe soit discret, comme pour les élèves, puisqu'elle n'exerce aucune mission d'enseignement",
+          "Oui : seuls les fonctionnaires titulaires sont tenus à la neutralité, pas les agents contractuels comme les assistants d'éducation recrutés par l'établissement"
         ],
         correctIndex: 0,
-        answer: "Non : le principe de laïcité fait obstacle à ce que les agents du service public de l'enseignement manifestent leurs croyances religieuses dans l'exercice de leurs fonctions, qu'ils enseignent ou non",
-        hint1: "L'avis du Conseil d'État du 3 mai 2000 portait justement sur une surveillante.",
+        answer: "Non : tout agent du service public de l'enseignement est tenu à la neutralité religieuse dans ses fonctions, qu'il enseigne ou non",
+        hint1: "Se demander de quoi dépend l'obligation : du fait d'enseigner, ou de la qualité d'agent du service public de l'enseignement ?",
         solution: "Dans son avis du 3 mai 2000 (Mlle Marteaux), rendu à propos d'une surveillante, le Conseil d'État a indiqué que le principe de laïcité fait obstacle à ce que les agents du service public de l'enseignement manifestent leurs croyances religieuses dans le cadre du service, et qu'il n'y a pas lieu de distinguer entre ces agents selon qu'ils sont ou non chargés de fonctions d'enseignement. Dans son étude du 19 décembre 2013, il a précisé que cette obligation s'applique indépendamment de la qualité d'agent public ou de salarié de droit privé. Contrairement aux élèves, qui peuvent porter des signes discrets, l'agent ne peut porter aucun signe manifestant une appartenance religieuse en service."
       },
       {
@@ -2357,13 +2396,13 @@
         statement: "Lors d'un débat organisé en classe, un élève exprime une conviction religieuse personnelle. Un camarade affirme que « l'école est laïque, donc on n'a pas le droit de parler de religion ». Que répond le professeur ?",
         type: "mcq",
         options: [
-          "Les élèves, usagers du service public, ne sont pas soumis à l'obligation de neutralité : leur liberté de conscience est protégée, dans les limites fixées par la loi du 15 mars 2004, le règlement intérieur et le respect d'autrui, sans prosélytisme ni trouble",
-          "Le camarade a raison : les élèves sont tenus à la même neutralité que les enseignants",
-          "Le professeur doit interrompre l'élève et le sanctionner pour avoir parlé de religion",
-          "Les élèves peuvent tout dire, y compris faire pression sur leurs camarades, puisqu'ils ne sont pas fonctionnaires"
+          "Les élèves ne sont pas tenus à la neutralité : leur liberté de conscience est protégée, dans les limites de la loi de 2004 et du respect d'autrui",
+          "Le camarade a raison : les élèves sont tenus à la même neutralité que les enseignants dans l'enceinte de l'établissement",
+          "Le professeur doit interrompre l'élève et le sanctionner pour avoir parlé de religion, sujet interdit pendant un cours dans une école publique laïque",
+          "Les élèves peuvent tout dire, y compris faire pression sur leurs camarades, puisqu'ils ne sont pas des agents publics"
         ],
         correctIndex: 0,
-        answer: "Les élèves, usagers du service public, ne sont pas soumis à l'obligation de neutralité : leur liberté de conscience est protégée, dans les limites fixées par la loi du 15 mars 2004, le règlement intérieur et le respect d'autrui, sans prosélytisme ni trouble",
+        answer: "Les élèves ne sont pas tenus à la neutralité : leur liberté de conscience est protégée, dans les limites de la loi de 2004 et du respect d'autrui",
         hint1: "La neutralité est une obligation de ceux qui font fonctionner le service, pas de ceux qui l'utilisent.",
         solution: "Il existe une asymétrie entre agents et usagers : le professeur est neutre, les élèves ne le sont pas. Dans les collèges et les lycées, ils disposent, dans le respect du pluralisme et du principe de neutralité, de la liberté d'information et d'expression, dont l'exercice ne peut porter atteinte aux activités d'enseignement (Code de l'éducation, article L. 511-2 ; Charte de la laïcité, article 8). Cette liberté a des limites : l'interdiction des signes ostensibles (loi du 15 mars 2004), le règlement intérieur, l'interdiction du prosélytisme et des pressions sur autrui. C'est l'occasion de rappeler que la laïcité protège la liberté de croire ou de ne pas croire de chacun."
       },
@@ -2375,13 +2414,13 @@
         statement: "Outre la transmission des connaissances, quelle mission première l'article L. 111-1 du Code de l'éducation assigne-t-il à l'école ?",
         type: "mcq",
         options: [
-          "Faire partager aux élèves les valeurs de la République ; le service public de l'éducation veille aussi à la scolarisation inclusive de tous les enfants, sans aucune distinction",
+          "Faire partager aux élèves les valeurs de la République",
           "Préparer les élèves aux concours des grandes écoles",
           "Garantir à chaque élève l'obtention d'un diplôme",
           "Transmettre à chaque élève les valeurs religieuses de sa famille"
         ],
         correctIndex: 0,
-        answer: "Faire partager aux élèves les valeurs de la République ; le service public de l'éducation veille aussi à la scolarisation inclusive de tous les enfants, sans aucune distinction",
+        answer: "Faire partager aux élèves les valeurs de la République",
         hint1: "C'est aussi l'intitulé de la première compétence du référentiel de 2013.",
         solution: "L'article L. 111-1 du Code de l'éducation dispose qu'outre la transmission des connaissances, la Nation fixe comme mission première à l'école de faire partager aux élèves les valeurs de la République. Il prévoit aussi que le service public de l'éducation contribue à l'égalité des chances et veille à la scolarisation inclusive de tous les enfants, sans aucune distinction. On retrouve cette mission dans la compétence 1 du référentiel des métiers du professorat (arrêté du 1er juillet 2013)."
       },
@@ -2412,14 +2451,14 @@
         statement: "En terminale, lors d'un exercice sur la décroissance exponentielle appliquée à la datation au carbone 14, un élève refuse de calculer l'âge d'un fossile : « Ce que vous enseignez est contraire à ma religion. » Quelle réaction est attendue ?",
         type: "mcq",
         options: [
-          "Rappeler calmement qu'aucun élève ne peut invoquer une conviction pour contester le droit de traiter une question au programme, distinguer le savoir (établi par la démonstration et l'argumentation) de la croyance, qui appartient à chacun, faire faire l'exercice, puis reprendre l'échange individuellement",
-          "Remplacer l'exercice par un autre pour cet élève afin de respecter ses convictions",
-          "Engager devant la classe un débat pour démontrer que sa croyance est fausse",
-          "Ignorer la remarque et laisser l'élève ne rien faire pour ne pas créer de tension"
+          "Rappeler qu'une conviction ne permet pas de contester le programme, distinguer savoir et croyance, et faire faire l'exercice",
+          "Remplacer l'exercice par un autre pour cet élève, sur un thème sans lien avec la datation, afin de respecter ses convictions religieuses",
+          "Engager aussitôt devant la classe un débat pour démontrer à l'élève, preuves à l'appui, que sa croyance est fausse",
+          "Ignorer la remarque et laisser l'élève ne rien faire pendant la séance, pour ne pas créer de tension dans la classe"
         ],
         correctIndex: 0,
-        answer: "Rappeler calmement qu'aucun élève ne peut invoquer une conviction pour contester le droit de traiter une question au programme, distinguer le savoir (établi par la démonstration et l'argumentation) de la croyance, qui appartient à chacun, faire faire l'exercice, puis reprendre l'échange individuellement",
-        hint1: "Charte de la laïcité à l'École, article 12.",
+        answer: "Rappeler qu'une conviction ne permet pas de contester le programme, distinguer savoir et croyance, et faire faire l'exercice",
+        hint1: "Se demander si une conviction permet d'être dispensé d'un contenu du programme, tout en distinguant savoir et croyance.",
         solution: "L'article 12 de la Charte de la laïcité à l'École rappelle qu'aucun sujet n'est a priori exclu du questionnement scientifique et pédagogique et qu'aucun élève ne peut invoquer une conviction religieuse ou politique pour contester à un enseignant le droit de traiter une question au programme. L'obligation d'assiduité implique en outre que les élèves accomplissent les travaux demandés et respectent le contenu des programmes (Code de l'éducation, articles L. 511-1 et R. 511-11). Le professeur ne prend pas parti sur la croyance et n'humilie pas l'élève : il explique qu'un modèle mathématique se discute par des arguments et des données. Il poursuit le cours, revoit l'élève seul et informe l'équipe si le refus persiste."
       },
       {
@@ -2430,13 +2469,13 @@
         statement: "Lors d'une activité de géométrie en groupes, un élève refuse de s'asseoir à côté d'une camarade : « Je ne travaille pas avec les filles. » Quelle est la conduite à tenir ?",
         type: "mcq",
         options: [
-          "Maintenir la composition du groupe, rappeler sans hausser le ton que la mixité et l'égalité entre filles et garçons sont des principes de l'école qui s'imposent à tous, protéger l'élève visée, puis reprendre l'échange seul à seul et informer le professeur principal et le CPE",
-          "Accepter de changer l'élève de groupe pour préserver le calme de la classe",
-          "Laisser l'élève travailler seul pour cette séance, sans autre suite",
-          "Exclure immédiatement l'élève du cours et l'envoyer chez le chef d'établissement sans explication"
+          "Maintenir le groupe, rappeler que l'égalité filles-garçons s'impose à tous, protéger l'élève visée, puis informer le CPE",
+          "Accepter de changer l'élève de groupe pour préserver le calme de la classe, puis en reparler avec lui en fin d'heure",
+          "Laisser l'élève travailler seul pour cette séance, sans autre suite, pour éviter d'en faire une affaire devant toute la classe",
+          "Exclure immédiatement l'élève du cours et l'envoyer chez le chef d'établissement, sans explication devant la classe"
         ],
         correctIndex: 0,
-        answer: "Maintenir la composition du groupe, rappeler sans hausser le ton que la mixité et l'égalité entre filles et garçons sont des principes de l'école qui s'imposent à tous, protéger l'élève visée, puis reprendre l'échange seul à seul et informer le professeur principal et le CPE",
+        answer: "Maintenir le groupe, rappeler que l'égalité filles-garçons s'impose à tous, protéger l'élève visée, puis informer le CPE",
         hint1: "Céder sur la règle, même pour éviter un conflit, revient à admettre une discrimination.",
         solution: "La Charte de la laïcité à l'École rappelle que la laïcité garantit l'égalité entre les filles et les garçons (article 9) et que nul ne peut se prévaloir de son appartenance religieuse pour refuser de se conformer aux règles applicables dans l'École de la République (article 13). Le professeur maintient la consigne avec calme, sans humilier, veille à l'élève concernée, puis reprend l'échange en particulier. Si le refus persiste ou s'il relève d'une atteinte à la laïcité, il en informe le professeur principal, le CPE et le chef d'établissement, qui peut solliciter l'équipe académique Valeurs de la République ; tout personnel peut aussi utiliser le formulaire en ligne « atteinte à la laïcité »."
       },
@@ -2448,13 +2487,13 @@
         statement: "À la fin du cours, une élève de 4e confie au professeur de mathématiques qu'elle reçoit chaque soir des messages humiliants de camarades de la classe sur un réseau social. Elle lui demande de « ne rien dire à personne ». Que faire ?",
         type: "mcq",
         options: [
-          "L'écouter et prendre sa parole au sérieux, lui expliquer qu'on ne peut pas lui promettre le secret parce qu'il faut la protéger, puis informer sans délai le CPE et le chef d'établissement, qui mettent en œuvre le protocole de traitement du harcèlement",
-          "Respecter sa demande et ne rien dire, pour garder sa confiance",
-          "Interpeller dès le lendemain les élèves soupçonnés devant toute la classe",
-          "Lui conseiller de bloquer les comptes concernés et attendre de voir si cela continue"
+          "L'écouter, lui expliquer qu'on ne peut pas promettre le secret pour la protéger, et informer sans délai le CPE et la direction",
+          "Respecter sa demande et ne rien dire à personne, pour garder sa confiance et ne pas aggraver sa situation",
+          "Interpeller dès le lendemain les élèves soupçonnés devant toute la classe, pour que les messages cessent aussitôt",
+          "Lui conseiller de bloquer les comptes concernés et de garder des captures, puis attendre de voir si cela continue avant d'alerter"
         ],
         correctIndex: 0,
-        answer: "L'écouter et prendre sa parole au sérieux, lui expliquer qu'on ne peut pas lui promettre le secret parce qu'il faut la protéger, puis informer sans délai le CPE et le chef d'établissement, qui mettent en œuvre le protocole de traitement du harcèlement",
+        answer: "L'écouter, lui expliquer qu'on ne peut pas promettre le secret pour la protéger, et informer sans délai le CPE et la direction",
         hint1: "Promettre le secret, c'est rester seul avec une situation qui relève d'un délit.",
         solution: "Le professeur écoute sans minimiser ni enquêter lui-même. Il explique à l'élève qu'il ne garde pas le secret parce que des adultes de l'établissement doivent la protéger. Il informe sans délai le CPE et le chef d'établissement, qui déclenchent le protocole de traitement du harcèlement (entretiens, information des familles, mesures de protection et sanctions éventuelles). Depuis la loi du 2 mars 2022, le harcèlement scolaire constitue un délit : la situation ne peut être traitée seul en classe."
       },
@@ -2466,13 +2505,13 @@
         statement: "Pendant un exercice, un élève lance à un camarade une insulte homophobe. Une partie de la classe rit. Quelle réaction est attendue ?",
         type: "mcq",
         options: [
-          "Intervenir immédiatement : faire cesser les propos, rappeler qu'une injure à caractère discriminatoire est interdite par la loi et contraire au respect d'autrui, protéger l'élève visé, puis donner une suite éducative et disciplinaire avec le CPE et la direction",
-          "Ne rien dire pour ne pas donner d'importance à ce qui n'est qu'une plaisanterie entre adolescents",
-          "Demander à l'élève insulté de répondre lui-même pour régler le conflit",
-          "Porter plainte personnellement au commissariat le soir même sans en parler à l'établissement"
+          "Faire cesser les propos, rappeler que l'injure discriminatoire est interdite, protéger l'élève visé et informer le CPE",
+          "Ne rien dire pour ne pas donner d'importance à ce qui n'est qu'une plaisanterie entre adolescents, dont la classe a d'ailleurs ri",
+          "Demander à l'élève insulté de répondre lui-même pour régler le conflit, puis reprendre l'exercice sans autre suite",
+          "Porter plainte personnellement au commissariat le soir même, sans en parler à l'établissement pour ne pas l'impliquer"
         ],
         correctIndex: 0,
-        answer: "Intervenir immédiatement : faire cesser les propos, rappeler qu'une injure à caractère discriminatoire est interdite par la loi et contraire au respect d'autrui, protéger l'élève visé, puis donner une suite éducative et disciplinaire avec le CPE et la direction",
+        answer: "Faire cesser les propos, rappeler que l'injure discriminatoire est interdite, protéger l'élève visé et informer le CPE",
         hint1: "Laisser passer une insulte discriminatoire, c'est lui donner une forme de légitimité devant la classe.",
         solution: "Le professeur réagit sur-le-champ, sans humilier l'auteur : il nomme le caractère discriminatoire des propos et rappelle la règle. Proférée en classe, une injure non publique à raison de l'orientation sexuelle constitue une contravention (Code pénal, article R. 625-8-1) ; proférée publiquement, c'est un délit (loi du 29 juillet 1881). La première réponse reste éducative et disciplinaire : entretien avec l'auteur, attention à la victime, information du CPE et de la direction, qui apprécient les suites."
       },
@@ -2484,13 +2523,13 @@
         statement: "Pendant un devoir surveillé, un professeur constate qu'un élève consulte son téléphone sous la table. Quelle conduite est la plus adaptée ?",
         type: "mcq",
         options: [
-          "Faire cesser la fraude sans éclat, noter les faits précisément, en informer le professeur principal, le CPE et la direction, et appliquer les suites prévues par le règlement intérieur, sans humilier l'élève devant la classe",
-          "Lire à voix haute devant la classe le contenu du téléphone pour faire un exemple",
-          "Annuler le devoir pour toute la classe",
-          "Faire comme si de rien n'était pour ne pas perturber les autres élèves"
+          "Faire cesser la fraude sans éclat, noter les faits, informer le CPE et la direction et appliquer le règlement intérieur",
+          "Confisquer le téléphone et lire à voix haute son contenu devant la classe, pour faire un exemple et dissuader les autres élèves",
+          "Annuler le devoir pour toute la classe, puisqu'on ne peut plus garantir l'égalité entre les élèves",
+          "Faire comme si de rien n'était pour ne pas perturber les autres élèves, et mettre ensuite zéro à la copie"
         ],
         correctIndex: 0,
-        answer: "Faire cesser la fraude sans éclat, noter les faits précisément, en informer le professeur principal, le CPE et la direction, et appliquer les suites prévues par le règlement intérieur, sans humilier l'élève devant la classe",
+        answer: "Faire cesser la fraude sans éclat, noter les faits, informer le CPE et la direction et appliquer le règlement intérieur",
         hint1: "Fermeté sur les faits, discrétion dans la forme, et pas de décision prise seul.",
         solution: "La fraude doit être traitée, mais sans humiliation ni sanction collective. Le professeur fait cesser la fraude, consigne les faits (heure, circonstances, objet en cause) et en informe l'équipe. Les enseignants peuvent prononcer des punitions scolaires, dans le cadre du règlement intérieur ; les sanctions disciplinaires sont prononcées par le chef d'établissement ou, pour les plus lourdes, par le conseil de discipline (Code de l'éducation, articles R. 421-10 et R. 511-14). L'échange avec l'élève, puis avec la famille, vise aussi à comprendre la raison de la fraude."
       },
@@ -2502,13 +2541,13 @@
         statement: "Une élève de lycée entre en cours de mathématiques en portant un signe manifestant ostensiblement une appartenance religieuse, ce qui ne s'était jamais produit. Quelle est la conduite attendue du professeur ?",
         type: "mcq",
         options: [
-          "Rappeler calmement la règle sans entrer dans un débat sur les croyances, et informer sans délai le chef d'établissement, qui organise le dialogue avec l'élève prévu par la loi avant toute procédure disciplinaire",
-          "Exclure l'élève définitivement de son cours de sa propre autorité",
-          "Ne rien dire, car la loi de 2004 ne s'applique pas au lycée",
-          "Retirer lui-même le signe à l'élève"
+          "Rappeler la règle avec calme, sans débat sur les croyances, et informer le chef d'établissement, qui organise le dialogue préalable",
+          "Exclure l'élève définitivement de son cours de sa propre autorité, pour faire respecter la loi sans attendre la direction",
+          "Ne rien dire, car la loi de 2004 ne s'applique qu'aux écoles et aux collèges, et non aux élèves de lycée",
+          "Demander à l'élève de retirer le signe sur-le-champ, et le lui retirer soi-même si elle refuse d'obtempérer"
         ],
         correctIndex: 0,
-        answer: "Rappeler calmement la règle sans entrer dans un débat sur les croyances, et informer sans délai le chef d'établissement, qui organise le dialogue avec l'élève prévu par la loi avant toute procédure disciplinaire",
+        answer: "Rappeler la règle avec calme, sans débat sur les croyances, et informer le chef d'établissement, qui organise le dialogue préalable",
         hint1: "La loi du 15 mars 2004 prévoit une étape obligatoire avant toute sanction.",
         solution: "L'article L. 141-5-1 du Code de l'éducation interdit, dans les écoles, collèges et lycées publics, le port de signes ou tenues par lesquels les élèves manifestent ostensiblement une appartenance religieuse. Il prévoit que la mise en œuvre d'une procédure disciplinaire est précédée d'un dialogue avec l'élève. Le professeur ne règle pas seul la situation : il rappelle la règle sans polémique et informe le chef d'établissement, qui conduit ce dialogue, associe la famille et peut s'appuyer sur l'équipe académique Valeurs de la République."
       },
@@ -2520,14 +2559,14 @@
         statement: "En salle des professeurs, un collègue affirme : « Les aménagements du plan d'accompagnement personnalisé, c'est indicatif ; en devoir, je traite tout le monde pareil. » Que lui répondre ?",
         type: "mcq",
         options: [
-          "Les aménagements pédagogiques prévus par le PAP s'imposent à l'enseignant ; on les applique sans les commenter devant la classe, car l'équité n'est pas l'uniformité",
-          "Il a raison : le PAP n'est qu'une recommandation laissée à l'appréciation de chaque professeur",
-          "Le PAP ne s'applique qu'aux examens nationaux, pas aux devoirs en classe",
-          "Le PAP ne peut être appliqué que si toute la classe bénéficie des mêmes aménagements"
+          "Les aménagements du PAP s'imposent à l'enseignant, qui les applique sans les commenter : l'équité n'est pas l'uniformité",
+          "Il a raison : le PAP n'est qu'une recommandation de l'équipe, laissée à l'appréciation de chaque professeur",
+          "Le PAP ne s'applique qu'aux examens nationaux, et non aux devoirs surveillés organisés en classe",
+          "Le PAP ne peut être appliqué en devoir que si toute la classe bénéficie des mêmes aménagements, par souci d'égalité entre élèves"
         ],
         correctIndex: 0,
-        answer: "Les aménagements pédagogiques prévus par le PAP s'imposent à l'enseignant ; on les applique sans les commenter devant la classe, car l'équité n'est pas l'uniformité",
-        hint1: "Code de l'éducation, articles L. 311-7 et D. 311-13.",
+        answer: "Les aménagements du PAP s'imposent à l'enseignant, qui les applique sans les commenter : l'équité n'est pas l'uniformité",
+        hint1: "Un document qui définit des aménagements pour un élève est-il une simple suggestion ? Penser aussi à la discrétion vis-à-vis de la classe.",
         solution: "Le plan d'accompagnement personnalisé (Code de l'éducation, articles L. 311-7 et D. 311-13) définit des aménagements et adaptations pédagogiques pour un élève dont les difficultés scolaires résultent d'un trouble des apprentissages ; il est mis en place après avis du médecin de l'éducation nationale. Ces aménagements s'imposent aux enseignants. On les met en œuvre discrètement, en lien avec le professeur principal. Ils ne valent pas aménagement d'examen : les aménagements d'examen (temps majoré, secrétaire) font l'objet d'une demande et d'une décision distinctes."
       },
       {
@@ -2538,15 +2577,15 @@
         statement: "Un élève de 3e qui bénéficie d'un plan d'accompagnement personnalisé dispose d'un tiers temps en classe. Sa famille pense qu'il l'aura automatiquement au diplôme national du brevet. Que lui indiquer ?",
         type: "mcq",
         options: [
-          "Rien n'est automatique : la famille doit adresser une demande d'aménagement à l'autorité administrative qui organise l'examen, au plus tard à la date limite d'inscription ; si le PAP a été accordé au titre d'un trouble du neurodéveloppement, une procédure simplifiée la dispense d'un nouvel avis médical",
-          "Le tiers temps prévu dans le PAP s'applique automatiquement au brevet, sans démarche",
-          "Le professeur de mathématiques peut lui accorder lui-même le tiers temps le jour de l'épreuve",
-          "Aucun aménagement n'est possible aux examens nationaux"
+          "Rien n'est automatique : la famille dépose une demande, instruite après avis d'un médecin désigné par la CDAPH",
+          "Le tiers temps prévu dans le PAP s'applique automatiquement au brevet, sans aucune démarche de la famille auprès de l'établissement",
+          "Le professeur de mathématiques peut lui accorder lui-même le tiers temps le jour de l'épreuve, puisqu'il connaît les besoins de l'élève",
+          "Aucun aménagement n'est possible aux examens nationaux, afin de garantir une stricte égalité de traitement entre tous les candidats"
         ],
         correctIndex: 0,
-        answer: "Rien n'est automatique : la famille doit adresser une demande d'aménagement à l'autorité administrative qui organise l'examen, au plus tard à la date limite d'inscription ; si le PAP a été accordé au titre d'un trouble du neurodéveloppement, une procédure simplifiée la dispense d'un nouvel avis médical",
+        answer: "Rien n'est automatique : la famille dépose une demande, instruite après avis d'un médecin désigné par la CDAPH",
         hint1: "Ne pas confondre aménagements pédagogiques en classe et aménagements d'examen.",
-        solution: "Le PAP organise des aménagements pédagogiques en classe, qui s'imposent aux enseignants. Les aménagements des épreuves d'examen relèvent d'une procédure propre : le candidat en fait la demande, au plus tard à la date limite d'inscription, et l'autorité administrative décide des aménagements accordés (Code de l'éducation, article D. 351-28). Pour un élève dont le PAP a été accordé au titre d'un trouble du neurodéveloppement, une procédure simplifiée permet de s'adresser directement à l'autorité administrative sans solliciter un nouvel avis médical, pour des aménagements cohérents avec ceux du plan (articles D. 351-28-1 et D. 311-13-1). Dans tous les cas, rien n'est automatique. Le professeur oriente la famille vers le professeur principal et la direction pour engager la démarche à temps. Pour un élève en situation de handicap, le cadre est le projet personnalisé de scolarisation (article L. 112-2 du Code de l'éducation)."
+        solution: "Le PAP organise des aménagements pédagogiques en classe, qui s'imposent aux enseignants. Les aménagements des épreuves d'examen relèvent d'une procédure propre : le candidat adresse sa demande à un médecin désigné par la commission des droits et de l'autonomie des personnes handicapées (CDAPH), au plus tard à la date limite d'inscription, sauf handicap révélé après cette échéance ; l'avis est transmis au candidat et à l'autorité administrative, qui décide des aménagements accordés (Code de l'éducation, article D. 351-28). L'article D. 351-27 prévoit, parmi ces aménagements, une majoration du temps n'excédant pas le tiers du temps normalement prévu. Pour un élève dont le plan a été accordé au titre d'un trouble du neurodéveloppement, l'article D. 351-28-1 ouvre une procédure simplifiée, adressée directement à l'autorité administrative et sans nouvel avis médical, pour des aménagements cohérents avec ceux du plan ; ce même article l'exclut lorsque le candidat sollicite la majoration de temps. Rien n'est donc automatique ici. Le professeur oriente la famille vers le professeur principal et la direction pour engager la démarche à temps, sans se prononcer lui-même sur le résultat. Pour un élève en situation de handicap, le cadre est le projet personnalisé de scolarisation (article L. 112-2 du Code de l'éducation).",
       },
       // PALIER 3 (suite)
       {
@@ -2557,14 +2596,14 @@
         statement: "Après une mauvaise note, un parent publie sur un réseau social des messages injurieux et menaçants visant nommément le professeur de mathématiques de son enfant. Que peut faire le professeur ?",
         type: "mcq",
         options: [
-          "Informer le chef d'établissement, conserver des captures des messages et demander par écrit la protection fonctionnelle à son administration (par l'application Colibris), qui doit prendre sans délai des mesures conservatoires",
-          "Répondre publiquement au parent sur le même réseau social pour rétablir la vérité",
-          "Modifier la note de l'élève pour apaiser la situation",
-          "Ne rien faire : un fonctionnaire ne peut pas être protégé contre les propos d'un usager"
+          "Informer le chef d'établissement, conserver des captures et demander par écrit la protection fonctionnelle à son administration",
+          "Répondre publiquement au parent sur le même réseau social, pour rétablir la vérité auprès des autres familles",
+          "Modifier la note de l'élève pour apaiser la situation, puis demander au parent de retirer ses messages",
+          "Ne rien faire : un fonctionnaire ne peut pas être protégé par son administration contre les propos d'un usager, même menaçants ou injurieux"
         ],
         correctIndex: 0,
-        answer: "Informer le chef d'établissement, conserver des captures des messages et demander par écrit la protection fonctionnelle à son administration (par l'application Colibris), qui doit prendre sans délai des mesures conservatoires",
-        hint1: "Code général de la fonction publique, articles L. 134-1 et L. 134-5.",
+        answer: "Informer le chef d'établissement, conserver des captures et demander par écrit la protection fonctionnelle à son administration",
+        hint1: "Trois réflexes : ne pas répondre soi-même, garder une trace, et chercher ce que le statut prévoit quand un agent est attaqué en raison de ses fonctions.",
         solution: "L'administration doit protéger l'agent attaqué en raison de ses fonctions, notamment contre les menaces, injures ou outrages, y compris de la part d'un parent d'élève (Code général de la fonction publique, articles L. 134-1 et L. 134-5). La protection fonctionnelle se demande par écrit ; à l'Éducation nationale, par l'application Colibris. L'administration doit prendre sans délai des mesures conservatoires. Le professeur ne répond pas sur le réseau social et ne revient pas sur l'évaluation sous la pression."
       },
       {
@@ -2575,13 +2614,13 @@
         statement: "Lors de la réunion parents-professeurs, un père conteste avec véhémence la note de son fils à un devoir de mathématiques et exige qu'elle soit relevée. Quelle attitude adopter ?",
         type: "mcq",
         options: [
-          "Rester calme, écouter, expliquer les critères d'évaluation et les attendus en s'appuyant sur la copie, proposer des pistes de progrès, et, si l'échange devient agressif, l'interrompre et en informer le professeur principal et la direction",
-          "Relever la note pour éviter le conflit",
-          "Refuser toute explication : l'évaluation ne regarde pas les parents",
-          "Comparer devant le parent la copie de son fils avec celles d'autres élèves nommément désignés"
+          "Rester calme, écouter, expliquer les critères à partir de la copie, et interrompre l'échange s'il devient agressif",
+          "Relever la note pour éviter le conflit, en demandant au père de ne pas en parler aux autres parents",
+          "Refuser toute explication : l'évaluation relève de la seule liberté pédagogique et ne regarde pas les parents",
+          "Comparer devant le parent la copie de son fils avec celles d'autres élèves nommément désignés, pour objectiver la note"
         ],
         correctIndex: 0,
-        answer: "Rester calme, écouter, expliquer les critères d'évaluation et les attendus en s'appuyant sur la copie, proposer des pistes de progrès, et, si l'échange devient agressif, l'interrompre et en informer le professeur principal et la direction",
+        answer: "Rester calme, écouter, expliquer les critères à partir de la copie, et interrompre l'échange s'il devient agressif",
         hint1: "Le référentiel de 2013 demande de coopérer avec les parents, ce qui n'est pas céder.",
         solution: "Coopérer avec les parents d'élèves est une compétence du référentiel de 2013. L'enseignant explique sa démarche d'évaluation, montre ce qui est réussi et ce qui ne l'est pas, et propose des pistes pour progresser. Il ne modifie pas une note sous la pression et ne montre pas les copies d'autres élèves (discrétion professionnelle). Si le parent devient injurieux ou menaçant, le professeur met fin à l'entretien, informe la direction et peut demander la protection fonctionnelle."
       },
@@ -2593,13 +2632,13 @@
         statement: "Un parent apprend que son fils a été bousculé en cours de mathématiques. Il demande au professeur le nom de l'élève responsable et la sanction prise contre lui. Que répondre ?",
         type: "mcq",
         options: [
-          "Lui assurer que la situation est prise en charge par l'établissement, sans communiquer d'information sur l'autre élève, et l'orienter vers le CPE ou le chef d'établissement pour le suivi",
-          "Lui donner le nom de l'élève et le détail de la sanction, puisque son fils est la victime",
+          "L'assurer que l'établissement prend la situation en charge, sans rien dire de l'autre élève, et l'orienter vers le CPE",
+          "Lui donner le nom de l'élève et le détail de la sanction, puisque son fils est la victime et qu'il a le droit de savoir",
           "Lui proposer de rencontrer directement la famille de l'autre élève à la sortie du collège",
-          "Refuser de lui parler de l'incident, qui ne le concerne pas"
+          "Refuser de lui parler de l'incident, qui ne concerne que l'établissement et l'élève sanctionné"
         ],
         correctIndex: 0,
-        answer: "Lui assurer que la situation est prise en charge par l'établissement, sans communiquer d'information sur l'autre élève, et l'orienter vers le CPE ou le chef d'établissement pour le suivi",
+        answer: "L'assurer que l'établissement prend la situation en charge, sans rien dire de l'autre élève, et l'orienter vers le CPE",
         hint1: "La famille de la victime a droit à une réponse, pas aux informations concernant un autre mineur.",
         solution: "Le professeur reçoit la préoccupation du parent avec sérieux et indique que l'établissement traite l'incident. Il ne communique ni l'identité ni la situation disciplinaire d'un autre élève : ces informations relèvent de la discrétion professionnelle (Code général de la fonction publique, article L. 121-7). Il oriente le parent vers le CPE et le chef d'établissement, qui assurent le suivi et l'information des familles concernées."
       },
@@ -2611,13 +2650,13 @@
         statement: "Une mère, séparée du père de l'élève, demande au professeur principal de ne transmettre aucun bulletin ni aucune information au père. Aucune décision de justice ne retire l'autorité parentale au père. Que faire ?",
         type: "mcq",
         options: [
-          "Expliquer que, sauf décision de justice contraire, les deux parents exercent l'autorité parentale et ont chacun le droit d'être informés de la scolarité de leur enfant, et en référer au chef d'établissement",
-          "Accepter la demande : le parent qui a la garde décide seul des informations transmises",
-          "Ne plus transmettre d'informations à aucun des deux parents pour rester neutre",
-          "Demander à l'élève lequel de ses parents il préfère voir informé"
+          "Sauf décision de justice contraire, chaque parent titulaire de l'autorité parentale doit être informé",
+          "Accepter la demande : le parent qui a la résidence de l'enfant décide seul des informations transmises à l'autre",
+          "Ne plus transmettre d'informations à aucun des deux parents, pour rester neutre dans le conflit familial",
+          "Demander à l'élève lequel de ses parents il préfère voir informé, puisque la décision le concerne d'abord"
         ],
         correctIndex: 0,
-        answer: "Expliquer que, sauf décision de justice contraire, les deux parents exercent l'autorité parentale et ont chacun le droit d'être informés de la scolarité de leur enfant, et en référer au chef d'établissement",
+        answer: "Sauf décision de justice contraire, chaque parent titulaire de l'autorité parentale doit être informé",
         hint1: "La séparation des parents ne change pas, par elle-même, l'exercice de l'autorité parentale.",
         solution: "Les père et mère exercent en commun l'autorité parentale, et leur séparation est sans incidence sur les règles de son exercice (Code civil, articles 372 et 373-2), sauf décision du juge. L'établissement transmet donc les mêmes informations à chaque parent (résultats, bulletins, rencontres). Même un parent qui n'exerce pas l'autorité parentale conserve un droit de surveillance de l'éducation de l'enfant (article 373-2-1). L'enseignant reste impartial, traite les deux parents de façon égale et ne tranche pas seul un conflit familial : il informe le chef d'établissement, qui demandera le cas échéant la décision de justice invoquée."
       },
@@ -2629,13 +2668,13 @@
         statement: "En début d'année, plusieurs parents demandent au professeur de mathématiques son numéro de téléphone personnel, et l'un d'eux lui propose de rejoindre un groupe de messagerie des parents de la classe. Quelle est la position la plus professionnelle ?",
         type: "mcq",
         options: [
-          "Décliner poliment et privilégier les canaux institutionnels (espace numérique de travail, carnet de liaison, rendez-vous par l'établissement), qui garantissent l'égalité de traitement des familles et protègent l'enseignant",
-          "Accepter : c'est une bonne pratique de coopération avec les familles",
-          "Donner son numéro aux seuls parents qu'il connaît déjà",
-          "Rejoindre le groupe pour répondre aux questions sur les notes des élèves"
+          "Décliner poliment et passer par les canaux de l'établissement, qui assurent l'égalité entre familles et protègent l'enseignant",
+          "Accepter : c'est une bonne pratique de coopération avec les familles, encouragée par le référentiel de compétences",
+          "Donner son numéro aux seuls parents qu'il connaît déjà, en leur demandant de ne pas le diffuser",
+          "Rejoindre le groupe de messagerie pour répondre aux questions des parents sur les notes, les devoirs et le travail en classe des élèves"
         ],
         correctIndex: 0,
-        answer: "Décliner poliment et privilégier les canaux institutionnels (espace numérique de travail, carnet de liaison, rendez-vous par l'établissement), qui garantissent l'égalité de traitement des familles et protègent l'enseignant",
+        answer: "Décliner poliment et passer par les canaux de l'établissement, qui assurent l'égalité entre familles et protègent l'enseignant",
         hint1: "Coopérer avec les parents passe par des canaux qui traitent toutes les familles de la même façon.",
         solution: "La coopération avec les parents est attendue (référentiel de 2013), mais elle s'exerce dans un cadre institutionnel. Les canaux de l'établissement assurent la traçabilité des échanges, l'égalité de traitement de toutes les familles et la discrétion sur la situation des élèves. Un groupe de messagerie privé expose l'enseignant à des échanges hors cadre et à des demandes inégales selon les familles."
       },
@@ -2647,13 +2686,13 @@
         statement: "Pendant une sortie scolaire au musée des sciences, un parent accompagnateur distribue aux élèves des brochures religieuses et tient des propos visant à les convaincre. Que doit faire le professeur responsable de la sortie ?",
         type: "mcq",
         options: [
-          "Faire cesser immédiatement ce comportement, protéger la liberté de conscience des élèves, et en rendre compte au chef d'établissement, qui apprécie s'il peut encore participer à des sorties",
-          "Laisser faire : un parent n'est pas un agent public et peut dire ce qu'il veut",
-          "Annuler la sortie et ramener immédiatement tous les élèves au collège",
-          "Répondre devant les élèves en présentant à son tour ses propres convictions"
+          "Faire cesser ce comportement, protéger la liberté de conscience des élèves et en rendre compte au chef d'établissement",
+          "Laisser faire : un parent n'est pas un agent public et peut dire ce qu'il veut aux élèves, même pendant une sortie scolaire",
+          "Annuler la suite de la visite et ramener immédiatement tous les élèves au collège, sans autre explication",
+          "Répondre devant les élèves en présentant à son tour ses propres convictions, pour équilibrer les points de vue"
         ],
         correctIndex: 0,
-        answer: "Faire cesser immédiatement ce comportement, protéger la liberté de conscience des élèves, et en rendre compte au chef d'établissement, qui apprécie s'il peut encore participer à des sorties",
+        answer: "Faire cesser ce comportement, protéger la liberté de conscience des élèves et en rendre compte au chef d'établissement",
         hint1: "Les parents accompagnateurs ne sont pas soumis à la loi de 2004, mais le prosélytisme auprès des élèves n'est pas admis.",
         solution: "Les parents accompagnateurs ne sont pas des agents publics : la loi de 2004 et l'obligation de neutralité des agents ne leur sont pas applicables en tant que telles. Mais l'école protège les élèves de tout prosélytisme et de toute pression. Le Vademecum « La laïcité à l'École » rappelle que les parents doivent s'abstenir de toute forme de prosélytisme et que l'accompagnateur a un devoir d'exemplarité devant les élèves, dans son comportement et ses propos. Le professeur, responsable du groupe, fait cesser le comportement avec calme et en rend compte. Le choix des personnes associées aux sorties appartient au chef d'établissement (ou au directeur d'école) : le professeur ne tranche pas seul."
       },
@@ -2666,14 +2705,14 @@
         statement: "Un élève de 6e arrive régulièrement avec des ecchymoses et finit par confier au professeur de mathématiques qu'il est frappé à la maison. Quelle est la conduite à tenir ?",
         type: "mcq",
         options: [
-          "Recueillir sa parole sans l'interroger de façon insistante, ne pas promettre le secret, alerter sans délai le chef d'établissement et les personnels sociaux et de santé, afin qu'une information préoccupante soit transmise au président du conseil départemental par la cellule de recueil des informations préoccupantes",
-          "Appeler les parents le soir même pour vérifier les dires de l'enfant",
-          "Attendre d'avoir des preuves supplémentaires avant d'en parler à quiconque",
-          "Ne rien faire : la protection de l'enfance est l'affaire exclusive de l'infirmière"
+          "Recueillir sa parole sans insister, ne pas promettre le secret, alerter sans délai la direction et les personnels sociaux et de santé",
+          "Appeler les parents le soir même pour vérifier les dires de l'enfant avant de décider d'alerter qui que ce soit",
+          "Attendre d'avoir des preuves supplémentaires, par exemple de nouvelles marques, avant d'en parler à quiconque",
+          "Ne rien faire soi-même : la protection de l'enfance est l'affaire exclusive de l'infirmière et de l'assistante sociale de l'établissement"
         ],
         correctIndex: 0,
-        answer: "Recueillir sa parole sans l'interroger de façon insistante, ne pas promettre le secret, alerter sans délai le chef d'établissement et les personnels sociaux et de santé, afin qu'une information préoccupante soit transmise au président du conseil départemental par la cellule de recueil des informations préoccupantes",
-        hint1: "Code de l'action sociale et des familles, articles L. 226-2-1 et L. 226-3.",
+        answer: "Recueillir sa parole sans insister, ne pas promettre le secret, alerter sans délai la direction et les personnels sociaux et de santé",
+        hint1: "Se demander à qui revient l'enquête, et quel circuit existe pour un mineur en danger.",
         solution: "Lorsqu'un mineur est en danger ou en risque de l'être, une information préoccupante est transmise sans délai au président du conseil départemental, par la cellule de recueil des informations préoccupantes (CRIP), en application des articles L. 226-2-1 et L. 226-3 du Code de l'action sociale et des familles. L'enseignant n'enquête pas et ne contacte pas lui-même les parents (leur information préalable est prévue, sauf intérêt contraire de l'enfant, selon l'article L. 226-2-1) : il transmet ce qu'il a vu et entendu, en notant les propos de l'enfant tels qu'ils ont été dits, et travaille avec la direction et les personnels sociaux et de santé."
       },
       {
@@ -2684,159 +2723,322 @@
         statement: "En fin de journée, une élève révèle au professeur qu'elle subit des violences graves de la part d'un adulte de son foyer et qu'elle a peur de rentrer chez elle ce soir. Que faire ?",
         type: "mcq",
         options: [
-          "Ne pas la laisser repartir seule et alerter immédiatement le chef d'établissement : du fait de la gravité de la situation, le procureur de la République est avisé directement, avec copie au président du conseil départemental",
-          "Lui conseiller de dormir chez une amie et en reparler le lendemain",
-          "Rédiger une information préoccupante dans la semaine et laisser l'élève rentrer chez elle",
-          "Prévenir la famille que l'élève a fait des révélations"
+          "Ne pas la laisser repartir seule et alerter aussitôt le chef d'établissement : le procureur de la République est avisé directement",
+          "Lui conseiller de dormir chez une amie ce soir et en reparler avec elle le lendemain, au calme",
+          "Rédiger une information préoccupante dans la semaine et laisser l'élève rentrer chez elle comme prévu ce soir",
+          "Prévenir la famille que l'élève a fait des révélations, pour qu'elle puisse donner sa version des faits"
         ],
         correctIndex: 0,
-        answer: "Ne pas la laisser repartir seule et alerter immédiatement le chef d'établissement : du fait de la gravité de la situation, le procureur de la République est avisé directement, avec copie au président du conseil départemental",
+        answer: "Ne pas la laisser repartir seule et alerter aussitôt le chef d'établissement : le procureur de la République est avisé directement",
         hint1: "L'urgence change la voie de signalement.",
         solution: "Lorsqu'un professionnel avise directement le procureur de la République du fait de la gravité de la situation, il adresse une copie de cette transmission au président du conseil départemental (Code de l'action sociale et des familles, article L. 226-4, II). En pratique, le signalement est fait sans délai avec le chef d'établissement. La famille n'est pas informée lorsque c'est contraire à l'intérêt de l'enfant (article L. 226-2-1). L'enseignant ne reste pas seul, recueille les propos de l'élève sans l'interroger et les transmet fidèlement."
       },
       {
         id: "capes-oral2-42",
         chapterId: 'capes-oral2',
-        tier: 4,
+        tier: 1,
         title: "Article 40 du Code de procédure pénale",
         statement: "Un professeur découvre, dans l'exercice de ses fonctions, des faits susceptibles de constituer un délit commis au préjudice d'élèves. Quelle obligation pèse sur lui ?",
         type: "mcq",
         options: [
-          "Comme tout fonctionnaire qui acquiert dans l'exercice de ses fonctions la connaissance d'un crime ou d'un délit, il doit en aviser sans délai le procureur de la République, en pratique en lien avec le chef d'établissement",
-          "Aucune : seul le chef d'établissement est concerné par les procédures pénales",
-          "Il doit d'abord mener sa propre enquête pour vérifier les faits",
-          "Il ne doit signaler que les crimes, jamais les délits"
+          "Il doit en aviser sans délai le procureur de la République (article 40 du Code de procédure pénale), en lien avec la direction",
+          "Aucune : seul le chef d'établissement est concerné par les procédures pénales visant des faits commis au collège",
+          "Il doit d'abord mener sa propre enquête auprès des élèves et des familles pour vérifier les faits",
+          "Il ne doit signaler que les crimes, jamais les délits, et seulement s'il en a été le témoin direct"
         ],
         correctIndex: 0,
-        answer: "Comme tout fonctionnaire qui acquiert dans l'exercice de ses fonctions la connaissance d'un crime ou d'un délit, il doit en aviser sans délai le procureur de la République, en pratique en lien avec le chef d'établissement",
-        hint1: "Article 40, alinéa 2, du Code de procédure pénale.",
+        answer: "Il doit en aviser sans délai le procureur de la République (article 40 du Code de procédure pénale), en lien avec la direction",
+        hint1: "Regarder à qui s'impose l'obligation d'aviser le procureur : le texte vise-t-il seulement le chef d'établissement ?",
         solution: "L'article 40, alinéa 2, du Code de procédure pénale impose à toute autorité constituée et à tout fonctionnaire qui, dans l'exercice de ses fonctions, acquiert la connaissance d'un crime ou d'un délit, d'en donner avis sans délai au procureur de la République. Le professeur n'enquête pas lui-même : il informe le chef d'établissement, avec qui le signalement est fait, sans que cela le dispense de son obligation personnelle."
       },
       {
         id: "capes-oral2-43",
         chapterId: 'capes-oral2',
-        tier: 4,
+        tier: 1,
         title: "Le jury cite l'avis du Conseil d'État de 1989",
         statement: "Le jury demande : « Un élève peut-il porter un signe religieux ostensible en cours, du moment qu'il ne fait ni prosélytisme ni trouble ? » Le candidat pense à l'avis du Conseil d'État du 27 novembre 1989. Quelle est la bonne réponse ?",
         type: "mcq",
         options: [
-          "Non : cet avis, qui admettait le port de signes sauf pression, prosélytisme ou trouble, est dépassé dans les écoles, collèges et lycées publics par la loi du 15 mars 2004, qui interdit les signes et tenues manifestant ostensiblement une appartenance religieuse",
-          "Oui : l'avis de 1989 reste la règle applicable aux élèves",
-          "Oui, mais seulement au lycée, la loi de 2004 ne visant que le collège",
-          "Non, car l'avis de 1989 interdisait déjà tout signe religieux aux élèves"
+          "Non : cet avis, qui tolérait les signes sans prosélytisme ni trouble, est dépassé par la loi du 15 mars 2004",
+          "Oui : l'avis de 1989 reste la règle applicable aux élèves, la loi de 2004 n'ayant visé que les seuls agents publics",
+          "Oui, mais seulement au lycée, la loi de 2004 ne visant que les écoles et les collèges publics",
+          "Non, car l'avis de 1989 interdisait déjà tout signe religieux aux élèves, discret ou non"
         ],
         correctIndex: 0,
-        answer: "Non : cet avis, qui admettait le port de signes sauf pression, prosélytisme ou trouble, est dépassé dans les écoles, collèges et lycées publics par la loi du 15 mars 2004, qui interdit les signes et tenues manifestant ostensiblement une appartenance religieuse",
+        answer: "Non : cet avis, qui tolérait les signes sans prosélytisme ni trouble, est dépassé par la loi du 15 mars 2004",
         hint1: "Situer chaque texte dans le temps : avis de 1989, puis loi de 2004.",
         solution: "En 1989, le Conseil d'État estimait que le port de signes religieux par les élèves n'était pas incompatible avec la laïcité, sauf pression, provocation, prosélytisme ou trouble. La loi du 15 mars 2004 (article L. 141-5-1 du Code de l'éducation) a tranché autrement pour les écoles, collèges et lycées publics : les signes et tenues manifestant ostensiblement une appartenance religieuse y sont interdits, les signes discrets restant permis. Citer l'avis de 1989 comme règle actuelle serait une erreur."
       },
       {
         id: "capes-oral2-44",
         chapterId: 'capes-oral2',
-        tier: 4,
+        tier: 1,
         title: "Ne pas connaître un numéro d'article devant le jury",
         statement: "Pendant l'entretien, le candidat veut appuyer sa réponse sur un texte mais ne se souvient plus du numéro exact de l'article. Quelle attitude le jury attend-il ?",
         type: "mcq",
         options: [
-          "Ne citer que les textes dont il est sûr, nommer le principe et le texte de façon générale sans inventer de numéro, et raisonner à partir des principes et de la situation",
-          "Inventer un numéro plausible pour montrer qu'il connaît les textes",
-          "Refuser de répondre à la question tant qu'il n'a pas le texte sous les yeux",
-          "Réciter le référentiel de compétences en entier pour compenser"
+          "Nommer le principe et le texte sans inventer de numéro, et raisonner à partir de la situation",
+          "Inventer un numéro plausible pour montrer qu'il connaît les textes et ne pas perdre de temps face au jury",
+          "Refuser de répondre à la question tant qu'il n'a pas le texte exact sous les yeux",
+          "Réciter le référentiel de compétences en entier pour compenser cet oubli devant le jury"
         ],
         correctIndex: 0,
-        answer: "Ne citer que les textes dont il est sûr, nommer le principe et le texte de façon générale sans inventer de numéro, et raisonner à partir des principes et de la situation",
+        answer: "Nommer le principe et le texte sans inventer de numéro, et raisonner à partir de la situation",
         hint1: "Une référence fausse coûte plus cher qu'une référence générale exacte.",
         solution: "Le jury évalue la compréhension du cadre et la justesse du raisonnement, pas une mémoire de numéros. Mieux vaut dire « le statut des fonctionnaires impose la neutralité » que citer un article inexact. Le candidat nomme les principes (neutralité, laïcité, protection des élèves, travail en équipe), s'appuie sur les textes qu'il connaît sûrement et montre comment il agirait concrètement."
       },
       {
         id: "capes-oral2-45",
         chapterId: 'capes-oral2',
-        tier: 4,
+        tier: 1,
         title: "Format de l'épreuve d'entretien (concours bac + 5)",
         statement: "Quelle description de l'épreuve d'entretien du CAPES externe (concours bac + 5) est exacte ?",
         type: "mcq",
         options: [
-          "35 minutes, coefficient 3, sans préparation, note 0 éliminatoire : une première partie de 15 minutes ouverte par une présentation de 5 minutes, puis 20 minutes comportant deux mises en situation professionnelles, l'une d'enseignement, l'autre relative à la vie scolaire",
-          "1 heure de préparation puis 1 heure d'exposé sur une leçon de mathématiques",
-          "Un questionnaire écrit sur les textes réglementaires, noté sur 20 et non éliminatoire",
-          "Une épreuve de 35 minutes consacrée uniquement à la motivation du candidat"
+          "35 minutes sans préparation, coefficient 3, note 0 éliminatoire : 15 minutes sur la motivation, puis 20 minutes de mises en situation",
+          "1 heure de préparation puis 1 heure d'exposé sur une leçon de mathématiques tirée au sort, suivie d'un échange",
+          "Un questionnaire écrit sur les textes réglementaires, noté sur 20, de coefficient 1 et non éliminatoire",
+          "Une épreuve de 35 minutes consacrée uniquement à la motivation et au parcours du candidat, sans mise en situation"
         ],
         correctIndex: 0,
-        answer: "35 minutes, coefficient 3, sans préparation, note 0 éliminatoire : une première partie de 15 minutes ouverte par une présentation de 5 minutes, puis 20 minutes comportant deux mises en situation professionnelles, l'une d'enseignement, l'autre relative à la vie scolaire",
+        answer: "35 minutes sans préparation, coefficient 3, note 0 éliminatoire : 15 minutes sur la motivation, puis 20 minutes de mises en situation",
         hint1: "L'épreuve est commune à toutes les disciplines et s'appuie sur la fiche individuelle de renseignement.",
         solution: "L'épreuve d'entretien dure 35 minutes, coefficient 3, sans préparation, et la note 0 est éliminatoire. La première partie (15 minutes) porte sur la motivation et le parcours ; elle s'ouvre par une présentation de 5 minutes appuyée sur la fiche individuelle de renseignement. La seconde partie (20 minutes) comporte deux mises en situation professionnelles : l'une d'enseignement, l'autre relative à la vie scolaire. Le jury apprécie l'aptitude à s'approprier les valeurs de la République et les exigences du service public."
       },
       {
         id: "capes-oral2-46",
         chapterId: 'capes-oral2',
-        tier: 4,
+        tier: 1,
         title: "Seconde partie de l'entretien au concours bac + 3",
         statement: "Au concours organisé au niveau bac + 3 à partir de la session 2026, sur quoi porte la seconde partie de l'épreuve d'entretien ?",
         type: "mcq",
         options: [
-          "Un entretien de 20 minutes, comportant une mise en situation, sur les valeurs de la République dont la laïcité, la projection dans le métier, les exigences du service public, la transition écologique et l'épanouissement de l'élève",
-          "Une leçon de mathématiques préparée à l'avance",
-          "Exclusivement l'histoire du système éducatif",
-          "Un commentaire de copie d'élève sans lien avec les valeurs de la République"
+          "Valeurs de la République, service public, projection dans le métier, transition écologique, épanouissement de l'élève",
+          "Une leçon de mathématiques préparée à l'avance, présentée au jury puis discutée pendant vingt minutes",
+          "Exclusivement l'histoire du système éducatif français et de ses grandes réformes depuis le XIXe siècle",
+          "Un commentaire de copie d'élève, sans lien avec les valeurs de la République ni avec la vie scolaire"
         ],
         correctIndex: 0,
-        answer: "Un entretien de 20 minutes, comportant une mise en situation, sur les valeurs de la République dont la laïcité, la projection dans le métier, les exigences du service public, la transition écologique et l'épanouissement de l'élève",
+        answer: "Valeurs de la République, service public, projection dans le métier, transition écologique, épanouissement de l'élève",
         hint1: "La première partie (motivation et parcours) est commune aux deux concours ; la seconde diffère.",
         solution: "Pour le concours de niveau bac + 3 (arrêté du 17 avril 2025 modifié), l'épreuve dure 35 minutes, coefficient 3, note 0 éliminatoire. Après 15 minutes consacrées à la motivation et au parcours, elle se poursuit par 20 minutes d'entretien, au travers de questionnements divers dont une mise en situation. L'entretien porte sur l'appréhension des valeurs de la République, dont la laïcité, la projection dans le métier, les exigences du service public (neutralité, lutte contre les discriminations), la transition écologique et l'épanouissement de l'élève. Au concours bac + 5, la seconde partie comporte deux mises en situation professionnelles (enseignement et vie scolaire)."
       },
       {
         id: "capes-oral2-47",
         chapterId: 'capes-oral2',
-        tier: 4,
+        tier: 1,
         title: "Répondre à la question de motivation",
         statement: "Le jury demande : « Pourquoi voulez-vous devenir professeur de mathématiques ? » Quelle réponse est la mieux construite ?",
         type: "mcq",
         options: [
-          "Relier son parcours à une conception argumentée du métier (transmission des savoirs, exigence, accompagnement de tous les élèves, travail en équipe), illustrée par un exemple concret vécu",
-          "Réciter les quatorze compétences du référentiel de 2013 dans l'ordre",
-          "Mettre en avant la sécurité de l'emploi et la durée des vacances",
-          "Répondre que l'on aime les mathématiques, sans évoquer les élèves"
+          "Relier son parcours à une conception argumentée du métier, illustrée par un exemple concret vécu",
+          "Réciter les quatorze compétences du référentiel de 2013 dans l'ordre, pour montrer sa préparation",
+          "Mettre en avant la sécurité de l'emploi et la durée des vacances, en toute franchise",
+          "Répondre que l'on aime les mathématiques depuis toujours, sans évoquer les élèves"
         ],
         correctIndex: 0,
-        answer: "Relier son parcours à une conception argumentée du métier (transmission des savoirs, exigence, accompagnement de tous les élèves, travail en équipe), illustrée par un exemple concret vécu",
+        answer: "Relier son parcours à une conception argumentée du métier, illustrée par un exemple concret vécu",
         hint1: "Le jury cherche une conviction personnelle étayée, pas une récitation.",
         solution: "La question de motivation attend une réponse personnelle et argumentée. Le candidat relie son parcours (études, expériences auprès d'élèves, engagements) à sa conception du métier : transmettre des savoirs exigeants, accompagner tous les élèves, travailler en équipe et avec les familles. Un exemple concret vaut mieux que la récitation du référentiel ; la passion pour la discipline est un point de départ, pas une réponse complète."
       },
       {
         id: "capes-oral2-48",
         chapterId: 'capes-oral2',
-        tier: 4,
+        tier: 1,
         title: "Le devoir de réserve : d'où vient-il ?",
         statement: "Le jury demande au candidat d'où vient le devoir de réserve des fonctionnaires. Quelle réponse est exacte ?",
         type: "mcq",
         options: [
-          "C'est une construction de la jurisprudence administrative, qui encadre l'expression publique de l'agent et s'apprécie selon ses fonctions et les circonstances ; il ne figure pas en tant que tel dans le Code général de la fonction publique",
-          "Il est défini par un article précis de la Constitution de 1958",
-          "Il a été créé par la loi du 15 mars 2004",
-          "Il interdit au fonctionnaire toute opinion politique, même en privé"
+          "Il vient de la jurisprudence administrative, qui encadre l'expression publique de l'agent selon ses fonctions et les circonstances",
+          "Il est défini par un article précis de la Constitution de 1958, consacré aux obligations des fonctionnaires",
+          "Il a été créé par la loi du 15 mars 2004, en même temps que l'interdiction des signes ostensibles",
+          "Il interdit au fonctionnaire toute opinion politique, même exprimée en privé, sous peine de sanction"
         ],
         correctIndex: 0,
-        answer: "C'est une construction de la jurisprudence administrative, qui encadre l'expression publique de l'agent et s'apprécie selon ses fonctions et les circonstances ; il ne figure pas en tant que tel dans le Code général de la fonction publique",
+        answer: "Il vient de la jurisprudence administrative, qui encadre l'expression publique de l'agent selon ses fonctions et les circonstances",
         hint1: "Distinguer neutralité (en service, écrite dans le statut) et réserve (expression publique, d'origine jurisprudentielle).",
         solution: "Le Code général de la fonction publique énonce la neutralité, la laïcité, la dignité, l'impartialité, l'intégrité, la probité, le secret et la discrétion professionnels. Le devoir de réserve, lui, n'y figure pas : c'est une construction jurisprudentielle qui impose à l'agent de la mesure dans l'expression publique de ses opinions, appréciée au cas par cas selon son niveau de responsabilité et le contexte. Il ne supprime pas la liberté d'opinion, garantie par le statut."
       },
       {
         id: "capes-oral2-49",
         chapterId: 'capes-oral2',
-        tier: 4,
+        tier: 1,
         title: "Alerte de mise en sûreté pendant un cours",
         statement: "Pendant un cours de mathématiques, l'alarme spécifique « mise en sûreté » retentit. Quelle doit être la réaction du professeur ?",
         type: "mcq",
         options: [
-          "Appliquer sans délai les consignes du plan particulier de mise en sûreté (PPMS) de l'établissement, connues à l'avance et travaillées lors des exercices, en gardant le contrôle de la classe et en rassurant les élèves",
-          "Faire sortir tous les élèves dans la cour comme pour une alarme incendie",
-          "Continuer le cours en attendant de savoir s'il s'agit d'un exercice",
-          "Laisser chaque élève appeler sa famille avant de décider quoi faire"
+          "Appliquer aussitôt les consignes du plan particulier de mise en sûreté, travaillées en exercice, et rassurer les élèves",
+          "Faire sortir tous les élèves dans la cour, comme pour une alarme incendie, et procéder à l'appel",
+          "Continuer le cours en attendant de savoir par la direction s'il s'agit d'un simple exercice",
+          "Laisser chaque élève appeler sa famille pour la rassurer avant de décider quoi faire"
         ],
         correctIndex: 0,
-        answer: "Appliquer sans délai les consignes du plan particulier de mise en sûreté (PPMS) de l'établissement, connues à l'avance et travaillées lors des exercices, en gardant le contrôle de la classe et en rassurant les élèves",
+        answer: "Appliquer aussitôt les consignes du plan particulier de mise en sûreté, travaillées en exercice, et rassurer les élèves",
         hint1: "Les consignes ne s'improvisent pas le jour de l'alerte.",
         solution: "Chaque école et établissement dispose d'un plan particulier de mise en sûreté (PPMS), qui fixe les moyens d'alerte, distincts de l'alarme incendie, et les conduites à tenir selon le danger ; au moins deux exercices PPMS ont lieu chaque année (circulaire du 8 juin 2023). Le professeur doit connaître ces consignes dès sa prise de fonction et les appliquer sans improviser : un signal de mise en sûreté n'appelle pas la même réaction qu'une alarme incendie. Il garde la responsabilité de sa classe et adopte une attitude calme."
+      },
+      // PALIER 4 : DILEMMES ET CONFLITS DE RÈGLES
+      {
+        id: "capes-oral2-50",
+        chapterId: 'capes-oral2',
+        tier: 4,
+        title: "Une consigne de silence sur des violences",
+        statement: "Une élève de 3e vous confie des violences répétées de son père. Vous en informez la principale, qui vous répond : « Je connais la famille, ne faites rien remonter pour l'instant, j'en parlerai moi-même au père. » Quelle conduite tenir ?",
+        type: "mcq",
+        options: [
+          "Obéir à la consigne : l'obligation d'obéissance hiérarchique prime, et la principale porte seule la responsabilité de cette décision",
+          "Téléphoner vous-même au père pour recueillir sa version des faits avant de décider si une transmission reste nécessaire",
+          "Maintenir qu'une transmission s'impose et, faute de décision rapide, la faire vous-même, avec l'appui de l'assistante sociale, en en informant la principale",
+          "Attendre de nouveaux éléments, car sans marques visibles ni preuve écrite aucune transmission ne peut être engagée par un professeur"
+        ],
+        correctIndex: 2,
+        answer: "Maintenir qu'une transmission s'impose et, faute de décision rapide, la faire vous-même, avec l'appui de l'assistante sociale, en en informant la principale",
+        hint1: "Se demander si l'obéissance hiérarchique peut suspendre une obligation que la loi attache à chaque agent, et ce que produirait un appel au père.",
+        solution: "Le devoir d'obéissance (Code général de la fonction publique, article L. 121-10) ne fait pas disparaître les obligations liées à la protection de l'enfance. Une information préoccupante doit être transmise sans délai lorsqu'un mineur est en danger ou risque de l'être (Code de l'action sociale et des familles, article L. 226-2-1), et tout fonctionnaire qui acquiert, dans l'exercice de ses fonctions, la connaissance d'un crime ou d'un délit doit en aviser sans délai le procureur (Code de procédure pénale, article 40, alinéa 2). Le professeur n'a pas à établir la preuve. Il cherche d'abord à convaincre la direction et mobilise l'assistante sociale et les personnels de santé ; il ne contourne pas la principale en secret, mais il ne renonce pas non plus. Appeler le père pourrait exposer l'élève : l'information des parents est écartée lorsqu'elle est contraire à l'intérêt de l'enfant, et cette appréciation revient aux professionnels chargés de la transmission."
+      },
+      {
+        id: "capes-oral2-51",
+        chapterId: 'capes-oral2',
+        tier: 4,
+        title: "Un couteau signalé sous condition d'anonymat",
+        statement: "Un élève de 4e vous dit en aparté qu'un camarade a apporté un couteau au collège et vous supplie de ne pas dire que l'information vient de lui, par peur des représailles. Quelle conduite tenir ?",
+        type: "mcq",
+        options: [
+          "Alerter sans délai le chef d'établissement et réserver le nom du témoin à ceux qui doivent le connaître, en expliquant à l'élève ce que vous allez faire et pourquoi",
+          "Promettre un anonymat total, puis attendre que le camarade sorte l'objet afin de pouvoir signaler un fait que vous auriez vous-même constaté en classe",
+          "Fouiller discrètement le sac du camarade à l'intercours, afin de ne pas déranger la direction pour une information qui reste encore à vérifier",
+          "Exiger du témoin un écrit signé avant toute démarche, car aucune alerte ne peut être donnée sur la base d'une parole rapportée de manière orale"
+        ],
+        correctIndex: 0,
+        answer: "Alerter sans délai le chef d'établissement et réserver le nom du témoin à ceux qui doivent le connaître, en expliquant à l'élève ce que vous allez faire et pourquoi",
+        hint1: "Deux exigences s'opposent : la sécurité de tous et la protection du témoin. Laquelle commande l'action immédiate, et comment préserver l'autre ?",
+        solution: "La sécurité prime : le danger possible est porté sans délai à la connaissance du chef d'établissement, qui décide des mesures à prendre et fait appel si nécessaire aux forces de l'ordre. Le professeur ne fouille ni l'élève ni son sac, et ne peut pas promettre un secret absolu. Il peut en revanche protéger le témoin : il lui explique ce qu'il va faire et limite son nom aux personnes qui doivent le connaître, conformément à la discrétion professionnelle (Code général de la fonction publique, article L. 121-7). Attendre un constat personnel ou exiger un écrit reviendrait à laisser le risque en place."
+      },
+      {
+        id: "capes-oral2-52",
+        chapterId: 'capes-oral2',
+        tier: 4,
+        title: "Condamner un propos raciste, est-ce manquer à la neutralité ?",
+        statement: "En cours, vous avez fermement condamné une remarque raciste d'un élève envers un camarade, en expliquant qu'elle était inacceptable. Un collègue vous reproche d'avoir pris parti et d'avoir ainsi manqué à votre neutralité. Que lui répondre ?",
+        type: "mcq",
+        options: [
+          "Il a raison : un agent public doit s'abstenir de toute appréciation, et seul le chef d'établissement pouvait qualifier ce propos devant la classe",
+          "La neutralité interdit de manifester ses opinions, pas de défendre les valeurs de la République : rappeler le respect et l'égalité relève de la mission de l'École",
+          "Il a raison pour la classe, mais le propos pouvait être condamné à la fin de l'heure, lors d'un échange individuel et discret avec l'élève concerné",
+          "Il a tort, car la neutralité ne s'applique qu'aux convictions religieuses et laisse le professeur libre d'exprimer devant ses élèves ses opinions politiques personnelles"
+        ],
+        correctIndex: 1,
+        answer: "La neutralité interdit de manifester ses opinions, pas de défendre les valeurs de la République : rappeler le respect et l'égalité relève de la mission de l'École",
+        hint1: "Distinguer une opinion personnelle, sur laquelle le professeur doit se taire, d'une valeur que l'École a pour mission de faire partager.",
+        solution: "La neutralité (Code général de la fonction publique, article L. 121-2) interdit au professeur de faire état de ses opinions devant les élèves ; elle ne signifie pas l'indifférence. L'article L. 111-1 du Code de l'éducation fixe comme mission première à l'École de faire partager les valeurs de la République, et la Charte de la laïcité rappelle le rejet de toutes les discriminations (article 9). La liberté d'expression des élèves s'exerce dans le respect du pluralisme et d'autrui (Code de l'éducation, article L. 511-2). Condamner un propos raciste sur-le-champ n'est donc pas prendre parti dans un débat d'opinions. Différer la réaction laisserait croire à la classe que le propos est acceptable ; la neutralité ne se limite pas pour autant au religieux."
+      },
+      {
+        id: "capes-oral2-53",
+        chapterId: 'capes-oral2',
+        tier: 4,
+        title: "Un collègue porte un signe religieux visible",
+        statement: "Un collègue de votre équipe s'est mis à porter en classe un signe religieux visible. Des élèves commencent à le remarquer et vous interrogent. Quelle conduite tenir ?",
+        type: "mcq",
+        options: [
+          "Prendre la parole en salle des professeurs devant toute l'équipe, pour lui rappeler publiquement ce que prévoit le statut des fonctionnaires",
+          "Ne rien faire par loyauté entre collègues, puisque la neutralité d'un agent ne concerne que l'administration et l'agent lui-même",
+          "Répondre aux élèves que ce signe est toléré s'il reste discret, car seule la loi de 2004 règle cette question dans les établissements",
+          "Répondre sobrement aux élèves, éviter toute interpellation publique et saisir le chef d'établissement, compétent, après un éventuel échange privé avec le collègue"
+        ],
+        correctIndex: 3,
+        answer: "Répondre sobrement aux élèves, éviter toute interpellation publique et saisir le chef d'établissement, compétent, après un éventuel échange privé avec le collègue",
+        hint1: "Quelle règle s'applique à un agent, et à qui revient le traitement d'un manquement éventuel ? Loyauté et discrétion ne s'opposent pas à cette réponse.",
+        solution: "L'obligation de neutralité s'impose à tout agent du service public de l'enseignement (Code général de la fonction publique, article L. 121-2) : selon l'avis du Conseil d'État du 3 mai 2000, tout signe manifestant une appartenance religieuse est interdit en service, même discret. La loi de 2004 concerne les élèves, pas les personnels. Un professeur n'a aucun pouvoir sur un collègue : il peut lui en parler en privé, sans y être tenu, mais le traitement d'un manquement relève du chef d'établissement. L'interpeller devant les élèves ou l'équipe humilierait le collègue ; le silence laisserait perdurer une situation contraire au service public."
+      },
+      {
+        id: "capes-oral2-54",
+        chapterId: 'capes-oral2',
+        tier: 4,
+        title: "Harcèlement : l'enfant d'une collègue est mis en cause",
+        statement: "Une élève de 5e vous signale être harcelée par plusieurs camarades, dont le fils d'une collègue proche. Celle-ci, mise au courant par son fils, vous demande de lui laisser « régler ça en famille » avant toute démarche. Quelle conduite tenir ?",
+        type: "mcq",
+        options: [
+          "Accepter pour cette fois, car une collègue de confiance réglera la situation plus vite et épargnera à l'élève visée une procédure éprouvante",
+          "Écarter le fils de la collègue du signalement en citant seulement les autres camarades, afin de préserver les relations au sein de l'équipe",
+          "Transmettre comme pour tout élève au CPE et à la direction, sans traitement de faveur, et ne pas livrer à la collègue le détail du signalement",
+          "Renoncer à intervenir et demander à un autre professeur de s'en charger, puisque ce lien personnel vous interdit légalement d'en connaître"
+        ],
+        correctIndex: 2,
+        answer: "Transmettre comme pour tout élève au CPE et à la direction, sans traitement de faveur, et ne pas livrer à la collègue le détail du signalement",
+        hint1: "La procédure change-t-elle selon l'identité de l'auteur présumé ? Se demander aussi ce que la collègue peut apprendre, et par qui.",
+        solution: "L'agent public exerce ses fonctions avec impartialité et traite de façon égale toutes les personnes (Code général de la fonction publique, articles L. 121-1 et L. 121-2). Le signalement suit donc le circuit habituel : CPE, direction, protocole de traitement du harcèlement, sans délai ni filtre. La discrétion professionnelle (article L. 121-7) interdit de communiquer à la collègue ce qui a été rapporté : c'est l'établissement qui informera les familles, dans le cadre du protocole, celle-ci étant alors traitée comme tout parent. Un lien personnel n'interdit pas de transmettre : il impose au contraire de ne pas être seul à traiter la situation."
+      },
+      {
+        id: "capes-oral2-55",
+        chapterId: 'capes-oral2',
+        tier: 4,
+        title: "Insultes lesbophobes et vie privée de l'élève",
+        statement: "Une élève de 2de vous dit subir des insultes lesbophobes de la part de camarades. Elle accepte que l'établissement intervienne, mais sa famille ignore son orientation et elle redoute sa réaction. Quelle conduite tenir ?",
+        type: "mcq",
+        options: [
+          "Appeler vous-même ses parents, car l'autorité parentale leur donne le droit de connaître immédiatement tous les motifs de cette affaire",
+          "Transmettre les faits au CPE et à la direction en signalant ce risque, pour organiser sa protection sans révéler son orientation à sa famille sans son accord",
+          "Traiter le problème en classe en exposant la situation de l'élève, pour que ses camarades mesurent la gravité de ce qu'ils lui font subir depuis plusieurs semaines",
+          "Ne rien transmettre à l'établissement puisqu'elle redoute les conséquences, et lui conseiller de changer de groupe de travail ou de place"
+        ],
+        correctIndex: 1,
+        answer: "Transmettre les faits au CPE et à la direction en signalant ce risque, pour organiser sa protection sans révéler son orientation à sa famille sans son accord",
+        hint1: "Deux protections à tenir ensemble : faire cesser les insultes et ne pas exposer l'élève chez elle. Qui doit savoir quoi, et qui décide du contact avec la famille ?",
+        solution: "Les insultes visant l'orientation sexuelle sont des atteintes à la dignité et, si elles se répètent, peuvent relever du harcèlement : elles appellent une transmission sans délai au CPE et à la direction. L'orientation sexuelle relève de la vie privée de l'élève ; le professeur est tenu à la discrétion professionnelle (Code général de la fonction publique, article L. 121-7) et ne la révèle ni à la classe ni à la famille. En signalant à l'équipe la crainte de l'élève, il permet à la direction de décider comment informer la famille des faits sans cette précision, et aux personnels sociaux et de santé d'accompagner l'élève. Si un danger au domicile apparaissait, le circuit de la protection de l'enfance s'appliquerait."
+      },
+      {
+        id: "capes-oral2-56",
+        chapterId: 'capes-oral2',
+        tier: 4,
+        title: "Un malaise alors que vous êtes seul avec la classe",
+        statement: "En plein cours, un élève de 5e perd connaissance. Vous êtes seul avec vingt-sept élèves, dans une salle éloignée de la vie scolaire. Quelle conduite tenir ?",
+        type: "mcq",
+        options: [
+          "Porter l'élève vous-même jusqu'à l'infirmerie, en demandant à la classe de rester calme et de continuer l'exercice en autonomie",
+          "Attendre la sonnerie en observant l'élève, afin de ne pas manquer à votre obligation de surveillance du reste de la classe",
+          "Envoyer un élève chercher les affaires du camarade, puis laisser ses parents décider par téléphone de la suite à donner",
+          "Rester près de lui, le mettre en sécurité, appeler ou faire appeler les secours, et envoyer deux élèves prévenir la vie scolaire ou l'infirmerie"
+        ],
+        correctIndex: 3,
+        answer: "Rester près de lui, le mettre en sécurité, appeler ou faire appeler les secours, et envoyer deux élèves prévenir la vie scolaire ou l'infirmerie",
+        hint1: "Deux devoirs entrent en conflit : secourir un élève et surveiller les autres. Quelle organisation permet de ne renoncer à aucun des deux ?",
+        solution: "Le professeur doit porter secours sans abandonner la surveillance de sa classe : il reste dans la salle, met l'élève en sécurité et applique les gestes de premiers secours qu'il connaît, appelle ou fait appeler le 15, et envoie deux élèves ensemble prévenir la vie scolaire ou l'infirmerie ; un seul élève dans un couloir serait moins sûr. Déplacer une personne inconsciente peut aggraver son état et laisserait la classe seule. Attendre la sonnerie ou s'en remettre aux parents fait perdre un temps décisif. La direction prévient ensuite la famille, et un rapport factuel est rédigé."
+      },
+      {
+        id: "capes-oral2-57",
+        chapterId: 'capes-oral2',
+        tier: 4,
+        title: "Signer une tribune critiquant une réforme",
+        statement: "Vous souhaitez signer une tribune publiée dans la presse qui critique une réforme de l'Éducation nationale, en mentionnant votre qualité de professeur. Un collègue affirme que c'est interdit, un autre vous propose de la distribuer à vos élèves. Que retenir ?",
+        type: "mcq",
+        options: [
+          "Hors service, l'expression reste possible avec la mesure du devoir de réserve et sans divulgation professionnelle, mais rien devant les élèves",
+          "Toute critique d'une réforme est interdite à un fonctionnaire, car l'obéissance hiérarchique s'étend aussi à ses opinions exprimées hors du service et dans la presse",
+          "Vous êtes libre d'écrire ce que vous voulez hors service, et pouvez la distribuer en classe puisqu'une réforme scolaire ne relève ni de la politique ni de la religion",
+          "La tribune n'est licite qu'à la condition d'obtenir au préalable l'accord écrit du chef d'établissement et de l'inspecteur chargé de votre discipline"
+        ],
+        correctIndex: 0,
+        answer: "Hors service, l'expression reste possible avec la mesure du devoir de réserve et sans divulgation professionnelle, mais rien devant les élèves",
+        hint1: "Séparer deux lieux : l'expression hors service, avec sa limite d'origine jurisprudentielle, et la salle de classe, où une autre obligation s'applique.",
+        solution: "La liberté d'opinion est garantie aux agents publics (Code général de la fonction publique, article L. 111-1). Hors service, leur expression publique est encadrée par le devoir de réserve, d'origine jurisprudentielle, apprécié selon les fonctions, les circonstances et la mesure des propos ; mentionner sa qualité appelle d'autant plus de retenue. Aucune autorisation préalable n'est prévue. La discrétion professionnelle (article L. 121-7) interdit de révéler des informations connues dans l'exercice des fonctions. Devant les élèves, la neutralité s'applique (article L. 121-2) : le professeur ne fait pas de sa classe une tribune, même sur une réforme scolaire."
+      },
+      {
+        id: "capes-oral2-58",
+        chapterId: 'capes-oral2',
+        tier: 1,
+        title: "Se projeter dans le métier devant le jury",
+        statement: "Au concours de niveau bac + 3, le jury demande : « Comment vous voyez-vous dans vos cinq premières années de professeur ? » Quelle réponse est la mieux construite ?",
+        type: "mcq",
+        options: [
+          "Annoncer un projet ambitieux : passer l'agrégation dès la première année puis enseigner en classes préparatoires, pour montrer son niveau en mathématiques",
+          "Décrire des étapes réalistes : la formation avec un tuteur, des besoins de formation précis, une place dans l'équipe et un projet pour ses élèves",
+          "Affirmer que ses expériences de soutien scolaire suffisent à maîtriser le métier, de sorte que la formation après le concours sera une simple formalité",
+          "Éviter de se projeter, car le jury évalue surtout la connaissance des textes, et ramener vite l'échange vers la laïcité étudiée en préparation"
+        ],
+        correctIndex: 1,
+        answer: "Décrire des étapes réalistes : la formation avec un tuteur, des besoins de formation précis, une place dans l'équipe et un projet pour ses élèves",
+        hint1: "Le jury cherche un futur collègue lucide et formable : que doit montrer une projection crédible, au-delà de l'ambition ?",
+        solution: "La projection dans le métier est l'un des thèmes de la seconde partie de l'entretien au concours de niveau bac + 3. Une réponse solide décrit des premières années réalistes : la formation qui suit le concours, accompagnée par un tuteur, des besoins identifiés avec précision (gestion de classe, différenciation, évaluation), le travail en équipe (équipe de mathématiques, professeur principal, projets de l'établissement) et un projet concret pour les élèves. Elle s'inscrit dans la compétence 14 du référentiel de 2013 : « S'engager dans une démarche individuelle et collective de développement professionnel ». Un projet de carrière n'est pas interdit, mais présenté seul il parle du candidat et non des élèves. Prétendre n'avoir rien à apprendre inquiète le jury, et esquiver la question prive le candidat d'une partie de l'épreuve."
       }
     ],
 
@@ -2857,13 +3059,13 @@
             "question": "Quelle règle de droit s'applique ?",
             "options": [
               "Aucun texte national ne traite du téléphone : seul le règlement intérieur, voté chaque année par le conseil d'administration, peut l'interdire",
-              "Le téléphone est interdit au collège (article L. 511-5 du Code de l'éducation), sauf usages prévus par le règlement intérieur",
+              "Le téléphone est interdit dans les écoles, collèges et lycées (article L. 511-5 du Code de l'éducation), sauf exceptions prévues par le règlement intérieur",
               "Seule l'utilisation pendant les contrôles est interdite ; le reste du temps, chaque professeur fixe sa propre règle de tolérance dans sa classe",
               "La simple détention d'un téléphone est interdite au collège : l'élève qui en possède un commet une faute, qu'il s'en serve ou non pendant le cours"
             ],
             "correctIndex": 1,
-            "hint": "Un article du Code de l'éducation, issu d'une loi de 2018, vise précisément les écoles et les collèges.",
-            "explanation": "L'article L. 511-5 du Code de l'éducation (loi du 3 août 2018) interdit l'utilisation du téléphone ou de tout terminal connecté par les élèves dans les écoles et les collèges, sauf circonstances (notamment pédagogiques) et lieux que le règlement intérieur autorise expressément. C'est l'utilisation qui est interdite, non la détention. La loi permet la confiscation par un personnel de direction, d'enseignement, d'éducation ou de surveillance, selon les modalités du règlement intérieur."
+            "hint": "Un article du Code de l'éducation traite précisément de l'utilisation des téléphones par les élèves : vérifier jusqu'où il s'applique et ce qu'il renvoie au règlement intérieur.",
+            "explanation": "L'article L. 511-5 du Code de l'éducation (rédaction issue des lois du 3 août 2018 et du 24 août 2026) interdit aux élèves l'utilisation d'un téléphone mobile ou de tout autre terminal de communications électroniques dans les écoles, les collèges et, depuis le 1er septembre 2026, les lycées, ainsi que pendant les activités d'enseignement hors de l'établissement. Le règlement intérieur en fixe les modalités et détermine les exceptions. C'est l'utilisation qui est interdite, non la détention. La loi permet la confiscation par un personnel de direction, d'enseignement, d'éducation ou de surveillance, selon les modalités du règlement intérieur."
           },
           {
             "label": "Réaction immédiate",
@@ -2892,9 +3094,10 @@
             "explanation": "La répétition du comportement appelle un suivi : information de la famille et du professeur principal, signalement selon les procédures internes (une punition ou une sanction peut suivre, dans le cadre du règlement intérieur). Une application cohérente par toute l'équipe donne du crédit à la règle. Afficher des noms porte atteinte à la dignité des élèves ; supprimer la calculatrice pénalise un apprentissage prévu par les programmes."
           }
         ],
-        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
-        "answer": "Règle de droit : le téléphone est interdit au collège (article L. 511-5 du Code de l'éducation), sauf usages prévus par le règlement intérieur. Réaction immédiate : demander l'appareil et appliquer la confiscation prévue par le règlement intérieur, sans en consulter le contenu. Action à long terme : informer la famille et le professeur principal, consigner les faits et convenir en équipe d'une application homogène de la règle.",
-        "solution": "1. Règle de droit : L'article L. 511-5 du Code de l'éducation (loi du 3 août 2018) interdit l'utilisation du téléphone ou de tout terminal connecté par les élèves dans les écoles et les collèges, sauf circonstances (notamment pédagogiques) et lieux que le règlement intérieur autorise expressément. C'est l'utilisation qui est interdite, non la détention. La loi permet la confiscation par un personnel de direction, d'enseignement, d'éducation ou de surveillance, selon les modalités du règlement intérieur.\n2. Réaction immédiate : La confiscation est prévue par la loi et encadrée par le règlement intérieur, qui fixe aussi la restitution : le professeur l'applique sans éclat. Il n'a aucun droit d'accéder aux messages de l'élève (vie privée). Une rétention prolongée hors des modalités prévues n'a pas de base, et un élève laissé seul dans le couloir échappe à la surveillance dont l'enseignant reste responsable.\n3. Action à long terme : La répétition du comportement appelle un suivi : information de la famille et du professeur principal, signalement selon les procédures internes (une punition ou une sanction peut suivre, dans le cadre du règlement intérieur). Une application cohérente par toute l'équipe donne du crédit à la règle. Afficher des noms porte atteinte à la dignité des élèves ; supprimer la calculatrice pénalise un apprentissage prévu par les programmes."
+        "hint1": "L'usage du téléphone par un élève relève-t-il du seul règlement intérieur, ou un texte national le vise-t-il ? Chercher aussi ce que ce texte permet de faire de l'appareil.",
+        "hint2": "Le geste porte sur l'appareil seul : dans quel cadre le récupérer, et que s'interdire d'y regarder ?",
+        "answer": "Règle de droit : le téléphone est interdit dans les écoles, collèges et lycées (article L. 511-5 du Code de l'éducation), sauf exceptions prévues par le règlement intérieur. Réaction immédiate : demander l'appareil et appliquer la confiscation prévue par le règlement intérieur, sans en consulter le contenu. Action à long terme : informer la famille et le professeur principal, consigner les faits et convenir en équipe d'une application homogène de la règle.",
+        "solution": "1. Règle de droit : L'article L. 511-5 du Code de l'éducation (rédaction issue des lois du 3 août 2018 et du 24 août 2026) interdit aux élèves l'utilisation d'un téléphone mobile ou de tout autre terminal de communications électroniques dans les écoles, les collèges et, depuis le 1er septembre 2026, les lycées, ainsi que pendant les activités d'enseignement hors de l'établissement. Le règlement intérieur en fixe les modalités et détermine les exceptions. C'est l'utilisation qui est interdite, non la détention. La loi permet la confiscation par un personnel de direction, d'enseignement, d'éducation ou de surveillance, selon les modalités du règlement intérieur.\n2. Réaction immédiate : La confiscation est prévue par la loi et encadrée par le règlement intérieur, qui fixe aussi la restitution : le professeur l'applique sans éclat. Il n'a aucun droit d'accéder aux messages de l'élève (vie privée). Une rétention prolongée hors des modalités prévues n'a pas de base, et un élève laissé seul dans le couloir échappe à la surveillance dont l'enseignant reste responsable.\n3. Action à long terme : La répétition du comportement appelle un suivi : information de la famille et du professeur principal, signalement selon les procédures internes (une punition ou une sanction peut suivre, dans le cadre du règlement intérieur). Une application cohérente par toute l'équipe donne du crédit à la règle. Afficher des noms porte atteinte à la dignité des élèves ; supprimer la calculatrice pénalise un apprentissage prévu par les programmes."
       },
       {
         "id": "capes-oral2-cas-2",
@@ -2944,7 +3147,8 @@
             "explanation": "La réponse doit être individuelle et proportionnée : entretien avec l'élève, information de la famille et du professeur principal, punition ou rapport au chef d'établissement selon le règlement intérieur. Une punition collective frappe des élèves qui n'ont rien fait. Sur le fond, une fiche de formules cachée révèle souvent un besoin de méthode : travailler la mémorisation et la compréhension des formules prévient la récidive."
           }
         ],
-        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "hint1": "Qui peut prononcer quoi ? Distinguer ce qui relève du professeur de ce qui relève du chef d'établissement ou d'un conseil, et se demander si un devoir en classe obéit aux règles d'un examen.",
+        "hint2": "Faire cesser la fraude sans en faire un spectacle : que retirer, comment, et que conserver pour permettre une suite juste ?",
         "answer": "Règle de droit : le professeur peut donner une punition du règlement intérieur ; une sanction relève du chef d'établissement. Réaction immédiate : retirer discrètement le document, laisser l'élève finir et noter les faits (heure, contenu du document). Action à long terme : reprendre l'incident avec l'élève, informer la famille et le professeur principal, appliquer le règlement intérieur.",
         "solution": "1. Règle de droit : Dans le second degré, les punitions scolaires (prévues par le règlement intérieur) peuvent être prononcées par les enseignants ; les sanctions disciplinaires, comme l'exclusion temporaire, relèvent du chef d'établissement ou du conseil de discipline. Un devoir en classe n'est pas un examen : les instances des examens ne sont pas concernées, et l'aveu de la famille n'est pas une condition.\n2. Réaction immédiate : Le professeur fait cesser la fraude en retirant le document, sans éclat : humilier l'élève devant la classe est contraire à sa dignité et au respect dû à chacun. Il conserve le document et note les faits avec précision, ce qui permettra une suite juste. Détruire la copie supprime toute trace ; ignorer la fraude rompt l'égalité entre les élèves.\n3. Action à long terme : La réponse doit être individuelle et proportionnée : entretien avec l'élève, information de la famille et du professeur principal, punition ou rapport au chef d'établissement selon le règlement intérieur. Une punition collective frappe des élèves qui n'ont rien fait. Sur le fond, une fiche de formules cachée révèle souvent un besoin de méthode : travailler la mémorisation et la compréhension des formules prévient la récidive."
       },
@@ -2996,7 +3200,8 @@
             "explanation": "Le PAP est élaboré puis suivi par l'équipe pédagogique, en lien avec la famille et le médecin scolaire, et réévalué régulièrement : le professeur prévoit les adaptations dans toutes ses évaluations et fait part de ses observations au bilan. Reporter cette vigilance sur la famille est une erreur ; alléger le sujet de tous change l'évaluation des autres élèves sans répondre précisément aux besoins de celui-ci."
           }
         ],
-        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "hint1": "Un plan d'accompagnement personnalisé est-il une recommandation que chaque professeur apprécie, ou une mesure qui l'engage, y compris en évaluation ?",
+        "hint2": "L'oubli vient de l'adulte : comment le réparer tout de suite, sans exposer l'élève devant la classe ni le pénaliser pour le temps perdu ?",
         "answer": "Règle de droit : les aménagements du PAP (articles L. 311-7 et D. 311-13 du Code de l'éducation) s'imposent aux enseignants. Réaction immédiate : adapter le sujet sur-le-champ (agrandissement, allègement), discrètement et sans pénaliser l'élève pour le temps perdu. Action à long terme : prévoir les aménagements dans chaque évaluation et participer avec le professeur principal au bilan du PAP.",
         "solution": "1. Règle de droit : Le PAP (articles L. 311-7 et D. 311-13 du Code de l'éducation) fixe des aménagements et adaptations pédagogiques pour un élève dont les difficultés durables résultent d'un trouble des apprentissages. Ils s'appliquent dans la classe, y compris en évaluation, et s'imposent aux enseignants. Il se distingue du projet personnalisé de scolarisation (PPS), qui relève de la reconnaissance du handicap (article L. 112-2).\n2. Réaction immédiate : L'aménagement est un droit de l'élève : l'oubli se répare immédiatement, avec les moyens du moment, et l'élève ne doit pas subir le retard. La discrétion est essentielle : exposer ses difficultés devant la classe est stigmatisant. Une note fictive ou une dispense ne correspond pas au PAP, qui adapte l'évaluation sans la supprimer.\n3. Action à long terme : Le PAP est élaboré puis suivi par l'équipe pédagogique, en lien avec la famille et le médecin scolaire, et réévalué régulièrement : le professeur prévoit les adaptations dans toutes ses évaluations et fait part de ses observations au bilan. Reporter cette vigilance sur la famille est une erreur ; alléger le sujet de tous change l'évaluation des autres élèves sans répondre précisément aux besoins de celui-ci."
       },
@@ -3048,7 +3253,8 @@
             "explanation": "Le protocole pHARe prévoit des entretiens, des mesures envers les auteurs et un suivi de la victime dans la durée ; le professeur y contribue par sa vigilance quotidienne et ses observations. Déplacer la victime peut lui donner le sentiment d'être punie, et nommer l'élève dans un débat l'expose davantage. La prévention passe par des actions générales, sans désigner de cas particulier."
           }
         ],
-        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "hint1": "Quelle qualification pénale ces faits peuvent-ils recevoir, même s'ils se prolongent en ligne, et quel programme organise leur traitement dans les établissements ?",
+        "hint2": "L'élève demande le secret : que pouvez-vous lui promettre honnêtement, et à qui l'information doit-elle parvenir sans attendre ?",
         "answer": "Règle de droit : le harcèlement scolaire est un délit (loi du 2 mars 2022) ; le programme pHARe organise son traitement au collège. Réaction immédiate : écouter, expliquer qu'on ne peut pas garder ce secret mais qu'on le confiera à qui peut aider, alerter le CPE. Action à long terme : participer avec l'équipe pHARe à la prise en charge et au suivi de l'élève, et rester vigilant en classe.",
         "solution": "1. Règle de droit : La loi du 2 mars 2022 a créé le délit de harcèlement scolaire (article 222-33-2-3 du Code pénal), y compris lorsque les faits se poursuivent en ligne. Depuis la rentrée 2023, le programme pHARe est obligatoire dans les écoles, collèges et lycées : une équipe ressource met en œuvre le protocole de prise en charge. L'école agit sans attendre une plainte, et la discrétion due à l'élève n'interdit pas de transmettre aux personnes chargées de le protéger.\n2. Réaction immédiate : La parole de l'élève est accueillie et prise au sérieux. On ne promet pas le secret, mais on explique à qui l'information sera transmise et pourquoi. L'alerte est donnée sans attendre au CPE et au chef d'établissement, qui déclenchent le protocole. Une confrontation publique expose la victime aux représailles ; renvoyer l'élève à ses propres moyens, c'est le laisser seul face au harcèlement.\n3. Action à long terme : Le protocole pHARe prévoit des entretiens, des mesures envers les auteurs et un suivi de la victime dans la durée ; le professeur y contribue par sa vigilance quotidienne et ses observations. Déplacer la victime peut lui donner le sentiment d'être punie, et nommer l'élève dans un débat l'expose davantage. La prévention passe par des actions générales, sans désigner de cas particulier."
       },
@@ -3100,7 +3306,8 @@
             "explanation": "Les exercices permettent d'améliorer le plan : le retour d'expérience fait remonter les défauts (porte qui ne ferme pas, réactions des élèves) au chef d'établissement, qui ajuste le PPMS et fait réaliser les travaux. Le professeur reprend les consignes avec sa classe pour que les bons réflexes soient acquis. Des consignes propres à une classe créeraient de la confusion le jour d'une vraie alerte."
           }
         ],
-        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "hint1": "Quel document propre à chaque établissement fixe la conduite à tenir face à une menace ? Ses consignes sont-elles celles de l'évacuation incendie ?",
+        "hint2": "Tant que l'alerte dure, rien ne dit qu'il s'agit d'un exercice : où restent les élèves, et que deviennent les téléphones ?",
         "answer": "Règle de droit : chaque établissement a un plan particulier de mise en sûreté (PPMS, circulaire du 8 juin 2023) qui s'impose à tous. Réaction immédiate : appliquer le PPMS sans délai : garder les élèves avec soi, faire taire les téléphones, rassurer la classe. Action à long terme : signaler au chef d'établissement la porte défectueuse et les difficultés observées, puis retravailler les consignes avec la classe.",
         "solution": "1. Règle de droit : La circulaire du 8 juin 2023 encadre les plans particuliers de mise en sûreté de chaque école et établissement. Le PPMS fixe les conduites à tenir face aux risques majeurs et aux menaces (attentat, intrusion) ; ses consignes, différentes de celles de l'évacuation incendie, s'imposent à tous les personnels et sont travaillées lors d'exercices réguliers.\n2. Réaction immédiate : Tant que l'alerte dure, elle est traitée comme réelle : le professeur applique les consignes connues à l'avance, garde le contrôle de sa classe et la rassure. Quitter la salle pour s'informer laisse les élèves seuls ; des appels en série gênent les secours et peuvent signaler la présence du groupe.\n3. Action à long terme : Les exercices permettent d'améliorer le plan : le retour d'expérience fait remonter les défauts (porte qui ne ferme pas, réactions des élèves) au chef d'établissement, qui ajuste le PPMS et fait réaliser les travaux. Le professeur reprend les consignes avec sa classe pour que les bons réflexes soient acquis. Des consignes propres à une classe créeraient de la confusion le jour d'une vraie alerte."
       },
@@ -3152,9 +3359,116 @@
             "explanation": "Le rapport factuel permet au chef d'établissement de décider des suites, éventuellement disciplinaires. L'information du professeur principal et de la famille inscrit la réponse dans un suivi. La note mesure les acquis et ne sanctionne pas un comportement ; refuser un élève méconnaît l'obligation d'assiduité et le droit à l'instruction. La reprise de la relation est l'objectif final."
           }
         ],
-        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "hint1": "Devant une insulte grave, de quoi le professeur décide-t-il lui-même, et qui peut seul engager la voie disciplinaire ?",
+        "hint2": "Éviter que l'incident ne tourne à l'affrontement personnel : comment rester calme et, si l'élève doit sortir, qui l'accompagne ?",
         "answer": "Règle de droit : le professeur peut donner une punition et saisir le chef d'établissement, seul à engager une procédure disciplinaire. Réaction immédiate : garder son calme, ne pas répondre sur le même ton, faire cesser l'incident, au besoin conduire l'élève à la vie scolaire. Action à long terme : faire un rapport factuel au chef d'établissement, informer le professeur principal et la famille, revoir l'élève.",
         "solution": "1. Règle de droit : Les punitions scolaires peuvent être prononcées par les enseignants dans le cadre du règlement intérieur ; les sanctions disciplinaires (avertissement, blâme, exclusions) sont décidées par le chef d'établissement ou le conseil de discipline. Une insulte envers un personnel justifie que le chef d'établissement en soit saisi. La voie pénale est indépendante et n'empêche pas la réponse scolaire.\n2. Réaction immédiate : Le calme du professeur protège l'autorité et la classe ; répondre sur le même ton ferait de l'incident un affrontement personnel. Si l'élève doit quitter la salle, il est accompagné jusqu'à la vie scolaire : un élève laissé seul reste sous la responsabilité de l'enseignant. Ignorer une insulte publique signifie à la classe qu'elle est acceptable.\n3. Action à long terme : Le rapport factuel permet au chef d'établissement de décider des suites, éventuellement disciplinaires. L'information du professeur principal et de la famille inscrit la réponse dans un suivi. La note mesure les acquis et ne sanctionne pas un comportement ; refuser un élève méconnaît l'obligation d'assiduité et le droit à l'instruction. La reprise de la relation est l'objectif final."
+      },
+      {
+        "id": "capes-oral2-cas-25",
+        "chapterId": "capes-oral2-cas",
+        "tier": 1,
+        "title": "Un téléphone utilisé en cours au lycée",
+        "statement": "En terminale, pendant un exercice de recherche, un élève interroge un assistant conversationnel sur son téléphone. Repris, il répond : « Au lycée, on a le droit, c'est seulement interdit au collège. » Identifiez la règle de droit, la réaction immédiate et l'action à long terme.",
+        "type": "case3",
+        "steps": [
+          {
+            "label": "Règle de droit",
+            "question": "Quelle règle de droit s'applique ?",
+            "options": [
+              "L'élève a raison : l'interdiction nationale ne vise que les écoles et les collèges, et chaque lycée reste libre d'adopter ou non une règle propre",
+              "L'interdiction ne joue au lycée que pendant les évaluations ; le reste du temps, chaque enseignant décide s'il tolère l'usage du téléphone",
+              "L'utilisation du téléphone par les élèves est aussi interdite au lycée (article L. 511-5 du Code de l'éducation), sauf exceptions prévues par le règlement intérieur",
+              "Seuls les élèves mineurs sont concernés au lycée : un élève majeur de terminale peut utiliser son téléphone en cours sans aucune restriction"
+            ],
+            "correctIndex": 2,
+            "hint": "L'élève invoque un état du droit : vérifier la version en vigueur de l'article du Code de l'éducation qui traite des téléphones.",
+            "explanation": "Depuis le 1er septembre 2026, l'article L. 511-5 du Code de l'éducation (loi du 24 août 2026) étend aux lycées l'interdiction d'utiliser un téléphone mobile ou un autre terminal de communications électroniques. Le règlement intérieur en fixe les modalités et détermine les exceptions. Des règles particulières sont possibles pour les étudiants des lycées comportant des formations d'enseignement supérieur, et les équipements autorisés aux élèves en situation de handicap ou présentant un trouble de santé invalidant ne sont pas concernés. Le texte vise les élèves, sans distinction d'âge."
+          },
+          {
+            "label": "Réaction immédiate",
+            "question": "Que faire sur le moment ?",
+            "options": [
+              "Prendre l'appareil et lire ce que l'assistant a produit, pour déterminer si l'élève a triché et quelle note lui attribuer sur cet exercice",
+              "Rappeler calmement la règle, demander l'appareil et appliquer le règlement intérieur, sans en consulter le contenu ni polémiquer devant la classe",
+              "Engager avec la classe un débat sur le bien-fondé de la loi, afin que chacun puisse voter sur le maintien de la règle dans ce cours",
+              "Laisser faire cette fois-ci, puisque l'outil peut être utile en mathématiques et que l'élève semble travailler sur l'exercice proposé"
+            ],
+            "correctIndex": 1,
+            "hint": "Que permet la loi, et à qui ? Que ne permet-elle pas de faire de l'appareil une fois récupéré ?",
+            "explanation": "La loi permet à un personnel de direction, d'enseignement, d'éducation ou de surveillance de confisquer l'appareil, le règlement intérieur fixant les modalités de confiscation et de restitution. Le contenu de l'appareil reste privé : le professeur ne le consulte pas. Un usage pédagogique n'existe que dans le cadre des exceptions du règlement intérieur, pas à l'initiative de l'élève, et une règle légale ne se met pas aux voix."
+          },
+          {
+            "label": "Action à long terme",
+            "question": "Quelle action mener ensuite pour régler durablement le problème ?",
+            "options": [
+              "Mettre zéro à l'élève sur l'exercice pour marquer le coup, sans en parler à personne, de manière à clore rapidement l'incident",
+              "Interdire tout usage du numérique en mathématiques, y compris les logiciels et calculatrices prévus par les programmes, pour lever toute ambiguïté",
+              "Proposer aux élèves de rédiger leur propre règle de classe autorisant le téléphone, puisqu'une partie d'entre eux est majeure en terminale",
+              "Informer le professeur principal, vérifier ce que prévoit le règlement intérieur et travailler en équipe sur l'usage des outils numériques en classe"
+            ],
+            "correctIndex": 3,
+            "hint": "La réponse durable se construit à plusieurs : qui informer, et quel texte de l'établissement consulter ?",
+            "explanation": "Le changement de la règle étant récent, l'équipe gagne à harmoniser sa pratique à partir du règlement intérieur, et à travailler avec les élèves sur l'usage raisonné des outils numériques. Une note ne sert pas à sanctionner un comportement. Le numérique prévu par les programmes reste un outil d'enseignement à part entière, et une règle de classe ne peut pas écarter la loi."
+          }
+        ],
+        "hint1": "L'élève affirme que la règle s'arrête au collège : quel article permet de trancher, dans sa version en vigueur, et que renvoie-t-il au règlement intérieur ?",
+        "hint2": "Rester sur la règle sans polémiquer : que demander à l'élève, dans quel cadre, et que s'interdire de consulter ?",
+        "answer": "Règle de droit : l'utilisation du téléphone par les élèves est aussi interdite au lycée (article L. 511-5 du Code de l'éducation), sauf exceptions prévues par le règlement intérieur. Réaction immédiate : rappeler calmement la règle, demander l'appareil et appliquer le règlement intérieur, sans en consulter le contenu ni polémiquer devant la classe. Action à long terme : informer le professeur principal, vérifier ce que prévoit le règlement intérieur et travailler en équipe sur l'usage des outils numériques en classe.",
+        "solution": "1. Règle de droit : Depuis le 1er septembre 2026, l'article L. 511-5 du Code de l'éducation (loi du 24 août 2026) étend aux lycées l'interdiction d'utiliser un téléphone mobile ou un autre terminal de communications électroniques. Le règlement intérieur en fixe les modalités et détermine les exceptions. Des règles particulières sont possibles pour les étudiants des lycées comportant des formations d'enseignement supérieur, et les équipements autorisés aux élèves en situation de handicap ou présentant un trouble de santé invalidant ne sont pas concernés. Le texte vise les élèves, sans distinction d'âge.\n2. Réaction immédiate : La loi permet à un personnel de direction, d'enseignement, d'éducation ou de surveillance de confisquer l'appareil, le règlement intérieur fixant les modalités de confiscation et de restitution. Le contenu de l'appareil reste privé : le professeur ne le consulte pas. Un usage pédagogique n'existe que dans le cadre des exceptions du règlement intérieur, pas à l'initiative de l'élève, et une règle légale ne se met pas aux voix.\n3. Action à long terme : Le changement de la règle étant récent, l'équipe gagne à harmoniser sa pratique à partir du règlement intérieur, et à travailler avec les élèves sur l'usage raisonné des outils numériques. Une note ne sert pas à sanctionner un comportement. Le numérique prévu par les programmes reste un outil d'enseignement à part entière, et une règle de classe ne peut pas écarter la loi."
+      },
+      {
+        "id": "capes-oral2-cas-27",
+        "chapterId": "capes-oral2-cas",
+        "tier": 1,
+        "title": "Une élève qui se dit « nulle en maths »",
+        "statement": "En seconde, une élève rend une copie blanche au premier devoir surveillé et vous glisse à voix basse : « De toute façon, je suis nulle en maths, j'ai toujours été nulle. » Elle semble angoissée à chaque évaluation et ne participe plus à l'oral. Identifiez la règle de droit, la réaction immédiate et l'action à long terme.",
+        "type": "case3",
+        "steps": [
+          {
+            "label": "Règle de droit",
+            "question": "Quelle règle de droit éclaire la situation ?",
+            "options": [
+              "La formation scolaire favorise l'épanouissement de l'élève (Code de l'éducation, L. 111-2), et tous les enfants peuvent apprendre et progresser (L. 111-1)",
+              "Le ressenti des élèves ne relève pas du professeur : ses obligations de service se limitent à enseigner et évaluer les connaissances fixées par le programme",
+              "Une copie blanche constitue un refus de travail, qui appelle automatiquement une punition ou une sanction prévue par le règlement intérieur",
+              "Une élève en difficulté persistante doit être réorientée sans délai vers une voie sans mathématiques, au nom du droit au conseil en orientation"
+            ],
+            "correctIndex": 0,
+            "hint": "Le Code de l'éducation ne fixe pas seulement des connaissances à transmettre : que dit-il de la formation scolaire et de la capacité de chaque enfant à progresser ?",
+            "explanation": "Selon l'article L. 111-2 du Code de l'éducation, la formation scolaire « favorise l'épanouissement de l'enfant », lui permet d'acquérir une culture et le prépare à la vie professionnelle et à l'exercice de ses responsabilités de citoyen. L'article L. 111-1 ajoute que le service public de l'éducation reconnaît que tous les enfants partagent la capacité d'apprendre et de progresser. Le référentiel de compétences de 2013 demande au professeur de connaître les élèves et les processus d'apprentissage et d'accompagner les élèves dans leur parcours de formation. Une copie blanche est évaluée comme telle, mais ce n'est pas une faute disciplinaire, et l'orientation ne se décide ni sur un devoir ni par le seul professeur."
+          },
+          {
+            "label": "Réaction immédiate",
+            "question": "Que faire sur le moment ?",
+            "options": [
+              "Lui affirmer devant la classe qu'aucun élève n'est nul, puis annoncer que sa note ne comptera pas, pour ne pas la décourager davantage",
+              "Lui proposer un court échange à l'écart, l'écouter, distinguer sa valeur de sa note et reprendre avec elle une question précise du devoir",
+              "Lui conseiller de consulter un spécialiste des troubles des apprentissages, une copie blanche suffisant à faire soupçonner une dyscalculie",
+              "Ne rien dire pour ne pas la mettre mal à l'aise, et attendre le conseil de classe pour aborder sa situation avec l'équipe pédagogique"
+            ],
+            "correctIndex": 1,
+            "hint": "Ce qu'elle a dit à voix basse appelle une réponse qui ne l'expose pas : où, et pour faire quoi de concret avec elle ?",
+            "explanation": "La confidence a été faite discrètement : la réponse doit l'être aussi, car une remarque publique, même bienveillante, la désigne à la classe. Écouter, puis séparer la personne de la performance (« ce devoir est raté, ce n'est pas un verdict sur toi »), et surtout repartir d'une question précise où elle peut réussir : le sentiment de compétence se reconstruit par des réussites réelles, pas par des encouragements généraux. Neutraliser la note serait inéquitable et confirmerait qu'on la croit incapable. Le professeur ne pose pas de diagnostic : s'il soupçonne un trouble, il en parle à l'équipe et aux personnels de santé. Attendre le conseil de classe laisse le blocage s'installer."
+          },
+          {
+            "label": "Action à long terme",
+            "question": "Quelle action mener ensuite pour l'aider durablement ?",
+            "options": [
+              "Lui conseiller d'abandonner les mathématiques dès la fin de l'année, ce qui supprimera la source de son angoisse et la libérera pour le reste de sa scolarité",
+              "Évoquer sa situation en salle des professeurs, devant tous les collègues présents, pour que chacun sache qu'elle est fragile et la ménage",
+              "Lui donner chaque semaine des exercices supplémentaires à faire seule, car seule la quantité d'entraînement fait céder un blocage",
+              "Informer le professeur principal, orienter si besoin vers l'infirmier ou le psychologue de l'Éducation nationale, ménager des évaluations formatives"
+            ],
+            "correctIndex": 3,
+            "hint": "Qui, dans l'établissement, coordonne le suivi d'un élève, et quels personnels accompagnent son bien-être ? Et que changer dans sa propre façon d'évaluer ?",
+            "explanation": "Le professeur principal coordonne le suivi et fait le lien avec la famille ; l'infirmier et le psychologue de l'Éducation nationale peuvent accompagner une anxiété durable et aider l'élève à construire son projet. En classe, des évaluations formatives (critères explicites, droit à l'erreur, objectifs progressifs, retours sur les progrès) réduisent la peur de l'échec. Les informations sur un élève ne circulent qu'entre les personnes qui en ont besoin, pas en salle des professeurs devant tous. Le choix des enseignements de première appartient à l'élève et à sa famille dans la procédure d'orientation, et un surcroît d'exercices faits seule renforce souvent le sentiment d'échec."
+          }
+        ],
+        "hint1": "Quels articles du Code de l'éducation parlent de l'épanouissement de l'élève et de sa capacité à progresser ?",
+        "hint2": "Répondre d'abord à l'élève elle-même, discrètement et sur du concret, puis penser à l'équipe et à la façon d'évaluer.",
+        "answer": "Règle de droit : la formation scolaire favorise l'épanouissement de l'élève (Code de l'éducation, L. 111-2), et tous les enfants peuvent apprendre et progresser (L. 111-1). Réaction immédiate : lui proposer un court échange à l'écart, l'écouter, distinguer sa valeur de sa note et reprendre avec elle une question précise du devoir. Action à long terme : informer le professeur principal, orienter si besoin vers l'infirmier ou le psychologue de l'Éducation nationale, ménager des évaluations formatives.",
+        "solution": "1. Règle de droit : Selon l'article L. 111-2 du Code de l'éducation, la formation scolaire « favorise l'épanouissement de l'enfant », lui permet d'acquérir une culture et le prépare à la vie professionnelle et à l'exercice de ses responsabilités de citoyen. L'article L. 111-1 ajoute que le service public de l'éducation reconnaît que tous les enfants partagent la capacité d'apprendre et de progresser. Le référentiel de compétences de 2013 demande au professeur de connaître les élèves et les processus d'apprentissage et d'accompagner les élèves dans leur parcours de formation. Une copie blanche est évaluée comme telle, mais ce n'est pas une faute disciplinaire, et l'orientation ne se décide ni sur un devoir ni par le seul professeur.\n2. Réaction immédiate : La confidence a été faite discrètement : la réponse doit l'être aussi, car une remarque publique, même bienveillante, la désigne à la classe. Écouter, puis séparer la personne de la performance (« ce devoir est raté, ce n'est pas un verdict sur toi »), et surtout repartir d'une question précise où elle peut réussir : le sentiment de compétence se reconstruit par des réussites réelles, pas par des encouragements généraux. Neutraliser la note serait inéquitable et confirmerait qu'on la croit incapable. Le professeur ne pose pas de diagnostic : s'il soupçonne un trouble, il en parle à l'équipe et aux personnels de santé. Attendre le conseil de classe laisse le blocage s'installer.\n3. Action à long terme : Le professeur principal coordonne le suivi et fait le lien avec la famille ; l'infirmier et le psychologue de l'Éducation nationale peuvent accompagner une anxiété durable et aider l'élève à construire son projet. En classe, des évaluations formatives (critères explicites, droit à l'erreur, objectifs progressifs, retours sur les progrès) réduisent la peur de l'échec. Les informations sur un élève ne circulent qu'entre les personnes qui en ont besoin, pas en salle des professeurs devant tous. Le choix des enseignements de première appartient à l'élève et à sa famille dans la procédure d'orientation, et un surcroît d'exercices faits seule renforce souvent le sentiment d'échec."
       },
       // =========================================================================
       // PALIER 2 : LAÏCITÉ ET NEUTRALITÉ
@@ -3207,7 +3521,8 @@
             "explanation": "Le professeur ne reste pas seul : le professeur principal et le chef d'établissement sont informés, la famille est reçue et la règle expliquée. La circulaire du 9 novembre 2022 (plan laïcité) demande, après la phase de dialogue, de répondre de façon systématique et graduée, y compris par une sanction si la contestation persiste. Supprimer des contenus revient à céder sur le programme ; une note ne sert pas à sanctionner un refus."
           }
         ],
-        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "hint1": "Un élève peut-il refuser un travail au nom de ses convictions ? Chercher l'obligation qui s'impose aux élèves et la limite de leur liberté d'expression.",
+        "hint2": "Distinguer une question d'une contestation : que fait réellement un exercice de probabilités, et comment le dire sans entrer dans un débat sur les croyances ?",
         "answer": "Règle de droit : l'assiduité (articles L. 511-1 et R. 511-11) impose de faire les travaux ; la liberté d'expression ne peut nuire aux cours. Réaction immédiate : expliquer sans débat religieux qu'une probabilité modélise le hasard et n'est pas un jeu, rappeler l'obligation de travail. Action à long terme : reprendre l'échange, informer le professeur principal et le chef d'établissement, réponse graduée si le refus persiste.",
         "solution": "1. Règle de droit : L'article L. 511-1 et l'article R. 511-11 du Code de l'éducation imposent aux élèves d'accomplir les travaux demandés et de respecter le contenu des programmes ; l'article L. 511-2 précise que la liberté d'expression ne peut porter atteinte aux activités d'enseignement. La Charte de la laïcité ajoute qu'aucun élève ne peut invoquer ses convictions pour contester une question au programme. La loi de 2004 vise les signes et tenues, pas les propos.\n2. Réaction immédiate : Une maladresse ou une question n'est pas forcément une contestation : on écoute, puis on explique ce que fait réellement l'exercice (modéliser une expérience aléatoire n'est ni jouer ni affirmer une thèse sur le monde). Le professeur ne prend pas parti sur les croyances. Il rappelle l'exigence de travail sans humilier et poursuit le cours. Une dispense créerait une inégalité devant le programme.\n3. Action à long terme : Le professeur ne reste pas seul : le professeur principal et le chef d'établissement sont informés, la famille est reçue et la règle expliquée. La circulaire du 9 novembre 2022 (plan laïcité) demande, après la phase de dialogue, de répondre de façon systématique et graduée, y compris par une sanction si la contestation persiste. Supprimer des contenus revient à céder sur le programme ; une note ne sert pas à sanctionner un refus."
       },
@@ -3259,7 +3574,8 @@
             "explanation": "Après le dialogue conduit par le chef d'établissement, dont les étapes sont consignées par écrit, un refus persistant entraîne obligatoirement l'engagement d'une procédure disciplinaire (article R. 421-10 du Code de l'éducation modifié par le décret du 16 août 2023). L'équipe académique Valeurs de la République peut accompagner l'établissement. La règle est la même pour tous : ni compromis, ni application variable selon les professeurs."
           }
         ],
-        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "hint1": "Quel texte régit les tenues des élèves dans un lycée public, et quel document en a précisé l'application à ce vêtement ?",
+        "hint2": "Deux publics à gérer : la classe qui réagit et l'élève concernée. À qui revient le dialogue, et qui prévenir aussitôt ?",
         "answer": "Règle de droit : l'article L. 141-5-1 interdit aux élèves les tenues religieuses ostensibles ; la note du 31 août 2023 y range l'abaya. Réaction immédiate : faire cesser les commentaires, ne pas débattre devant la classe et informer sans délai le chef d'établissement. Action à long terme : soutenir le chef d'établissement, qui dialogue avec la famille ; si le refus persiste, une procédure disciplinaire suit.",
         "solution": "1. Règle de droit : L'article L. 141-5-1 (loi du 15 mars 2004) interdit dans les écoles, collèges et lycées publics le port de signes ou de tenues par lesquels les élèves manifestent ostensiblement une appartenance religieuse. La note de service du 31 août 2023 précise que l'abaya et le qamis en font partie ; le juge des référés du Conseil d'État a refusé de suspendre cette mesure le 7 septembre 2023 (n° 487891).\n2. Réaction immédiate : Le professeur protège l'élève des réactions de la classe et ne débat pas publiquement de sa tenue. Il alerte immédiatement le chef d'établissement, à qui revient le dialogue préalable avec l'élève ; ce dialogue n'est pas une négociation. Renvoyer l'élève chez elle n'est pas de son ressort ; se taire laisse l'équipe dans l'ignorance.\n3. Action à long terme : Après le dialogue conduit par le chef d'établissement, dont les étapes sont consignées par écrit, un refus persistant entraîne obligatoirement l'engagement d'une procédure disciplinaire (article R. 421-10 du Code de l'éducation modifié par le décret du 16 août 2023). L'équipe académique Valeurs de la République peut accompagner l'établissement. La règle est la même pour tous : ni compromis, ni application variable selon les professeurs."
       },
@@ -3282,7 +3598,7 @@
             ],
             "correctIndex": 0,
             "hint": "La loi de 2004 vise les élèves des établissements publics ; les règles anti-fraude visent tous les candidats.",
-            "explanation": "Le Vademecum (fiche 6) rappelle que l'article L. 141-5-1 ne concerne que les élèves des établissements publics : ni les candidats libres, ni ceux du Cned, ni les élèves du privé sous contrat. Pour tous, des contrôles anti-fraude sont possibles : la circulaire du 3 mai 2011 prévoit un contrôle visuel des oreilles, de la nuque et des poignets, sans contact. Une fouille n'est jamais du ressort des surveillants. La dissimulation du visage reste interdite (loi du 11 octobre 2010)."
+            "explanation": "Le Vademecum de mars 2024 (fiche 6) rappelle que l'article L. 141-5-1 ne concerne que les élèves des établissements publics : ni les candidats libres, ni ceux du Cned, ni les élèves du privé sous contrat. Pour tous, des contrôles anti-fraude sont possibles : la circulaire du 3 mai 2011 prévoit un contrôle visuel des oreilles, de la nuque et des poignets, sans contact. Une fouille n'est jamais du ressort des surveillants. La dissimulation du visage reste interdite (loi du 11 octobre 2010)."
           },
           {
             "label": "Réaction immédiate",
@@ -3311,9 +3627,10 @@
             "explanation": "En cas de refus du contrôle, un rapport est établi : il permet aux services des examens de statuer et protège les surveillants. Bien connaître les consignes avant la session évite les hésitations et les traitements différents d'une salle à l'autre. Un surveillant ne peut pas décider d'une interdiction future ; supprimer les contrôles pour certaines candidates créerait une discrimination."
           }
         ],
-        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "hint1": "Deux questions : une candidate libre est-elle visée par le texte sur les signes religieux des élèves ? Le contrôle anti-fraude dépend-il de cette réponse ?",
+        "hint2": "Proposer la forme de contrôle la moins intrusive, sans aucun contact. Si le refus persiste, à qui revient la décision ?",
         "answer": "Règle de droit : la loi de 2004 ne vise pas les candidats libres, mais un contrôle visuel anti-fraude (oreilles, poignets) reste possible. Réaction immédiate : proposer un contrôle visuel discret, sans contact ; si le refus persiste, le chef de centre refuse l'accès à la salle. Action à long terme : rédiger un rapport avec le chef de centre et rappeler les consignes aux surveillants avant chaque session.",
-        "solution": "1. Règle de droit : Le Vademecum (fiche 6) rappelle que l'article L. 141-5-1 ne concerne que les élèves des établissements publics : ni les candidats libres, ni ceux du Cned, ni les élèves du privé sous contrat. Pour tous, des contrôles anti-fraude sont possibles : la circulaire du 3 mai 2011 prévoit un contrôle visuel des oreilles, de la nuque et des poignets, sans contact. Une fouille n'est jamais du ressort des surveillants. La dissimulation du visage reste interdite (loi du 11 octobre 2010).\n2. Réaction immédiate : Le contrôle se fait avec discrétion (une surveillante peut s'en charger) et sans aucun contact. Si la candidate le refuse, le surveillant ne décide pas seul : il prévient le chef de centre, qui refuse l'entrée en salle. Laisser composer sans contrôle romprait l'égalité entre candidats ; tout geste physique est exclu.\n3. Action à long terme : En cas de refus du contrôle, un rapport est établi : il permet aux services des examens de statuer et protège les surveillants. Bien connaître les consignes avant la session évite les hésitations et les traitements différents d'une salle à l'autre. Un surveillant ne peut pas décider d'une interdiction future ; supprimer les contrôles pour certaines candidates créerait une discrimination."
+        "solution": "1. Règle de droit : Le Vademecum de mars 2024 (fiche 6) rappelle que l'article L. 141-5-1 ne concerne que les élèves des établissements publics : ni les candidats libres, ni ceux du Cned, ni les élèves du privé sous contrat. Pour tous, des contrôles anti-fraude sont possibles : la circulaire du 3 mai 2011 prévoit un contrôle visuel des oreilles, de la nuque et des poignets, sans contact. Une fouille n'est jamais du ressort des surveillants. La dissimulation du visage reste interdite (loi du 11 octobre 2010).\n2. Réaction immédiate : Le contrôle se fait avec discrétion (une surveillante peut s'en charger) et sans aucun contact. Si la candidate le refuse, le surveillant ne décide pas seul : il prévient le chef de centre, qui refuse l'entrée en salle. Laisser composer sans contrôle romprait l'égalité entre candidats ; tout geste physique est exclu.\n3. Action à long terme : En cas de refus du contrôle, un rapport est établi : il permet aux services des examens de statuer et protège les surveillants. Bien connaître les consignes avant la session évite les hésitations et les traitements différents d'une salle à l'autre. Un surveillant ne peut pas décider d'une interdiction future ; supprimer les contrôles pour certaines candidates créerait une discrimination."
       },
       {
         "id": "capes-oral2-cas-10",
@@ -3334,7 +3651,7 @@
             ],
             "correctIndex": 2,
             "hint": "Une loi de 2019 a inscrit la protection de la liberté de conscience des élèves dans le Code de l'éducation.",
-            "explanation": "L'article L. 141-5-2 (loi du 26 juillet 2019) dispose que l'État protège la liberté de conscience des élèves : les pressions et tentatives d'endoctrinement sont interdites dans les écoles et établissements publics, à leurs abords et pendant toute activité liée à l'enseignement. Le Vademecum (fiche 14) précise qu'aucun local n'est affecté à la prière, sauf à l'internat, où elle reste possible dans la chambre sans caractère ostentatoire, et dans le cadre d'une aumônerie autorisée."
+            "explanation": "L'article L. 141-5-2 (loi du 26 juillet 2019) dispose que l'État protège la liberté de conscience des élèves : les pressions et tentatives d'endoctrinement sont interdites dans les écoles et établissements publics, à leurs abords et pendant toute activité liée à l'enseignement. Le Vademecum de mars 2024 (fiche 14) précise qu'aucun local n'est affecté à la prière, sauf à l'internat, où elle reste possible dans la chambre sans caractère ostentatoire, et dans le cadre d'une aumônerie autorisée."
           },
           {
             "label": "Réaction immédiate",
@@ -3363,9 +3680,10 @@
             "explanation": "Le chef d'établissement reçoit l'élève et sa famille, rappelle la règle et le respect dû aux convictions de chacun, et signale l'incident dans l'application Faits établissement. Des pressions répétées appellent une réponse disciplinaire. Ouvrir une salle de prière ou organiser une célébration contreviendrait à la neutralité de l'établissement."
           }
         ],
-        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "hint1": "La prière n'est pas seule en cause : quel texte protège les élèves contre les pressions exercées sur leurs convictions ?",
+        "hint2": "Penser d'abord à l'élève mal à l'aise : comment faire cesser la sollicitation sans humilier personne ni discuter de la croyance ?",
         "answer": "Règle de droit : l'article L. 141-5-2 interdit les pressions sur les croyances des élèves ; aucun lieu de prière n'est prévu hors internat. Réaction immédiate : faire cesser la scène sans humilier, rappeler que nul ne doit être poussé à pratiquer, rassurer l'élève, prévenir le CPE. Action à long terme : informer le chef d'établissement, qui reçoit l'élève et sa famille et engage une réponse disciplinaire si cela se répète.",
-        "solution": "1. Règle de droit : L'article L. 141-5-2 (loi du 26 juillet 2019) dispose que l'État protège la liberté de conscience des élèves : les pressions et tentatives d'endoctrinement sont interdites dans les écoles et établissements publics, à leurs abords et pendant toute activité liée à l'enseignement. Le Vademecum (fiche 14) précise qu'aucun local n'est affecté à la prière, sauf à l'internat, où elle reste possible dans la chambre sans caractère ostentatoire, et dans le cadre d'une aumônerie autorisée.\n2. Réaction immédiate : Le surveillant intervient avec calme : la pratique religieuse ne s'exerce pas dans le temps et le lieu scolaires, et surtout les élèves sollicités doivent être protégés de toute pression. Il rassure l'élève mal à l'aise et prévient le CPE. Il ne se prononce pas sur la croyance elle-même et ne cherche pas à humilier.\n3. Action à long terme : Le chef d'établissement reçoit l'élève et sa famille, rappelle la règle et le respect dû aux convictions de chacun, et signale l'incident dans l'application Faits établissement. Des pressions répétées appellent une réponse disciplinaire. Ouvrir une salle de prière ou organiser une célébration contreviendrait à la neutralité de l'établissement."
+        "solution": "1. Règle de droit : L'article L. 141-5-2 (loi du 26 juillet 2019) dispose que l'État protège la liberté de conscience des élèves : les pressions et tentatives d'endoctrinement sont interdites dans les écoles et établissements publics, à leurs abords et pendant toute activité liée à l'enseignement. Le Vademecum de mars 2024 (fiche 14) précise qu'aucun local n'est affecté à la prière, sauf à l'internat, où elle reste possible dans la chambre sans caractère ostentatoire, et dans le cadre d'une aumônerie autorisée.\n2. Réaction immédiate : Le surveillant intervient avec calme : la pratique religieuse ne s'exerce pas dans le temps et le lieu scolaires, et surtout les élèves sollicités doivent être protégés de toute pression. Il rassure l'élève mal à l'aise et prévient le CPE. Il ne se prononce pas sur la croyance elle-même et ne cherche pas à humilier.\n3. Action à long terme : Le chef d'établissement reçoit l'élève et sa famille, rappelle la règle et le respect dû aux convictions de chacun, et signale l'incident dans l'application Faits établissement. Des pressions répétées appellent une réponse disciplinaire. Ouvrir une salle de prière ou organiser une célébration contreviendrait à la neutralité de l'établissement."
       },
       {
         "id": "capes-oral2-cas-11",
@@ -3412,12 +3730,13 @@
             ],
             "correctIndex": 0,
             "hint": "La réponse est graduée : entretien, rappel, puis seulement si besoin l'autorité académique.",
-            "explanation": "Le Vademecum (fiche 20) prévoit un entretien avec le chef d'établissement pour rappeler l'obligation de neutralité ; si le manquement persiste, l'autorité académique est saisie et peut engager une procédure disciplinaire. La formation à la laïcité de tous les personnels (arrêté du 16 juillet 2021 sur le continuum de formation) prévient ces situations. Une pétition ou une médiatisation sont des réponses hors de tout cadre."
+            "explanation": "Le Vademecum de mars 2024 (fiche 20) prévoit un entretien avec le chef d'établissement pour rappeler l'obligation de neutralité ; si le manquement persiste, l'autorité académique est saisie et peut engager une procédure disciplinaire. La formation à la laïcité de tous les personnels (arrêté du 16 juillet 2021 sur le continuum de formation) prévient ces situations. Une pétition ou une médiatisation sont des réponses hors de tout cadre."
           }
         ],
-        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "hint1": "Une assistante d'éducation est-elle usagère du service public ou agente publique ? La règle applicable découle de cette qualification.",
+        "hint2": "Ce point ne se règle pas devant les élèves : que leur répondre sobrement, et qui est compétent pour en parler à l'assistante ?",
         "answer": "Règle de droit : tout agent public, AED compris, est tenu à la neutralité en service (articles L. 121-1 et L. 121-2 du CGFP). Réaction immédiate : répondre sobrement que la règle vaut pour tous les personnels, sans interpeller l'assistante, et informer la direction. Action à long terme : laisser le chef d'établissement rappeler la neutralité en entretien et, si besoin, saisir l'autorité académique.",
-        "solution": "1. Règle de droit : L'obligation de neutralité s'impose à tout agent public, titulaire ou contractuel (articles L. 121-1 et L. 121-2 du Code général de la fonction publique) ; l'avis Marteaux du Conseil d'État (3 mai 2000) précise que tout signe religieux, même discret, est interdit en service à un agent de l'enseignement public. Les AED et AESH y sont soumis, et cette obligation leur est rappelée au recrutement. La loi de 2004 concerne les élèves, non les personnels.\n2. Réaction immédiate : Le professeur ne règle pas le problème lui-même en public, ce qui humilierait l'assistante et ferait des élèves les témoins d'un conflit entre adultes. Il répond sobrement aux élèves et informe le chef d'établissement, qui est compétent pour traiter les manquements des personnels. Le silence laisserait perdurer une situation contraire à la neutralité.\n3. Action à long terme : Le Vademecum (fiche 20) prévoit un entretien avec le chef d'établissement pour rappeler l'obligation de neutralité ; si le manquement persiste, l'autorité académique est saisie et peut engager une procédure disciplinaire. La formation à la laïcité de tous les personnels (arrêté du 16 juillet 2021 sur le continuum de formation) prévient ces situations. Une pétition ou une médiatisation sont des réponses hors de tout cadre."
+        "solution": "1. Règle de droit : L'obligation de neutralité s'impose à tout agent public, titulaire ou contractuel (articles L. 121-1 et L. 121-2 du Code général de la fonction publique) ; l'avis Marteaux du Conseil d'État (3 mai 2000) précise que tout signe religieux, même discret, est interdit en service à un agent de l'enseignement public. Les AED et AESH y sont soumis, et cette obligation leur est rappelée au recrutement. La loi de 2004 concerne les élèves, non les personnels.\n2. Réaction immédiate : Le professeur ne règle pas le problème lui-même en public, ce qui humilierait l'assistante et ferait des élèves les témoins d'un conflit entre adultes. Il répond sobrement aux élèves et informe le chef d'établissement, qui est compétent pour traiter les manquements des personnels. Le silence laisserait perdurer une situation contraire à la neutralité.\n3. Action à long terme : Le Vademecum de mars 2024 (fiche 20) prévoit un entretien avec le chef d'établissement pour rappeler l'obligation de neutralité ; si le manquement persiste, l'autorité académique est saisie et peut engager une procédure disciplinaire. La formation à la laïcité de tous les personnels (arrêté du 16 juillet 2021 sur le continuum de formation) prévient ces situations. Une pétition ou une médiatisation sont des réponses hors de tout cadre."
       },
       {
         "id": "capes-oral2-cas-12",
@@ -3437,8 +3756,8 @@
               "Chaque professeur décide librement de la décoration des espaces communs de l'établissement pendant la période des fêtes"
             ],
             "correctIndex": 2,
-            "hint": "Le Vademecum distingue le sapin, symbole d'une fête largement laïcisée, et la crèche.",
-            "explanation": "Les dispositions de l'article 28 de la loi du 9 décembre 1905 s'opposent à l'installation dans un bâtiment public d'un signe ou d'un emblème manifestant la reconnaissance d'un culte ou une préférence religieuse (CE, 9 novembre 2016, n° 395122 et 395223), sauf circonstances particulières. Le Vademecum (fiche 17) précise que la fête de Noël peut être célébrée sans emblème religieux et que le sapin peut être installé s'il n'a aucun caractère cultuel."
+            "hint": "Comparer ce que signifient les deux objets : lequel reste un emblème religieux, et lequel accompagne une fête largement laïcisée ?",
+            "explanation": "Les dispositions de l'article 28 de la loi du 9 décembre 1905 s'opposent à l'installation dans un bâtiment public d'un signe ou d'un emblème manifestant la reconnaissance d'un culte ou une préférence religieuse (CE, 9 novembre 2016, n° 395122 et 395223), sauf circonstances particulières. Le Vademecum de mars 2024 (fiche 17) précise que la fête de Noël peut être célébrée sans emblème religieux et que le sapin peut être installé s'il n'a aucun caractère cultuel."
           },
           {
             "label": "Réaction immédiate",
@@ -3467,9 +3786,63 @@
             "explanation": "Le Vademecum confie au chef d'établissement le soin de veiller au respect de ces principes lors des célébrations. L'épisode peut nourrir un travail pédagogique : l'histoire du sapin, comment les symboles changent de sens, pourquoi la neutralité protège la liberté de chacun. Un vote ne peut pas déroger à la loi, et une salle de classe est aussi un bâtiment public."
           }
         ],
-        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "hint1": "Que prévoit la loi de 1905 pour les emblèmes religieux dans un bâtiment public ? Un sapin et une crèche ont-ils la même nature ?",
+        "hint2": "L'initiative est de bonne foi : commencer par l'accueillir, puis expliquer simplement ce qui reste possible pour la fête.",
         "answer": "Règle de droit : l'article 28 de la loi de 1905 proscrit les emblèmes religieux dans un bâtiment public ; un sapin reste possible. Réaction immédiate : saluer l'idée, expliquer que la crèche est un symbole religieux qui n'a pas sa place dans le hall, garder le sapin. Action à long terme : informer le chef d'établissement et proposer un travail en classe sur l'histoire des symboles et la laïcité.",
-        "solution": "1. Règle de droit : Les dispositions de l'article 28 de la loi du 9 décembre 1905 s'opposent à l'installation dans un bâtiment public d'un signe ou d'un emblème manifestant la reconnaissance d'un culte ou une préférence religieuse (CE, 9 novembre 2016, n° 395122 et 395223), sauf circonstances particulières. Le Vademecum (fiche 17) précise que la fête de Noël peut être célébrée sans emblème religieux et que le sapin peut être installé s'il n'a aucun caractère cultuel.\n2. Réaction immédiate : La proposition des élèves est de bonne foi : le professeur l'accueille et explique la règle avec des mots simples. La neutralité du bâtiment ne dépend pas de l'auteur de l'initiative. Le sapin et les décorations festives restent possibles, si bien que la fête peut avoir lieu ; réprimander les élèves serait disproportionné.\n3. Action à long terme : Le Vademecum confie au chef d'établissement le soin de veiller au respect de ces principes lors des célébrations. L'épisode peut nourrir un travail pédagogique : l'histoire du sapin, comment les symboles changent de sens, pourquoi la neutralité protège la liberté de chacun. Un vote ne peut pas déroger à la loi, et une salle de classe est aussi un bâtiment public."
+        "solution": "1. Règle de droit : Les dispositions de l'article 28 de la loi du 9 décembre 1905 s'opposent à l'installation dans un bâtiment public d'un signe ou d'un emblème manifestant la reconnaissance d'un culte ou une préférence religieuse (CE, 9 novembre 2016, n° 395122 et 395223), sauf circonstances particulières. Le Vademecum de mars 2024 (fiche 17) précise que la fête de Noël peut être célébrée sans emblème religieux et que le sapin peut être installé s'il n'a aucun caractère cultuel.\n2. Réaction immédiate : La proposition des élèves est de bonne foi : le professeur l'accueille et explique la règle avec des mots simples. La neutralité du bâtiment ne dépend pas de l'auteur de l'initiative. Le sapin et les décorations festives restent possibles, si bien que la fête peut avoir lieu ; réprimander les élèves serait disproportionné.\n3. Action à long terme : Le Vademecum confie au chef d'établissement le soin de veiller au respect de ces principes lors des célébrations. L'épisode peut nourrir un travail pédagogique : l'histoire du sapin, comment les symboles changent de sens, pourquoi la neutralité protège la liberté de chacun. Un vote ne peut pas déroger à la loi, et une salle de classe est aussi un bâtiment public."
+      },
+      {
+        "id": "capes-oral2-cas-26",
+        "chapterId": "capes-oral2-cas",
+        "tier": 2,
+        "title": "Des données climatiques contestées en classe",
+        "statement": "En seconde, lors d'une séance de statistiques, vous faites étudier les températures moyennes annuelles relevées par une station météorologique depuis soixante ans. Un élève lance : « Le réchauffement, c'est une opinion politique, vous n'avez pas à nous l'imposer. » Une autre élève propose de faire signer en fin d'heure une pétition pour le climat qu'elle a imprimée. Identifiez la règle de droit, la réaction immédiate et l'action à long terme.",
+        "type": "case3",
+        "steps": [
+          {
+            "label": "Règle de droit",
+            "question": "Quelle règle de droit s'applique ?",
+            "options": [
+              "La neutralité interdit au professeur de présenter des données sur le climat, sujet de débat public, et l'oblige à choisir une autre série statistique",
+              "L'éducation à l'environnement est une mission de l'École (article L. 312-19 du Code de l'éducation) ; la neutralité vise les opinions, non les savoirs",
+              "La liberté d'expression des élèves (article L. 511-2) permet de faire circuler une pétition en classe dès lors qu'elle porte sur l'intérêt général",
+              "Au nom de l'urgence climatique, le professeur peut inviter ses élèves à rejoindre une association, ce qui ne relève pas de son obligation de neutralité"
+            ],
+            "correctIndex": 1,
+            "hint": "Deux questions distinctes : un constat tiré de mesures est-il une opinion ? Et où la liberté d'expression des élèves s'exerce-t-elle ?",
+            "explanation": "L'article L. 312-19 du Code de l'éducation fait de l'éducation à l'environnement et au développement durable une mission de l'École, dès l'école primaire, intégrée aux programmes. L'obligation de neutralité de l'agent public (Code général de la fonction publique, article L. 121-2) lui interdit de manifester ses opinions politiques ou religieuses dans le service ; elle ne lui interdit pas d'enseigner ce que les mesures établissent. La hausse des températures moyennes observée dans une série de données est un constat ; les choix collectifs pour y répondre relèvent du débat citoyen, sur lequel le professeur ne prend pas parti et dans lequel il ne recrute pas ses élèves. L'article L. 511-2 reconnaît aux collégiens et lycéens la liberté d'expression, dans le respect du pluralisme et de la neutralité, sans porter atteinte aux activités d'enseignement : une pétition ne circule pas pendant le cours."
+          },
+          {
+            "label": "Réaction immédiate",
+            "question": "Que faire sur le moment ?",
+            "options": [
+              "Répondre à l'élève que son avis est irrecevable et lui retirer la parole, pour que la séance ne soit pas détournée par une polémique sur le climat",
+              "Laisser circuler la pétition en fin d'heure, puisque la cause est juste et que l'élève a pris seule cette initiative, sans aucune pression de l'adulte",
+              "Distinguer constat et opinion : revenir aux données, à leur source et à la méthode, laisser la classe conclure, et refuser la pétition en cours",
+              "Faire voter la classe à main levée sur l'existence du réchauffement, pour montrer à l'élève que la majorité de ses camarades ne pense pas comme lui"
+            ],
+            "correctIndex": 2,
+            "hint": "La meilleure réponse à « c'est une opinion » est mathématique : que peut-on montrer avec la série étudiée ?",
+            "explanation": "La remarque de l'élève porte sur le statut d'un savoir : c'est une vraie question, qui mérite une réponse et non une rebuffade. La réponse est mathématique : d'où viennent les données, comment elles sont mesurées, ce que montrent les moyennes par décennie ou la comparaison de deux périodes, ce qu'une série locale permet ou non de conclure. Les élèves établissent eux-mêmes la tendance. On distingue ce que disent les mesures de ce qu'il faudrait faire, qui relève du débat. Un fait scientifique ne se met pas aux voix. Le professeur remercie l'élève engagée mais explique que la pétition ne circule pas en classe, et lui indique où son engagement peut s'exprimer."
+          },
+          {
+            "label": "Action à long terme",
+            "question": "Quelle action mener ensuite ?",
+            "options": [
+              "Construire avec des collègues de sciences un travail sur la lecture critique de données, et orienter l'élève engagée vers les éco-délégués",
+              "Signaler l'élève sceptique au chef d'établissement pour atteinte aux valeurs de la République, afin qu'une procédure disciplinaire soit engagée",
+              "Renoncer aux données environnementales dans les séances suivantes, afin de ne plus exposer la classe à des sujets qui suscitent des réactions vives",
+              "Organiser vous-même une collecte de signatures dans l'établissement, pour que l'engagement de l'élève ne soit pas découragé par la règle rappelée"
+            ],
+            "correctIndex": 0,
+            "hint": "Le sujet dépasse votre heure de cours : avec qui le travailler, et quelles instances permettent aux élèves de s'engager dans l'établissement ?",
+            "explanation": "L'éducation au développement durable se construit à plusieurs disciplines : un travail commun avec les collègues de sciences sur la lecture critique de graphiques, de sources et d'ordres de grandeur répond à l'élève sceptique mieux qu'une leçon de morale. L'élève engagée peut agir par les canaux prévus : éco-délégués, conseil de la vie lycéenne, maison des lycéens, projets de l'établissement. Douter n'est pas une faute : il n'y a rien à sanctionner. Éviter le sujet reviendrait à renoncer à une partie du programme, et organiser soi-même une collecte de signatures serait un manquement à la neutralité."
+          }
+        ],
+        "hint1": "La neutralité porte-t-elle sur les opinions ou sur les savoirs ? Quel article du Code de l'éducation fait de l'environnement une mission de l'École, et lequel encadre l'expression des élèves ?",
+        "hint2": "Répondre par les mathématiques (données, source, méthode), sans mépris pour l'élève ni soutien à la pétition en classe.",
+        "answer": "Règle de droit : l'éducation à l'environnement est une mission de l'École (article L. 312-19 du Code de l'éducation) ; la neutralité vise les opinions, non les savoirs. Réaction immédiate : distinguer constat et opinion : revenir aux données, à leur source et à la méthode, laisser la classe conclure, et refuser la pétition en cours. Action à long terme : construire avec des collègues de sciences un travail sur la lecture critique de données, et orienter l'élève engagée vers les éco-délégués.",
+        "solution": "1. Règle de droit : L'article L. 312-19 du Code de l'éducation fait de l'éducation à l'environnement et au développement durable une mission de l'École, dès l'école primaire, intégrée aux programmes. L'obligation de neutralité de l'agent public (Code général de la fonction publique, article L. 121-2) lui interdit de manifester ses opinions politiques ou religieuses dans le service ; elle ne lui interdit pas d'enseigner ce que les mesures établissent. La hausse des températures moyennes observée dans une série de données est un constat ; les choix collectifs pour y répondre relèvent du débat citoyen, sur lequel le professeur ne prend pas parti et dans lequel il ne recrute pas ses élèves. L'article L. 511-2 reconnaît aux collégiens et lycéens la liberté d'expression, dans le respect du pluralisme et de la neutralité, sans porter atteinte aux activités d'enseignement : une pétition ne circule pas pendant le cours.\n2. Réaction immédiate : La remarque de l'élève porte sur le statut d'un savoir : c'est une vraie question, qui mérite une réponse et non une rebuffade. La réponse est mathématique : d'où viennent les données, comment elles sont mesurées, ce que montrent les moyennes par décennie ou la comparaison de deux périodes, ce qu'une série locale permet ou non de conclure. Les élèves établissent eux-mêmes la tendance. On distingue ce que disent les mesures de ce qu'il faudrait faire, qui relève du débat. Un fait scientifique ne se met pas aux voix. Le professeur remercie l'élève engagée mais explique que la pétition ne circule pas en classe, et lui indique où son engagement peut s'exprimer.\n3. Action à long terme : L'éducation au développement durable se construit à plusieurs disciplines : un travail commun avec les collègues de sciences sur la lecture critique de graphiques, de sources et d'ordres de grandeur répond à l'élève sceptique mieux qu'une leçon de morale. L'élève engagée peut agir par les canaux prévus : éco-délégués, conseil de la vie lycéenne, maison des lycéens, projets de l'établissement. Douter n'est pas une faute : il n'y a rien à sanctionner. Éviter le sujet reviendrait à renoncer à une partie du programme, et organiser soi-même une collecte de signatures serait un manquement à la neutralité."
       },
       // =========================================================================
       // PALIER 3 : FAMILLES ET SORTIES
@@ -3493,7 +3866,7 @@
             ],
             "correctIndex": 0,
             "hint": "Un parent qui accompagne une sortie reste un usager du service public.",
-            "explanation": "Selon l'étude du Conseil d'État du 19 décembre 2013, les parents accompagnateurs sont des usagers ou des collaborateurs occasionnels, et non des agents : ils ne sont pas soumis à la neutralité. Des restrictions ne peuvent être justifiées que par des exigences liées au bon fonctionnement du service ou à l'ordre public, par exemple un comportement prosélyte (voir aussi CAA Lyon, 23 juillet 2019, n° 17LY04351). La loi de 2004 ne concerne que les élèves."
+            "explanation": "Selon l'étude du Conseil d'État du 19 décembre 2013, les parents accompagnateurs ont la qualité d'usagers du service public, et non d'agents : ils ne sont pas soumis à l'exigence de neutralité religieuse des agents publics. Des restrictions ne peuvent être justifiées que par des exigences liées au bon fonctionnement du service ou à l'ordre public, par exemple un comportement prosélyte (voir aussi CAA Lyon, 23 juillet 2019, n° 17LY04351). La loi de 2004 ne concerne que les élèves. Le choix des accompagnateurs revient au chef d'établissement (ou au directeur d'école), et non au professeur seul ni à un collègue (Vademecum de mars 2024, fiche 23)."
           },
           {
             "label": "Réaction immédiate",
@@ -3522,9 +3895,10 @@
             "explanation": "Des consignes communes, connues avant la sortie, encadrent le rôle de chaque accompagnateur et permettent de réagir à un éventuel comportement prosélyte, quel que soit le parent. Toute liste ou tout engagement visant la tenue de certains parents serait discriminatoire ; renoncer aux parents réduirait les sorties possibles pour les élèves."
           }
         ],
-        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "hint1": "Qualifier la personne : un parent accompagnateur est-il un agent soumis à la neutralité ? Quelles circonstances pourraient justifier une restriction ?",
+        "hint2": "Se demander sur quoi porterait un refus : un comportement constaté, ou le seul foulard ? Répondre au collègue à partir de cette distinction.",
         "answer": "Règle de droit : un parent accompagnateur n'est pas un agent public ; il n'est pas tenu à la neutralité, sauf exigences du service. Réaction immédiate : accepter la mère comme tout parent : le foulard ne peut pas, à lui seul, justifier un refus. Action à long terme : fixer avec la direction des consignes écrites pour tous les accompagnateurs (sécurité, rôle, pas de prosélytisme).",
-        "solution": "1. Règle de droit : Selon l'étude du Conseil d'État du 19 décembre 2013, les parents accompagnateurs sont des usagers ou des collaborateurs occasionnels, et non des agents : ils ne sont pas soumis à la neutralité. Des restrictions ne peuvent être justifiées que par des exigences liées au bon fonctionnement du service ou à l'ordre public, par exemple un comportement prosélyte (voir aussi CAA Lyon, 23 juillet 2019, n° 17LY04351). La loi de 2004 ne concerne que les élèves.\n2. Réaction immédiate : En l'absence de comportement prosélyte ou de trouble, rien ne permet d'écarter cette mère ni d'exiger qu'elle retire son foulard : ce serait une discrimination. Le professeur peut l'expliquer à son collègue en s'appuyant sur le cadre juridique. Annuler la sortie priverait les élèves d'une activité pédagogique.\n3. Action à long terme : Des consignes communes, connues avant la sortie, encadrent le rôle de chaque accompagnateur et permettent de réagir à un éventuel comportement prosélyte, quel que soit le parent. Toute liste ou tout engagement visant la tenue de certains parents serait discriminatoire ; renoncer aux parents réduirait les sorties possibles pour les élèves."
+        "solution": "1. Règle de droit : Selon l'étude du Conseil d'État du 19 décembre 2013, les parents accompagnateurs ont la qualité d'usagers du service public, et non d'agents : ils ne sont pas soumis à l'exigence de neutralité religieuse des agents publics. Des restrictions ne peuvent être justifiées que par des exigences liées au bon fonctionnement du service ou à l'ordre public, par exemple un comportement prosélyte (voir aussi CAA Lyon, 23 juillet 2019, n° 17LY04351). La loi de 2004 ne concerne que les élèves. Le choix des accompagnateurs revient au chef d'établissement (ou au directeur d'école), et non au professeur seul ni à un collègue (Vademecum de mars 2024, fiche 23).\n2. Réaction immédiate : En l'absence de comportement prosélyte ou de trouble, rien ne permet d'écarter cette mère ni d'exiger qu'elle retire son foulard : ce serait une discrimination. Le professeur peut l'expliquer à son collègue en s'appuyant sur le cadre juridique. Annuler la sortie priverait les élèves d'une activité pédagogique.\n3. Action à long terme : Des consignes communes, connues avant la sortie, encadrent le rôle de chaque accompagnateur et permettent de réagir à un éventuel comportement prosélyte, quel que soit le parent. Toute liste ou tout engagement visant la tenue de certains parents serait discriminatoire ; renoncer aux parents réduirait les sorties possibles pour les élèves."
       },
       {
         "id": "capes-oral2-cas-14",
@@ -3545,7 +3919,7 @@
             ],
             "correctIndex": 0,
             "hint": "Le préambule de la Constitution de 1946 garantit à la femme des droits égaux à ceux de l'homme dans tous les domaines.",
-            "explanation": "Le préambule de la Constitution de 1946 garantit à la femme, dans tous les domaines, des droits égaux à ceux de l'homme ; l'article 1er de la Constitution de 1958 pose l'égalité devant la loi. Le Vademecum (fiche 8) range parmi les atteintes à la laïcité le refus d'un enseignant en raison de son sexe. Les usagers ne choisissent pas les agents du service public selon leur sexe."
+            "explanation": "Le préambule de la Constitution de 1946 garantit à la femme, dans tous les domaines, des droits égaux à ceux de l'homme ; l'article 1er de la Constitution de 1958 pose l'égalité devant la loi. Le Vademecum de mars 2024 (fiche 8) range parmi les atteintes à la laïcité le refus d'un enseignant en raison de son sexe. Les usagers ne choisissent pas les agents du service public selon leur sexe."
           },
           {
             "label": "Réaction immédiate",
@@ -3574,9 +3948,10 @@
             "explanation": "Le chef d'établissement reçoit le parent, rappelle l'égalité entre les femmes et les hommes et le fonctionnement du service public, et l'incident peut être signalé dans l'application Faits établissement. La scolarité de l'élève ne doit pas en pâtir : son appréciation ne dépend que de son travail. Changer de professeur principal ou rompre la communication reviendrait à céder ou à pénaliser l'élève."
           }
         ],
-        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "hint1": "Un usager peut-il choisir un agent du service public selon son sexe ? Chercher le principe constitutionnel en cause.",
+        "hint2": "Ne pas se faire remplacer : comment proposer calmement le fonctionnement normal, et que faire si le refus persiste ?",
         "answer": "Règle de droit : l'égalité femmes-hommes (Constitution) s'impose aux usagers : un parent ne choisit pas son interlocuteur selon son sexe. Réaction immédiate : rester calme, maintenir l'entretien avec la professeure et, si le refus persiste, y mettre fin et informer la direction. Action à long terme : laisser le chef d'établissement recevoir le père et rappeler les règles, sans que l'élève en subisse les conséquences.",
-        "solution": "1. Règle de droit : Le préambule de la Constitution de 1946 garantit à la femme, dans tous les domaines, des droits égaux à ceux de l'homme ; l'article 1er de la Constitution de 1958 pose l'égalité devant la loi. Le Vademecum (fiche 8) range parmi les atteintes à la laïcité le refus d'un enseignant en raison de son sexe. Les usagers ne choisissent pas les agents du service public selon leur sexe.\n2. Réaction immédiate : Se faire remplacer par un collègue masculin reviendrait à accepter la discrimination. Le professeur reste courtois, rappelle le fonctionnement normal et, si le refus persiste, met fin à l'échange plutôt que d'entrer en conflit, puis informe le chef d'établissement. Le calme évite que l'incident ne tourne à l'affrontement public.\n3. Action à long terme : Le chef d'établissement reçoit le parent, rappelle l'égalité entre les femmes et les hommes et le fonctionnement du service public, et l'incident peut être signalé dans l'application Faits établissement. La scolarité de l'élève ne doit pas en pâtir : son appréciation ne dépend que de son travail. Changer de professeur principal ou rompre la communication reviendrait à céder ou à pénaliser l'élève."
+        "solution": "1. Règle de droit : Le préambule de la Constitution de 1946 garantit à la femme, dans tous les domaines, des droits égaux à ceux de l'homme ; l'article 1er de la Constitution de 1958 pose l'égalité devant la loi. Le Vademecum de mars 2024 (fiche 8) range parmi les atteintes à la laïcité le refus d'un enseignant en raison de son sexe. Les usagers ne choisissent pas les agents du service public selon leur sexe.\n2. Réaction immédiate : Se faire remplacer par un collègue masculin reviendrait à accepter la discrimination. Le professeur reste courtois, rappelle le fonctionnement normal et, si le refus persiste, met fin à l'échange plutôt que d'entrer en conflit, puis informe le chef d'établissement. Le calme évite que l'incident ne tourne à l'affrontement public.\n3. Action à long terme : Le chef d'établissement reçoit le parent, rappelle l'égalité entre les femmes et les hommes et le fonctionnement du service public, et l'incident peut être signalé dans l'application Faits établissement. La scolarité de l'élève ne doit pas en pâtir : son appréciation ne dépend que de son travail. Changer de professeur principal ou rompre la communication reviendrait à céder ou à pénaliser l'élève."
       },
       {
         "id": "capes-oral2-cas-15",
@@ -3622,11 +3997,12 @@
               "Déplacer les cours du vendredi après-midi pour toute la classe, afin que l'élève ne manque plus aucun enseignement"
             ],
             "correctIndex": 1,
-            "hint": "Le Vademecum (fiche 10) décrit un dialogue puis, faute d'accord, une procédure.",
+            "hint": "Qui reçoit la famille, et pour lui rappeler quoi ? Penser à un dialogue d'abord, puis à ce qui suit s'il n'aboutit pas.",
             "explanation": "Le Vademecum prévoit que le CPE ou le chef d'établissement reçoit les parents pour rappeler l'obligation d'assiduité et chercher une conciliation : les pratiques religieuses s'exercent dans un temps distinct de celui de l'école. Si le conflit n'est pas résolu, le chef d'établissement prend acte d'un manquement à l'obligation d'assiduité et engage une procédure disciplinaire. Adapter l'emploi du temps de toute la classe reviendrait à céder."
           }
         ],
-        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "hint1": "L'obligation d'assiduité admet des autorisations d'absence : pour quelles occasions ? Une absence hebdomadaire entre-t-elle dans ce cadre ?",
+        "hint2": "Pas d'arrangement privé avec la famille : que faire des absences relevées, et vers qui orienter la demande ?",
         "answer": "Règle de droit : l'assiduité admet des absences pour les grandes fêtes, pas des absences systématiques (CE, Assemblée, 14 avril 1995). Réaction immédiate : ne pas valider ces absences, continuer à les relever et orienter la demande vers le CPE et le chef d'établissement. Action à long terme : laisser le CPE recevoir les parents pour rappeler l'assiduité ; si le conflit persiste, procédure disciplinaire.",
         "solution": "1. Règle de droit : L'obligation d'assiduité de l'article L. 511-1 n'empêche pas des autorisations d'absence pour les grandes fêtes religieuses qui ne coïncident pas avec un jour de congé, dont les dates sont rappelées chaque année. En revanche, les demandes d'absence systématique ou prolongée doivent être refusées lorsqu'elles sont incompatibles avec l'organisation de la scolarité (CE, Assemblée, 14 avril 1995).\n2. Réaction immédiate : Le professeur relève les absences avec exactitude et ne passe pas d'accord privé avec la famille : la vie scolaire (CPE) et le chef d'établissement traitent les absences. Transmettre chaque semaine les cours installerait l'absence. Une réponse blessante sur la religion des parents serait contraire au respect des convictions et fermerait le dialogue.\n3. Action à long terme : Le Vademecum prévoit que le CPE ou le chef d'établissement reçoit les parents pour rappeler l'obligation d'assiduité et chercher une conciliation : les pratiques religieuses s'exercent dans un temps distinct de celui de l'école. Si le conflit n'est pas résolu, le chef d'établissement prend acte d'un manquement à l'obligation d'assiduité et engage une procédure disciplinaire. Adapter l'emploi du temps de toute la classe reviendrait à céder."
       },
@@ -3678,7 +4054,8 @@
             "explanation": "Un compte rendu permet d'analyser ce qui s'est passé et de faire évoluer le PAI et l'organisation des sorties (contrôle des repas, trousse toujours présente, accompagnateurs informés). L'école inclusive suppose que l'élève continue de participer aux sorties avec des mesures adaptées ; l'exclure serait discriminatoire."
           }
         ],
-        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "hint1": "Quel document fixe la conduite à tenir pour cette élève, et s'applique-t-il hors de l'établissement ?",
+        "hint2": "Le temps compte : quel protocole suivre, quel numéro appeler, et à qui confier le reste du groupe ?",
         "answer": "Règle de droit : le PAI (circulaire du 10 février 2021) fixe le protocole d'urgence de l'élève et l'accompagne dans toutes les sorties. Réaction immédiate : appliquer le protocole du PAI, appeler le 15, confier le groupe aux autres adultes et prévenir l'établissement. Action à long terme : rédiger un compte rendu et participer avec l'infirmière ou le médecin scolaire à la révision du PAI.",
         "solution": "1. Règle de droit : La circulaire du 10 février 2021 encadre le PAI des élèves atteints de maladies chroniques, d'allergies ou d'intolérances alimentaires. Il précise les aménagements et le protocole d'urgence, avec la trousse de l'élève, et s'applique sur tous les temps et lieux de l'activité scolaire, y compris les sorties. Les personnels qui encadrent l'élève doivent en connaître les consignes.\n2. Réaction immédiate : Le protocole d'urgence du PAI est conçu pour être appliqué sans attendre ; le SAMU (15) est appelé. L'encadrement de la sortie permet de confier le groupe aux autres adultes pendant que l'élève est prise en charge, puis la direction et la famille sont prévenues. Attendre ou demander l'avis des parents fait perdre un temps décisif ; une élève malade ne reste jamais seule.\n3. Action à long terme : Un compte rendu permet d'analyser ce qui s'est passé et de faire évoluer le PAI et l'organisation des sorties (contrôle des repas, trousse toujours présente, accompagnateurs informés). L'école inclusive suppose que l'élève continue de participer aux sorties avec des mesures adaptées ; l'exclure serait discriminatoire."
       },
@@ -3730,7 +4107,8 @@
             "explanation": "Inscrire correctement les deux responsables légaux permet un double envoi des bulletins et des informations, ce qui met fin aux demandes au cas par cas. Des rencontres séparées peuvent être proposées si la situation l'exige. Couper la communication priverait l'élève du lien entre école et famille ; saisir le juge ne relève pas de l'établissement."
           }
         ],
-        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "hint1": "Que devient l'autorité parentale après une séparation, et quel acte pourrait seul modifier les droits d'information d'un parent ?",
+        "hint2": "Ne pas prendre parti entre les parents : quelle pièce demander à la mère, et quel circuit de l'établissement fait le relais ?",
         "answer": "Règle de droit : sauf décision contraire du juge, les parents séparés exercent tous deux l'autorité parentale (Code civil, art. 372 et 373-2). Réaction immédiate : rester neutre : les deux parents sont informés sauf décision de justice, dont on demande une copie si elle existe. Action à long terme : vérifier que les coordonnées des deux parents sont à jour pour leur adresser à chacun les informations.",
         "solution": "1. Règle de droit : Selon l'article 372 du Code civil, les père et mère exercent en commun l'autorité parentale, et l'article 373-2 précise que la séparation des parents est sans incidence sur les règles de dévolution de son exercice. Sauf décision de justice qui la retire ou la confie à un seul parent, chacun a droit aux informations sur la scolarité de son enfant.\n2. Réaction immédiate : Le professeur reste neutre dans le conflit des parents et rappelle simplement la règle ; seule une décision de justice peut la modifier, d'où l'invitation à la produire. Le circuit officiel de l'établissement (secrétariat, direction) prend le relais. Mettre l'élève au milieu du conflit est à proscrire, comme transmettre à un parent les échanges avec l'autre.\n3. Action à long terme : Inscrire correctement les deux responsables légaux permet un double envoi des bulletins et des informations, ce qui met fin aux demandes au cas par cas. Des rencontres séparées peuvent être proposées si la situation l'exige. Couper la communication priverait l'élève du lien entre école et famille ; saisir le juge ne relève pas de l'établissement."
       },
@@ -3782,7 +4160,8 @@
             "explanation": "La demande écrite de protection fonctionnelle déclenche l'accompagnement de l'administration (soutien, prise en charge des frais d'avocat le cas échéant, mesures envers l'auteur). Le chef d'établissement reçoit le parent et peut signaler les faits. L'élève n'est pas responsable du comportement de son père et doit continuer à être évalué et traité comme les autres."
           }
         ],
-        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "hint1": "Que doit l'administration à un agent menacé ou injurié en raison de ses fonctions, et sur quel fondement ?",
+        "hint2": "Ne pas répondre sur le même terrain : comment clore l'échange, que conserver, et qui prévenir aussitôt ?",
         "answer": "Règle de droit : l'administration doit protéger l'agent menacé ou injurié en raison de ses fonctions (CGFP, articles L. 134-1 et L. 134-5). Réaction immédiate : mettre fin calmement à l'appel, garder des traces (notes, captures) et informer aussitôt le chef d'établissement. Action à long terme : demander la protection fonctionnelle (Colibris), envisager une plainte et évaluer l'élève comme avant.",
         "solution": "1. Règle de droit : La protection fonctionnelle (articles L. 134-1 et L. 134-5 du Code général de la fonction publique) oblige l'administration à protéger l'agent contre les atteintes subies en raison de ses fonctions : menaces, violences, injures, diffamations, outrages. Elle se demande par écrit (à l'Éducation nationale, via l'application Colibris) et n'attend pas une condamnation : l'administration doit prendre sans délai des mesures de protection. Les propos publiés en ligne peuvent relever de la loi du 29 juillet 1881.\n2. Réaction immédiate : Le professeur ne poursuit pas un échange menaçant et ne répond pas publiquement, ce qui alimenterait la polémique. Il garde des preuves datées, utiles pour la protection fonctionnelle et une éventuelle plainte, et alerte aussitôt le chef d'établissement. Modifier une note sous la pression porterait atteinte à l'équité de l'évaluation.\n3. Action à long terme : La demande écrite de protection fonctionnelle déclenche l'accompagnement de l'administration (soutien, prise en charge des frais d'avocat le cas échéant, mesures envers l'auteur). Le chef d'établissement reçoit le parent et peut signaler les faits. L'élève n'est pas responsable du comportement de son père et doit continuer à être évalué et traité comme les autres."
       },
@@ -3837,7 +4216,8 @@
             "explanation": "L'information préoccupante est rédigée et transmise selon le protocole départemental, avec l'appui de l'assistante sociale et du chef d'établissement. Les services de protection de l'enfance évaluent ensuite la situation. Le professeur reste vigilant et disponible sans réinterroger l'élève. Prévenir l'auteur présumé ou attendre de nouveaux signes mettrait l'élève en danger."
           }
         ],
-        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "hint1": "Quel circuit existe pour un mineur en danger ou risquant de l'être, et le professeur doit-il établir la preuve avant d'agir ?",
+        "hint2": "Écouter sans interroger : que ne pas promettre, que noter fidèlement, et qui alerter sans attendre ?",
         "answer": "Règle de droit : un mineur en danger fait l'objet d'une information préoccupante (CASF, articles L. 226-2-1 et L. 226-3). Réaction immédiate : écouter sans insister, ne pas promettre le secret, noter ses mots exacts et alerter sans délai la direction. Action à long terme : contribuer avec la direction et l'assistante sociale à l'information préoccupante, puis rester attentif à l'élève.",
         "solution": "1. Règle de droit : Lorsqu'un mineur est en danger ou en risque de l'être au sens de l'article 375 du Code civil, une information préoccupante est adressée au président du conseil départemental, par la cellule de recueil des informations préoccupantes (CRIP), conformément aux articles L. 226-2-1 et L. 226-3 du Code de l'action sociale et des familles. Le Vademecum rappelle que tout membre du personnel doit le faire. L'enseignant n'a ni à enquêter ni à établir la preuve.\n2. Réaction immédiate : Le rôle du professeur est d'accueillir la parole et de la transmettre fidèlement : noter les mots de l'élève, sans questions orientées qui pourraient fragiliser une future enquête. Il n'appelle pas la famille, ce qui pourrait exposer l'élève. Il ne promet pas le secret et alerte aussitôt le chef d'établissement, l'infirmière et l'assistante sociale.\n3. Action à long terme : L'information préoccupante est rédigée et transmise selon le protocole départemental, avec l'appui de l'assistante sociale et du chef d'établissement. Les services de protection de l'enfance évaluent ensuite la situation. Le professeur reste vigilant et disponible sans réinterroger l'élève. Prévenir l'auteur présumé ou attendre de nouveaux signes mettrait l'élève en danger."
       },
@@ -3889,7 +4269,8 @@
             "explanation": "Le compte rendu écrit, daté et factuel (paroles rapportées entre guillemets, constats) sert aux autorités. La discrétion protège l'élève : seuls les personnels qui en ont besoin sont informés. Le professeur n'enquête pas. Après le signalement, l'élève reste suivie par l'équipe, en lien avec les services saisis."
           }
         ],
-        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "hint1": "Le danger paraît-il grave et immédiat ? Chercher quelle autorité peut alors être saisie directement, et ce que le Code de procédure pénale impose aux fonctionnaires.",
+        "hint2": "Elle ne doit pas repartir seule : avec qui rester, vers qui aller tout de suite, et pourquoi ne pas appeler soi-même la famille ?",
         "answer": "Règle de droit : en danger grave et immédiat, on saisit directement le procureur ; l'article 40 du CPP oblige à signaler crimes et délits. Réaction immédiate : garder l'élève avec soi, l'accompagner à l'infirmerie et alerter aussitôt la direction, qui saisit le procureur. Action à long terme : remettre un écrit factuel à la direction sur ce qui a été vu et entendu, puis contribuer au suivi.",
         "solution": "1. Règle de droit : Lorsque le danger est grave et immédiat, la saisine directe du procureur de la République permet une mesure de protection rapide ; une copie est adressée au président du conseil départemental. L'article 40 du Code de procédure pénale impose à tout fonctionnaire qui acquiert la connaissance d'un crime ou d'un délit d'en aviser sans délai le procureur. Prévenir les parents peut exposer l'enfant si les violences ont lieu à la maison.\n2. Réaction immédiate : Le professeur reste avec l'élève et l'accompagne vers l'infirmière et le chef d'établissement, qui saisit le procureur sans attendre ; en cas d'urgence absolue, la police ou la gendarmerie peut être appelée. Héberger l'élève chez soi sort de tout cadre. Les constats sont faits par les professionnels compétents, jamais par des photos personnelles envoyées à la famille.\n3. Action à long terme : Le compte rendu écrit, daté et factuel (paroles rapportées entre guillemets, constats) sert aux autorités. La discrétion protège l'élève : seuls les personnels qui en ont besoin sont informés. Le professeur n'enquête pas. Après le signalement, l'élève reste suivie par l'équipe, en lien avec les services saisis."
       },
@@ -3941,7 +4322,8 @@
             "explanation": "Le protocole prévoit la protection de la victime, des mesures envers les auteurs (éducatives et, si nécessaire, disciplinaires), l'information des familles et l'orientation vers le 3018 pour le retrait des contenus. La prévention, par l'éducation aux usages numériques, réduit les récidives. Une interdiction hors temps scolaire est hors de portée de l'établissement ; une confrontation publique expose davantage la victime."
           }
         ],
-        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "hint1": "Le fait de se dérouler en ligne fait-il sortir ces faits du harcèlement scolaire ? Chercher aussi quel numéro national aide à faire retirer les contenus.",
+        "hint2": "Chaque partage prolonge l'atteinte : que répondre si l'on vous propose de voir l'image, et qui alerter ?",
         "answer": "Règle de droit : le harcèlement, même en ligne, est un délit (loi du 2 mars 2022) ; pHARe s'applique et le 3018 aide au retrait. Réaction immédiate : remercier les élèves, ne pas demander l'image ni la transférer, informer sans délai le CPE et la direction. Action à long terme : suivre le protocole pHARe (protection de la victime, mesures envers les auteurs, 3018) et prévenir les dérives.",
         "solution": "1. Règle de droit : La loi du 2 mars 2022 réprime le harcèlement scolaire, y compris lorsqu'il se poursuit en ligne, et le cyberharcèlement entre élèves d'un même établissement relève du protocole pHARe. Le 3018, numéro national contre les violences numériques opéré par l'association e-Enfance, accompagne les victimes et peut obtenir des plateformes le retrait rapide des contenus.\n2. Réaction immédiate : Chaque partage prolonge l'atteinte : le professeur ne reçoit pas l'image et ne la montre pas. Il valorise le signalement des témoins et alerte immédiatement le CPE et le chef d'établissement, qui prennent en charge la victime, sa famille, et les mesures envers les auteurs. Ignorer le problème laisse la victime seule.\n3. Action à long terme : Le protocole prévoit la protection de la victime, des mesures envers les auteurs (éducatives et, si nécessaire, disciplinaires), l'information des familles et l'orientation vers le 3018 pour le retrait des contenus. La prévention, par l'éducation aux usages numériques, réduit les récidives. Une interdiction hors temps scolaire est hors de portée de l'établissement ; une confrontation publique expose davantage la victime."
       },
@@ -3963,8 +4345,8 @@
               "L'école ne juge pas la pratique religieuse ; si la santé de l'élève est en danger (article 375 du Code civil), elle alerte"
             ],
             "correctIndex": 3,
-            "hint": "Le Vademecum (fiche 13) articule la santé de l'enfant et la neutralité de l'école.",
-            "explanation": "Le Vademecum (fiche 13) prévoit que l'école n'intervient pas sur le contenu des pratiques religieuses mais sur leurs conséquences pour la santé de l'enfant. Si le dialogue avec la famille n'aboutit pas et que le mineur est en danger ou risque de l'être au sens de l'article 375 du Code civil, tout membre du personnel informe par écrit le président du conseil départemental (information préoccupante, article L. 226-2-1 du CASF). La loi de 2004 ne vise que les signes et tenues."
+            "hint": "Deux exigences à articuler : la santé de l'élève et la neutralité de l'école. Sur quoi les adultes peuvent-ils légitimement intervenir ?",
+            "explanation": "Le Vademecum de mars 2024 (fiche 13) prévoit que l'école n'intervient pas sur le contenu des pratiques religieuses mais sur leurs conséquences pour la santé de l'enfant. Si le dialogue avec la famille n'aboutit pas et que le mineur est en danger ou risque de l'être au sens de l'article 375 du Code civil, tout membre du personnel informe par écrit le président du conseil départemental (information préoccupante, article L. 226-2-1 du CASF). La loi de 2004 ne vise que les signes et tenues."
           },
           {
             "label": "Réaction immédiate",
@@ -3993,9 +4375,10 @@
             "explanation": "Selon le Vademecum, le chef d'établissement conduit le dialogue avec les parents et l'élève, avec les enseignants qui le connaissent et le médecin ou l'infirmier, qui rappellent les risques, surtout chez les plus jeunes. L'école ne fait pas appel à des autorités religieuses, en vertu de la neutralité. Si le dialogue échoue et que l'élève reste en danger, l'information préoccupante est transmise. Exclure l'élève méconnaît son droit à l'instruction."
           }
         ],
-        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "hint1": "L'école se prononce-t-elle sur une pratique religieuse, ou sur ses conséquences pour la santé d'un enfant ? Quel circuit si le danger persiste ?",
+        "hint2": "La santé d'abord : qui prend en charge l'élève, qui reste près de lui, et quel commentaire s'interdire ?",
         "answer": "Règle de droit : l'école ne juge pas la pratique religieuse ; si la santé de l'élève est en danger (article 375 du Code civil), elle alerte. Réaction immédiate : mettre l'élève en sécurité, le faire conduire à l'infirmerie ou appeler les secours, sans commenter sa pratique. Action à long terme : informer la direction, qui dialogue avec la famille avec le médecin scolaire ; alerter si le danger persiste.",
-        "solution": "1. Règle de droit : Le Vademecum (fiche 13) prévoit que l'école n'intervient pas sur le contenu des pratiques religieuses mais sur leurs conséquences pour la santé de l'enfant. Si le dialogue avec la famille n'aboutit pas et que le mineur est en danger ou risque de l'être au sens de l'article 375 du Code civil, tout membre du personnel informe par écrit le président du conseil départemental (information préoccupante, article L. 226-2-1 du CASF). La loi de 2004 ne vise que les signes et tenues.\n2. Réaction immédiate : La santé de l'élève passe en premier : il est pris en charge par l'infirmière ou, selon son état, par les secours, et ne reste pas seul. Le professeur ne commente pas la pratique religieuse : ce n'est pas le rôle d'un agent public de dire ce qu'une religion exige. Renvoyer un élève malade seul chez lui est dangereux et contraire au devoir de surveillance.\n3. Action à long terme : Selon le Vademecum, le chef d'établissement conduit le dialogue avec les parents et l'élève, avec les enseignants qui le connaissent et le médecin ou l'infirmier, qui rappellent les risques, surtout chez les plus jeunes. L'école ne fait pas appel à des autorités religieuses, en vertu de la neutralité. Si le dialogue échoue et que l'élève reste en danger, l'information préoccupante est transmise. Exclure l'élève méconnaît son droit à l'instruction."
+        "solution": "1. Règle de droit : Le Vademecum de mars 2024 (fiche 13) prévoit que l'école n'intervient pas sur le contenu des pratiques religieuses mais sur leurs conséquences pour la santé de l'enfant. Si le dialogue avec la famille n'aboutit pas et que le mineur est en danger ou risque de l'être au sens de l'article 375 du Code civil, tout membre du personnel informe par écrit le président du conseil départemental (information préoccupante, article L. 226-2-1 du CASF). La loi de 2004 ne vise que les signes et tenues.\n2. Réaction immédiate : La santé de l'élève passe en premier : il est pris en charge par l'infirmière ou, selon son état, par les secours, et ne reste pas seul. Le professeur ne commente pas la pratique religieuse : ce n'est pas le rôle d'un agent public de dire ce qu'une religion exige. Renvoyer un élève malade seul chez lui est dangereux et contraire au devoir de surveillance.\n3. Action à long terme : Selon le Vademecum, le chef d'établissement conduit le dialogue avec les parents et l'élève, avec les enseignants qui le connaissent et le médecin ou l'infirmier, qui rappellent les risques, surtout chez les plus jeunes. L'école ne fait pas appel à des autorités religieuses, en vertu de la neutralité. Si le dialogue échoue et que l'élève reste en danger, l'information préoccupante est transmise. Exclure l'élève méconnaît son droit à l'instruction."
       },
       {
         "id": "capes-oral2-cas-23",
@@ -4009,14 +4392,14 @@
             "label": "Règle de droit",
             "question": "Quelle règle de droit s'applique ?",
             "options": [
-              "La Constitution garantit l'égalité sans distinction d'origine ; la loi du 29 juillet 1881 punit l'injure raciste",
+              "La Constitution garantit l'égalité sans distinction d'origine, et la loi punit l'injure raciste, même non publique (Code pénal)",
               "Les propos entre élèves relèvent de leur liberté d'expression, tant qu'ils ne sont pas répétés ou publiés en ligne",
               "Le professeur ne peut intervenir que si l'élève visé porte plainte, faute de quoi il n'existe aucune base pour agir",
               "Une insulte raciste n'est répréhensible que si elle vise un adulte de l'établissement, et non un autre élève"
             ],
             "correctIndex": 0,
-            "hint": "La Constitution pose le principe ; une loi de 1881 réprime l'injure raciste.",
-            "explanation": "L'article 1er de la Constitution garantit l'égalité de tous les citoyens sans distinction d'origine, de race ou de religion, et la loi du 29 juillet 1881 sur la liberté de la presse réprime les injures commises en raison de l'origine ou d'une prétendue race. La liberté d'expression des élèves ne couvre pas l'atteinte à la dignité d'autrui, que les règlements intérieurs proscrivent. L'école agit sans attendre une plainte."
+            "hint": "La Constitution pose le principe ; la loi réprime l'injure raciste, qu'elle soit publique (loi de 1881) ou non (Code pénal).",
+            "explanation": "L'article 1er de la Constitution garantit l'égalité de tous les citoyens sans distinction d'origine, de race ou de religion, et la loi réprime l'injure commise en raison de l'origine ou d'une prétendue race : proférée en classe, devant des camarades, une injure non publique de ce type constitue une contravention (Code pénal, article R. 625-8-1) ; proférée publiquement, par exemple sur un réseau social ouvert, c'est un délit (loi du 29 juillet 1881). La liberté d'expression des élèves ne couvre pas l'atteinte à la dignité d'autrui, que les règlements intérieurs proscrivent. L'école agit sans attendre une plainte."
           },
           {
             "label": "Réaction immédiate",
@@ -4045,9 +4428,10 @@
             "explanation": "Le rapport permet au chef d'établissement d'engager une réponse proportionnée, disciplinaire si besoin. Les familles sont informées et l'élève visé est soutenu. Un travail éducatif avec l'équipe (enseignement moral et civique, CPE) traite le fond. Déplacer la victime ou sanctionner par une note collective ne répond pas au problème."
           }
         ],
-        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
-        "answer": "Règle de droit : la Constitution garantit l'égalité sans distinction d'origine ; la loi du 29 juillet 1881 punit l'injure raciste. Réaction immédiate : réagir aussitôt, faire cesser les rires, nommer le propos comme raciste et inacceptable, soutenir l'élève visé. Action à long terme : faire un rapport à la direction, informer le CPE et les familles, mener un travail sur les discriminations.",
-        "solution": "1. Règle de droit : L'article 1er de la Constitution garantit l'égalité de tous les citoyens sans distinction d'origine, de race ou de religion, et la loi du 29 juillet 1881 sur la liberté de la presse réprime les injures commises en raison de l'origine ou d'une prétendue race. La liberté d'expression des élèves ne couvre pas l'atteinte à la dignité d'autrui, que les règlements intérieurs proscrivent. L'école agit sans attendre une plainte.\n2. Réaction immédiate : Le professeur réagit sur-le-champ : laisser passer revient à banaliser le racisme pour toute la classe. Il qualifie le propos sans le répéter, fait cesser les rires et soutient l'élève visé, sans faire reposer sur lui la décision d'agir. Le caractère raciste de l'injure ne se met pas aux voix.\n3. Action à long terme : Le rapport permet au chef d'établissement d'engager une réponse proportionnée, disciplinaire si besoin. Les familles sont informées et l'élève visé est soutenu. Un travail éducatif avec l'équipe (enseignement moral et civique, CPE) traite le fond. Déplacer la victime ou sanctionner par une note collective ne répond pas au problème."
+        "hint1": "Deux niveaux à citer : le principe constitutionnel d'égalité et la loi qui réprime l'injure raciste. La liberté d'expression d'un élève couvre-t-elle un tel propos ?",
+        "hint2": "Ne pas laisser passer : comment qualifier le propos sans le répéter, que faire des rires, et qui soutenir en premier ?",
+        "answer": "Règle de droit : la Constitution garantit l'égalité sans distinction d'origine, et la loi punit l'injure raciste, même non publique (Code pénal). Réaction immédiate : réagir aussitôt, faire cesser les rires, nommer le propos comme raciste et inacceptable, soutenir l'élève visé. Action à long terme : faire un rapport à la direction, informer le CPE et les familles, mener un travail sur les discriminations.",
+        "solution": "1. Règle de droit : L'article 1er de la Constitution garantit l'égalité de tous les citoyens sans distinction d'origine, de race ou de religion, et la loi réprime l'injure commise en raison de l'origine ou d'une prétendue race : proférée en classe, devant des camarades, une injure non publique de ce type constitue une contravention (Code pénal, article R. 625-8-1) ; proférée publiquement, par exemple sur un réseau social ouvert, c'est un délit (loi du 29 juillet 1881). La liberté d'expression des élèves ne couvre pas l'atteinte à la dignité d'autrui, que les règlements intérieurs proscrivent. L'école agit sans attendre une plainte.\n2. Réaction immédiate : Le professeur réagit sur-le-champ : laisser passer revient à banaliser le racisme pour toute la classe. Il qualifie le propos sans le répéter, fait cesser les rires et soutient l'élève visé, sans faire reposer sur lui la décision d'agir. Le caractère raciste de l'injure ne se met pas aux voix.\n3. Action à long terme : Le rapport permet au chef d'établissement d'engager une réponse proportionnée, disciplinaire si besoin. Les familles sont informées et l'élève visé est soutenu. Un travail éducatif avec l'équipe (enseignement moral et civique, CPE) traite le fond. Déplacer la victime ou sanctionner par une note collective ne répond pas au problème."
       },
       {
         "id": "capes-oral2-cas-24",
@@ -4097,7 +4481,8 @@
             "explanation": "L'écrit factuel sert à l'enquête ; la discrétion protège l'élève et la présomption d'innocence. L'élève est accompagnée par l'infirmière, l'assistante sociale et le CPE. Communiquer avec les élèves uniquement par les outils de l'établissement (ENT) est une règle de prudence qui protège les élèves comme les personnels. On ne demande jamais à un élève de recueillir des preuves."
           }
         ],
-        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "hint1": "Le fait que l'auteur présumé soit un collègue change-t-il l'obligation d'un fonctionnaire qui a connaissance de faits pouvant constituer un délit ?",
+        "hint2": "Ni enquête ni confrontation : que dire à l'élève, que ne pas manipuler, et qui alerter aussitôt ?",
         "answer": "Règle de droit : tout fonctionnaire informé d'un crime ou d'un délit doit aviser le procureur (article 40 du CPP), même contre un collègue. Réaction immédiate : remercier l'élève, ne pas promettre le secret, ne pas confronter l'adulte et alerter aussitôt la direction. Action à long terme : remettre un écrit factuel à la direction, rester discret et n'échanger avec les élèves que par l'ENT.",
         "solution": "1. Règle de droit : L'article 40 du Code de procédure pénale impose à toute autorité constituée et à tout fonctionnaire qui acquiert, dans l'exercice de ses fonctions, la connaissance d'un crime ou d'un délit d'en aviser sans délai le procureur de la République. Le caractère privé des messages ne protège pas l'adulte : ce qui compte est la mise en danger possible de l'élève. Prévenir l'adulte concerné pourrait compromettre l'enquête.\n2. Réaction immédiate : Le professeur accueille la parole de l'élève et la transmet sans délai au chef d'établissement, qui saisit le procureur et informe l'autorité académique. Il ne confronte pas l'adulte, ce qui pourrait entraîner des pressions sur l'élève ou la destruction de preuves, et ne manipule pas le téléphone. Bloquer le compte ne protégerait pas les autres élèves.\n3. Action à long terme : L'écrit factuel sert à l'enquête ; la discrétion protège l'élève et la présomption d'innocence. L'élève est accompagnée par l'infirmière, l'assistante sociale et le CPE. Communiquer avec les élèves uniquement par les outils de l'établissement (ENT) est une règle de prudence qui protège les élèves comme les personnels. On ne demande jamais à un élève de recueillir des preuves."
       }
@@ -4108,7 +4493,12 @@
     window.CAPES_LESSONS = CAPES_LESSONS;
     window.CAPES_CHAPTERS = CAPES_CHAPTERS;
     if (!window.MATHS_CHAPTERS) window.MATHS_CHAPTERS = [];
-    window.MATHS_CHAPTERS.push(...CAPES_CHAPTERS);
+    // L'index de js/data/chapters_licence.js sert à la navigation avant ce fichier : on complète ses entrées.
+    CAPES_CHAPTERS.forEach((chapter) => {
+      const known = window.MATHS_CHAPTERS.find((c) => c.id === chapter.id);
+      if (known) Object.assign(known, chapter);
+      else window.MATHS_CHAPTERS.push(chapter);
+    });
 
     if (!window.MATHS_EXERCISES) window.MATHS_EXERCISES = {};
     Object.assign(window.MATHS_EXERCISES, CAPES_EXERCISES);

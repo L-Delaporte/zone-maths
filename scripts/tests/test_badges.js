@@ -13,6 +13,8 @@ global.localStorage = {
   removeItem: k => { delete store[k]; }
 };
 console.warn = () => {};
+// Appartenance chapitre/niveau (window.MathsChapterLevels), comme dans la page
+require(path.join(ROOT, 'js/data/chapters.js'));
 require(path.join(ROOT, 'js/storage.js'));
 require(path.join(ROOT, 'js/badges.js'));
 const S = window.MathsStorage, B = window.MathsBadges;

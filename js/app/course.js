@@ -21,7 +21,9 @@ Object.assign(window.MathsApp, {
       const themeColor = isOral2 ? '#ec4899' : '#8b5cf6';
       const badgeText = isOral2
         ? "ÉPREUVE D'ENTRETIEN (ORAL 2) • ÉTHIQUE PROFESSIONNELLE & VALEURS DE LA RÉPUBLIQUE"
-        : "LEÇON DISCIPLINAIRE (ORAL 1) • CONCOURS DE L'ENSEIGNEMENT";
+        : capesLesson.complement
+          ? "COMPLÉMENT DISCIPLINAIRE (NIVEAU LICENCE) • CONCOURS DE L'ENSEIGNEMENT"
+          : "LEÇON DISCIPLINAIRE (ORAL 1) • CONCOURS DE L'ENSEIGNEMENT";
 
       container.innerHTML = `
         <div class="course-sheet-header">
@@ -41,6 +43,7 @@ Object.assign(window.MathsApp, {
           <ul class="math-list">
             ${(capesLesson.prerequisites || []).map(p => `<li>${p}</li>`).join('')}
           </ul>
+          ${isOral2 ? '' : '<p class="math-p no-print"><a href="preparer-le-capes-de-maths/">Comparer les voies et les épreuves du CAPES de maths</a></p>'}
         </div>
 
         <div class="course-card">
@@ -84,11 +87,12 @@ Object.assign(window.MathsApp, {
         </div>
 
         <div class="course-print-footer print-only">
-          <span>L'Établi des Maths — Fiche ${isOral2 ? 'Oral 2' : 'de Leçon Concours'} CAPES / Agrégation</span>
+          <span>L'Établi des Maths — Fiche ${isOral2 ? 'Oral 2' : capesLesson.complement ? 'de complément disciplinaire' : 'de Leçon Concours'} CAPES</span>
           <span>Auteur : Loïc Delaporte</span>
         </div>
       `;
       window.MathsRenderer.renderElement(container);
+      this.watchFormulaOverflow(container);
       return;
     }
 
@@ -125,7 +129,7 @@ Object.assign(window.MathsApp, {
           </div>
           <div class="course-card course-method">
             <h3><span aria-hidden="true">⚡</span> Entraînement & Automatismes</h3>
-            <p class="math-p">Rendez-vous dans l'onglet <strong>🎯 S'entraîner</strong> pour pratiquer les 4 Paliers ZPD ou lancez un <strong>⏱️ Rituel Flash</strong> !</p>
+            <p class="math-p">Rends-toi dans l'onglet <strong>🎯 S'entraîner</strong> pour pratiquer les 4 paliers de difficulté ou lance un <strong>⏱️ Rituel Flash</strong> !</p>
           </div>
           <div class="course-print-footer print-only">
             <span>L'Établi des Maths</span>
@@ -133,6 +137,7 @@ Object.assign(window.MathsApp, {
           </div>
         `;
         window.MathsRenderer.renderElement(container);
+        this.watchFormulaOverflow(container);
         return;
       }
       container.innerHTML = `<p class="math-p">Fiche de cours en cours d'actualisation.</p>`;
@@ -236,7 +241,7 @@ Object.assign(window.MathsApp, {
 
     html += `
       <div class="course-cta-box">
-        <p>Prêt à tester ta compréhension dans ta zone optimale ?</p>
+        <p>Prêt à tester ta compréhension à ton niveau ?</p>
         <button class="btn-primary" data-click="MathsApp.switchTab" data-args='["train"]'>Lancer l'entraînement adaptatif 🎯</button>
       </div>
       <div class="course-print-footer print-only">
@@ -247,6 +252,25 @@ Object.assign(window.MathsApp, {
 
     container.innerHTML = html;
     window.MathsRenderer.renderElement(container);
+    this.watchFormulaOverflow(container);
+  },
+
+  /** Fondu au bord des formules plus larges que l'écran : il signale qu'il reste à faire défiler. */
+  watchFormulaOverflow(container) {
+    if (this.formulaObserver) this.formulaObserver.disconnect();
+    const blocks = Array.from(container.querySelectorAll('.katex-display'));
+    const update = (el) => {
+      const hidden = getComputedStyle(el).overflowX === 'visible' ? 0 : el.scrollWidth - el.clientWidth;
+      el.classList.toggle('scroll-more-right', hidden > 1 && el.scrollLeft < hidden - 1);
+      el.classList.toggle('scroll-more-left', hidden > 1 && el.scrollLeft > 1);
+    };
+    // Observateur : la formule est mesurée aussi quand l'onglet Cours devient visible
+    this.formulaObserver = typeof ResizeObserver === 'function' ? new ResizeObserver((entries) => entries.forEach((e) => update(e.target))) : null;
+    blocks.forEach((el) => {
+      el.addEventListener('scroll', () => update(el), { passive: true });
+      if (this.formulaObserver) this.formulaObserver.observe(el);
+    });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => blocks.forEach(update));
   },
 
   toggleFlashcard(idx) {

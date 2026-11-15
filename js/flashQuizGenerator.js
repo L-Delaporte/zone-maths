@@ -16,6 +16,34 @@ window.MathsExamTools = {
   },
 
   /**
+   * Version papier d'un énoncé écrit pour la saisie en ligne : retire ce qui ne concerne que
+   * le clavier (exemples de saisie, touches, format de frappe) et remplace « saisir » par « donner ».
+   */
+  paperStatement(statement) {
+    const sample = '(?:\\((?:[^()]|\\([^()]*\\))*\\)|`[^`]*`|\\$[^$]*\\$|-?[\\d√π][\\d√π/]*(?:,\\d+)?)';
+    const example = new RegExp(` ?\\(par exemple ${sample}(?: ou ${sample})?\\)|,? par exemple ${sample}(?: ou ${sample})?`, 'g');
+    const cleanHint = hint => {
+      const out = hint
+        .replace(/ ?\(touche [^()]*\)/g, '')
+        .replace(example, '')
+        .replace(/, ou (?:saisir|directement|seulement|le couple)\b[^*]*?(?=\.\*)/, '')
+        .replace(/ ; on peut aussi saisir\b[^.*]*/, '')
+        .replace(/ \(virgule décimale\)|, avec la virgule décimale|,? sans le symbole %| \(nombre seul\)|, fractions?(?: irréductibles?)? acceptées?| \(fraction acceptée\)|, entre parenthèses et séparées par « ; » s'il y en a plusieurs/g, '')
+        .replace(/Saisir le nombre seul, en /, 'Donner le résultat en ')
+        .replace(/Saisir une (fraction(?: irréductible)?)\./, 'Donner le résultat sous forme de $1.');
+      return /^\*Saisir (?:un nombre(?: entier| décimal| \(entier ou décimal\)| \(avec son signe\))?|le nombre seul)\.\*$/.test(out) ? '' : out;
+    };
+    return String(statement || '')
+      .replace(/\*\(Saisir (?:par exemple `[^`]*`|le nombre sans espace)\.\)\*/g, '')
+      .replace(/ ; saisir par exemple `[^`]*`/g, '')
+      .replace(/\*[^*\n]*\bsaisir\b[^*\n]*\*|\((?:[^()\n]|\([^()\n]*\))*\bsaisir\b(?:[^()\n]|\([^()\n]*\))*\)/gi, cleanHint)
+      .replace(/\bSaisir\b/g, 'Donner')
+      .replace(/\bsaisir\b/g, 'donner')
+      .replace(/[ \t]+$/gm, '')
+      .trimEnd();
+  },
+
+  /**
    * Repère les questions numérotées d'un énoncé (« 1. », « 2) », sous-questions « a) »,
    * parties « Partie A ») et répartit `total` points entre elles, par demi-points,
    * au prorata du nombre de sous-questions. Retourne null s'il y a moins de deux questions.
@@ -120,11 +148,20 @@ window.MathsExamTools = {
     const mcqs = [], opens = [];
     const seen = new Set();
     const usedMcqCh = new Map(), usedOpenCh = new Map();
+    // Tirage sans enregistrement dans l'historique : seules les questions finalement retenues y entrent
+    const cidOf = new Map();
+    const draw = (cid) => {
+      const prev = gen._noRecentSave;
+      gen._noRecentSave = true;
+      let q = null;
+      try { q = gen.generateForChapter(cid, 1); } catch (e) { q = null; } finally { gen._noRecentSave = prev; }
+      if (q) cidOf.set(q, cid);
+      return q;
+    };
     for (let round = 0; round < 12 && (mcqs.length < wantMcq || opens.length < count - wantMcq); round++) {
-      const order = chapterIds.slice().sort(() => Math.random() - 0.5);
+      const order = gen.shuffle(chapterIds);
       for (const cid of order) {
-        let q = null;
-        try { q = gen.generateForChapter(cid, 1); } catch (e) { q = null; }
+        const q = draw(cid);
         if (!q || !q.statement || q.statement.length > 260 || seen.has(q.statement)) continue;
         if (/<svg|<img|```/.test(q.statement) || this.needsCalculator(q)) continue;
         const mcq = this.isMcq(q);
@@ -142,8 +179,7 @@ window.MathsExamTools = {
     if (all.length < count) {
       for (let tries = 0; all.length < count && tries < count * 20; tries++) {
         const cid = chapterIds[Math.floor(Math.random() * chapterIds.length)];
-        let q = null;
-        try { q = gen.generateForChapter(cid, 1); } catch (e) { q = null; }
+        const q = draw(cid);
         if (!q || !q.statement || q.statement.length > 260 || seen.has(q.statement)) continue;
         if (/<svg|<img|```/.test(q.statement) || this.needsCalculator(q)) continue;
         if (this.isMcq(q) && this.mcqCorrectIndex(q) < 0) continue;
@@ -151,7 +187,10 @@ window.MathsExamTools = {
         all.push(q);
       }
     }
-    all = all.sort(() => Math.random() - 0.5).slice(0, count);
+    all = gen.shuffle(all).slice(0, count);
+    if (!gen._noRecentSave && typeof gen._saveRecentStatement === 'function') {
+      all.forEach(q => gen._saveRecentStatement(cidOf.get(q) || q.chapterId, q.statement));
+    }
     return all.map(q => {
       if (!this.isMcq(q)) return q;
       const letters = q.options.map((_, i) => String.fromCharCode(65 + i));
@@ -166,7 +205,7 @@ window.MathsExamTools = {
 window.MathsQuizGenerator = {
   lastChapters: [],
   lastCount: 10,
-  showSolutions: true,
+  showSolutions: false,
 
   /**
    * Coche ou décoche l'ensemble des chapitres du niveau actif
@@ -174,6 +213,7 @@ window.MathsQuizGenerator = {
   selectAllChapters(checked = true) {
     const boxes = document.querySelectorAll('input[name="quiz-chap"]');
     boxes.forEach(cb => { cb.checked = checked; });
+    this.syncExamNote();
   },
 
   /**
@@ -193,7 +233,7 @@ window.MathsQuizGenerator = {
     if (container) {
       const currentLevel = (window.MathsApp && window.MathsApp.currentLevel) || '3eme';
       const allChapters = window.MATHS_CHAPTERS || [];
-      const chapters = allChapters.filter(c => (c.level || '3eme') === currentLevel);
+      const chapters = allChapters.filter(c => window.MathsChapterLevels.has(c, currentLevel));
       const isSingleSelection = !!preselectedChapterId;
       const defaultId = preselectedChapterId || (chapters[0] ? chapters[0].id : 'N1');
 
@@ -210,13 +250,17 @@ window.MathsQuizGenerator = {
         const isChecked = isSingleSelection ? (c.id === defaultId) : true;
         return `
           <label class="diapo-chip">
-            <input type="checkbox" name="quiz-chap" value="${c.id}" ${isChecked ? 'checked' : ''} />
+            <input type="checkbox" name="quiz-chap" value="${c.id}" ${isChecked ? 'checked' : ''} data-change="MathsQuizGenerator.syncExamNote" />
             <span>${c.num} : ${c.shortTitle || c.title}</span>
           </label>
         `;
       }).join('');
 
-      container.innerHTML = actionsHtml + chipsHtml;
+      const examNoteHtml = `<p id="quiz-exam-note" role="status" style="display: none; flex-basis: 100%; width: 100%; margin: 0 0 0.85rem; font-size: 0.9rem; color: var(--text-muted);">ℹ️ Ce format d'examen porte sur tout le programme : les chapitres cochés ne sont pas pris en compte. Pour cibler des chapitres, choisir une interrogation, un devoir surveillé ou un devoir long.</p>`;
+
+      const coverageNoteHtml = `<p id="quiz-coverage-note" role="status" style="display: none; flex-basis: 100%; width: 100%; margin: 0 0 0.85rem; font-size: 0.9rem; color: var(--text-muted);"></p>`;
+
+      container.innerHTML = examNoteHtml + coverageNoteHtml + actionsHtml + chipsHtml;
     }
 
     const countSelect = document.getElementById('quiz-count-select');
@@ -224,26 +268,162 @@ window.MathsQuizGenerator = {
       // Formats d'examen réservés à leur niveau : brevet en 3e, épreuve anticipée en 1re, bac en terminale
       const currentLevel = (window.MathsApp && window.MathsApp.currentLevel) || '3eme';
       const exam = this.EXAM_FORMATS[currentLevel];
-      countSelect.innerHTML = (exam ? `<option value="${exam[0]}">${exam[1]}</option>` : '')
-        + this.FREE_FORMATS.map(f => `<option value="${f[0]}">${f[1]}</option>`).join('');
+      const hasBank = this.levelHasBank(currentLevel);
+      const variants = this.EXAM_VARIANTS[currentLevel] || [];
+      countSelect.innerHTML = (exam ? [exam].concat(variants).map(f => `<option value="${f[0]}">${f[1]}</option>`).join('') : '')
+        + this.FREE_FORMATS.map(f => `<option value="${f[0]}">${f[1]} — ${hasBank ? f[2] : `${f[0]} questions`} — ${f[3]}</option>`).join('');
       countSelect.value = exam ? exam[0] : '10';
+      countSelect.setAttribute('data-change', 'MathsQuizGenerator.syncExamNote');
+      this.syncExamNote();
     }
 
     document.getElementById('quiz-config-screen').style.display = 'block';
     document.getElementById('quiz-preview-screen').style.display = 'none';
   },
 
+  /** Affiche l'avertissement quand le format choisi ignore les chapitres cochés. */
+  syncExamNote() {
+    const note = document.getElementById('quiz-exam-note');
+    const select = document.getElementById('quiz-count-select');
+    if (!note || !select) return;
+    const isExam = Object.values(this.EXAM_FORMATS).concat(...Object.values(this.EXAM_VARIANTS)).some(f => f[0] === select.value);
+    note.style.display = isExam ? 'block' : 'none';
+    // Devoir libre : prévenir que tous les chapitres cochés ne peuvent pas figurer dans un même sujet
+    const coverage = document.getElementById('quiz-coverage-note');
+    if (!coverage) return;
+    const currentLevel = (window.MathsApp && window.MathsApp.currentLevel) || '3eme';
+    const nbEx = this.freeExerciseCount(select.value);
+    const checked = Array.from(document.querySelectorAll('input[name="quiz-chap"]:checked')).length;
+    const show = !isExam && this.levelHasBank(currentLevel) && checked > nbEx;
+    coverage.style.display = show ? 'block' : 'none';
+    coverage.textContent = show
+      ? `ℹ️ Ce format compte ${nbEx} exercices : chaque sujet porte sur ${nbEx} des ${checked} chapitres cochés, tirés au sort. Les chapitres absents d'un sujet passent en priorité au suivant (bouton « Régénérer »). Pour les réunir tous dans un même sujet, cocher au plus ${nbEx} chapitres${nbEx < 4 ? ' ou choisir un format plus long' : ''}.`
+      : '';
+  },
+
+  /** Nombre d'exercices rédigés d'un devoir libre selon le format (5, 10 ou 15). */
+  freeExerciseCount(format) {
+    const count = parseInt(format, 10) || 10;
+    return count <= 5 ? 2 : (count <= 10 ? 3 : 4);
+  },
+
+  // Profil de difficulté du devoir libre, du plus simple au plus exigeant : difficultés admises pour chaque exercice
+  FREE_PROFILES: {
+    2: [[1, 2], [3, 4]],
+    3: [[1, 2], [2, 3], [3, 4]],
+    4: [[1, 2], [2, 3], [2, 3], [3, 4]]
+  },
+
+  // Plafond de questions numérotées d'un devoir libre, selon le nombre d'exercices (environ cinq par exercice)
+  FREE_MAX_QUESTIONS: { 2: 10, 3: 15, 4: 20 },
+
+  /** Nombre de questions numérotées en début de ligne d'un énoncé (au moins 1). */
+  countQuestions(statement) {
+    return Math.max(1, (String(statement || '').match(/^[ \t]*(?:\*\*)?\d+[.)]/gm) || []).length);
+  },
+
+  /**
+   * Sélection des exercices d'un devoir libre dans les banques de DS : un exercice par chapitre
+   * (les chapitres de `priority` d'abord), un profil de difficulté imposé (un exercice simple,
+   * un exigeant, et des intermédiaires) et un plafond de questions. Renvoie les exercices
+   * triés du plus simple au plus exigeant et les chapitres cochés qui ne figurent pas au sujet.
+   */
+  pickFreeExercises(chapters, nbEx, bank, priority = []) {
+    const rand = n => Math.floor(Math.random() * n);
+    const shuffle = arr => {
+      const a = arr.slice();
+      for (let i = a.length - 1; i > 0; i--) { const j = rand(i + 1); [a[i], a[j]] = [a[j], a[i]]; }
+      return a;
+    };
+    const withEx = chapters.filter(cid => (bank[cid] || []).length);
+    const noBank = chapters.filter(cid => !(bank[cid] || []).length);
+    if (!withEx.length) return { picked: [], missing: [], noBank };
+    const profile = this.FREE_PROFILES[nbEx] || Array.from({ length: nbEx }, () => [1, 4]);
+    const maxQ = this.FREE_MAX_QUESTIONS[nbEx] || nbEx * 5;
+    const order = shuffle(withEx.filter(c => priority.includes(c))).concat(shuffle(withEx.filter(c => !priority.includes(c))));
+    const cids = Array.from({ length: nbEx }, (_, k) => order[k % order.length]);
+    const diff = ex => ex.difficulty || 1;
+    const draw = () => {
+      const bands = shuffle(profile.map((b, rank) => ({ b, rank })));
+      const picked = [];
+      cids.forEach((cid, k) => {
+        const { b, rank } = bands[k];
+        const free = bank[cid].filter(ex => !picked.some(p => p.ex === ex));
+        const inBand = free.filter(ex => diff(ex) >= b[0] && diff(ex) <= b[1]);
+        const pool = inBand.length ? inBand : free;
+        if (pool.length) picked.push({ cid, ex: pool[rand(pool.length)], rank });
+      });
+      return picked.sort((a, b) => diff(a.ex) - diff(b.ex) || a.rank - b.rank);
+    };
+    const size = picked => picked.reduce((t, p) => t + this.countQuestions(p.ex.statement), 0);
+    let best = null;
+    for (let attempt = 0; attempt < 40; attempt++) {
+      const picked = draw();
+      if (!best || size(picked) < size(best)) best = picked;
+      if (size(best) <= maxQ) break;
+    }
+    const used = new Set(best.map(p => p.cid));
+    return { picked: best.map(({ cid, ex }) => ({ cid, ex })), missing: withEx.filter(c => !used.has(c)), noBank };
+  },
+
+  /**
+   * Mention de la calculatrice d'un devoir libre, d'après les exercices retenus : non autorisée quand
+   * un exercice l'exclut et qu'aucun ne la demande ; sinon autorisée, en signalant les exercices qui l'excluent.
+   */
+  freeCalculatorRule(questions, cardNoun = 'Exercice') {
+    // Formulations d'exclusion rencontrées dans les banques (« Sans calculatrice », « Calculatrice interdite »…)
+    const EXCL = /sans (?:utiliser )?(?:la )?calculatrice|calculatrice interdite|n'utilisera pas (?:la|de) calculatrice|calculatrice (?:non autorisée|n'est pas autorisée)/gi;
+    const excludes = q => q.calculator === false || new RegExp(EXCL.source, 'i').test(q.statement || '');
+    const strip = s => String(s || '').replace(EXCL, '');
+    // Un exercice qui exclut la calculatrice ne la demande que si son énoncé l'exige ailleurs (arrondi, calculatrice
+    // autorisée pour une question…) ; les valeurs approchées de son corrigé (≈) ne comptent pas.
+    const needs = q => q.calculator === true || window.MathsExamTools.needsCalculator(excludes(q)
+      ? { statement: strip(q.statement) }
+      : { statement: strip(q.statement), solution: strip(q.solution), hint1: q.hint1 });
+    const nums = questions.map((q, i) => (excludes(q) ? i + 1 : 0)).filter(Boolean);
+    if (!nums.length) return 'calculatrice autorisée';
+    if (!questions.some(needs)) return 'calculatrice non autorisée';
+    const noun = cardNoun.toLowerCase();
+    const list = nums.length > 1 ? `${nums.slice(0, -1).join(', ')} et ${nums[nums.length - 1]}` : String(nums[0]);
+    return `calculatrice autorisée, sauf là où l'énoncé l'exclut (${noun}${nums.length > 1 ? 's' : ''} ${list})`;
+  },
+
   EXAM_FORMATS: {
     '3eme': ['dnb-20', '🎓 Brevet blanc — format 2026 : automatismes + problèmes — 2 h — sur 20 points'],
-    '1ere': ['ea-20', '🎓 Épreuve anticipée de 1re — automatismes (QCM) + 3 exercices — 2 h, sans calculatrice — sur 20 points'],
+    '1ere': ['ea-20', '🎓 Épreuve anticipée de 1re (spécialité) — automatismes + 3 exercices — 2 h, sans calculatrice — sur 20 points'],
+    // Voies sans spécialité : le sujet blanc de l'épreuve anticipée propre à chaque voie
+    '1tc': ['ea-20-sans-spe', '🎓 Épreuve anticipée de 1re (tronc commun, sans spécialité) — automatismes + 3 exercices — 2 h, sans calculatrice — sur 20 points'],
+    '1techno': ['ea-20-techno', '🎓 Épreuve anticipée de 1re (voie technologique) — automatismes + 3 exercices — 2 h, sans calculatrice — sur 20 points'],
     'tale': ['bac-20', '🎓 Bac blanc de spécialité — 4 exercices de 5 points — 4 h, calculatrice autorisée — sur 20 points']
   },
 
+  // Autres parcours d'un même examen, proposés après le format principal du niveau
+  EXAM_VARIANTS: {
+    '1ere': [
+      ['ea-20-sans-spe', '🎓 Épreuve anticipée de 1re (tronc commun, sans spécialité) — automatismes + 3 exercices — 2 h, sans calculatrice — sur 20 points'],
+      ['ea-20-techno', '🎓 Épreuve anticipée de 1re (voie technologique) — automatismes + 3 exercices — 2 h, sans calculatrice — sur 20 points']
+    ]
+  },
+
+  // Épreuve anticipée : réglages propres à chaque parcours
+  EA_PARCOURS: {
+    'ea-20': { key: 'spe', titre: '1re SPÉCIALITÉ', programme: 'programme de spécialité de 1re', badge: 'Programme de spécialité de 1re — calculatrice interdite' },
+    'ea-20-sans-spe': { key: 'sans-spe', niveau: '1re générale, tronc commun', titre: '1re GÉNÉRALE, TRONC COMMUN', programme: 'programme de mathématiques intégré à l\'enseignement scientifique', badge: 'Tronc commun de 1re générale (sans spécialité) — calculatrice interdite' },
+    'ea-20-techno': { key: 'techno', niveau: '1re technologique', titre: '1re TECHNOLOGIQUE', programme: 'programme de 1re technologique', badge: 'Voie technologique (1re) — calculatrice interdite' }
+  },
+
+  // [valeur, type de devoir, nombre d'exercices (avec banque de DS), durée et barème]
   FREE_FORMATS: [
-    ['5', 'Interrogation — 2 exercices — 30 min — sur 10 points'],
-    ['10', 'Devoir surveillé — 3 exercices — 1 h — sur 20 points'],
-    ['15', 'Devoir long — 4 exercices — 2 h — sur 20 points']
+    ['5', 'Interrogation', '2 exercices', '30 min — sur 10 points'],
+    ['10', 'Devoir surveillé', '3 exercices', '1 h — sur 20 points'],
+    ['15', 'Devoir long', '4 exercices', '2 h — sur 20 points']
   ],
+
+  /** Les exercices rédigés viennent des banques de DS ; sans banque pour le niveau, le devoir compte 5, 10 ou 15 questions. */
+  levelHasBank(level) {
+    const bank = window.MATHS_DS_BANK || {};
+    return (window.MATHS_CHAPTERS || []).some(c => window.MathsChapterLevels.has(c, level) && (bank[c.id] || []).length > 0);
+  },
 
   /** Impression : sujet seul (par défaut), ou sujet puis corrigé sur une nouvelle page. */
   print(withSolution = false) {
@@ -308,7 +488,7 @@ window.MathsQuizGenerator = {
     }
     if (!triples.length) return null;
     const picked = triples[Math.floor(Math.random() * triples.length)].map(idx => bank[idx]);
-    return picked.sort(() => Math.random() - 0.5);
+    return window.MathsGenerators.shuffle(picked);
   },
 
   /**
@@ -334,6 +514,7 @@ window.MathsQuizGenerator = {
     const kind = (t) => {
       if (/^quand\b/i.test(t)) return ['scratch-hat', ''];
       if (/^définir\b/i.test(t)) return ['scratch-hat', 'background:#ff6680; border-color:#e64d6a; color:#fff;'];
+      if (/^(envoyer à tous|diffuser)\b/i.test(t)) return ['scratch-control', 'background:#ffbf00; border-color:#d99b00; color:#4d3800;'];
       if (/^(stylo|relever le stylo|effacer tout|mettre la couleur du stylo|mettre la taille du stylo)/i.test(t)) return ['scratch-motion', 'background:#0fbd8c; border-color:#0b9a72; color:#fff;'];
       if (/^(avancer|tourner|aller à|s'orienter|glisser|ajouter .* à x|ajouter .* à y|donner la valeur .* à (x|y))/i.test(t)) return ['scratch-motion', ''];
       if (/^demander\b/i.test(t)) return ['scratch-sensing', ''];
@@ -419,10 +600,19 @@ window.MathsQuizGenerator = {
    * de chapitres différents (au moins un d'analyse ou d'algèbre et un de géométrie ou de probabilités),
    * barème ramené à 14 points.
    */
-  buildEaPart2(offset) {
+  buildEaPart2(offset, parcours = 'spe') {
+    if (parcours !== 'spe') {
+      const list = window.MathsEaGenerators ? window.MathsEaGenerators.part2(parcours) : [];
+      return list.map((ex, idx) => this.eaExercise(ex, ex.chapterId, ex.points, idx, offset));
+    }
     const bank = window.MATHS_DS_BANK || {};
     const ids = Object.keys(bank).filter(id => /^1[AGS]\d/.test(id));
-    const usable = id => (bank[id] || []).filter(ex => ex.calculator !== true && ex.difficulty >= 2 && ex.difficulty <= 3);
+    // Un énoncé qui demande un arrondi suppose une calculatrice, même sans le drapeau de la banque.
+    // Sont aussi écartés la parabole et son sommet, retirés du programme de spécialité entré en vigueur en 2026.
+    const retired = /parabole[\s\S]*sommet|sommet[\s\S]*parabole/i;
+    // Un exercice signalé « Pour aller plus loin » dépasse le programme : il ne peut pas sortir au sujet blanc.
+    const beyond = /pour aller plus loin/i;
+    const usable = id => (bank[id] || []).filter(ex => ex.calculator !== true && ex.difficulty >= 2 && ex.difficulty <= 3 && !/arrondi/i.test(ex.statement) && !retired.test(ex.statement) && !beyond.test(ex.statement));
     const pickFrom = (pool, used) => {
       const cands = pool.filter(id => !used.includes(id) && usable(id).length);
       if (!cands.length) return null;
@@ -432,7 +622,7 @@ window.MathsQuizGenerator = {
     };
     const used = [];
     const picks = [];
-    const plan = [ids.filter(id => id.startsWith('1A')), ids.filter(id => /^1[GS]/.test(id)), ids];
+    const plan = [ids.filter(id => id.startsWith('1A')), ids.filter(id => /^1(G|S[12])/.test(id)), ids];
     plan.forEach(pool => {
       const p = pickFrom(pool, used) || pickFrom(ids, used);
       if (p) { picks.push(p); used.push(p.cid); }
@@ -443,22 +633,27 @@ window.MathsQuizGenerator = {
     return picks.map((p, idx) => {
       const pts = idx === picks.length - 1 ? 14 - assigned : Math.max(3, Math.round((p.ex.points || 5) * 14 / raw * 2) / 2);
       assigned += pts;
-      return {
-        id: p.ex.id,
-        chapterId: p.cid,
-        isBrevetProblem: true,
-        fromBank: true,
-        tier: p.ex.difficulty,
-        skill: p.ex.title,
-        statement: p.ex.statement,
-        solution: p.ex.solution,
-        examTitle: `Exercice ${idx + 1} — ${p.ex.title}`,
-        examPoints: pts,
-        seriesIndex: offset + idx + 1,
-        sectionTitle: idx === 0 ? 'Partie 2 — Exercices — 14 points' : undefined,
-        sectionNote: idx === 0 ? 'Calculatrice interdite. Les exercices sont indépendants et peuvent être traités dans l\'ordre de son choix. Toutes les réponses doivent être justifiées ; la qualité de la rédaction est prise en compte.' : undefined
-      };
+      return this.eaExercise(p.ex, p.cid, pts, idx, offset);
     });
+  },
+
+  /** Mise en forme commune d'un exercice de la partie 2 de l'épreuve anticipée. */
+  eaExercise(ex, chapterId, pts, idx, offset) {
+    return {
+      id: ex.id,
+      chapterId,
+      isBrevetProblem: true,
+      fromBank: true,
+      tier: ex.difficulty || ex.tier,
+      skill: ex.title,
+      statement: ex.statement,
+      solution: ex.solution,
+      examTitle: `Exercice ${idx + 1} — ${ex.title}`,
+      examPoints: pts,
+      seriesIndex: offset + idx + 1,
+      sectionTitle: idx === 0 ? 'Partie 2 — Exercices — 14 points' : undefined,
+      sectionNote: idx === 0 ? 'Calculatrice interdite. Les exercices sont indépendants et peuvent être traités dans l\'ordre de son choix. Toutes les réponses doivent être justifiées. La qualité de la rédaction est prise en compte : à l\'épreuve, la maîtrise de la langue compte pour 2 points sur 20, que le barème de ce sujet blanc ne détaille pas.' : undefined
+    };
   },
 
   /**
@@ -470,7 +665,7 @@ window.MathsQuizGenerator = {
     const isRegenerating = previewScreen && previewScreen.style.display === 'block';
 
     const currentLevel = (window.MathsApp && window.MathsApp.currentLevel) || '3eme';
-    const validLevelChapters = (window.MATHS_CHAPTERS || []).filter(c => (c.level || '3eme') === currentLevel).map(c => c.id);
+    const validLevelChapters = (window.MATHS_CHAPTERS || []).filter(c => window.MathsChapterLevels.has(c, currentLevel)).map(c => c.id);
 
     const checkedBoxes = Array.from(document.querySelectorAll('input[name="quiz-chap"]:checked')).map(cb => cb.value);
     let chapters = checkedBoxes.filter(id => validLevelChapters.includes(id));
@@ -504,18 +699,25 @@ window.MathsQuizGenerator = {
 
     const isExamDNB = selectedFormat === 'dnb-20' || selectedFormat === 'dnb-100';
     const isExamBac = selectedFormat === 'bac-20';
-    const isExamEA = selectedFormat === 'ea-20';
+    const eaParcours = this.EA_PARCOURS[selectedFormat];
+    const isExamEA = !!eaParcours;
 
-    const levelLabel = (window.MathsApp && typeof window.MathsApp.getLevelName === 'function')
+    // Les sujets du tronc commun et de la voie technologique ne sont pas des sujets de spécialité
+    const levelLabel = (eaParcours && eaParcours.niveau) ? eaParcours.niveau
+      : (window.MathsApp && typeof window.MathsApp.getLevelName === 'function')
       ? window.MathsApp.getLevelName(currentLevel)
       : (currentLevel === '6eme' ? '6ème' : currentLevel === '5eme' ? '5ème' : (currentLevel === '4eme' ? '4ème' : (currentLevel === '3eme' ? '3ème' : currentLevel)));
 
     let totalPoints = 20;
-    let ptsPerQ = 2;
+    let cardNoun = 'Exercice';
     let questions = [];
     let examMainTitle = `📝 L'ÉTABLI DES MATHS (${levelLabel}) — DEVOIRS BLANCS D'ENTRAÎNEMENT`;
-    let examSubNotice = `💡 <strong>Sujet Blanc d'Entraînement (${levelLabel}) :</strong> Ce sujet a été généré aléatoirement pour vous entraîner en conditions réelles d'examen. Prenez une feuille, rédigez soigneusement vos calculs et vos justifications, puis comparez avec le <strong>corrigé détaillé</strong> ci-dessous. Vous pouvez cliquer sur <strong>« 🔄 Régénérer un nouveau devoir »</strong> à tout moment pour en faire d'autres !`;
+    let examSubNotice = `💡 <strong>Sujet Blanc d'Entraînement (${levelLabel}) :</strong> Ce sujet a été généré aléatoirement pour t'entraîner en conditions réelles d'examen. Prends une feuille, rédige soigneusement tes calculs et tes justifications, puis compare avec le <strong>corrigé détaillé</strong> ci-dessous. Tu peux cliquer sur <strong>« 🔄 Régénérer un nouveau devoir »</strong> à tout moment pour en faire d'autres !`;
     let examSolutionTitle = `L'ÉTABLI DES MATHS (${levelLabel}) — CORRIGÉ DÉTAILLÉ DU DEVOIR BLANC — BARÈME SUR ${totalPoints} POINTS`;
+    // Consigne imprimée en tête du sujet (devoir libre) et chapitres réellement présents dans le sujet
+    let examConsigne = '';
+    let coverageNotice = '';
+    let subjectChapters = chapters;
 
     if (isExamDNB) {
       // Format de l'épreuve depuis la session 2026 : 2 h, 20 points.
@@ -523,7 +725,7 @@ window.MathsQuizGenerator = {
       // Partie 2 — raisonnement et résolution de problèmes : 14 points dont 2 pour la rédaction, 1 h 40.
       totalPoints = 20;
       examMainTitle = `🎓 BREVET DES COLLÈGES (DNB) — SUJET BLANC DE MATHÉMATIQUES SUR 20 POINTS`;
-      examSubNotice = `🎓 <strong>Sujet blanc au format du brevet (depuis 2026) :</strong> 2 h, sur 20 points. <strong>Partie 1 — Automatismes</strong> (6 points, 20 min, calculatrice interdite, aucune justification demandée), puis <strong>Partie 2 — Raisonnement et résolution de problèmes</strong> (14 points, 1 h 40, calculatrice autorisée, dont 2 points pour la clarté et la rédaction). Sujet généré aléatoirement : ce n'est pas un sujet officiel.`;
+      examSubNotice = `🎓 <strong>Sujet blanc au format du brevet (depuis 2026) :</strong> 2 h, sur 20 points. <strong>Partie 1 — Automatismes</strong> (6 points, 20 min, calculatrice interdite, aucune justification demandée), puis <strong>Partie 2 — Raisonnement et résolution de problèmes</strong> (14 points, 1 h 40, calculatrice autorisée, dont 2 points pour la clarté et la rédaction). Les deux parties s'enchaînent sans pause et se rendent sur deux copies distinctes : la copie de la partie 1 est ramassée au bout des 20 minutes. Sujet généré aléatoirement : ce n'est pas un sujet officiel.`;
       examSolutionTitle = `🎓 BREVET (DNB) — CORRIGÉ DU SUJET BLANC SUR 20 POINTS`;
 
       const chapters3e = (window.MATHS_CHAPTERS || []).filter(c => c.level === '3eme').map(c => c.id);
@@ -535,7 +737,7 @@ window.MathsQuizGenerator = {
         q.hidePoints = true;
         if (i === 0) {
           q.sectionTitle = 'Partie 1 — Automatismes — 6 points — 20 minutes';
-          q.sectionNote = 'Calculatrice interdite. Pour chaque question, recopier son numéro et la réponse. Aucune justification n\'est demandée. Pour les questions à choix multiple, une seule réponse est exacte : recopier sa lettre.';
+          q.sectionNote = 'Calculatrice interdite. Les deux parties se traitent sur deux copies distinctes : la copie de la partie 1 est ramassée au bout des 20 minutes. Pour chaque question, recopier son numéro et la réponse. Aucune justification n\'est demandée. Pour les questions à choix multiple, une seule réponse est exacte : recopier sa lettre.';
         }
       });
 
@@ -545,9 +747,9 @@ window.MathsQuizGenerator = {
         questions = automatismes.concat(bankProblems);
       } else {
       const problemStructure = [
-        { title: "Exercice 1 — Géométrie (4 points)", points: 4, pool: ['G0', 'G1', 'G2', 'G2bis', 'G7'] },
-        { title: "Exercice 2 — Calcul littéral, équations et fonctions (3,5 points)", points: 3.5, pool: ['N2', 'N4', 'Org1', 'Org3'] },
-        { title: "Exercice 3 — Statistiques, probabilités ou algorithmique (4,5 points)", points: 4.5, pool: ['Org2', 'Org4', 'Algo'] }
+        { title: "Exercice 1 — Géométrie", points: 4, pool: ['G0', 'G1', 'G2', 'G2bis', 'G7'] },
+        { title: "Exercice 2 — Calcul littéral, équations et fonctions", points: 3.5, pool: ['N2', 'N4', 'Org1', 'Org3'] },
+        { title: "Exercice 3 — Statistiques, probabilités ou algorithmique", points: 4.5, pool: ['Org2', 'Org4', 'Algo'] }
       ];
       const problems = problemStructure.map((def, idx) => {
         const pool = def.pool.filter(id => chapters3e.includes(id));
@@ -568,39 +770,37 @@ window.MathsQuizGenerator = {
       }
 
     } else if (isExamEA) {
-      // Épreuve anticipée de mathématiques (fin de 1re, spécialité) : 2 h, calculatrice interdite.
-      // Partie 1 — automatismes (QCM) : 6 points ; partie 2 — deux ou trois exercices indépendants : 14 points.
+      // Épreuve anticipée de mathématiques (fin de 1re), au format fixé pour l'épreuve de juin 2027 (session 2028 du baccalauréat) : 2 h, calculatrice interdite.
+      // Partie 1 — automatismes à réponse courte, sans QCM : 6 points ; partie 2 — exercices indépendants : 14 points.
       totalPoints = 20;
-      examMainTitle = `🎓 ÉPREUVE ANTICIPÉE DE MATHÉMATIQUES (1re SPÉCIALITÉ) — SUJET BLANC SUR 20 POINTS`;
-      examSubNotice = `🎓 <strong>Sujet blanc au format de l'épreuve anticipée de mathématiques (fin de 1re) :</strong> 2 h, sur 20 points, <strong>calculatrice interdite</strong>. <strong>Partie 1 — Automatismes</strong> (6 points : questions à choix multiples), puis <strong>Partie 2 — Exercices</strong> (14 points : trois exercices indépendants sur le programme de spécialité de 1re). Sujet généré aléatoirement : ce n'est pas un sujet officiel.`;
-      examSolutionTitle = `🎓 ÉPREUVE ANTICIPÉE (1re) — CORRIGÉ DU SUJET BLANC SUR 20 POINTS`;
+      examMainTitle = `🎓 ÉPREUVE ANTICIPÉE DE MATHÉMATIQUES (${eaParcours.titre}) — SUJET BLANC SUR 20 POINTS`;
+      examSubNotice = `🎓 <strong>Sujet blanc au format de l'épreuve anticipée de mathématiques (fin de 1re) :</strong> 2 h, sur 20 points, <strong>calculatrice interdite</strong>. <strong>Partie 1 — Automatismes</strong> (6 points : questions à réponse courte, sans QCM), puis <strong>Partie 2 — Exercices</strong> (14 points : trois exercices indépendants sur le ${eaParcours.programme}). Sujet généré aléatoirement à partir des contenus du site : ce n'est pas un sujet officiel.`;
+      examSolutionTitle = `🎓 ÉPREUVE ANTICIPÉE (${eaParcours.titre}) — CORRIGÉ DU SUJET BLANC SUR 20 POINTS`;
 
-      const lyceeIds = (window.MATHS_CHAPTERS || []).filter(c => c.level === '2nde' || c.level === '1ere').map(c => c.id);
-      // 12 questions à 0,5 point, en QCM autant que possible (repli sur des réponses courtes)
-      const automatismes = window.MathsExamTools.buildAutomatismes(lyceeIds, 12, 1);
+      const automatismes = window.MathsEaGenerators.automatismes();
       automatismes.forEach((q, i) => {
         q.seriesIndex = i + 1;
         q.examTitle = `Question ${i + 1}`;
         q.hidePoints = true;
+        q.isEaAutomatism = true;
         if (i === 0) {
           q.sectionTitle = 'Partie 1 — Automatismes — 6 points';
-          q.sectionNote = `${automatismes.length} questions, ${String(Math.round(6 / Math.max(1, automatismes.length) * 100) / 100).replace('.', ',')} point chacune. Calculatrice interdite. Aucune justification n'est demandée. Pour les questions à choix multiples, une seule réponse est exacte : recopier le numéro de la question et la lettre choisie ; sinon, recopier la réponse.`;
+          q.sectionNote = `${automatismes.length} questions à réponse courte, ${String(6 / automatismes.length).replace('.', ',')} point chacune (ce nombre de questions est propre à ce sujet blanc). Calculatrice interdite. Aucune justification n'est demandée.`;
         }
       });
-      questions = automatismes.concat(this.buildEaPart2(automatismes.length));
+      questions = automatismes.concat(this.buildEaPart2(automatismes.length, eaParcours.key));
 
     } else if (isExamBac) {
       totalPoints = 20;
-      ptsPerQ = 5;
       examMainTitle = `🎓 BACCALAURÉAT GÉNÉRAL — ÉPREUVE DE SPÉCIALITÉ MATHÉMATIQUES (20 POINTS)`;
       examSubNotice = `🎓 <strong>Sujet Blanc Baccalauréat Spécialité Maths sur 20 points :</strong> 4 exercices sur le modèle de l'épreuve de spécialité (Probabilités & dénombrement, Géométrie dans l'espace, Suites & Analyse, Analyse approfondie). Durée conseillée : 4h00. Calculatrice mode examen autorisée. Sujet généré aléatoirement : ce n'est pas un sujet officiel.`;
       examSolutionTitle = `🎓 BACCALAURÉAT GÉNÉRAL — CORRIGÉ DU SUJET BLANC DE SPÉCIALITÉ (SUR 20 POINTS)`;
 
       const bacStructure = [
-        { title: "Exercice 1 — Probabilités, dénombrement & loi binomiale (5 points)", pool: ['TS1', 'TS2', 'TS3'], tier: 3 },
-        { title: "Exercice 2 — Géométrie dans l'espace & Produit scalaire (5 points)", pool: ['TG1', 'TG2'], tier: 3 },
-        { title: "Exercice 3 — Analyse, Suites récurrentes & Continuité (5 points)", pool: ['TA1', 'TA2', 'TA3', 'TA5'], tier: 3 },
-        { title: "Exercice 4 — Analyse approfondie : dérivation, trigonométrie, convexité ou intégration (5 points)", pool: ['TA4', 'TA6', 'TA7', 'TA8', 'TA9'], tier: 3 }
+        { title: "Exercice 1 — Probabilités, dénombrement & loi binomiale", pool: ['TS1', 'TS2', 'TS3'], tier: 3 },
+        { title: "Exercice 2 — Géométrie dans l'espace & Produit scalaire", pool: ['TG1', 'TG2'], tier: 3 },
+        { title: "Exercice 3 — Analyse, Suites récurrentes & Continuité", pool: ['TA1', 'TA2', 'TA3', 'TA5'], tier: 3 },
+        { title: "Exercice 4 — Analyse approfondie : dérivation, trigonométrie, convexité ou intégration", pool: ['TA4', 'TA6', 'TA7', 'TA8', 'TA9'], tier: 3 }
       ];
 
       // Questions ouvertes uniquement : exercices rédigés de la banque de DS de Terminale
@@ -619,7 +819,7 @@ window.MathsQuizGenerator = {
             skill: ex.title,
             statement: ex.statement,
             solution: ex.solution,
-            examTitle: `${def.title.replace(/ \(5 points\)$/, '')} — ${ex.title}`,
+            examTitle: `${def.title} — ${ex.title}`,
             examPoints: 5,
             seriesIndex: idx + 1
           };
@@ -639,25 +839,36 @@ window.MathsQuizGenerator = {
       // 5 : interrogation (2 exercices, 30 min, /10) ; 10 : devoir (3 exercices, 1 h, /20) ; 15 : devoir long (4 exercices, 2 h, /20)
       totalPoints = count === 5 ? 10 : 20;
       const freeFormat = { 5: ['Interrogation', '30 min'], 10: ['Devoir surveillé', '1 h'], 15: ['Devoir long', '2 h'] }[count] || ['Devoir surveillé', '1 h'];
-      examMainTitle = `📝 L'ÉTABLI DES MATHS (${levelLabel}) — ${freeFormat[0].toUpperCase()} — ${freeFormat[1].toUpperCase()} — SUR ${totalPoints} POINTS`;
-      examSubNotice = `💡 <strong>${freeFormat[0]} (${levelLabel}) — ${freeFormat[1]}, sur ${totalPoints} points, calculatrice autorisée :</strong> exercices rédigés tirés au sort dans les chapitres choisis, du plus simple au plus exigeant. Rédigez vos calculs et vos justifications sur une copie, puis comparez avec le corrigé (bouton « Afficher le corrigé »). « 🔄 Régénérer » tire un nouveau sujet.`;
-      ptsPerQ = Math.round((totalPoints / count) * 10) / 10;
-      // Pas de QCM dans un devoir : exercices rédigés des banques de DS quand elles existent
-      // (lycée, licence, CAPES), sinon questions générées ouvertes uniquement.
+      // Pas de QCM dans un devoir : exercices rédigés des banques de DS quand elles existent,
+      // sinon questions générées ouvertes uniquement, au nombre annoncé par le format.
       const bank = window.MATHS_DS_BANK || {};
       const bankItems = chapters.flatMap(cid => (bank[cid] || []).map(ex => ({ cid, ex })));
       const isOpen = q => q && q.type !== 'mcq' && !(Array.isArray(q.options) && q.options.length);
-      if (bankItems.length >= 2) {
-        const nbEx = count <= 5 ? 2 : (count <= 10 ? 3 : 4);
-        const picked = [];
-        const byChapter = {};
-        bankItems.forEach(it => { (byChapter[it.cid] = byChapter[it.cid] || []).push(it); });
-        const order = Object.keys(byChapter).sort(() => Math.random() - 0.5);
-        for (let k = 0; picked.length < nbEx && k < nbEx * 4; k++) {
-          const list = byChapter[order[k % order.length]].filter(it => !picked.includes(it));
-          if (list.length) picked.push(list[Math.floor(Math.random() * list.length)]);
+      const useBank = bankItems.length >= 2;
+      const levelHasBank = this.levelHasBank(currentLevel);
+      const nbEx = this.freeExerciseCount(count);
+      if (!levelHasBank) cardNoun = 'Question';
+      examMainTitle = `📝 L'ÉTABLI DES MATHS (${levelLabel}) — ${freeFormat[0].toUpperCase()} — ${freeFormat[1].toUpperCase()} — SUR ${totalPoints} POINTS`;
+      if (useBank) {
+        // Rotation : d'un sujet à l'autre, les chapitres cochés pas encore tirés passent en priorité
+        const rotationKey = `${currentLevel}|${chapters.join(',')}`;
+        if (!this.freeRotation || this.freeRotation.key !== rotationKey) this.freeRotation = { key: rotationKey, seen: [] };
+        let priority = chapters.filter(cid => (bank[cid] || []).length && !this.freeRotation.seen.includes(cid));
+        if (!priority.length) { this.freeRotation.seen = []; priority = chapters.slice(); }
+        const selection = this.pickFreeExercises(chapters, nbEx, bank, priority);
+        selection.picked.forEach(it => { if (!this.freeRotation.seen.includes(it.cid)) this.freeRotation.seen.push(it.cid); });
+        const picked = selection.picked;
+        const chapterName = cid => {
+          const c = (window.MATHS_CHAPTERS || []).find(ch => ch.id === cid);
+          return c ? `${c.num} (${c.shortTitle || c.title})` : cid;
+        };
+        subjectChapters = chapters.filter(cid => picked.some(it => it.cid === cid));
+        if (selection.missing.length) {
+          coverageNotice += ` <br>⚠️ <strong>${selection.missing.length} chapitre${selection.missing.length > 1 ? 's' : ''} coché${selection.missing.length > 1 ? 's' : ''} sur ${chapters.length} ne figure${selection.missing.length > 1 ? 'nt' : ''} pas dans ce sujet</strong> (${nbEx} exercices, un par chapitre)${selection.missing.length <= 6 ? ` : ${selection.missing.map(chapterName).join(', ')}` : ''}. « 🔄 Régénérer » les fait passer en priorité ; pour tout réunir, cocher au plus ${nbEx} chapitres${nbEx < 4 ? ' ou choisir un format plus long' : ''}.`;
         }
-        picked.sort((a, b) => (a.ex.difficulty || 1) - (b.ex.difficulty || 1));
+        if (selection.noBank.length) {
+          coverageNotice += ` <br>ℹ️ Pas encore d'exercice rédigé pour : ${selection.noBank.map(chapterName).join(', ')}.`;
+        }
         const raw = picked.reduce((t, it) => t + (it.ex.points || 5), 0);
         let assigned = 0;
         questions = picked.map((it, idx) => {
@@ -678,25 +889,36 @@ window.MathsQuizGenerator = {
           };
         });
       } else {
-        questions = window.MathsGenerators.generateSeries(chapters, count * 3).filter(isOpen).slice(0, count);
-        if (!questions.length) questions = window.MathsGenerators.generateSeries(chapters, count);
+        const nbQ = levelHasBank ? nbEx : count;
+        questions = window.MathsGenerators.generateSeries(chapters, nbQ * 3).filter(isOpen).slice(0, nbQ);
+        if (!questions.length) questions = window.MathsGenerators.generateSeries(chapters, nbQ);
+        // Barème par demi-points, de total exact (15 questions sur 20 : des questions à 1 point et à 1,5 point)
+        const base = Math.floor(totalPoints / questions.length * 2) / 2;
+        const extra = Math.round((totalPoints - base * questions.length) * 2);
+        questions.forEach((q, i) => { q.examPoints = base + (i >= questions.length - extra ? 0.5 : 0); });
       }
+      // Calculatrice : d'après les exercices effectivement retenus (certains l'excluent)
+      const calcRule = this.freeCalculatorRule(questions, useBank ? 'Exercice' : cardNoun);
+      examConsigne = `${calcRule.charAt(0).toUpperCase()}${calcRule.slice(1)}.${levelHasBank ? ' Toutes les réponses doivent être justifiées, sauf indication contraire.' : ''}`;
+      examSubNotice = `💡 <strong>${freeFormat[0]} (${levelLabel}) — ${freeFormat[1]}, sur ${totalPoints} points, ${calcRule} :</strong> ${useBank ? 'exercices rédigés tirés au sort dans les chapitres choisis, du plus simple au plus exigeant' : 'questions ouvertes tirées au sort dans les chapitres choisis'}. Rédige tes calculs et tes justifications sur une copie, puis compare avec le corrigé (bouton « Afficher le corrigé »). « 🔄 Régénérer » tire un nouveau sujet.${coverageNotice}`;
       examSolutionTitle = `L'ÉTABLI DES MATHS (${levelLabel}) — CORRIGÉ DÉTAILLÉ DU DEVOIR BLANC — BARÈME SUR ${totalPoints} POINTS`;
     }
 
     const previewContainer = document.getElementById('quiz-preview-content');
     if (!previewContainer) return;
 
+    const pointsLabel = q => (q.hidePoints || !q.examPoints) ? '' : `${String(q.examPoints).replace('.', ',')} point${q.examPoints >= 2 ? 's' : ''}`;
+
     // Grille des six compétences (collège et lycée) pour les sujets à exercices rédigés
     const bankQs = questions.filter(q => q.isBrevetProblem && !q.solutionOnly);
-    const gridHtml = ['6eme', '5eme', '4eme', '3eme', '2nde', '1ere', 'tale'].includes(currentLevel) && bankQs.length
+    const gridHtml = ['6eme', '5eme', '4eme', '3eme', '2nde', '1ere', '1tc', '1techno', 'tale'].includes(currentLevel) && bankQs.length
       ? window.MathsExamTools.competencyGridHtml(bankQs.map((q, i) => ({ label: `Ex. ${i + 1}`, statement: q.statement, tier: q.tier || 3 })))
       : '';
 
     const chapterTitles = isExamDNB ? 'Programme de 3e — format du brevet 2026'
-      : isExamEA ? 'Programme de 2nde et de spécialité de 1re — calculatrice interdite'
+      : isExamEA ? eaParcours.badge
       : (isExamBac ? 'Programme de spécialité mathématiques (Terminale)'
-      : chapters.map(cid => {
+      : subjectChapters.map(cid => {
           const c = (window.MATHS_CHAPTERS || []).find(ch => ch.id === cid);
           return c ? `${c.num} (${c.shortTitle || c.title})` : cid;
         }).join(', '));
@@ -734,6 +956,7 @@ window.MathsQuizGenerator = {
           </div>
 
           <div class="quiz-questions-grid">
+            ${examConsigne ? `<div class="quiz-exam-section"><p>${examConsigne}</p></div>` : ''}
             ${questions.filter(q => !q.solutionOnly).map((q, idx) => {
               const stage = (window.MathsApp && typeof window.MathsApp.getPedagogicalStage === 'function')
                 ? window.MathsApp.getPedagogicalStage(q.tier)
@@ -741,8 +964,8 @@ window.MathsQuizGenerator = {
               const comp = (window.MathsApp && typeof window.MathsApp.getExerciseCompetency === 'function')
                 ? window.MathsApp.getExerciseCompetency(q, q.chapterId)
                 : (q.skill || q.title || q.chapterId);
-              const cardTitle = q.examTitle || `Exercice ${idx + 1}`;
-              const pointsDisplay = q.hidePoints ? '' : (q.examPoints ? `${String(q.examPoints).replace('.', ',')} points` : `${ptsPerQ} pt${ptsPerQ > 1 ? 's' : ''}`);
+              const cardTitle = q.examTitle || `${cardNoun} ${idx + 1}`;
+              const pointsDisplay = pointsLabel(q);
               const section = q.sectionTitle ? `
                 <div class="quiz-exam-section">
                   <h4>${q.sectionTitle}</h4>
@@ -762,7 +985,7 @@ window.MathsQuizGenerator = {
                   </div>
                   ${q.fromBank && q.examPoints ? window.MathsExamTools.scaleHtml(q.statement, q.examPoints) : ''}
                   <div class="quiz-q-text">
-                    ${window.MathsRenderer.markdownToHtml(q.statement)}
+                    ${window.MathsRenderer.markdownToHtml(window.MathsExamTools.paperStatement(q.statement))}
                     ${q.choicesMd ? `<div class="quiz-mcq-choices">${window.MathsRenderer.markdownToHtml(q.choicesMd)}</div>` : ''}
                   </div>
                 </div>
@@ -803,11 +1026,11 @@ window.MathsQuizGenerator = {
               const comp = (window.MathsApp && typeof window.MathsApp.getExerciseCompetency === 'function')
                 ? window.MathsApp.getExerciseCompetency(q, q.chapterId)
                 : (q.skill || q.title || q.chapterId);
-              const cardTitle = q.examTitle || `Exercice ${idx + 1}`;
-              const pointsDisplay = q.hidePoints ? '' : (q.examPoints ? `${String(q.examPoints).replace('.', ',')} points` : `${ptsPerQ} pt${ptsPerQ > 1 ? 's' : ''}`);
+              const cardTitle = q.examTitle || `${cardNoun} ${idx + 1}`;
+              const pointsDisplay = pointsLabel(q);
               let rawSol = q.solution || (q.answer ? `Réponse attendue : **${q.answer}**` : "Voir le cours pour les étapes détaillées.");
               if (q.mcqAnswerLine) rawSol = `${q.mcqAnswerLine}\n\n${rawSol}`;
-              const solFormatted = (!q.isBrevetProblem && window.MathsAdaptiveEngine && q.statement && rawSol)
+              const solFormatted = (!q.isBrevetProblem && !q.isEaAutomatism && window.MathsAdaptiveEngine && q.statement && rawSol)
                 ? window.MathsAdaptiveEngine.formatSolutionWithInitialExpr(q.statement, rawSol)
                 : rawSol;
               const section = q.sectionTitle ? `<div class="quiz-exam-section"><h4>${q.sectionTitle}</h4></div>` : '';
@@ -871,7 +1094,7 @@ window.MathsQuizGenerator = {
         banner.style.transition = 'all 0.3s ease';
         banner.style.boxShadow = '0 0 15px rgba(37, 99, 235, 0.45)';
         banner.style.borderColor = 'var(--primary, #2563eb)';
-        banner.innerHTML = `✨ <strong>Nouveau sujet généré avec succès (${levelLabel}) !</strong> De nouvelles valeurs et questions ont été tirées au sort. Bon entraînement !`;
+        banner.innerHTML = `✨ <strong>Nouveau sujet généré avec succès (${levelLabel}) !</strong> De nouvelles valeurs et questions ont été tirées au sort. Bon entraînement !${coverageNotice}`;
         setTimeout(() => {
           if (banner) {
             banner.style.boxShadow = 'none';

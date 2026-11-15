@@ -415,6 +415,28 @@ $$\\dfrac{d}{20} + \\dfrac{d}{30} = \\dfrac{3d}{60} + \\dfrac{2d}{60} = \\dfrac{
 **b)** La distance totale est $2d$ et la durée totale $\\dfrac{d}{12}$ h. Vitesse moyenne :
 $$2d \\div \\dfrac{d}{12} = 2d \\times \\dfrac{12}{d} = 24 \\text{ km/h}.$$
 Le résultat vaut $24$ km/h quelle que soit la distance $d$ (non nulle).`
+    },
+    {
+      id: "N1-ds-17",
+      title: "Démontrer la règle du produit de deux fractions",
+      difficulty: 3,
+      points: 5,
+      statement: `Soit $a$, $b$, $c$ et $d$ quatre nombres, avec $b \\neq 0$ et $d \\neq 0$. On rappelle que $\\dfrac{a}{b}$ est le nombre qui, multiplié par $b$, donne $a$.
+
+On pose $p = \\dfrac{a}{b} \\times \\dfrac{c}{d}$.
+
+1. Que valent $b \\times \\dfrac{a}{b}$ et $d \\times \\dfrac{c}{d}$ ?
+2. Montrer que $(b \\times d) \\times p = a \\times c$.
+3. En déduire que $\\dfrac{a}{b} \\times \\dfrac{c}{d} = \\dfrac{a \\times c}{b \\times d}$.
+4. Application : calculer $\\dfrac{3}{4} \\times \\dfrac{10}{9}$ et donner le résultat sous forme de fraction irréductible.`,
+      solution: `**1.** Par définition du quotient, $b \\times \\dfrac{a}{b} = a$ et $d \\times \\dfrac{c}{d} = c$.
+
+**2.** Dans un produit, on peut changer l'ordre des facteurs et les regrouper :
+$$(b \\times d) \\times p = b \\times d \\times \\dfrac{a}{b} \\times \\dfrac{c}{d} = \\left(b \\times \\dfrac{a}{b}\\right) \\times \\left(d \\times \\dfrac{c}{d}\\right) = a \\times c.$$
+
+**3.** Le nombre $p$, multiplié par $b \\times d$ (qui n'est pas nul), donne $a \\times c$. Par définition du quotient, $p = \\dfrac{a \\times c}{b \\times d}$, c'est-à-dire $\\dfrac{a}{b} \\times \\dfrac{c}{d} = \\dfrac{a \\times c}{b \\times d}$.
+
+**4.** $\\dfrac{3}{4} \\times \\dfrac{10}{9} = \\dfrac{3 \\times 10}{4 \\times 9} = \\dfrac{30}{36} = \\dfrac{5}{6}$.`
     }
   ],
   "N2": [
@@ -443,23 +465,23 @@ Contrôle possible pour $x = 1$ : $C = 4 \\times 1 = 4$ et $2 + 5 - 3 = 4$ ; $D 
     },
     {
       id: "N2-ds-02",
-      title: "Les identités remarquables",
+      title: "Développer des carrés et des produits",
       difficulty: 1,
       points: 4,
-      statement: `1. Développer à l'aide des identités remarquables :
+      statement: `1. Développer et réduire, en écrivant chaque carré comme un produit :
    a) $E = (x + 5)^2$
    b) $F = (3x - 2)^2$
    c) $G = (2x + 7)(2x - 7)$
-2. Écrire $101^2$ sous la forme $(100 + 1)^2$ et en déduire $101^2$ sans calculatrice.
+2. Écrire $101^2$ sous la forme $(100 + 1)(100 + 1)$ et en déduire $101^2$ sans calculatrice.
 3. Calculer de même $99^2$.`,
-      solution: `**1.** On utilise $(a + b)^2 = a^2 + 2ab + b^2$, $(a - b)^2 = a^2 - 2ab + b^2$ et $(a + b)(a - b) = a^2 - b^2$.
-**a)** $E = x^2 + 2 \\times x \\times 5 + 5^2 = x^2 + 10x + 25$.
-**b)** $F = (3x)^2 - 2 \\times 3x \\times 2 + 2^2 = 9x^2 - 12x + 4$.
-**c)** $G = (2x)^2 - 7^2 = 4x^2 - 49$.
+      solution: `**1.** On écrit chaque carré comme un produit, puis on applique la double distributivité.
+**a)** $E = (x + 5)(x + 5) = x^2 + 5x + 5x + 25 = x^2 + 10x + 25$.
+**b)** $F = (3x - 2)(3x - 2) = 9x^2 - 6x - 6x + 4 = 9x^2 - 12x + 4$.
+**c)** Avec $(a + b)(a - b) = a^2 - b^2$ : $G = (2x)^2 - 7^2 = 4x^2 - 49$.
 
-**2.** $101^2 = (100 + 1)^2 = 100^2 + 2 \\times 100 \\times 1 + 1^2 = 10\\,000 + 200 + 1 = 10\\,201$.
+**2.** $101^2 = (100 + 1)(100 + 1) = 10\\,000 + 100 + 100 + 1 = 10\\,201$.
 
-**3.** $99^2 = (100 - 1)^2 = 10\\,000 - 200 + 1 = 9\\,801$.`
+**3.** $99^2 = (100 - 1)(100 - 1) = 10\\,000 - 100 - 100 + 1 = 9\\,801$.`
     },
     {
       id: "N2-ds-03",
@@ -500,8 +522,8 @@ Avec l'expression réduite : $J = -2 - 7 = -9$. Les deux calculs concordent.`
 
 **2.** $-5 + 3 = -2$ ; $(-2)^2 = 4$ ; $4 - (-5)^2 = 4 - 25 = -21$.
 
-**3.** Le résultat est $(x + 3)^2 - x^2$. Avec l'identité remarquable :
-$$(x + 3)^2 - x^2 = x^2 + 6x + 9 - x^2 = 6x + 9.$$
+**3.** Le résultat est $(x + 3)^2 - x^2$. On écrit le carré comme un produit :
+$$(x + 3)(x + 3) - x^2 = x^2 + 3x + 3x + 9 - x^2 = 6x + 9.$$
 (Contrôle : pour $x = 2$, $6 \\times 2 + 9 = 21$.)
 
 **4.** On résout $6x + 9 = 45$, soit $6x = 36$, donc $x = 6$.
@@ -529,20 +551,22 @@ $$\\mathcal{A}(x) = (2x + 3)^2 - x(x + 1) = 4x^2 + 12x + 9 - x^2 - x = 3x^2 + 11
     },
     {
       id: "N2-ds-06",
-      title: "Calcul mental et identités remarquables",
+      title: "Calcul mental et développement",
       difficulty: 3,
       points: 5,
       statement: `1. En écrivant $49 \\times 51 = (50 - 1)(50 + 1)$, calculer $49 \\times 51$ sans calculatrice.
-2. Calculer de même $98^2$ en utilisant une identité remarquable.
+2. Calculer $98^2$ en l'écrivant $(100 - 2)(100 - 2)$.
 3. Soit $n$ un nombre. Démontrer que $(n + 1)^2 - (n - 1)^2 = 4n$.
 4. En déduire, sans calculatrice, la valeur de $1\\,001^2 - 999^2$.`,
       solution: `**1.** D'après $(a - b)(a + b) = a^2 - b^2$ :
 $$49 \\times 51 = 50^2 - 1^2 = 2\\,500 - 1 = 2\\,499.$$
 
-**2.** D'après $(a - b)^2 = a^2 - 2ab + b^2$ :
-$$98^2 = (100 - 2)^2 = 10\\,000 - 400 + 4 = 9\\,604.$$
+**2.** On développe le produit :
+$$98^2 = (100 - 2)(100 - 2) = 10\\,000 - 200 - 200 + 4 = 9\\,604.$$
 
-**3.** On développe :
+**3.** On écrit chaque carré comme un produit et on développe :
+$$(n + 1)(n + 1) = n^2 + n + n + 1 = n^2 + 2n + 1 \\quad ; \\quad (n - 1)(n - 1) = n^2 - n - n + 1 = n^2 - 2n + 1.$$
+Donc :
 $$(n + 1)^2 - (n - 1)^2 = (n^2 + 2n + 1) - (n^2 - 2n + 1) = n^2 + 2n + 1 - n^2 + 2n - 1 = 4n.$$
 
 **4.** Avec $n = 1\\,000$ : $1\\,001^2 - 999^2 = 4 \\times 1\\,000 = 4\\,000$.`
@@ -594,11 +618,11 @@ Comme $a + 1 = n^2 + 3n + 1$ est un entier, le nombre obtenu est bien le carré 
       points: 4,
       statement: `Une photo carrée de côté $x$ cm est collée au centre d'un cadre carré. Le cadre dépasse de $2$ cm de chaque côté de la photo, si bien que le grand carré (cadre et photo) a pour côté $x + 4$ cm.
 
-1. Exprimer l'aire du grand carré en fonction de $x$, puis la développer à l'aide d'une identité remarquable.
+1. Exprimer l'aire du grand carré en fonction de $x$, puis la développer en écrivant le carré comme un produit.
 2. Montrer que l'aire de la partie visible du cadre (le grand carré privé de la photo) est égale à $8x + 16$ cm².
 3. Calculer cette aire pour une photo de $10$ cm de côté, de deux façons différentes.`,
-      solution: `**1.** L'aire du grand carré est $(x + 4)^2$. Avec $(a + b)^2 = a^2 + 2ab + b^2$ :
-$$(x + 4)^2 = x^2 + 2 \\times x \\times 4 + 4^2 = x^2 + 8x + 16.$$
+      solution: `**1.** L'aire du grand carré est $(x + 4)^2$. On écrit le carré comme un produit :
+$$(x + 4)^2 = (x + 4)(x + 4) = x^2 + 4x + 4x + 16 = x^2 + 8x + 16.$$
 
 **2.** On retire l'aire de la photo, $x^2$ :
 $$(x^2 + 8x + 16) - x^2 = 8x + 16.$$
@@ -625,9 +649,9 @@ Les deux méthodes donnent $96$ cm².`
 Pour $n = 5$ : $(10 + 3)^2 - (10 - 3)^2 = 169 - 49 = 120 = 24 \\times 5$.
 L'affirmation est vérifiée dans ces deux cas (ce qui ne suffit pas à la prouver).
 
-**2.** Avec les identités remarquables :
-$(2n + 3)^2 = 4n^2 + 2 \\times 2n \\times 3 + 9 = 4n^2 + 12n + 9$ ;
-$(2n - 3)^2 = 4n^2 - 12n + 9$.
+**2.** On écrit chaque carré comme un produit :
+$(2n + 3)^2 = (2n + 3)(2n + 3) = 4n^2 + 6n + 6n + 9 = 4n^2 + 12n + 9$ ;
+$(2n - 3)^2 = (2n - 3)(2n - 3) = 4n^2 - 6n - 6n + 9 = 4n^2 - 12n + 9$.
 
 **3.** Attention au signe « $-$ » devant la parenthèse :
 $$(4n^2 + 12n + 9) - (4n^2 - 12n + 9) = 4n^2 + 12n + 9 - 4n^2 + 12n - 9 = 24n.$$
@@ -650,8 +674,8 @@ $$(4n^2 + 12n + 9) - (4n^2 - 12n + 9) = 4n^2 + 12n + 9 - 4n^2 + 12n - 9 = 24n.$$
 
 **2.** Volume d'un pavé droit $=$ aire de la base $\\times$ hauteur, donc $V = (20 - 2x)^2 \\times x = x(20 - 2x)^2$.
 
-**3.** Avec $(a - b)^2 = a^2 - 2ab + b^2$ :
-$$A = (20 - 2x)^2 = 20^2 - 2 \\times 20 \\times 2x + (2x)^2 = 400 - 80x + 4x^2.$$
+**3.** On écrit le carré comme un produit :
+$$A = (20 - 2x)(20 - 2x) = 400 - 40x - 40x + 4x^2 = 400 - 80x + 4x^2.$$
 
 **4.** Pour $x = 3$ :
 - $A = (20 - 6)^2 = 14^2 = 196$ cm² ;
@@ -677,8 +701,8 @@ Comme $588 > 500$, le découpage $x = 3$ donne la boîte la plus grande.`
 4. Utiliser cette méthode pour calculer $85^2$ et $105^2$, en détaillant.`,
       solution: `**1.** $25^2 = 625$, $35^2 = 1\\,225$ et $45^2 = 2\\,025$. Ces carrés se terminent tous par $25$.
 
-**2. a)** Avec $(a + b)^2 = a^2 + 2ab + b^2$ :
-$$(10a + 5)^2 = 100a^2 + 2 \\times 10a \\times 5 + 25 = 100a^2 + 100a + 25.$$
+**2. a)** On écrit le carré comme un produit :
+$$(10a + 5)(10a + 5) = 100a^2 + 50a + 50a + 25 = 100a^2 + 100a + 25.$$
 
 **b)** On factorise $100a$ dans les deux premiers termes : $100a^2 + 100a = 100a(a + 1)$. Donc
 $$(10a + 5)^2 = 100 \\times a(a + 1) + 25.$$
@@ -796,6 +820,39 @@ $1\\,999 \\times 2\\,001 = 2\\,000^2 - 1 = 4\\,000\\,000 - 1 = 3\\,999\\,999$.
 Exemple : $10^2 - 7 \\times 13 = 100 - 91 = 9$.
 
 **5.** $47 \\times 53 = (50 - 3)(50 + 3) = 50^2 - 9 = 2\\,500 - 9 = 2\\,491$.`
+    },
+    {
+      id: "N2-ds-17",
+      title: "Identité ou équation ?",
+      difficulty: 3,
+      points: 5,
+      statement: `On considère les trois égalités suivantes, où la lettre $x$ désigne un nombre :
+- $E_1$ : $(x + 3)^2 = x^2 + 6x + 9$ ;
+- $E_2$ : $2x + 5 = 3x + 1$ ;
+- $E_3$ : $(x + 1)(x - 1) = x^2 + 1$.
+
+1. Tester chacune des trois égalités pour $x = 0$, puis pour $x = 4$.
+2. L'égalité $E_2$ est-elle vraie pour toutes les valeurs de $x$ ? Justifier.
+3. Démontrer que $E_1$ est une identité, c'est-à-dire une égalité vraie pour toutes les valeurs de $x$.
+4. Résoudre l'équation $E_2$. Quel rôle joue la lettre $x$ dans cette égalité ?
+5. Développer $(x + 1)(x - 1)$. L'égalité $E_3$ peut-elle être vraie pour une valeur de $x$ ? Justifier.`,
+      solution: `**1.** Pour $x = 0$ :
+- $E_1$ : $(0 + 3)^2 = 9$ et $0 + 0 + 9 = 9$ : vraie ;
+- $E_2$ : $5$ et $1$ : fausse ;
+- $E_3$ : $1 \\times (-1) = -1$ et $0 + 1 = 1$ : fausse.
+
+Pour $x = 4$ :
+- $E_1$ : $7^2 = 49$ et $16 + 24 + 9 = 49$ : vraie ;
+- $E_2$ : $2 \\times 4 + 5 = 13$ et $3 \\times 4 + 1 = 13$ : vraie ;
+- $E_3$ : $5 \\times 3 = 15$ et $16 + 1 = 17$ : fausse.
+
+**2.** Non : elle est fausse pour $x = 0$. Un seul contre-exemple suffit.
+
+**3.** $(x + 3)^2 = (x + 3)(x + 3) = x^2 + 3x + 3x + 9 = x^2 + 6x + 9$. L'égalité est vraie pour toute valeur de $x$ : c'est une identité.
+
+**4.** $2x + 5 = 3x + 1$, donc $5 - 1 = 3x - 2x$, soit $x = 4$. La seule solution est $4$. Ici, $x$ est une **inconnue** : on cherche les valeurs qui rendent l'égalité vraie.
+
+**5.** $(x + 1)(x - 1) = x^2 - x + x - 1 = x^2 - 1$. L'égalité $E_3$ s'écrit donc $x^2 - 1 = x^2 + 1$. En soustrayant $x^2$ aux deux membres, on obtient $-1 = 1$, ce qui est impossible : $E_3$ n'est vraie pour aucune valeur de $x$.`
     }
   ],
   "N2bis": [
@@ -846,7 +903,7 @@ Exemple : $10^2 - 7 \\times 13 = 100 - 91 = 9$.
 1. $H = (x + 2)(3x - 1) + (x + 2)(x + 5)$
 2. $I = (2x - 3)(x + 4) - (2x - 3)(5x - 1)$
 3. $J = (x - 1)^2 + (x - 1)(2x + 3)$
-4. Montrer que $H$ peut s'écrire $4(x + 2)(x + 1)$.`,
+4. La factorisation de $H$ obtenue au 1. n'est pas complète : montrer que $H$ peut s'écrire $4(x + 2)(x + 1)$.`,
       solution: `**1.** Le facteur commun est $(x + 2)$ :
 $$H = (x + 2)\\big[(3x - 1) + (x + 5)\\big] = (x + 2)(4x + 4).$$
 
@@ -1091,11 +1148,11 @@ $11^2 - 9^2 = (11 - 9)(11 + 9) = 2 \\times 20 = 40$ (et $40 = 4 \\times 10$ est 
    a) $A = 5x + 15$
    b) $B = x^2 - 7x$
    c) $C = (x + 1)(x - 2) + 3(x + 1)$
-2. Avec une identité remarquable :
+2. Avec l'égalité $a^2 - b^2 = (a - b)(a + b)$ :
    a) $D = x^2 - 25$
    b) $E = 4x^2 - 9$
-   c) $F = x^2 + 6x + 9$
-3. Vérifier la factorisation de $E$ en développant le résultat obtenu.`,
+3. Développer $(x + 3)(x + 3)$, puis en déduire une factorisation de $F = x^2 + 6x + 9$.
+4. Vérifier la factorisation de $E$ en développant le résultat obtenu.`,
       solution: `**1. a)** $5$ est un facteur commun : $A = 5 \\times x + 5 \\times 3 = 5(x + 3)$.
 
 **b)** $x$ est un facteur commun : $B = x \\times x - 7 \\times x = x(x - 7)$.
@@ -1107,9 +1164,9 @@ $C = (x + 1)\\big[(x - 2) + 3\\big] = (x + 1)(x + 1) = (x + 1)^2$.
 
 **b)** $E = (2x)^2 - 3^2 = (2x - 3)(2x + 3)$.
 
-**c)** $F = x^2 + 2 \\times x \\times 3 + 3^2 = (x + 3)^2$, avec $a^2 + 2ab + b^2 = (a + b)^2$.
+**3.** $(x + 3)(x + 3) = x^2 + 3x + 3x + 9 = x^2 + 6x + 9$, donc $F = (x + 3)(x + 3) = (x + 3)^2$.
 
-**3.** $(2x - 3)(2x + 3) = 4x^2 + 6x - 6x - 9 = 4x^2 - 9$ : on retrouve bien $E$.`
+**4.** $(2x - 3)(2x + 3) = 4x^2 + 6x - 6x - 9 = 4x^2 - 9$ : on retrouve bien $E$.`
     },
     {
       id: "N2bis-ds-14",
@@ -1203,14 +1260,14 @@ Donc $9$, $11$ et $101$ sont des diviseurs de $9\\,999$ (on pourrait aussi citer
   "N3": [
     {
       id: "N3-ds-01",
-      title: "Règles de calcul sur les puissances",
+      title: "Calculs sur les puissances",
       difficulty: 1,
       points: 4,
       statement: `1. Écrire chaque nombre sous la forme d'une seule puissance :
    a) $10^5 \\times 10^{-3}$ $\\quad$ b) $(10^3)^4$ $\\quad$ c) $\\dfrac{10^7}{10^{-2}}$ $\\quad$ d) $2^3 \\times 2^5$ $\\quad$ e) $\\dfrac{5^6}{5^4}$
 2. Donner l'écriture décimale de $2^{-3}$.
 3. Calculer $(-3)^2$ et $-3^2$. Expliquer pourquoi les résultats sont différents.`,
-      solution: `On utilise $a^m \\times a^n = a^{m+n}$, $\\dfrac{a^m}{a^n} = a^{m-n}$ et $(a^m)^n = a^{m \\times n}$.
+      solution: `On compte les facteurs de chaque puissance : par exemple, $2^3 \\times 2^5$ contient $3 + 5 = 8$ facteurs $2$, et dans $\\dfrac{5^6}{5^4}$ on simplifie $4$ facteurs $5$, il en reste $2$.
 
 **1. a)** $10^{5 + (-3)} = 10^2$. **b)** $10^{3 \\times 4} = 10^{12}$. **c)** $10^{7 - (-2)} = 10^9$. **d)** $2^{3 + 5} = 2^8$. **e)** $5^{6 - 4} = 5^2$ (soit $25$).
 
@@ -1557,7 +1614,7 @@ Calculatrice autorisée pour les questions 4 et 5 uniquement.
 Il faudrait environ $4$ millions de plages comme celle-ci.
 
 **5.** Il faut $2{,}4 \\times 10^{15}$ secondes, soit $\\dfrac{2{,}4 \\times 10^{15}}{3{,}15 \\times 10^{7}} \\approx 0{,}76 \\times 10^{8} = 7{,}6 \\times 10^{7}$ années.
-L'ordre de grandeur est $10^{8}$ années, c'est-à-dire environ $76$ millions d'années.`
+Comme $7{,}6 \\geq 5$, la durée est de l'ordre de $10^{8}$ années (valeur précise : environ $76$ millions d'années).`
     }
   ],
   "N4": [
@@ -1602,10 +1659,12 @@ L'ordre de grandeur est $10^{8}$ années, c'est-à-dire environ $76$ millions d'
     },
     {
       id: "N4-ds-03",
-      title: "Inéquations",
+      title: "Pour aller plus loin : inéquations",
       difficulty: 2,
       points: 5,
-      statement: `1. Résoudre l'inéquation $3x - 5 < 7$ et représenter les solutions sur une droite graduée.
+      statement: `**Pour aller plus loin** (inéquations, non exigibles en 3e ; utile en seconde).
+
+1. Résoudre l'inéquation $3x - 5 < 7$ et représenter les solutions sur une droite graduée.
 2. Résoudre l'inéquation $-2x + 3 \\geqslant 11$.
 3. a) Résoudre l'inéquation $4x + 1 < x + 13$.
    b) Quel est le plus grand nombre entier solution de cette inéquation ?
@@ -1754,22 +1813,22 @@ On note $x$ le nombre de jours de location.
 
 1. Calculer le prix payé pour $5$ jours avec chacun des deux tarifs.
 2. Exprimer en fonction de $x$ le prix $P_A$ payé avec le tarif A et le prix $P_B$ payé avec le tarif B.
-3. a) Écrire une inéquation traduisant : « le tarif B est strictement moins cher que le tarif A ».
-   b) Résoudre cette inéquation.
+3. a) Résoudre l'équation $15x = 40 + 10x$. Que représente la solution trouvée pour les deux tarifs ?
+   b) Calculer le prix payé pour $12$ jours avec chacun des deux tarifs.
 4. Conseiller un client en fonction de la durée de sa location.`,
       solution: `**1.** Tarif A : $5 \\times 15 = 75$ €. Tarif B : $40 + 5 \\times 10 = 90$ €. Pour $5$ jours, le tarif A est plus avantageux.
 
 **2.** $P_A = 15x$ et $P_B = 40 + 10x$.
 
-**3. a)** $40 + 10x < 15x$.
+**3. a)** On soustrait $10x$ aux deux membres : $5x = 40$, donc $x = 8$.
+Pour $8$ jours, les deux tarifs coûtent le même prix : $15 \\times 8 = 120$ € et $40 + 10 \\times 8 = 120$ €.
 
-**b)** On soustrait $10x$ aux deux membres : $40 < 5x$. On divise par $5$, nombre positif, sans changer le sens de l'inégalité : $8 < x$.
-Les solutions sont les nombres strictement supérieurs à $8$.
+**b)** Tarif A : $12 \\times 15 = 180$ €. Tarif B : $40 + 12 \\times 10 = 160$ €. Pour $12$ jours, le tarif B est le moins cher.
 
-**4.** Pour $8$ jours, les deux tarifs coûtent le même prix : $15 \\times 8 = 120$ € et $40 + 10 \\times 8 = 120$ €.
+**4.** Le tarif A augmente de $15$ € par jour et le tarif B de $10$ € par jour seulement. Les prix sont égaux pour $8$ jours ; avant, A est moins cher (voir $5$ jours), après, B est moins cher (voir $12$ jours).
 - Pour moins de $8$ jours, le tarif A est le moins cher ;
 - pour $8$ jours, les deux tarifs sont équivalents ;
-- à partir de $9$ jours, le tarif B est le moins cher.`
+- à partir de $9$ jours, le tarif B est le moins cher ($135$ € pour A et $130$ € pour B avec $9$ jours).`
     },
     {
       id: "N4-ds-11",
@@ -1902,24 +1961,25 @@ On note $x$ le nombre d'élèves participant à la sortie.
 
 1. Calculer le coût total avec chaque transporteur pour $40$ élèves.
 2. Exprimer, en fonction de $x$, le coût total avec le transporteur A, puis avec le transporteur B.
-3. Avec le transporteur A, combien d'élèves au maximum peuvent participer sans dépasser le budget ? Justifier en résolvant une inéquation.
-4. Même question avec le transporteur B.
-5. a) Résoudre l'inéquation $300 + 15x < 450 + 12x$.
-   b) Interpréter ce résultat. Quel transporteur le collège doit-il choisir pour emmener le plus d'élèves possible ?`,
+3. a) Résoudre l'équation $450 + 12x = 1\\,000$ (donner une valeur approchée au dixième).
+   b) En déduire le nombre maximal d'élèves pouvant participer avec le transporteur A sans dépasser le budget. Vérifier par un calcul.
+4. Répondre aux mêmes questions pour le transporteur B, à partir de l'équation $300 + 15x = 1\\,000$.
+5. a) Résoudre l'équation $300 + 15x = 450 + 12x$. Que représente la solution ?
+   b) Quel transporteur est le moins cher pour un nombre d'élèves inférieur à cette solution ? Quel transporteur le collège doit-il choisir pour emmener le plus d'élèves possible ?`,
       solution: `**1.** Pour $40$ élèves : A coûte $450 + 12 \\times 40 = 930$ € ; B coûte $300 + 15 \\times 40 = 900$ €.
 
 **2.** Coût avec A : $450 + 12x$. Coût avec B : $300 + 15x$.
 
-**3.** On résout $450 + 12x \\leqslant 1\\,000$ : $12x \\leqslant 550$, donc $x \\leqslant \\dfrac{550}{12} \\approx 45{,}8$.
-$x$ étant un nombre entier, au maximum $45$ élèves peuvent participer avec A.
-(Vérification : $450 + 12 \\times 45 = 990$ € et $450 + 12 \\times 46 = 1\\,002$ €.)
+**3. a)** $450 + 12x = 1\\,000$, donc $12x = 550$ et $x = \\dfrac{550}{12} \\approx 45{,}8$.
 
-**4.** On résout $300 + 15x \\leqslant 1\\,000$ : $15x \\leqslant 700$, donc $x \\leqslant \\dfrac{700}{15} \\approx 46{,}7$.
-Au maximum $46$ élèves avec B. (Vérification : $300 + 15 \\times 46 = 990$ € et $300 + 15 \\times 47 = 1\\,005$ €.)
+**b)** Le nombre d'élèves est entier et le coût augmente avec le nombre d'élèves : on essaie $45$ et $46$. On a $450 + 12 \\times 45 = 990$ € et $450 + 12 \\times 46 = 1\\,002$ €. Au maximum $45$ élèves peuvent participer avec A.
 
-**5. a)** $300 + 15x < 450 + 12x$, donc $15x - 12x < 450 - 300$, soit $3x < 150$, donc $x < 50$.
+**4.** $300 + 15x = 1\\,000$, donc $15x = 700$ et $x = \\dfrac{700}{15} \\approx 46{,}7$.
+On a $300 + 15 \\times 46 = 990$ € et $300 + 15 \\times 47 = 1\\,005$ €. Au maximum $46$ élèves peuvent participer avec B.
 
-**b)** Le transporteur B est moins cher que A lorsqu'il y a moins de $50$ élèves. Avec le budget de $1\\,000$ €, on ne dépasse jamais $46$ élèves : B est donc toujours le moins cher ici, et c'est lui qui permet d'emmener le plus d'élèves ($46$ contre $45$).`
+**5. a)** $300 + 15x = 450 + 12x$, donc $15x - 12x = 450 - 300$, soit $3x = 150$, donc $x = 50$. Pour $50$ élèves, les deux transporteurs coûtent le même prix : $1\\,050$ €.
+
+**b)** Pour $40$ élèves, B coûte $900$ € et A coûte $930$ € : B est le moins cher. Comme le coût de B augmente plus vite ($15$ € par élève contre $12$ €), les deux coûts se rejoignent à $50$ élèves : B est le moins cher pour tout nombre d'élèves inférieur à $50$. Avec le budget de $1\\,000$ €, on ne dépasse jamais $46$ élèves : c'est B qui permet d'emmener le plus d'élèves ($46$ contre $45$).`
     },
     {
       id: "N4-ds-16",
@@ -1933,8 +1993,8 @@ Au maximum $46$ élèves avec B. (Vérification : $300 + 15 \\times 46 = 990$ �
 3. a) Développer et réduire l'aire du rectangle.
    b) Montrer que la différence « aire du rectangle $-$ aire du carré » est égale à $2x - 24$.
 4. a) Pour quelle valeur de $x$ les deux figures ont-elles la même aire ?
-   b) Pour quelles valeurs de $x$ le rectangle a-t-il une aire strictement plus grande que celle du carré ?
-5. Pour quelles valeurs de $x$ l'aire du rectangle dépasse-t-elle celle du carré d'au moins $10$ cm² ?
+   b) Expliquer pourquoi, lorsque $x$ est plus grand que $12$, le rectangle a une aire plus grande que celle du carré.
+5. Pour quelle valeur de $x$ l'aire du rectangle dépasse-t-elle celle du carré d'exactement $10$ cm² ?
 6. Montrer que, quelle que soit la valeur de $x$, le périmètre du rectangle dépasse celui du carré de $4$ cm.`,
       solution: `**1.** Pour $x = 10$ : carré $10^2 = 100$ cm² ; rectangle $16 \\times 6 = 96$ cm². Le carré a la plus grande aire.
 
@@ -1947,9 +2007,9 @@ Vérification : pour $x = 10$, $2 \\times 10 - 24 = -4 = 96 - 100$ ; pour $x = 1
 
 **4. a)** Les aires sont égales lorsque $2x - 24 = 0$, soit $x = 12$ (carré et rectangle de $144$ cm², car $18 \\times 8 = 144$).
 
-**b)** On résout $2x - 24 > 0$ : $2x > 24$, donc $x > 12$.
+**b)** La différence $2x - 24$ vaut $0$ pour $x = 12$ et elle augmente quand $x$ augmente (chaque centimètre de plus lui ajoute $2$). Lorsque $x$ est plus grand que $12$, elle est donc positive : l'aire du rectangle est plus grande que celle du carré.
 
-**5.** On résout $2x - 24 \\geqslant 10$ : $2x \\geqslant 34$, donc $x \\geqslant 17$.
+**5.** On résout $2x - 24 = 10$ : $2x = 34$, donc $x = 17$.
 (Vérification : pour $x = 17$, $23 \\times 13 - 17^2 = 299 - 289 = 10$.)
 
 **6.** Périmètre du carré : $4x$. Périmètre du rectangle : $2\\big[(x + 6) + (x - 4)\\big] = 2(2x + 2) = 4x + 4$.
@@ -1962,13 +2022,12 @@ La différence vaut $(4x + 4) - 4x = 4$ cm, quelle que soit la valeur de $x$.`
       title: "Critères de divisibilité",
       difficulty: 1,
       points: 4,
-      statement: `1. Le nombre $2\\,340$ est-il divisible par $2$ ? par $3$ ? par $4$ ? par $5$ ? par $9$ ? par $10$ ? Justifier chaque réponse à l'aide d'un critère.
+      statement: `1. Le nombre $2\\,340$ est-il divisible par $2$ ? par $3$ ? par $5$ ? par $9$ ? par $10$ ? Justifier chaque réponse à l'aide d'un critère.
 2. On considère le nombre à trois chiffres $\\overline{5a7}$ (chiffre des centaines $5$, des dizaines $a$, des unités $7$). Trouver le chiffre $a$ pour que ce nombre soit divisible par $9$.
 3. Le nombre $91$ est-il premier ? Justifier.`,
       solution: `**1.**
 - Son chiffre des unités est $0$ : il est divisible par $2$, par $5$ et par $10$.
 - La somme de ses chiffres est $2 + 3 + 4 + 0 = 9$, multiple de $3$ et de $9$ : il est divisible par $3$ et par $9$.
-- Le nombre formé par ses deux derniers chiffres, $40$, est divisible par $4$ : $2\\,340$ est divisible par $4$ ($2\\,340 = 4 \\times 585$).
 
 **2.** La somme des chiffres est $5 + a + 7 = 12 + a$. Elle doit être un multiple de $9$ avec $0 \\leqslant a \\leqslant 9$ : $12 + a = 18$, d'où $a = 6$. Le nombre est $567 = 9 \\times 63$.
 
@@ -1988,7 +2047,7 @@ $252 = 2 \\times 126 = 2 \\times 2 \\times 63 = 2 \\times 2 \\times 3 \\times 21
 
 **2.** On simplifie par les facteurs communs $2^2 \\times 3^2 = 36$ :
 $$\\frac{180}{252} = \\frac{2^2 \\times 3^2 \\times 5}{2^2 \\times 3^2 \\times 7} = \\frac{5}{7}.$$
-$5$ et $7$ sont premiers entre eux : la fraction est irréductible.
+$5$ et $7$ n'ont aucun diviseur commun autre que $1$ : la fraction est irréductible.
 
 **3.** En regroupant des facteurs de $252 = 2^2 \\times 3^2 \\times 7$ : $3 \\times 7 = 21$, $2^2 \\times 7 = 28$, $2^2 \\times 3^2 = 36$ (ou encore $42$, $63$, $84$, $126$, $252$).`
     },
@@ -3392,7 +3451,7 @@ $\\tan \\widehat{QAP} = \\dfrac{PQ}{AP}$, donc $PQ = 0{,}5 \\times \\tan 70^\\ci
 3. Démontrer que, plus généralement, l'aire d'un tel triangle est égale à $\\dfrac{1}{2} \\times BA \\times BC \\times \\sin \\widehat{ABC}$ (lorsque l'angle $\\widehat{ABC}$ est aigu et que $H$ est sur $[BC]$).
 4. On garde les longueurs $BA = 25$ m et $BC = 40$ m, mais on peut modifier l'angle $\\widehat{ABC}$.
    a) Calculer l'aire pour un angle de $30^\\circ$, puis pour un angle de $80^\\circ$ (arrondir au m²).
-   b) Quelle valeur de l'angle donne la plus grande aire ? Quelle est alors cette aire ? Justifier en utilisant le fait que le sinus d'un angle aigu est toujours inférieur ou égal à $1$, et que $\\sin 90^\\circ = 1$.`,
+   b) Quelle valeur de l'angle donne la plus grande aire ? Quelle est alors cette aire ? Justifier en comparant la hauteur $AH$ à la longueur $BA$ (dans le triangle $ABH$ rectangle en $H$, quel est le côté le plus long ?).`,
       solution: `**1. a)** Le triangle $ABH$ est rectangle en $H$ et son hypoténuse est $[AB]$ : $\\sin \\widehat{ABH} = \\dfrac{AH}{AB}$.
 
 **b)** $AH = AB \\times \\sin 50^\\circ = 25 \\times \\sin 50^\\circ \\approx 19{,}15$ m.
@@ -3404,7 +3463,7 @@ $\\tan \\widehat{QAP} = \\dfrac{PQ}{AP}$, donc $PQ = 0{,}5 \\times \\tan 70^\\ci
 **4. a)** Pour $30^\\circ$ : $\\dfrac{1}{2} \\times 25 \\times 40 \\times \\sin 30^\\circ = 500 \\times 0{,}5 = 250$ m².
 Pour $80^\\circ$ : $500 \\times \\sin 80^\\circ \\approx 492$ m².
 
-**b)** L'aire vaut $500 \\times \\sin \\widehat{ABC}$. Comme $\\sin \\widehat{ABC} \\leqslant 1$, l'aire est toujours inférieure ou égale à $500$ m², et elle vaut exactement $500$ m² lorsque $\\sin \\widehat{ABC} = 1$, c'est-à-dire pour un angle droit ($90^\\circ$).
+**b)** La base $BC = 40$ m étant fixée, l'aire $\\dfrac{BC \\times AH}{2}$ est d'autant plus grande que la hauteur $AH$ est grande. Tant que l'angle $\\widehat{ABC}$ n'est pas droit, le triangle $ABH$ est rectangle en $H$ et son hypoténuse $[AB]$ est son plus grand côté : on a donc $AH < BA = 25$ m, et l'aire est strictement inférieure à $\\dfrac{40 \\times 25}{2} = 500$ m². Lorsque l'angle $\\widehat{ABC}$ est droit, le point $H$ est confondu avec $B$, donc $AH = BA = 25$ m.
 L'aire est maximale pour $\\widehat{ABC} = 90^\\circ$ : le triangle est alors rectangle en $B$ et son aire vaut $\\dfrac{25 \\times 40}{2} = 500$ m².`
     }
   ],
@@ -3524,16 +3583,16 @@ Pour chaque question, préciser l'outil utilisé.`,
     },
     {
       id: "G2bis-ds-08",
-      title: "L'échelle contre le mur",
+      title: "L'équerre d'étagère",
       difficulty: 1,
       points: 5,
-      statement: `Une échelle de $5$ m est appuyée contre un mur vertical ; le sol est horizontal. Le pied de l'échelle est à $1{,}4$ m du pied du mur.
+      statement: `Une équerre d'étagère a la forme d'un triangle $ABC$ avec $AB = 30$ cm (le long du mur), $AC = 40$ cm (sous la planche) et $BC = 50$ cm (le renfort).
 
-1. Quel outil permet de calculer la hauteur atteinte par le haut de l'échelle ? Calculer cette hauteur.
-2. Quel outil permet de calculer l'angle entre l'échelle et le sol ? Calculer cet angle, arrondi au degré.`,
-      solution: `**1.** Le mur est vertical et le sol horizontal : le triangle formé est rectangle au pied du mur, et on connaît deux côtés. **Théorème de Pythagore** : $h^2 = 5^2 - 1{,}4^2 = 25 - 1{,}96 = 23{,}04$, donc $h = 4{,}8$ m.
+1. Quel outil permet de vérifier que l'angle en $A$ est droit ? Effectuer cette vérification.
+2. On ajoute une traverse $[MN]$ parallèle à $[BC]$, avec $M \\in [AB]$, $N \\in [AC]$ et $AM = 12$ cm. Quel outil permet de calculer $AN$ et $MN$ ? Calculer ces deux longueurs.`,
+      solution: `**1.** On connaît les trois côtés et on veut savoir si le triangle est rectangle : **réciproque du théorème de Pythagore**. Le plus grand côté est $[BC]$ : $BC^2 = 50^2 = 2\\,500$ et $AB^2 + AC^2 = 30^2 + 40^2 = 900 + 1\\,600 = 2\\,500$. Comme $BC^2 = AB^2 + AC^2$, le triangle $ABC$ est rectangle en $A$ : l'angle en $A$ est bien droit.
 
-**2.** Triangle rectangle, on cherche un angle : **trigonométrie**. Pour l'angle au pied de l'échelle, le côté adjacent mesure $1{,}4$ m et l'hypoténuse $5$ m : $\\cos \\alpha = \\dfrac{1{,}4}{5} = \\dfrac{7}{25}$, donc $\\alpha \\approx 74^\\circ$.`
+**2.** Les droites $(AB)$ et $(AC)$ sont sécantes en $A$ et $(MN) \\parallel (BC)$ : **théorème de Thalès**. On a $\\dfrac{AM}{AB} = \\dfrac{AN}{AC} = \\dfrac{MN}{BC}$, avec $\\dfrac{AM}{AB} = \\dfrac{12}{30} = 0{,}4$. Donc $AN = 0{,}4 \\times 40 = 16$ cm et $MN = 0{,}4 \\times 50 = 20$ cm.`
     },
     {
       id: "G2bis-ds-09",
@@ -3583,7 +3642,7 @@ Pour chaque question, préciser l'outil utilisé.`,
       id: "G2bis-ds-12",
       title: "Un papillon rectangle",
       difficulty: 3,
-      points: 8,
+      points: 6,
       statement: `Les droites $(AB)$ et $(CD)$ se coupent en $O$ ; les points $A$, $O$, $B$ d'une part et $C$, $O$, $D$ d'autre part sont alignés dans cet ordre. On donne $OA = 3$ cm, $OC = 4$ cm, $AC = 5$ cm, $OB = 7{,}5$ cm et $OD = 10$ cm.
 
 1. Démontrer que le triangle $OAC$ est rectangle en $O$.
@@ -3602,7 +3661,7 @@ Pour chaque question, préciser l'outil utilisé.`,
       id: "G2bis-ds-13",
       title: "La charpente",
       difficulty: 3,
-      points: 7,
+      points: 6,
       statement: `La coupe d'un toit est un triangle $ABC$ isocèle en $A$. La base $[BC]$ mesure $8$ m et le point $H$, milieu de $[BC]$, est tel que $AH = 3$ m et $(AH) \\perp (BC)$.
 
 1. Calculer la longueur $AB$ d'un pan du toit.
@@ -3618,7 +3677,7 @@ Pour chaque question, préciser l'outil utilisé.`,
       id: "G2bis-ds-14",
       title: "Quatre outils dans une figure",
       difficulty: 4,
-      points: 9,
+      points: 6,
       statement: `Le triangle $ABC$ est rectangle en $B$, avec $AB = 6$ cm et $BC = 8$ cm. Le point $E$ appartient à $[AC]$ avec $AE = 4$ cm, et le point $F$ appartient à $[AB]$ avec $(EF) \\parallel (BC)$.
 
 1. Calculer $AC$.
@@ -3637,7 +3696,7 @@ Pour chaque question, préciser l'outil utilisé.`,
       id: "G2bis-ds-15",
       title: "La randonnée",
       difficulty: 4,
-      points: 8,
+      points: 6,
       statement: `Partant d'un point $A$, une randonneuse marche $3$ km plein est jusqu'à un point $B$, puis $4$ km plein nord jusqu'à un point $C$.
 
 1. Calculer la distance $AC$ à vol d'oiseau.
@@ -3655,7 +3714,7 @@ Pour chaque question, préciser l'outil utilisé.`,
       id: "G2bis-ds-16",
       title: "Équerre ou pas ?",
       difficulty: 4,
-      points: 9,
+      points: 6,
       statement: `1. Le triangle $RST$ est tel que $RS = 4{,}5$ cm, $ST = 6$ cm et $RT = 7{,}5$ cm. Est-il rectangle ?
 2. Le triangle $UVW$ est tel que $UV = 5$ cm, $VW = 7$ cm et $UW = 8{,}6$ cm. Est-il rectangle ?
 3. Calculer la mesure de l'angle $\\widehat{SRT}$, arrondie au degré.
@@ -4129,7 +4188,7 @@ Le cylindre a pour rayon $5$ cm et pour hauteur $10$ cm : $V_{\\text{cyl}} = \\p
       title: "La Terre en chiffres",
       difficulty: 3,
       points: 5,
-      statement: `On assimile la Terre à une boule de rayon $6\\,371$ km.
+      statement: `On assimile la Terre à une boule de rayon $6\\,371$ km. On rappelle que l'aire d'une sphère de rayon $R$ est $4\\pi R^2$.
 
 1. Calculer l'aire de la surface de la Terre. Donner l'écriture scientifique du résultat, arrondie au centième.
 2. Les océans recouvrent environ $71\\,\\%$ de cette surface. Calculer l'aire des océans, en km².
@@ -4168,7 +4227,7 @@ $$d = \\frac{20\\,000 \\times 20}{360} \\approx 1\\,111 \\text{ km}.$$
       title: "Refondre un cylindre en billes",
       difficulty: 4,
       points: 5,
-      statement: `Un cylindre de plomb a un rayon de $3$ cm et une hauteur de $4$ cm. On le fond (sans perte de matière) pour fabriquer des billes.
+      statement: `Un cylindre de plomb a un rayon de $3$ cm et une hauteur de $4$ cm. On le fond (sans perte de matière) pour fabriquer des billes. On rappelle que l'aire d'une sphère de rayon $R$ est $4\\pi R^2$.
 
 1. Calculer le volume exact du cylindre.
 2. On fabrique des billes de rayon $1$ cm. Combien de billes peut-on obtenir ?
@@ -4239,7 +4298,10 @@ On rappelle que le volume d'une boule de rayon $R$ est $\\dfrac{4}{3}\\pi R^3$ e
 **2.** Les $5$ billes déplacent un volume d'eau de $5 \\times 2{,}304\\pi = 11{,}52\\pi$ cm³. Ce volume forme dans le verre un cylindre de rayon $4$ cm et de hauteur $h$ :
 $\\pi \\times 4^2 \\times h = 11{,}52\\pi$, donc $h = \\dfrac{11{,}52}{16} = 0{,}72$ cm. Le niveau monte de $0{,}72$ cm.
 
-**3.** Une montée de $3$ cm correspond à un volume de $\\pi \\times 16 \\times 3 = 48\\pi$ cm³. Il faut $n \\times 2{,}304\\pi \\geqslant 48\\pi$, soit $n \\geqslant \\dfrac{48}{2{,}304} \\approx 20{,}8$. Il faut au minimum $21$ billes.
+**3.** Une montée de $3$ cm correspond à un volume de $\\pi \\times 16 \\times 3 = 48\\pi$ cm³. On cherche d'abord le nombre $n$ de billes qui ferait monter l'eau d'exactement $3$ cm : $n \\times 2{,}304\\pi = 48\\pi$, soit $n = \\dfrac{48}{2{,}304} \\approx 20{,}8$. Ce n'est pas un nombre entier, on vérifie donc avec $20$ et $21$ billes :
+- $20$ billes : $20 \\times 2{,}304\\pi = 46{,}08\\pi$ cm³, et $46{,}08\\pi < 48\\pi$ : le niveau monte de moins de $3$ cm ;
+- $21$ billes : $21 \\times 2{,}304\\pi = 48{,}384\\pi$ cm³, et $48{,}384\\pi > 48\\pi$ : le niveau monte de plus de $3$ cm.
+Il faut au minimum $21$ billes.
 
 **4.** Chaque bille fait monter le niveau de $\\dfrac{0{,}72}{5} = 0{,}144$ cm. Avec $40$ billes, d'après l'hypothèse de l'énoncé, le niveau monterait de $40 \\times 0{,}144 = 5{,}76$ cm et atteindrait $10 + 5{,}76 = 15{,}76$ cm. Or $15{,}76 > 15$ : le verre n'est pas assez haut, l'eau déborde. On ne peut donc pas plonger $40$ billes sans débordement.`
     },
@@ -4248,7 +4310,7 @@ $\\pi \\times 4^2 \\times h = 11{,}52\\pi$, donc $h = \\dfrac{11{,}52}{16} = 0{,
       title: "Le ballon que l'on gonfle",
       difficulty: 4,
       points: 6,
-      statement: `On gonfle un ballon sphérique : son rayon passe de $10$ cm à $12$ cm.
+      statement: `On gonfle un ballon sphérique : son rayon passe de $10$ cm à $12$ cm. On rappelle que l'aire d'une sphère de rayon $R$ est $4\\pi R^2$.
 
 1. Calculer l'aire de la sphère et le volume de la boule avant et après le gonflage (valeurs exactes en fonction de $\\pi$).
 2. a) Par quel nombre l'aire a-t-elle été multipliée ? Le volume ?
@@ -4731,6 +4793,56 @@ $AC^2 = AB^2 + BC^2 = 4^2 + 3^2 = 25$, donc $AC = 5$ cm.
 $AG^2 = AC^2 + CG^2 = 25 + 144 = 169$, donc $AG = 13$ cm.
 
 **b)** La plus grande longueur que l'on peut placer en ligne droite dans le pavé est celle d'une grande diagonale, $13$ cm. Un crayon de $13$ cm tient exactement (en diagonale, de $A$ à $G$). Un crayon de $13{,}5$ cm est trop long : il ne peut pas être rangé dans la trousse fermée.`
+    },
+    {
+      id: "G5-ds-17",
+      title: "La tente conique : patron et vues",
+      difficulty: 3,
+      points: 6,
+      statement: `Une tente a la forme d'un cône de révolution de sommet $S$. Sa base est un disque de centre $O$ et de rayon $OA = 2{,}4$ m ; sa hauteur est $SO = 1{,}8$ m. La toile forme la surface latérale du cône.
+
+1. Calculer la longueur de la génératrice $SA$.
+2. La toile, mise à plat, est un secteur circulaire.
+   a) Quel est le rayon de ce secteur ?
+   b) Calculer la longueur de son arc, arrondie au centimètre.
+   c) Calculer la mesure de l'angle de ce secteur.
+3. a) Décrire la vue de face et la vue de dessus de la tente, en précisant leurs dimensions.
+   b) Calculer l'aire de la vue de face.
+4. Calculer le volume de la tente, arrondi au dixième de m³.`,
+      solution: `**1.** Le triangle $SOA$ est rectangle en $O$. D'après le théorème de Pythagore :
+$SA^2 = SO^2 + OA^2 = 1{,}8^2 + 2{,}4^2 = 3{,}24 + 5{,}76 = 9$, donc $SA = 3$ m.
+
+**2. a)** Le rayon du secteur est la génératrice : $3$ m.
+
+**b)** L'arc a la même longueur que le périmètre de la base : $2 \\times \\pi \\times 2{,}4 = 4{,}8\\pi \\approx 15{,}08$ m.
+
+**c)** Le cercle complet de rayon $3$ m a pour périmètre $6\\pi$ m. Le secteur en représente $\\dfrac{4{,}8\\pi}{6\\pi} = 0{,}8$, donc son angle mesure $0{,}8 \\times 360^\\circ = 288^\\circ$.
+
+**3. a)** De face, on voit un triangle isocèle de base $2 \\times 2{,}4 = 4{,}8$ m, de hauteur $1{,}8$ m et dont les deux côtés égaux mesurent $3$ m. De dessus, on voit un disque de rayon $2{,}4$ m, avec le sommet $S$ marqué en son centre.
+
+**b)** $\\mathcal{A} = \\dfrac{4{,}8 \\times 1{,}8}{2} = 4{,}32$ m².
+
+**4.** $V = \\dfrac{1}{3} \\times \\pi \\times 2{,}4^2 \\times 1{,}8 = 3{,}456\\pi \\approx 10{,}9$ m³.`
+    },
+    {
+      id: "G5-ds-18",
+      title: "La boîte de conserve : patron et étiquette",
+      difficulty: 2,
+      points: 5,
+      statement: `Une boîte de conserve a la forme d'un cylindre de révolution de rayon $4$ cm et de hauteur $11$ cm.
+
+1. Décrire le patron de cette boîte : donner la nature et les dimensions de chaque morceau (longueurs arrondies au dixième de cm).
+2. Calculer l'aire totale de ce patron, d'abord en fonction de $\\pi$, puis arrondie au cm².
+3. La boîte est posée sur une table. Décrire sa vue de face et sa vue de dessus, en précisant leurs dimensions.
+4. On colle une étiquette tout autour de la boîte. Elle couvre toute la surface latérale et ses deux bords se recouvrent sur $1$ cm. Donner les dimensions de cette étiquette (longueur arrondie au dixième de cm).`,
+      solution: `**1.** Le patron est formé de deux disques de rayon $4$ cm et d'un rectangle. Un côté du rectangle est la hauteur, $11$ cm ; l'autre est le périmètre de la base : $2 \\times \\pi \\times 4 = 8\\pi \\approx 25{,}1$ cm.
+
+**2.** Aire du rectangle : $11 \\times 8\\pi = 88\\pi$ cm². Aire des deux disques : $2 \\times \\pi \\times 4^2 = 32\\pi$ cm².
+Aire totale : $88\\pi + 32\\pi = 120\\pi \\approx 377$ cm².
+
+**3.** De face, on voit un rectangle de $8$ cm de large (le diamètre) et de $11$ cm de haut. De dessus, on voit un disque de rayon $4$ cm.
+
+**4.** La largeur de l'étiquette est la hauteur de la boîte, $11$ cm. Sa longueur est le périmètre de la base augmenté du recouvrement : $8\\pi + 1 \\approx 26{,}1$ cm.`
     }
   ],
   "G6": [
@@ -5025,6 +5137,7 @@ On retrouve $AE = DC = \\sqrt{76}$ cm : c'est bien cohérent avec la question 2.
       points: 5,
       statement: `Dans un repère orthonormé, on considère les points $A(1 ; 2)$, $B(4 ; 3)$, $C(-2 ; 0)$ et $D(0 ; -3)$.
 On note $t$ la translation qui transforme $A$ en $B$.
+On rappelle que le milieu d'un segment $[MN]$ a pour coordonnées $\\left(\\dfrac{x_M + x_N}{2} ; \\dfrac{y_M + y_N}{2}\\right)$.
 
 1. Décrire le déplacement associé à $t$ : de combien d'unités se déplace-t-on horizontalement, puis verticalement ?
 2. Donner les coordonnées des points $C'$ et $D'$, images respectives de $C$ et $D$ par la translation $t$.
@@ -5076,7 +5189,7 @@ En une heure : $60 \\times 1\\,200\\pi = 72\\,000\\pi$ m $\\approx 226\\,195$ m,
       difficulty: 4,
       points: 6,
       statement: `Dans un repère orthonormé, on considère les points $I(1 ; 0)$ et $J(4 ; 1)$.
-On rappelle que le symétrique d'un point $M$ par rapport à un point $I$ est le point $M'$ tel que $I$ soit le milieu de $[MM']$.
+On rappelle que le symétrique d'un point $M$ par rapport à un point $I$ est le point $M'$ tel que $I$ soit le milieu de $[MM']$, et que le milieu d'un segment $[MN]$ a pour coordonnées $\\left(\\dfrac{x_M + x_N}{2} ; \\dfrac{y_M + y_N}{2}\\right)$.
 
 1. Soit $A(2 ; 3)$.
    a) Déterminer les coordonnées de $A_1$, symétrique de $A$ par rapport à $I$.
@@ -5103,6 +5216,52 @@ Le déplacement est le même : on conjecture que l'enchaînement des deux symét
 
 **c)** Pour tout point $M$, on passe de $M$ à $M_2$ en ajoutant $6$ à l'abscisse et $2$ à l'ordonnée : c'est la **translation** de $6$ unités vers la droite et $2$ vers le haut. La conjecture est démontrée.
 De $I$ à $J$, on se déplace de $3$ unités vers la droite et de $1$ vers le haut : la translation obtenue correspond au **double** du déplacement de $I$ vers $J$.`
+    },
+    {
+      id: "G6-ds-17",
+      title: "Un carrelage : frise, pavage et rosace",
+      difficulty: 3,
+      points: 6,
+      statement: `Un carreleur compose un décor à partir de motifs dont les numéros figurent sur les dessins.
+
+**Partie A : la frise.** Les motifs sont numérotés de 1 à 7.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:12px 0;"><svg class="geo-svg-figure" viewBox="0 0 324 80" style="max-width:324px; width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Frise de sept motifs numérotés, un motif sur deux est tête en bas"><polygon points="16.8,65.6 23.4,65.6 23.4,45.8 45.4,39.2 16.8,30.4" fill="rgba(37, 99, 235, 0.5)" stroke="var(--primary, #2563eb)" stroke-width="1.6" stroke-linejoin="round" /><text x="30" y="17" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="var(--text-main, #0f172a)">1</text><polygon points="87.2,30.4 80.6,30.4 80.6,50.2 58.6,56.8 87.2,65.6" fill="rgba(100, 116, 139, 0.25)" stroke="var(--text-main, #334155)" stroke-width="1.2" stroke-linejoin="round" /><text x="74" y="17" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="var(--text-main, #0f172a)">2</text><polygon points="104.8,65.6 111.4,65.6 111.4,45.8 133.4,39.2 104.8,30.4" fill="rgba(16, 185, 129, 0.55)" stroke="#059669" stroke-width="1.6" stroke-linejoin="round" /><text x="118" y="17" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="var(--text-main, #0f172a)">3</text><polygon points="175.2,30.4 168.6,30.4 168.6,50.2 146.6,56.8 175.2,65.6" fill="rgba(100, 116, 139, 0.25)" stroke="var(--text-main, #334155)" stroke-width="1.2" stroke-linejoin="round" /><text x="162" y="17" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="var(--text-main, #0f172a)">4</text><polygon points="192.8,65.6 199.4,65.6 199.4,45.8 221.4,39.2 192.8,30.4" fill="rgba(100, 116, 139, 0.25)" stroke="var(--text-main, #334155)" stroke-width="1.2" stroke-linejoin="round" /><text x="206" y="17" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="var(--text-main, #0f172a)">5</text><polygon points="263.2,30.4 256.6,30.4 256.6,50.2 234.6,56.8 263.2,65.6" fill="rgba(100, 116, 139, 0.25)" stroke="var(--text-main, #334155)" stroke-width="1.2" stroke-linejoin="round" /><text x="250" y="17" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="var(--text-main, #0f172a)">6</text><polygon points="280.8,65.6 287.4,65.6 287.4,45.8 309.4,39.2 280.8,30.4" fill="rgba(100, 116, 139, 0.25)" stroke="var(--text-main, #334155)" stroke-width="1.2" stroke-linejoin="round" /><text x="294" y="17" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="var(--text-main, #0f172a)">7</text><line x1="8" y1="23" x2="316" y2="23" stroke="#94a3b8" stroke-width="1" /><line x1="8" y1="73" x2="316" y2="73" stroke="#94a3b8" stroke-width="1" /></svg></div>
+
+1. a) Par quelle transformation passe-t-on du motif 1 au motif 2 ? Justifier.
+   b) Par quelle transformation passe-t-on du motif 1 au motif 3 ? Justifier.
+   c) Donner le numéro de l'image du motif 2 par la transformation de la question b).
+
+**Partie B : le pavage.** Les carreaux 1, 2, 3 et 4 se touchent au point $O$ et sont numérotés dans le sens anti-horaire.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:12px 0;"><svg class="geo-svg-figure" viewBox="0 0 220 120" style="max-width:300px; width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pavage de huit carreaux numérotés ; les carreaux 1 à 4 entourent le point O"><polygon points="60,60 110,60 110,10 60,10" fill="none" stroke="#94a3b8" stroke-width="1" stroke-linejoin="round" /><polygon points="70,55 80,55 80,35 100,35 100,15 70,15" fill="rgba(100, 116, 139, 0.25)" stroke="var(--text-main, #334155)" stroke-width="1.2" stroke-linejoin="round" /><circle cx="101" cy="51" r="8.5" fill="#ffffff" stroke="#64748b" stroke-width="1" /><text x="101" y="55" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#0f172a">1</text><polygon points="60,60 60,10 10,10 10,60" fill="none" stroke="#94a3b8" stroke-width="1" stroke-linejoin="round" /><polygon points="55,50 55,40 35,40 35,20 15,20 15,50" fill="rgba(100, 116, 139, 0.25)" stroke="var(--text-main, #334155)" stroke-width="1.2" stroke-linejoin="round" /><circle cx="51" cy="19" r="8.5" fill="#ffffff" stroke="#64748b" stroke-width="1" /><text x="51" y="23" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#0f172a">2</text><polygon points="60,60 10,60 10,110 60,110" fill="none" stroke="#94a3b8" stroke-width="1" stroke-linejoin="round" /><polygon points="50,65 40,65 40,85 20,85 20,105 50,105" fill="rgba(100, 116, 139, 0.25)" stroke="var(--text-main, #334155)" stroke-width="1.2" stroke-linejoin="round" /><circle cx="19" cy="69" r="8.5" fill="#ffffff" stroke="#64748b" stroke-width="1" /><text x="19" y="73" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#0f172a">3</text><polygon points="60,60 60,110 110,110 110,60" fill="none" stroke="#94a3b8" stroke-width="1" stroke-linejoin="round" /><polygon points="65,70 65,80 85,80 85,100 105,100 105,70" fill="rgba(100, 116, 139, 0.25)" stroke="var(--text-main, #334155)" stroke-width="1.2" stroke-linejoin="round" /><circle cx="69" cy="101" r="8.5" fill="#ffffff" stroke="#64748b" stroke-width="1" /><text x="69" y="105" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#0f172a">4</text><polygon points="160,60 210,60 210,10 160,10" fill="none" stroke="#94a3b8" stroke-width="1" stroke-linejoin="round" /><polygon points="170,55 180,55 180,35 200,35 200,15 170,15" fill="rgba(100, 116, 139, 0.25)" stroke="var(--text-main, #334155)" stroke-width="1.2" stroke-linejoin="round" /><circle cx="201" cy="51" r="8.5" fill="#ffffff" stroke="#64748b" stroke-width="1" /><text x="201" y="55" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#0f172a">5</text><polygon points="160,60 160,10 110,10 110,60" fill="none" stroke="#94a3b8" stroke-width="1" stroke-linejoin="round" /><polygon points="155,50 155,40 135,40 135,20 115,20 115,50" fill="rgba(100, 116, 139, 0.25)" stroke="var(--text-main, #334155)" stroke-width="1.2" stroke-linejoin="round" /><circle cx="151" cy="19" r="8.5" fill="#ffffff" stroke="#64748b" stroke-width="1" /><text x="151" y="23" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#0f172a">6</text><polygon points="160,60 110,60 110,110 160,110" fill="none" stroke="#94a3b8" stroke-width="1" stroke-linejoin="round" /><polygon points="150,65 140,65 140,85 120,85 120,105 150,105" fill="rgba(100, 116, 139, 0.25)" stroke="var(--text-main, #334155)" stroke-width="1.2" stroke-linejoin="round" /><circle cx="119" cy="69" r="8.5" fill="#ffffff" stroke="#64748b" stroke-width="1" /><text x="119" y="73" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#0f172a">7</text><polygon points="160,60 160,110 210,110 210,60" fill="none" stroke="#94a3b8" stroke-width="1" stroke-linejoin="round" /><polygon points="165,70 165,80 185,80 185,100 205,100 205,70" fill="rgba(100, 116, 139, 0.25)" stroke="var(--text-main, #334155)" stroke-width="1.2" stroke-linejoin="round" /><circle cx="169" cy="101" r="8.5" fill="#ffffff" stroke="#64748b" stroke-width="1" /><text x="169" y="105" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#0f172a">8</text><circle cx="60" cy="60" r="9" fill="#ffffff" stroke="#b91c1c" stroke-width="1.4" /><text x="60" y="64.3" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#b91c1c">O</text></svg></div>
+
+2. Donner le numéro de l'image du carreau 1 par :
+   a) la rotation de centre $O$ et d'angle $90^\\circ$ dans le sens anti-horaire ;
+   b) la symétrie de centre $O$.
+3. Par quelle transformation passe-t-on du carreau 2 au carreau 6 ? Justifier.
+
+**Partie C : la rosace.** Ses $9$ motifs identiques sont régulièrement répartis autour du point $O$ et numérotés dans le sens anti-horaire.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:12px 0;"><svg class="geo-svg-figure" viewBox="0 0 224 224" style="max-width:260px; width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Rosace de neuf motifs numérotés dans le sens anti-horaire autour du point O"><polygon points="116.1,93.4 123.6,36.9 97.6,56.8 106.5,78.2" fill="rgba(100, 116, 139, 0.25)" stroke="var(--text-main, #334155)" stroke-width="1.2" stroke-linejoin="round" /><text x="111.7" y="23.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="var(--text-main, #0f172a)">1</text><polygon points="103.2,95.2 72.6,47 65.5,79 86.1,89.7" fill="rgba(37, 99, 235, 0.5)" stroke="var(--primary, #2563eb)" stroke-width="1.6" stroke-linejoin="round" /><text x="52.2" y="45.7" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="var(--text-main, #0f172a)">2</text><polygon points="94.4,104.8 40.1,87.5 55.2,116.6 77.8,111.5" fill="rgba(100, 116, 139, 0.25)" stroke="var(--text-main, #334155)" stroke-width="1.2" stroke-linejoin="round" /><text x="20.6" y="100.7" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="var(--text-main, #0f172a)">3</text><polygon points="93.9,117.7 41.1,139.5 71.4,152 85.5,133.6" fill="rgba(100, 116, 139, 0.25)" stroke="var(--text-main, #334155)" stroke-width="1.2" stroke-linejoin="round" /><text x="31.9" y="163.1" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="var(--text-main, #0f172a)">4</text><polygon points="101.8,128 75.4,178.6 106.6,168.7 105.6,145.6" fill="rgba(100, 116, 139, 0.25)" stroke="var(--text-main, #334155)" stroke-width="1.2" stroke-linejoin="round" /><text x="80.6" y="203.7" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="var(--text-main, #0f172a)">5</text><polygon points="114.5,130.8 126.8,186.6 144.4,158.9 128.7,141.9" fill="rgba(100, 116, 139, 0.25)" stroke="var(--text-main, #334155)" stroke-width="1.2" stroke-linejoin="round" /><text x="144" y="203.5" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="var(--text-main, #0f172a)">6</text><polygon points="126,124.8 171.2,159.6 167,127.1 144,124.1" fill="rgba(100, 116, 139, 0.25)" stroke="var(--text-main, #334155)" stroke-width="1.2" stroke-linejoin="round" /><text x="192.5" y="162.6" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="var(--text-main, #0f172a)">7</text><polygon points="131,112.8 188,110.4 163.8,88.3 144.3,100.8" fill="rgba(100, 116, 139, 0.25)" stroke="var(--text-main, #334155)" stroke-width="1.2" stroke-linejoin="round" /><text x="203.3" y="100.1" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="var(--text-main, #0f172a)">8</text><polygon points="127.1,100.4 169.2,61.9 136.4,60.5 129.5,82.6" fill="rgba(100, 116, 139, 0.25)" stroke="var(--text-main, #334155)" stroke-width="1.2" stroke-linejoin="round" /><text x="171.4" y="45.3" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="var(--text-main, #0f172a)">9</text><circle cx="112" cy="112" r="9" fill="#ffffff" stroke="#b91c1c" stroke-width="1.4" /><text x="112" y="116.3" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#b91c1c">O</text></svg></div>
+
+4. a) Calculer l'angle de la rotation de centre $O$ qui transforme un motif en le motif suivant.
+   b) Donner le numéro de l'image du motif 2 par la rotation de centre $O$ et d'angle $120^\\circ$ dans le sens anti-horaire. Justifier.`,
+      solution: `**1. a)** Le motif 2 est le motif 1 tête en bas, sans effet miroir : on passe de l'un à l'autre par un **demi-tour** autour du point situé au milieu des deux motifs, c'est-à-dire une rotation d'angle $180^\\circ$ (une symétrie centrale).
+
+**b)** Le motif 3 a la même taille et la même orientation que le motif 1 : on passe de l'un à l'autre par une **translation** de deux motifs vers la droite.
+
+**c)** Par cette translation, chaque motif avance de deux rangs : l'image du motif 2 est le **motif 4**.
+
+**2. a)** Autour de $O$, les carreaux se suivent dans le sens anti-horaire : 1, 2, 3, 4. Une rotation de $90^\\circ$ dans ce sens fait passer au carreau suivant : l'image du carreau 1 est le **carreau 2**.
+
+**b)** La symétrie de centre $O$ est un demi-tour autour de $O$ : l'image du carreau 1 est le carreau opposé, le **carreau 3**.
+
+**3.** Le carreau 6 a la même taille et la même orientation que le carreau 2 : on passe de l'un à l'autre par une **translation** de deux carreaux vers la droite.
+
+**4. a)** Les $9$ motifs partagent le tour complet en angles égaux : $\\dfrac{360^\\circ}{9} = 40^\\circ$.
+
+**b)** $\\dfrac{120}{40} = 3$ : la rotation fait avancer de $3$ motifs dans le sens anti-horaire, donc les numéros augmentent de $3$. L'image du motif 2 est le **motif 5**.`
     }
   ],
   "G7": [
@@ -5793,7 +5952,7 @@ On remarque que $0$ et $4$ ont la même image, ainsi que $-1$ et $5$ : un nombre
 
 **2.** On résout $x^2 - 4x + 1 = 1$, soit $x^2 - 4x = 0$, c'est-à-dire $x(x - 4) = 0$. Un produit est nul si et seulement si l'un de ses facteurs est nul : $x = 0$ ou $x = 4$. Les antécédents de $1$ sont $0$ et $4$.
 
-**3. a)** $(x - 2)^2 - 3 = x^2 - 4x + 4 - 3 = x^2 - 4x + 1 = f(x)$ (identité remarquable $(a - b)^2 = a^2 - 2ab + b^2$).
+**3. a)** $(x - 2)^2 - 3 = (x - 2)(x - 2) - 3 = x^2 - 2x - 2x + 4 - 3 = x^2 - 4x + 1 = f(x)$.
 
 **b)** $f(x) = -3$ équivaut à $(x - 2)^2 = 0$, soit $x - 2 = 0$ : le seul antécédent de $-3$ est $2$.
 $f(x) = 6$ équivaut à $(x - 2)^2 = 9$, soit $x - 2 = 3$ ou $x - 2 = -3$ : les antécédents de $6$ sont $5$ et $-1$ (ce qui confirme la question 1).
@@ -6359,6 +6518,42 @@ L'étendue devient $17 \\times 1{,}5 - 6 \\times 1{,}5 = 25{,}5 - 9 = 16{,}5$ (s
 **4.** Seules deux notes sont inférieures à $10$ : $6$ et $9$, qui deviennent $8$ et $11$. La somme n'augmente que de $2 \\times 2 = 4$ : elle vaut $100$.
 Nouvelle moyenne : $\\dfrac{100}{8} = 12{,}5$. La moyenne n'augmente que de $0{,}5$ point : l'élève a tort.
 Nouvelle série rangée : $8$ ; $11$ ; $11$ ; $12$ ; $12$ ; $14$ ; $15$ ; $17$. La médiane vaut toujours $\\dfrac{12 + 12}{2} = 12$.`
+    },
+    {
+      id: "Org2-ds-17",
+      title: "Histogramme des temps de trajet",
+      difficulty: 3,
+      points: 6,
+      statement: `Une enquête porte sur le temps de trajet entre le domicile et le collège de $40$ élèves. Les résultats sont regroupés en classes de même amplitude et représentés par l'histogramme ci-dessous.
+<div class="geo-figure-wrapper" style="text-align:center; margin:12px 0;"><svg class="geo-svg-figure" viewBox="0 0 316 205" width="316" height="205" style="max-width:316px; width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg"><line x1="40" y1="160" x2="308" y2="160" stroke="#cbd5e1" stroke-width="0.7"/><text x="35" y="163.5" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" fill="var(--text-main, #334155)">0</text><line x1="40" y1="150" x2="308" y2="150" stroke="#cbd5e1" stroke-width="0.7"/><text x="35" y="153.5" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" fill="var(--text-main, #334155)">1</text><line x1="40" y1="140" x2="308" y2="140" stroke="#cbd5e1" stroke-width="0.7"/><text x="35" y="143.5" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" fill="var(--text-main, #334155)">2</text><line x1="40" y1="130" x2="308" y2="130" stroke="#cbd5e1" stroke-width="0.7"/><text x="35" y="133.5" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" fill="var(--text-main, #334155)">3</text><line x1="40" y1="120" x2="308" y2="120" stroke="#cbd5e1" stroke-width="0.7"/><text x="35" y="123.5" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" fill="var(--text-main, #334155)">4</text><line x1="40" y1="110" x2="308" y2="110" stroke="#cbd5e1" stroke-width="0.7"/><text x="35" y="113.5" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" fill="var(--text-main, #334155)">5</text><line x1="40" y1="100" x2="308" y2="100" stroke="#cbd5e1" stroke-width="0.7"/><text x="35" y="103.5" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" fill="var(--text-main, #334155)">6</text><line x1="40" y1="90" x2="308" y2="90" stroke="#cbd5e1" stroke-width="0.7"/><text x="35" y="93.5" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" fill="var(--text-main, #334155)">7</text><line x1="40" y1="80" x2="308" y2="80" stroke="#cbd5e1" stroke-width="0.7"/><text x="35" y="83.5" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" fill="var(--text-main, #334155)">8</text><line x1="40" y1="70" x2="308" y2="70" stroke="#cbd5e1" stroke-width="0.7"/><text x="35" y="73.5" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" fill="var(--text-main, #334155)">9</text><line x1="40" y1="60" x2="308" y2="60" stroke="#cbd5e1" stroke-width="0.7"/><text x="35" y="63.5" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" fill="var(--text-main, #334155)">10</text><line x1="40" y1="50" x2="308" y2="50" stroke="#cbd5e1" stroke-width="0.7"/><text x="35" y="53.5" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" fill="var(--text-main, #334155)">11</text><line x1="40" y1="40" x2="308" y2="40" stroke="#cbd5e1" stroke-width="0.7"/><text x="35" y="43.5" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" fill="var(--text-main, #334155)">12</text><line x1="40" y1="30" x2="308" y2="30" stroke="#cbd5e1" stroke-width="0.7"/><text x="35" y="33.5" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" fill="var(--text-main, #334155)">13</text><line x1="40" y1="20" x2="308" y2="20" stroke="#cbd5e1" stroke-width="0.7"/><text x="35" y="23.5" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" fill="var(--text-main, #334155)">14</text><rect x="52" y="100" width="48" height="60.0" fill="rgba(37, 99, 235, 0.55)" stroke="var(--primary, #2563eb)" stroke-width="1"/><rect x="100" y="20" width="48" height="140.0" fill="rgba(37, 99, 235, 0.55)" stroke="var(--primary, #2563eb)" stroke-width="1"/><rect x="148" y="40" width="48" height="120.0" fill="rgba(37, 99, 235, 0.55)" stroke="var(--primary, #2563eb)" stroke-width="1"/><rect x="196" y="100" width="48" height="60.0" fill="rgba(37, 99, 235, 0.55)" stroke="var(--primary, #2563eb)" stroke-width="1"/><rect x="244" y="140" width="48" height="20.0" fill="rgba(37, 99, 235, 0.55)" stroke="var(--primary, #2563eb)" stroke-width="1"/><line x1="52" y1="160" x2="52" y2="164" stroke="var(--text-main, #334155)" stroke-width="1.1"/><text x="52" y="176" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="var(--text-main, #334155)">0</text> <line x1="100" y1="160" x2="100" y2="164" stroke="var(--text-main, #334155)" stroke-width="1.1"/><text x="100" y="176" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="var(--text-main, #334155)">10</text> <line x1="148" y1="160" x2="148" y2="164" stroke="var(--text-main, #334155)" stroke-width="1.1"/><text x="148" y="176" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="var(--text-main, #334155)">20</text> <line x1="196" y1="160" x2="196" y2="164" stroke="var(--text-main, #334155)" stroke-width="1.1"/><text x="196" y="176" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="var(--text-main, #334155)">30</text> <line x1="244" y1="160" x2="244" y2="164" stroke="var(--text-main, #334155)" stroke-width="1.1"/><text x="244" y="176" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="var(--text-main, #334155)">40</text> <line x1="292" y1="160" x2="292" y2="164" stroke="var(--text-main, #334155)" stroke-width="1.1"/><text x="292" y="176" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="var(--text-main, #334155)">50</text> <line x1="40" y1="160" x2="308" y2="160" stroke="var(--text-main, #334155)" stroke-width="1.3"/><line x1="40" y1="160" x2="40" y2="12" stroke="var(--text-main, #334155)" stroke-width="1.3"/><text x="44" y="10" font-family="system-ui, sans-serif" font-size="10" fill="var(--text-main, #334155)">Effectif</text><text x="172" y="196" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="var(--text-main, #334155)">Temps de trajet (en min)</text></svg></div>
+
+1. Quelle est l'amplitude des classes ?
+2. Quel est l'effectif de la classe $[20 ; 30[$ ? Vérifier que la somme des effectifs est bien égale à $40$.
+3. Calculer la fréquence de la classe $[10 ; 20[$, puis l'exprimer en pourcentage.
+4. Quel pourcentage des élèves a un trajet de moins de $20$ minutes ?
+5. Peut-on connaître, à l'aide de cet histogramme, la durée exacte du trajet le plus long ? Justifier.
+6. Dans un autre collège, on a relevé les temps de trajet (en minutes) de $20$ élèves :
+$$12 ; 5 ; 18 ; 20 ; 7 ; 25 ; 10 ; 14 ; 31 ; 22 ; 9 ; 16 ; 28 ; 20 ; 11 ; 3 ; 35 ; 19 ; 24 ; 13$$
+   a) Regrouper ces données dans un tableau d'effectifs avec les classes $[0 ; 10[$, $[10 ; 20[$, $[20 ; 30[$ et $[30 ; 40[$.
+   b) Construire l'histogramme de cette série.`,
+      solution: `**1.** Chaque classe a pour amplitude $10 - 0 = 10$ minutes.
+
+**2.** On lit sur l'histogramme que la classe $[20 ; 30[$ a pour effectif $12$.
+Les effectifs lus sont $6$, $14$, $12$, $6$ et $2$ : $6 + 14 + 12 + 6 + 2 = 40$, ce qui est bien l'effectif total.
+
+**3.** La classe $[10 ; 20[$ a pour effectif $14$. Sa fréquence est $\\dfrac{14}{40} = 0{,}35$, soit $35\\,\\%$.
+
+**4.** Les élèves dont le trajet dure moins de $20$ minutes sont ceux des classes $[0 ; 10[$ et $[10 ; 20[$, soit $6 + 14 = 20$ élèves.
+$\\dfrac{20}{40} = 0{,}5$, soit $50\\,\\%$ des élèves.
+
+**5.** Non. L'histogramme indique seulement que $2$ élèves ont un trajet dans la classe $[40 ; 50[$, c'est-à-dire d'au moins $40$ minutes et de moins de $50$ minutes. On ne connaît pas les valeurs exactes de la série.
+
+**6. a)** Une valeur égale à une borne appartient à la classe dont c'est la borne de gauche : par exemple, $10$ est dans $[10 ; 20[$ et $20$ est dans $[20 ; 30[$.
+$$\\begin{array}{|l|c|c|c|c|}\\hline \\text{Temps (min)} & [0 ; 10[ & [10 ; 20[ & [20 ; 30[ & [30 ; 40[ \\\\ \\hline \\text{Valeurs} & 5 ; 7 ; 9 ; 3 & 12 ; 18 ; 10 ; 14 ; 16 ; 11 ; 19 ; 13 & 20 ; 25 ; 22 ; 28 ; 20 ; 24 & 31 ; 35 \\\\ \\hline \\text{Effectif} & 4 & 8 & 6 & 2 \\\\ \\hline \\end{array}$$
+Contrôle : $4 + 8 + 6 + 2 = 20$.
+
+**b)** Les quatre classes ont la même amplitude : on trace quatre rectangles accolés, de même largeur, dont les hauteurs sont les effectifs $4$, $8$, $6$ et $2$.
+<div class="geo-figure-wrapper" style="text-align:center; margin:12px 0;"><svg class="geo-svg-figure" viewBox="0 0 268 205" width="268" height="205" style="max-width:268px; width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg"><line x1="40" y1="160" x2="260" y2="160" stroke="#cbd5e1" stroke-width="0.7"/><text x="35" y="163.5" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" fill="var(--text-main, #334155)">0</text><line x1="40" y1="142.5" x2="260" y2="142.5" stroke="#cbd5e1" stroke-width="0.7"/><text x="35" y="146" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" fill="var(--text-main, #334155)">1</text><line x1="40" y1="125" x2="260" y2="125" stroke="#cbd5e1" stroke-width="0.7"/><text x="35" y="128.5" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" fill="var(--text-main, #334155)">2</text><line x1="40" y1="107.5" x2="260" y2="107.5" stroke="#cbd5e1" stroke-width="0.7"/><text x="35" y="111" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" fill="var(--text-main, #334155)">3</text><line x1="40" y1="90" x2="260" y2="90" stroke="#cbd5e1" stroke-width="0.7"/><text x="35" y="93.5" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" fill="var(--text-main, #334155)">4</text><line x1="40" y1="72.5" x2="260" y2="72.5" stroke="#cbd5e1" stroke-width="0.7"/><text x="35" y="76" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" fill="var(--text-main, #334155)">5</text><line x1="40" y1="55" x2="260" y2="55" stroke="#cbd5e1" stroke-width="0.7"/><text x="35" y="58.5" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" fill="var(--text-main, #334155)">6</text><line x1="40" y1="37.5" x2="260" y2="37.5" stroke="#cbd5e1" stroke-width="0.7"/><text x="35" y="41" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" fill="var(--text-main, #334155)">7</text><line x1="40" y1="20" x2="260" y2="20" stroke="#cbd5e1" stroke-width="0.7"/><text x="35" y="23.5" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" fill="var(--text-main, #334155)">8</text><rect x="52" y="90" width="48" height="70.0" fill="rgba(37, 99, 235, 0.55)" stroke="var(--primary, #2563eb)" stroke-width="1"/><rect x="100" y="20" width="48" height="140.0" fill="rgba(37, 99, 235, 0.55)" stroke="var(--primary, #2563eb)" stroke-width="1"/><rect x="148" y="55" width="48" height="105.0" fill="rgba(37, 99, 235, 0.55)" stroke="var(--primary, #2563eb)" stroke-width="1"/><rect x="196" y="125" width="48" height="35.0" fill="rgba(37, 99, 235, 0.55)" stroke="var(--primary, #2563eb)" stroke-width="1"/><line x1="52" y1="160" x2="52" y2="164" stroke="var(--text-main, #334155)" stroke-width="1.1"/><text x="52" y="176" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="var(--text-main, #334155)">0</text> <line x1="100" y1="160" x2="100" y2="164" stroke="var(--text-main, #334155)" stroke-width="1.1"/><text x="100" y="176" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="var(--text-main, #334155)">10</text> <line x1="148" y1="160" x2="148" y2="164" stroke="var(--text-main, #334155)" stroke-width="1.1"/><text x="148" y="176" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="var(--text-main, #334155)">20</text> <line x1="196" y1="160" x2="196" y2="164" stroke="var(--text-main, #334155)" stroke-width="1.1"/><text x="196" y="176" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="var(--text-main, #334155)">30</text> <line x1="244" y1="160" x2="244" y2="164" stroke="var(--text-main, #334155)" stroke-width="1.1"/><text x="244" y="176" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="var(--text-main, #334155)">40</text> <line x1="40" y1="160" x2="260" y2="160" stroke="var(--text-main, #334155)" stroke-width="1.3"/><line x1="40" y1="160" x2="40" y2="12" stroke="var(--text-main, #334155)" stroke-width="1.3"/><text x="44" y="10" font-family="system-ui, sans-serif" font-size="10" fill="var(--text-main, #334155)">Effectif</text><text x="148" y="196" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="var(--text-main, #334155)">Temps de trajet (en min)</text></svg></div>`
     }
   ],
   "Org3": [
@@ -6408,7 +6603,8 @@ Donc $k(x) = 2x + 3$.
 2. Quelle est la nature de chacune de ces fonctions ?
 3. Calculer le prix d'un trajet de $20$ km avec chaque service.
 4. Avec le taxi, un client a payé $25$ €. Quelle distance a-t-il parcourue ?
-5. Pour quelles distances le taxi est-il plus avantageux ? Justifier par le calcul.`,
+5. a) Pour quelle distance les deux services coûtent-ils le même prix ?
+   b) En utilisant aussi le résultat de la question 3, dire pour quelles distances le taxi est le plus avantageux. Justifier.`,
       solution: `**1.** $T(d) = 1{,}5d + 4$ et $V(d) = 2d$.
 
 **2.** $T$ est une fonction affine (coefficient $1{,}5$, ordonnée à l'origine $4$) ; $V$ est une fonction linéaire (le prix est proportionnel à la distance).
@@ -6417,7 +6613,9 @@ Donc $k(x) = 2x + 3$.
 
 **4.** $1{,}5d + 4 = 25$, soit $1{,}5d = 21$, donc $d = 14$ km.
 
-**5.** On résout $T(d) < V(d)$ : $1{,}5d + 4 < 2d$, soit $4 < 0{,}5d$, donc $d > 8$. Le taxi est plus avantageux pour les trajets de plus de $8$ km ; les deux tarifs sont égaux pour $8$ km ($16$ €).`
+**5. a)** On résout $T(d) = V(d)$ : $1{,}5d + 4 = 2d$, soit $4 = 0{,}5d$, donc $d = 8$. Pour $8$ km, les deux services coûtent $16$ €.
+
+**b)** Pour $20$ km, le taxi coûte $34$ € et la voiture $40$ € : le taxi est le moins cher. Le prix de la voiture augmente plus vite ($2$ € par km contre $1{,}50$ €) ; les deux prix étant égaux pour $8$ km, le taxi est le plus avantageux pour les trajets de plus de $8$ km.`
     },
     {
       id: "Org3-ds-04",
@@ -6447,18 +6645,18 @@ Donc $k(x) = 2x + 3$.
       title: "Pourcentages et fonctions linéaires",
       difficulty: 3,
       points: 5,
-      statement: `1. Justifier qu'augmenter un prix de $15\\,\\%$ revient à le multiplier par $1{,}15$. Quelle fonction linéaire $f$ modélise cette augmentation ?
+      statement: `1. Justifier qu'augmenter un prix de $15\\,\\%$ revient à le multiplier par $1{,}15$ : ce nombre est le **coefficient multiplicateur** de cette évolution. Quelle fonction linéaire $f$ modélise cette augmentation ?
 2. Quelle fonction linéaire $g$ modélise une baisse de $20\\,\\%$ ?
 3. Un article coûte $80$ €. Son prix augmente de $15\\,\\%$, puis le nouveau prix baisse de $20\\,\\%$. Calculer le prix final.
-4. Montrer que cette succession d'évolutions revient à une baisse dont on donnera le pourcentage.
+4. Déterminer le coefficient multiplicateur global de ces deux évolutions, puis montrer qu'elles reviennent à une baisse dont on donnera le pourcentage (**taux d'évolution** global).
 5. Après une augmentation de $15\\,\\%$, un article coûte $69$ €. Quel était son prix initial ?`,
-      solution: `**1.** Le nouveau prix est $x + \\dfrac{15}{100}x = x(1 + 0{,}15) = 1{,}15x$. La fonction est $f(x) = 1{,}15x$.
+      solution: `**1.** Le nouveau prix est $x + \\dfrac{15}{100}x = x(1 + 0{,}15) = 1{,}15x$ : le coefficient multiplicateur est $1{,}15$. La fonction est $f(x) = 1{,}15x$.
 
 **2.** $g(x) = x - 0{,}2x = 0{,}8x$.
 
 **3.** $80 \\times 1{,}15 = 92$ €, puis $92 \\times 0{,}8 = 73{,}60$ €.
 
-**4.** Les deux évolutions successives reviennent à multiplier par $1{,}15 \\times 0{,}8 = 0{,}92$, soit $1 - 0{,}08$ : c'est une **baisse de $8\\,\\%$** (et non une baisse de $5\\,\\%$ comme on pourrait le croire). Contrôle : $80 \\times 0{,}92 = 73{,}60$ €.
+**4.** Le coefficient multiplicateur global est $1{,}15 \\times 0{,}8 = 0{,}92$, soit $1 - 0{,}08$ : le taux d'évolution global est $-8\\,\\%$, c'est une **baisse de $8\\,\\%$** (et non une baisse de $5\\,\\%$ comme on pourrait le croire). Contrôle : $80 \\times 0{,}92 = 73{,}60$ €.
 
 **5.** On cherche l'antécédent de $69$ par $f$ : $1{,}15x = 69$, donc $x = \\dfrac{69}{1{,}15} = 60$ €.`
     },
@@ -6740,6 +6938,30 @@ Le point $M$ est alors le **milieu** de $[AB]$ ; vérification : $t(4) = 10$ cm�
 
 **6.** On résout $20 - 2{,}5x = 20 + 2{,}5x$ : $5x = 0$, donc $x = 0$ (qui est bien entre $0$ et $8$).
 Le point $M$ est alors confondu avec $A$ : le triangle $MBC$ devient le triangle $ABC$ et le quadrilatère $AMCD$ devient le triangle $ACD$. La diagonale $[AC]$ partage le rectangle en deux triangles de même aire, $20$ cm² chacun.`
+    },
+    {
+      id: "Org3-ds-17",
+      title: "Le mélange de la kermesse",
+      difficulty: 3,
+      points: 5,
+      statement: `Pour une kermesse, on prépare une boisson en mélangeant du sirop et de l'eau dans le ratio $2 : 9$ ($2$ volumes de sirop pour $9$ volumes d'eau).
+
+1. Quel volume d'eau faut-il ajouter à $30$ cL de sirop ?
+2. On note $x$ le volume de sirop (en cL) et $f(x)$ le volume d'eau correspondant (en cL). Démontrer que $f(x) = 4{,}5x$. Quelle est la nature de la fonction $f$ ?
+3. On veut préparer $5{,}5$ L de boisson. Déterminer les volumes de sirop et d'eau nécessaires, en cL.
+4. Un autre groupe verse $100$ cL d'eau pour $20$ cL de sirop. Sa boisson est-elle préparée dans le même ratio ? Est-elle plus sucrée ou moins sucrée que la première ? Justifier.
+5. On note $g(x)$ le volume total de boisson (en cL) obtenu avec $x$ cL de sirop, dans le ratio $2 : 9$. Exprimer $g(x)$ en fonction de $x$, puis déterminer le volume de sirop nécessaire pour obtenir $11$ L de boisson.`,
+      solution: `**1.** Le ratio $2 : 9$ signifie que le volume d'eau vaut $\\dfrac{9}{2}$ fois le volume de sirop : $30 \\times 4{,}5 = 135$ cL d'eau.
+
+**2.** Dans le ratio $2 : 9$, on a $\\dfrac{x}{2} = \\dfrac{f(x)}{9}$, donc $f(x) = \\dfrac{9}{2}x = 4{,}5x$. La fonction $f$ est de la forme $x \\mapsto ax$ : c'est une fonction **linéaire**, de coefficient $4{,}5$.
+
+**3.** $5{,}5$ L $= 550$ cL. Il y a $2 + 9 = 11$ parts, et une part vaut $550 \\div 11 = 50$ cL.
+Sirop : $2 \\times 50 = 100$ cL ; eau : $9 \\times 50 = 450$ cL. Vérification : $f(100) = 450$ et $100 + 450 = 550$.
+
+**4.** $\\dfrac{100}{20} = 5$ alors que le premier mélange correspond à $4{,}5$ : ce n'est **pas le même ratio**. Pour la même quantité de sirop, il y a davantage d'eau : la boisson du second groupe est **moins sucrée**.
+
+**5.** $g(x) = x + f(x) = x + 4{,}5x = 5{,}5x$.
+$11$ L $= 1\\,100$ cL, donc on résout $5{,}5x = 1\\,100$ : $x = \\dfrac{1\\,100}{5{,}5} = 200$. Il faut $200$ cL de sirop, soit $2$ L.`
     }
   ],
   "Org4": [
@@ -6790,15 +7012,23 @@ Le point $M$ est alors confondu avec $A$ : le triangle $MBC$ devient le triangle
       points: 5,
       statement: `Un sac contient $2$ boules rouges ($R$) et $1$ boule bleue ($B$), indiscernables au toucher. On tire une boule au hasard, on note sa couleur, on la remet dans le sac, puis on tire une seconde boule.
 
-1. Construire l'arbre pondéré de cette expérience.
+1. En numérotant les boules rouges $R_1$ et $R_2$, dresser un tableau à double entrée donnant toutes les issues de cette expérience.
 2. Calculer la probabilité d'obtenir deux boules rouges.
 3. Calculer la probabilité d'obtenir deux boules de la même couleur.
 4. Calculer la probabilité d'obtenir au moins une boule bleue.`,
-      solution: `**1.** Premier tirage : $R$ avec la probabilité $\\dfrac{2}{3}$, $B$ avec $\\dfrac{1}{3}$. Comme la boule est remise, le second tirage a les mêmes probabilités. On obtient quatre chemins : $RR$, $RB$, $BR$, $BB$.
+      solution: `**1.** Comme la boule est remise, chacune des $3$ boules peut sortir à chaque tirage :
 
-**2.** On multiplie les probabilités le long du chemin : $P(RR) = \\dfrac{2}{3} \\times \\dfrac{2}{3} = \\dfrac{4}{9}$.
+| 1er tirage / 2e tirage | $R_1$ | $R_2$ | $B$ |
+|:---:|:---:|:---:|:---:|
+| $R_1$ | RR | RR | RB |
+| $R_2$ | RR | RR | RB |
+| $B$ | BR | BR | BB |
 
-**3.** $P(BB) = \\dfrac{1}{3} \\times \\dfrac{1}{3} = \\dfrac{1}{9}$, donc $P(\\text{même couleur}) = \\dfrac{4}{9} + \\dfrac{1}{9} = \\dfrac{5}{9}$.
+Il y a $3 \\times 3 = 9$ issues équiprobables.
+
+**2.** Deux boules rouges : $4$ cases RR, donc $P(RR) = \\dfrac{4}{9}$.
+
+**3.** Même couleur : $4$ cases RR et $1$ case BB, soit $5$ cases. $P(\\text{même couleur}) = \\dfrac{5}{9}$.
 
 **4.** « Au moins une boule bleue » est l'événement contraire de « deux boules rouges » : $1 - \\dfrac{4}{9} = \\dfrac{5}{9}$.`
     },
@@ -6828,22 +7058,30 @@ Le point $M$ est alors confondu avec $A$ : le triangle $MBC$ devient le triangle
       points: 5,
       statement: `Dans un tiroir, il y a $3$ chaussettes blanches et $2$ chaussettes noires, indiscernables au toucher. Dans le noir, Sam prend une chaussette au hasard, puis une seconde, **sans remettre** la première.
 
-1. Construire un arbre pondéré décrivant l'expérience.
+1. En numérotant les chaussettes $B_1$, $B_2$, $B_3$, $N_1$, $N_2$, dresser un tableau à double entrée décrivant l'expérience.
 2. Calculer la probabilité que Sam obtienne deux chaussettes blanches.
 3. Calculer la probabilité qu'il obtienne une paire de même couleur.
 4. Calculer la probabilité qu'il obtienne deux chaussettes de couleurs différentes.
 5. Serait-il plus ou moins probable d'obtenir une paire de même couleur si Sam remettait la première chaussette ? Justifier.`,
-      solution: `**1.** Premier tirage : $B$ avec $\\dfrac{3}{5}$, $N$ avec $\\dfrac{2}{5}$. Second tirage (il reste $4$ chaussettes) :
-- après $B$ : $B$ avec $\\dfrac{2}{4}$, $N$ avec $\\dfrac{2}{4}$ ;
-- après $N$ : $B$ avec $\\dfrac{3}{4}$, $N$ avec $\\dfrac{1}{4}$.
+      solution: `**1.** Une même chaussette ne peut pas être prise deux fois : on barre (×) les cases de la diagonale (1re chaussette en ligne, 2e en colonne).
 
-**2.** $P(BB) = \\dfrac{3}{5} \\times \\dfrac{2}{4} = \\dfrac{6}{20} = \\dfrac{3}{10}$.
+| 1re / 2e | $B_1$ | $B_2$ | $B_3$ | $N_1$ | $N_2$ |
+|:---:|:---:|:---:|:---:|:---:|:---:|
+| $B_1$ | × | BB | BB | BN | BN |
+| $B_2$ | BB | × | BB | BN | BN |
+| $B_3$ | BB | BB | × | BN | BN |
+| $N_1$ | NB | NB | NB | × | NN |
+| $N_2$ | NB | NB | NB | NN | × |
 
-**3.** $P(NN) = \\dfrac{2}{5} \\times \\dfrac{1}{4} = \\dfrac{2}{20} = \\dfrac{1}{10}$, donc $P(\\text{paire}) = \\dfrac{3}{10} + \\dfrac{1}{10} = \\dfrac{2}{5}$.
+Il reste $5 \\times 5 - 5 = 20$ issues équiprobables.
 
-**4.** C'est l'événement contraire : $1 - \\dfrac{2}{5} = \\dfrac{3}{5}$.
+**2.** Deux blanches : $6$ cases BB, donc $P(BB) = \\dfrac{6}{20} = \\dfrac{3}{10}$.
 
-**5.** Avec remise : $\\left(\\dfrac{3}{5}\\right)^2 + \\left(\\dfrac{2}{5}\\right)^2 = \\dfrac{9}{25} + \\dfrac{4}{25} = \\dfrac{13}{25} = 0{,}52$, contre $0{,}4$ sans remise. Ce serait **plus** probable (sans remise, la couleur déjà tirée est devenue plus rare).`
+**3.** Deux noires : $2$ cases NN, donc $P(NN) = \\dfrac{2}{20} = \\dfrac{1}{10}$. Une paire de même couleur correspond à $6 + 2 = 8$ cases : $P(\\text{paire}) = \\dfrac{8}{20} = \\dfrac{2}{5}$.
+
+**4.** C'est l'événement contraire : $1 - \\dfrac{2}{5} = \\dfrac{3}{5}$ (on retrouve les $12$ cases BN et NB sur $20$).
+
+**5.** Avec remise, la diagonale n'est plus barrée : il y a $5 \\times 5 = 25$ issues équiprobables, dont $3 \\times 3 = 9$ cases BB et $2 \\times 2 = 4$ cases NN, soit $13$ cases. $P = \\dfrac{13}{25} = 0{,}52$, contre $0{,}4$ sans remise. Ce serait **plus** probable (sans remise, la couleur déjà tirée est devenue plus rare).`
     },
     {
       id: "Org4-ds-06",
@@ -6864,13 +7102,13 @@ Le point $M$ est alors confondu avec $A$ : le triangle $MBC$ devient le triangle
 | $2$ | $2$ | $4$ |
 | $3$ | $3$ | $6$ |
 
-Il y a $3 \\times 2 = 6$ couples équiprobables (chacun de probabilité $\\dfrac{1}{3} \\times \\dfrac{1}{2} = \\dfrac{1}{6}$).
+Les roues étant équilibrées, les $3 \\times 2 = 6$ cases du tableau sont équiprobables : chacune a pour probabilité $\\dfrac{1}{6}$.
 
 **2.** Produits $\\geqslant 4$ : $4$ et $6$, soit $2$ cases. Probabilité : $\\dfrac{2}{6} = \\dfrac{1}{3}$.
 
 **3.** Produits pairs : $2, 2, 4, 6$, soit $\\dfrac{4}{6} = \\dfrac{2}{3}$ pour Alice et $\\dfrac{1}{3}$ pour Bob. Le jeu n'est **pas équitable**.
 
-**4.** Un produit est impair si et seulement si les deux nombres sont impairs. Roue 1 : impair avec la probabilité $\\dfrac{2}{4} = \\dfrac{1}{2}$ ; roue 2 : toujours impair. $P(\\text{impair}) = \\dfrac{1}{2} \\times 1 = \\dfrac{1}{2}$ et $P(\\text{pair}) = \\dfrac{1}{2}$ : le jeu devient **équitable**.`
+**4.** Le nouveau tableau compte $4 \\times 2 = 8$ cases équiprobables. Un produit est impair si et seulement si les deux nombres sont impairs : la roue 1 doit donner $1$ ou $3$ ($2$ lignes), et la roue 2 donne toujours un nombre impair ($2$ colonnes). Il y a donc $2 \\times 2 = 4$ cases de produit impair. $P(\\text{impair}) = \\dfrac{4}{8} = \\dfrac{1}{2}$ et $P(\\text{pair}) = \\dfrac{1}{2}$ : le jeu devient **équitable**.`
     },
     {
       id: "Org4-ds-07",
@@ -6889,15 +7127,17 @@ Il y a $3 \\times 2 = 6$ couples équiprobables (chacun de probabilité $\\dfrac
 
 **3.** On ajoute $k$ boules rouges : $P(R) = \\dfrac{4 + k}{20 + k} = \\dfrac{1}{2}$ équivaut à $2(4 + k) = 20 + k$, soit $k = 12$. Il faut ajouter $12$ boules rouges ($16$ rouges et $16$ bleues).
 
-**4.** $P(R) = \\dfrac{1}{5}$ et $P(B) = \\dfrac{4}{5}$ à chaque tirage (avec remise). D'après l'arbre :
-$$P(\\text{même couleur}) = \\frac{1}{5} \\times \\frac{1}{5} + \\frac{4}{5} \\times \\frac{4}{5} = \\frac{1}{25} + \\frac{16}{25} = \\frac{17}{25} = 0{,}68.$$`
+**4.** L'urne contient $20$ boules. Avec remise, un tableau à double entrée (inutile de le dessiner) aurait $20 \\times 20 = 400$ cases équiprobables. Deux rouges : $4 \\times 4 = 16$ cases ; deux bleues : $16 \\times 16 = 256$ cases. Donc :
+$$P(\\text{même couleur}) = \\frac{16 + 256}{400} = \\frac{272}{400} = \\frac{17}{25} = 0{,}68.$$`
     },
     {
       id: "Org4-ds-08",
       title: "La souris dans le labyrinthe",
       difficulty: 4,
       points: 5,
-      statement: `Une souris entre dans un labyrinthe. Au premier carrefour, elle choisit au hasard (de façon équiprobable) l'un des deux couloirs, qui mènent aux salles $S_1$ et $S_2$.
+      statement: `**Pour aller plus loin — Complément (utile en seconde) :** cet exercice utilise un arbre pondéré.
+
+Une souris entre dans un labyrinthe. Au premier carrefour, elle choisit au hasard (de façon équiprobable) l'un des deux couloirs, qui mènent aux salles $S_1$ et $S_2$.
 - De la salle $S_1$ partent $3$ couloirs : un seul mène au fromage, les deux autres mènent à une impasse.
 - De la salle $S_2$ partent $2$ couloirs : un mène au fromage, l'autre à une impasse.
 
@@ -6980,12 +7220,12 @@ Il faut ajouter $2$ jetons (contrôle : $\\dfrac{11}{22} = \\dfrac{1}{2}$).`
       points: 5,
       statement: `On lance trois fois de suite une pièce de monnaie équilibrée et on note à chaque fois le côté obtenu : P (pile) ou F (face).
 
-1. Construire un arbre représentant toutes les issues. Combien y en a-t-il ? Sont-elles équiprobables ?
+1. Écrire la liste de toutes les issues (par exemple PPF pour pile, pile, face). Combien y en a-t-il ? Sont-elles équiprobables ?
 2. Calculer la probabilité d'obtenir exactement deux fois pile.
 3. Calculer la probabilité d'obtenir au moins une fois face. On pourra utiliser l'événement contraire.
 4. Léo dit : « J'ai une chance sur deux d'obtenir autant de piles que de faces. » A-t-il raison ?
 5. Calculer la probabilité d'obtenir plus de piles que de faces.`,
-      solution: `**1.** À chaque lancer, l'arbre se divise en deux branches (P ou F). Il y a $2 \\times 2 \\times 2 = 8$ issues :
+      solution: `**1.** Chaque lancer a deux résultats possibles (P ou F). Il y a $2 \\times 2 \\times 2 = 8$ issues :
 PPP, PPF, PFP, PFF, FPP, FPF, FFP, FFF.
 La pièce étant équilibrée, ces $8$ issues sont équiprobables : chacune a pour probabilité $\\dfrac{1}{8}$.
 
@@ -7004,22 +7244,29 @@ La pièce étant équilibrée, ces $8$ issues sont équiprobables : chacune a po
       points: 6,
       statement: `Dans un club, cinq candidats se présentent pour devenir délégués : trois filles (Ana, Bao, Chloé) et deux garçons (Driss, Émile). On écrit leurs noms sur des papiers et on tire au hasard un premier papier, puis un second **sans remettre** le premier.
 
-1. Construire un arbre pondéré en notant, à chaque tirage, s'il s'agit d'une fille (F) ou d'un garçon (G).
+1. Dresser un tableau à double entrée donnant les tirages possibles (premier papier en ligne, second papier en colonne, chaque candidat étant désigné par son initiale). Indiquer dans chaque case s'il s'agit de deux filles (FF), de deux garçons (GG), ou d'une fille et d'un garçon (FG ou GF).
 2. Calculer la probabilité que les deux délégués soient des filles.
 3. Calculer la probabilité que les délégués soient deux garçons, puis celle que les délégués soient une fille et un garçon.
 4. Le club veut que la probabilité d'avoir deux garçons soit inférieure à $\\dfrac{1}{20}$. Les deux garçons restant candidats, combien de filles au minimum doivent se présenter ?`,
-      solution: `**1.** Premier tirage : $p(F) = \\dfrac{3}{5}$ et $p(G) = \\dfrac{2}{5}$.
-Second tirage, il reste $4$ papiers :
-- après F : il reste $2$ filles et $2$ garçons, branches $\\dfrac{2}{4}$ (F) et $\\dfrac{2}{4}$ (G) ;
-- après G : il reste $3$ filles et $1$ garçon, branches $\\dfrac{3}{4}$ (F) et $\\dfrac{1}{4}$ (G).
+      solution: `**1.** Le même papier ne peut pas être tiré deux fois : on barre (×) les cases de la diagonale.
 
-**2.** $p(FF) = \\dfrac{3}{5} \\times \\dfrac{2}{4} = \\dfrac{6}{20} = \\dfrac{3}{10}$.
+| 1er / 2e | A | B | C | D | E |
+|:---:|:---:|:---:|:---:|:---:|:---:|
+| A | × | FF | FF | FG | FG |
+| B | FF | × | FF | FG | FG |
+| C | FF | FF | × | FG | FG |
+| D | GF | GF | GF | × | GG |
+| E | GF | GF | GF | GG | × |
 
-**3.** $p(GG) = \\dfrac{2}{5} \\times \\dfrac{1}{4} = \\dfrac{2}{20} = \\dfrac{1}{10}$.
-Une fille et un garçon : $p(FG) + p(GF) = \\dfrac{3}{5} \\times \\dfrac{2}{4} + \\dfrac{2}{5} \\times \\dfrac{3}{4} = \\dfrac{6}{20} + \\dfrac{6}{20} = \\dfrac{3}{5}$.
-(Contrôle : $\\dfrac{3}{10} + \\dfrac{1}{10} + \\dfrac{3}{5} = 1$.)
+Il reste $5 \\times 5 - 5 = 20$ tirages équiprobables.
 
-**4.** S'il y a $n$ candidats en tout (dont $2$ garçons), $p(GG) = \\dfrac{2}{n} \\times \\dfrac{1}{n - 1} = \\dfrac{2}{n(n - 1)}$.
+**2.** Deux filles : $6$ cases FF, donc $p(FF) = \\dfrac{6}{20} = \\dfrac{3}{10}$.
+
+**3.** Deux garçons : $2$ cases GG, donc $p(GG) = \\dfrac{2}{20} = \\dfrac{1}{10}$.
+Une fille et un garçon : $6$ cases FG et $6$ cases GF, soit $12$ cases, donc $p = \\dfrac{12}{20} = \\dfrac{3}{5}$.
+(Contrôle : $6 + 2 + 12 = 20$ cases.)
+
+**4.** S'il y a $n$ candidats en tout (dont $2$ garçons), le tableau compte $n \\times n - n = n(n - 1)$ cases non barrées, dont exactement $2$ cases GG : $p(GG) = \\dfrac{2}{n(n - 1)}$.
 On veut $\\dfrac{2}{n(n - 1)} < \\dfrac{1}{20}$, c'est-à-dire $n(n - 1) > 40$.
 - $n = 6$ : $6 \\times 5 = 30$, ne convient pas ;
 - $n = 7$ : $7 \\times 6 = 42 > 40$, convient (et le produit augmente avec $n$).
@@ -7143,6 +7390,48 @@ $P = \\dfrac{6}{1\\,000} = 0{,}006$.
 
 **5.** Léa détient $4$ numéros favorables sur $1\\,000$ : $P = \\dfrac{4}{1\\,000} = 0{,}004$.
 Pour avoir une probabilité de $\\dfrac{1}{2}$, il faudrait $\\dfrac{1\\,000}{2} = 500$ numéros différents, soit $500$ tickets.`
+    },
+    {
+      id: "Org4-ds-17",
+      title: "Simuler pour estimer",
+      difficulty: 3,
+      points: 6,
+      statement: `Inès veut étudier le lancer d'un dé équilibré à six faces sans le réaliser réellement. Dans Scratch, le bloc « nombre aléatoire entre 1 et 6 » simule un lancer. Elle écrit le script suivant :
+
+\`\`\`scratch
+quand drapeau cliqué
+mettre [compteur] à 0
+répéter 1000 fois
+    mettre [dé] à (nombre aléatoire entre 1 et 6)
+    si (dé > 4) alors
+        ajouter 1 à [compteur]
+dire (compteur)
+\`\`\`
+
+1. Combien de lancers de dé ce script simule-t-il ?
+2. Quel événement le compteur permet-il de dénombrer ?
+3. Quelle est la probabilité de cet événement ? Donner le résultat sous forme de fraction irréductible.
+4. Lors d'une exécution, le lutin dit $346$.
+   a) Calculer la fréquence de l'événement dans cette simulation.
+   b) Comparer cette fréquence à la probabilité trouvée à la question 3.
+5. Le lutin dira-t-il forcément $346$ si Inès relance le script ? Expliquer.
+6. Inès remplace $1000$ par $100\\,000$. Que peut-on attendre de la fréquence obtenue ?
+7. Dans un tableur, quelle formule peut-elle saisir dans une cellule pour simuler un lancer de ce dé ?`,
+      solution: `**1.** La boucle est répétée $1\\,000$ fois : le script simule $1\\,000$ lancers.
+
+**2.** Le compteur augmente de $1$ quand le résultat est strictement supérieur à $4$ : il dénombre les lancers qui donnent $5$ ou $6$.
+
+**3.** Le dé est équilibré, les six issues sont équiprobables et deux sont favorables : $P = \\dfrac{2}{6} = \\dfrac{1}{3}$.
+
+**4. a)** Fréquence : $\\dfrac{346}{1\\,000} = 0{,}346$.
+
+**b)** $\\dfrac{1}{3} \\approx 0{,}333$. La fréquence est proche de la probabilité, sans lui être égale.
+
+**5.** Non : les nombres sont tirés au hasard, donc une nouvelle exécution donnera en général un résultat différent. La fréquence n'est qu'une estimation de la probabilité.
+
+**6.** Quand le nombre de lancers augmente, la fréquence se stabilise autour de la probabilité : elle devrait être très proche de $\\dfrac{1}{3}$.
+
+**7.** La formule \`=ALEA.ENTRE.BORNES(1;6)\` donne un nombre entier au hasard entre $1$ et $6$.`
     }
   ],
   "Algo": [
@@ -7395,7 +7684,7 @@ dire premier
 
 1. Quelle formule saisir dans la cellule B3 pour qu'en l'étirant vers le bas on obtienne le capital de chaque année ?
 2. Montrer que le capital au bout de $5$ ans est $500 \\times 1{,}03^5$ et donner sa valeur arrondie au centime.
-3. Lina veut savoir au bout de combien d'années son capital dépassera $600$ €. Recopier et compléter le script ci-dessous pour répondre à cette question.
+3. Lina veut savoir au bout de combien d'années son capital dépassera $600$ €. Recopier et compléter le script ci-dessous (attention : dans Scratch, les nombres décimaux s'écrivent avec un point, par exemple « 1.5 » pour $1{,}5$) pour répondre à cette question.
 
 \`\`\`scratch
 quand drapeau cliqué
@@ -7412,7 +7701,7 @@ dire année
 
 **2.** Chaque année, le capital est multiplié par $1{,}03$ : après $5$ ans, il a été multiplié $5$ fois, d'où $500 \\times 1{,}03^5 \\approx 579{,}64$ €.
 
-**3.** On complète : « répéter jusqu'à ce que (capital > 600) », « mettre [capital] à (capital × 1,03) » et « ajouter 1 à [année] ».
+**3.** On complète : « répéter jusqu'à ce que (capital > 600) », « mettre [capital] à (capital × 1.03) » (écriture de Scratch, avec un point décimal) et « ajouter 1 à [année] ».
 
 **4.** On cherche le plus petit entier $n$ tel que $500 \\times 1{,}03^n > 600$, soit $1{,}03^n > 1{,}2$.
 $1{,}03^6 \\approx 1{,}194 < 1{,}2$ (capital $\\approx 597{,}03$ €) et $1{,}03^7 \\approx 1{,}230 > 1{,}2$ (capital $\\approx 614{,}94$ €). Le lutin dit $7$ : le capital dépasse $600$ € au bout de $7$ ans.`
@@ -7574,7 +7863,7 @@ répéter jusqu'à ce que (points < 60)
     ajouter 1 à [manche]
 \`\`\`
 
-**4.** Après $15$ manches, il reste environ $60{,}29$ points, ce qui n'est pas inférieur à $60$. À la $16^\\text{e}$ manche : $60{,}29 \\times 0{,}9 + 5 \\approx 59{,}27 < 60$. Le lutin dit $16$.
+**4.** Après $15$ manches, il reste environ $60{,}29$ points, ce qui n'est pas inférieur à $60$. À la $16^\\text{e}$ manche : $60{,}29 \\times 0{,}9 + 5 \\approx 59{,}26 < 60$. Le lutin dit $16$.
 
 **5.** Si les points $p$ vérifient $p \\geqslant 50$ au début d'une manche, alors $0{,}9p \\geqslant 0{,}9 \\times 50 = 45$, donc $0{,}9p + 5 \\geqslant 50$.
 Le joueur commence avec $100 \\geqslant 50$ points : d'une manche à l'autre, il garde toujours au moins $50$ points. Ses points de vie ne descendront donc jamais en dessous de $50$ (le joueur ne peut pas perdre toute sa vie de cette façon).`
@@ -7697,7 +7986,7 @@ Si « dé » valait $6$ au départ, la condition serait vraie dès le début : l
 
 **b)** Le lutin dit $2$ exactement dans ces cas : $P = \\dfrac{5}{36}$.
 
-**5.** Il faut s'arrêter quand le dé vaut $5$ ou $6$, c'est-à-dire quand il est strictement supérieur à $4$ : on remplace la condition par « dé $> 4$ ».
+**5.** Il faut s'arrêter quand le dé vaut $5$ ou $6$, c'est-à-dire quand il est strictement supérieur à $4$ : on remplace la condition par « dé $> 4$ » (ou, de façon équivalente pour un dé à six faces, avec l'opérateur logique « ou » : « (dé $= 5$) ou (dé $= 6$) »).
 
 \`\`\`scratch
 répéter jusqu'à ce que (dé > 4)

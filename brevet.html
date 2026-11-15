@@ -4,11 +4,9 @@
   <meta charset="UTF-8" />
   <!-- Content-Security-Policy : voir scripts/csp.js (style-src 'unsafe-inline' requis par les attributs style de KaTeX et de l'application) -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://etabli-des-maths.goatcounter.com; font-src 'self' data:; connect-src 'self' https://etabli-des-maths.goatcounter.com; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'" />
-  <script src="js/themeInit.js?v=b22b407710"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="author" content="Loïc Delaporte, Professeur de Mathématiques" />
   <meta name="description" content="Brevet blanc de maths gratuit : un sujet complet de 3e généré en un clic avec son corrigé détaillé, puis entraînement par chapitre et flashcards." />
-  <meta name="keywords" content="brevet maths 3eme, révision brevet maths, devoir blanc brevet maths, annales dnb maths corrigé, sujet brevet maths 2026, pythagore thalès brevet, probabilités scratch brevet" />
   <link rel="canonical" href="https://etabli-des-maths.fr/brevet.html" />
 
   <!-- Open Graph -->
@@ -19,11 +17,14 @@
   <meta property="og:locale" content="fr_FR" />
   <meta property="og:site_name" content="L'Établi des Maths" />
   <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
+  <meta property="og:image:alt" content="Logo de L'Établi des Maths" />
+  <meta name="twitter:card" content="summary" />
 
   <title>Brevet blanc de maths 3e : sujets générés avec corrigé</title>
 
-  <link rel="stylesheet" href="css/style.css?v=a4e7161be9" />
-  <link rel="stylesheet" href="css/landing.css?v=4a78afe00c" />
+  <link rel="stylesheet" href="css/style.css?v=141db07fda" />
+  <link rel="stylesheet" href="css/landing.css?v=9c24ff37f8" />
+  <script src="js/themeInit.js?v=58d3835cf3"></script>
   <link rel="icon" href="favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
   <link rel="apple-touch-icon" href="assets/favicon.png" />
@@ -44,14 +45,17 @@
   },
   "author": {
     "@type": "Person",
+    "@id": "https://etabli-des-maths.fr/a-propos.html#auteur",
     "name": "Loïc Delaporte",
-    "jobTitle": "Professeur de mathématiques"
+    "jobTitle": "Professeur de mathématiques",
+    "url": "https://etabli-des-maths.fr/a-propos.html"
   },
   "publisher": {
     "@type": "Organization",
+    "@id": "https://etabli-des-maths.fr/#organisation",
     "name": "L'Établi des Maths",
     "url": "https://etabli-des-maths.fr/",
-    "logo": "https://etabli-des-maths.fr/assets/logo.png"
+    "logo": "https://etabli-des-maths.fr/assets/logo-192.png"
   },
   "educationalLevel": "Collège — classe de 3e (brevet des collèges)",
   "teaches": [
@@ -91,7 +95,7 @@
   <!-- Header -->
   <header class="app-header">
     <div class="header-inner">
-      <a href="index.html" class="brand-container">
+      <a href="./" class="brand-container">
         <img src="assets/logo-96.png" alt="" class="brand-logo-img" width="44" height="44" />
         <div class="brand-text">
           <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Brevet 3ème</span></p>
@@ -100,11 +104,12 @@
       </a>
 
       <nav class="nav-portal-links" aria-label="Portails thématiques">
-        <a href="index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="./" class="nav-portal-btn">🏠 Accueil</a>
         <a href="cours/" class="nav-portal-btn">📚 Cours</a>
+        <a href="exercices-de-maths/" class="nav-portal-btn">✏️ Exercices</a>
         <a href="rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
-        <a href="brevet.html" class="nav-portal-btn active" aria-current="page">📝 Brevet 3e</a>
-        <a href="bac.html" class="nav-portal-btn">🎓 Baccalauréat</a>
+        <a href="brevet.html" class="nav-portal-btn active" aria-current="page">📝 Brevet</a>
+        <a href="bac.html" class="nav-portal-btn">🎓 Bac</a>
         <a href="enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
         <a href="parents.html" class="nav-portal-btn">👪 Parents</a>
       </nav>
@@ -115,9 +120,9 @@
   <main class="landing-wrapper" id="contenu" tabindex="-1">
     <section class="landing-hero">
       <span class="landing-tag">🎓 Diplôme National du Brevet</span>
-      <h1 class="landing-title">Brevet blanc de maths : des sujets de 3e générés avec leur corrigé</h1>
+      <h1 class="landing-title">Brevet blanc de maths&nbsp;: des sujets de 3e générés avec leur corrigé</h1>
       <p class="landing-subtitle">
-        Brevets blancs aléatoires au format 2026 (2 h, sur 20 points : automatismes puis problèmes) avec barème indicatif, fiches de révision et entraînement ciblé par paliers sur l'ensemble du programme de 3ème.
+        Brevets blancs aléatoires au format 2026 (2 h, sur 20 points&nbsp;: automatismes puis problèmes) avec barème indicatif, fiches de révision et entraînement ciblé par paliers sur l'ensemble du programme de 3ème.
       </p>
 
       <div class="landing-cta-grid">
@@ -125,7 +130,7 @@
           📝 Générer un brevet blanc (sur 20 points)
         </a>
         <a href="index.html?level=3eme" class="btn-secondary landing-cta-btn">
-          🎯 S'entraîner sur les 19 chapitres
+          🎯 S'entraîner sur tous les chapitres de 3e
         </a>
         <a href="index.html?mode=flashcards&level=3eme" class="btn-secondary landing-cta-btn">
           🗂️ Flashcards des Formules
@@ -139,7 +144,7 @@
         Les notions clés du programme de 3e
       </h2>
       <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.25rem;">
-        Cliquez sur un chapitre pour démarrer immédiatement votre entraînement interactif par paliers de difficulté :
+        Cliquez sur un chapitre pour démarrer immédiatement votre entraînement interactif par paliers de difficulté&nbsp;:
       </p>
 
       <div class="topics-grid-3e">
@@ -159,6 +164,10 @@
           <span class="topic-num">N2</span>
           <span class="topic-name">Calcul littéral & Identités</span>
         </a>
+        <a href="index.html?chapitre=N2bis" class="topic-pill-card">
+          <span class="topic-num">N2 bis</span>
+          <span class="topic-name">Factorisation</span>
+        </a>
         <a href="index.html?chapitre=N4" class="topic-pill-card">
           <span class="topic-num">N4</span>
           <span class="topic-name">Équations & Inéquations</span>
@@ -175,13 +184,29 @@
           <span class="topic-num">G2</span>
           <span class="topic-name">Trigonométrie (Cos, Sin, Tan)</span>
         </a>
+        <a href="index.html?chapitre=G2bis" class="topic-pill-card">
+          <span class="topic-num">G2 bis</span>
+          <span class="topic-name">Choisir l'outil&nbsp;: Pythagore, Thalès ou trigo</span>
+        </a>
         <a href="index.html?chapitre=G3" class="topic-pill-card">
           <span class="topic-num">G3</span>
           <span class="topic-name">Transformations du plan</span>
         </a>
+        <a href="index.html?chapitre=G4" class="topic-pill-card">
+          <span class="topic-num">G4</span>
+          <span class="topic-name">Sphère, boule & repérage</span>
+        </a>
         <a href="index.html?chapitre=G5" class="topic-pill-card">
           <span class="topic-num">G5</span>
           <span class="topic-name">Espace & Solides</span>
+        </a>
+        <a href="index.html?chapitre=G6" class="topic-pill-card">
+          <span class="topic-num">G6</span>
+          <span class="topic-name">Rotations</span>
+        </a>
+        <a href="index.html?chapitre=G7" class="topic-pill-card">
+          <span class="topic-num">G7</span>
+          <span class="topic-name">Triangles semblables</span>
         </a>
         <a href="index.html?chapitre=Org1" class="topic-pill-card">
           <span class="topic-num">Org1</span>
@@ -209,21 +234,21 @@
     <!-- Atouts de l'Établi pour le DNB -->
     <section>
       <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 1rem; color: var(--text-main);">
-        Comment réviser efficacement avec L'Établi des Maths ?
+        Comment réviser efficacement avec L'Établi des Maths&#8239;?
       </h2>
       <div class="landing-features-grid">
         <div class="landing-feature-card">
           <div class="landing-feature-icon">📊</div>
           <h3 class="landing-feature-title">Brevets blancs complets sur 20 points</h3>
           <p class="landing-feature-desc">
-            Générez un sujet au format du brevet 2026 : automatismes sans calculatrice (6 points), puis trois problèmes de domaines différents et la rédaction (14 points). Travaillez en temps limité, puis comparez avec le corrigé et son barème indicatif.
+            Générez un sujet au format du brevet 2026&nbsp;: automatismes sans calculatrice (6 points), puis trois problèmes de domaines différents et la rédaction (14 points). Travaillez en temps limité, puis comparez avec le corrigé et son barème indicatif.
           </p>
         </div>
         <div class="landing-feature-card">
           <div class="landing-feature-icon">🎯</div>
-          <h3 class="landing-feature-title">Le Palier 3 : Format Brevet officiel</h3>
+          <h3 class="landing-feature-title">Le palier 3&nbsp;: exercices type brevet</h3>
           <p class="landing-feature-desc">
-            Dans chaque chapitre, le Palier 3 est spécifiquement calibré sur les exercices type DNB : modélisation concrète, narration de recherche et calculs en contexte.
+            Dans chaque chapitre, le Palier 3 est spécifiquement calibré sur les exercices type DNB&nbsp;: modélisation concrète, narration de recherche et calculs en contexte.
           </p>
         </div>
         <div class="landing-feature-card">
@@ -239,7 +264,7 @@
     <!-- Maillage : révisions et cours du brevet -->
     <section class="landing-links-box" aria-labelledby="brevet-liens-titre">
       <h2 id="brevet-liens-titre">Réviser le brevet de maths pas à pas</h2>
-      <p>Le brevet blanc sert à se tester. Pour réviser, la page <a href="reviser-le-brevet-de-maths/">Réviser le brevet de maths</a> détaille l'épreuve (automatismes sans calculatrice, puis résolution de problèmes), les chapitres prioritaires et un planning sur six semaines. Les cours complets, avec exercices corrigés :</p>
+      <p>Le brevet blanc sert à se tester. Pour réviser, la page <a href="reviser-le-brevet-de-maths/">Réviser le brevet de maths</a> détaille l'épreuve (automatismes sans calculatrice, puis résolution de problèmes), les chapitres prioritaires et un planning sur six semaines. Les cours complets, avec exercices corrigés&nbsp;:</p>
       <ul>
         <li><a href="cours/3e/theoreme-de-pythagore-et-proprietes.html">Théorème de Pythagore (3e)</a></li>
         <li><a href="cours/3e/theoreme-de-thales-et-reciproque.html">Théorème de Thalès et réciproque</a></li>
@@ -256,7 +281,7 @@
 
   <footer class="site-footer">
     <p>L'Établi des Maths — Conçu par Loïc Delaporte, Professeur de Mathématiques • 100 % gratuit, sans publicité & conforme aux programmes</p>
-    <p class="site-legal-links"><a href="a-propos.html">Qui suis-je ?</a> · <a href="mentions-legales.html">Mentions légales et confidentialité</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a> · Contenus sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a></p>
+    <p class="site-legal-links"><a href="a-propos.html">Qui suis-je&#8239;?</a> · <a href="mentions-legales.html">Mentions légales et confidentialité</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a> · Contenus sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a></p>
   </footer>
 
   <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->

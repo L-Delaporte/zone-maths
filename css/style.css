@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Zone-Maths — Zone Optimale d'Apprentissage (Cycle 4 : 5e, 4e, 3e)
+   L'Établi des Maths
    Design System & Feuille de style principale
    ========================================================================== */
 
@@ -276,7 +276,7 @@ body {
 }
 
 .cycle-tab-btn.active[data-cycle="lycee"] {
-  background: linear-gradient(135deg, #059669, #0284c7);
+  background: linear-gradient(135deg, #047857, #0369a1);
   color: white;
   box-shadow: 0 2px 4px rgba(5, 150, 105, 0.3);
 }
@@ -448,6 +448,8 @@ body.home-view-active .cycle-levels-row {
   z-index: 1200;
   min-width: 15rem;
   max-width: calc(100vw - 16px);
+  max-height: calc(100dvh - 16px);
+  overflow-y: auto;
   padding: 0.35rem;
   display: grid;
   gap: 0.15rem;
@@ -546,6 +548,10 @@ body.home-view-active .cycle-levels-row {
   gap: 1.25rem;
   animation: fadeIn 0.25s ease-out;
 }
+
+/* Lien direct (js/themeInit.js) : pas d'accueil affiché avant le chapitre */
+html[data-deep-link] #home-view,
+html[data-deep-link] .app-footer { display: none; }
 
 .home-hero-banner {
   display: flex;
@@ -1419,7 +1425,11 @@ body.home-view-active .cycle-levels-row {
 .chap-badge-id {
   font-size: 0.85rem;
   font-weight: 700;
-  width: 36px;
+  width: min-content;
+  min-width: 36px;
+  padding: 0 3px;
+  text-align: center;
+  line-height: 1.1;
   height: 36px;
   border-radius: var(--radius-sm);
   display: flex;
@@ -1434,12 +1444,14 @@ body.home-view-active .cycle-levels-row {
 }
 
 .chap-title {
-  display: block;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
   font-size: 0.85rem;
   font-weight: 600;
-  white-space: nowrap;
+  line-height: 1.25;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .chap-desc {
@@ -1558,7 +1570,62 @@ body.home-view-active .cycle-levels-row {
   transition: width 0.4s ease;
 }
 
+/* Voie de Première (#premiere-voie-switch) : contrôle segmenté à trois choix, role="radiogroup".
+   Pas de display sur .voie-switch seul : l'attribut hidden doit rester effectif. */
+.voie-switch:not([hidden]) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 0 0.9rem;
+}
+
+.voie-switch-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-right: 0.25rem;
+}
+
+.voie-option {
+  padding: 6px 14px;
+  min-height: 36px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full);
+  background: var(--bg-surface);
+  color: var(--text-main);
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.voie-option:hover {
+  border-color: var(--primary-border);
+}
+
+.voie-option[aria-checked="true"] {
+  background: var(--primary-fill);
+  border-color: var(--primary-fill);
+  color: #fff;
+  font-weight: 600;
+}
+
+.voie-option:focus-visible {
+  outline: 3px solid var(--primary-border);
+  outline-offset: 2px;
+}
+
 /* Barre d'onglets du chapitre */
+/* Mention des concours : app (#concours-notice) et pages générées. Pas de display ici : l'attribut hidden doit rester effectif. */
+.concours-notice {
+  margin: 0 0 0.75rem;
+  padding: 0.4rem 0.75rem;
+  border-left: 3px solid var(--primary-border);
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+
 .tabs-navigation-bar {
   display: flex;
   align-items: center;
@@ -1724,10 +1791,14 @@ body.home-view-active .cycle-levels-row {
 
 .exo-header-bar {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  gap: 0.3rem 0.5rem;
   margin-bottom: 0.5rem;
 }
+
+.tier-tag-short { display: none; }
 
 .exo-tier-tag {
   font-size: 0.75rem;
@@ -1921,6 +1992,90 @@ body.home-view-active .cycle-levels-row {
   color: var(--danger-text);
 }
 
+/* Remise en ordre d'étapes (type order) */
+.order-steps .input-tip {
+  margin: 0 0 0.5rem;
+}
+
+.order-steps .case3-pick {
+  margin-top: 0.6rem;
+}
+
+.order-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.order-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-surface);
+}
+
+.order-body {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.order-tag {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.order-ok {
+  background-color: var(--success-bg);
+  border-color: var(--success);
+  color: var(--success-text);
+}
+
+.order-ko {
+  background-color: var(--danger-bg);
+  border-color: var(--danger);
+  color: var(--danger-text);
+}
+
+.order-ok .order-tag,
+.order-ko .order-tag {
+  color: inherit;
+}
+
+.order-moves {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.order-move {
+  width: 44px;
+  height: 36px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-subtle);
+  color: var(--text-main);
+  cursor: pointer;
+}
+
+.order-move:hover:not(:disabled) {
+  border-color: var(--primary);
+}
+
+.order-move:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
 .case3-expl {
   margin-top: 0.5rem;
   font-size: 0.93rem;
@@ -1945,6 +2100,7 @@ body.home-view-active .cycle-levels-row {
 
 .math-text-input {
   flex: 1;
+  min-width: 0;
   font-size: 1.15rem;
   padding: 0.75rem 1rem;
   border-radius: var(--radius-md);
@@ -1969,6 +2125,9 @@ body.home-view-active .cycle-levels-row {
   font-size: 1.1rem;
   display: inline-flex;
   align-items: center;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
 }
 
 .input-tip {
@@ -2039,7 +2198,14 @@ body.home-view-active .cycle-levels-row {
 
 .help-buttons-group {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
+}
+
+.help-buttons-group .btn-give-up {
+  min-height: 32px;
+  color: var(--text-muted);
+  text-decoration: underline;
 }
 
 .btn-primary {
@@ -2140,12 +2306,14 @@ body.home-view-active .cycle-levels-row {
 }
 
 .xp-badge {
-  background-color: #10b981;
+  background-color: #047857;
   color: white;
   font-weight: 800;
   padding: 2px 10px;
   border-radius: var(--radius-full);
   font-size: 0.85rem;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .level-up-banner {
@@ -2532,6 +2700,10 @@ body.home-view-active .cycle-levels-row {
   margin-bottom: 1rem;
 }
 
+.stats-empty {
+  text-align: center;
+}
+
 .badges-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -2565,7 +2737,7 @@ body.home-view-active .cycle-levels-row {
 /* Grille des Trophées par Chapitre */
 .chapter-trophies-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(290px, 100%), 1fr));
   gap: 1.1rem;
 }
 
@@ -3202,13 +3374,37 @@ body.home-view-active .cycle-levels-row {
   padding: 0 1.5rem 1.5rem;
   overflow-y: auto;
   max-height: 250px;
+  border: 0;
+  margin: 0;
+  min-width: 0;
 }
 
-.diapo-chapters-select-section label {
+.diapo-chapters-select-section label,
+.diapo-chapters-select-section legend {
   display: block;
   font-size: 0.85rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
+}
+
+/* Flottante, la légende laisse les actions rapides sur la même ligne qu'elle */
+.diapo-chapters-select-section legend {
+  float: left;
+  padding: 0;
+  margin-right: 0.75rem;
+}
+
+.diapo-chapters-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.diapo-chapters-select-section > .diapo-chips-container {
+  clear: both;
 }
 
 .diapo-chips-container {
@@ -4128,13 +4324,6 @@ body.home-view-active .cycle-levels-row {
   color: var(--text-muted);
 }
 
-.fc-chap-header-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
-}
-
 .fc-chap-quick-actions {
   display: flex;
   align-items: center;
@@ -4721,6 +4910,48 @@ body.home-view-active .cycle-levels-row {
   body.diapo-modal-open .modal-close-btn {
     display: none !important;
   }
+  body.diapo-modal-open #diaporama-modal {
+    padding: 0;
+  }
+  /* La marge @page est à 0 : la marge haute et basse est portée par la boîte, répétée sur chaque page */
+  body.diapo-modal-open {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  body.diapo-modal-open #diaporama-modal .modal-box.diapo-box {
+    display: block;
+    width: auto;
+    max-width: none;
+    max-height: none;
+    min-height: 0;
+    margin: 0;
+    padding-block: 12mm;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    background: #fff;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: visible;
+  }
+  body.diapo-modal-open #diaporama-modal .diapo-screen-mm {
+    max-height: none !important;
+    overflow: visible;
+  }
+  body.diapo-modal-open .diapo-mm-detail::details-content {
+    content-visibility: visible;
+    display: block;
+  }
+  body.diapo-modal-open .diapo-mm-detail > summary {
+    list-style: none;
+  }
+  /* Le fondu d'écran des formules larges ne doit pas effacer la fin d'une formule imprimée */
+  .katex-display.scroll-more-right,
+  .katex-display.scroll-more-left,
+  .katex-display.scroll-more-left.scroll-more-right {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
   body.diapo-modal-open .diapo-mm-sheet-wrapper {
     padding: 0;
     background: transparent;
@@ -5221,7 +5452,14 @@ body.home-view-active .cycle-levels-row {
 
 .footer-author-box {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  gap: 0.5rem 1rem;
+}
+
+.footer-author-box .site-legal-links {
+  margin: 0;
+  font-size: 0.8rem;
 }
 
 .footer-author-badge {
@@ -5532,6 +5770,7 @@ body.home-view-active .cycle-levels-row {
   /* Filtres de domaines en chips horizontaux défilables sans retour à la ligne */
   .domain-filters-scroll {
     display: flex;
+    flex-shrink: 0;
     flex-wrap: nowrap;
     overflow-x: auto;
     scrollbar-width: none;
@@ -5562,7 +5801,7 @@ body.home-view-active .cycle-levels-row {
   }
 
   .chap-badge-id {
-    width: 34px;
+    min-width: 34px;
     height: 34px;
     font-size: 0.82rem;
   }
@@ -5801,8 +6040,28 @@ body.home-view-active .cycle-levels-row {
 
   /* MASQUER LA BANNIÈRE GÉANTE DU CHAPITRE SUR MOBILE (Informations déjà dans la barre mobile) */
   /* important : prime sur le style inline posé par le JS */
-  .chapter-hero-banner {
+  .chapter-hero-banner:not(.home-hero-banner) {
     display: none !important;
+  }
+
+  /* Accueil : version courte du bandeau, pour dire en une phrase ce qu'est le site */
+  .home-hero-banner {
+    padding: 0.75rem 1rem;
+    gap: 0.5rem;
+  }
+
+  .home-hero-banner .home-streak-card {
+    display: none;
+  }
+
+  .home-hero-banner h2 {
+    font-size: 1.1rem;
+  }
+
+  .home-hero-banner .hero-desc {
+    font-size: 0.88rem;
+    line-height: 1.4;
+    margin: 0;
   }
 
   /* BARRE D'ONGLETS FIXÉE EN BAS (Bottom Navigation Bar Native) */
@@ -5986,6 +6245,41 @@ body.home-view-active .cycle-levels-row {
     padding: 0.75rem 1rem !important;
     border-radius: 12px;
     text-align: center;
+  }
+
+  /* L'aperçu de la réponse passe sous le champ plutôt que de l'écraser */
+  .input-row {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .input-row .math-text-input {
+    flex-basis: 100%;
+  }
+
+  /* Bilan : les 4 indicateurs en grille 2×2 */
+  .stats-overview-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .stats-overview-grid .stat-card {
+    padding: 0.7rem 0.5rem;
+  }
+
+  .stats-overview-grid .stat-icon {
+    font-size: 1.4rem;
+    margin-bottom: 0;
+  }
+
+  .stats-overview-grid .stat-val {
+    font-size: 1.25rem;
+  }
+
+  .help-buttons-group .btn-give-up {
+    flex-basis: 100%;
+    min-height: 40px;
   }
 
   /* Actions de l'exercice - Bouton validation pleine largeur */
@@ -6189,6 +6483,20 @@ body.home-view-active .cycle-levels-row {
   .math-text-input {
     font-size: 1.05rem;
     padding: 0.65rem 0.75rem;
+  }
+
+  /* Pastille de palier sur une ligne, titre du cours au-dessus du bouton Imprimer */
+  .tier-tag-long { display: none; }
+  .tier-tag-short { display: inline; }
+
+  .course-sheet-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.6rem;
+  }
+
+  .course-header-titles {
+    flex: 0 0 auto;
   }
 }
 
@@ -8014,7 +8322,7 @@ body.home-view-active .cycle-levels-row {
   align-items: center;
   justify-content: center;
   gap: 0.35rem;
-  background: linear-gradient(135deg, var(--primary) 0%, #0284c7 100%);
+  background: linear-gradient(135deg, var(--primary-fill) 0%, #0369a1 100%);
   color: #ffffff;
   border: none;
   border-radius: 20px;
@@ -8564,10 +8872,10 @@ body.home-view-active .cycle-levels-row {
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms;
-    animation-iteration-count: 1;
-    transition-duration: 0.01ms;
-    scroll-behavior: auto;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
@@ -9240,6 +9548,47 @@ button.status-pill {
 .course-sheet-title { font-size: 1.5em; font-weight: 700; }
 [data-theme="dark"] .home-streak-val { color: #fb923c; }
 
+/* Pastilles des dernières questions du palier : forme et signe en plus de la couleur */
+.tier-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.tier-dot {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.1rem;
+  height: 1.1rem;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.tier-dot-g { background-color: #15803d; }
+.tier-dot-h { border-color: #15803d; color: #15803d; }
+.tier-dot-o { background-color: #b45309; }
+.tier-dot-r { background-color: #dc2626; }
+.tier-dot-e { border: 2px dashed #64748b; }
+
+[data-theme="dark"] .tier-dot-g { background-color: #4ade80; color: #052e16; }
+[data-theme="dark"] .tier-dot-h { border-color: #4ade80; color: #4ade80; }
+[data-theme="dark"] .tier-dot-o { background-color: #fbbf24; color: #451a03; }
+[data-theme="dark"] .tier-dot-r { background-color: #f87171; color: #450a0a; }
+[data-theme="dark"] .tier-dot-e { border-color: #94a3b8; }
+
+.field-error {
+  margin: 0.5rem 0 0;
+  color: var(--danger-text);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
 /* Indice visuel de défilement horizontal (rangées de l'en-tête sur mobile) */
 .scroll-more-right { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent); }
 .scroll-more-left { -webkit-mask-image: linear-gradient(to left, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(to left, #000 calc(100% - 28px), transparent); }
@@ -9256,13 +9605,21 @@ button.status-pill {
   max-width: 560px;
   width: 100%;
   padding-bottom: 1.25rem;
+  overflow-y: auto; /* plus haute que l'écran d'un téléphone */
+}
+.share-class-box > * {
+  flex-shrink: 0;
 }
 .share-class-box > :not(.modal-header) {
   margin-left: 1.5rem;
   margin-right: 1.5rem;
 }
-.share-class-box > textarea {
+.share-class-box > textarea,
+.share-class-box > select {
   width: calc(100% - 3rem);
+}
+.share-class-box > select {
+  min-height: 40px;
 }
 .share-class-chapter {
   padding-top: 1rem;
@@ -9687,5 +10044,302 @@ button.status-pill {
     width: max-content;
     max-width: 100%;
     margin: 0 auto;
+  }
+}
+
+/* Écran entier du rituel ; classe diapo-fullscreen et variable --diapo-fit posées par le moteur */
+@media screen {
+  #diaporama-modal.diapo-fullscreen { padding: 0; align-items: stretch; background: var(--bg-surface); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  #diaporama-modal.diapo-fullscreen .modal-box.diapo-box,
+  #diaporama-modal.diapo-fullscreen .modal-box.diapo-box.diapo-recap-active { width: 100% !important; max-width: none !important; height: 100vh; height: 100dvh; max-height: none !important; border: 0; border-radius: 0; }
+  #diaporama-modal.diapo-fullscreen .diapo-screen { min-height: 0; }
+  #diaporama-modal.diapo-fullscreen .diapo-screen-mm { max-height: none !important; }
+  #diaporama-modal.diapo-fullscreen .diapo-main-stage { --diapo-col-font: calc(clamp(1.15rem, min(3.6vh, 2.2vw), 2.6rem) * var(--diapo-fit, 1)); min-height: 0; overflow-y: auto; padding: 2vh 4vw; justify-content: safe center; }
+  #diaporama-modal.diapo-fullscreen .diapo-stage-title { font-size: clamp(1.2rem, min(3.5vh, 2.4vw), 2.4rem); }
+  #diaporama-modal.diapo-fullscreen .diapo-stage-body { font-size: calc(clamp(1.7rem, min(6vh, 4vw), 4.5rem) * var(--diapo-fit, 1)); line-height: 1.5; max-width: 90vw; }
+  #diaporama-modal.diapo-fullscreen .diapo-stage-body svg:not(.katex svg) { width: calc(min(46vh, 90vw) * var(--diapo-fit, 1)) !important; max-width: none !important; height: auto; }
+  #diaporama-modal.diapo-fullscreen .geo-figure-wrapper { max-width: none; }
+}
+@media (max-width: 480px) {
+  #diaporama-modal.diapo-fullscreen .diapo-stage-body { font-size: calc(clamp(1.15rem, 5.5vw, 1.7rem) * var(--diapo-fit, 1)); }
+  .diapo-top-hud { flex-wrap: wrap; }
+  .diapo-top-hud .diapo-timer-box { flex: 1 0 100%; order: 3; }
+}
+#diapo-time-text { white-space: nowrap; }
+@media (max-width: 900px) {
+  .diapo-mm-topbar { flex-wrap: wrap; }
+  .diapo-mm-topbar-actions { flex-wrap: wrap; justify-content: flex-end; margin-left: auto; }
+}
+
+/* Titres ou bloc de retour focalisés par programme : pas d'anneau à afficher */
+.diapo-screen h2[tabindex="-1"]:focus,
+.diapo-screen h3[tabindex="-1"]:focus,
+#exercise-feedback-zone:focus {
+  outline: none;
+}
+
+.btn-primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Tablette et petit portable : les outils de l'en-tête passent à la ligne au lieu de déborder */
+@media (min-width: 769px) and (max-width: 1200px) {
+  .header-user-status,
+  .header-actions-row {
+    flex-wrap: wrap;
+  }
+}
+
+/* Tablette en portrait, téléphone en paysage : les niveaux prennent leur propre ligne, comme en police large */
+@media (min-width: 769px) and (max-width: 1100px) {
+  .header-inner {
+    flex-wrap: wrap;
+    gap: 0.5rem 0.75rem;
+  }
+
+  .header-inner > .app-curriculum-nav {
+    order: 3;
+    flex-basis: 100%;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+/* Conseil aux parents (arrivée depuis parents.html) et accès directs aux niveaux de l'accueil */
+#parents-banner {
+  max-width: 1400px;
+  margin: 0.75rem auto 0;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-left: 5px solid var(--primary);
+  border-radius: var(--radius-md);
+  color: var(--text-main);
+}
+
+a.level-pill-mini {
+  text-decoration: none;
+}
+
+/* Première visite : choix de la classe et portes enseignant / parent (masqué par js/app/home.js dès qu'une progression existe) */
+#home-doors {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 1rem 1.25rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-left: 5px solid var(--primary);
+  border-radius: var(--radius-md);
+}
+
+#home-doors .home-section-title {
+  margin: 0;
+}
+
+.home-cycle-open {
+  margin-top: 0.6rem;
+  align-self: flex-start;
+}
+
+/* En-tête mobile : une ligne (logo, niveau, menu), collée en haut ; le reste passe dans le panneau « ⋯ » */
+.header-mobile-controls {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  :root {
+    --mobile-header-h: calc(max(0.35rem, env(safe-area-inset-top)) + 44px + 0.3rem + 1px);
+  }
+
+  html {
+    scroll-padding-top: 120px;
+  }
+
+  .app-header {
+    position: sticky;
+    top: 0;
+    z-index: 90;
+  }
+
+  .header-inner,
+  [data-dys] .header-inner {
+    position: relative;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .brand-container {
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 44px;
+    justify-content: flex-start;
+  }
+
+  .brand-text,
+  .brand-text > div {
+    min-width: 0;
+  }
+
+  .brand-text #app-main-title {
+    font-size: 0.95rem;
+    line-height: 1.15;
+  }
+
+  .brand-level-tag,
+  .brand-tagline,
+  .app-curriculum-nav {
+    display: none;
+  }
+
+  .header-mobile-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex: 0 0 auto;
+  }
+
+  .mobile-level-select {
+    min-height: 44px;
+    max-width: 7.5rem;
+    padding: 0 0.4rem;
+    font-size: 1rem;
+    font-family: inherit;
+    font-weight: 600;
+    color: var(--text-main);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+  }
+
+  .header-menu-btn {
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    line-height: 1;
+    color: var(--text-main);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+  }
+
+  .header-menu-btn[aria-expanded="true"] {
+    border-color: var(--primary);
+    color: var(--primary-text);
+  }
+
+  .header-user-status {
+    display: none;
+  }
+
+  .is-menu-open > .header-user-status {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+    position: absolute;
+    top: calc(100% + 0.3rem);
+    left: 0;
+    right: 0;
+    width: auto;
+    max-height: calc(100dvh - 5rem);
+    overflow-y: auto;
+    padding: 0.6rem;
+    background: var(--bg-surface-elevated);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  }
+
+  .is-menu-open .status-pills-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.35rem;
+    width: 100%;
+  }
+
+  .is-menu-open .status-pill {
+    min-height: 44px;
+    justify-content: center;
+  }
+
+  .is-menu-open .header-actions-row {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.35rem;
+    width: 100%;
+    overflow: visible;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .is-menu-open .header-tools-grid-2x2 {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.35rem;
+    width: 100%;
+  }
+
+  .is-menu-open .header-tools-grid-2x2 .btn-icon-text,
+  .is-menu-open .settings-trigger.btn-icon-text {
+    width: 100%;
+    min-height: 44px;
+    justify-content: center;
+  }
+
+  .is-menu-open .settings-menu {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+
+  .settings-panel .settings-item {
+    min-height: 44px;
+  }
+
+  .mobile-chapter-trigger-bar {
+    top: calc(var(--mobile-header-h) + 0.35rem);
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .brand-text #app-main-title {
+    font-size: 0.85rem;
+  }
+}
+
+/* Police du navigateur très agrandie sur téléphone (seuil en em) : il ne reste que le logo, le titre est toujours lu */
+@media screen and (max-width: 17.5em) {
+  .brand-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+/* Téléphone en paysage : l'en-tête ne reste pas collé, la hauteur utile est trop faible */
+@media screen and (max-width: 768px) and (max-height: 500px) {
+  .app-header {
+    position: relative;
+  }
+
+  .mobile-chapter-trigger-bar {
+    top: 0.35rem;
   }
 }

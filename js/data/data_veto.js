@@ -13,7 +13,8 @@ window.MATHS_COURSES_VETO = {
       "Manipuler connecteurs et quantificateurs, et écrire la négation d'une proposition.",
       "Choisir et rédiger le bon type de raisonnement : contraposée, absurde, récurrence.",
       "Calculer avec les symboles $\\sum$ et $\\prod$.",
-      "Dénombrer des listes, des arrangements et des combinaisons, et utiliser la formule du binôme."
+      "Dénombrer des listes, des arrangements et des combinaisons, et utiliser la formule du binôme.",
+      "Utiliser la partie entière et les bornes d'une partie de $\\mathbb{R}$, et reconnaître une application injective, surjective ou bijective."
     ],
     keyPoints: [
       {
@@ -22,7 +23,7 @@ window.MATHS_COURSES_VETO = {
       },
       {
         title: "2. Types de raisonnement",
-        content: "• **Contraposée** : pour montrer $P \\Rightarrow Q$, on montre $\\text{non } Q \\Rightarrow \\text{non } P$.\n• **Absurde** : on suppose $\\text{non } P$ et on aboutit à une contradiction.\n• **Analyse-synthèse** : on cherche les conditions nécessaires (analyse), puis on vérifie qu'elles conviennent (synthèse).\n• **Récurrence simple** : si $P(n_0)$ est vraie (initialisation) et si, pour tout $n \\geq n_0$, $P(n) \\Rightarrow P(n+1)$ (hérédité), alors $P(n)$ est vraie pour tout $n \\geq n_0$.\n• **Récurrence double** : on initialise $P(n_0)$ et $P(n_0+1)$, puis on montre $(P(n) \\text{ et } P(n+1)) \\Rightarrow P(n+2)$. Elle sert pour les suites définies par deux termes précédents."
+        content: "• **Contraposée** : pour montrer $P \\Rightarrow Q$, on montre $\\text{non } Q \\Rightarrow \\text{non } P$.\n• **Absurde** : on suppose $\\text{non } P$ et on aboutit à une contradiction.\n• **Analyse-synthèse** : on cherche les conditions nécessaires (analyse), puis on vérifie qu'elles conviennent (synthèse).\n• **Récurrence simple** : si $P(n_0)$ est vraie (initialisation) et si, pour tout $n \\geq n_0$, $P(n) \\Rightarrow P(n+1)$ (hérédité), alors $P(n)$ est vraie pour tout $n \\geq n_0$.\n• **Variantes** : une récurrence portant sur plusieurs rangs précédents (par exemple $P(n)$ et $P(n+1)$ ensemble, pour une suite définie par ses deux termes précédents) n'est utilisée que lorsque l'énoncé la propose et en indique la rédaction."
       },
       {
         title: "3. Sommes et produits",
@@ -39,6 +40,14 @@ window.MATHS_COURSES_VETO = {
       {
         title: "6. Formule du binôme de Newton",
         content: "Pour tous réels (ou complexes) $a$ et $b$ et tout $n \\in \\mathbb{N}$ :\n$$(a+b)^{n} = \\sum_{k=0}^{n} \\binom{n}{k} a^{k} b^{n-k}$$\nLa somme comporte $n+1$ termes. Conséquences : $\\sum_{k=0}^{n} \\binom{n}{k} = 2^{n}$ et, pour $n \\geq 1$, $\\sum_{k=0}^{n} (-1)^{k} \\binom{n}{k} = 0$.\nLa formule reste valable pour deux matrices carrées $A$ et $B$ **qui commutent** ($AB = BA$)."
+      },
+      {
+        title: "7. Nombres réels : valeur absolue, partie entière, bornes",
+        content: "• **Valeur absolue** : $|x| = \\max(x, -x)$ ; $|xy| = |x|\\,|y|$, $|x + y| \\leq |x| + |y|$, et $|x - a| \\leq r \\iff a - r \\leq x \\leq a + r$.\n• **Partie entière** : pour tout réel $x$, il existe un unique entier $n$ tel que $n \\leq x < n + 1$ ; on le note $\\lfloor x \\rfloor$. Ainsi $\\lfloor x \\rfloor \\leq x < \\lfloor x \\rfloor + 1$ ; par exemple $\\lfloor 2{,}7 \\rfloor = 2$ et $\\lfloor -2{,}7 \\rfloor = -3$.\n• **Majorant, plus grand élément** : $M$ est un majorant de la partie $A$ de $\\mathbb{R}$ si $a \\leq M$ pour tout $a \\in A$. Un majorant qui appartient à $A$ est le **plus grand élément** (maximum) de $A$. Minorant et plus petit élément se définissent de même.\n• **Bornes** (existence admise) : toute partie non vide et majorée de $\\mathbb{R}$ admet une **borne supérieure** $\\sup A$, le plus petit de ses majorants ; toute partie non vide et minorée admet une **borne inférieure** $\\inf A$, le plus grand de ses minorants. La borne n'appartient pas toujours à $A$ : pour $A = \\left\\{1 - \\dfrac{1}{n} : n \\in \\mathbb{N}^{*}\\right\\}$, $\\sup A = 1$ n'est pas atteinte, alors que $\\inf A = 0$ est le plus petit élément (obtenu pour $n = 1$)."
+      },
+      {
+        title: "8. Applications : injection, surjection, bijection",
+        content: "Soit $f : E \\to F$ une application.\n• **Image directe** d'une partie $A \\subset E$ : $f(A) = \\{f(x) : x \\in A\\}$.\n• $f$ est **injective** si deux éléments distincts de $E$ ont des images distinctes : pour tous $x, x' \\in E$, $f(x) = f(x') \\Rightarrow x = x'$.\n• $f$ est **surjective** si tout élément de $F$ a au moins un antécédent : $\\forall y \\in F,\\ \\exists x \\in E,\\ f(x) = y$.\n• $f$ est **bijective** si elle est injective et surjective : tout $y \\in F$ a exactement un antécédent, ce qui définit la **réciproque** $f^{-1} : F \\to E$, avec $f^{-1} \\circ f = \\text{Id}_E$ et $f \\circ f^{-1} = \\text{Id}_F$.\nLa réponse dépend des ensembles de départ et d'arrivée : $x \\mapsto x^{2}$ n'est ni injective ni surjective de $\\mathbb{R}$ dans $\\mathbb{R}$, mais elle est bijective de $[0 ; +\\infty[$ dans $[0 ; +\\infty[$, de réciproque $y \\mapsto \\sqrt{y}$."
       }
     ],
     methods: [
@@ -82,7 +91,10 @@ window.MATHS_COURSES_VETO = {
       { q: "Nombre d'arrangements de $p$ éléments parmi $n$ ?", a: "$\\dfrac{n!}{(n-p)!}$ (pour $p \\leq n$)." },
       { q: "Valeur de $\\sum_{k=0}^{n} \\binom{n}{k}$ ?", a: "$2^{n}$ (binôme avec $a = b = 1$)." },
       { q: "Valeur de $\\sum_{k=1}^{n} k$ ?", a: "$\\dfrac{n(n+1)}{2}$." },
-      { q: "Formule de Pascal ?", a: "$\\binom{n}{p} = \\binom{n-1}{p-1} + \\binom{n-1}{p}$ pour $1 \\leq p \\leq n-1$." }
+      { q: "Formule de Pascal ?", a: "$\\binom{n}{p} = \\binom{n-1}{p-1} + \\binom{n-1}{p}$ pour $1 \\leq p \\leq n-1$." },
+      { q: "Définition de la partie entière $\\lfloor x \\rfloor$ ?", a: "L'unique entier $n$ tel que $n \\leq x < n + 1$ (par exemple $\\lfloor -2{,}7 \\rfloor = -3$)." },
+      { q: "Borne supérieure d'une partie $A$ non vide et majorée de $\\mathbb{R}$ ?", a: "Le plus petit des majorants de $A$ ; elle n'appartient pas toujours à $A$." },
+      { q: "Quand dit-on que $f : E \\to F$ est surjective ?", a: "Si tout élément $y$ de $F$ admet au moins un antécédent $x \\in E$ par $f$." }
     ]
   },
 
@@ -90,10 +102,10 @@ window.MATHS_COURSES_VETO = {
     title: "VB-02 : Trigonométrie, nombres complexes et polynômes",
     domain: "Outils",
     objectives: [
-      "Utiliser les formules d'addition et de duplication, et résoudre des équations trigonométriques.",
+      "Utiliser les formules d'addition et de duplication, transformer $a\\cos x + b\\sin x$ et résoudre des équations trigonométriques.",
       "Passer de la forme algébrique à la forme exponentielle d'un nombre complexe.",
       "Résoudre une équation du second degré à coefficients réels dans $\\mathbb{C}$.",
-      "Factoriser un polynôme réel à partir de ses racines et déterminer l'ordre de multiplicité d'une racine."
+      "Factoriser un polynôme dans $\\mathbb{C}[X]$ à partir de ses racines et déterminer l'ordre de multiplicité d'une racine."
     ],
     keyPoints: [
       {
@@ -101,27 +113,40 @@ window.MATHS_COURSES_VETO = {
         content: "Pour tous réels $a$ et $b$ : $\\cos^{2} a + \\sin^{2} a = 1$ et\n$$\\cos(a+b) = \\cos a \\cos b - \\sin a \\sin b \\qquad \\sin(a+b) = \\sin a \\cos b + \\cos a \\sin b$$\nDuplication : $\\cos(2a) = 2\\cos^{2} a - 1 = 1 - 2\\sin^{2} a$ et $\\sin(2a) = 2 \\sin a \\cos a$.\nÉquations : $\\cos x = \\cos a \\iff x \\equiv a \\ [2\\pi]$ ou $x \\equiv -a \\ [2\\pi]$ ; $\\sin x = \\sin a \\iff x \\equiv a \\ [2\\pi]$ ou $x \\equiv \\pi - a \\ [2\\pi]$ ; $\\tan x = \\tan a \\iff x \\equiv a \\ [\\pi]$."
       },
       {
-        title: "2. Forme algébrique, conjugué et module",
+        title: "2. Expression $a\\cos x + b\\sin x$, notations arccos et arcsin",
+        content: "Pour $(a, b) \\neq (0, 0)$, on pose $r = \\sqrt{a^{2} + b^{2}}$ : il existe un réel $\\varphi$ tel que $\\cos\\varphi = \\dfrac{a}{r}$ et $\\sin\\varphi = \\dfrac{b}{r}$, et pour tout réel $x$ :\n$$a\\cos x + b\\sin x = r\\cos(x - \\varphi)$$\n**Notations** : pour $y \\in [-1 ; 1]$, $\\arccos y$ désigne l'unique réel de $[0 ; \\pi]$ dont le cosinus vaut $y$, et $\\arcsin y$ l'unique réel de $\\left[-\\dfrac{\\pi}{2} ; \\dfrac{\\pi}{2}\\right]$ dont le sinus vaut $y$.\nCes notations servent à écrire des solutions : $\\cos x = y \\iff x \\equiv \\pm\\arccos y \\ [2\\pi]$ ; $\\sin x = y \\iff x \\equiv \\arcsin y \\ [2\\pi]$ ou $x \\equiv \\pi - \\arcsin y \\ [2\\pi]$."
+      },
+      {
+        title: "3. Forme algébrique, conjugué et module",
         content: "Tout complexe s'écrit de façon unique $z = a + ib$ avec $a = \\text{Re}(z)$ et $b = \\text{Im}(z)$ réels. Son conjugué est $\\overline{z} = a - ib$ et son module $|z| = \\sqrt{a^{2} + b^{2}}$.\nPropriétés : $z\\overline{z} = |z|^{2}$, $\\overline{zz'} = \\overline{z}\\,\\overline{z'}$, $|zz'| = |z|\\,|z'|$ et l'inégalité triangulaire $|z + z'| \\leq |z| + |z'|$.\nPour $z \\neq 0$ : $\\dfrac{1}{z} = \\dfrac{\\overline{z}}{|z|^{2}}$ (on multiplie par le conjugué du dénominateur)."
       },
       {
-        title: "3. Forme exponentielle",
+        title: "4. Forme exponentielle",
         content: "Pour $\\theta \\in \\mathbb{R}$, on pose $e^{i\\theta} = \\cos\\theta + i\\sin\\theta$ ; on a $|e^{i\\theta}| = 1$ et $e^{i\\theta}e^{i\\theta'} = e^{i(\\theta + \\theta')}$.\nTout $z \\neq 0$ s'écrit $z = re^{i\\theta}$ avec $r = |z| > 0$ et $\\theta$ un argument de $z$, défini à $2\\pi$ près.\n• **Moivre** : $(e^{i\\theta})^{n} = e^{in\\theta}$ pour $n \\in \\mathbb{Z}$.\n• **Euler** : $\\cos\\theta = \\dfrac{e^{i\\theta} + e^{-i\\theta}}{2}$ et $\\sin\\theta = \\dfrac{e^{i\\theta} - e^{-i\\theta}}{2i}$ (utile pour linéariser $\\cos^{n}$ ou $\\sin^{n}$)."
       },
       {
-        title: "4. Équation du second degré à coefficients réels",
+        title: "5. Équation du second degré à coefficients réels",
         content: "Soit $az^{2} + bz + c = 0$ avec $a, b, c$ réels, $a \\neq 0$, et $\\Delta = b^{2} - 4ac$.\n• $\\Delta > 0$ : deux racines réelles $\\dfrac{-b \\pm \\sqrt{\\Delta}}{2a}$ ;\n• $\\Delta = 0$ : une racine double $-\\dfrac{b}{2a}$ ;\n• $\\Delta < 0$ : deux racines complexes conjuguées $\\dfrac{-b \\pm i\\sqrt{-\\Delta}}{2a}$.\nDans tous les cas, la somme des racines vaut $-\\dfrac{b}{a}$ et leur produit $\\dfrac{c}{a}$."
       },
       {
-        title: "5. Polynômes : degré, racines, multiplicité",
-        content: "Pour des polynômes réels non nuls : $\\deg(PQ) = \\deg P + \\deg Q$ et $\\deg(P + Q) \\leq \\max(\\deg P, \\deg Q)$.\n• **Racine et factorisation** : $a$ est racine de $P$ si et seulement si $(X - a)$ divise $P$.\n• Un polynôme non nul de degré $n$ a au plus $n$ racines ; un polynôme de degré au plus $n$ qui a plus de $n$ racines est le polynôme nul.\n• **Multiplicité** : $a$ est racine d'ordre $m \\geq 1$ si $(X - a)^{m}$ divise $P$ mais pas $(X-a)^{m+1}$, ce qui équivaut à $P(a) = P'(a) = \\cdots = P^{(m-1)}(a) = 0$ et $P^{(m)}(a) \\neq 0$."
+        title: "6. Polynômes : notations, degré, racines, multiplicité",
+        content: "$\\mathbb{K}$ désigne $\\mathbb{R}$ ou $\\mathbb{C}$. $\\mathbb{K}[X]$ est l'ensemble des polynômes à coefficients dans $\\mathbb{K}$ et $\\mathbb{K}_n[X]$ l'ensemble de ceux de degré au plus $n$. Deux polynômes sont égaux si et seulement si leurs coefficients sont égaux. Par convention, le polynôme nul est de degré $-\\infty$.\n$\\deg(PQ) = \\deg P + \\deg Q$ et $\\deg(P + Q) \\leq \\max(\\deg P, \\deg Q)$.\n• **Racine et factorisation** : $\\alpha \\in \\mathbb{K}$ est racine de $P$ si et seulement s'il existe $Q \\in \\mathbb{K}[X]$ tel que $P = (X - \\alpha)Q$.\n• Un polynôme non nul de degré $n$ a au plus $n$ racines ; un polynôme de degré au plus $n$ qui a plus de $n$ racines est le polynôme nul.\n• **Multiplicité** : $\\alpha$ est racine d'ordre $m \\geq 1$ de $P$ s'il existe un polynôme $Q$ tel que $P = (X - \\alpha)^{m}Q$ et $Q(\\alpha) \\neq 0$ (racine simple pour $m = 1$, double pour $m = 2$)."
       },
       {
-        title: "6. Factorisation des polynômes réels",
-        content: "Si $P$ est à coefficients réels et $z$ est une racine complexe non réelle, alors $\\overline{z}$ est aussi racine, avec la même multiplicité, et $(X - z)(X - \\overline{z}) = X^{2} - 2\\text{Re}(z)X + |z|^{2}$ est un trinôme réel de discriminant négatif.\nTout polynôme réel non constant s'écrit comme produit de son coefficient dominant, de facteurs $(X - a)$ et de trinômes $X^{2} + pX + q$ avec $p^{2} - 4q < 0$ (théorème admis)."
+        title: "7. Théorème de d'Alembert-Gauss et factorisation dans $\\mathbb{C}[X]$",
+        content: "• **Théorème de d'Alembert-Gauss (admis)** : tout polynôme non constant de $\\mathbb{C}[X]$ admet au moins une racine dans $\\mathbb{C}$.\n• **Factorisation dans $\\mathbb{C}[X]$** : tout polynôme $P$ de degré $n \\geq 1$ s'écrit $P = \\lambda(X - \\alpha_{1})^{m_{1}} \\cdots (X - \\alpha_{r})^{m_{r}}$, où $\\lambda$ est son coefficient dominant, $\\alpha_{1}, \\dots, \\alpha_{r}$ ses racines distinctes et $m_{1} + \\cdots + m_{r} = n$ : $P$ a exactement $n$ racines complexes comptées avec multiplicité.\n• **Racines conjuguées** : si $P$ est à coefficients réels et si $z$ est une racine non réelle, alors $\\overline{z}$ est aussi racine, avec la même multiplicité. Les racines non réelles vont donc par paires et un polynôme à coefficients réels de degré impair a au moins une racine réelle.\nExemple : $X^{3} - X^{2} + X - 1 = (X - 1)(X^{2} + 1) = (X - 1)(X - i)(X + i)$."
       }
     ],
     methods: [
+      {
+        title: "Méthode : Résoudre $a\\cos x + b\\sin x = c$",
+        example: "Résoudre dans $\\mathbb{R}$ l'équation $\\cos x + \\sqrt{3}\\sin x = 1$.",
+        steps: [
+          "**Étape 1 (Module)** : $r = \\sqrt{1^{2} + (\\sqrt{3})^{2}} = 2$.",
+          "**Étape 2 (Angle)** : on cherche $\\varphi$ avec $\\cos\\varphi = \\frac{1}{2}$ et $\\sin\\varphi = \\frac{\\sqrt{3}}{2}$, donc $\\varphi = \\frac{\\pi}{3}$ et $\\cos x + \\sqrt{3}\\sin x = 2\\cos\\left(x - \\frac{\\pi}{3}\\right)$.",
+          "**Étape 3 (Résolution)** : l'équation équivaut à $\\cos\\left(x - \\frac{\\pi}{3}\\right) = \\frac{1}{2} = \\cos\\frac{\\pi}{3}$, soit $x - \\frac{\\pi}{3} \\equiv \\pm\\frac{\\pi}{3} \\ [2\\pi]$, donc $x \\equiv \\frac{2\\pi}{3} \\ [2\\pi]$ ou $x \\equiv 0 \\ [2\\pi]$."
+        ]
+      },
       {
         title: "Méthode : Écrire un complexe sous forme exponentielle",
         example: "Écrire $z = 1 + i\\sqrt{3}$ sous forme exponentielle, puis calculer $z^{6}$.",
@@ -142,15 +167,16 @@ window.MATHS_COURSES_VETO = {
       },
       {
         title: "Méthode : Factoriser un polynôme à partir d'une racine évidente",
-        example: "Factoriser $P = X^{3} - 3X + 2$ et préciser la multiplicité de ses racines.",
+        example: "Factoriser $P = X^{3} - 3X + 2$ dans $\\mathbb{C}[X]$ et préciser la multiplicité de ses racines.",
         steps: [
-          "**Étape 1 (Racine évidente)** : $P(1) = 1 - 3 + 2 = 0$, donc $(X - 1)$ divise $P$ ; par identification ou division, $P = (X - 1)(X^{2} + X - 2)$.",
+          "**Étape 1 (Racine évidente)** : $P(1) = 1 - 3 + 2 = 0$, donc il existe $Q$ tel que $P = (X - 1)Q$ ; par identification des coefficients, $P = (X - 1)(X^{2} + X - 2)$.",
           "**Étape 2 (Facteur du second degré)** : $X^{2} + X - 2$ a pour racines $1$ et $-2$, d'où $P = (X - 1)^{2}(X + 2)$.",
-          "**Étape 3 (Multiplicité)** : contrôle par les dérivées : $P'(X) = 3X^{2} - 3$ et $P''(X) = 6X$ ; $P(1) = P'(1) = 0$ et $P''(1) = 6 \\neq 0$, donc $1$ est racine double et $-2$ racine simple."
+          "**Étape 3 (Multiplicité)** : $P = (X - 1)^{2}Q_{1}$ avec $Q_{1} = X + 2$ et $Q_{1}(1) = 3 \\neq 0$, donc $1$ est racine double ; $P = (X + 2)Q_{2}$ avec $Q_{2} = (X - 1)^{2}$ et $Q_{2}(-2) = 9 \\neq 0$, donc $-2$ est racine simple. Contrôle : $2 + 1 = 3 = \\deg P$."
         ]
       }
     ],
     traps: [
+      "⚠️ $\\arccos y$ n'est qu'une des solutions de $\\cos x = y$ : l'autre famille est $-\\arccos y$ à $2\\pi$ près. Et $\\arccos$ prend ses valeurs dans $[0 ; \\pi]$, alors que $\\arcsin$ prend les siennes dans $\\left[-\\frac{\\pi}{2} ; \\frac{\\pi}{2}\\right]$.",
       "⚠️ Un argument n'est défini qu'à $2\\pi$ près, et $\\arctan(b/a)$ ne donne un argument de $a + ib$ que si $a > 0$ : pour $z = -1 - i$, l'argument est $-\\frac{3\\pi}{4}$ et non $\\frac{\\pi}{4}$.",
       "⚠️ En général $|z + z'| \\neq |z| + |z'|$ : le module n'est pas additif, seulement multiplicatif.",
       "⚠️ Le degré d'une somme peut chuter : $\\deg\\big((X^{2} + X) + (1 - X^{2})\\big) = 1$.",
@@ -161,7 +187,10 @@ window.MATHS_COURSES_VETO = {
       { q: "Forme exponentielle de $i$ ?", a: "$i = e^{i\\pi/2}$." },
       { q: "Inverse de $z = a + ib \\neq 0$ ?", a: "$\\dfrac{1}{z} = \\dfrac{a - ib}{a^{2} + b^{2}}$." },
       { q: "Racines de $az^{2} + bz + c$ quand $\\Delta < 0$ ?", a: "$\\dfrac{-b \\pm i\\sqrt{-\\Delta}}{2a}$, deux complexes conjugués." },
-      { q: "Caractérisation d'une racine double $a$ de $P$ ?", a: "$P(a) = P'(a) = 0$ et $P''(a) \\neq 0$." }
+      { q: "Quand dit-on que $\\alpha$ est racine double de $P$ ?", a: "S'il existe un polynôme $Q$ tel que $P = (X - \\alpha)^{2}Q$ et $Q(\\alpha) \\neq 0$." },
+      { q: "Que dit le théorème de d'Alembert-Gauss ?", a: "Tout polynôme non constant de $\\mathbb{C}[X]$ admet au moins une racine dans $\\mathbb{C}$ (théorème admis)." },
+      { q: "Écrire $a\\cos x + b\\sin x$ sous la forme $r\\cos(x - \\varphi)$ ?", a: "$r = \\sqrt{a^{2} + b^{2}}$, $\\cos\\varphi = \\dfrac{a}{r}$ et $\\sin\\varphi = \\dfrac{b}{r}$." },
+      { q: "Quelles valeurs prennent $\\arccos$ et $\\arcsin$ ?", a: "$\\arccos y \\in [0 ; \\pi]$ et $\\arcsin y \\in \\left[-\\dfrac{\\pi}{2} ; \\dfrac{\\pi}{2}\\right]$." }
     ]
   },
 
@@ -176,7 +205,7 @@ window.MATHS_COURSES_VETO = {
     keyPoints: [
       {
         title: "1. Suites arithmétiques, géométriques et arithmético-géométriques",
-        content: "• Arithmétique de raison $r$ : $u_n = u_0 + nr$.\n• Géométrique de raison $q$ : $u_n = u_0 q^{n}$.\n• Arithmético-géométrique : $u_{n+1} = au_n + b$ avec $a \\neq 1$. Le réel $\\ell = \\dfrac{b}{1 - a}$ vérifie $\\ell = a\\ell + b$ ; la suite $v_n = u_n - \\ell$ est géométrique de raison $a$, donc\n$$u_n = a^{n}(u_0 - \\ell) + \\ell$$\nLimite de $(q^{n})$ : $0$ si $|q| < 1$, $1$ si $q = 1$, $+\\infty$ si $q > 1$, pas de limite si $q \\leq -1$."
+        content: "• Arithmétique de raison $r$ : $u_n = u_0 + nr$.\n• Géométrique de raison $q$ : $u_n = u_0 q^{n}$.\n• Arithmético-géométrique : $u_{n+1} = au_n + b$ avec $a \\neq 1$. On cherche la suite constante solution, c'est-à-dire le réel $\\ell$ tel que $\\ell = a\\ell + b$ ; la suite $v_n = u_n - \\ell$ est alors géométrique de raison $a$ : on exprime $v_n$ en fonction de $n$, puis on en déduit $u_n = v_n + \\ell$. Cette méthode se refait à chaque fois, la formule générale du terme n'est pas au programme.\nLimite de $(q^{n})$ : $0$ si $|q| < 1$, $1$ si $q = 1$, $+\\infty$ si $q > 1$, pas de limite si $q \\leq -1$.\n• **Algorithme : calcul de $u_n$** pour une suite définie par $u_{n+1} = g(u_n)$ :\n```python\ndef terme(g, u0, n):\n    u = u0\n    for k in range(n):\n        u = g(u)\n    return u\n```\nAprès le tour d'indice $k$, la variable `u` contient $u_{k+1}$ : la fonction renvoie donc $u_n$."
       },
       {
         title: "2. Suites récurrentes linéaires d'ordre 2",
@@ -192,7 +221,7 @@ window.MATHS_COURSES_VETO = {
       },
       {
         title: "5. Séries numériques et séries de référence",
-        content: "La série $\\sum u_n$ converge si la suite des sommes partielles $S_n = \\sum_{k=0}^{n} u_k$ converge ; sa somme est alors $\\sum_{k=0}^{+\\infty} u_k = \\lim S_n$.\n• **Condition nécessaire** : si $\\sum u_n$ converge, alors $u_n \\to 0$. Si $u_n \\not\\to 0$, la série diverge grossièrement.\n• **Géométriques** : pour $|q| < 1$, $\\sum_{n=0}^{+\\infty} q^{n} = \\dfrac{1}{1 - q}$, $\\sum_{n=1}^{+\\infty} nq^{n-1} = \\dfrac{1}{(1 - q)^{2}}$, $\\sum_{n=2}^{+\\infty} n(n-1)q^{n-2} = \\dfrac{2}{(1-q)^{3}}$ ; pour $|q| \\geq 1$, elles divergent.\n• **Exponentielle** : pour tout réel $x$, $\\sum_{n=0}^{+\\infty} \\dfrac{x^{n}}{n!} = e^{x}$.\n• **Riemann** : $\\sum_{n \\geq 1} \\dfrac{1}{n^{\\alpha}}$ converge si et seulement si $\\alpha > 1$."
+        content: "La série $\\sum u_n$ converge si la suite des sommes partielles $S_n = \\sum_{k=0}^{n} u_k$ converge ; sa somme est alors $\\sum_{k=0}^{+\\infty} u_k = \\lim S_n$.\n• **Condition nécessaire** : si $\\sum u_n$ converge, alors $u_n \\to 0$. Si $u_n \\not\\to 0$, la série diverge grossièrement.\n• **Géométriques** : pour $|q| < 1$, $\\sum_{n=0}^{+\\infty} q^{n} = \\dfrac{1}{1 - q}$, $\\sum_{n=1}^{+\\infty} nq^{n-1} = \\dfrac{1}{(1 - q)^{2}}$, $\\sum_{n=2}^{+\\infty} n(n-1)q^{n-2} = \\dfrac{2}{(1-q)^{3}}$ ; pour $|q| \\geq 1$, elles divergent.\n• **Exponentielle** : pour tout réel $x$, $\\sum_{n=0}^{+\\infty} \\dfrac{x^{n}}{n!} = e^{x}$.\n• **Deux séries à connaître** : $\\sum_{n \\geq 1} \\dfrac{1}{n^{2}}$ converge, et la série harmonique $\\sum_{n \\geq 1} \\dfrac{1}{n}$ diverge. Le critère général sur les séries $\\sum \\dfrac{1}{n^{\\alpha}}$ n'est pas au programme."
       },
       {
         title: "6. Séries à termes positifs et convergence absolue",
@@ -222,7 +251,7 @@ window.MATHS_COURSES_VETO = {
         title: "Méthode : Étudier la nature d'une série à termes positifs",
         example: "Étudier la série $\\sum_{n \\geq 1} \\dfrac{1}{n(n+1)}$ et calculer sa somme.",
         steps: [
-          "**Étape 1 (Nature par équivalent)** : les termes sont positifs et $\\frac{1}{n(n+1)} \\sim \\frac{1}{n^{2}}$ ; la série de Riemann $\\sum \\frac{1}{n^{2}}$ converge ($\\alpha = 2 > 1$), donc la série converge.",
+          "**Étape 1 (Nature par équivalent)** : les termes sont positifs et $\\frac{1}{n(n+1)} \\sim \\frac{1}{n^{2}}$ ; la série $\\sum \\frac{1}{n^{2}}$ converge (série de référence), donc la série converge.",
           "**Étape 2 (Décomposition)** : $\\frac{1}{n(n+1)} = \\frac{1}{n} - \\frac{1}{n+1}$, donc par télescopage $S_N = \\sum_{n=1}^{N} \\frac{1}{n(n+1)} = 1 - \\frac{1}{N+1}$.",
           "**Étape 3 (Somme)** : $S_N \\to 1$, donc $\\sum_{n=1}^{+\\infty} \\frac{1}{n(n+1)} = 1$."
         ]
@@ -235,10 +264,10 @@ window.MATHS_COURSES_VETO = {
       "⚠️ Soignez l'indice de départ : $\\sum_{n=1}^{+\\infty} q^{n} = \\frac{q}{1 - q}$ et non $\\frac{1}{1 - q}$."
     ],
     flashcards: [
-      { q: "Terme général de $u_{n+1} = au_n + b$ ($a \\neq 1$) ?", a: "$u_n = a^{n}(u_0 - \\ell) + \\ell$ avec $\\ell = \\frac{b}{1 - a}$." },
+      { q: "Comment exprimer $u_n$ si $u_{n+1} = au_n + b$ ($a \\neq 1$) ?", a: "On cherche $\\ell$ tel que $\\ell = a\\ell + b$ ; la suite $v_n = u_n - \\ell$ est géométrique de raison $a$, on en déduit $v_n$ puis $u_n$." },
       { q: "Forme de $u_n$ si l'équation caractéristique a une racine double $r$ ?", a: "$u_n = (\\lambda + \\mu n)r^{n}$." },
       { q: "Somme de $\\sum_{n=0}^{+\\infty} q^{n}$ pour $|q| < 1$ ?", a: "$\\dfrac{1}{1 - q}$." },
-      { q: "Pour quels $\\alpha$ la série $\\sum \\frac{1}{n^{\\alpha}}$ converge-t-elle ?", a: "Pour $\\alpha > 1$." },
+      { q: "Nature de $\\sum \\frac{1}{n^{2}}$ et de $\\sum \\frac{1}{n}$ ?", a: "$\\sum \\frac{1}{n^{2}}$ converge ; la série harmonique $\\sum \\frac{1}{n}$ diverge." },
       { q: "Définition de deux suites adjacentes ?", a: "L'une croissante, l'autre décroissante, et leur différence tend vers $0$." },
       { q: "Somme de $\\sum_{n=0}^{+\\infty} \\frac{x^{n}}{n!}$ ?", a: "$e^{x}$, pour tout réel $x$." }
     ]
@@ -250,8 +279,9 @@ window.MATHS_COURSES_VETO = {
     objectives: [
       "Lever une forme indéterminée par factorisation, croissances comparées ou équivalents.",
       "Utiliser le théorème des valeurs intermédiaires et le théorème de la bijection.",
-      "Appliquer le théorème de Rolle, l'égalité et l'inégalité des accroissements finis.",
-      "Calculer un développement limité et l'utiliser pour une limite ou une étude locale."
+      "Appliquer le théorème de Rolle et l'égalité des accroissements finis, et rétablir une majoration à partir de cette égalité.",
+      "Calculer un développement limité et l'utiliser pour une limite ou une étude locale.",
+      "Exploiter la parité d'une fonction et calculer avec le logarithme décimal."
     ],
     keyPoints: [
       {
@@ -260,15 +290,15 @@ window.MATHS_COURSES_VETO = {
       },
       {
         title: "2. Continuité, valeurs intermédiaires et bijections",
-        content: "• **TVI** : si $f$ est continue sur un intervalle $I$ et si $a, b \\in I$, tout réel compris entre $f(a)$ et $f(b)$ admet au moins un antécédent entre $a$ et $b$. L'image d'un intervalle par une fonction continue est un intervalle.\n• **Segment** : une fonction continue sur $[a ; b]$ est bornée et atteint ses bornes.\n• **Théorème de la bijection** : si $f$ est continue et strictement monotone sur un intervalle $I$, elle réalise une bijection de $I$ sur l'intervalle $J = f(I)$ ; sa réciproque $f^{-1}$ est continue sur $J$, strictement monotone de même sens que $f$."
+        content: "• **TVI** : si $f$ est continue sur un intervalle $I$ et si $a, b \\in I$, tout réel compris entre $f(a)$ et $f(b)$ admet au moins un antécédent entre $a$ et $b$. L'image d'un intervalle par une fonction continue est un intervalle.\n• **Segment** : une fonction continue sur $[a ; b]$ est bornée et atteint ses bornes.\n• **Théorème de la bijection** : si $f$ est continue et strictement monotone sur un intervalle $I$, elle réalise une bijection de $I$ sur l'intervalle $J = f(I)$ ; sa réciproque $f^{-1}$ est continue sur $J$, strictement monotone de même sens que $f$.\n• **Algorithme de dichotomie** : si $f$ est continue sur $[a ; b]$ avec $f(a)f(b) \\leq 0$, on coupe l'intervalle en deux à chaque étape et l'on garde une moitié aux bornes de laquelle $f$ change de signe (au sens large) ; d'après le TVI, elle contient une solution de $f(x) = 0$.\n```python\ndef dichotomie(f, a, b, eps):\n    while b - a > eps:\n        m = (a + b) / 2\n        if f(a) * f(m) <= 0:\n            b = m\n        else:\n            a = m\n    return a, b\n```\nAprès $n$ itérations, l'intervalle a pour longueur $\\dfrac{b - a}{2^{n}}$ : la boucle s'arrête dès que $\\dfrac{b - a}{2^{n}} \\leq \\varepsilon$, et les deux bornes renvoyées encadrent une solution à $\\varepsilon$ près."
       },
       {
         title: "3. Dérivation",
-        content: "$f$ est dérivable en $a$ si $\\dfrac{f(a+h) - f(a)}{h}$ a une limite finie $f'(a)$ quand $h \\to 0$ ; la tangente a pour équation $y = f(a) + f'(a)(x - a)$.\nRègles : $(uv)' = u'v + uv'$, $\\left(\\dfrac{u}{v}\\right)' = \\dfrac{u'v - uv'}{v^{2}}$, $(g \\circ f)' = f' \\times (g' \\circ f)$.\n**Réciproque** : si $f$ est bijective, dérivable en $x_0 = f^{-1}(y_0)$ avec $f'(x_0) \\neq 0$, alors $(f^{-1})'(y_0) = \\dfrac{1}{f'(x_0)}$.\nSur un **intervalle** : $f' \\geq 0$ si et seulement si $f$ est croissante ; si $f' > 0$ sauf en un nombre fini de points, $f$ est strictement croissante."
+        content: "$f$ est dérivable en $a$ si $\\dfrac{f(a+h) - f(a)}{h}$ a une limite finie $f'(a)$ quand $h \\to 0$ ; la tangente a pour équation $y = f(a) + f'(a)(x - a)$.\nRègles : $(uv)' = u'v + uv'$, $\\left(\\dfrac{u}{v}\\right)' = \\dfrac{u'v - uv'}{v^{2}}$, $(g \\circ f)' = f' \\times (g' \\circ f)$.\n**Réciproque** : si $f$ est continue et bijective de l'intervalle $I$ sur l'intervalle $J$, dérivable en $x_0 \\in I$ avec $f'(x_0) \\neq 0$, alors $f^{-1}$ est dérivable en $y_0 = f(x_0)$ et $(f^{-1})'(y_0) = \\dfrac{1}{f'(x_0)}$.\nSur un **intervalle** : $f' \\geq 0$ si et seulement si $f$ est croissante ; si $f' > 0$ sauf en un nombre fini de points, $f$ est strictement croissante."
       },
       {
         title: "4. Théorème de Rolle et accroissements finis",
-        content: "Soit $f$ continue sur $[a ; b]$ et dérivable sur $]a ; b[$ (avec $a < b$).\n• **Rolle** : si $f(a) = f(b)$, il existe $c \\in ]a ; b[$ tel que $f'(c) = 0$.\n• **Égalité des accroissements finis** : il existe $c \\in ]a ; b[$ tel que $f(b) - f(a) = f'(c)(b - a)$.\n• **Inégalité des accroissements finis** : si $|f'| \\leq M$ sur un intervalle $I$, alors pour tous $x, y \\in I$, $|f(x) - f(y)| \\leq M|x - y|$.\nApplication : si $u_{n+1} = f(u_n)$, $f(\\ell) = \\ell$ et $|f'| \\leq k < 1$ sur un intervalle stable contenant $u_0$ et $\\ell$, alors $|u_n - \\ell| \\leq k^{n}|u_0 - \\ell|$, donc $u_n \\to \\ell$."
+        content: "Soit $f$ continue sur $[a ; b]$ et dérivable sur $]a ; b[$ (avec $a < b$).\n• **Rolle** : si $f(a) = f(b)$, il existe $c \\in ]a ; b[$ tel que $f'(c) = 0$.\n• **Égalité des accroissements finis** : il existe $c \\in ]a ; b[$ tel que $f(b) - f(a) = f'(c)(b - a)$.\n• **Majorer un accroissement** : l'inégalité des accroissements finis n'est pas un théorème au programme, on la rétablit à chaque usage à partir de l'égalité. Si $f$ est dérivable sur un intervalle $I$ avec $|f'| \\leq M$, et si $x \\neq y$ sont dans $I$, le réel $c$ de l'égalité, situé entre $x$ et $y$, appartient à $I$, donc $|f(x) - f(y)| = |f'(c)|\\,|x - y| \\leq M|x - y|$.\nPour une suite $u_{n+1} = f(u_n)$, il n'y a pas de théorème général à appliquer : chaque étude suit le plan donné par l'énoncé."
       },
       {
         title: "5. Équivalents et développements limités",
@@ -276,7 +306,11 @@ window.MATHS_COURSES_VETO = {
       },
       {
         title: "6. Applications des développements limités",
-        content: "• **Limites** : on remplace chaque fonction par son DL à un ordre suffisant ; le premier terme non nul donne un équivalent.\n• **Tangente et position** : si $f(a + h) = c_0 + c_1h + c_kh^{k} + o(h^{k})$ avec $c_k \\neq 0$ ($k \\geq 2$), la tangente en $a$ est $y = c_0 + c_1(x - a)$ et la courbe est au-dessus si $c_kh^{k} > 0$, au-dessous si $c_kh^{k} < 0$, au voisinage de $a$.\n• **Asymptote oblique** : si $f(x) = ax + b + o(1)$ en $+\\infty$, la droite $y = ax + b$ est asymptote ; on l'obtient en posant $h = \\frac{1}{x}$."
+        content: "• **Limites** : on remplace chaque fonction par son DL à un ordre suffisant ; le premier terme non nul donne un équivalent.\n• **Tangente et position** : si $f(a + h) = c_0 + c_1h + c_kh^{k} + o(h^{k})$ avec $c_k \\neq 0$ ($k \\geq 2$), la tangente en $a$ est $y = c_0 + c_1(x - a)$ et la courbe est au-dessus si $c_kh^{k} > 0$, au-dessous si $c_kh^{k} < 0$, au voisinage de $a$.\n• **Asymptote oblique, sur un exemple** : pour $f(x) = xe^{1/x}$ et $x > 0$, on pose $h = \\frac{1}{x}$ : $f(x) = \\frac{e^{h}}{h} = \\frac{1 + h + o(h)}{h} = \\frac{1}{h} + 1 + o(1) = x + 1 + o(1)$, donc la droite $y = x + 1$ est asymptote à la courbe en $+\\infty$."
+      },
+      {
+        title: "7. Fonctions usuelles : parité, logarithme décimal",
+        content: "• **Parité** : soit $f$ définie sur une partie $D$ de $\\mathbb{R}$ symétrique par rapport à $0$ (si $x \\in D$, alors $-x \\in D$). $f$ est **paire** si $f(-x) = f(x)$ pour tout $x \\in D$ : sa courbe est symétrique par rapport à l'axe des ordonnées. $f$ est **impaire** si $f(-x) = -f(x)$ pour tout $x \\in D$ : sa courbe est symétrique par rapport à l'origine. Par exemple, $x \\mapsto x^{2}$, $\\cos$ et $x \\mapsto |x|$ sont paires ; $x \\mapsto x^{3}$, $\\sin$ et $x \\mapsto \\dfrac{1}{x}$ sont impaires ; $\\exp$ n'est ni paire ni impaire. Pour une fonction paire ou impaire, on mène l'étude sur $D \\cap [0 ; +\\infty[$ et on complète la courbe par symétrie.\n• **Logarithme décimal** : pour $x > 0$, $\\log x = \\dfrac{\\ln x}{\\ln 10}$. Il vérifie $\\log(xy) = \\log x + \\log y$ et $\\log 10^{n} = n$ pour tout entier $n$ ; pour tout réel $k$, $\\log x = k \\iff x = 10^{k}$. Exemple : le pH d'une solution vaut $-\\log c$, où $c$ est la concentration en ions oxonium (en mol/L) ; diviser $c$ par $100$ augmente le pH de $2$."
       }
     ],
     methods: [
@@ -296,6 +330,15 @@ window.MATHS_COURSES_VETO = {
           "**Étape 1 (Monotonie)** : $f(x) = x^{3} + x - 1$ est dérivable sur $\\mathbb{R}$ avec $f'(x) = 3x^{2} + 1 > 0$ : $f$ est continue et strictement croissante sur $\\mathbb{R}$.",
           "**Étape 2 (Bijection)** : $\\lim_{-\\infty} f = -\\infty$ et $\\lim_{+\\infty} f = +\\infty$, donc $f$ est une bijection de $\\mathbb{R}$ sur $\\mathbb{R}$ et $0$ a un unique antécédent $\\alpha$.",
           "**Étape 3 (Localiser)** : $f(0) = -1 < 0$ et $f(1) = 1 > 0$, donc $f(0) < f(\\alpha) < f(1)$ et, $f$ étant strictement croissante, $\\alpha \\in ]0 ; 1[$."
+        ]
+      },
+      {
+        title: "Méthode : Rétablir une majoration avec l'égalité des accroissements finis",
+        example: "Montrer que, pour tous réels $x \\geq 1$ et $y \\geq 1$, $|\\ln x - \\ln y| \\leq |x - y|$.",
+        steps: [
+          "**Étape 1 (Hypothèses)** : si $x = y$, l'inégalité est évidente. Sinon, $\\ln$ est continue sur le segment d'extrémités $x$ et $y$ et dérivable sur son intérieur.",
+          "**Étape 2 (Égalité des accroissements finis)** : il existe $c$ strictement compris entre $x$ et $y$ tel que $\\ln x - \\ln y = \\dfrac{x - y}{c}$, et $c \\geq 1$ car $x \\geq 1$ et $y \\geq 1$.",
+          "**Étape 3 (Majorer)** : $0 < \\dfrac{1}{c} \\leq 1$, donc $|\\ln x - \\ln y| = \\dfrac{|x - y|}{c} \\leq |x - y|$."
         ]
       },
       {
@@ -328,8 +371,10 @@ window.MATHS_COURSES_VETO = {
       { q: "Énoncé du théorème de Rolle ?", a: "$f$ continue sur $[a ; b]$, dérivable sur $]a ; b[$, $f(a) = f(b)$ : il existe $c \\in ]a ; b[$ tel que $f'(c) = 0$." },
       { q: "DL à l'ordre 2 en $0$ de $\\ln(1 + x)$ ?", a: "$x - \\frac{x^{2}}{2} + o(x^{2})$." },
       { q: "DL à l'ordre 2 en $0$ de $\\sqrt{1 + x}$ ?", a: "$1 + \\frac{x}{2} - \\frac{x^{2}}{8} + o(x^{2})$." },
-      { q: "Dérivée de $f^{-1}$ en $y_0 = f(x_0)$ ?", a: "$\\dfrac{1}{f'(x_0)}$, si $f'(x_0) \\neq 0$." },
-      { q: "Équivalent de $1 - \\cos x$ en $0$ ?", a: "$\\dfrac{x^{2}}{2}$." }
+      { q: "Dérivée de $f^{-1}$ en $y_0 = f(x_0)$ ?", a: "$\\dfrac{1}{f'(x_0)}$, si $f$ est continue et bijective sur un intervalle, dérivable en $x_0$ avec $f'(x_0) \\neq 0$." },
+      { q: "Équivalent de $1 - \\cos x$ en $0$ ?", a: "$\\dfrac{x^{2}}{2}$." },
+      { q: "Fonction impaire ?", a: "$f$ définie sur une partie symétrique par rapport à $0$, avec $f(-x) = -f(x)$ : sa courbe est symétrique par rapport à l'origine." },
+      { q: "Logarithme décimal de $x > 0$ ?", a: "$\\log x = \\dfrac{\\ln x}{\\ln 10}$ ; en particulier $\\log 10^{n} = n$." }
     ]
   },
 
@@ -361,11 +406,11 @@ window.MATHS_COURSES_VETO = {
       },
       {
         title: "5. Sommes de Riemann",
-        content: "Si $f$ est continue sur $[a ; b]$, alors\n$$\\lim_{n \\to +\\infty} \\frac{b - a}{n}\\sum_{k=0}^{n-1} f\\left(a + k\\frac{b - a}{n}\\right) = \\int_a^b f(t)\\,dt$$\n(même limite avec $\\sum_{k=1}^{n}$). C'est le principe de la méthode des rectangles ; si $f$ est de classe $C^{1}$ avec $|f'| \\leq M$, l'erreur est majorée par $\\dfrac{M(b - a)^{2}}{2n}$."
+        content: "Si $f$ est continue sur $[a ; b]$, alors\n$$\\lim_{n \\to +\\infty} \\frac{b - a}{n}\\sum_{k=0}^{n-1} f\\left(a + k\\frac{b - a}{n}\\right) = \\int_a^b f(t)\\,dt$$\n(même limite avec $\\sum_{k=1}^{n}$). C'est le principe de la méthode des rectangles ; si $f$ est de classe $C^{1}$ avec $|f'| \\leq M$, l'erreur est majorée par $\\dfrac{M(b - a)^{2}}{2n}$.\n**Algorithme** (rectangles à gauche, de pas $h = \\frac{b - a}{n}$) :\n```python\ndef rectangles(f, a, b, n):\n    h = (b - a) / n\n    s = 0\n    for k in range(n):\n        s = s + f(a + k * h)\n    return h * s\n```"
       },
       {
         title: "6. Intégrales généralisées",
-        content: "Si $f$ est continue sur $[a ; +\\infty[$, $\\int_a^{+\\infty} f$ **converge** si $\\int_a^x f(t)\\,dt$ a une limite finie quand $x \\to +\\infty$ (définition analogue en une borne finie où $f$ n'est pas définie). Sur $]-\\infty ; +\\infty[$, on coupe en un point et on exige la convergence des **deux** morceaux.\nRéférences : $\\int_1^{+\\infty} \\frac{dt}{t^{\\alpha}}$ converge $\\iff \\alpha > 1$ ; $\\int_0^{1} \\frac{dt}{t^{\\alpha}}$ converge $\\iff \\alpha < 1$ ; $\\int_0^{+\\infty} e^{-\\lambda t}\\,dt = \\frac{1}{\\lambda}$ pour $\\lambda > 0$.\nPour $f, g$ positives : comparaison ($0 \\leq f \\leq g$), équivalence ($f \\sim g$) et négligeabilité ($f = o(g)$ et $\\int g$ convergente) ; enfin la convergence absolue entraîne la convergence.\n*Exemple* : après une injection, une concentration plasmatique $C(t) = C_0e^{-kt}$ a pour aire sous la courbe $\\int_0^{+\\infty} C_0e^{-kt}\\,dt = \\frac{C_0}{k}$."
+        content: "Si $f$ est continue sur $[a ; +\\infty[$, $\\int_a^{+\\infty} f$ **converge** si $\\int_a^x f(t)\\,dt$ a une limite finie quand $x \\to +\\infty$ (définition analogue en une borne finie où $f$ n'est pas définie). Sur $]-\\infty ; +\\infty[$, on coupe en un point et on exige la convergence des **deux** morceaux.\n**Puissances** : la nature de $\\int_1^{+\\infty} \\frac{dt}{t^{\\alpha}}$ ou de $\\int_0^{1} \\frac{dt}{t^{\\alpha}}$ se **démontre à chaque usage**, à l'aide d'une primitive sur $[1 ; x]$ ou sur $[x ; 1]$, puis d'un passage à la limite. Par exemple, pour $x > 1$, $\\int_1^x \\frac{dt}{t^{2}} = 1 - \\frac{1}{x} \\to 1$ (convergence) et $\\int_1^x \\frac{dt}{t} = \\ln x \\to +\\infty$ (divergence). De même, pour $\\lambda > 0$, $\\int_0^x e^{-\\lambda t}\\,dt = \\frac{1 - e^{-\\lambda x}}{\\lambda} \\to \\frac{1}{\\lambda}$.\n**Fonctions positives** : si $0 \\leq f \\leq g$ et si $\\int g$ converge, alors $\\int f$ converge ; si $f \\sim g$ à la borne étudiée, les deux intégrales ont la même nature. Enfin, la convergence absolue entraîne la convergence.\n*Exemple* : après une injection, une concentration plasmatique $C(t) = C_0e^{-kt}$ a pour aire sous la courbe $\\int_0^{+\\infty} C_0e^{-kt}\\,dt = \\frac{C_0}{k}$."
       }
     ],
     methods: [
@@ -391,9 +436,18 @@ window.MATHS_COURSES_VETO = {
         title: "Méthode : Étudier puis calculer une intégrale généralisée",
         example: "Montrer que $K = \\int_1^{+\\infty} \\dfrac{\\ln t}{t^{2}}\\,dt$ converge et la calculer.",
         steps: [
-          "**Étape 1 (Convergence)** : $f(t) = \\frac{\\ln t}{t^{2}}$ est continue et positive sur $[1 ; +\\infty[$, et $t^{3/2}f(t) = \\frac{\\ln t}{\\sqrt{t}} \\to 0$, donc $f(t) = o\\left(\\frac{1}{t^{3/2}}\\right)$ ; comme $\\frac{3}{2} > 1$, $K$ converge.",
+          "**Étape 1 (Cadre)** : $f(t) = \\frac{\\ln t}{t^{2}}$ est continue sur $[1 ; +\\infty[$ : seule la borne $+\\infty$ pose question. On calcule donc sur un segment $[1 ; x]$, et la limite décidera de la convergence.",
           "**Étape 2 (Calcul sur un segment)** : pour $x > 1$, par parties, $\\int_1^x \\frac{\\ln t}{t^{2}}\\,dt = \\left[-\\frac{\\ln t}{t}\\right]_1^x + \\int_1^x \\frac{dt}{t^{2}} = -\\frac{\\ln x}{x} + 1 - \\frac{1}{x}$.",
-          "**Étape 3 (Passage à la limite)** : quand $x \\to +\\infty$, $\\frac{\\ln x}{x} \\to 0$, donc $K = 1$."
+          "**Étape 3 (Passage à la limite)** : quand $x \\to +\\infty$, $\\frac{\\ln x}{x} \\to 0$ : la limite est finie, donc $K$ converge et $K = 1$."
+        ]
+      },
+      {
+        title: "Méthode : Conclure par comparaison en démontrant la nature de la majorante",
+        example: "Montrer que $L = \\int_1^{+\\infty} \\dfrac{\\sqrt{t}}{t^{3} + 1}\\,dt$ converge.",
+        steps: [
+          "**Étape 1 (Majorer)** : $f(t) = \\frac{\\sqrt{t}}{t^{3} + 1}$ est continue et positive sur $[1 ; +\\infty[$ ; comme $t^{3} + 1 \\geq t^{3}$, on a $0 \\leq f(t) \\leq \\frac{\\sqrt{t}}{t^{3}} = t^{-5/2}$.",
+          "**Étape 2 (Démontrer la nature de la majorante)** : pour $x > 1$, $\\int_1^x t^{-5/2}\\,dt = \\left[-\\frac{2}{3}t^{-3/2}\\right]_1^x = \\frac{2}{3}\\left(1 - x^{-3/2}\\right) \\to \\frac{2}{3}$, donc $\\int_1^{+\\infty} t^{-5/2}\\,dt$ converge.",
+          "**Étape 3 (Comparer)** : par comparaison de fonctions positives, $L$ converge. On ne connaît pas sa valeur : le critère ne donne que la nature."
         ]
       }
     ],
@@ -407,7 +461,7 @@ window.MATHS_COURSES_VETO = {
       { q: "Primitive de $\\dfrac{u'}{u}$ ?", a: "$\\ln|u|$, sur un intervalle où $u$ ne s'annule pas." },
       { q: "Formule d'intégration par parties ?", a: "$\\int_a^b u'v = [uv]_a^b - \\int_a^b uv'$, avec $u$, $v$ de classe $C^{1}$." },
       { q: "Dérivée de $x \\mapsto \\int_a^x f(t)\\,dt$ pour $f$ continue ?", a: "$f(x)$." },
-      { q: "Nature de $\\int_0^{1} \\frac{dt}{\\sqrt{t}}$ ?", a: "Convergente ($\\alpha = \\frac{1}{2} < 1$), elle vaut $2$." },
+      { q: "Nature de $\\int_0^{1} \\frac{dt}{\\sqrt{t}}$, à démontrer ?", a: "Pour $x \\in ]0 ; 1[$, $\\int_x^1 \\frac{dt}{\\sqrt{t}} = 2 - 2\\sqrt{x} \\to 2$ : elle converge et vaut $2$." },
       { q: "Valeur de $\\int_0^{+\\infty} e^{-\\lambda t}\\,dt$ pour $\\lambda > 0$ ?", a: "$\\dfrac{1}{\\lambda}$." }
     ]
   },
@@ -418,8 +472,9 @@ window.MATHS_COURSES_VETO = {
     objectives: [
       "Résoudre une équation linéaire du premier ordre $y' + a(x)y = b(x)$ avec une condition initiale.",
       "Résoudre une équation linéaire du second ordre à coefficients constants.",
-      "Étudier une équation autonome $y' = f(y)$ : points d'équilibre, monotonie et comportement des solutions.",
-      "Utiliser les modèles de Malthus et de Verhulst en dynamique des populations."
+      "Mener, en suivant un énoncé guidé, l'étude d'une équation autonome $y' = F(y)$ sur un exemple : équilibres, monotonie, comportement des solutions.",
+      "Utiliser les modèles de Malthus, de Verhulst et de Gompertz en dynamique des populations.",
+      "Appliquer et programmer la méthode d'Euler, rappelée dans l'énoncé."
     ],
     keyPoints: [
       {
@@ -431,16 +486,24 @@ window.MATHS_COURSES_VETO = {
         content: "Soit $y'' + ay' + by = c$ avec $a, b, c$ réels, d'équation caractéristique $r^{2} + ar + b = 0$ de discriminant $\\Delta$.\nSolutions de l'équation homogène :\n• $\\Delta > 0$, racines $r_1 \\neq r_2$ : $y = \\lambda e^{r_1x} + \\mu e^{r_2x}$ ;\n• $\\Delta = 0$, racine double $r$ : $y = (\\lambda + \\mu x)e^{rx}$ ;\n• $\\Delta < 0$, racines $\\alpha \\pm i\\beta$ : $y = e^{\\alpha x}(\\lambda\\cos(\\beta x) + \\mu\\sin(\\beta x))$.\nSi $b \\neq 0$, la constante $\\frac{c}{b}$ est une solution particulière. Pour tous $x_0$, $y_0$, $y_1$, il existe une unique solution telle que $y(x_0) = y_0$ et $y'(x_0) = y_1$."
       },
       {
-        title: "3. Équations autonomes d'ordre 1",
-        content: "Soit $y' = f(y)$ avec $f$ de classe $C^{1}$ sur un intervalle $J$. On admet que pour toute condition initiale $y(t_0) = y_0 \\in J$, il existe une unique solution maximale.\n• Un **point d'équilibre** est un réel $y^{*}$ tel que $f(y^{*}) = 0$ ; la fonction constante égale à $y^{*}$ est solution.\n• Par unicité, deux trajectoires distinctes ne se croisent pas : une solution qui part entre deux équilibres consécutifs y reste, et $f(y(t))$ garde un signe constant, donc la solution est **monotone**.\n• **Stabilité** : si $f'(y^{*}) < 0$, l'équilibre est stable (les solutions voisines s'en rapprochent) ; si $f'(y^{*}) > 0$, il est instable."
+        title: "3. Équations autonomes : étude guidée sur des exemples",
+        content: "Les équations $y' = F(y)$ s'étudient **uniquement sur des exemples, en suivant un énoncé qui guide chaque étape** : il n'y a pas de théorie générale à connaître. La trame revient d'un exemple à l'autre :\n• **Équilibres** : si $F(y^{*}) = 0$, la fonction constante égale à $y^{*}$ est solution.\n• **Monotonie** : une solution croît là où $F(y) > 0$ et décroît là où $F(y) < 0$. L'énoncé indique ce qui est admis, par exemple qu'une solution partant entre deux équilibres y reste.\n• **Stabilité, décrite sur l'exemple** : un équilibre est stable si les solutions voisines s'en rapprochent, instable si elles s'en éloignent. On le lit sur le signe de $F$ de part et d'autre de l'équilibre, ou sur la solution explicite lorsque l'énoncé la fait établir."
       },
       {
         title: "4. Modèle de Malthus",
-        content: "Si le taux de croissance par individu est constant égal à $r$, l'effectif vérifie $N'(t) = rN(t)$, d'où $N(t) = N_0e^{rt}$.\nSi $r > 0$, le temps de doublement est $T = \\dfrac{\\ln 2}{r}$ ; si $r < 0$ (décroissance, élimination d'une substance), la demi-vie est $\\dfrac{\\ln 2}{|r|}$.\nCe modèle n'est réaliste que sur une période courte : il ne tient pas compte de la limitation des ressources."
+        content: "Si le taux de croissance par individu est constant égal à $r$, l'effectif vérifie $N'(t) = rN(t)$, d'où $N(t) = N_0e^{rt}$.\nSi $r > 0$, le temps de doublement est $T = \\dfrac{\\ln 2}{r}$ ; si $r < 0$ (décroissance, élimination d'une substance), la demi-vie est $\\dfrac{\\ln 2}{|r|}$.\nCe modèle n'est réaliste que sur une période courte : il ne tient pas compte de la limitation des ressources.\n**Stabilité** : $0$ est le seul équilibre. D'après $N(t) = N_0e^{rt}$, les solutions s'en éloignent si $r > 0$ et s'en rapprochent si $r < 0$."
       },
       {
         title: "5. Modèle logistique de Verhulst",
-        content: "Avec un taux de croissance $r > 0$ et une capacité d'accueil $K > 0$ :\n$$N'(t) = rN(t)\\left(1 - \\frac{N(t)}{K}\\right)$$\n• Équilibres : $0$ (instable, car $f'(0) = r > 0$) et $K$ (stable, car $f'(K) = -r < 0$).\n• Pour $N_0 \\in ]0 ; K[$, la solution est croissante et tend vers $K$ ; pour $N_0 > K$, elle décroît vers $K$.\n• Solution explicite pour $N_0 > 0$ (en posant $z = \\frac{1}{N}$, qui vérifie l'équation linéaire $z' = -rz + \\frac{r}{K}$) :\n$$N(t) = \\frac{K}{1 + \\left(\\frac{K}{N_0} - 1\\right)e^{-rt}}$$"
+        content: "Avec un taux de croissance $r > 0$ et une capacité d'accueil $K > 0$ :\n$$N'(t) = rN(t)\\left(1 - \\frac{N(t)}{K}\\right)$$\n• Équilibres : $0$ et $K$. Le second membre est positif sur $]0 ; K[$ et négatif sur $]K ; +\\infty[$.\n• Solution explicite pour $N_0 > 0$ (en posant $z = \\frac{1}{N}$, qui vérifie l'équation linéaire $z' = -rz + \\frac{r}{K}$) :\n$$N(t) = \\frac{K}{1 + \\left(\\frac{K}{N_0} - 1\\right)e^{-rt}}$$\n• On y lit que, pour $N_0 \\in ]0 ; K[$, la solution est croissante et tend vers $K$ ; pour $N_0 > K$, elle décroît vers $K$.\n• **Stabilité** : les solutions voisines de $K$ s'en rapprochent ($K$ est stable) ; celles qui partent d'un petit $N_0 > 0$ s'éloignent de $0$ ($0$ est instable)."
+      },
+      {
+        title: "6. Modèle de Gompertz",
+        content: "Utilisé notamment pour la croissance d'un organe ou d'une tumeur, avec $r > 0$, $K > 0$ et $N > 0$ :\n$$N'(t) = rN(t)\\ln\\left(\\frac{K}{N(t)}\\right)$$\n• Sur $]0 ; +\\infty[$, le seul équilibre est $K$, car $\\ln\\frac{K}{N} = 0 \\iff N = K$. Le second membre est positif sur $]0 ; K[$ et négatif sur $]K ; +\\infty[$.\n• **Étude guidée** : en posant $z = \\ln\\frac{N}{K}$, on obtient $z' = \\frac{N'}{N} = r\\ln\\frac{K}{N} = -rz$, donc $z(t) = z(0)e^{-rt}$ et\n$$N(t) = K\\exp\\left(\\ln\\left(\\frac{N_0}{K}\\right)e^{-rt}\\right)$$\n• **Stabilité** : $z(t) \\to 0$, donc $N(t) \\to K$ pour tout $N_0 > 0$ : l'équilibre $K$ est stable.\n• La vitesse $N'$ est maximale pour $N = \\frac{K}{e}$, où elle vaut $\\frac{rK}{e}$ (à comparer à $N = \\frac{K}{2}$ dans le modèle logistique)."
+      },
+      {
+        title: "7. Méthode d'Euler",
+        content: "Pour approcher la solution de $y' = F(y)$, $y(t_0) = y_0$ avec un pas $h > 0$, on remplace $y'(t)$ par le taux d'accroissement $\\frac{y(t + h) - y(t)}{h}$, ce qui donne :\n$$y_{n+1} = y_n + h\\,F(y_n), \\qquad t_n = t_0 + nh$$\nL'énoncé rappelle cette relation et peut demander de la programmer :\n```python\ndef euler(F, t0, y0, h, n):\n    t, y = t0, y0\n    T, Y = [t], [y]\n    for k in range(n):\n        y = y + h * F(y)\n        t = t + h\n        T.append(t)\n        Y.append(y)\n    return T, Y\n```\nLes $y_n$ sont des valeurs approchées de $y(t_n)$ ; en général, l'approximation s'améliore quand $h$ diminue."
       }
     ],
     methods: [
@@ -463,12 +526,12 @@ window.MATHS_COURSES_VETO = {
         ]
       },
       {
-        title: "Méthode : Étudier qualitativement une équation autonome",
-        example: "Étudier les solutions de $y' = y(2 - y)$ telles que $y(0) = y_0 \\in ]0 ; 2[$.",
+        title: "Méthode : Mener une étude guidée d'équation autonome",
+        example: "Étudier les solutions de $y' = y(2 - y)$ telles que $y(0) = y_0 \\in ]0 ; 2[$. On admet que $y$ ne s'annule pas et on pose $z = \\frac{1}{y}$.",
         steps: [
-          "**Étape 1 (Équilibres)** : $f(y) = y(2 - y)$ s'annule en $0$ et $2$ ; $f'(y) = 2 - 2y$, donc $f'(0) = 2 > 0$ ($0$ instable) et $f'(2) = -2 < 0$ ($2$ stable).",
-          "**Étape 2 (Monotonie)** : par unicité, la solution ne peut rejoindre les solutions constantes $0$ et $2$ ; elle reste dans $]0 ; 2[$, où $f > 0$, donc elle est strictement croissante.",
-          "**Étape 3 (Limite)** : croissante et majorée par $2$, elle admet une limite finie $\\ell \\in ]0 ; 2]$, qui est un équilibre ; donc $\\ell = 2$."
+          "**Étape 1 (Équilibres et signe)** : $F(y) = y(2 - y)$ s'annule en $0$ et $2$ ; $F > 0$ sur $]0 ; 2[$ et $F < 0$ sur $]2 ; +\\infty[$.",
+          "**Étape 2 (Fonction auxiliaire)** : $z' = -\\frac{y'}{y^{2}} = -\\frac{2 - y}{y} = -2z + 1$, donc $z(t) = \\frac{1}{2} + \\lambda e^{-2t}$ avec $\\lambda = \\frac{1}{y_0} - \\frac{1}{2} > 0$.",
+          "**Étape 3 (Conclure)** : $z$ décroît vers $\\frac{1}{2}$ en restant supérieure à $\\frac{1}{2}$ : $y = \\frac{1}{z}$ reste dans $]0 ; 2[$, croît et tend vers $2$. Ces solutions s'éloignent de $0$ (instable) et se rapprochent de $2$ ; comme $F < 0$ au-dessus de $2$, celles qui partent juste au-dessus redescendent vers $2$ (stable)."
         ]
       },
       {
@@ -479,20 +542,41 @@ window.MATHS_COURSES_VETO = {
           "**Étape 2 (Condition initiale)** : $C(0) = 4 + \\lambda = 0$, donc $C(t) = 4(1 - e^{-0{,}5t})$.",
           "**Étape 3 (Interpréter)** : $C(t) \\to 4$ quand $t \\to +\\infty$ : la concentration se stabilise à 4 mg/L."
         ]
+      },
+      {
+        title: "Méthode : Traiter le modèle de Gompertz question par question",
+        example: "Un effectif vérifie $N' = (\\ln 2)\\,N\\ln\\left(\\dfrac{1\\,000}{N}\\right)$, avec $N(0) = 1\\,000\\,e^{-4}$. En posant $z = \\ln\\left(\\dfrac{N}{1\\,000}\\right)$, calculer $N(3)$ et la limite de $N$ en $+\\infty$.",
+        steps: [
+          "**Étape 1 (Équation vérifiée par $z$)** : $z' = \\frac{N'}{N} = (\\ln 2)\\ln\\frac{1\\,000}{N} = -(\\ln 2)z$.",
+          "**Étape 2 (Résoudre)** : $z(0) = -4$, donc $z(t) = -4e^{-t\\ln 2} = -4 \\times 2^{-t}$.",
+          "**Étape 3 (Revenir à $N$)** : $z(3) = -\\frac{1}{2}$, d'où $N(3) = 1\\,000\\,e^{-1/2} \\approx 606{,}5$. Comme $z(t) \\to 0$, $N(t) \\to 1\\,000$."
+        ]
+      },
+      {
+        title: "Méthode : Appliquer la méthode d'Euler",
+        example: "Pour $y' = y\\left(1 - \\dfrac{y}{10}\\right)$, $y(0) = 2$ et le pas $h = 0{,}5$, calculer $y_1$ et $y_2$ avec $y_{n+1} = y_n + h\\,F(y_n)$.",
+        steps: [
+          "**Étape 1 (Premier pas)** : $F(2) = 2 \\times 0{,}8 = 1{,}6$, donc $y_1 = 2 + 0{,}5 \\times 1{,}6 = 2{,}8$.",
+          "**Étape 2 (Deuxième pas)** : $F(2{,}8) = 2{,}8 \\times 0{,}72 = 2{,}016$, donc $y_2 = 2{,}8 + 0{,}5 \\times 2{,}016 = 3{,}808$.",
+          "**Étape 3 (Programmer)** : dans une boucle, la mise à jour s'écrit `y = y + h * F(y)` ; on recalcule toujours $F$ en la dernière valeur obtenue."
+        ]
       }
     ],
     traps: [
       "⚠️ Signe de l'exponentielle : $y' + a y = 0$ donne $e^{-ax}$, alors que $y' = a y$ donne $e^{ax}$.",
       "⚠️ Les conditions initiales s'appliquent à la solution générale complète (homogène + particulière), jamais à la seule solution homogène.",
       "⚠️ Pour $\\Delta < 0$, les fonctions trigonométriques portent sur la partie imaginaire $\\beta$ des racines, l'exponentielle sur la partie réelle $\\alpha$.",
-      "⚠️ Une solution non constante d'une équation autonome ne peut pas atteindre un équilibre en un temps fini : elle s'en approche seulement."
+      "⚠️ Sur les modèles de Verhulst et de Gompertz, on lit sur la solution explicite qu'une solution non constante s'approche de l'équilibre $K$ sans l'atteindre en un temps fini.",
+      "⚠️ Dans la méthode d'Euler, $y_n$ n'est qu'une valeur approchée de $y(t_n)$, et $F$ se calcule en $y_n$, pas en $y_0$ à chaque pas."
     ],
     flashcards: [
       { q: "Solutions de $y' + ay = 0$ ($a$ constante) ?", a: "$x \\mapsto \\lambda e^{-ax}$, $\\lambda \\in \\mathbb{R}$." },
       { q: "Solutions de $y'' + 4y = 0$ ?", a: "$x \\mapsto \\lambda\\cos(2x) + \\mu\\sin(2x)$." },
       { q: "Solutions de $y'' - 2y' + y = 0$ ?", a: "$x \\mapsto (\\lambda + \\mu x)e^{x}$ (racine double $1$)." },
       { q: "Équilibres du modèle logistique et leur stabilité ?", a: "$0$ instable et $K$ stable." },
-      { q: "Temps de doublement dans le modèle $N' = rN$ ($r > 0$) ?", a: "$\\dfrac{\\ln 2}{r}$." }
+      { q: "Temps de doublement dans le modèle $N' = rN$ ($r > 0$) ?", a: "$\\dfrac{\\ln 2}{r}$." },
+      { q: "Modèle de Gompertz $N' = rN\\ln\\frac{K}{N}$ : quelle fonction auxiliaire poser, et que vérifie-t-elle ?", a: "$z = \\ln\\frac{N}{K}$, qui vérifie $z' = -rz$." },
+      { q: "Relation de la méthode d'Euler pour $y' = F(y)$ et le pas $h$ ?", a: "$y_{n+1} = y_n + h\\,F(y_n)$." }
     ]
   },
 
@@ -502,6 +586,7 @@ window.MATHS_COURSES_VETO = {
     objectives: [
       "Représenter une fonction de deux variables par ses lignes de niveau.",
       "Calculer des dérivées partielles d'ordre 1 et 2 et un gradient.",
+      "Dériver une grandeur $t \\mapsto f(x(t), y(t))$ dont les deux variables dépendent du temps.",
       "Déterminer les points critiques et étudier la nature d'un extremum.",
       "Interpréter les dérivées partielles d'un modèle comme des sensibilités."
     ],
@@ -512,11 +597,11 @@ window.MATHS_COURSES_VETO = {
       },
       {
         title: "2. Continuité",
-        content: "$f$ est continue en $(a, b) \\in U$ si $f(x, y) \\to f(a, b)$ quand $\\|(x, y) - (a, b)\\| \\to 0$.\nLes fonctions polynomiales en $x$ et $y$ sont continues sur $\\mathbb{R}^{2}$ ; sommes, produits, quotients (de dénominateur non nul) et composées de fonctions continues sont continus.\nPour montrer une discontinuité en $(0, 0)$, on exhibe deux chemins donnant des limites différentes : $\\frac{xy}{x^{2} + y^{2}}$ vaut $0$ sur l'axe $y = 0$ et $\\frac{1}{2}$ sur la droite $y = x$."
+        content: "$f$ est continue en $(a, b) \\in U$ si $f(x, y) \\to f(a, b)$ quand $\\|(x, y) - (a, b)\\| \\to 0$.\nLes fonctions polynomiales en $x$ et $y$ sont continues sur $\\mathbb{R}^{2}$ ; sommes, produits, quotients (de dénominateur non nul) et composées de fonctions continues sont continus.\nAucune étude de continuité n'est demandée : les fonctions rencontrées sont obtenues par ces opérations à partir de fonctions usuelles, et leur continuité se constate sans démonstration."
       },
       {
         title: "3. Dérivées partielles d'ordre 1 et gradient",
-        content: "La dérivée partielle de $f$ par rapport à $x$ en $(a, b)$ est la dérivée en $a$ de la fonction d'une variable $x \\mapsto f(x, b)$ :\n$$\\partial_1 f(a, b) = \\frac{\\partial f}{\\partial x}(a, b) = \\lim_{h \\to 0} \\frac{f(a + h, b) - f(a, b)}{h}$$\n$f$ est de classe $C^{1}$ sur $U$ si ses deux dérivées partielles existent et sont continues sur $U$. Le **gradient** est $\\nabla f(a, b) = (\\partial_1 f(a, b), \\partial_2 f(a, b))$.\nPour $f$ de classe $C^{1}$ : $f(a + h, b + k) = f(a, b) + h\\,\\partial_1 f(a, b) + k\\,\\partial_2 f(a, b) + o(\\|(h, k)\\|)$. Le gradient est orthogonal aux lignes de niveau et indique la direction de plus forte croissance."
+        content: "La dérivée partielle de $f$ par rapport à $x$ en $(a, b)$ est la dérivée en $a$ de la fonction d'une variable $x \\mapsto f(x, b)$ :\n$$\\partial_1 f(a, b) = \\frac{\\partial f}{\\partial x}(a, b) = \\lim_{h \\to 0} \\frac{f(a + h, b) - f(a, b)}{h}$$\n$f$ est de classe $C^{1}$ sur $U$ si ses deux dérivées partielles existent et sont continues sur $U$. Le **gradient** est $\\nabla f(a, b) = (\\partial_1 f(a, b), \\partial_2 f(a, b))$.\nPour $f$ de classe $C^{1}$ : $f(a + h, b + k) = f(a, b) + h\\,\\partial_1 f(a, b) + k\\,\\partial_2 f(a, b) + o(\\|(h, k)\\|)$. Le gradient est orthogonal aux lignes de niveau et indique la direction de plus forte croissance.\n**Dérivée le long d'une trajectoire** : si $f$ est de classe $C^{1}$ sur $U$ et si $x$, $y$ sont dérivables sur un intervalle $I$ avec $(x(t), y(t)) \\in U$, alors $g : t \\mapsto f(x(t), y(t))$ est dérivable sur $I$ et\n$$g'(t) = x'(t)\\,\\partial_1 f(x(t), y(t)) + y'(t)\\,\\partial_2 f(x(t), y(t))$$\nLes deux variations s'ajoutent, chacune pondérée par la sensibilité de $f$ à la variable concernée. Si la trajectoire reste sur une ligne de niveau, $g$ est constante, donc $g' = 0$ : on retrouve que le gradient est orthogonal à la direction $(x'(t), y'(t))$ de la trajectoire."
       },
       {
         title: "4. Dérivées partielles d'ordre 2",
@@ -535,6 +620,15 @@ window.MATHS_COURSES_VETO = {
           "**Étape 1 (Par rapport à $x$, $y$ fixé)** : $\\partial_1 f(x, y) = 2xy + ye^{xy}$.",
           "**Étape 2 (Par rapport à $y$, $x$ fixé)** : $\\partial_2 f(x, y) = x^{2} + xe^{xy}$, d'où $\\nabla f(x, y) = (2xy + ye^{xy},\\ x^{2} + xe^{xy})$.",
           "**Étape 3 (Dérivées croisées)** : $\\partial_2(\\partial_1 f) = 2x + e^{xy} + xye^{xy}$ et $\\partial_1(\\partial_2 f) = 2x + e^{xy} + xye^{xy}$ : elles coïncident, comme l'assure le théorème de Schwarz ($f$ est de classe $C^{2}$)."
+        ]
+      },
+      {
+        title: "Méthode : Dériver une grandeur dont les variables dépendent du temps",
+        example: "Une cellule cylindrique a pour volume $V(r, h) = \\pi r^{2}h$, avec $r(t) = 2 + t$ et $h(t) = 8 - t$ (en µm, $t$ en heures). Calculer la vitesse de variation du volume à l'instant $t = 1$.",
+        steps: [
+          "**Étape 1 (Dérivées partielles)** : $\\partial_1 V(r, h) = 2\\pi rh$ et $\\partial_2 V(r, h) = \\pi r^{2}$.",
+          "**Étape 2 (Valeurs à l'instant voulu)** : $r(1) = 3$, $h(1) = 7$, $r'(1) = 1$, $h'(1) = -1$, donc $\\partial_1 V(3, 7) = 42\\pi$ et $\\partial_2 V(3, 7) = 9\\pi$.",
+          "**Étape 3 (Formule)** : pour $g(t) = V(r(t), h(t))$, $g'(1) = 1 \\times 42\\pi + (-1) \\times 9\\pi = 33\\pi$ µm³ par heure : le volume augmente, l'élargissement l'emportant sur le raccourcissement."
         ]
       },
       {
@@ -558,12 +652,14 @@ window.MATHS_COURSES_VETO = {
     ],
     traps: [
       "⚠️ Pour dériver par rapport à $x$, $y$ est une constante : $\\frac{\\partial}{\\partial x}(x^{2}y) = 2xy$ et non $2xy + x^{2}$.",
+      "⚠️ Dans la dérivée de $t \\mapsto f(x(t), y(t))$, les dérivées partielles se calculent au point $(x(t), y(t))$ et chacune est multipliée par $x'(t)$ ou $y'(t)$ : oublier l'un des deux termes est l'erreur la plus fréquente.",
       "⚠️ Un point critique n'est pas forcément un extremum (point col), et la condition $\\nabla f = 0$ n'est nécessaire que sur un ouvert : sur un bord, un extremum peut avoir un gradient non nul.",
       "⚠️ Étudier $f$ le long des seuls axes ne suffit pas à prouver un extremum : il faut contrôler $f(a + h, b + k) - f(a, b)$ pour tous les $(h, k)$ petits.",
       "⚠️ L'existence des dérivées partielles en un point n'entraîne pas la continuité en ce point : c'est le caractère $C^{1}$ qui la garantit."
     ],
     flashcards: [
       { q: "Définition d'un point critique de $f$ ?", a: "Un point où $\\nabla f = (0, 0)$." },
+      { q: "Dérivée de $g(t) = f(x(t), y(t))$ ?", a: "$g'(t) = x'(t)\\,\\partial_1 f(x(t), y(t)) + y'(t)\\,\\partial_2 f(x(t), y(t))$." },
       { q: "Énoncé du théorème de Schwarz ?", a: "Si $f$ est de classe $C^{2}$, $\\partial_{1,2}^{2} f = \\partial_{2,1}^{2} f$." },
       { q: "Gradient de $f(x, y) = x^{2} + 3xy$ ?", a: "$\\nabla f(x, y) = (2x + 3y,\\ 3x)$." },
       { q: "Nature du point $(0, 0)$ pour $f(x, y) = x^{2} - y^{2}$ ?", a: "Point col : pas d'extremum." },
@@ -659,31 +755,31 @@ window.MATHS_COURSES_VETO = {
     title: "VB-09 : Espaces vectoriels, applications linéaires et diagonalisation",
     domain: "Algèbre linéaire et géométrie",
     objectives: [
-      "Montrer qu'une partie est un sous-espace vectoriel de $\\mathbb{K}^{n}$ et en donner une base.",
+      "Montrer qu'une partie est un sous-espace vectoriel de $\\mathbb{K}^{n}$, de $\\mathcal{M}_{n,p}(\\mathbb{K})$ ou d'un espace de polynômes ou de fonctions, et en donner une base.",
       "Déterminer si une famille est libre, génératrice, ou une base.",
-      "Déterminer le noyau, l'image et le rang d'une application linéaire.",
+      "Déterminer le noyau, l'image et le rang d'une application linéaire, reconnaître un endomorphisme et un isomorphisme.",
       "Calculer valeurs propres et vecteurs propres, diagonaliser une matrice et en déduire ses puissances."
     ],
     keyPoints: [
       {
-        title: "1. Sous-espaces vectoriels de $\\mathbb{K}^{n}$",
-        content: "Une partie $F$ de $\\mathbb{K}^{n}$ ($\\mathbb{K} = \\mathbb{R}$ ou $\\mathbb{C}$) est un sous-espace vectoriel si $0 \\in F$ et si, pour tous $u, v \\in F$ et $\\lambda, \\mu \\in \\mathbb{K}$, $\\lambda u + \\mu v \\in F$.\nExemples : l'ensemble des solutions d'un système linéaire **homogène** ; $\\text{Vect}(u_1, \\ldots, u_p)$, ensemble des combinaisons linéaires des $u_i$, plus petit sous-espace les contenant.\nL'intersection de deux sous-espaces est un sous-espace ; leur réunion ne l'est pas en général."
+        title: "1. Espaces vectoriels de référence et sous-espaces",
+        content: "Un **espace vectoriel** sur $\\mathbb{K}$ ($\\mathbb{K} = \\mathbb{R}$ ou $\\mathbb{C}$) est un ensemble muni d'une addition et d'une multiplication par les scalaires obéissant aux règles de calcul habituelles. Espaces de référence :\n• $\\mathbb{K}^{n}$, les $n$-uplets de scalaires ;\n• $\\mathcal{M}_{n,p}(\\mathbb{K})$, les matrices à $n$ lignes et $p$ colonnes, et $\\mathcal{M}_n(\\mathbb{K})$ pour $n = p$ ;\n• $\\mathcal{F}(I, \\mathbb{K})$, les fonctions d'un intervalle $I$ dans $\\mathbb{K}$ ;\n• $\\mathbb{K}[X]$, les polynômes à coefficients dans $\\mathbb{K}$, et $\\mathbb{K}_n[X]$, ceux de degré au plus $n$.\nUne partie $F$ d'un espace vectoriel $E$ est un **sous-espace vectoriel** si $0 \\in F$ et si, pour tous $u, v \\in F$ et $\\lambda, \\mu \\in \\mathbb{K}$, $\\lambda u + \\mu v \\in F$ ; c'est alors lui-même un espace vectoriel.\nExemples : l'ensemble des solutions d'un système linéaire **homogène** ; $\\mathbb{K}_n[X]$ dans $\\mathbb{K}[X]$ ; les matrices symétriques dans $\\mathcal{M}_n(\\mathbb{K})$ ; les fonctions de classe $C^{1}$ sur $I$ dans $\\mathcal{F}(I, \\mathbb{K})$ ; $\\text{Vect}(u_1, \\ldots, u_p)$, ensemble des combinaisons linéaires des $u_i$, plus petit sous-espace les contenant.\nL'intersection de deux sous-espaces est un sous-espace ; leur réunion ne l'est pas en général."
       },
       {
         title: "2. Familles libres, génératrices, bases, dimension",
-        content: "• $(u_1, \\ldots, u_p)$ est **libre** si $\\lambda_1u_1 + \\cdots + \\lambda_pu_p = 0$ implique $\\lambda_1 = \\cdots = \\lambda_p = 0$.\n• Elle est **génératrice** de $F$ si $F = \\text{Vect}(u_1, \\ldots, u_p)$ ; c'est une **base** si elle est libre et génératrice : tout vecteur de $F$ s'écrit alors de façon unique comme combinaison des $u_i$.\n• Toutes les bases de $F$ ont le même nombre d'éléments, la **dimension** de $F$ ; $\\dim \\mathbb{K}^{n} = n$.\n• Si $\\dim F = d$ : une famille libre a au plus $d$ vecteurs ; une famille libre **ou** génératrice de $d$ vecteurs de $F$ est une base. Si $G \\subset F$ et $\\dim G = \\dim F$, alors $G = F$.\n• Le **rang** d'une famille est la dimension de l'espace qu'elle engendre."
+        content: "• $(u_1, \\ldots, u_p)$ est **libre** si $\\lambda_1u_1 + \\cdots + \\lambda_pu_p = 0$ implique $\\lambda_1 = \\cdots = \\lambda_p = 0$.\n• Elle est **génératrice** de $F$ si $F = \\text{Vect}(u_1, \\ldots, u_p)$ ; c'est une **base** si elle est libre et génératrice : tout vecteur de $F$ s'écrit alors de façon unique comme combinaison des $u_i$.\n• Toutes les bases de $F$ ont le même nombre d'éléments, la **dimension** de $F$. Les **coordonnées** d'un vecteur dans une base sont les coefficients de son unique décomposition.\n• Bases canoniques : $\\dim \\mathbb{K}^{n} = n$ ; $(1, X, \\ldots, X^{n})$ est une base de $\\mathbb{K}_n[X]$, donc $\\dim \\mathbb{K}_n[X] = n + 1$ ; les matrices $E_{i,j}$ (un seul coefficient non nul, égal à 1, en ligne $i$ et colonne $j$) forment une base de $\\mathcal{M}_{n,p}(\\mathbb{K})$, donc $\\dim \\mathcal{M}_{n,p}(\\mathbb{K}) = np$. En revanche $\\mathbb{K}[X]$ et $\\mathcal{F}(I, \\mathbb{K})$ ne sont pas de dimension finie.\n• Si $\\dim F = d$ : une famille libre a au plus $d$ vecteurs ; une famille libre **ou** génératrice de $d$ vecteurs de $F$ est une base. Si $G \\subset F$ et $\\dim G = \\dim F$, alors $G = F$.\n• Le **rang** d'une famille est la dimension de l'espace qu'elle engendre."
       },
       {
         title: "3. Applications linéaires, noyau, image, rang",
-        content: "$f : \\mathbb{K}^{p} \\to \\mathbb{K}^{n}$ est linéaire si $f(\\lambda u + \\mu v) = \\lambda f(u) + \\mu f(v)$. Elle est représentée par une matrice $A \\in \\mathcal{M}_{n,p}(\\mathbb{K})$ dont la colonne $j$ contient les coordonnées de $f(e_j)$.\n• $\\text{Ker} f = \\{u : f(u) = 0\\}$ et $\\text{Im} f = \\text{Vect}(f(e_1), \\ldots, f(e_p))$ sont des sous-espaces ; $f$ est injective si et seulement si $\\text{Ker} f = \\{0\\}$.\n• **Théorème du rang** : $\\dim \\text{Ker} f + \\text{rg} f = p$, où $\\text{rg} f = \\dim \\text{Im} f$.\n• Si $n = p$ : $f$ injective $\\iff$ $f$ surjective $\\iff$ $f$ bijective $\\iff$ $A$ inversible."
+        content: "Soient $E$ et $F$ deux espaces vectoriels. $f : E \\to F$ est **linéaire** si $f(\\lambda u + \\mu v) = \\lambda f(u) + \\mu f(v)$. C'est un **endomorphisme** si $E = F$, un **isomorphisme** si elle est linéaire et bijective.\nEn dimension finie, si $(e_1, \\ldots, e_p)$ est une base de $E$ et si $F$ est de dimension $n$ muni d'une base, $f$ est représentée par une matrice $A \\in \\mathcal{M}_{n,p}(\\mathbb{K})$ dont la colonne $j$ contient les coordonnées de $f(e_j)$.\n• $\\text{Ker} f = \\{u \\in E : f(u) = 0\\}$ et $\\text{Im} f = \\text{Vect}(f(e_1), \\ldots, f(e_p))$ sont des sous-espaces ; $f$ est injective si et seulement si $\\text{Ker} f = \\{0\\}$.\n• **Théorème du rang** : $\\dim \\text{Ker} f + \\text{rg} f = \\dim E$, où $\\text{rg} f = \\dim \\text{Im} f$.\n• Si $\\dim E = \\dim F$ : $f$ injective $\\iff$ $f$ surjective $\\iff$ $f$ bijective $\\iff$ $A$ inversible. Deux espaces isomorphes ont la même dimension.\nExemples : la **dérivation** $P \\mapsto P'$ est un endomorphisme de $\\mathbb{K}_n[X]$, de noyau les polynômes constants et d'image $\\mathbb{K}_{n-1}[X]$ (pour $n \\geq 1$) ; la **transposition** $M \\mapsto M^{T}$ est un endomorphisme de $\\mathcal{M}_n(\\mathbb{K})$, bijectif puisqu'il est sa propre réciproque ; $a_0 + a_1X + \\cdots + a_nX^{n} \\mapsto (a_0, a_1, \\ldots, a_n)$ est un isomorphisme de $\\mathbb{K}_n[X]$ sur $\\mathbb{K}^{n+1}$."
       },
       {
         title: "4. Changement de base",
-        content: "Si $\\mathcal{B}$ et $\\mathcal{B}'$ sont deux bases de $\\mathbb{K}^{n}$, la matrice de passage $P$ de $\\mathcal{B}$ à $\\mathcal{B}'$ a pour colonnes les coordonnées des vecteurs de $\\mathcal{B}'$ dans $\\mathcal{B}$ ; elle est inversible.\nCoordonnées : $X = PX'$. Endomorphisme : si $A$ est la matrice de $f$ dans $\\mathcal{B}$ et $A'$ celle dans $\\mathcal{B}'$, alors\n$$A' = P^{-1}AP$$\nOn dit que $A$ et $A'$ sont **semblables** : elles ont même rang et mêmes valeurs propres."
+        content: "Si $\\mathcal{B}$ et $\\mathcal{B}'$ sont deux bases d'un espace $E$ de dimension $n$, la matrice de passage $P$ de $\\mathcal{B}$ à $\\mathcal{B}'$ a pour colonnes les coordonnées des vecteurs de $\\mathcal{B}'$ dans $\\mathcal{B}$ ; elle est inversible.\nCoordonnées : $X = PX'$. Endomorphisme : si $A$ est la matrice de $f$ dans $\\mathcal{B}$ et $A'$ celle dans $\\mathcal{B}'$, alors\n$$A' = P^{-1}AP$$\nOn dit que $A$ et $A'$ sont **semblables** : elles ont même rang et mêmes valeurs propres."
       },
       {
         title: "5. Valeurs propres et vecteurs propres",
-        content: "Soit $A \\in \\mathcal{M}_n(\\mathbb{K})$. Le scalaire $\\lambda$ est **valeur propre** de $A$ s'il existe une colonne $X \\neq 0$ telle que $AX = \\lambda X$ ; $X$ est un vecteur propre associé.\n$\\lambda$ est valeur propre $\\iff$ $A - \\lambda I_n$ n'est pas inversible $\\iff$ $\\text{rg}(A - \\lambda I_n) < n$. Le **sous-espace propre** est $E_\\lambda = \\text{Ker}(A - \\lambda I_n)$.\nPropriétés : des vecteurs propres associés à des valeurs propres distinctes forment une famille libre ; une matrice triangulaire a pour valeurs propres ses coefficients diagonaux ; une matrice de taille $n$ a au plus $n$ valeurs propres."
+        content: "Soit $A \\in \\mathcal{M}_n(\\mathbb{K})$. Le scalaire $\\lambda$ est **valeur propre** de $A$ s'il existe une colonne $X \\neq 0$ telle que $AX = \\lambda X$ ; $X$ est un vecteur propre associé.\n$\\lambda$ est valeur propre $\\iff$ $A - \\lambda I_n$ n'est pas inversible $\\iff$ $\\text{rg}(A - \\lambda I_n) < n$. Le **sous-espace propre** est $E_\\lambda = \\text{Ker}(A - \\lambda I_n)$.\nPropriétés : des vecteurs propres associés à des valeurs propres distinctes forment une famille libre ; une matrice triangulaire a pour valeurs propres ses coefficients diagonaux ; une matrice de taille $n$ a au plus $n$ valeurs propres.\nPour un endomorphisme $f$ de $E$ de dimension finie : $\\lambda$ est valeur propre s'il existe $u \\neq 0$ tel que $f(u) = \\lambda u$ ; ce sont les valeurs propres de la matrice de $f$ dans n'importe quelle base."
       },
       {
         title: "6. Diagonalisation",
@@ -710,6 +806,15 @@ window.MATHS_COURSES_VETO = {
         ]
       },
       {
+        title: "Méthode : Étudier une application linéaire sur un espace de polynômes",
+        example: "Montrer que $\\varphi : P \\mapsto P - P'$ est un isomorphisme de $\\mathbb{R}_2[X]$ sur lui-même et donner sa matrice dans la base $(1, X, X^{2})$.",
+        steps: [
+          "**Étape 1 (Endomorphisme)** : $\\varphi(\\lambda P + \\mu Q) = \\lambda P + \\mu Q - (\\lambda P' + \\mu Q') = \\lambda\\varphi(P) + \\mu\\varphi(Q)$, et $P - P'$ est de degré au plus 2 si $P$ l'est : $\\varphi$ est un endomorphisme de $\\mathbb{R}_2[X]$.",
+          "**Étape 2 (Matrice)** : $\\varphi(1) = 1$, $\\varphi(X) = X - 1$, $\\varphi(X^{2}) = X^{2} - 2X$. Les coordonnées de ces images en colonnes donnent $M = \\begin{pmatrix} 1 & -1 & 0 \\\\ 0 & 1 & -2 \\\\ 0 & 0 & 1 \\end{pmatrix}$.",
+          "**Étape 3 (Isomorphisme)** : $M$ est triangulaire à coefficients diagonaux non nuls, donc inversible : $\\varphi$ est bijective. On peut aussi raisonner sur le degré : si $P \\neq 0$, $P'$ est de degré strictement inférieur à celui de $P$, donc $P - P' \\neq 0$ ; le noyau est réduit à $\\{0\\}$ et, en dimension finie, $\\varphi$ injective suffit."
+        ]
+      },
+      {
         title: "Méthode : Diagonaliser une matrice et calculer ses puissances",
         example: "Diagonaliser $A = \\begin{pmatrix} 4 & -2 \\\\ 1 & 1 \\end{pmatrix}$ et en déduire $A^{n}$.",
         steps: [
@@ -721,12 +826,15 @@ window.MATHS_COURSES_VETO = {
     ],
     traps: [
       "⚠️ La réunion de deux sous-espaces n'est en général pas un sous-espace : dans $\\mathbb{R}^{2}$, $(1, 0) + (0, 1)$ n'appartient à aucun des deux axes.",
+      "⚠️ $\\mathbb{K}_n[X]$ contient les polynômes de degré **au plus** $n$ : sa base canonique $(1, X, \\ldots, X^{n})$ a $n + 1$ éléments, donc sa dimension est $n + 1$ et non $n$.",
       "⚠️ Un vecteur propre est par définition **non nul** : $0$ vérifie $A0 = \\lambda 0$ pour tout $\\lambda$.",
       "⚠️ Dans $A = PDP^{-1}$, l'ordre des colonnes de $P$ doit correspondre à l'ordre des valeurs propres sur la diagonale de $D$.",
       "⚠️ Une famille de $n$ vecteurs de $\\mathbb{K}^{n}$ n'est une base que si elle est libre : deux vecteurs non nuls de $\\mathbb{R}^{2}$ peuvent être colinéaires."
     ],
     flashcards: [
       { q: "Énoncé du théorème du rang pour $f : \\mathbb{K}^{p} \\to \\mathbb{K}^{n}$ ?", a: "$\\dim \\text{Ker} f + \\text{rg} f = p$." },
+      { q: "Dimensions de $\\mathbb{K}_n[X]$ et de $\\mathcal{M}_{n,p}(\\mathbb{K})$ ?", a: "$n + 1$ et $np$." },
+      { q: "Qu'est-ce qu'un isomorphisme ?", a: "Une application linéaire bijective." },
       { q: "Caractérisation des valeurs propres de $A$ ?", a: "$\\lambda$ est valeur propre $\\iff A - \\lambda I_n$ n'est pas inversible." },
       { q: "Condition suffisante de diagonalisabilité en taille $n$ ?", a: "Avoir $n$ valeurs propres distinctes." },
       { q: "Formule de changement de base pour un endomorphisme ?", a: "$A' = P^{-1}AP$, $P$ matrice de passage de l'ancienne base vers la nouvelle." },
@@ -739,7 +847,7 @@ window.MATHS_COURSES_VETO = {
     title: "VB-10 : Géométrie et produit scalaire",
     domain: "Algèbre linéaire et géométrie",
     objectives: [
-      "Utiliser le déterminant pour tester la colinéarité ou la coplanarité.",
+      "Utiliser le déterminant $2 \\times 2$ pour tester la colinéarité dans le plan, et le rang (pivot de Gauss) pour tester la coplanarité dans l'espace.",
       "Déterminer une équation de droite, de cercle ou de plan.",
       "Calculer un produit scalaire, une norme et une projection orthogonale dans $\\mathbb{R}^{n}$.",
       "Utiliser le théorème spectral pour une matrice symétrique réelle."
@@ -747,23 +855,23 @@ window.MATHS_COURSES_VETO = {
     keyPoints: [
       {
         title: "1. Vecteurs et déterminant",
-        content: "Dans le plan, pour $\\vec{u}(x, y)$ et $\\vec{v}(x', y')$ : $\\det(\\vec{u}, \\vec{v}) = xy' - x'y$. Les vecteurs sont colinéaires si et seulement si ce déterminant est nul, et $|\\det(\\vec{u}, \\vec{v})|$ est l'aire du parallélogramme qu'ils construisent.\nDans l'espace, trois vecteurs sont coplanaires si et seulement si leur déterminant $3 \\times 3$ est nul ; on le calcule par développement selon une ligne ou une colonne (ou par la règle de Sarrus)."
+        content: "Dans le plan, pour $\\vec{u}(x, y)$ et $\\vec{v}(x', y')$ : $\\det(\\vec{u}, \\vec{v}) = xy' - x'y$. Les vecteurs sont colinéaires si et seulement si ce déterminant est nul, et $|\\det(\\vec{u}, \\vec{v})|$ est l'aire du parallélogramme qu'ils construisent.\nDans l'espace, trois vecteurs sont coplanaires si et seulement si leur famille est liée, c'est-à-dire de rang au plus $2$ : on le vérifie en échelonnant la matrice de leurs coordonnées par le pivot de Gauss (moins de trois pivots non nuls), ou en exhibant une combinaison linéaire nulle non triviale."
       },
       {
         title: "2. Droites et cercles du plan",
-        content: "• Une droite admet une équation cartésienne $ax + by + c = 0$ avec $(a, b) \\neq (0, 0)$ ; $\\vec{n}(a, b)$ est un vecteur normal et $\\vec{u}(-b, a)$ un vecteur directeur.\n• Représentation paramétrique de la droite passant par $A(x_A, y_A)$ dirigée par $\\vec{u}(\\alpha, \\beta)$ : $x = x_A + t\\alpha$, $y = y_A + t\\beta$, $t \\in \\mathbb{R}$.\n• Distance d'un point $M_0(x_0, y_0)$ à cette droite : $\\dfrac{|ax_0 + by_0 + c|}{\\sqrt{a^{2} + b^{2}}}$.\n• Le cercle de centre $\\Omega(a, b)$ et de rayon $R$ a pour équation $(x - a)^{2} + (y - b)^{2} = R^{2}$."
+        content: "• Une droite admet une équation cartésienne $ax + by + c = 0$ avec $(a, b) \\neq (0, 0)$ ; $\\vec{n}(a, b)$ est un vecteur normal et $\\vec{u}(-b, a)$ un vecteur directeur.\n• Représentation paramétrique de la droite passant par $A(x_A, y_A)$ dirigée par $\\vec{u}(\\alpha, \\beta)$ : $x = x_A + t\\alpha$, $y = y_A + t\\beta$, $t \\in \\mathbb{R}$.\n• Distance d'un point $M_0$ à cette droite : si $A$ est un point de la droite, c'est la norme du projeté orthogonal de $\\overrightarrow{AM_0}$ sur $\\text{Vect}(\\vec{n})$, soit $\\dfrac{|\\langle \\overrightarrow{AM_0}, \\vec{n} \\rangle|}{\\|\\vec{n}\\|}$. La formule développée $\\dfrac{|ax_0 + by_0 + c|}{\\sqrt{a^{2} + b^{2}}}$ n'est pas exigible : elle est rappelée par l'énoncé lorsqu'on l'utilise.\n• Le cercle de centre $\\Omega(a, b)$ et de rayon $R$ a pour équation $(x - a)^{2} + (y - b)^{2} = R^{2}$."
       },
       {
         title: "3. Droites et plans de l'espace",
-        content: "• Un plan admet une équation $ax + by + cz + d = 0$ avec $(a, b, c) \\neq (0, 0, 0)$, où $\\vec{n}(a, b, c)$ est normal au plan. Distance d'un point $M_0$ au plan : $\\dfrac{|ax_0 + by_0 + cz_0 + d|}{\\sqrt{a^{2} + b^{2} + c^{2}}}$.\n• Une droite est décrite par une représentation paramétrique (un point et un vecteur directeur) ou comme intersection de deux plans non parallèles.\n• Deux plans sont parallèles si et seulement si leurs vecteurs normaux sont colinéaires ; ils sont perpendiculaires si leurs vecteurs normaux sont orthogonaux."
+        content: "• Un plan admet une équation $ax + by + cz + d = 0$ avec $(a, b, c) \\neq (0, 0, 0)$, où $\\vec{n}(a, b, c)$ est normal au plan. Distance d'un point $M_0$ au plan : si $A$ est un point du plan, c'est $\\dfrac{|\\langle \\overrightarrow{AM_0}, \\vec{n} \\rangle|}{\\|\\vec{n}\\|}$ (norme du projeté de $\\overrightarrow{AM_0}$ sur $\\text{Vect}(\\vec{n})$). La formule développée $\\dfrac{|ax_0 + by_0 + cz_0 + d|}{\\sqrt{a^{2} + b^{2} + c^{2}}}$ n'est pas exigible : elle est rappelée par l'énoncé.\n• Une droite est décrite par une représentation paramétrique (un point et un vecteur directeur) ou comme intersection de deux plans non parallèles.\n• Deux plans sont parallèles si et seulement si leurs vecteurs normaux sont colinéaires ; ils sont perpendiculaires si leurs vecteurs normaux sont orthogonaux."
       },
       {
         title: "4. Produit scalaire dans $\\mathbb{R}^{n}$",
-        content: "Pour $x = (x_1, \\ldots, x_n)$ et $y = (y_1, \\ldots, y_n)$ : $\\langle x, y \\rangle = \\sum_{i=1}^{n} x_iy_i = X^{T}Y$ ; il est bilinéaire, symétrique et $\\langle x, x \\rangle > 0$ si $x \\neq 0$. Norme : $\\|x\\| = \\sqrt{\\langle x, x \\rangle}$.\n• **Cauchy-Schwarz** : $|\\langle x, y \\rangle| \\leq \\|x\\|\\,\\|y\\|$, avec égalité si et seulement si $x$ et $y$ sont colinéaires.\n• **Pythagore** : $\\|x + y\\|^{2} = \\|x\\|^{2} + \\|y\\|^{2} \\iff \\langle x, y \\rangle = 0$.\n• Une famille orthogonale de vecteurs non nuls est libre. L'orthogonal $F^{\\perp}$ d'un sous-espace $F$ est un sous-espace et $\\dim F + \\dim F^{\\perp} = n$."
+        content: "Pour $x = (x_1, \\ldots, x_n)$ et $y = (y_1, \\ldots, y_n)$ : $\\langle x, y \\rangle = \\sum_{i=1}^{n} x_iy_i = X^{T}Y$ ; il est bilinéaire, symétrique et $\\langle x, x \\rangle > 0$ si $x \\neq 0$. Norme : $\\|x\\| = \\sqrt{\\langle x, x \\rangle}$.\n• **Cauchy-Schwarz** : $|\\langle x, y \\rangle| \\leq \\|x\\|\\,\\|y\\|$, avec égalité si et seulement si $x$ et $y$ sont colinéaires.\n• **Inégalité triangulaire** : $\\|x + y\\| \\leq \\|x\\| + \\|y\\|$, avec égalité si et seulement si $x$ et $y$ sont colinéaires **de même sens**, c'est-à-dire $x = 0$ ou $y = \\lambda x$ avec $\\lambda \\geq 0$.\n• **Pythagore** : $\\|x + y\\|^{2} = \\|x\\|^{2} + \\|y\\|^{2} \\iff \\langle x, y \\rangle = 0$.\n• Une famille orthogonale de vecteurs non nuls est libre. L'orthogonal $F^{\\perp}$ d'un sous-espace $F$ est un sous-espace et $\\dim F + \\dim F^{\\perp} = n$."
       },
       {
         title: "5. Projection orthogonale",
-        content: "Soit $F$ un sous-espace de $\\mathbb{R}^{n}$ de base **orthonormée** $(e_1, \\ldots, e_p)$. Le projeté orthogonal de $x$ sur $F$ est\n$$p_F(x) = \\sum_{i=1}^{p} \\langle x, e_i \\rangle e_i$$\nC'est l'unique vecteur de $F$ tel que $x - p_F(x) \\in F^{\\perp}$. Il réalise la plus courte distance : pour tout $y \\in F$, $\\|x - y\\| \\geq \\|x - p_F(x)\\|$.\nSur une droite $\\text{Vect}(u)$ : $p(x) = \\dfrac{\\langle x, u \\rangle}{\\|u\\|^{2}}u$. Cette propriété de minimisation est le fondement de la méthode des moindres carrés."
+        content: "Soit $F$ un sous-espace de $\\mathbb{R}^{n}$ de base **orthonormée** $(e_1, \\ldots, e_p)$. Le projeté orthogonal de $x$ sur $F$ est\n$$p_F(x) = \\sum_{i=1}^{p} \\langle x, e_i \\rangle e_i$$\nC'est l'unique vecteur de $F$ tel que $x - p_F(x) \\in F^{\\perp}$. Il réalise la plus courte distance : pour tout $y \\in F$, $\\|x - y\\| \\geq \\|x - p_F(x)\\|$.\nSur une droite $\\text{Vect}(u)$ : $p(x) = \\dfrac{\\langle x, u \\rangle}{\\|u\\|^{2}}u$. Cette propriété de minimisation est le fondement de la méthode des moindres carrés.\nPour $F = \\text{Vect}(a, b)$ de dimension 2 : si $\\langle a, b \\rangle = 0$, alors $p_F(x) = \\dfrac{\\langle x, a \\rangle}{\\|a\\|^{2}}a + \\dfrac{\\langle x, b \\rangle}{\\|b\\|^{2}}b$ ; sinon, on écrit $p_F(x) = \\alpha a + \\beta b$ et on résout le système $\\langle x - p_F(x), a \\rangle = 0$, $\\langle x - p_F(x), b \\rangle = 0$."
       },
       {
         title: "6. Théorème spectral",
@@ -777,7 +885,7 @@ window.MATHS_COURSES_VETO = {
         steps: [
           "**Étape 1 (Forme)** : le plan a une équation $2x - y + 3z + d = 0$.",
           "**Étape 2 (Point)** : $A$ appartient au plan, donc $2 - 0 + 6 + d = 0$ et $d = -8$ : $2x - y + 3z - 8 = 0$.",
-          "**Étape 3 (Distance)** : $d(O, \\mathcal{P}) = \\dfrac{|-8|}{\\sqrt{4 + 1 + 9}} = \\dfrac{8}{\\sqrt{14}}$."
+          "**Étape 3 (Distance)** : on projette $\\overrightarrow{AO} = (-1, 0, -2)$ sur $\\text{Vect}(\\vec{n})$ : $\\langle \\overrightarrow{AO}, \\vec{n} \\rangle = -2 + 0 - 6 = -8$ et $\\|\\vec{n}\\| = \\sqrt{4 + 1 + 9} = \\sqrt{14}$, donc $d(O, \\mathcal{P}) = \\dfrac{|-8|}{\\sqrt{14}} = \\dfrac{8}{\\sqrt{14}}$."
         ]
       },
       {
@@ -811,6 +919,7 @@ window.MATHS_COURSES_VETO = {
     traps: [
       "⚠️ Dans $ax + by + c = 0$, $(a, b)$ est un vecteur **normal** à la droite, pas un vecteur directeur.",
       "⚠️ La formule $p_F(x) = \\sum \\langle x, e_i \\rangle e_i$ exige une base **orthonormée** de $F$ ; avec une base quelconque, elle donne un résultat faux.",
+      "⚠️ Dans l'inégalité triangulaire, l'égalité exige des vecteurs colinéaires **de même sens** : pour $y = -x$ non nul, $\\|x + y\\| = 0$ alors que $\\|x\\| + \\|y\\| > 0$.",
       "⚠️ $P^{-1} = P^{T}$ seulement si les colonnes de $P$ sont orthogonales **et** de norme 1 : pensez à normaliser les vecteurs propres.",
       "⚠️ Une équation $x^{2} + y^{2} + \\alpha x + \\beta y + \\gamma = 0$ peut décrire un cercle, un point ou l'ensemble vide : concluez après la forme canonique."
     ],
@@ -818,8 +927,9 @@ window.MATHS_COURSES_VETO = {
       { q: "Condition de colinéarité de $\\vec{u}(x, y)$ et $\\vec{v}(x', y')$ ?", a: "$xy' - x'y = 0$." },
       { q: "Projeté de $x$ sur $\\text{Vect}(u)$ ?", a: "$\\dfrac{\\langle x, u \\rangle}{\\|u\\|^{2}}u$." },
       { q: "Énoncé de l'inégalité de Cauchy-Schwarz ?", a: "$|\\langle x, y \\rangle| \\leq \\|x\\|\\,\\|y\\|$, avec égalité si et seulement si $x$ et $y$ sont colinéaires." },
+      { q: "Inégalité triangulaire et cas d'égalité ?", a: "$\\|x + y\\| \\leq \\|x\\| + \\|y\\|$, avec égalité si et seulement si $x = 0$ ou $y = \\lambda x$ avec $\\lambda \\geq 0$." },
       { q: "Énoncé du théorème spectral ?", a: "Toute matrice symétrique réelle s'écrit $PDP^{T}$ avec $P$ orthogonale et $D$ diagonale réelle." },
-      { q: "Distance de $M_0$ au plan $ax + by + cz + d = 0$ ?", a: "$\\dfrac{|ax_0 + by_0 + cz_0 + d|}{\\sqrt{a^{2} + b^{2} + c^{2}}}$." }
+      { q: "Distance de $M_0$ au plan passant par $A$ de vecteur normal $\\vec{n}$ ?", a: "La norme du projeté de $\\overrightarrow{AM_0}$ sur $\\text{Vect}(\\vec{n})$ : $\\dfrac{|\\langle \\overrightarrow{AM_0}, \\vec{n} \\rangle|}{\\|\\vec{n}\\|}$." }
     ]
   },
 
@@ -830,16 +940,16 @@ window.MATHS_COURSES_VETO = {
       "Calculer des probabilités avec les probabilités conditionnelles, la formule des probabilités totales et la formule de Bayes.",
       "Reconnaître des événements ou des variables indépendants.",
       "Calculer l'espérance et la variance d'une variable discrète et connaître les lois usuelles.",
-      "Étudier un couple de variables discrètes : lois marginales, indépendance, covariance."
+      "Étudier un couple de variables discrètes : lois marginales et conditionnelles, indépendance, covariance, loi d'une somme ou d'un maximum."
     ],
     keyPoints: [
       {
         title: "1. Espace probabilisé",
-        content: "Une probabilité sur $(\\Omega, \\mathcal{A})$ vérifie $P(\\Omega) = 1$ et, pour toute suite $(A_n)$ d'événements deux à deux incompatibles, $P\\left(\\bigcup_n A_n\\right) = \\sum_n P(A_n)$.\nConséquences : $P(\\overline{A}) = 1 - P(A)$ ; si $A \\subset B$, $P(A) \\leq P(B)$ ; $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$.\n**Continuité monotone** : si $(A_n)$ est croissante, $P\\left(\\bigcup_n A_n\\right) = \\lim P(A_n)$ ; si elle est décroissante, $P\\left(\\bigcap_n A_n\\right) = \\lim P(A_n)$.\nEn situation d'équiprobabilité sur $\\Omega$ fini : $P(A) = \\dfrac{\\text{card}(A)}{\\text{card}(\\Omega)}$."
+        content: "Une probabilité sur $(\\Omega, \\mathcal{A})$ vérifie $P(\\Omega) = 1$ et, pour toute suite $(A_n)$ d'événements deux à deux incompatibles, $P\\left(\\bigcup_n A_n\\right) = \\sum_n P(A_n)$.\nConséquences : $P(\\overline{A}) = 1 - P(A)$ ; si $A \\subset B$, $P(A) \\leq P(B)$ ; $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$.\n**Continuité monotone** : si $(A_n)$ est croissante, $P\\left(\\bigcup_n A_n\\right) = \\lim P(A_n)$ ; si elle est décroissante, $P\\left(\\bigcap_n A_n\\right) = \\lim P(A_n)$.\nEn situation d'équiprobabilité sur $\\Omega$ fini : $P(A) = \\dfrac{\\text{card}(A)}{\\text{card}(\\Omega)}$.\n**Négligeable, presque sûr** : $A$ est **négligeable** si $P(A) = 0$ et **presque sûr** si $P(A) = 1$.\n**Système complet, quasi-complet** : une famille finie ou dénombrable $(A_i)_{i \\in I}$ d'événements deux à deux incompatibles est un **système complet** si $\\bigcup_{i \\in I} A_i = \\Omega$, et un **système quasi-complet** si $\\sum_{i \\in I} P(A_i) = 1$, c'est-à-dire si sa réunion est presque sûre. Tout système complet est quasi-complet."
       },
       {
         title: "2. Conditionnement, probabilités totales, Bayes",
-        content: "Si $P(B) > 0$ : $P_B(A) = \\dfrac{P(A \\cap B)}{P(B)}$, et $P_B$ est une probabilité.\n• **Probabilités composées** : $P(A_1 \\cap \\cdots \\cap A_n) = P(A_1)P_{A_1}(A_2) \\cdots P_{A_1 \\cap \\cdots \\cap A_{n-1}}(A_n)$ (si les conditionnements ont un sens).\n• **Probabilités totales** : si $(A_i)$ est un système complet d'événements de probabilités non nulles, $P(B) = \\sum_i P(A_i)P_{A_i}(B)$.\n• **Formule de Bayes** : $P_B(A_j) = \\dfrac{P(A_j)P_{A_j}(B)}{\\sum_i P(A_i)P_{A_i}(B)}$ ; elle « retourne » un conditionnement."
+        content: "Si $P(B) > 0$ : $P_B(A) = \\dfrac{P(A \\cap B)}{P(B)}$, et $P_B$ est une probabilité.\n• **Probabilités composées** : $P(A_1 \\cap \\cdots \\cap A_n) = P(A_1)P_{A_1}(A_2) \\cdots P_{A_1 \\cap \\cdots \\cap A_{n-1}}(A_n)$ (si les conditionnements ont un sens).\n• **Probabilités totales** : si $(A_i)_{i \\in I}$ est un système complet ou quasi-complet, fini ou dénombrable, d'événements de probabilités non nulles, $P(B) = \\sum_{i \\in I} P(A_i)P_{A_i}(B)$ (somme finie ou série convergente).\n• **Formule de Bayes** : $P_B(A_j) = \\dfrac{P(A_j)P_{A_j}(B)}{\\sum_i P(A_i)P_{A_i}(B)}$ ; elle « retourne » un conditionnement."
       },
       {
         title: "3. Indépendance",
@@ -847,15 +957,19 @@ window.MATHS_COURSES_VETO = {
       },
       {
         title: "4. Variables discrètes, espérance et variance",
-        content: "La loi d'une variable discrète $X$ est donnée par $X(\\Omega)$ et les $P(X = x)$, de somme $1$.\n• **Espérance** : $E(X) = \\sum_{x} xP(X = x)$, si la série converge absolument. **Transfert** : $E(g(X)) = \\sum_{x} g(x)P(X = x)$. L'espérance est linéaire et croissante.\n• **Variance** : $V(X) = E\\big((X - E(X))^{2}\\big) = E(X^{2}) - E(X)^{2}$ (formule de Koenig-Huygens) ; $\\sigma(X) = \\sqrt{V(X)}$.\n• $E(aX + b) = aE(X) + b$ et $V(aX + b) = a^{2}V(X)$."
+        content: "La loi d'une variable discrète $X$ est donnée par $X(\\Omega)$ et les $P(X = x)$, de somme $1$.\n• **Espérance** : $E(X) = \\sum_{x} xP(X = x)$, si la série converge absolument. **Transfert** : $E(g(X)) = \\sum_{x} g(x)P(X = x)$. L'espérance est linéaire et croissante.\n• **Variance** : $V(X) = E\\big((X - E(X))^{2}\\big) = E(X^{2}) - E(X)^{2}$ (formule de Koenig-Huygens) ; $\\sigma(X) = \\sqrt{V(X)}$.\n• $E(aX + b) = aE(X) + b$ et $V(aX + b) = a^{2}V(X)$.\n• **Variable centrée réduite** : si $V(X) > 0$, la variable $X^{*} = \\dfrac{X - E(X)}{\\sigma(X)}$ vérifie $E(X^{*}) = 0$ et $V(X^{*}) = 1$.\n• **Moments** : le moment d'ordre $r$ de $X$ est $E(X^{r})$, lorsqu'il existe.\n• **Inégalité de Markov** : si $X \\geq 0$ admet une espérance, alors pour tout $a > 0$, $P(X \\geq a) \\leq \\dfrac{E(X)}{a}$.\n• **Inégalité de Bienaymé-Tchebychev** : si $X$ admet une variance, alors pour tout $\\varepsilon > 0$, $P\\big(|X - E(X)| \\geq \\varepsilon\\big) \\leq \\dfrac{V(X)}{\\varepsilon^{2}}$."
       },
       {
         title: "5. Lois usuelles discrètes",
-        content: "• **Uniforme** sur $[\\![1 ; n]\\!]$ : $P(X = k) = \\frac{1}{n}$, $E(X) = \\frac{n+1}{2}$, $V(X) = \\frac{n^{2} - 1}{12}$.\n• **Bernoulli** $\\mathcal{B}(p)$ : $E(X) = p$, $V(X) = p(1 - p)$.\n• **Binomiale** $\\mathcal{B}(n, p)$, nombre de succès dans $n$ épreuves de Bernoulli indépendantes : $P(X = k) = \\binom{n}{k}p^{k}(1 - p)^{n-k}$, $E(X) = np$, $V(X) = np(1 - p)$.\n• **Géométrique** $\\mathcal{G}(p)$, rang du premier succès : $P(X = k) = (1 - p)^{k-1}p$ pour $k \\geq 1$, $E(X) = \\frac{1}{p}$, $V(X) = \\frac{1 - p}{p^{2}}$.\n• **Poisson** $\\mathcal{P}(\\lambda)$ : $P(X = k) = e^{-\\lambda}\\frac{\\lambda^{k}}{k!}$ pour $k \\in \\mathbb{N}$, $E(X) = V(X) = \\lambda$."
+        content: "• **Uniforme** sur $[\\![1 ; n]\\!]$ : $P(X = k) = \\frac{1}{n}$, $E(X) = \\frac{n+1}{2}$.\n• **Bernoulli** $\\mathcal{B}(p)$ : $E(X) = p$, $V(X) = p(1 - p)$.\n• **Binomiale** $\\mathcal{B}(n, p)$, nombre de succès dans $n$ épreuves de Bernoulli indépendantes : $P(X = k) = \\binom{n}{k}p^{k}(1 - p)^{n-k}$, $E(X) = np$, $V(X) = np(1 - p)$.\n• **Géométrique** $\\mathcal{G}(p)$, rang du premier succès : $P(X = k) = (1 - p)^{k-1}p$ pour $k \\geq 1$, $E(X) = \\frac{1}{p}$, $V(X) = \\frac{1 - p}{p^{2}}$. **Absence de mémoire** : $P(X > k) = (1 - p)^{k}$ et, si $0 < p < 1$, pour tous $m, n \\in \\mathbb{N}$, $P_{(X > m)}(X > m + n) = P(X > n)$.\n• **Poisson** $\\mathcal{P}(\\lambda)$ : $P(X = k) = e^{-\\lambda}\\frac{\\lambda^{k}}{k!}$ pour $k \\in \\mathbb{N}$, $E(X) = V(X) = \\lambda$.\n**Pour aller plus loin** (hors programme de BCPST) : la loi uniforme sur $[\\![1 ; n]\\!]$ a pour variance $V(X) = \\dfrac{n^{2} - 1}{12}$.\n• **Simulation** : la fonction `random()` du module `random` renvoie un réel au hasard dans $[0 ; 1[$ (loi uniforme), donc le test `random() < p` est vrai avec la probabilité $p$.\n```python\nfrom random import random\n\ndef bernoulli(p):\n    if random() < p:\n        return 1\n    return 0\n\ndef binomiale(n, p):\n    s = 0\n    for k in range(n):\n        s = s + bernoulli(p)\n    return s\n\ndef geometrique(p):\n    rang = 1\n    while random() >= p:\n        rang = rang + 1\n    return rang\n```\n`binomiale` compte les succès de $n$ épreuves de Bernoulli indépendantes ; `geometrique` renvoie le rang du premier succès. Pour la loi uniforme sur $[\\![1 ; n]\\!]$, `int(n * random()) + 1` convient (ou `randint(1, n)`)."
       },
       {
         title: "6. Couples de variables et covariance",
         content: "La loi conjointe de $(X, Y)$ est donnée par les $P(X = x, Y = y)$ ; les lois marginales s'en déduisent : $P(X = x) = \\sum_{y} P(X = x, Y = y)$.\n• $X$ et $Y$ sont **indépendantes** si $P(X = x, Y = y) = P(X = x)P(Y = y)$ pour tous $x$, $y$ ; alors $E(XY) = E(X)E(Y)$.\n• **Covariance** : $\\text{Cov}(X, Y) = E(XY) - E(X)E(Y)$, et $V(X + Y) = V(X) + V(Y) + 2\\,\\text{Cov}(X, Y)$.\n• Indépendance $\\Rightarrow$ covariance nulle, mais la réciproque est fausse.\n• **Stabilité** : si $X \\sim \\mathcal{B}(n, p)$ et $Y \\sim \\mathcal{B}(m, p)$ sont indépendantes, $X + Y \\sim \\mathcal{B}(n + m, p)$ ; si $X \\sim \\mathcal{P}(\\lambda)$ et $Y \\sim \\mathcal{P}(\\mu)$ sont indépendantes, $X + Y \\sim \\mathcal{P}(\\lambda + \\mu)$."
+      },
+      {
+        title: "7. Lois conditionnelles, fonctions d'un couple",
+        content: "• **Loi conditionnelle** : pour $y$ tel que $P(Y = y) > 0$, la loi conditionnelle de $X$ sachant $(Y = y)$ est donnée par $P_{(Y = y)}(X = x) = \\dfrac{P(X = x, Y = y)}{P(Y = y)}$. La famille des événements $(Y = y)$ étant un système complet, $P(X = x) = \\sum_{y} P(Y = y)P_{(Y = y)}(X = x)$, la somme portant sur les $y$ tels que $P(Y = y) > 0$.\n• **Fonction d'un couple** : la loi de $Z = u(X, Y)$ s'obtient en regroupant les couples : $P(Z = z) = \\sum_{(x, y)\\,:\\,u(x, y) = z} P(X = x, Y = y)$.\n• **Somme de variables à valeurs dans $\\mathbb{N}$** : si $X$ et $Y$ sont à valeurs dans $\\mathbb{N}$, pour tout $n \\in \\mathbb{N}$, $P(X + Y = n) = \\sum_{k=0}^{n} P(X = k, Y = n - k)$, soit $\\sum_{k=0}^{n} P(X = k)P(Y = n - k)$ si $X$ et $Y$ sont indépendantes.\n• **Maximum et minimum** : $(\\max(X, Y) \\leq n) = (X \\leq n) \\cap (Y \\leq n)$ et $(\\min(X, Y) > n) = (X > n) \\cap (Y > n)$. Si $X$ et $Y$ sont indépendantes, on obtient $P(\\max(X, Y) \\leq n) = P(X \\leq n)P(Y \\leq n)$ et $P(\\min(X, Y) > n) = P(X > n)P(Y > n)$. Pour une variable $M$ à valeurs entières, $P(M = n) = P(M \\leq n) - P(M \\leq n - 1)$."
       }
     ],
     methods: [
@@ -894,13 +1008,24 @@ window.MATHS_COURSES_VETO = {
           "**Étape 2 (Complémentaire)** : $P(X \\geq 1) = 1 - P(X = 0) = 1 - \\left(\\frac{3}{4}\\right)^{4}$.",
           "**Étape 3 (Calcul)** : $P(X \\geq 1) = 1 - \\frac{81}{256} = \\frac{175}{256} \\approx 0{,}68$ ; de plus $E(X) = 4 \\times \\frac{1}{4} = 1$."
         ]
+      },
+      {
+        title: "Méthode : Déterminer la loi du maximum de deux variables",
+        example: "$X$ et $Y$ sont indépendantes et suivent la loi $\\mathcal{G}\\left(\\frac{1}{3}\\right)$. On pose $M = \\max(X, Y)$. Calculer $P(M = 2)$.",
+        steps: [
+          "**Étape 1 (Fonction de répartition)** : pour $k \\geq 0$, $P(X > k) = \\left(\\frac{2}{3}\\right)^{k}$, donc $P(X \\leq k) = 1 - \\left(\\frac{2}{3}\\right)^{k}$.",
+          "**Étape 2 (Indépendance)** : $(M \\leq k) = (X \\leq k) \\cap (Y \\leq k)$, donc $P(M \\leq k) = \\left(1 - \\left(\\frac{2}{3}\\right)^{k}\\right)^{2}$.",
+          "**Étape 3 (Conclure)** : $P(M = 2) = P(M \\leq 2) - P(M \\leq 1) = \\left(\\frac{5}{9}\\right)^{2} - \\left(\\frac{1}{3}\\right)^{2} = \\frac{25}{81} - \\frac{9}{81} = \\frac{16}{81}$."
+        ]
       }
     ],
     traps: [
       "⚠️ Ne confondez pas $P_A(B)$ et $P_B(A)$ : la formule de Bayes sert justement à passer de l'une à l'autre.",
       "⚠️ Incompatibles ne veut pas dire indépendants : si $P(A) > 0$, $P(B) > 0$ et $A \\cap B = \\emptyset$, alors $P(A \\cap B) = 0 \\neq P(A)P(B)$.",
       "⚠️ Pour $X$ et $Y$ indépendantes, $V(X - Y) = V(X) + V(Y)$ : les variances s'additionnent, elles ne se soustraient pas.",
-      "⚠️ Une covariance nulle ne prouve pas l'indépendance ; pour prouver la non-indépendance, il suffit d'un couple $(x, y)$ avec $P(X = x, Y = y) \\neq P(X = x)P(Y = y)$."
+      "⚠️ Une covariance nulle ne prouve pas l'indépendance ; pour prouver la non-indépendance, il suffit d'un couple $(x, y)$ avec $P(X = x, Y = y) \\neq P(X = x)P(Y = y)$.",
+      "⚠️ En général, $P(\\max(X, Y) = n) \\neq P(X = n)P(Y = n)$ : passez par $P(\\max(X, Y) \\leq n)$, qui se factorise si $X$ et $Y$ sont indépendantes.",
+      "⚠️ La loi conditionnelle de $X$ sachant $(Y = y)$ se calcule en divisant par $P(Y = y)$, et non par $P(X = x)$."
     ],
     flashcards: [
       { q: "Formule des probabilités totales ?", a: "$P(B) = \\sum_i P(A_i)P_{A_i}(B)$ pour un système complet $(A_i)$." },
@@ -908,7 +1033,11 @@ window.MATHS_COURSES_VETO = {
       { q: "Espérance et variance de $\\mathcal{P}(\\lambda)$ ?", a: "$E = V = \\lambda$." },
       { q: "Loi géométrique $\\mathcal{G}(p)$ : $P(X = k)$ ?", a: "$(1 - p)^{k-1}p$ pour $k \\geq 1$." },
       { q: "Formule de $V(X + Y)$ ?", a: "$V(X) + V(Y) + 2\\,\\text{Cov}(X, Y)$." },
-      { q: "Formule de Koenig-Huygens ?", a: "$V(X) = E(X^{2}) - E(X)^{2}$." }
+      { q: "Formule de Koenig-Huygens ?", a: "$V(X) = E(X^{2}) - E(X)^{2}$." },
+      { q: "Système quasi-complet ?", a: "Famille finie ou dénombrable d'événements deux à deux incompatibles dont la somme des probabilités vaut $1$." },
+      { q: "Variable centrée réduite $X^{*}$ ?", a: "$X^{*} = \\dfrac{X - E(X)}{\\sigma(X)}$, si $V(X) > 0$." },
+      { q: "Inégalité de Markov ?", a: "Si $X \\geq 0$ admet une espérance et $a > 0$ : $P(X \\geq a) \\leq \\dfrac{E(X)}{a}$." },
+      { q: "Loi de $X$ sachant $(Y = y)$ ?", a: "$P_{(Y = y)}(X = x) = \\dfrac{P(X = x, Y = y)}{P(Y = y)}$." }
     ]
   },
 
@@ -919,7 +1048,9 @@ window.MATHS_COURSES_VETO = {
       "Vérifier qu'une fonction est une densité et calculer probabilités, espérance et variance.",
       "Utiliser les lois uniforme, exponentielle et normale.",
       "Connaître la loi d'une somme de variables normales indépendantes.",
-      "Appliquer l'inégalité de Bienaymé-Tchebychev, la loi faible des grands nombres et les approximations en loi."
+      "Appliquer l'inégalité de Bienaymé-Tchebychev, la loi faible des grands nombres et les approximations en loi.",
+      "Utiliser le théorème central limite et le théorème de Moivre-Laplace pour approcher une probabilité.",
+      "Mettre en œuvre un test de conformité à la moyenne, et son adaptation au cas d'une proportion."
     ],
     keyPoints: [
       {
@@ -932,19 +1063,27 @@ window.MATHS_COURSES_VETO = {
       },
       {
         title: "3. Lois uniforme et exponentielle",
-        content: "• **Uniforme** $\\mathcal{U}([a ; b])$ : $f(t) = \\frac{1}{b - a}$ sur $[a ; b]$ et $0$ ailleurs ; $E(X) = \\frac{a + b}{2}$, $V(X) = \\frac{(b - a)^{2}}{12}$.\n• **Exponentielle** $\\mathcal{E}(\\lambda)$, $\\lambda > 0$ : $f(t) = \\lambda e^{-\\lambda t}$ pour $t \\geq 0$ et $0$ sinon ; $F(x) = 1 - e^{-\\lambda x}$ pour $x \\geq 0$ ; $E(X) = \\frac{1}{\\lambda}$, $V(X) = \\frac{1}{\\lambda^{2}}$.\nLa loi exponentielle est **sans mémoire** : pour $s, t \\geq 0$, $P_{(X > s)}(X > s + t) = P(X > t)$. Elle modélise des durées de vie sans vieillissement (désintégration, temps d'attente)."
+        content: "• **Uniforme** $\\mathcal{U}([a ; b])$ : $f(t) = \\frac{1}{b - a}$ sur $[a ; b]$ et $0$ ailleurs ; $E(X) = \\frac{a + b}{2}$, $V(X) = \\frac{(b - a)^{2}}{12}$.\n• **Exponentielle** $\\mathcal{E}(\\lambda)$, $\\lambda > 0$ : $f(t) = \\lambda e^{-\\lambda t}$ pour $t \\geq 0$ et $0$ sinon ; $F(x) = 1 - e^{-\\lambda x}$ pour $x \\geq 0$ ; $E(X) = \\frac{1}{\\lambda}$, $V(X) = \\frac{1}{\\lambda^{2}}$.\nLa loi exponentielle est **sans mémoire** : pour $s, t \\geq 0$, $P_{(X > s)}(X > s + t) = P(X > t)$. Elle modélise des durées de vie sans vieillissement (désintégration, temps d'attente).\n• **Simulation** : si $U$ suit la loi uniforme sur $[0 ; 1[$, alors $X = -\\dfrac{\\ln(1 - U)}{\\lambda}$ suit la loi $\\mathcal{E}(\\lambda)$. En effet, pour $x \\geq 0$ : $X \\leq x \\iff 1 - U \\geq e^{-\\lambda x} \\iff U \\leq 1 - e^{-\\lambda x}$, d'où $P(X \\leq x) = 1 - e^{-\\lambda x}$. En Python : `-log(1 - random()) / lam` (avec `from math import log`) ; on prend $1 - U$ plutôt que $U$ car `random()` peut renvoyer $0$."
       },
       {
         title: "4. Loi normale",
-        content: "$X \\sim \\mathcal{N}(\\mu, \\sigma^{2})$ ($\\sigma > 0$) a pour densité $f(t) = \\dfrac{1}{\\sigma\\sqrt{2\\pi}}\\exp\\left(-\\dfrac{(t - \\mu)^{2}}{2\\sigma^{2}}\\right)$, avec $E(X) = \\mu$ et $V(X) = \\sigma^{2}$.\n• **Centrage-réduction** : $X \\sim \\mathcal{N}(\\mu, \\sigma^{2}) \\iff Z = \\dfrac{X - \\mu}{\\sigma} \\sim \\mathcal{N}(0, 1)$.\n• La fonction de répartition $\\Phi$ de $\\mathcal{N}(0, 1)$ vérifie $\\Phi(-x) = 1 - \\Phi(x)$ ; $P(|Z| \\leq 1{,}96) \\approx 0{,}95$.\n• Si $X \\sim \\mathcal{N}(\\mu, \\sigma^{2})$ et $a \\neq 0$, alors $aX + b \\sim \\mathcal{N}(a\\mu + b, a^{2}\\sigma^{2})$."
+        content: "$X \\sim \\mathcal{N}(\\mu, \\sigma^{2})$ ($\\sigma > 0$) a pour densité $f(t) = \\dfrac{1}{\\sigma\\sqrt{2\\pi}}\\exp\\left(-\\dfrac{(t - \\mu)^{2}}{2\\sigma^{2}}\\right)$, avec $E(X) = \\mu$ et $V(X) = \\sigma^{2}$.\n• **Centrage-réduction** : $X \\sim \\mathcal{N}(\\mu, \\sigma^{2}) \\iff Z = \\dfrac{X - \\mu}{\\sigma} \\sim \\mathcal{N}(0, 1)$.\n• La fonction de répartition $\\Phi$ de $\\mathcal{N}(0, 1)$ vérifie $\\Phi(-x) = 1 - \\Phi(x)$ ; $P(|Z| \\leq 1{,}96) \\approx 0{,}95$.\n• Si $X \\sim \\mathcal{N}(\\mu, \\sigma^{2})$ et $a \\neq 0$, alors $aX + b \\sim \\mathcal{N}(a\\mu + b, a^{2}\\sigma^{2})$.\n• **Simulation** : si $Z \\sim \\mathcal{N}(0, 1)$, alors $\\mu + \\sigma Z \\sim \\mathcal{N}(\\mu, \\sigma^{2})$. En Python, `gauss(0, 1)` (module `random`) simule $Z$ et `mu + sigma * gauss(0, 1)` simule $X$ ; attention, `gauss(mu, sigma)` prend l'écart type $\\sigma$, pas la variance."
       },
       {
         title: "5. Sommes de variables à densité indépendantes",
-        content: "Si $X$ et $Y$ sont indépendantes de densités $f_X$ et $f_Y$ (bornées par exemple), $X + Y$ admet pour densité le produit de convolution\n$$f_{X+Y}(x) = \\int_{-\\infty}^{+\\infty} f_X(t)f_Y(x - t)\\,dt$$\nEspérances et variances : $E(X + Y) = E(X) + E(Y)$ et, par indépendance, $V(X + Y) = V(X) + V(Y)$.\n**Stabilité de la loi normale** : si $X \\sim \\mathcal{N}(\\mu_1, \\sigma_1^{2})$ et $Y \\sim \\mathcal{N}(\\mu_2, \\sigma_2^{2})$ sont indépendantes, $X + Y \\sim \\mathcal{N}(\\mu_1 + \\mu_2, \\sigma_1^{2} + \\sigma_2^{2})$."
+        content: "Si $X$ et $Y$ sont indépendantes de densités $f_X$ et $f_Y$ (bornées par exemple), $X + Y$ admet pour densité le produit de convolution (résultat admis)\n$$f_{X+Y}(x) = \\int_{-\\infty}^{+\\infty} f_X(t)f_Y(x - t)\\,dt$$\nCette formule est seulement **rappelée** : aucun calcul de produit de convolution n'est attendu.\nEspérances et variances : $E(X + Y) = E(X) + E(Y)$ et, par indépendance, $V(X + Y) = V(X) + V(Y)$.\n**Stabilité de la loi normale** : si $X \\sim \\mathcal{N}(\\mu_1, \\sigma_1^{2})$ et $Y \\sim \\mathcal{N}(\\mu_2, \\sigma_2^{2})$ sont indépendantes, $X + Y \\sim \\mathcal{N}(\\mu_1 + \\mu_2, \\sigma_1^{2} + \\sigma_2^{2})$. Ce résultat s'utilise directement, sans refaire le calcul de la densité."
       },
       {
         title: "6. Inégalités et théorèmes limites",
-        content: "• **Markov** : si $X \\geq 0$ admet une espérance, pour tout $a > 0$, $P(X \\geq a) \\leq \\dfrac{E(X)}{a}$.\n• **Bienaymé-Tchebychev** : si $X$ admet une variance, pour tout $\\varepsilon > 0$, $P(|X - E(X)| \\geq \\varepsilon) \\leq \\dfrac{V(X)}{\\varepsilon^{2}}$.\n• **Loi faible des grands nombres** : si $(X_n)$ sont indépendantes, de même loi, d'espérance $m$ et de variance $\\sigma^{2}$, et $\\overline{X}_n = \\frac{1}{n}\\sum_{k=1}^{n} X_k$, alors pour tout $\\varepsilon > 0$, $P(|\\overline{X}_n - m| \\geq \\varepsilon) \\to 0$.\n• **Convergence en loi** : $F_{X_n}(x) \\to F_X(x)$ en tout point $x$ où $F_X$ est continue. Si $X_n \\sim \\mathcal{B}(n, p_n)$ avec $np_n \\to \\lambda > 0$, $X_n$ converge en loi vers $\\mathcal{P}(\\lambda)$.\n• **Théorème central limite** (admis) : sous les hypothèses de la loi faible avec $\\sigma > 0$, $\\dfrac{\\overline{X}_n - m}{\\sigma/\\sqrt{n}}$ converge en loi vers $\\mathcal{N}(0, 1)$."
+        content: "• **Markov** : si $X \\geq 0$ admet une espérance, pour tout $a > 0$, $P(X \\geq a) \\leq \\dfrac{E(X)}{a}$.\n• **Bienaymé-Tchebychev** : si $X$ admet une variance, pour tout $\\varepsilon > 0$, $P(|X - E(X)| \\geq \\varepsilon) \\leq \\dfrac{V(X)}{\\varepsilon^{2}}$.\n• **Loi faible des grands nombres** : si $(X_n)$ sont indépendantes, de même loi, d'espérance $m$ et de variance $\\sigma^{2}$, et $\\overline{X}_n = \\frac{1}{n}\\sum_{k=1}^{n} X_k$, alors pour tout $\\varepsilon > 0$, $P(|\\overline{X}_n - m| \\geq \\varepsilon) \\to 0$.\n• **Convergence en loi** : $F_{X_n}(x) \\to F_X(x)$ en tout point $x$ où $F_X$ est continue. Si $X_n \\sim \\mathcal{B}(n, p_n)$ avec $np_n \\to \\lambda > 0$, $X_n$ converge en loi vers $\\mathcal{P}(\\lambda)$.\n• **Théorème central limite, première forme** (admis) : sous les hypothèses de la loi faible avec $\\sigma > 0$, $\\dfrac{\\overline{X}_n - m}{\\sigma/\\sqrt{n}}$ converge en loi vers $\\mathcal{N}(0, 1)$."
+      },
+      {
+        title: "7. Moivre-Laplace, écart type empirique et seconde forme du théorème central limite",
+        content: "• **Théorème de Moivre-Laplace** : si $Y_n \\sim \\mathcal{B}(n, p)$ avec $0 < p < 1$, alors $\\dfrac{Y_n - np}{\\sqrt{np(1 - p)}}$ converge en loi vers $\\mathcal{N}(0, 1)$. C'est le théorème central limite appliqué à une somme de variables de Bernoulli indépendantes de paramètre $p$.\nEn pratique, on retient souvent l'approximation lorsque $n$ est grand, avec $np \\geq 5$ et $n(1 - p) \\geq 5$.\n• **Écart type empirique** : $S_n = \\sqrt{\\dfrac{1}{n}\\sum_{k=1}^{n} (X_k - \\overline{X}_n)^{2}}$. Sa valeur observée sur un échantillon est l'écart type $s$ de la série. Remplacer $\\frac{1}{n}$ par $\\frac{1}{n - 1}$ ne changerait pas la limite ci-dessous.\n• **Théorème central limite, seconde forme** (admis) : sous les mêmes hypothèses, on peut remplacer $\\sigma$, souvent inconnu, par $S_n$ : $\\dfrac{\\overline{X}_n - m}{S_n/\\sqrt{n}}$ converge en loi vers $\\mathcal{N}(0, 1)$.\n• **Conséquence** : pour $n$ grand, $\\left[\\overline{X}_n - 1{,}96\\dfrac{S_n}{\\sqrt{n}} ; \\overline{X}_n + 1{,}96\\dfrac{S_n}{\\sqrt{n}}\\right]$ contient $m$ avec une probabilité proche de $0{,}95$ : c'est un intervalle de confiance asymptotique de $m$ au niveau $95\\,\\%$."
+      },
+      {
+        title: "8. Test de conformité à la moyenne",
+        content: "On dispose d'un échantillon de grande taille $n$ et on veut savoir si l'espérance $m$ est compatible avec une valeur de référence $m_0$. On teste l'hypothèse $H_0 : m = m_0$ contre $H_1 : m \\neq m_0$.\n• **Statistique** : $T_n = \\dfrac{\\overline{X}_n - m_0}{S_n/\\sqrt{n}}$. Sous $H_0$, la seconde forme du théorème central limite permet d'approcher la loi de $T_n$ par $\\mathcal{N}(0, 1)$.\n• **Décision** : on note $t_n$ la valeur observée de $T_n$. Au seuil de $5\\,\\%$, on rejette $H_0$ si $|t_n| > 1{,}96$ ; au seuil de $1\\,\\%$, si $|t_n| > 2{,}58$. Sinon, on ne rejette pas $H_0$.\n• **Cas d'une proportion** : si les $X_k$ suivent une loi de Bernoulli de paramètre $p$, alors $\\overline{X}_n = F_n$ (fréquence observée) et $S_n = \\sqrt{F_n(1 - F_n)} \\leq \\dfrac{1}{2}$. Pour tester $H_0 : p = p_0$, on majore l'écart type : au seuil de $5\\,\\%$, on rejette $H_0$ si $|f - p_0| > 1{,}96 \\times \\dfrac{1/2}{\\sqrt{n}} = \\dfrac{0{,}98}{\\sqrt{n}}$. Cette règle est plus prudente : elle entraîne $|t_n| > 1{,}96$."
       }
     ],
     methods: [
@@ -983,13 +1122,43 @@ window.MATHS_COURSES_VETO = {
           "**Étape 2 (Inégalité)** : $P(|F_n - p| \\geq 0{,}05) \\leq \\dfrac{1}{4n \\times 0{,}0025} = \\dfrac{100}{n}$.",
           "**Étape 3 (Conclure)** : $\\frac{100}{n} \\leq 0{,}1 \\iff n \\geq 1\\,000$ ; cette taille suffit quel que soit $p$ (la majoration est grossière, l'approximation normale donnerait un $n$ plus petit)."
         ]
+      },
+      {
+        title: "Méthode : Appliquer le théorème de Moivre-Laplace",
+        example: "Dans un troupeau, chaque animal est porteur d'un parasite avec la probabilité $0{,}2$, indépendamment des autres. Sur $400$ animaux, on note $X$ le nombre de porteurs. Donner une valeur approchée de $P(72 \\leq X \\leq 88)$, sachant que $\\Phi(1) \\approx 0{,}8413$.",
+        steps: [
+          "**Étape 1 (Paramètres)** : $X \\sim \\mathcal{B}(400 ; 0{,}2)$, $np = 80$ et $n(1 - p) = 320$ sont grands, et $\\sqrt{np(1 - p)} = \\sqrt{64} = 8$.",
+          "**Étape 2 (Centrer-réduire)** : $Z = \\dfrac{X - 80}{8}$ suit approximativement $\\mathcal{N}(0, 1)$, et $72 \\leq X \\leq 88 \\iff -1 \\leq Z \\leq 1$.",
+          "**Étape 3 (Conclure)** : sans correction de continuité, $P(72 \\leq X \\leq 88) \\approx 2\\Phi(1) - 1 \\approx 0{,}6826$."
+        ]
+      },
+      {
+        title: "Méthode : Conduire un test de conformité à la moyenne",
+        example: "L'espérance de la masse d'une race de lapins est, selon une référence, $m_0 = 4{,}2$ kg. Dans un élevage, $100$ lapins ont une masse moyenne $\\overline{x} = 4{,}35$ kg avec un écart type empirique $s = 0{,}5$ kg. Tester, au seuil de $5\\,\\%$, la conformité de cet élevage à la référence.",
+        steps: [
+          "**Étape 1 (Hypothèses)** : $H_0 : m = 4{,}2$ contre $H_1 : m \\neq 4{,}2$ ; $n = 100$ est grand.",
+          "**Étape 2 (Statistique)** : $\\dfrac{s}{\\sqrt{n}} = \\dfrac{0{,}5}{10} = 0{,}05$, donc $t_n = \\dfrac{4{,}35 - 4{,}2}{0{,}05} = 3$.",
+          "**Étape 3 (Conclure)** : $|t_n| = 3 > 1{,}96$ : on rejette $H_0$ au seuil de $5\\,\\%$ ; la masse moyenne de l'élevage diffère significativement de la référence."
+        ]
+      },
+      {
+        title: "Méthode : Tester une proportion par majoration de l'écart type",
+        example: "Dans une région, la proportion de référence d'animaux porteurs d'un caractère est $p_0 = 0{,}3$. Sur $n = 400$ animaux d'une autre région, $152$ sont porteurs. Tester au seuil de $5\\,\\%$ si cette proportion est conforme à $p_0$.",
+        steps: [
+          "**Étape 1 (Fréquence)** : $f = \\dfrac{152}{400} = 0{,}38$, donc $|f - p_0| = 0{,}08$.",
+          "**Étape 2 (Borne)** : $\\dfrac{0{,}98}{\\sqrt{400}} = \\dfrac{0{,}98}{20} = 0{,}049$.",
+          "**Étape 3 (Conclure)** : $0{,}08 > 0{,}049$ : on rejette $H_0$ au seuil de $5\\,\\%$."
+        ]
       }
     ],
     traps: [
       "⚠️ Une densité peut dépasser $1$ (par exemple $3t^{2}$ en $t = 1$) : c'est son intégrale qui vaut $1$, pas ses valeurs qui sont des probabilités.",
       "⚠️ Dans $\\mathcal{N}(\\mu, \\sigma^{2})$, le second paramètre est la **variance** : pour centrer-réduire, on divise par l'écart type $\\sigma$, pas par $\\sigma^{2}$.",
       "⚠️ Pour une variable à densité, $P(X = a) = 0$ : les inégalités larges ou strictes donnent la même probabilité, ce qui est faux pour une variable discrète.",
-      "⚠️ $V(X + Y) = V(X) + V(Y)$ exige l'indépendance (ou une covariance nulle), alors que $E(X + Y) = E(X) + E(Y)$ est toujours vraie."
+      "⚠️ $V(X + Y) = V(X) + V(Y)$ exige l'indépendance (ou une covariance nulle), alors que $E(X + Y) = E(X) + E(Y)$ est toujours vraie.",
+      "⚠️ Dans un test de conformité, on divise l'écart $\\overline{x} - m_0$ par $\\dfrac{s}{\\sqrt{n}}$, et non par $s$ : oublier $\\sqrt{n}$ fausse la décision.",
+      "⚠️ Ne pas rejeter $H_0$ ne prouve pas que $H_0$ est vraie : les données sont seulement compatibles avec elle au seuil choisi.",
+      "⚠️ Pour une binomiale, l'approximation normale suppose $np$ et $n(1 - p)$ assez grands ; lorsque $p$ est petit et $np$ modéré, c'est l'approximation par une loi de Poisson qui convient."
     ],
     flashcards: [
       { q: "Espérance et variance de $\\mathcal{E}(\\lambda)$ ?", a: "$E = \\frac{1}{\\lambda}$ et $V = \\frac{1}{\\lambda^{2}}$." },
@@ -997,7 +1166,11 @@ window.MATHS_COURSES_VETO = {
       { q: "Inégalité de Bienaymé-Tchebychev ?", a: "$P(|X - E(X)| \\geq \\varepsilon) \\leq \\dfrac{V(X)}{\\varepsilon^{2}}$." },
       { q: "Relation entre densité et fonction de répartition ?", a: "$F(x) = \\int_{-\\infty}^{x} f(t)\\,dt$ et $F' = f$ là où $f$ est continue." },
       { q: "Loi de $X + Y$ pour $X \\sim \\mathcal{N}(\\mu_1, \\sigma_1^{2})$, $Y \\sim \\mathcal{N}(\\mu_2, \\sigma_2^{2})$ indépendantes ?", a: "$\\mathcal{N}(\\mu_1 + \\mu_2, \\sigma_1^{2} + \\sigma_2^{2})$." },
-      { q: "Valeur approchée de $P(|Z| \\leq 1{,}96)$ pour $Z \\sim \\mathcal{N}(0, 1)$ ?", a: "$0{,}95$." }
+      { q: "Valeur approchée de $P(|Z| \\leq 1{,}96)$ pour $Z \\sim \\mathcal{N}(0, 1)$ ?", a: "$0{,}95$." },
+      { q: "Énoncé du théorème de Moivre-Laplace ?", a: "Si $Y_n \\sim \\mathcal{B}(n, p)$ avec $0 < p < 1$, $\\dfrac{Y_n - np}{\\sqrt{np(1 - p)}}$ converge en loi vers $\\mathcal{N}(0, 1)$." },
+      { q: "Seconde forme du théorème central limite ?", a: "$\\dfrac{\\overline{X}_n - m}{S_n/\\sqrt{n}}$ converge en loi vers $\\mathcal{N}(0, 1)$, où $S_n$ est l'écart type empirique." },
+      { q: "Statistique du test de conformité à la moyenne ?", a: "$T_n = \\dfrac{\\overline{X}_n - m_0}{S_n/\\sqrt{n}}$ ; au seuil de $5\\,\\%$, on rejette $H_0$ si $|t_n| > 1{,}96$." },
+      { q: "Borne de rejet d'un test sur une proportion, au seuil de $5\\,\\%$, par majoration de l'écart type ?", a: "On rejette $H_0 : p = p_0$ si $|f - p_0| > \\dfrac{0{,}98}{\\sqrt{n}}$." }
     ]
   },
 
@@ -1005,7 +1178,7 @@ window.MATHS_COURSES_VETO = {
     title: "VB-13 : Statistique descriptive univariée et bivariée",
     domain: "Probabilités et statistique",
     objectives: [
-      "Calculer et interpréter les indicateurs de position et de dispersion d'une série.",
+      "Calculer et interpréter les indicateurs de position (dont quartiles et déciles) et de dispersion d'une série.",
       "Calculer la covariance et le coefficient de corrélation linéaire d'une série bivariée.",
       "Déterminer la droite de régression par la méthode des moindres carrés et l'utiliser pour prévoir.",
       "Réaliser un ajustement après changement de variable (exponentiel, puissance)."
@@ -1013,15 +1186,15 @@ window.MATHS_COURSES_VETO = {
     keyPoints: [
       {
         title: "1. Vocabulaire",
-        content: "On étudie un **caractère** (ou variable statistique) sur les **individus** d'une population ou d'un échantillon. Il est qualitatif (couleur de robe, race) ou quantitatif, discret (nombre de petits par portée) ou continu (masse, taille), auquel cas on regroupe souvent les valeurs en classes.\nPour une série de valeurs $x_1, \\ldots, x_p$ d'effectifs $n_1, \\ldots, n_p$ et d'effectif total $n$, la fréquence de $x_i$ est $f_i = \\frac{n_i}{n}$ ; les fréquences cumulées croissantes permettent de lire médiane et quartiles."
+        content: "On étudie un **caractère** (ou variable statistique) sur les **individus** d'une population ou d'un échantillon. Il est qualitatif (couleur de robe, race) ou quantitatif, discret (nombre de petits par portée) ou continu (masse, taille), auquel cas on regroupe souvent les valeurs en classes.\nPour une série de valeurs $x_1, \\ldots, x_p$ d'effectifs $n_1, \\ldots, n_p$ et d'effectif total $n$, la fréquence de $x_i$ est $f_i = \\frac{n_i}{n}$ ; les fréquences cumulées croissantes permettent de lire médiane, quartiles et déciles."
       },
       {
         title: "2. Indicateurs de position",
-        content: "• **Moyenne** : $\\overline{x} = \\dfrac{1}{n}\\sum_{i=1}^{p} n_ix_i = \\sum_{i=1}^{p} f_ix_i$. Si $y_i = ax_i + b$, alors $\\overline{y} = a\\overline{x} + b$.\n• **Médiane** : valeur qui partage la série ordonnée en deux groupes de même effectif (pour $n$ pair, on prend usuellement la demi-somme des deux valeurs centrales).\n• **Quartiles** : $Q_1$ est la plus petite valeur de la série telle qu'au moins 25 % des valeurs lui soient inférieures ou égales ; $Q_3$ de même avec 75 %.\n• **Mode** : valeur (ou classe) de plus grand effectif.\nLa médiane est peu sensible aux valeurs extrêmes, contrairement à la moyenne."
+        content: "• **Moyenne** : $\\overline{x} = \\dfrac{1}{n}\\sum_{i=1}^{p} n_ix_i = \\sum_{i=1}^{p} f_ix_i$. Si $y_i = ax_i + b$, alors $\\overline{y} = a\\overline{x} + b$.\n• **Médiane** : valeur qui partage la série ordonnée en deux groupes de même effectif (pour $n$ pair, on prend usuellement la demi-somme des deux valeurs centrales).\n• **Quartiles** : $Q_1$ est la plus petite valeur de la série telle qu'au moins 25 % des valeurs lui soient inférieures ou égales ; $Q_3$ de même avec 75 %.\n• **Déciles** : $D_1$ est la plus petite valeur de la série telle qu'au moins 10 % des valeurs lui soient inférieures ou égales ; $D_9$ de même avec 90 %. Pour une série rangée de 20 valeurs, $D_1$ est la 2e valeur et $D_9$ la 18e.\n• **Mode** : valeur (ou classe) de plus grand effectif.\nLa médiane est peu sensible aux valeurs extrêmes, contrairement à la moyenne."
       },
       {
         title: "3. Indicateurs de dispersion",
-        content: "• **Variance** : $s_x^{2} = \\dfrac{1}{n}\\sum_{i=1}^{p} n_i(x_i - \\overline{x})^{2} = \\left(\\dfrac{1}{n}\\sum_{i=1}^{p} n_ix_i^{2}\\right) - \\overline{x}^{2}$ (Koenig-Huygens) ; **écart type** $s_x = \\sqrt{s_x^{2}}$, dans l'unité des données.\n• **Écart interquartile** $Q_3 - Q_1$ et **étendue** $\\max - \\min$.\n• Si $y_i = ax_i + b$ : $s_y = |a|\\,s_x$ (une translation ne change pas la dispersion).\nEn statistique descriptive, la variance est définie avec le facteur $\\frac{1}{n}$."
+        content: "• **Variance** : $s_x^{2} = \\dfrac{1}{n}\\sum_{i=1}^{p} n_i(x_i - \\overline{x})^{2} = \\left(\\dfrac{1}{n}\\sum_{i=1}^{p} n_ix_i^{2}\\right) - \\overline{x}^{2}$ (Koenig-Huygens) ; **écart type** $s_x = \\sqrt{s_x^{2}}$, dans l'unité des données.\n• **Écart interquartile** $Q_3 - Q_1$, **écart interdécile** $D_9 - D_1$ (qui écarte les 10 % de valeurs les plus basses et les 10 % les plus hautes) et **étendue** $\\max - \\min$.\n• Si $y_i = ax_i + b$ : $s_y = |a|\\,s_x$ (une translation ne change pas la dispersion).\nEn statistique descriptive, la variance est définie avec le facteur $\\frac{1}{n}$."
       },
       {
         title: "4. Séries bivariées : covariance et corrélation",
@@ -1073,6 +1246,7 @@ window.MATHS_COURSES_VETO = {
     ],
     flashcards: [
       { q: "Formule de Koenig-Huygens pour une série ?", a: "$s_x^{2} = \\overline{x^{2}} - \\overline{x}^{2}$." },
+      { q: "Définition du premier décile $D_1$ d'une série ?", a: "La plus petite valeur de la série telle qu'au moins 10 % des valeurs lui soient inférieures ou égales." },
       { q: "Pente de la droite de régression de $y$ en $x$ ?", a: "$a = \\dfrac{s_{xy}}{s_x^{2}}$." },
       { q: "Point par lequel passe toujours la droite des moindres carrés ?", a: "Le point moyen $G(\\overline{x}, \\overline{y})$." },
       { q: "Encadrement du coefficient de corrélation $r$ ?", a: "$-1 \\leq r \\leq 1$, avec $|r| = 1$ si et seulement si les points sont alignés." },

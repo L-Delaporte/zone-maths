@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Content-Security-Policy : voir scripts/csp.js (style-src 'unsafe-inline' requis par les attributs style de KaTeX) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://etabli-des-maths.goatcounter.com; font-src 'self' data:; connect-src 'self' https://etabli-des-maths.goatcounter.com; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Maths complémentaires : programme et chapitres du site</title>
+  <meta name="description" content="Maths complémentaires en terminale : le programme officiel notion par notion, les chapitres du site à utiliser et ce qui n’est pas couvert." />
+  <meta name="author" content="Loïc Delaporte, professeur de mathématiques" />
+  <link rel="canonical" href="https://etabli-des-maths.fr/maths-complementaires/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Maths complémentaires : programme et chapitres du site" />
+  <meta property="og:description" content="Maths complémentaires en terminale : le programme officiel notion par notion, les chapitres du site à utiliser et ce qui n’est pas couvert." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://etabli-des-maths.fr/maths-complementaires/" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
+  <meta property="og:image:alt" content="Logo de L'Établi des Maths" />
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="L'Établi des Maths" />
+
+  <link rel="stylesheet" href="../css/style.css?v=141db07fda" />
+  <link rel="stylesheet" href="../css/landing.css?v=9c24ff37f8" />
+  <link rel="stylesheet" href="../vendor/katex/katex.min.css?v=1be2fd298c" />
+  <link rel="stylesheet" href="../css/cours.css?v=85b541e52d" />
+  <!-- Après les feuilles de style : la CSP en meta désactive le préchargement, et ce script s'exécute quand même avant le premier rendu -->
+  <script src="../js/themeInit.js?v=58d3835cf3"></script>
+  <link rel="icon" href="../favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="../assets/favicon.png" />
+  <link rel="manifest" href="../manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Maths complémentaires : le programme et les chapitres à utiliser",
+    "description": "Maths complémentaires en terminale : le programme officiel notion par notion, les chapitres du site à utiliser et ce qui n’est pas couvert.",
+    "url": "https://etabli-des-maths.fr/maths-complementaires/",
+    "inLanguage": "fr",
+    "isAccessibleForFree": true,
+    "dateModified": "2026-11-14",
+    "author": {
+      "@type": "Person",
+      "@id": "https://etabli-des-maths.fr/a-propos.html#auteur",
+      "name": "Loïc Delaporte",
+      "jobTitle": "Professeur de mathématiques",
+      "url": "https://etabli-des-maths.fr/a-propos.html"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "@id": "https://etabli-des-maths.fr/#organisation",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/",
+      "logo": "https://etabli-des-maths.fr/assets/logo-192.png"
+    },
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/"
+    },
+    "about": {
+      "@type": "Thing",
+      "name": "Mathématiques complémentaires en terminale"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Le site propose-t-il un cours de maths complémentaires ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Non : il n’y a pas de parcours dédié. Cette page suit le programme officiel et indique, pour chaque contenu, le chapitre de spécialité à utiliser ou l’absence de chapitre."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Comment sont évaluées les maths complémentaires ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "En contrôle continu, comme les mathématiques expertes."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Les sujets type bac du site conviennent-ils en maths complémentaires ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Non : ils suivent l’épreuve écrite de spécialité. Les exercices des chapitres listés ici sont plus adaptés, à condition de choisir ceux qui portent sur des notions vues en classe."
+        }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": "https://etabli-des-maths.fr/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Maths complémentaires",
+        "item": "https://etabli-des-maths.fr/maths-complementaires/"
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="cours-page">
+  <a class="cours-skip" href="#contenu">Aller au contenu</a>
+
+  <!-- Header Uniformisé -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="../" class="brand-container">
+        <img src="../assets/logo-96.png" alt="" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Terminale</span></p>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
+        </div>
+      </a>
+
+      <!-- Navigation entre Portails -->
+      <nav class="nav-portal-links" aria-label="Portails thématiques">
+        <a href="../" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="../cours/" class="nav-portal-btn">📚 Cours</a>
+        <a href="../exercices-de-maths/" class="nav-portal-btn">✏️ Exercices</a>
+        <a href="../rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
+        <a href="../reviser-le-brevet-de-maths/" class="nav-portal-btn">📝 Brevet</a>
+        <a href="../reussir-le-bac-de-maths/" class="nav-portal-btn">🎓 Bac</a>
+        <a href="../enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
+        <a href="../parents.html" class="nav-portal-btn">👪 Parents</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="landing-wrapper cours-wrapper" id="contenu" tabindex="-1">
+    <nav class="cours-breadcrumb" aria-label="Fil d'Ariane">
+      <ol>
+        <li><a href="../">Accueil</a></li>
+        <li><span aria-current="page">Maths complémentaires</span></li>
+      </ol>
+    </nav>
+
+    <header class="cours-hero hub-hero">
+      <p class="landing-tag">🧭 Terminale · mathématiques complémentaires</p>
+      <h1 class="cours-title">Maths complémentaires : le programme et les chapitres à utiliser</h1>
+      <p class="cours-lead">Le site n'a pas de parcours dédié aux mathématiques complémentaires. Cette page suit le programme officiel de l'option : pour chaque contenu, elle indique le chapitre de spécialité à utiliser, ou signale qu'il n'est pas traité.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../cours/terminale/">📚 Cours de terminale</a>
+        <a class="btn-secondary cours-cta-alt" href="../index.html?level=tale">🎯 S’entraîner en terminale</a>
+      </div>
+    </header>
+
+    <nav class="cours-toc" aria-label="Sommaire de la page">
+      <p class="cours-toc-title">Sommaire</p>
+      <ol><li><a href="#a-savoir">À savoir avant de commencer</a></li><li><a href="#chapitres">Le programme, contenu par contenu</a></li><li><a href="#themes">Les thèmes d’étude</a></li><li><a href="#non-couvert">Ce qui n’est pas couvert</a></li><li><a href="#faq">Questions fréquentes</a></li></ol>
+    </nav>
+
+    <section class="cours-section " id="a-savoir" aria-labelledby="a-savoir-titre">
+      <h2 id="a-savoir-titre">À savoir avant de commencer</h2>
+      <div class="hub-grid">
+        <article class="cours-card"><h3>Le texte de référence</h3><ul class="cours-list"><li>En 2026-2027 : <a href="https://cache.media.education.gouv.fr/file/SPE8_MENJ_25_7_2019/13/4/spe265_annexe_1159134.pdf" rel="noopener">programme publié par l'arrêté du 19 juillet 2019</a>.</li><li>À partir de la rentrée 2027 : <a href="https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000053723259" rel="noopener">arrêté du 26 février 2026</a>, aux contenus très proches, avec au moins six thèmes d'étude à traiter au lieu de la totalité.</li></ul></article>
+        <article class="cours-card"><h3>Ce que cette page propose</h3><ul class="cours-list"><li>Les contenus du programme, avec pour chacun le chapitre du site à utiliser.</li><li>Une indication claire de ce qui n'est pas traité.</li></ul></article>
+        <article class="cours-card"><h3>Ce qu’elle ne propose pas</h3><ul class="cours-list"><li>Pas de cours écrit pour cette option : les chapitres sont ceux de la spécialité, et certains passages vont plus loin.</li><li>Ton professeur reste la référence sur ce qui est attendu.</li></ul></article>
+      </div>
+    </section>
+
+    <section class="cours-section " id="chapitres" aria-labelledby="chapitres-titre">
+      <h2 id="chapitres-titre">Le programme, contenu par contenu</h2>
+      <div class="hub-table-wrap" tabindex="0" role="region" aria-label="Contenus du programme de mathématiques complémentaires et chapitres correspondants"><table class="hub-table"><caption>Contenus du programme de mathématiques complémentaires et chapitres correspondants</caption><thead><tr><th scope="col">Domaine</th><th scope="col">Contenu du programme</th><th scope="col">Sur le site</th></tr></thead><tbody><tr><th scope="row">Suites</th><td>Limite d’une suite, opérations sur les limites, théorème des gendarmes, limite d’une suite géométrique de raison positive</td><td><a href="../cours/terminale/limites-de-suites-et-theoremes-de-convergence.html">limites de suites</a></td></tr><tr><th scope="row">Suites</th><td>Somme des termes d’une suite géométrique et sa limite (raison positive strictement inférieure à 1)</td><td><a href="../cours/premiere/suites-arithmetiques-et-suites-geometriques.html">suites arithmétiques et géométriques</a> pour la somme, <a href="../cours/terminale/limites-de-suites-et-theoremes-de-convergence.html">limites de suites</a> pour sa limite (méthode du cours)</td></tr><tr><th scope="row">Suites</th><td>Suites arithmético-géométriques, représentation d’une suite définie par u(n + 1) = f(u(n))</td><td><a href="../cours/premiere/suites-arithmetiques-et-suites-geometriques.html">suites arithmétiques et géométriques</a> (méthode « pour aller plus loin » avec une suite auxiliaire), sujets de DS de <a href="../cours/terminale/limites-de-suites-et-theoremes-de-convergence.html">limites de suites</a> et de <a href="../cours/terminale/algorithmique-et-programmation-en-python.html">algorithmique de terminale</a>, <a href="../cours/premiere/generalites-sur-les-suites-numeriques-et-sens.html">généralités sur les suites</a> pour la représentation</td></tr><tr><th scope="row">Fonctions</th><td>Limites de fonctions, asymptotes, théorème des valeurs intermédiaires (admis)</td><td><a href="../cours/terminale/limites-de-fonctions.html">limites et continuité</a></td></tr><tr><th scope="row">Fonctions</th><td>Fonction réciproque, logarithme népérien, relation ln(q<sup>n</sup>) = n ln(q)</td><td><a href="../cours/terminale/la-fonction-logarithme-neperien.html">logarithme népérien</a></td></tr><tr><th scope="row">Fonctions</th><td>Dérivées de f(ax + b), e<sup>u</sup>, ln(u) et u²</td><td><a href="../cours/terminale/complements-sur-la-derivation.html">compléments de dérivation</a></td></tr><tr><th scope="row">Primitives</th><td>Primitives, équation y′ = f, formes usuelles, équation y′ = ay + b</td><td><a href="../cours/terminale/primitives-et-equations-differentielles-lineaires.html">primitives et équations différentielles</a></td></tr><tr><th scope="row">Convexité</th><td>Fonctions convexes, point d’inflexion</td><td><a href="../cours/terminale/convexite-concavite-et-points-d-inflexion.html">convexité</a></td></tr><tr><th scope="row">Intégration</th><td>Intégrale, aire sous une courbe, primitives</td><td><a href="../cours/terminale/calcul-integral.html">calcul intégral</a></td></tr><tr><th scope="row">Probabilités</th><td>Lois discrètes uniforme, de Bernoulli et binomiale</td><td><a href="../cours/premiere/variables-aleatoires-reelles.html">variables aléatoires</a> (la loi uniforme n’y est pas nommée, elle s’y traite comme toute loi discrète), <a href="../cours/terminale/epreuves-repetees.html">loi binomiale</a></td></tr><tr><th scope="row">Probabilités</th><td>Loi géométrique et absence de mémoire</td><td>Pas de chapitre de lycée sur le site</td></tr><tr><th scope="row">Probabilités</th><td>Lois à densité (uniforme, exponentielle)</td><td>Pas de chapitre de lycée sur le site</td></tr><tr><th scope="row">Statistiques</th><td>Deux variables quantitatives : point moyen, droite des moindres carrés, corrélation, changement de variable, interpolation et extrapolation</td><td>Pas de chapitre de lycée sur le site (le nuage de points est abordé en <a href="../cours/seconde/statistiques-descriptives.html">seconde</a>)</td></tr><tr><th scope="row">Algorithmique</th><td>Programmation en Python</td><td><a href="../cours/premiere/algorithmique-et-programmation-en-python.html">algorithmique de première</a>, <a href="../cours/terminale/algorithmique-et-programmation-en-python.html">algorithmique de terminale</a></td></tr></tbody></table></div>
+    </section>
+
+    <section class="cours-section " id="themes" aria-labelledby="themes-titre">
+      <h2 id="themes-titre">Les thèmes d’étude</h2>
+      <p>Le programme s'organise autour de neuf thèmes d'étude, qui donnent leur sens aux notions. Le site ne les traite pas en tant que tels :</p>
+      <ol class="cours-list"><li>Modèles définis par une fonction</li><li>Modèles d’évolution</li><li>Approche historique du logarithme</li><li>Calculs d’aires</li><li>Répartition des richesses, courbe de Lorenz, indice de Gini</li><li>Inférence bayésienne</li><li>Répétition d’expériences, échantillonnage</li><li>Temps d’attente</li><li>Corrélation et causalité</li></ol>
+    </section>
+
+    <section class="cours-section " id="non-couvert" aria-labelledby="non-couvert-titre">
+      <h2 id="non-couvert-titre">Ce qui n’est pas couvert</h2>
+      <p>Le site n'a pas de chapitre de lycée sur la loi géométrique, les lois à densité ni les statistiques à deux variables quantitatives (droite des moindres carrés, corrélation), et il ne propose pas les thèmes d'étude propres à cet enseignement.</p>
+      <p class="cours-note">Les sujets type bac du site suivent l'épreuve de spécialité : ils ne correspondent pas à cette option, évaluée en contrôle continu.</p>
+    </section>
+
+    <section class="cours-section " id="faq" aria-labelledby="faq-titre">
+      <h2 id="faq-titre">Questions fréquentes</h2>
+      <div class="cours-faq">
+        <details class="cours-faq-item"><summary><h3>Le site propose-t-il un cours de maths complémentaires ?</h3></summary><div><p>Non : il n’y a pas de parcours dédié. Cette page suit le programme officiel et indique, pour chaque contenu, le chapitre de spécialité à utiliser ou l’absence de chapitre.</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Comment sont évaluées les maths complémentaires ?</h3></summary><div><p>En contrôle continu, comme les mathématiques expertes.</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Les sujets type bac du site conviennent-ils en maths complémentaires ?</h3></summary><div><p>Non : ils suivent l’épreuve écrite de spécialité. Les exercices des chapitres listés ici sont plus adaptés, à condition de choisir ceux qui portent sur des notions vues en classe.</p></div></details>
+      </div>
+    </section>
+
+    <aside class="cours-cta-box" aria-label="Commencer">
+      <p class="cours-cta-box-title">Reprendre un chapitre</p>
+      <p>Gratuit, sans inscription et sans publicité. La progression reste sur ton appareil.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../cours/terminale/">📚 Cours de terminale</a>
+        <a class="btn-secondary cours-cta-alt" href="../index.html?level=tale">🎯 S’entraîner en terminale</a>
+      </div>
+    </aside>
+
+    <nav class="cours-related" aria-label="Autres pages">
+      <div><p class="cours-related-title">Les autres pages</p><ul><li><a href="../exercices-de-maths/">Exercices de maths corrigés</a></li><li><a href="../reviser-le-brevet-de-maths/">Réviser le brevet de maths</a></li><li><a href="../reussir-le-bac-de-maths/">Réussir le bac de maths</a></li><li><a href="../epreuve-anticipee-de-maths/">Épreuve anticipée de maths (1re)</a></li><li><a href="../entrainement-maths/">Entraînement maths en ligne</a></li><li><a href="../epreuve-d-entretien-capes/">Épreuve d’entretien du CAPES (oral 2)</a></li><li><a href="../preparer-le-capes-de-maths/">Préparer le CAPES de maths : voies et épreuves</a></li><li><a href="../cours/">Cours de maths, de la 6e à la licence</a></li></ul></div>
+      <div><p class="cours-related-title">Par classe</p><ul class="hub-inline"><li><a href="../cours/6e/">6e</a></li><li><a href="../cours/5e/">5e</a></li><li><a href="../cours/4e/">4e</a></li><li><a href="../cours/3e/">3e</a></li><li><a href="../cours/seconde/">Seconde</a></li><li><a href="../cours/premiere/">Première</a></li><li><a href="../cours/premiere-tronc-commun/">Première (tronc commun)</a></li><li><a href="../cours/premiere-technologique/">Première technologique</a></li><li><a href="../cours/terminale/">Terminale</a></li><li><a href="../cours/l1/">Licence 1</a></li><li><a href="../cours/l2/">Licence 2</a></li><li><a href="../cours/l3/">Licence 3</a></li><li><a href="../cours/capes/">CAPES</a></li><li><a href="../cours/professeur-des-ecoles/">Professeur des écoles</a></li><li><a href="../cours/prepa-sante/">Prépa santé</a></li><li><a href="../cours/pass-las/">PASS / L.AS</a></li><li><a href="../cours/veto-bcpst/">Véto (BCPST)</a></li></ul></div>
+    </nav>
+  </main>
+
+  <footer class="cours-footer">
+    <p>L'Établi des Maths — Conçu par Loïc Delaporte, professeur de mathématiques • 100 % gratuit, conforme aux programmes</p>
+    <p><a href="../cours/">Cours de maths</a> · <a href="../exercices-de-maths/">Exercices corrigés</a> · <a href="../entrainement-maths/">Entraînement en ligne</a> · <a href="../reviser-le-brevet-de-maths/">Réviser le brevet</a> · <a href="../reussir-le-bac-de-maths/">Réussir le bac</a> · <a href="../epreuve-d-entretien-capes/">Oral 2 du CAPES</a></p>
+    <p><a href="../">Ouvrir l'application</a> · <a href="../rituels.html">Rituels</a> · <a href="../brevet.html">Brevet blanc</a> · <a href="../bac.html">Devoir type bac</a> · <a href="../a-propos.html">Qui suis-je&#8239;?</a> · <a href="../mentions-legales.html">Mentions légales</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a></p>
+    <p>Contenus sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a></p>
+  </footer>
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>
