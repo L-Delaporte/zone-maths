@@ -83,8 +83,20 @@
      * Nombre décimal au format français pour le mode math : 2.5 -> "2{,}5", arrondi à `digits` décimales,
      * zéros terminaux supprimés. -0 -> "0".
      */
+    /**
+     * Arrondi à `digits` décimales robuste au bruit des flottants : un demi exact calculé avec erreur
+     * (0,1 / 0,8 = 0.12499999999999997, 0,0475 / 0,076 = 0.6249999...) est reconnu comme demi et arrondi
+     * vers le haut, comme Math.round (0,125 -> 0,13 ; 0,6875 -> 0,688 au millième).
+     */
+    round(x, digits = 0) {
+      const s = 10 ** digits, v = x * s;
+      if (!Number.isFinite(v) || Math.abs(v) >= 1e15) return x;
+      const f = Math.floor(v), tol = Math.max(1e-9, Math.abs(v) * 1e-14);
+      return (Math.abs(v - f - 0.5) <= tol ? f + 1 : Math.round(v)) / s;
+    },
+
     dec(x, digits = 4) {
-      let s = (Math.round(x * 10 ** digits) / 10 ** digits).toFixed(digits);
+      let s = U.round(x, digits).toFixed(digits);
       if (s.includes('.')) s = s.replace(/0+$/, '').replace(/\.$/, '');
       if (s === '-0') s = '0';
       return s.replace('.', '{,}');
@@ -3197,7 +3209,9 @@ window.MathsAdvancedGenerators = {
         'Utiliser la primitive $\\ln|x|$',
         `Calculer $I = \\displaystyle\\int_1^{${N}} \\frac{${a}}{x} \\, dx$.`,
         I(this.coefStr(a, lnN)),
-        [I(`${this.frac(a, N)}`), I(this.coefStr(a + 1, lnN)), I(`${a * (N - 1)}`), I(`\\ln(${a * N})`)].filter((x) => x !== I(this.coefStr(a, lnN))),
+        // Comparaison des valeurs, pas des écritures : ln(aN) = a ln(N) pour a = 1 ou (a, N) = (2, 2) (ln(4) = 2ln(2))
+        [[I(`${this.frac(a, N)}`), a / N], [I(this.coefStr(a + 1, lnN)), (a + 1) * Math.log(N)], [I(`${a * (N - 1)}`), a * (N - 1)], [I(`\\ln(${a * N})`), Math.log(a * N)]]
+          .filter(([, v]) => Math.abs(v - a * Math.log(N)) > 1e-9).map(([x]) => x),
         'Une primitive de $\\frac{1}{x}$ sur $]0 ; +\\infty[$ est $\\ln x$.',
         'Pense à $\\ln 1 = 0$.',
         `$I = ${a === 1 ? '' : a}\\left[\\ln x\\right]_1^{${N}} = ${a === 1 ? '' : a}(\\ln ${N} - \\ln 1) = ${this.coefStr(a, lnN)}$.`
@@ -6120,15 +6134,18 @@ window.MathsAdvancedGenerators = {
     const integrand = `\\left(1 ${plus ? '+' : '-'} \\frac{${cx}}{n}\\right)^n`;
     const E = this.pow('e', plus ? cb : -cb);
     const Eabs = this.pow('e', cb);
-    const ans = plus ? (c === 1 ? `${E} - 1` : `\\frac{${E} - 1}{${c}}`) : (c === 1 ? `1 - ${E}` : `\\frac{1 - ${E}}{${c}}`);
-    const wrong = plus
-      ? [`${Eabs} - 1`, `\\frac{${Eabs}}{${c}}`, Eabs, '+\\infty', String(b), `${c}(${Eabs} - 1)`]
-      : [`1 - ${E}`, `\\frac{${E}}{${c}}`, '0', String(b), `${c}(1 - ${E})`, `\\frac{${Eabs} - 1}{${c}}`];
+    // c = 1 : ni « \\frac{…}{1} » ni « 1(…) », qui recopieraient la bonne réponse ou un autre distracteur
+    const divc = (u) => (c === 1 ? u : `\\frac{${u}}{${c}}`), mulc = (u) => (c === 1 ? u : `${c}(${u})`);
+    const ans = plus ? divc(`${E} - 1`) : divc(`1 - ${E}`);
+    const wrong = (plus
+      ? [`${Eabs} - 1`, divc(Eabs), Eabs, '+\\infty', String(b), mulc(`${Eabs} - 1`)]
+      : [`1 - ${E}`, divc(E), '0', String(b), mulc(`1 - ${E}`), divc(`${Eabs} - 1`)])
+      .filter((w, i, arr) => w !== ans && arr.indexOf(w) === i);
     return this.makeMcq(C, 4, 'Interversion limite-intégrale par convergence uniforme',
       'Justifier la convergence uniforme sur un segment puis intervertir',
       `Calculer $L = \\lim\\limits_{n \\to +\\infty} \\int_0^{${b}} ${integrand} \\, dx$.`,
       `$L = ${ans}$`,
-      wrong.filter((w) => w !== ans).map((w) => `$L = ${w}$`),
+      wrong.map((w) => `$L = ${w}$`),
       `Pour $x$ fixé, $${integrand} \\to e^{${plus ? '' : '-'}${cx}}$.`,
       `La convergence est uniforme sur le segment $[0 ; ${b}]$, ce qui permet d'intervertir limite et intégrale.`,
       `Sur $[0 ; ${b}]$, $${integrand}$ converge uniformément vers $e^{${plus ? '' : '-'}${cx}}$ (développement de $n\\ln(1 ${plus ? '+' : '-'} u/n)$ uniforme pour $u$ borné). Donc la limite vaut $\\int_0^{${b}} e^{${plus ? '' : '-'}${cx}}\\,dx = ${ans}$.`);

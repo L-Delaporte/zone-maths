@@ -18,7 +18,7 @@
  * NE PAS éditer à la main la liste ci-dessous ni CACHE_NAME : lancer `node scripts/build_versions.js`.
  */
 
-const CACHE_NAME = 'etabli-des-maths-0fffc7ae6b';
+const CACHE_NAME = 'etabli-des-maths-936103669b';
 const RESOURCES_CACHE = 'etabli-des-maths-ressources';
 const PAGES_CACHE = 'etabli-des-maths-pages';
 const MAX_PAGES = 200;
@@ -52,7 +52,7 @@ const PRECACHE_URLS = [
   './js/mathRenderer.js?v=55127cad9f',
   './js/geometryFigures.js?v=d069af3233',
   './js/scratchRenderer.js?v=22c1b769a7',
-  './js/adaptiveEngine.js?v=451ea58605',
+  './js/adaptiveEngine.js?v=7676ebf958',
   './js/generatorsCore.js?v=6d0f090ee9',
   './js/proofEngine.js?v=4b12396949',
   './js/mathVisualizer.js?v=6127e4f45b',

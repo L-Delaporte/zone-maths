@@ -1013,17 +1013,30 @@
 
     // --- Rapport des périmètres
     const perimK = () => {
-      const { p, q } = this._h3b_thRatio(); const u = this.randInt(1, 4);
-      const AM = p * u, AB = q * u; const PABC = q * this.randInt(3, 9);
+      const { p, q } = this._h3b_thRatio(); const u = this.randInt(1, 6);
+      // Triangle ABC réel : les deux autres côtés valent plus que le côté donné, soit un périmètre strictement supérieur à 2 × (côté donné) (k > 2u)
+      const big = q * u, small = p * u; const PABC = q * this.randInt(2 * u + 1, 2 * u + 9);
       const PAMN = p * PABC / q;
+      // Côté donné : [AB] (avec AM) ou [AC] (avec AN) ; sens : du grand au petit triangle ou l'inverse
+      const onAC = this.randInt(0, 1) === 1, inv = this.randInt(0, 1) === 1;
+      const S = onAC ? 'AN' : 'AM', L = onAC ? 'AC' : 'AB';
+      const lengths = onAC ? { AN: small, AC: big } : { AM: small, AB: big };
+      const known = inv ? `le périmètre du triangle $AMN$ vaut $${f(PAMN)}\\text{ cm}$` : `le périmètre du triangle $ABC$ vaut $${PABC}\\text{ cm}$`;
+      const ask = inv ? 'ABC' : 'AMN';
+      const res = inv ? PABC : PAMN;
+      const calc = inv
+        ? `$$\\mathcal{P}_{ABC} = ${f(PAMN)} \\div \\frac{${small}}{${big}} = ${f(PAMN)} \\times \\frac{${big}}{${small}} = ${f(PABC)}$$`
+        : `$$\\mathcal{P}_{AMN} = \\frac{${small}}{${big}} \\times ${PABC} = ${f(PAMN)}$$`;
       return this._h3b_mk({
         title: 'Thalès et périmètres',
-        statement: `${this.buildThalesEmboiteSvg({ lengths: { AM, AB } })}Dans le triangle $ABC$, $M \\in [AB]$, $N \\in [AC]$ et $(MN) \\parallel (BC)$. On donne $AM = ${AM}\\text{ cm}$, $AB = ${AB}\\text{ cm}$, et le périmètre du triangle $ABC$ vaut $${PABC}\\text{ cm}$.\n**Calculer le périmètre du triangle $AMN$, en cm.**`,
-        answer: this._h3b_num(PAMN, 4),
-        hint1: "Chaque côté du triangle $AMN$ s'obtient en multipliant le côté correspondant de $ABC$ par le même coefficient : que devient alors la somme des côtés ?",
+        statement: `${this.buildThalesEmboiteSvg({ lengths })}Dans le triangle $ABC$, $M \\in [AB]$, $N \\in [AC]$ et $(MN) \\parallel (BC)$. On donne $${S} = ${small}\\text{ cm}$, $${L} = ${big}\\text{ cm}$, et ${known}.\n**Calculer le périmètre du triangle $${ask}$, en cm.**`,
+        answer: this._h3b_num(res, 4),
+        hint1: inv
+          ? "Les côtés de $AMN$ sont ceux de $ABC$ multipliés par un même coefficient : par quoi faut-il diviser le périmètre de $AMN$ pour retrouver celui de $ABC$ ?"
+          : "Chaque côté du triangle $AMN$ s'obtient en multipliant le côté correspondant de $ABC$ par le même coefficient : que devient alors la somme des côtés ?",
         hint2: H2T,
-        solution: `D'après le théorème de Thalès, $\\frac{AM}{AB} = \\frac{AN}{AC} = \\frac{MN}{BC} = \\frac{${AM}}{${AB}}$.\nLes trois côtés de $AMN$ sont ceux de $ABC$ multipliés par $\\frac{${AM}}{${AB}}$, donc le périmètre aussi :\n$$\\mathcal{P}_{AMN} = \\frac{${AM}}{${AB}} \\times ${PABC} = ${f(PAMN)}$$\nLe périmètre du triangle $AMN$ est $${f(PAMN)}\\text{ cm}$.`,
-        _v: { k: 'G1.perimK', AM, AB, P: PABC }
+        solution: `D'après le théorème de Thalès, $\\frac{AM}{AB} = \\frac{AN}{AC} = \\frac{MN}{BC} = \\frac{${small}}{${big}}$.\nLes trois côtés de $AMN$ sont ceux de $ABC$ multipliés par $\\frac{${small}}{${big}}$, donc le périmètre aussi :\n${calc}\nLe périmètre du triangle $${ask}$ est $${f(res)}\\text{ cm}$.`,
+        _v: inv ? { k: 'G1.perimInv', AM: small, AB: big, P: PAMN } : { k: 'G1.perimK', AM: small, AB: big, P: PABC }
       });
     };
 
@@ -1062,17 +1075,26 @@
 
     // --- P4 : démontrer le parallélisme puis calculer
     const recipCalc = () => {
-      const { p, q } = this._h3b_thRatio(); const u = this.randInt(1, 4), w = this.randInt(1, 4);
-      const AM = p * u, MB = (q - p) * u, AN = p * w, NC = (q - p) * w, BC = q * this.randChoice([2, 3, 4, 5]);
+      const { p, q } = this._h3b_thRatio();
+      // AB = q·u, AC = q·w, BC = q·c : triangle ABC réel (donc AMN aussi) ssi |u − w| < c < u + w
+      let u, w, c;
+      do { u = this.randInt(1, 6); w = this.randInt(1, 6); c = this.randInt(2, 9); } while (u === w && this.randInt(0, 2) > 0 || c >= u + w || c <= Math.abs(u - w));
+      const AM = p * u, MB = (q - p) * u, AN = p * w, NC = (q - p) * w, BC = q * c;
       const MN = p * BC / q;
+      // Variante : on donne MN et on demande BC
+      const inv = this.randInt(0, 1) === 1;
+      const lengths = inv ? { AM, MB, AN, NC, BC: '?', MN } : { AM, MB, AN, NC, BC, MN: '?' };
+      const step2 = inv
+        ? `2. D'après le théorème de Thalès : $\\frac{MN}{BC} = \\frac{${p}}{${q}}$, donc $BC = \\frac{${q} \\times ${f(MN)}}{${p}} = ${f(BC)}$.\nConclusion : $BC = ${f(BC)}\\text{ cm}$.`
+        : `2. D'après le théorème de Thalès : $\\frac{MN}{BC} = \\frac{${p}}{${q}}$, donc $MN = \\frac{${p} \\times ${BC}}{${q}} = ${f(MN)}$.\nConclusion : $MN = ${f(MN)}\\text{ cm}$.`;
       return this._h3b_mk({
         title: 'Problème type brevet : réciproque puis calcul',
-        statement: `${this.buildThalesEmboiteSvg({ lengths: { AM, MB, AN, NC, BC, MN: '?' } })}Les points $A, M, B$ d'une part et $A, N, C$ d'autre part sont alignés dans cet ordre. On donne $AM = ${AM}\\text{ cm}$, $MB = ${MB}\\text{ cm}$, $AN = ${AN}\\text{ cm}$, $NC = ${NC}\\text{ cm}$ et $BC = ${BC}\\text{ cm}$.\n**Calculer $MN$, en cm.**`,
-        answer: this._h3b_num(MN, 4),
-        hint1: "Calcule $AB$ et $AC$, compare $\\frac{AM}{AB}$ et $\\frac{AN}{AC}$ (réciproque), puis utilise le théorème de Thalès pour $MN$.",
+        statement: `${this.buildThalesEmboiteSvg({ lengths })}Les points $A, M, B$ d'une part et $A, N, C$ d'autre part sont alignés dans cet ordre. On donne $AM = ${AM}\\text{ cm}$, $MB = ${MB}\\text{ cm}$, $AN = ${AN}\\text{ cm}$, $NC = ${NC}\\text{ cm}$ et ${inv ? `$MN = ${f(MN)}\\text{ cm}$` : `$BC = ${BC}\\text{ cm}$`}.\n**Calculer $${inv ? 'BC' : 'MN'}$, en cm.**`,
+        answer: this._h3b_num(inv ? BC : MN, 4),
+        hint1: `Calcule $AB$ et $AC$, compare $\\frac{AM}{AB}$ et $\\frac{AN}{AC}$ (réciproque), puis utilise le théorème de Thalès pour $${inv ? 'BC' : 'MN'}$.`,
         hint2: H2R,
-        solution: `1. $AB = ${AM} + ${MB} = ${AM + MB}$ et $AC = ${AN} + ${NC} = ${AN + NC}$.\n$\\frac{AM}{AB} = \\frac{${AM}}{${AM + MB}} = \\frac{${p}}{${q}}$ et $\\frac{AN}{AC} = \\frac{${AN}}{${AN + NC}} = \\frac{${p}}{${q}}$ : les quotients sont égaux et les points sont alignés dans le même ordre, donc d'après la réciproque du théorème de Thalès, $(MN) \\parallel (BC)$.\n2. D'après le théorème de Thalès : $\\frac{MN}{BC} = \\frac{${p}}{${q}}$, donc $MN = \\frac{${p} \\times ${BC}}{${q}} = ${f(MN)}$.\nConclusion : $MN = ${f(MN)}\\text{ cm}$.`,
-        _v: { k: 'G1.recipCalc', AM, MB, BC }
+        solution: `1. $AB = ${AM} + ${MB} = ${AM + MB}$ et $AC = ${AN} + ${NC} = ${AN + NC}$.\n$\\frac{AM}{AB} = \\frac{${AM}}{${AM + MB}} = \\frac{${p}}{${q}}$ et $\\frac{AN}{AC} = \\frac{${AN}}{${AN + NC}} = \\frac{${p}}{${q}}$ : les quotients sont égaux et les points sont alignés dans le même ordre, donc d'après la réciproque du théorème de Thalès, $(MN) \\parallel (BC)$.\n${step2}`,
+        _v: inv ? { k: 'G1.recipCalcInv', AM, MB, MN } : { k: 'G1.recipCalc', AM, MB, BC }
       });
     };
 
@@ -27452,7 +27474,10 @@
       });
     }
     // para_diag
-    const AC = R(6, 20), BD = R(4, 18), AB = R(4, 12), v = R(0, 1);
+    // Triangle AOB réel : |AO − BO| < AB < AO + BO (inégalité triangulaire stricte)
+    let AC, BD, AB;
+    do { AC = R(6, 20); BD = R(4, 18); AB = R(4, 12); } while (AB >= (AC + BD) / 2 || AB <= Math.abs(AC - BD) / 2);
+    const v = R(0, 1);
     return this._h5_q({
       title: 'Défi : parallélogramme et centre de symétrie',
       statement: `$ABCD$ est un parallélogramme de centre $O$, avec $AC = ${AC}$ cm, $BD = ${BD}$ cm et $AB = ${AB}$ cm.\n${v ? '**Quel est le périmètre du triangle $COD$ (en cm) ?**' : '**Quel est le périmètre du triangle $AOB$ (en cm) ?**'}`,
@@ -28303,7 +28328,8 @@
       });
     }
     if (fam === 'perimetre_aire') {
-      const a = R(4, 12), b = R(4, 12), h = R(2, b - 1), P = 2 * (a + b);
+      // hauteur relative à [BC] = distance entre (BC) et (AD) : strictement inférieure au côté oblique AB
+      const a = R(4, 12), b = R(4, 12), h = R(2, a - 1), P = 2 * (a + b);
       return this._h5_q({
         title: 'Défi : du périmètre à l\'aire',
         statement: `$ABCD$ est un parallélogramme de périmètre $${P}$ cm, avec $AB = ${a}$ cm. La hauteur relative au côté $[BC]$ mesure $${h}$ cm.\n**Quelle est l'aire de $ABCD$ (en cm²) ?**`,

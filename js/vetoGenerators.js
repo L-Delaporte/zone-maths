@@ -16,7 +16,7 @@
   const U = window.MathsGenUtils;
   const R = (a, b) => U.randInt(a, b);
   const pick = (arr) => U.randChoice(arr);
-  const rd = (x, d = 6) => Math.round(x * 10 ** d) / 10 ** d;
+  const rd = (x, d = 6) => U.round(x, d);
   const inp = (x, d = 6) => String(rd(x, d));
   const D = (x, d = 4) => U.dec(x, d);
 

@@ -1398,14 +1398,19 @@ window.MathsPremiereVoiesGenerators = {
       const [x1, x2] = this._1TC5_roots(-5, 6);
       const a = this.randChoice([-3, -2, -1, 1, 2, 3]);
       const up = a > 0;
+      // racines opposées : (x - r)(x + r) et (x + r)(x - r) sont la même fonction ; on oppose alors
+      // la confusion x^2 - r^2 / x^2 + r^2 (parabole qui ne coupe pas l'axe des abscisses)
+      const opp = x1 === -x2;
+      const sq = (k) => `${k === 1 ? '' : k === -1 ? '-' : D(k)}(x^2 + ${x2 * x2})`;
+      const wrong = opp ? [F(-a, x1, x2), sq(a), sq(-a)] : [F(-a, x1, x2), F(a, -x1, -x2), F(-a, -x1, -x2)];
       return this._xa('keep', T, 1, 'Expression d\'une parabole décrite',
         'Associer une parabole à une forme factorisée',
         `Une parabole tournée vers ${up ? 'le haut' : 'le bas'} coupe l'axe des abscisses aux points d'abscisses $${x1}$ et $${x2}$. Laquelle de ces fonctions peut-elle représenter ?`,
         `$f(x) = ${F(a, x1, x2)}$`,
-        [`$f(x) = ${F(-a, x1, x2)}$`, `$f(x) = ${F(a, -x1, -x2)}$`, `$f(x) = ${F(-a, -x1, -x2)}$`],
+        wrong.map((w) => `$f(x) = ${w}$`),
         'Les abscisses des points d\'intersection avec l\'axe des abscisses sont les racines ; le signe du coefficient placé devant les parenthèses donne l\'orientation de la parabole.',
         `Cherche une expression qui s'annule en $${x1}$ et en $${x2}$, puis regarde le signe du coefficient devant les parenthèses.`,
-        `$${F(a, x1, x2)}$ s'annule pour $x = ${x1}$ et pour $x = ${x2}$ (produit nul), et son coefficient $${a}$ est ${up ? 'positif : la parabole est tournée vers le haut' : 'négatif : la parabole est tournée vers le bas'}. Les expressions avec $(${this._1TC5_fx(-x1)})$ et $(${this._1TC5_fx(-x2)})$ s'annulent en $${-x1}$ et $${-x2}$.`
+        `$${F(a, x1, x2)}$ s'annule pour $x = ${x1}$ et pour $x = ${x2}$ (produit nul), et son coefficient $${a}$ est ${up ? 'positif : la parabole est tournée vers le haut' : 'négatif : la parabole est tournée vers le bas'}. ${opp ? `En revanche, $x^2 + ${x2 * x2}$ est toujours strictement positif : $${sq(a)}$ et $${sq(-a)}$ ne s'annulent jamais.` : `L'expression $${F(a, -x1, -x2)}$, elle, s'annule en $${-x1}$ et en $${-x2}$.`}`
       );
     }
 

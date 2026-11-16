@@ -1136,7 +1136,7 @@ window.MathsAdaptiveEngine = {
       power10: /seule\s+puissance\s+de\s+\$?10\b|forme\s+\$10\^/i.test(s),
       irreducible: /irréductible|fractions?\s+simplifiée|simplifier\s+(?:au\s+maximum\s+)?la\s+fraction/i.test(s),
       fraction: new RegExp([
-        'fractions?\\s+irréductibles?(?!\\s+acceptée)',
+        'fractions?\\s+irréductibles?(?!s|\\s+(?:(?:est|sont)\\s+)?acceptées?)',
         'forme\\s+irréductible',
         'rendre\\s+irréductible',
         "sous\\s+(?:la\\s+)?forme\\s+(?:d['’](?:une?\\s+)?(?:seule\\s+)?|de\\s+)fraction",

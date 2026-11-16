@@ -14,7 +14,7 @@
   const R = (a, b) => U.randInt(a, b);
   const pick = (arr) => U.randChoice(arr);
   /** Arrondi numérique propre (évite 0.30000000000000004) */
-  const rd = (x, d = 6) => Math.round(x * 10 ** d) / 10 ** d;
+  const rd = (x, d = 6) => U.round(x, d);
   /** Saisie attendue (point décimal) */
   const inp = (x, d = 6) => String(rd(x, d));
   const D = (x, d = 4) => U.dec(x, d);
@@ -322,7 +322,7 @@
       }
       if (fam === 'vpn') {
         const pn = p * (1 - se) + (1 - p) * sp, vpn = (1 - p) * sp / pn;
-        const F3 = (x) => x.toFixed(3).replace('.', '{,}');
+        const F3 = (x) => rd(x, 3).toFixed(3).replace('.', '{,}');
         return Q(id, t, 'Valeur prédictive négative', 'Inverser un conditionnement (formule de Bayes)',
           `${intro} Le test d'une personne est négatif. Quelle est la probabilité qu'elle ne soit pas malade ? Arrondir au millième.`,
           // Distracteurs : P_M̄(T̄) au lieu de P_T̄(M̄), intersection, complément, P(T̄) ; filtrés à l'affichage (ni 0,000 ni 1,000, distincts)
@@ -496,8 +496,8 @@
       // Paliers 3-4 : rapport de vraisemblance et valeurs prédictives à une autre prévalence (théorème de Bayes).
       const fam = t === 1 ? pick(['tab', 'count', 'prev']) : t === 2 ? pick(['tab', 'tab', 'count', 'prev'])
         : t === 3 ? pick(['tab', 'lr', 'bayes']) : pick(['tab', 'lr', 'lr', 'bayes', 'bayes', 'bayes']);
-      const F3 = (x) => x.toFixed(3).replace('.', '{,}');
-      const F2 = (x) => x.toFixed(2).replace('.', '{,}');
+      const F3 = (x) => rd(x, 3).toFixed(3).replace('.', '{,}');
+      const F2 = (x) => rd(x, 2).toFixed(2).replace('.', '{,}');
       /** Distracteurs distincts à l'affichage, différents de la réponse et compris entre 0 et 1 */
       // écart d'au moins 0,005 avec la réponse : deux options ne doivent pas se départager sur le dernier chiffre arrondi
       const opts3 = (ans, cands) => optsMil(ans, cands, 0.005);
@@ -593,7 +593,7 @@
       const fact = kk === 2 ? 2 : 1;
       const pr = Math.exp(-lam) * lam ** kk / fact;
       // Arrondi au millième : on garde les trois décimales (0,050 et non 0,05).
-      const F3 = (x) => x.toFixed(3).replace('.', '{,}');
+      const F3 = (x) => rd(x, 3).toFixed(3).replace('.', '{,}');
       return Q(id, t, 'Loi de Poisson', 'Calculer une probabilité avec la loi de Poisson',
         `Le nombre d'admissions aux urgences pédiatriques entre 3 h et 4 h du matin suit la loi de Poisson de paramètre $\\lambda = ${D(lam)}$. Calculer la probabilité d'avoir exactement ${kk === 0 ? 'zéro admission' : kk === 1 ? 'une admission' : 'deux admissions'}, arrondie au millième.`,
         `$${F3(pr)}$`, [`$${F3(Math.exp(-lam) * lam ** (kk + 1) / (kk + 1))}$`, `$${F3(1 - pr)}$`, `$${F3(Math.exp(-1 / lam))}$`],
@@ -623,7 +623,7 @@
         : t === 2 ? pick(['cr', 'int', 'phi', 'phi'])
           : t === 3 ? pick(['cr', 'int', 'phi', 'phi', 'seuil', 'seuil'])
             : pick(['int', 'phi', 'phi', 'seuil', 'seuil', 'sigma', 'sigma']);
-      const F3 = (v) => v.toFixed(3).replace('.', '{,}');
+      const F3 = (v) => rd(v, 3).toFixed(3).replace('.', '{,}');
       const ctx = `${G[0]} ${G[4]}, exprimée en ${G[3]}, suit la loi normale d'espérance $${D(mu)}$ et d'écart type $${D(s)}$.`;
       if (fam === 'phi') {
         const PHI = { 0.5: 0.691, 1: 0.841, 1.5: 0.933, 2: 0.977 };

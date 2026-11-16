@@ -1445,12 +1445,17 @@
       let x = 10;
       for (let n = 1; n <= nMax; n++) {
         if (shape === 'triangles') {
+          // Bande de triangles alternés (pointe en haut / en bas) partageant leurs côtés : 2n + 1 allumettes.
+          const h = this._6r(s * 0.87);
+          const B = k => `${x + k * s},60`, T = k => `${x + s / 2 + k * s},${60 - h}`;
           for (let i = 0; i < n; i++) {
-            const x0 = x + i * s;
-            inner += `<polygon points="${x0},60 ${x0 + s},60 ${x0 + s / 2},${60 - s * 0.87}" fill="none" stroke="#b45309" stroke-width="2.2"/>`;
+            const j = Math.floor(i / 2);
+            const pts = i % 2 === 0 ? [B(j), B(j + 1), T(j)] : [T(j), T(j + 1), B(j + 1)];
+            inner += `<polygon points="${pts.join(' ')}" fill="none" stroke="#b45309" stroke-width="2.2" stroke-linejoin="round"/>`;
           }
-          inner += this._6svgText(x + (n * s) / 2, 80, `Étape ${n}`, { size: 10 });
-          x += n * s + gap;
+          const w = ((n + 1) * s) / 2;
+          inner += this._6svgText(x + w / 2, 80, `Étape ${n}`, { size: 10 });
+          x += w + gap;
         } else {
           for (let i = 0; i < n; i++) {
             inner += `<rect x="${x + i * s}" y="${60 - s}" width="${s}" height="${s}" fill="none" stroke="#b45309" stroke-width="2.2"/>`;
@@ -9774,7 +9779,7 @@
       a = this.randInt(1001, 9999); b = this.randInt(11, 999); // A = a/100, B = b/10
       const c = a + 10 * b; // centièmes
       vals = { juste: c / 100, droite: (a + b) / 100, virgule: c / 1000, retenue: noCarry(a, 10 * b) / 100 };
-    } while (new Set(Object.values(vals)).size < 4);
+    } while (a % 10 === 0 || b % 10 === 0 || new Set(Object.values(vals)).size < 4); // A à deux décimales, B à une : sinon « aligner à droite » ne correspond plus à a/100 + b/100
     const kind = this.randChoice(['droite', 'retenue', 'virgule', 'juste']);
     const shown = this._6r(vals[kind]);
     const nom = this.randChoice(PRENOMS);

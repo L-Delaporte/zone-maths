@@ -1088,6 +1088,8 @@ module.exports = {
   'G1.riviere': v => r(v.OB / v.OA * v.AC, 1),
   'G1.pythThales': v => r(H(v.AB, v.AC) * v.AM / v.AB, 1),
   'G1.recipCalc': v => v.BC * v.AM / (v.AM + v.MB),
+  'G1.recipCalcInv': v => v.MN * (v.AM + v.MB) / v.AM,
+  'G1.perimInv': v => v.P * v.AB / v.AM,
   'G1.aireK': v => v.S * (v.AM / v.AB) ** 2,
   // ---------------- G2 Trigonométrie
   'G2.idCote': v => `[${{ opp: v.R + v.T, adj: v.R + v.A, hyp: v.A + v.T }[v.role]}]`,
